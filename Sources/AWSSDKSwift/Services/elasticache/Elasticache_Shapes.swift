@@ -98,7 +98,7 @@ extension Elasticache {
         /// A single element list with information about the nodes in the replication group.
         public let nodeGroups: NodeGroupList?
         /// Indicates the status of Multi-AZ for this replication group.  ElastiCache Multi-AZ replication groups are not supported on:   Redis versions earlier than 2.8.6.   Redis (cluster mode disabled):T1 and T2 cache node types. Redis (cluster mode enabled): T1 node types.   
-        public let automaticFailover: String?
+        public let automaticFailover: AutomaticFailoverStatus?
         /// The names of all the cache clusters that are part of this replication group.
         public let memberClusters: ClusterIdList?
         /// The number of days for which ElastiCache retains automatic cache cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.   If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off. 
@@ -106,7 +106,7 @@ extension Elasticache {
         /// The description of the replication group.
         public let description: String?
 
-        public init(pendingModifiedValues: ReplicationGroupPendingModifiedValues? = nil, status: String? = nil, configurationEndpoint: Endpoint? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, replicationGroupId: String? = nil, nodeGroups: NodeGroupList? = nil, automaticFailover: String? = nil, memberClusters: ClusterIdList? = nil, snapshotRetentionLimit: Int32? = nil, description: String? = nil) {
+        public init(pendingModifiedValues: ReplicationGroupPendingModifiedValues? = nil, status: String? = nil, configurationEndpoint: Endpoint? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, replicationGroupId: String? = nil, nodeGroups: NodeGroupList? = nil, automaticFailover: AutomaticFailoverStatus? = nil, memberClusters: ClusterIdList? = nil, snapshotRetentionLimit: Int32? = nil, description: String? = nil) {
             self.pendingModifiedValues = pendingModifiedValues
             self.status = status
             self.configurationEndpoint = configurationEndpoint
@@ -128,7 +128,7 @@ extension Elasticache {
             self.snapshotWindow = dictionary["SnapshotWindow"] as? String
             self.replicationGroupId = dictionary["ReplicationGroupId"] as? String
             if let nodeGroups = dictionary["NodeGroups"] as? [String: Any] { self.nodeGroups = try Elasticache.NodeGroupList(dictionary: nodeGroups) } else { self.nodeGroups = nil }
-            self.automaticFailover = dictionary["AutomaticFailover"] as? String
+            if let automaticFailover = dictionary["AutomaticFailover"] as? String { self.automaticFailover = AutomaticFailoverStatus(rawValue: automaticFailover) } else { self.automaticFailover = nil }
             if let memberClusters = dictionary["MemberClusters"] as? [String: Any] { self.memberClusters = try Elasticache.ClusterIdList(dictionary: memberClusters) } else { self.memberClusters = nil }
             self.snapshotRetentionLimit = dictionary["SnapshotRetentionLimit"] as? Int32
             self.description = dictionary["Description"] as? String
@@ -221,6 +221,12 @@ extension Elasticache {
                 self.reservedCacheNodesOffering = nil
             }
         }
+    }
+
+    public enum ChangeType: String, CustomStringConvertible {
+        case immediate = "immediate"
+        case requires_reboot = "requires-reboot"
+        public var description: String { return self.rawValue }
     }
 
     public struct ParameterNameValue: AWSShape {
@@ -413,6 +419,12 @@ extension Elasticache {
             self.value = dictionary["Value"] as? String
             self.key = dictionary["Key"] as? String
         }
+    }
+
+    public enum PendingAutomaticFailoverStatus: String, CustomStringConvertible {
+        case enabled = "enabled"
+        case disabled = "disabled"
+        public var description: String { return self.rawValue }
     }
 
     public struct ResetCacheParameterGroupMessage: AWSShape {
@@ -677,7 +689,7 @@ extension Elasticache {
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The event source to retrieve events for. If no value is specified, all events are returned.
-        public let sourceType: String?
+        public let sourceType: SourceType?
         /// The end of the time interval for which to retrieve events, specified in ISO 8601 format.
         public let endTime: Date?
         /// The identifier of the event source for which events are returned. If not specified, all sources are included in the response.
@@ -685,7 +697,7 @@ extension Elasticache {
         /// The number of minutes' worth of events to retrieve.
         public let duration: Int32?
 
-        public init(startTime: Date? = nil, maxRecords: Int32? = nil, marker: String? = nil, sourceType: String? = nil, endTime: Date? = nil, sourceIdentifier: String? = nil, duration: Int32? = nil) {
+        public init(startTime: Date? = nil, maxRecords: Int32? = nil, marker: String? = nil, sourceType: SourceType? = nil, endTime: Date? = nil, sourceIdentifier: String? = nil, duration: Int32? = nil) {
             self.startTime = startTime
             self.maxRecords = maxRecords
             self.marker = marker
@@ -699,7 +711,7 @@ extension Elasticache {
             self.startTime = dictionary["StartTime"] as? Date
             self.maxRecords = dictionary["MaxRecords"] as? Int32
             self.marker = dictionary["Marker"] as? String
-            self.sourceType = dictionary["SourceType"] as? String
+            if let sourceType = dictionary["SourceType"] as? String { self.sourceType = SourceType(rawValue: sourceType) } else { self.sourceType = nil }
             self.endTime = dictionary["EndTime"] as? Date
             self.sourceIdentifier = dictionary["SourceIdentifier"] as? String
             self.duration = dictionary["Duration"] as? Int32
@@ -751,7 +763,7 @@ extension Elasticache {
         ///  Reserved parameter. The password used to access a password protected server. Password constraints:   Must be only printable ASCII characters.   Must be at least 16 characters and no more than 128 characters in length.   Cannot contain any of the following characters: '/', '"', or "@".    For more information, see AUTH password at Redis.
         public let authToken: String?
         /// Specifies whether the nodes in this Memcached cluster are created in a single Availability Zone or created across multiple Availability Zones in the cluster's region. This parameter is only supported for Memcached cache clusters. If the AZMode and PreferredAvailabilityZones are not specified, ElastiCache assumes single-az mode.
-        public let aZMode: String?
+        public let aZMode: AZMode?
         /// A single-element string list containing an Amazon Resource Name (ARN) that uniquely identifies a Redis RDB snapshot file stored in Amazon S3. The snapshot file is used to populate the node group (shard). The Amazon S3 object name in the ARN cannot contain any commas.  This parameter is only valid if the Engine parameter is redis.  Example of an Amazon S3 ARN: arn:aws:s3:::my_bucket/snapshot1.rdb 
         public let snapshotArns: SnapshotArnsList?
         /// A list of security group names to associate with this cache cluster. Use this parameter only when you are creating a cache cluster outside of an Amazon Virtual Private Cloud (Amazon VPC).
@@ -795,7 +807,7 @@ extension Elasticache {
         /// The number of days for which ElastiCache retains automatic snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot taken today is retained for 5 days before being deleted.  This parameter is only valid if the Engine parameter is redis.  Default: 0 (i.e., automatic backups are disabled for this cache cluster).
         public let snapshotRetentionLimit: Int32?
 
-        public init(authToken: String? = nil, aZMode: String? = nil, snapshotArns: SnapshotArnsList? = nil, cacheSecurityGroupNames: CacheSecurityGroupNameList? = nil, numCacheNodes: Int32? = nil, tags: TagList? = nil, preferredAvailabilityZones: PreferredAvailabilityZoneList? = nil, securityGroupIds: SecurityGroupIdsList? = nil, snapshotName: String? = nil, autoMinorVersionUpgrade: Bool? = nil, notificationTopicArn: String? = nil, snapshotWindow: String? = nil, engineVersion: String? = nil, replicationGroupId: String? = nil, preferredAvailabilityZone: String? = nil, cacheSubnetGroupName: String? = nil, preferredMaintenanceWindow: String? = nil, engine: String? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheClusterId: String, port: Int32? = nil, snapshotRetentionLimit: Int32? = nil) {
+        public init(authToken: String? = nil, aZMode: AZMode? = nil, snapshotArns: SnapshotArnsList? = nil, cacheSecurityGroupNames: CacheSecurityGroupNameList? = nil, numCacheNodes: Int32? = nil, tags: TagList? = nil, preferredAvailabilityZones: PreferredAvailabilityZoneList? = nil, securityGroupIds: SecurityGroupIdsList? = nil, snapshotName: String? = nil, autoMinorVersionUpgrade: Bool? = nil, notificationTopicArn: String? = nil, snapshotWindow: String? = nil, engineVersion: String? = nil, replicationGroupId: String? = nil, preferredAvailabilityZone: String? = nil, cacheSubnetGroupName: String? = nil, preferredMaintenanceWindow: String? = nil, engine: String? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheClusterId: String, port: Int32? = nil, snapshotRetentionLimit: Int32? = nil) {
             self.authToken = authToken
             self.aZMode = aZMode
             self.snapshotArns = snapshotArns
@@ -823,7 +835,7 @@ extension Elasticache {
 
         public init(dictionary: [String: Any]) throws {
             self.authToken = dictionary["AuthToken"] as? String
-            self.aZMode = dictionary["AZMode"] as? String
+            if let aZMode = dictionary["AZMode"] as? String { self.aZMode = AZMode(rawValue: aZMode) } else { self.aZMode = nil }
             if let snapshotArns = dictionary["SnapshotArns"] as? [String: Any] { self.snapshotArns = try Elasticache.SnapshotArnsList(dictionary: snapshotArns) } else { self.snapshotArns = nil }
             if let cacheSecurityGroupNames = dictionary["CacheSecurityGroupNames"] as? [String: Any] { self.cacheSecurityGroupNames = try Elasticache.CacheSecurityGroupNameList(dictionary: cacheSecurityGroupNames) } else { self.cacheSecurityGroupNames = nil }
             self.numCacheNodes = dictionary["NumCacheNodes"] as? Int32
@@ -1120,11 +1132,11 @@ extension Elasticache {
         /// The earliest cache engine version to which the parameter can apply.
         public let minimumEngineVersion: String?
         /// Indicates whether a change to the parameter is applied immediately or requires a reboot for the change to be applied. You can force a reboot or wait until the next maintenance window's reboot. For more information, see Rebooting a Cluster.
-        public let changeType: String?
+        public let changeType: ChangeType?
         /// A description of the parameter.
         public let description: String?
 
-        public init(parameterValue: String? = nil, allowedValues: String? = nil, dataType: String? = nil, parameterName: String? = nil, source: String? = nil, isModifiable: Bool? = nil, minimumEngineVersion: String? = nil, changeType: String? = nil, description: String? = nil) {
+        public init(parameterValue: String? = nil, allowedValues: String? = nil, dataType: String? = nil, parameterName: String? = nil, source: String? = nil, isModifiable: Bool? = nil, minimumEngineVersion: String? = nil, changeType: ChangeType? = nil, description: String? = nil) {
             self.parameterValue = parameterValue
             self.allowedValues = allowedValues
             self.dataType = dataType
@@ -1144,7 +1156,7 @@ extension Elasticache {
             self.source = dictionary["Source"] as? String
             self.isModifiable = dictionary["IsModifiable"] as? Bool
             self.minimumEngineVersion = dictionary["MinimumEngineVersion"] as? String
-            self.changeType = dictionary["ChangeType"] as? String
+            if let changeType = dictionary["ChangeType"] as? String { self.changeType = ChangeType(rawValue: changeType) } else { self.changeType = nil }
             self.description = dictionary["Description"] as? String
         }
     }
@@ -1180,11 +1192,11 @@ extension Elasticache {
         /// The text of the event.
         public let message: String?
         /// Specifies the origin of this event - a cache cluster, a parameter group, a security group, etc.
-        public let sourceType: String?
+        public let sourceType: SourceType?
         /// The date and time when the event occurred.
         public let date: Date?
 
-        public init(sourceIdentifier: String? = nil, message: String? = nil, sourceType: String? = nil, date: Date? = nil) {
+        public init(sourceIdentifier: String? = nil, message: String? = nil, sourceType: SourceType? = nil, date: Date? = nil) {
             self.sourceIdentifier = sourceIdentifier
             self.message = message
             self.sourceType = sourceType
@@ -1194,7 +1206,7 @@ extension Elasticache {
         public init(dictionary: [String: Any]) throws {
             self.sourceIdentifier = dictionary["SourceIdentifier"] as? String
             self.message = dictionary["Message"] as? String
-            self.sourceType = dictionary["SourceType"] as? String
+            if let sourceType = dictionary["SourceType"] as? String { self.sourceType = SourceType(rawValue: sourceType) } else { self.sourceType = nil }
             self.date = dictionary["Date"] as? Date
         }
     }
@@ -1520,6 +1532,14 @@ extension Elasticache {
         }
     }
 
+    public enum AutomaticFailoverStatus: String, CustomStringConvertible {
+        case enabled = "enabled"
+        case disabled = "disabled"
+        case enabling = "enabling"
+        case disabling = "disabling"
+        public var description: String { return self.rawValue }
+    }
+
     public struct CacheNodeList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1626,9 +1646,9 @@ extension Elasticache {
         /// The cache cluster identifier. This value is stored as a lowercase string.
         public let cacheClusterId: String
         /// Specifies whether the new nodes in this Memcached cache cluster are all created in a single Availability Zone or created across multiple Availability Zones. Valid values: single-az | cross-az. This option is only supported for Memcached cache clusters.  You cannot specify single-az if the Memcached cache cluster already has cache nodes in different Availability Zones. If cross-az is specified, existing Memcached nodes remain in their current Availability Zone. Only newly created nodes are located in different Availability Zones. For instructions on how to move existing Memcached nodes to different Availability Zones, see the Availability Zone Considerations section of Cache Node Considerations for Memcached. 
-        public let aZMode: String?
+        public let aZMode: AZMode?
 
-        public init(cacheNodeIdsToRemove: CacheNodeIdsList? = nil, cacheSecurityGroupNames: CacheSecurityGroupNameList? = nil, numCacheNodes: Int32? = nil, notificationTopicStatus: String? = nil, securityGroupIds: SecurityGroupIdsList? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, notificationTopicArn: String? = nil, snapshotWindow: String? = nil, engineVersion: String? = nil, preferredMaintenanceWindow: String? = nil, cacheParameterGroupName: String? = nil, newAvailabilityZones: PreferredAvailabilityZoneList? = nil, cacheNodeType: String? = nil, snapshotRetentionLimit: Int32? = nil, cacheClusterId: String, aZMode: String? = nil) {
+        public init(cacheNodeIdsToRemove: CacheNodeIdsList? = nil, cacheSecurityGroupNames: CacheSecurityGroupNameList? = nil, numCacheNodes: Int32? = nil, notificationTopicStatus: String? = nil, securityGroupIds: SecurityGroupIdsList? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, notificationTopicArn: String? = nil, snapshotWindow: String? = nil, engineVersion: String? = nil, preferredMaintenanceWindow: String? = nil, cacheParameterGroupName: String? = nil, newAvailabilityZones: PreferredAvailabilityZoneList? = nil, cacheNodeType: String? = nil, snapshotRetentionLimit: Int32? = nil, cacheClusterId: String, aZMode: AZMode? = nil) {
             self.cacheNodeIdsToRemove = cacheNodeIdsToRemove
             self.cacheSecurityGroupNames = cacheSecurityGroupNames
             self.numCacheNodes = numCacheNodes
@@ -1666,7 +1686,7 @@ extension Elasticache {
             self.snapshotRetentionLimit = dictionary["SnapshotRetentionLimit"] as? Int32
             guard let cacheClusterId = dictionary["CacheClusterId"] as? String else { throw InitializableError.missingRequiredParam("CacheClusterId") }
             self.cacheClusterId = cacheClusterId
-            self.aZMode = dictionary["AZMode"] as? String
+            if let aZMode = dictionary["AZMode"] as? String { self.aZMode = AZMode(rawValue: aZMode) } else { self.aZMode = nil }
         }
     }
 
@@ -1867,7 +1887,7 @@ extension Elasticache {
         /// The number of cache nodes in the source cache cluster. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 20.
         public let numCacheNodes: Int32?
         /// Indicates the status of Multi-AZ for the source replication group.  ElastiCache Multi-AZ replication groups are not supported on:   Redis versions earlier than 2.8.6.   Redis (cluster mode disabled):T1 and T2 cache node types. Redis (cluster mode enabled): T1 node types.   
-        public let automaticFailover: String?
+        public let automaticFailover: AutomaticFailoverStatus?
         /// The Amazon Resource Name (ARN) for the topic used by the source cache cluster for publishing notifications.
         public let topicArn: String?
         /// The status of the snapshot. Valid values: creating | available | restoring | copying | deleting.
@@ -1907,7 +1927,7 @@ extension Elasticache {
         /// For an automatic snapshot, the number of days for which ElastiCache retains the snapshot before deleting it. For manual snapshots, this field reflects the SnapshotRetentionLimit for the source cache cluster when the snapshot was created. This field is otherwise ignored: Manual snapshots do not expire, and can only be deleted using the DeleteSnapshot operation.   Important If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off.
         public let snapshotRetentionLimit: Int32?
 
-        public init(port: Int32? = nil, cacheClusterId: String? = nil, cacheClusterCreateTime: Date? = nil, numCacheNodes: Int32? = nil, automaticFailover: String? = nil, topicArn: String? = nil, snapshotStatus: String? = nil, snapshotSource: String? = nil, snapshotName: String? = nil, autoMinorVersionUpgrade: Bool? = nil, snapshotWindow: String? = nil, engineVersion: String? = nil, vpcId: String? = nil, cacheParameterGroupName: String? = nil, replicationGroupId: String? = nil, numNodeGroups: Int32? = nil, replicationGroupDescription: String? = nil, preferredAvailabilityZone: String? = nil, cacheNodeType: String? = nil, nodeSnapshots: NodeSnapshotList? = nil, engine: String? = nil, cacheSubnetGroupName: String? = nil, preferredMaintenanceWindow: String? = nil, snapshotRetentionLimit: Int32? = nil) {
+        public init(port: Int32? = nil, cacheClusterId: String? = nil, cacheClusterCreateTime: Date? = nil, numCacheNodes: Int32? = nil, automaticFailover: AutomaticFailoverStatus? = nil, topicArn: String? = nil, snapshotStatus: String? = nil, snapshotSource: String? = nil, snapshotName: String? = nil, autoMinorVersionUpgrade: Bool? = nil, snapshotWindow: String? = nil, engineVersion: String? = nil, vpcId: String? = nil, cacheParameterGroupName: String? = nil, replicationGroupId: String? = nil, numNodeGroups: Int32? = nil, replicationGroupDescription: String? = nil, preferredAvailabilityZone: String? = nil, cacheNodeType: String? = nil, nodeSnapshots: NodeSnapshotList? = nil, engine: String? = nil, cacheSubnetGroupName: String? = nil, preferredMaintenanceWindow: String? = nil, snapshotRetentionLimit: Int32? = nil) {
             self.port = port
             self.cacheClusterId = cacheClusterId
             self.cacheClusterCreateTime = cacheClusterCreateTime
@@ -1939,7 +1959,7 @@ extension Elasticache {
             self.cacheClusterId = dictionary["CacheClusterId"] as? String
             self.cacheClusterCreateTime = dictionary["CacheClusterCreateTime"] as? Date
             self.numCacheNodes = dictionary["NumCacheNodes"] as? Int32
-            self.automaticFailover = dictionary["AutomaticFailover"] as? String
+            if let automaticFailover = dictionary["AutomaticFailover"] as? String { self.automaticFailover = AutomaticFailoverStatus(rawValue: automaticFailover) } else { self.automaticFailover = nil }
             self.topicArn = dictionary["TopicArn"] as? String
             self.snapshotStatus = dictionary["SnapshotStatus"] as? String
             self.snapshotSource = dictionary["SnapshotSource"] as? String
@@ -2034,16 +2054,16 @@ extension Elasticache {
         /// The primary cluster ID that is applied immediately (if --apply-immediately was specified), or during the next maintenance window.
         public let primaryClusterId: String?
         /// Indicates the status of Multi-AZ for this Redis replication group.  ElastiCache Multi-AZ replication groups are not supported on:   Redis versions earlier than 2.8.6.   Redis (cluster mode disabled):T1 and T2 cache node types. Redis (cluster mode enabled): T1 node types.   
-        public let automaticFailoverStatus: String?
+        public let automaticFailoverStatus: PendingAutomaticFailoverStatus?
 
-        public init(primaryClusterId: String? = nil, automaticFailoverStatus: String? = nil) {
+        public init(primaryClusterId: String? = nil, automaticFailoverStatus: PendingAutomaticFailoverStatus? = nil) {
             self.primaryClusterId = primaryClusterId
             self.automaticFailoverStatus = automaticFailoverStatus
         }
 
         public init(dictionary: [String: Any]) throws {
             self.primaryClusterId = dictionary["PrimaryClusterId"] as? String
-            self.automaticFailoverStatus = dictionary["AutomaticFailoverStatus"] as? String
+            if let automaticFailoverStatus = dictionary["AutomaticFailoverStatus"] as? String { self.automaticFailoverStatus = PendingAutomaticFailoverStatus(rawValue: automaticFailoverStatus) } else { self.automaticFailoverStatus = nil }
         }
     }
 
@@ -2217,6 +2237,15 @@ extension Elasticache {
         }
     }
 
+    public enum SourceType: String, CustomStringConvertible {
+        case cache_cluster = "cache-cluster"
+        case cache_parameter_group = "cache-parameter-group"
+        case cache_security_group = "cache-security-group"
+        case cache_subnet_group = "cache-subnet-group"
+        case replication_group = "replication-group"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DescribeReservedCacheNodesMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2258,6 +2287,12 @@ extension Elasticache {
             self.reservedCacheNodesOfferingId = dictionary["ReservedCacheNodesOfferingId"] as? String
             self.productDescription = dictionary["ProductDescription"] as? String
         }
+    }
+
+    public enum AZMode: String, CustomStringConvertible {
+        case single_az = "single-az"
+        case cross_az = "cross-az"
+        public var description: String { return self.rawValue }
     }
 
     public struct DescribeCacheEngineVersionsMessage: AWSShape {
@@ -3267,11 +3302,11 @@ extension Elasticache {
         /// The earliest cache engine version to which the parameter can apply.
         public let minimumEngineVersion: String?
         /// Indicates whether a change to the parameter is applied immediately or requires a reboot for the change to be applied. You can force a reboot or wait until the next maintenance window's reboot. For more information, see Rebooting a Cluster.
-        public let changeType: String?
+        public let changeType: ChangeType?
         /// A description of the parameter.
         public let description: String?
 
-        public init(cacheNodeTypeSpecificValues: CacheNodeTypeSpecificValueList? = nil, allowedValues: String? = nil, dataType: String? = nil, parameterName: String? = nil, source: String? = nil, isModifiable: Bool? = nil, minimumEngineVersion: String? = nil, changeType: String? = nil, description: String? = nil) {
+        public init(cacheNodeTypeSpecificValues: CacheNodeTypeSpecificValueList? = nil, allowedValues: String? = nil, dataType: String? = nil, parameterName: String? = nil, source: String? = nil, isModifiable: Bool? = nil, minimumEngineVersion: String? = nil, changeType: ChangeType? = nil, description: String? = nil) {
             self.cacheNodeTypeSpecificValues = cacheNodeTypeSpecificValues
             self.allowedValues = allowedValues
             self.dataType = dataType
@@ -3291,7 +3326,7 @@ extension Elasticache {
             self.source = dictionary["Source"] as? String
             self.isModifiable = dictionary["IsModifiable"] as? Bool
             self.minimumEngineVersion = dictionary["MinimumEngineVersion"] as? String
-            self.changeType = dictionary["ChangeType"] as? String
+            if let changeType = dictionary["ChangeType"] as? String { self.changeType = ChangeType(rawValue: changeType) } else { self.changeType = nil }
             self.description = dictionary["Description"] as? String
         }
     }

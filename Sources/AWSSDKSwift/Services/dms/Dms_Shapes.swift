@@ -248,13 +248,13 @@ extension Dms {
         /// The status of the endpoint.
         public let status: String?
         /// The type of endpoint.
-        public let endpointType: String?
+        public let endpointType: ReplicationEndpointTypeValue?
         /// The name of the server at the endpoint.
         public let serverName: String?
         /// The name of the database at the endpoint.
         public let databaseName: String?
         /// The SSL mode used to connect to the endpoint. SSL mode can be one of four values: none, require, verify-ca, verify-full.  The default value is none.
-        public let sslMode: String?
+        public let sslMode: DmsSslModeValue?
         /// The Amazon Resource Name (ARN) used for SSL connection to the endpoint.
         public let certificateArn: String?
         /// The database engine name. Valid values include MYSQL, ORACLE, POSTGRES, MARIADB, AURORA, REDSHIFT, SYBASE, and SQLSERVER.
@@ -264,7 +264,7 @@ extension Dms {
         /// Additional connection attributes used to connect to the endpoint.
         public let extraConnectionAttributes: String?
 
-        public init(kmsKeyId: String? = nil, endpointIdentifier: String? = nil, username: String? = nil, endpointArn: String? = nil, status: String? = nil, endpointType: String? = nil, serverName: String? = nil, databaseName: String? = nil, sslMode: String? = nil, certificateArn: String? = nil, engineName: String? = nil, port: Int32? = nil, extraConnectionAttributes: String? = nil) {
+        public init(kmsKeyId: String? = nil, endpointIdentifier: String? = nil, username: String? = nil, endpointArn: String? = nil, status: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, serverName: String? = nil, databaseName: String? = nil, sslMode: DmsSslModeValue? = nil, certificateArn: String? = nil, engineName: String? = nil, port: Int32? = nil, extraConnectionAttributes: String? = nil) {
             self.kmsKeyId = kmsKeyId
             self.endpointIdentifier = endpointIdentifier
             self.username = username
@@ -286,10 +286,10 @@ extension Dms {
             self.username = dictionary["Username"] as? String
             self.endpointArn = dictionary["EndpointArn"] as? String
             self.status = dictionary["Status"] as? String
-            self.endpointType = dictionary["EndpointType"] as? String
+            if let endpointType = dictionary["EndpointType"] as? String { self.endpointType = ReplicationEndpointTypeValue(rawValue: endpointType) } else { self.endpointType = nil }
             self.serverName = dictionary["ServerName"] as? String
             self.databaseName = dictionary["DatabaseName"] as? String
-            self.sslMode = dictionary["SslMode"] as? String
+            if let sslMode = dictionary["SslMode"] as? String { self.sslMode = DmsSslModeValue(rawValue: sslMode) } else { self.sslMode = nil }
             self.certificateArn = dictionary["CertificateArn"] as? String
             self.engineName = dictionary["EngineName"] as? String
             self.port = dictionary["Port"] as? Int32
@@ -402,6 +402,14 @@ extension Dms {
         }
     }
 
+    public enum DmsSslModeValue: String, CustomStringConvertible {
+        case none = "none"
+        case require = "require"
+        case verify_ca = "verify-ca"
+        case verify_full = "verify-full"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DeleteReplicationInstanceMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -424,11 +432,11 @@ extension Dms {
         /// The database engine name. Valid values include MYSQL, ORACLE, POSTGRES, MARIADB, AURORA, REDSHIFT, SYBASE, and SQLSERVER.
         public let engineName: String?
         /// The type of endpoint.
-        public let endpointType: String?
+        public let endpointType: ReplicationEndpointTypeValue?
         /// Indicates if Change Data Capture (CDC) is supported.
         public let supportsCDC: Bool?
 
-        public init(engineName: String? = nil, endpointType: String? = nil, supportsCDC: Bool? = nil) {
+        public init(engineName: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, supportsCDC: Bool? = nil) {
             self.engineName = engineName
             self.endpointType = endpointType
             self.supportsCDC = supportsCDC
@@ -436,9 +444,16 @@ extension Dms {
 
         public init(dictionary: [String: Any]) throws {
             self.engineName = dictionary["EngineName"] as? String
-            self.endpointType = dictionary["EndpointType"] as? String
+            if let endpointType = dictionary["EndpointType"] as? String { self.endpointType = ReplicationEndpointTypeValue(rawValue: endpointType) } else { self.endpointType = nil }
             self.supportsCDC = dictionary["SupportsCDC"] as? Bool
         }
+    }
+
+    public enum MigrationTypeValue: String, CustomStringConvertible {
+        case full_load = "full-load"
+        case cdc = "cdc"
+        case full_load_and_cdc = "full-load-and-cdc"
+        public var description: String { return self.rawValue }
     }
 
     public struct DescribeCertificatesResponse: AWSShape {
@@ -576,9 +591,9 @@ extension Dms {
         /// The start time for the Change Data Capture (CDC) operation.
         public let cdcStartTime: Date?
         /// The type of replication task.
-        public let startReplicationTaskType: String
+        public let startReplicationTaskType: StartReplicationTaskTypeValue
 
-        public init(replicationTaskArn: String, cdcStartTime: Date? = nil, startReplicationTaskType: String) {
+        public init(replicationTaskArn: String, cdcStartTime: Date? = nil, startReplicationTaskType: StartReplicationTaskTypeValue) {
             self.replicationTaskArn = replicationTaskArn
             self.cdcStartTime = cdcStartTime
             self.startReplicationTaskType = startReplicationTaskType
@@ -588,7 +603,7 @@ extension Dms {
             guard let replicationTaskArn = dictionary["ReplicationTaskArn"] as? String else { throw InitializableError.missingRequiredParam("ReplicationTaskArn") }
             self.replicationTaskArn = replicationTaskArn
             self.cdcStartTime = dictionary["CdcStartTime"] as? Date
-            guard let startReplicationTaskType = dictionary["StartReplicationTaskType"] as? String else { throw InitializableError.missingRequiredParam("StartReplicationTaskType") }
+            guard let rawStartReplicationTaskType = dictionary["StartReplicationTaskType"] as? String, let startReplicationTaskType = StartReplicationTaskTypeValue(rawValue: rawStartReplicationTaskType) else { throw InitializableError.missingRequiredParam("StartReplicationTaskType") }
             self.startReplicationTaskType = startReplicationTaskType
         }
     }
@@ -834,6 +849,13 @@ extension Dms {
         }
     }
 
+    public enum StartReplicationTaskTypeValue: String, CustomStringConvertible {
+        case start_replication = "start-replication"
+        case resume_processing = "resume-processing"
+        case reload_target = "reload-target"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DescribeSchemasResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1073,13 +1095,13 @@ extension Dms {
         /// The Amazon Resource Name (ARN) of the replication instance.
         public let replicationInstanceArn: String?
         /// The status of the schema.
-        public let status: String?
+        public let status: RefreshSchemasStatusTypeValue?
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String?
         /// The date the schema was last refreshed.
         public let lastRefreshDate: Date?
 
-        public init(lastFailureMessage: String? = nil, replicationInstanceArn: String? = nil, status: String? = nil, endpointArn: String? = nil, lastRefreshDate: Date? = nil) {
+        public init(lastFailureMessage: String? = nil, replicationInstanceArn: String? = nil, status: RefreshSchemasStatusTypeValue? = nil, endpointArn: String? = nil, lastRefreshDate: Date? = nil) {
             self.lastFailureMessage = lastFailureMessage
             self.replicationInstanceArn = replicationInstanceArn
             self.status = status
@@ -1090,7 +1112,7 @@ extension Dms {
         public init(dictionary: [String: Any]) throws {
             self.lastFailureMessage = dictionary["LastFailureMessage"] as? String
             self.replicationInstanceArn = dictionary["ReplicationInstanceArn"] as? String
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = RefreshSchemasStatusTypeValue(rawValue: status) } else { self.status = nil }
             self.endpointArn = dictionary["EndpointArn"] as? String
             self.lastRefreshDate = dictionary["LastRefreshDate"] as? Date
         }
@@ -1270,13 +1292,13 @@ extension Dms {
         /// The user name to be used to login to the endpoint database.
         public let username: String?
         /// The type of endpoint.
-        public let endpointType: String
+        public let endpointType: ReplicationEndpointTypeValue
         /// The name of the server where the endpoint database resides.
         public let serverName: String?
         /// The name of the endpoint database.
         public let databaseName: String?
         /// The SSL mode to use for the SSL connection. SSL mode can be one of four values: none, require, verify-ca, verify-full.  The default value is none.
-        public let sslMode: String?
+        public let sslMode: DmsSslModeValue?
         /// The Amazon Resource Number (ARN) for the certificate.
         public let certificateArn: String?
         /// The type of engine for the endpoint. Valid values include MYSQL, ORACLE, POSTGRES, MARIADB, AURORA, REDSHIFT, SYBASE, and SQLSERVER.
@@ -1288,7 +1310,7 @@ extension Dms {
         /// Additional attributes associated with the connection.
         public let extraConnectionAttributes: String?
 
-        public init(kmsKeyId: String? = nil, endpointIdentifier: String, tags: TagList? = nil, username: String? = nil, endpointType: String, serverName: String? = nil, databaseName: String? = nil, sslMode: String? = nil, certificateArn: String? = nil, engineName: String, password: String? = nil, port: Int32? = nil, extraConnectionAttributes: String? = nil) {
+        public init(kmsKeyId: String? = nil, endpointIdentifier: String, tags: TagList? = nil, username: String? = nil, endpointType: ReplicationEndpointTypeValue, serverName: String? = nil, databaseName: String? = nil, sslMode: DmsSslModeValue? = nil, certificateArn: String? = nil, engineName: String, password: String? = nil, port: Int32? = nil, extraConnectionAttributes: String? = nil) {
             self.kmsKeyId = kmsKeyId
             self.endpointIdentifier = endpointIdentifier
             self.tags = tags
@@ -1310,11 +1332,11 @@ extension Dms {
             self.endpointIdentifier = endpointIdentifier
             if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Dms.TagList(dictionary: tags) } else { self.tags = nil }
             self.username = dictionary["Username"] as? String
-            guard let endpointType = dictionary["EndpointType"] as? String else { throw InitializableError.missingRequiredParam("EndpointType") }
+            guard let rawEndpointType = dictionary["EndpointType"] as? String, let endpointType = ReplicationEndpointTypeValue(rawValue: rawEndpointType) else { throw InitializableError.missingRequiredParam("EndpointType") }
             self.endpointType = endpointType
             self.serverName = dictionary["ServerName"] as? String
             self.databaseName = dictionary["DatabaseName"] as? String
-            self.sslMode = dictionary["SslMode"] as? String
+            if let sslMode = dictionary["SslMode"] as? String { self.sslMode = DmsSslModeValue(rawValue: sslMode) } else { self.sslMode = nil }
             self.certificateArn = dictionary["CertificateArn"] as? String
             guard let engineName = dictionary["EngineName"] as? String else { throw InitializableError.missingRequiredParam("EngineName") }
             self.engineName = engineName
@@ -1568,13 +1590,13 @@ extension Dms {
         /// The replication task identifier. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
         public let replicationTaskIdentifier: String?
         /// The migration type. Valid values: full-load | cdc | full-load-and-cdc
-        public let migrationType: String?
+        public let migrationType: MigrationTypeValue?
         /// The start time for the Change Data Capture (CDC) operation.
         public let cdcStartTime: Date?
         /// JSON file that contains settings for the task, such as target metadata settings.
         public let replicationTaskSettings: String?
 
-        public init(tableMappings: String? = nil, replicationTaskArn: String, replicationTaskIdentifier: String? = nil, migrationType: String? = nil, cdcStartTime: Date? = nil, replicationTaskSettings: String? = nil) {
+        public init(tableMappings: String? = nil, replicationTaskArn: String, replicationTaskIdentifier: String? = nil, migrationType: MigrationTypeValue? = nil, cdcStartTime: Date? = nil, replicationTaskSettings: String? = nil) {
             self.tableMappings = tableMappings
             self.replicationTaskArn = replicationTaskArn
             self.replicationTaskIdentifier = replicationTaskIdentifier
@@ -1588,7 +1610,7 @@ extension Dms {
             guard let replicationTaskArn = dictionary["ReplicationTaskArn"] as? String else { throw InitializableError.missingRequiredParam("ReplicationTaskArn") }
             self.replicationTaskArn = replicationTaskArn
             self.replicationTaskIdentifier = dictionary["ReplicationTaskIdentifier"] as? String
-            self.migrationType = dictionary["MigrationType"] as? String
+            if let migrationType = dictionary["MigrationType"] as? String { self.migrationType = MigrationTypeValue(rawValue: migrationType) } else { self.migrationType = nil }
             self.cdcStartTime = dictionary["CdcStartTime"] as? Date
             self.replicationTaskSettings = dictionary["ReplicationTaskSettings"] as? String
         }
@@ -1764,13 +1786,13 @@ extension Dms {
         /// The replication task identifier. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
         public let replicationTaskIdentifier: String?
         /// The type of migration.
-        public let migrationType: String?
+        public let migrationType: MigrationTypeValue?
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let targetEndpointArn: String?
         /// The settings for the replication task.
         public let replicationTaskSettings: String?
 
-        public init(replicationTaskStats: ReplicationTaskStats? = nil, lastFailureMessage: String? = nil, replicationTaskStartDate: Date? = nil, replicationTaskCreationDate: Date? = nil, sourceEndpointArn: String? = nil, tableMappings: String? = nil, replicationTaskArn: String? = nil, status: String? = nil, stopReason: String? = nil, replicationInstanceArn: String? = nil, replicationTaskIdentifier: String? = nil, migrationType: String? = nil, targetEndpointArn: String? = nil, replicationTaskSettings: String? = nil) {
+        public init(replicationTaskStats: ReplicationTaskStats? = nil, lastFailureMessage: String? = nil, replicationTaskStartDate: Date? = nil, replicationTaskCreationDate: Date? = nil, sourceEndpointArn: String? = nil, tableMappings: String? = nil, replicationTaskArn: String? = nil, status: String? = nil, stopReason: String? = nil, replicationInstanceArn: String? = nil, replicationTaskIdentifier: String? = nil, migrationType: MigrationTypeValue? = nil, targetEndpointArn: String? = nil, replicationTaskSettings: String? = nil) {
             self.replicationTaskStats = replicationTaskStats
             self.lastFailureMessage = lastFailureMessage
             self.replicationTaskStartDate = replicationTaskStartDate
@@ -1799,7 +1821,7 @@ extension Dms {
             self.stopReason = dictionary["StopReason"] as? String
             self.replicationInstanceArn = dictionary["ReplicationInstanceArn"] as? String
             self.replicationTaskIdentifier = dictionary["ReplicationTaskIdentifier"] as? String
-            self.migrationType = dictionary["MigrationType"] as? String
+            if let migrationType = dictionary["MigrationType"] as? String { self.migrationType = MigrationTypeValue(rawValue: migrationType) } else { self.migrationType = nil }
             self.targetEndpointArn = dictionary["TargetEndpointArn"] as? String
             self.replicationTaskSettings = dictionary["ReplicationTaskSettings"] as? String
         }
@@ -1925,6 +1947,13 @@ extension Dms {
             guard let replicationTaskArn = dictionary["ReplicationTaskArn"] as? String else { throw InitializableError.missingRequiredParam("ReplicationTaskArn") }
             self.replicationTaskArn = replicationTaskArn
         }
+    }
+
+    public enum RefreshSchemasStatusTypeValue: String, CustomStringConvertible {
+        case successful = "successful"
+        case failed = "failed"
+        case refreshing = "refreshing"
+        public var description: String { return self.rawValue }
     }
 
     public struct DescribeReplicationTasksResponse: AWSShape {
@@ -2192,7 +2221,7 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of endpoint.
-        public let endpointType: String?
+        public let endpointType: ReplicationEndpointTypeValue?
         /// The name of the server where the endpoint database resides.
         public let serverName: String?
         /// The database endpoint identifier. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
@@ -2204,7 +2233,7 @@ extension Dms {
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String
         /// The SSL mode to be used. SSL mode can be one of four values: none, require, verify-ca, verify-full.  The default value is none.
-        public let sslMode: String?
+        public let sslMode: DmsSslModeValue?
         /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
         public let certificateArn: String?
         /// The type of engine for the endpoint. Valid values include MYSQL, ORACLE, POSTGRES, MARIADB, AURORA, REDSHIFT, SYBASE, and SQLSERVER.
@@ -2216,7 +2245,7 @@ extension Dms {
         /// Additional attributes associated with the connection.
         public let extraConnectionAttributes: String?
 
-        public init(endpointType: String? = nil, serverName: String? = nil, endpointIdentifier: String? = nil, databaseName: String? = nil, username: String? = nil, endpointArn: String, sslMode: String? = nil, certificateArn: String? = nil, engineName: String? = nil, password: String? = nil, port: Int32? = nil, extraConnectionAttributes: String? = nil) {
+        public init(endpointType: ReplicationEndpointTypeValue? = nil, serverName: String? = nil, endpointIdentifier: String? = nil, databaseName: String? = nil, username: String? = nil, endpointArn: String, sslMode: DmsSslModeValue? = nil, certificateArn: String? = nil, engineName: String? = nil, password: String? = nil, port: Int32? = nil, extraConnectionAttributes: String? = nil) {
             self.endpointType = endpointType
             self.serverName = serverName
             self.endpointIdentifier = endpointIdentifier
@@ -2232,14 +2261,14 @@ extension Dms {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.endpointType = dictionary["EndpointType"] as? String
+            if let endpointType = dictionary["EndpointType"] as? String { self.endpointType = ReplicationEndpointTypeValue(rawValue: endpointType) } else { self.endpointType = nil }
             self.serverName = dictionary["ServerName"] as? String
             self.endpointIdentifier = dictionary["EndpointIdentifier"] as? String
             self.databaseName = dictionary["DatabaseName"] as? String
             self.username = dictionary["Username"] as? String
             guard let endpointArn = dictionary["EndpointArn"] as? String else { throw InitializableError.missingRequiredParam("EndpointArn") }
             self.endpointArn = endpointArn
-            self.sslMode = dictionary["SslMode"] as? String
+            if let sslMode = dictionary["SslMode"] as? String { self.sslMode = DmsSslModeValue(rawValue: sslMode) } else { self.sslMode = nil }
             self.certificateArn = dictionary["CertificateArn"] as? String
             self.engineName = dictionary["EngineName"] as? String
             self.password = dictionary["Password"] as? String
@@ -2300,7 +2329,7 @@ extension Dms {
         /// The replication task identifier. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
         public let replicationTaskIdentifier: String
         /// The migration type.
-        public let migrationType: String
+        public let migrationType: MigrationTypeValue
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let targetEndpointArn: String
         /// The start time for the Change Data Capture (CDC) operation.
@@ -2308,7 +2337,7 @@ extension Dms {
         /// Settings for the task, such as target metadata settings. For a complete list of task settings, see Task Settings for AWS Database Migration Service Tasks.
         public let replicationTaskSettings: String?
 
-        public init(tableMappings: String, sourceEndpointArn: String, tags: TagList? = nil, replicationInstanceArn: String, replicationTaskIdentifier: String, migrationType: String, targetEndpointArn: String, cdcStartTime: Date? = nil, replicationTaskSettings: String? = nil) {
+        public init(tableMappings: String, sourceEndpointArn: String, tags: TagList? = nil, replicationInstanceArn: String, replicationTaskIdentifier: String, migrationType: MigrationTypeValue, targetEndpointArn: String, cdcStartTime: Date? = nil, replicationTaskSettings: String? = nil) {
             self.tableMappings = tableMappings
             self.sourceEndpointArn = sourceEndpointArn
             self.tags = tags
@@ -2330,13 +2359,19 @@ extension Dms {
             self.replicationInstanceArn = replicationInstanceArn
             guard let replicationTaskIdentifier = dictionary["ReplicationTaskIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ReplicationTaskIdentifier") }
             self.replicationTaskIdentifier = replicationTaskIdentifier
-            guard let migrationType = dictionary["MigrationType"] as? String else { throw InitializableError.missingRequiredParam("MigrationType") }
+            guard let rawMigrationType = dictionary["MigrationType"] as? String, let migrationType = MigrationTypeValue(rawValue: rawMigrationType) else { throw InitializableError.missingRequiredParam("MigrationType") }
             self.migrationType = migrationType
             guard let targetEndpointArn = dictionary["TargetEndpointArn"] as? String else { throw InitializableError.missingRequiredParam("TargetEndpointArn") }
             self.targetEndpointArn = targetEndpointArn
             self.cdcStartTime = dictionary["CdcStartTime"] as? Date
             self.replicationTaskSettings = dictionary["ReplicationTaskSettings"] as? String
         }
+    }
+
+    public enum ReplicationEndpointTypeValue: String, CustomStringConvertible {
+        case source = "source"
+        case target = "target"
+        public var description: String { return self.rawValue }
     }
 
     public struct Filter: AWSShape {

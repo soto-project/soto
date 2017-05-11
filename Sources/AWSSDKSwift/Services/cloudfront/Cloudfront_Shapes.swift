@@ -173,6 +173,13 @@ extension Cloudfront {
         }
     }
 
+    public enum ItemSelection: String, CustomStringConvertible {
+        case none = "none"
+        case whitelist = "whitelist"
+        case all = "all"
+        public var description: String { return self.rawValue }
+    }
+
     public struct InvalidationSummaryList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -370,14 +377,14 @@ extension Cloudfront {
     public struct SslProtocolsList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let sslProtocol: [String]?
+        public let sslProtocol: [SslProtocol]?
 
-        public init(sslProtocol: [String]? = nil) {
+        public init(sslProtocol: [SslProtocol]? = nil) {
             self.sslProtocol = sslProtocol
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.sslProtocol = dictionary["SslProtocol"] as? [String]
+            if let sslProtocol = dictionary["SslProtocol"] as? [String] { self.sslProtocol = sslProtocol.flatMap({ SslProtocol(rawValue: $0)}) } else { self.sslProtocol = nil }
         }
     }
 
@@ -402,10 +409,10 @@ extension Cloudfront {
         /// The minimum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon Amazon CloudFront Developer Guide. You must specify 0 for MinTTL if you configure CloudFront to forward all headers to your origin (under Headers, if you specify 1 for Quantity and * for Name).
         public let minTTL: Int64
         /// The protocol that viewers can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. You can specify the following options:    allow-all: Viewers can use HTTP or HTTPS.    redirect-to-https: If a viewer submits an HTTP request, CloudFront returns an HTTP status code of 301 (Moved Permanently) to the viewer along with the HTTPS URL. The viewer then resubmits the request using the new URL.    https-only: If a viewer sends an HTTP request, CloudFront returns an HTTP status code of 403 (Forbidden).   For more information about requiring the HTTPS protocol, see Using an HTTPS Connection to Access Your Objects in the Amazon CloudFront Developer Guide.  The only way to guarantee that viewers retrieve an object that was fetched from the origin using HTTPS is never to use any other protocol to fetch the object. If you have recently changed from HTTP to HTTPS, we recommend that you clear your objects' cache because cached objects are protocol agnostic. That means that an edge location will return an object from the cache regardless of whether the current request protocol matches the protocol used previously. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon CloudFront Developer Guide. 
-        public let viewerProtocolPolicy: String
+        public let viewerProtocolPolicy: ViewerProtocolPolicy
         public let allowedMethods: AllowedMethods?
 
-        public init(defaultTTL: Int64? = nil, targetOriginId: String, forwardedValues: ForwardedValues, trustedSigners: TrustedSigners, compress: Bool? = nil, smoothStreaming: Bool? = nil, maxTTL: Int64? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, minTTL: Int64, viewerProtocolPolicy: String, allowedMethods: AllowedMethods? = nil) {
+        public init(defaultTTL: Int64? = nil, targetOriginId: String, forwardedValues: ForwardedValues, trustedSigners: TrustedSigners, compress: Bool? = nil, smoothStreaming: Bool? = nil, maxTTL: Int64? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, minTTL: Int64, viewerProtocolPolicy: ViewerProtocolPolicy, allowedMethods: AllowedMethods? = nil) {
             self.defaultTTL = defaultTTL
             self.targetOriginId = targetOriginId
             self.forwardedValues = forwardedValues
@@ -433,7 +440,7 @@ extension Cloudfront {
             if let lambdaFunctionAssociations = dictionary["LambdaFunctionAssociations"] as? [String: Any] { self.lambdaFunctionAssociations = try Cloudfront.LambdaFunctionAssociations(dictionary: lambdaFunctionAssociations) } else { self.lambdaFunctionAssociations = nil }
             guard let minTTL = dictionary["MinTTL"] as? Int64 else { throw InitializableError.missingRequiredParam("MinTTL") }
             self.minTTL = minTTL
-            guard let viewerProtocolPolicy = dictionary["ViewerProtocolPolicy"] as? String else { throw InitializableError.missingRequiredParam("ViewerProtocolPolicy") }
+            guard let rawViewerProtocolPolicy = dictionary["ViewerProtocolPolicy"] as? String, let viewerProtocolPolicy = ViewerProtocolPolicy(rawValue: rawViewerProtocolPolicy) else { throw InitializableError.missingRequiredParam("ViewerProtocolPolicy") }
             self.viewerProtocolPolicy = viewerProtocolPolicy
             if let allowedMethods = dictionary["AllowedMethods"] as? [String: Any] { self.allowedMethods = try Cloudfront.AllowedMethods(dictionary: allowedMethods) } else { self.allowedMethods = nil }
         }
@@ -539,6 +546,13 @@ extension Cloudfront {
         }
     }
 
+    public enum ViewerProtocolPolicy: String, CustomStringConvertible {
+        case allow_all = "allow-all"
+        case https_only = "https-only"
+        case redirect_to_https = "redirect-to-https"
+        public var description: String { return self.rawValue }
+    }
+
     public struct UpdateCloudFrontOriginAccessIdentityRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = "CloudFrontOriginAccessIdentityConfig"
@@ -630,9 +644,9 @@ extension Cloudfront {
         public let aRN: String
         /// The domain name corresponding to the distribution. For example: d604721fxaaqy9.cloudfront.net.
         public let domainName: String
-        public let priceClass: String
+        public let priceClass: PriceClass
 
-        public init(lastModifiedTime: Date, status: String, id: String, aliases: Aliases, trustedSigners: TrustedSigners, s3Origin: S3Origin, comment: String, enabled: Bool, aRN: String, domainName: String, priceClass: String) {
+        public init(lastModifiedTime: Date, status: String, id: String, aliases: Aliases, trustedSigners: TrustedSigners, s3Origin: S3Origin, comment: String, enabled: Bool, aRN: String, domainName: String, priceClass: PriceClass) {
             self.lastModifiedTime = lastModifiedTime
             self.status = status
             self.id = id
@@ -667,7 +681,7 @@ extension Cloudfront {
             self.aRN = aRN
             guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
             self.domainName = domainName
-            guard let priceClass = dictionary["PriceClass"] as? String else { throw InitializableError.missingRequiredParam("PriceClass") }
+            guard let rawPriceClass = dictionary["PriceClass"] as? String, let priceClass = PriceClass(rawValue: rawPriceClass) else { throw InitializableError.missingRequiredParam("PriceClass") }
             self.priceClass = priceClass
         }
     }
@@ -695,11 +709,11 @@ extension Cloudfront {
         /// The minimum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon Amazon CloudFront Developer Guide. You must specify 0 for MinTTL if you configure CloudFront to forward all headers to your origin (under Headers, if you specify 1 for Quantity and * for Name).
         public let minTTL: Int64
         /// The protocol that viewers can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. You can specify the following options:    allow-all: Viewers can use HTTP or HTTPS.    redirect-to-https: If a viewer submits an HTTP request, CloudFront returns an HTTP status code of 301 (Moved Permanently) to the viewer along with the HTTPS URL. The viewer then resubmits the request using the new URL.     https-only: If a viewer sends an HTTP request, CloudFront returns an HTTP status code of 403 (Forbidden).    For more information about requiring the HTTPS protocol, see Using an HTTPS Connection to Access Your Objects in the Amazon CloudFront Developer Guide.  The only way to guarantee that viewers retrieve an object that was fetched from the origin using HTTPS is never to use any other protocol to fetch the object. If you have recently changed from HTTP to HTTPS, we recommend that you clear your objects' cache because cached objects are protocol agnostic. That means that an edge location will return an object from the cache regardless of whether the current request protocol matches the protocol used previously. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon CloudFront Developer Guide. 
-        public let viewerProtocolPolicy: String
+        public let viewerProtocolPolicy: ViewerProtocolPolicy
         /// The default amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin does not add HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
         public let defaultTTL: Int64?
 
-        public init(targetOriginId: String, pathPattern: String, allowedMethods: AllowedMethods? = nil, forwardedValues: ForwardedValues, trustedSigners: TrustedSigners, compress: Bool? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, maxTTL: Int64? = nil, smoothStreaming: Bool? = nil, minTTL: Int64, viewerProtocolPolicy: String, defaultTTL: Int64? = nil) {
+        public init(targetOriginId: String, pathPattern: String, allowedMethods: AllowedMethods? = nil, forwardedValues: ForwardedValues, trustedSigners: TrustedSigners, compress: Bool? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, maxTTL: Int64? = nil, smoothStreaming: Bool? = nil, minTTL: Int64, viewerProtocolPolicy: ViewerProtocolPolicy, defaultTTL: Int64? = nil) {
             self.targetOriginId = targetOriginId
             self.pathPattern = pathPattern
             self.allowedMethods = allowedMethods
@@ -730,7 +744,7 @@ extension Cloudfront {
             self.smoothStreaming = dictionary["SmoothStreaming"] as? Bool
             guard let minTTL = dictionary["MinTTL"] as? Int64 else { throw InitializableError.missingRequiredParam("MinTTL") }
             self.minTTL = minTTL
-            guard let viewerProtocolPolicy = dictionary["ViewerProtocolPolicy"] as? String else { throw InitializableError.missingRequiredParam("ViewerProtocolPolicy") }
+            guard let rawViewerProtocolPolicy = dictionary["ViewerProtocolPolicy"] as? String, let viewerProtocolPolicy = ViewerProtocolPolicy(rawValue: rawViewerProtocolPolicy) else { throw InitializableError.missingRequiredParam("ViewerProtocolPolicy") }
             self.viewerProtocolPolicy = viewerProtocolPolicy
             self.defaultTTL = dictionary["DefaultTTL"] as? Int64
         }
@@ -906,6 +920,13 @@ extension Cloudfront {
         }
     }
 
+    public enum GeoRestrictionType: String, CustomStringConvertible {
+        case blacklist = "blacklist"
+        case whitelist = "whitelist"
+        case none = "none"
+        public var description: String { return self.rawValue }
+    }
+
     public struct LocationList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -991,17 +1012,17 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the event type that triggers a Lambda function invocation. Valid values are:    viewer-request     origin-request     viewer-response     origin-response   
-        public let eventType: String?
+        public let eventType: EventType?
         /// The ARN of the Lambda function.
         public let lambdaFunctionARN: String?
 
-        public init(eventType: String? = nil, lambdaFunctionARN: String? = nil) {
+        public init(eventType: EventType? = nil, lambdaFunctionARN: String? = nil) {
             self.eventType = eventType
             self.lambdaFunctionARN = lambdaFunctionARN
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.eventType = dictionary["EventType"] as? String
+            if let eventType = dictionary["EventType"] as? String { self.eventType = EventType(rawValue: eventType) } else { self.eventType = nil }
             self.lambdaFunctionARN = dictionary["LambdaFunctionARN"] as? String
         }
     }
@@ -1094,6 +1115,13 @@ extension Cloudfront {
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
         }
+    }
+
+    public enum CertificateSource: String, CustomStringConvertible {
+        case cloudfront = "cloudfront"
+        case iam = "iam"
+        case acm = "acm"
+        public var description: String { return self.rawValue }
     }
 
     public struct CreateCloudFrontOriginAccessIdentityResult: AWSShape {
@@ -1249,17 +1277,17 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies which cookies to forward to the origin for this cache behavior: all, none, or the list of cookies specified in the WhitelistedNames complex type. Amazon S3 doesn't process cookies. When the cache behavior is forwarding requests to an Amazon S3 origin, specify none for the Forward element. 
-        public let forward: String
+        public let forward: ItemSelection
         /// Required if you specify whitelist for the value of Forward:. A complex type that specifies how many different cookies you want CloudFront to forward to the origin for this cache behavior and, if you want to forward selected cookies, the names of those cookies. If you specify all or none for the value of Forward, omit WhitelistedNames. If you change the value of Forward from whitelist to all or none and you don't delete the WhitelistedNames element and its child elements, CloudFront deletes them automatically. For the current limit on the number of cookie names that you can whitelist for each cache behavior, see Amazon CloudFront Limits in the AWS General Reference.
         public let whitelistedNames: CookieNames?
 
-        public init(forward: String, whitelistedNames: CookieNames? = nil) {
+        public init(forward: ItemSelection, whitelistedNames: CookieNames? = nil) {
             self.forward = forward
             self.whitelistedNames = whitelistedNames
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let forward = dictionary["Forward"] as? String else { throw InitializableError.missingRequiredParam("Forward") }
+            guard let rawForward = dictionary["Forward"] as? String, let forward = ItemSelection(rawValue: rawForward) else { throw InitializableError.missingRequiredParam("Forward") }
             self.forward = forward
             if let whitelistedNames = dictionary["WhitelistedNames"] as? [String: Any] { self.whitelistedNames = try Cloudfront.CookieNames(dictionary: whitelistedNames) } else { self.whitelistedNames = nil }
         }
@@ -1284,6 +1312,12 @@ extension Cloudfront {
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
         }
+    }
+
+    public enum MinimumProtocolVersion: String, CustomStringConvertible {
+        case sslv3 = "SSLv3"
+        case tlsv1 = "TLSv1"
+        public var description: String { return self.rawValue }
     }
 
     public struct CreateDistributionWithTagsRequest: AWSShape {
@@ -1423,6 +1457,14 @@ extension Cloudfront {
         }
     }
 
+    public enum EventType: String, CustomStringConvertible {
+        case viewer_request = "viewer-request"
+        case viewer_response = "viewer-response"
+        case origin_request = "origin-request"
+        case origin_response = "origin-response"
+        public var description: String { return self.rawValue }
+    }
+
     public struct LoggingConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1532,7 +1574,7 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// (Optional) Specify the maximum HTTP version that you want viewers to use to communicate with CloudFront. The default value for new web distributions is http2. Viewers that don't support HTTP/2 automatically use an earlier HTTP version. For viewers and CloudFront to use HTTP/2, viewers must support TLS 1.2 or later, and must support Server Name Identification (SNI). In general, configuring CloudFront to communicate with viewers using HTTP/2 reduces latency. You can improve performance by optimizing for HTTP/2. For more information, do an Internet search for "http/2 optimization." 
-        public let httpVersion: String?
+        public let httpVersion: HttpVersion?
         /// The object that you want CloudFront to request from your origin (for example, index.html) when a viewer requests the root URL for your distribution (http://www.example.com) instead of an object in your distribution (http://www.example.com/product-description.html). Specifying a default root object avoids exposing the contents of your distribution. Specify only the object name, for example, index.html. Do not add a / before the object name. If you don't want to specify a default root object when you create a distribution, include an empty DefaultRootObject element. To delete the default root object from an existing distribution, update the distribution configuration and include an empty DefaultRootObject element. To replace the default root object, update the distribution configuration and specify the new object. For more information about the default root object, see Creating a Default Root Object in the Amazon CloudFront Developer Guide.
         public let defaultRootObject: String?
         /// A unique value (for example, a date-time stamp) that ensures that the request can't be replayed. If the value of CallerReference is new (regardless of the content of the DistributionConfig object), CloudFront creates a new distribution. If CallerReference is a value you already sent in a previous request to create a distribution, and if the content of the DistributionConfig is identical to the original request (ignoring white space), CloudFront returns the same the response that it returned to the original request. If CallerReference is a value you already sent in a previous request to create a distribution but the content of the DistributionConfig is different from the original request, CloudFront returns a DistributionAlreadyExists error.
@@ -1550,7 +1592,7 @@ extension Cloudfront {
         /// If you want CloudFront to respond to IPv6 DNS requests with an IPv6 address for your distribution, specify true. If you specify false, CloudFront responds to IPv6 DNS requests with the DNS response code NOERROR and with no IP addresses. This allows viewers to submit a second request, for an IPv4 address for your distribution.  In general, you should enable IPv6 if you have users on IPv6 networks who want to access your content. However, if you're using signed URLs or signed cookies to restrict access to your content, and if you're using a custom policy that includes the IpAddress parameter to restrict the IP addresses that can access your content, do not enable IPv6. If you want to restrict access to some content by IP address and not restrict access to other content (or restrict access but not by IP address), you can create two distributions. For more information, see Creating a Signed URL Using a Custom Policy in the Amazon CloudFront Developer Guide. If you're using an Amazon Route 53 alias resource record set to route traffic to your CloudFront distribution, you need to create a second alias resource record set when both of the following are true:   You enable IPv6 for the distribution   You're using alternate domain names in the URLs for your objects   For more information, see Routing Traffic to an Amazon CloudFront Web Distribution by Using Your Domain Name in the Amazon Route 53 Developer Guide. If you created a CNAME resource record set, either with Amazon Route 53 or with another DNS service, you don't need to make any changes. A CNAME record will route traffic to your distribution regardless of the IP address format of the viewer request.
         public let isIPV6Enabled: Bool?
         /// The price class that corresponds with the maximum price that you want to pay for CloudFront service. If you specify PriceClass_All, CloudFront responds to requests for your objects from all CloudFront edge locations. If you specify a price class other than PriceClass_All, CloudFront serves your objects from the CloudFront edge location that has the lowest latency among the edge locations in your price class. Viewers who are in or near regions that are excluded from your specified price class may encounter slower performance. For more information about price classes, see Choosing the Price Class for a CloudFront Distribution in the Amazon CloudFront Developer Guide. For information about CloudFront pricing, including how price classes map to CloudFront regions, see Amazon CloudFront Pricing.
-        public let priceClass: String?
+        public let priceClass: PriceClass?
         public let viewerCertificate: ViewerCertificate?
         public let restrictions: Restrictions?
         /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this distribution.
@@ -1562,7 +1604,7 @@ extension Cloudfront {
         /// A complex type that describes the default cache behavior if you do not specify a CacheBehavior element or if files don't match any of the values of PathPattern in CacheBehavior elements. You must create exactly one default cache behavior.
         public let defaultCacheBehavior: DefaultCacheBehavior
 
-        public init(httpVersion: String? = nil, defaultRootObject: String? = nil, callerReference: String, customErrorResponses: CustomErrorResponses? = nil, origins: Origins, webACLId: String? = nil, comment: String, enabled: Bool, isIPV6Enabled: Bool? = nil, priceClass: String? = nil, viewerCertificate: ViewerCertificate? = nil, restrictions: Restrictions? = nil, aliases: Aliases? = nil, logging: LoggingConfig? = nil, cacheBehaviors: CacheBehaviors? = nil, defaultCacheBehavior: DefaultCacheBehavior) {
+        public init(httpVersion: HttpVersion? = nil, defaultRootObject: String? = nil, callerReference: String, customErrorResponses: CustomErrorResponses? = nil, origins: Origins, webACLId: String? = nil, comment: String, enabled: Bool, isIPV6Enabled: Bool? = nil, priceClass: PriceClass? = nil, viewerCertificate: ViewerCertificate? = nil, restrictions: Restrictions? = nil, aliases: Aliases? = nil, logging: LoggingConfig? = nil, cacheBehaviors: CacheBehaviors? = nil, defaultCacheBehavior: DefaultCacheBehavior) {
             self.httpVersion = httpVersion
             self.defaultRootObject = defaultRootObject
             self.callerReference = callerReference
@@ -1582,7 +1624,7 @@ extension Cloudfront {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.httpVersion = dictionary["HttpVersion"] as? String
+            if let httpVersion = dictionary["HttpVersion"] as? String { self.httpVersion = HttpVersion(rawValue: httpVersion) } else { self.httpVersion = nil }
             self.defaultRootObject = dictionary["DefaultRootObject"] as? String
             guard let callerReference = dictionary["CallerReference"] as? String else { throw InitializableError.missingRequiredParam("CallerReference") }
             self.callerReference = callerReference
@@ -1595,7 +1637,7 @@ extension Cloudfront {
             guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
             self.enabled = enabled
             self.isIPV6Enabled = dictionary["IsIPV6Enabled"] as? Bool
-            self.priceClass = dictionary["PriceClass"] as? String
+            if let priceClass = dictionary["PriceClass"] as? String { self.priceClass = PriceClass(rawValue: priceClass) } else { self.priceClass = nil }
             if let viewerCertificate = dictionary["ViewerCertificate"] as? [String: Any] { self.viewerCertificate = try Cloudfront.ViewerCertificate(dictionary: viewerCertificate) } else { self.viewerCertificate = nil }
             if let restrictions = dictionary["Restrictions"] as? [String: Any] { self.restrictions = try Cloudfront.Restrictions(dictionary: restrictions) } else { self.restrictions = nil }
             if let aliases = dictionary["Aliases"] as? [String: Any] { self.aliases = try Cloudfront.Aliases(dictionary: aliases) } else { self.aliases = nil }
@@ -1625,18 +1667,18 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// If you specify a value for ACMCertificateArn or for IAMCertificateId, you must also specify how you want CloudFront to serve HTTPS requests: using a method that works for all clients or one that works for most clients:    vip: CloudFront uses dedicated IP addresses for your content and can respond to HTTPS requests from any viewer. However, you must request permission to use this feature, and you incur additional monthly charges.    sni-only: CloudFront can respond to HTTPS requests from viewers that support Server Name Indication (SNI). All modern browsers support SNI, but some browsers still in use don't support SNI. If some of your users' browsers don't support SNI, we recommend that you do one of the following:   Use the vip option (dedicated IP addresses) instead of sni-only.   Use the CloudFront SSL/TLS certificate instead of a custom certificate. This requires that you use the CloudFront domain name of your distribution in the URLs for your objects, for example, https://d111111abcdef8.cloudfront.net/logo.png.   If you can control which browser your users use, upgrade the browser to one that supports SNI.   Use HTTP instead of HTTPS.     Do not specify a value for SSLSupportMethod if you specified &lt;CloudFrontDefaultCertificate&gt;true&lt;CloudFrontDefaultCertificate&gt;. For more information, see Using Alternate Domain Names and HTTPS in the Amazon CloudFront Developer Guide.
-        public let sSLSupportMethod: String?
+        public let sSLSupportMethod: SSLSupportMethod?
         public let iAMCertificateId: String?
         /// Specify the minimum version of the SSL/TLS protocol that you want CloudFront to use for HTTPS connections between viewers and CloudFront: SSLv3 or TLSv1. CloudFront serves your objects only to viewers that support SSL/TLS version that you specify and later versions. The TLSv1 protocol is more secure, so we recommend that you specify SSLv3 only if your users are using browsers or devices that don't support TLSv1. Note the following:   If you specify &lt;CloudFrontDefaultCertificate&gt;true&lt;CloudFrontDefaultCertificate&gt;, the minimum SSL protocol version is TLSv1 and can't be changed.   If you're using a custom certificate (if you specify a value for ACMCertificateArn or for IAMCertificateId) and if you're using SNI (if you specify sni-only for SSLSupportMethod), you must specify TLSv1 for MinimumProtocolVersion.  
-        public let minimumProtocolVersion: String?
+        public let minimumProtocolVersion: MinimumProtocolVersion?
         public let aCMCertificateArn: String?
         /// Include one of these values to specify the following:   Whether you want viewers to use HTTP or HTTPS to request your objects.   If you want viewers to use HTTPS, whether you're using an alternate domain name such as example.com or the CloudFront domain name for your distribution, such as d111111abcdef8.cloudfront.net.   If you're using an alternate domain name, whether AWS Certificate Manager (ACM) provided the certificate, or you purchased a certificate from a third-party certificate authority and imported it into ACM or uploaded it to the IAM certificate store.   You must specify one (and only one) of the three values. Do not specify false for CloudFrontDefaultCertificate.  If you want viewers to use HTTP to request your objects: Specify the following value:  &lt;CloudFrontDefaultCertificate&gt;true&lt;CloudFrontDefaultCertificate&gt;  In addition, specify allow-all for ViewerProtocolPolicy for all of your cache behaviors.  If you want viewers to use HTTPS to request your objects: Choose the type of certificate that you want to use based on whether you're using an alternate domain name for your objects or the CloudFront domain name:    If you're using an alternate domain name, such as example.com: Specify one of the following values, depending on whether ACM provided your certificate or you purchased your certificate from third-party certificate authority:    &lt;ACMCertificateArn&gt;ARN for ACM SSL/TLS certificate&lt;ACMCertificateArn&gt; where ARN for ACM SSL/TLS certificate is the ARN for the ACM SSL/TLS certificate that you want to use for this distribution.    &lt;IAMCertificateId&gt;IAM certificate ID&lt;IAMCertificateId&gt; where IAM certificate ID is the ID that IAM returned when you added the certificate to the IAM certificate store.   If you specify ACMCertificateArn or IAMCertificateId, you must also specify a value for SSLSupportMethod. If you choose to use an ACM certificate or a certificate in the IAM certificate store, we recommend that you use only an alternate domain name in your object URLs (https://example.com/logo.jpg). If you use the domain name that is associated with your CloudFront distribution (https://d111111abcdef8.cloudfront.net/logo.jpg) and the viewer supports SNI, then CloudFront behaves normally. However, if the browser does not support SNI, the user's experience depends on the value that you choose for SSLSupportMethod:    vip: The viewer displays a warning because there is a mismatch between the CloudFront domain name and the domain name in your SSL/TLS certificate.    sni-only: CloudFront drops the connection with the browser without returning the object.      If you're using the CloudFront domain name for your distribution, such as d111111abcdef8.cloudfront.net : Specify the following value:   &lt;CloudFrontDefaultCertificate&gt;true&lt;CloudFrontDefaultCertificate&gt;   If you want viewers to use HTTPS, you must also specify one of the following values in your cache behaviors:     &lt;ViewerProtocolPolicy&gt;https-only&lt;ViewerProtocolPolicy&gt;       &lt;ViewerProtocolPolicy&gt;redirect-to-https&lt;ViewerProtocolPolicy&gt;     You can also optionally require that CloudFront use HTTPS to communicate with your origin by specifying one of the following values for the applicable origins:     &lt;OriginProtocolPolicy&gt;https-only&lt;OriginProtocolPolicy&gt;       &lt;OriginProtocolPolicy&gt;match-viewer&lt;OriginProtocolPolicy&gt;     For more information, see Using Alternate Domain Names and HTTPS in the Amazon CloudFront Developer Guide.  
         public let certificate: String?
         public let cloudFrontDefaultCertificate: Bool?
         ///  This field is deprecated. You can use one of the following: [ACMCertificateArn, IAMCertificateId, or CloudFrontDefaultCertificate]. 
-        public let certificateSource: String?
+        public let certificateSource: CertificateSource?
 
-        public init(sSLSupportMethod: String? = nil, iAMCertificateId: String? = nil, minimumProtocolVersion: String? = nil, aCMCertificateArn: String? = nil, certificate: String? = nil, cloudFrontDefaultCertificate: Bool? = nil, certificateSource: String? = nil) {
+        public init(sSLSupportMethod: SSLSupportMethod? = nil, iAMCertificateId: String? = nil, minimumProtocolVersion: MinimumProtocolVersion? = nil, aCMCertificateArn: String? = nil, certificate: String? = nil, cloudFrontDefaultCertificate: Bool? = nil, certificateSource: CertificateSource? = nil) {
             self.sSLSupportMethod = sSLSupportMethod
             self.iAMCertificateId = iAMCertificateId
             self.minimumProtocolVersion = minimumProtocolVersion
@@ -1647,13 +1689,13 @@ extension Cloudfront {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.sSLSupportMethod = dictionary["SSLSupportMethod"] as? String
+            if let sSLSupportMethod = dictionary["SSLSupportMethod"] as? String { self.sSLSupportMethod = SSLSupportMethod(rawValue: sSLSupportMethod) } else { self.sSLSupportMethod = nil }
             self.iAMCertificateId = dictionary["IAMCertificateId"] as? String
-            self.minimumProtocolVersion = dictionary["MinimumProtocolVersion"] as? String
+            if let minimumProtocolVersion = dictionary["MinimumProtocolVersion"] as? String { self.minimumProtocolVersion = MinimumProtocolVersion(rawValue: minimumProtocolVersion) } else { self.minimumProtocolVersion = nil }
             self.aCMCertificateArn = dictionary["ACMCertificateArn"] as? String
             self.certificate = dictionary["Certificate"] as? String
             self.cloudFrontDefaultCertificate = dictionary["CloudFrontDefaultCertificate"] as? Bool
-            self.certificateSource = dictionary["CertificateSource"] as? String
+            if let certificateSource = dictionary["CertificateSource"] as? String { self.certificateSource = CertificateSource(rawValue: certificateSource) } else { self.certificateSource = nil }
         }
     }
 
@@ -1789,7 +1831,7 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         ///  Specify the maximum HTTP version that you want viewers to use to communicate with CloudFront. The default value for new web distributions is http2. Viewers that don't support HTTP/2 will automatically use an earlier version.
-        public let httpVersion: String
+        public let httpVersion: HttpVersion
         /// A complex type that contains zero or more CustomErrorResponses elements.
         public let customErrorResponses: CustomErrorResponses
         /// A complex type that contains information about origins for this distribution.
@@ -1814,7 +1856,7 @@ extension Cloudfront {
         public let status: String
         /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this distribution.
         public let aliases: Aliases
-        public let priceClass: String
+        public let priceClass: PriceClass
         /// A complex type that contains zero or more CacheBehavior elements.
         public let cacheBehaviors: CacheBehaviors
         /// The domain name that corresponds to the distribution. For example: d604721fxaaqy9.cloudfront.net.
@@ -1822,7 +1864,7 @@ extension Cloudfront {
         /// A complex type that describes the default cache behavior if you do not specify a CacheBehavior element or if files don't match any of the values of PathPattern in CacheBehavior elements. You must create exactly one default cache behavior.
         public let defaultCacheBehavior: DefaultCacheBehavior
 
-        public init(httpVersion: String, customErrorResponses: CustomErrorResponses, origins: Origins, comment: String, enabled: Bool, webACLId: String, aRN: String, isIPV6Enabled: Bool, restrictions: Restrictions, lastModifiedTime: Date, viewerCertificate: ViewerCertificate, id: String, status: String, aliases: Aliases, priceClass: String, cacheBehaviors: CacheBehaviors, domainName: String, defaultCacheBehavior: DefaultCacheBehavior) {
+        public init(httpVersion: HttpVersion, customErrorResponses: CustomErrorResponses, origins: Origins, comment: String, enabled: Bool, webACLId: String, aRN: String, isIPV6Enabled: Bool, restrictions: Restrictions, lastModifiedTime: Date, viewerCertificate: ViewerCertificate, id: String, status: String, aliases: Aliases, priceClass: PriceClass, cacheBehaviors: CacheBehaviors, domainName: String, defaultCacheBehavior: DefaultCacheBehavior) {
             self.httpVersion = httpVersion
             self.customErrorResponses = customErrorResponses
             self.origins = origins
@@ -1844,7 +1886,7 @@ extension Cloudfront {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let httpVersion = dictionary["HttpVersion"] as? String else { throw InitializableError.missingRequiredParam("HttpVersion") }
+            guard let rawHttpVersion = dictionary["HttpVersion"] as? String, let httpVersion = HttpVersion(rawValue: rawHttpVersion) else { throw InitializableError.missingRequiredParam("HttpVersion") }
             self.httpVersion = httpVersion
             guard let customErrorResponses = dictionary["CustomErrorResponses"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CustomErrorResponses") }
             self.customErrorResponses = try Cloudfront.CustomErrorResponses(dictionary: customErrorResponses)
@@ -1872,7 +1914,7 @@ extension Cloudfront {
             self.status = status
             guard let aliases = dictionary["Aliases"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Aliases") }
             self.aliases = try Cloudfront.Aliases(dictionary: aliases)
-            guard let priceClass = dictionary["PriceClass"] as? String else { throw InitializableError.missingRequiredParam("PriceClass") }
+            guard let rawPriceClass = dictionary["PriceClass"] as? String, let priceClass = PriceClass(rawValue: rawPriceClass) else { throw InitializableError.missingRequiredParam("PriceClass") }
             self.priceClass = priceClass
             guard let cacheBehaviors = dictionary["CacheBehaviors"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CacheBehaviors") }
             self.cacheBehaviors = try Cloudfront.CacheBehaviors(dictionary: cacheBehaviors)
@@ -1891,11 +1933,11 @@ extension Cloudfront {
         /// The HTTP port the custom origin listens on.
         public let hTTPPort: Int32
         /// The origin protocol policy to apply to your origin.
-        public let originProtocolPolicy: String
+        public let originProtocolPolicy: OriginProtocolPolicy
         /// The SSL/TLS protocols that you want CloudFront to use when communicating with your origin over HTTPS.
         public let originSslProtocols: OriginSslProtocols?
 
-        public init(hTTPSPort: Int32, hTTPPort: Int32, originProtocolPolicy: String, originSslProtocols: OriginSslProtocols? = nil) {
+        public init(hTTPSPort: Int32, hTTPPort: Int32, originProtocolPolicy: OriginProtocolPolicy, originSslProtocols: OriginSslProtocols? = nil) {
             self.hTTPSPort = hTTPSPort
             self.hTTPPort = hTTPPort
             self.originProtocolPolicy = originProtocolPolicy
@@ -1907,7 +1949,7 @@ extension Cloudfront {
             self.hTTPSPort = hTTPSPort
             guard let hTTPPort = dictionary["HTTPPort"] as? Int32 else { throw InitializableError.missingRequiredParam("HTTPPort") }
             self.hTTPPort = hTTPPort
-            guard let originProtocolPolicy = dictionary["OriginProtocolPolicy"] as? String else { throw InitializableError.missingRequiredParam("OriginProtocolPolicy") }
+            guard let rawOriginProtocolPolicy = dictionary["OriginProtocolPolicy"] as? String, let originProtocolPolicy = OriginProtocolPolicy(rawValue: rawOriginProtocolPolicy) else { throw InitializableError.missingRequiredParam("OriginProtocolPolicy") }
             self.originProtocolPolicy = originProtocolPolicy
             if let originSslProtocols = dictionary["OriginSslProtocols"] as? [String: Any] { self.originSslProtocols = try Cloudfront.OriginSslProtocols(dictionary: originSslProtocols) } else { self.originSslProtocols = nil }
         }
@@ -1979,6 +2021,12 @@ extension Cloudfront {
             self.errorCode = errorCode
             self.responsePagePath = dictionary["ResponsePagePath"] as? String
         }
+    }
+
+    public enum HttpVersion: String, CustomStringConvertible {
+        case http1_1 = "http1.1"
+        case http2 = "http2"
+        public var description: String { return self.rawValue }
     }
 
     public struct GetCloudFrontOriginAccessIdentityConfigResult: AWSShape {
@@ -2065,6 +2113,14 @@ extension Cloudfront {
         }
     }
 
+    public enum SslProtocol: String, CustomStringConvertible {
+        case sslv3 = "SSLv3"
+        case tlsv1 = "TLSv1"
+        case tlsv1_1 = "TLSv1.1"
+        case tlsv1_2 = "TLSv1.2"
+        public var description: String { return self.rawValue }
+    }
+
     public struct StreamingLoggingConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2091,17 +2147,24 @@ extension Cloudfront {
         }
     }
 
+    public enum OriginProtocolPolicy: String, CustomStringConvertible {
+        case http_only = "http-only"
+        case match_viewer = "match-viewer"
+        case https_only = "https-only"
+        public var description: String { return self.rawValue }
+    }
+
     public struct GeoRestriction: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         ///  A complex type that contains a Location element for each country in which you want CloudFront either to distribute your content (whitelist) or not distribute your content (blacklist). The Location element is a two-letter, uppercase country code for a country that you want to include in your blacklist or whitelist. Include one Location element for each country. CloudFront and MaxMind both use ISO 3166 country codes. For the current list of countries and the corresponding codes, see ISO 3166-1-alpha-2 code on the International Organization for Standardization website. You can also refer to the country list in the CloudFront console, which includes both country names and codes.
         public let items: LocationList?
         /// The method that you want to use to restrict distribution of your content by country:    none: No geo restriction is enabled, meaning access to content is not restricted by client geo location.    blacklist: The Location elements specify the countries in which you do not want CloudFront to distribute your content.    whitelist: The Location elements specify the countries in which you want CloudFront to distribute your content.  
-        public let restrictionType: String
+        public let restrictionType: GeoRestrictionType
         /// When geo restriction is enabled, this is the number of countries in your whitelist or blacklist. Otherwise, when it is not enabled, Quantity is 0, and you can omit Items.
         public let quantity: Int32
 
-        public init(items: LocationList? = nil, restrictionType: String, quantity: Int32) {
+        public init(items: LocationList? = nil, restrictionType: GeoRestrictionType, quantity: Int32) {
             self.items = items
             self.restrictionType = restrictionType
             self.quantity = quantity
@@ -2109,7 +2172,7 @@ extension Cloudfront {
 
         public init(dictionary: [String: Any]) throws {
             if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.LocationList(dictionary: items) } else { self.items = nil }
-            guard let restrictionType = dictionary["RestrictionType"] as? String else { throw InitializableError.missingRequiredParam("RestrictionType") }
+            guard let rawRestrictionType = dictionary["RestrictionType"] as? String, let restrictionType = GeoRestrictionType(rawValue: rawRestrictionType) else { throw InitializableError.missingRequiredParam("RestrictionType") }
             self.restrictionType = restrictionType
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
@@ -2259,6 +2322,12 @@ extension Cloudfront {
         }
     }
 
+    public enum SSLSupportMethod: String, CustomStringConvertible {
+        case sni_only = "sni-only"
+        case vip = "vip"
+        public var description: String { return self.rawValue }
+    }
+
     public struct CloudFrontOriginAccessIdentitySummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2353,9 +2422,9 @@ extension Cloudfront {
         /// A complex type that specifies any AWS accounts that you want to permit to create signed URLs for private content. If you want the distribution to use signed URLs, include this element; if you want the distribution to use public URLs, remove this element. For more information, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide. 
         public let trustedSigners: TrustedSigners
         /// A complex type that contains information about price class for this streaming distribution. 
-        public let priceClass: String?
+        public let priceClass: PriceClass?
 
-        public init(aliases: Aliases? = nil, callerReference: String, logging: StreamingLoggingConfig? = nil, s3Origin: S3Origin, enabled: Bool, comment: String, trustedSigners: TrustedSigners, priceClass: String? = nil) {
+        public init(aliases: Aliases? = nil, callerReference: String, logging: StreamingLoggingConfig? = nil, s3Origin: S3Origin, enabled: Bool, comment: String, trustedSigners: TrustedSigners, priceClass: PriceClass? = nil) {
             self.aliases = aliases
             self.callerReference = callerReference
             self.logging = logging
@@ -2379,21 +2448,21 @@ extension Cloudfront {
             self.comment = comment
             guard let trustedSigners = dictionary["TrustedSigners"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TrustedSigners") }
             self.trustedSigners = try Cloudfront.TrustedSigners(dictionary: trustedSigners)
-            self.priceClass = dictionary["PriceClass"] as? String
+            if let priceClass = dictionary["PriceClass"] as? String { self.priceClass = PriceClass(rawValue: priceClass) } else { self.priceClass = nil }
         }
     }
 
     public struct MethodsList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let method: [String]?
+        public let method: [Method]?
 
-        public init(method: [String]? = nil) {
+        public init(method: [Method]? = nil) {
             self.method = method
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.method = dictionary["Method"] as? [String]
+            if let method = dictionary["Method"] as? [String] { self.method = method.flatMap({ Method(rawValue: $0)}) } else { self.method = nil }
         }
     }
 
@@ -2518,6 +2587,13 @@ extension Cloudfront {
             self.eTag = dictionary["ETag"] as? String
             if let distribution = dictionary["Distribution"] as? [String: Any] { self.distribution = try Cloudfront.Distribution(dictionary: distribution) } else { self.distribution = nil }
         }
+    }
+
+    public enum PriceClass: String, CustomStringConvertible {
+        case priceclass_100 = "PriceClass_100"
+        case priceclass_200 = "PriceClass_200"
+        case priceclass_all = "PriceClass_All"
+        public var description: String { return self.rawValue }
     }
 
     public struct GetStreamingDistributionConfigResult: AWSShape {
@@ -2992,6 +3068,17 @@ extension Cloudfront {
         public init(dictionary: [String: Any]) throws {
             self.name = dictionary["Name"] as? [String]
         }
+    }
+
+    public enum Method: String, CustomStringConvertible {
+        case get = "GET"
+        case head = "HEAD"
+        case post = "POST"
+        case put = "PUT"
+        case patch = "PATCH"
+        case options = "OPTIONS"
+        case delete = "DELETE"
+        public var description: String { return self.rawValue }
     }
 
     public struct AwsAccountNumberList: AWSShape {

@@ -29,13 +29,43 @@ import Core
 
 extension Marketplacecommerceanalytics {
 
+    public enum DataSetType: String, CustomStringConvertible {
+        case customer_subscriber_hourly_monthly_subscriptions = "customer_subscriber_hourly_monthly_subscriptions"
+        case customer_subscriber_annual_subscriptions = "customer_subscriber_annual_subscriptions"
+        case daily_business_usage_by_instance_type = "daily_business_usage_by_instance_type"
+        case daily_business_fees = "daily_business_fees"
+        case daily_business_free_trial_conversions = "daily_business_free_trial_conversions"
+        case daily_business_new_instances = "daily_business_new_instances"
+        case daily_business_new_product_subscribers = "daily_business_new_product_subscribers"
+        case daily_business_canceled_product_subscribers = "daily_business_canceled_product_subscribers"
+        case monthly_revenue_billing_and_revenue_data = "monthly_revenue_billing_and_revenue_data"
+        case monthly_revenue_annual_subscriptions = "monthly_revenue_annual_subscriptions"
+        case disbursed_amount_by_product = "disbursed_amount_by_product"
+        case disbursed_amount_by_product_with_uncollected_funds = "disbursed_amount_by_product_with_uncollected_funds"
+        case disbursed_amount_by_instance_hours = "disbursed_amount_by_instance_hours"
+        case disbursed_amount_by_customer_geo = "disbursed_amount_by_customer_geo"
+        case disbursed_amount_by_age_of_uncollected_funds = "disbursed_amount_by_age_of_uncollected_funds"
+        case disbursed_amount_by_age_of_disbursed_funds = "disbursed_amount_by_age_of_disbursed_funds"
+        case customer_profile_by_industry = "customer_profile_by_industry"
+        case customer_profile_by_revenue = "customer_profile_by_revenue"
+        case customer_profile_by_geography = "customer_profile_by_geography"
+        case sales_compensation_billed_revenue = "sales_compensation_billed_revenue"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SupportDataSetType: String, CustomStringConvertible {
+        case customer_support_contacts_data = "customer_support_contacts_data"
+        case test_customer_support_contacts_data = "test_customer_support_contacts_data"
+        public var description: String { return self.rawValue }
+    }
+
     public struct GenerateDataSetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// Amazon Resource Name (ARN) for the SNS Topic that will be notified when the data set has been published or if an error has occurred.
         public let snsTopicArn: String
         /// The desired data set type.   customer_subscriber_hourly_monthly_subscriptions - Available daily by 5:00 PM Pacific Time since 2014-07-21. customer_subscriber_annual_subscriptions - Available daily by 5:00 PM Pacific Time since 2014-07-21. daily_business_usage_by_instance_type - Available daily by 5:00 PM Pacific Time since 2015-01-26. daily_business_fees - Available daily by 5:00 PM Pacific Time since 2015-01-26. daily_business_free_trial_conversions - Available daily by 5:00 PM Pacific Time since 2015-01-26. daily_business_new_instances - Available daily by 5:00 PM Pacific Time since 2015-01-26. daily_business_new_product_subscribers - Available daily by 5:00 PM Pacific Time since 2015-01-26. daily_business_canceled_product_subscribers - Available daily by 5:00 PM Pacific Time since 2015-01-26. monthly_revenue_billing_and_revenue_data - Available monthly on the 4th day of the month by 5:00 PM Pacific Time since 2015-02. monthly_revenue_annual_subscriptions - Available monthly on the 4th day of the month by 5:00 PM Pacific Time since 2015-02. disbursed_amount_by_product - Available every 30 days by 5:00 PM Pacific Time since 2015-01-26. disbursed_amount_by_product_with_uncollected_funds -This data set is only available from 2012-04-19 until 2015-01-25. After 2015-01-25, this data set was split into three data sets: disbursed_amount_by_product, disbursed_amount_by_age_of_uncollected_funds, and disbursed_amount_by_age_of_disbursed_funds.  disbursed_amount_by_instance_hours - Available every 30 days by 5:00 PM Pacific Time since 2012-09-04. disbursed_amount_by_customer_geo - Available every 30 days by 5:00 PM Pacific Time since 2012-04-19. disbursed_amount_by_age_of_uncollected_funds - Available every 30 days by 5:00 PM Pacific Time since 2015-01-26. disbursed_amount_by_age_of_disbursed_funds - Available every 30 days by 5:00 PM Pacific Time since 2015-01-26. customer_profile_by_industry - Available daily by 5:00 PM Pacific Time since 2015-10-01. customer_profile_by_revenue - Available daily by 5:00 PM Pacific Time since 2015-10-01. customer_profile_by_geography - Available daily by 5:00 PM Pacific Time since 2015-10-01. sales_compensation_billed_revenue - Available monthly on the 4th day of the month by 5:00 PM Pacific Time since 2016-12.  
-        public let dataSetType: String
+        public let dataSetType: DataSetType
         /// (Optional) The desired S3 prefix for the published data set, similar to a directory path in standard file systems. For example, if given the bucket name "mybucket" and the prefix "myprefix/mydatasets", the output file "outputfile" would be published to "s3://mybucket/myprefix/mydatasets/outputfile". If the prefix directory structure does not exist, it will be created. If no prefix is provided, the data set will be published to the S3 bucket root.
         public let destinationS3Prefix: String?
         /// (Optional) Key-value pairs which will be returned, unmodified, in the Amazon SNS notification message and the data set metadata file. These key-value pairs can be used to correlated responses with tracking information from other systems.
@@ -47,7 +77,7 @@ extension Marketplacecommerceanalytics {
         /// The date a data set was published. For daily data sets, provide a date with day-level granularity for the desired day. For weekly data sets, provide a date with day-level granularity within the desired week (the day value will be ignored). For monthly data sets, provide a date with month-level granularity for the desired month (the day value will be ignored).
         public let dataSetPublicationDate: Date
 
-        public init(snsTopicArn: String, dataSetType: String, destinationS3Prefix: String? = nil, customerDefinedValues: [String: String]? = nil, destinationS3BucketName: String, roleNameArn: String, dataSetPublicationDate: Date) {
+        public init(snsTopicArn: String, dataSetType: DataSetType, destinationS3Prefix: String? = nil, customerDefinedValues: [String: String]? = nil, destinationS3BucketName: String, roleNameArn: String, dataSetPublicationDate: Date) {
             self.snsTopicArn = snsTopicArn
             self.dataSetType = dataSetType
             self.destinationS3Prefix = destinationS3Prefix
@@ -60,7 +90,7 @@ extension Marketplacecommerceanalytics {
         public init(dictionary: [String: Any]) throws {
             guard let snsTopicArn = dictionary["snsTopicArn"] as? String else { throw InitializableError.missingRequiredParam("snsTopicArn") }
             self.snsTopicArn = snsTopicArn
-            guard let dataSetType = dictionary["dataSetType"] as? String else { throw InitializableError.missingRequiredParam("dataSetType") }
+            guard let rawdataSetType = dictionary["dataSetType"] as? String, let dataSetType = DataSetType(rawValue: rawdataSetType) else { throw InitializableError.missingRequiredParam("dataSetType") }
             self.dataSetType = dataSetType
             self.destinationS3Prefix = dictionary["destinationS3Prefix"] as? String
             if let customerDefinedValues = dictionary["customerDefinedValues"] as? [String: String] {
@@ -98,7 +128,7 @@ extension Marketplacecommerceanalytics {
         /// Amazon Resource Name (ARN) for the SNS Topic that will be notified when the data set has been published or if an error has occurred.
         public let snsTopicArn: String
         ///  Specifies the data set type to be written to the output csv file. The data set types customer_support_contacts_data and test_customer_support_contacts_data both result in a csv file containing the following fields: Product Id, Product Code, Customer Guid, Subscription Guid, Subscription Start Date, Organization, AWS Account Id, Given Name, Surname, Telephone Number, Email, Title, Country Code, ZIP Code, Operation Type, and Operation Time.    customer_support_contacts_data Customer support contact data. The data set will contain all changes (Creates, Updates, and Deletes) to customer support contact data from the date specified in the from_date parameter. test_customer_support_contacts_data An example data set containing static test data in the same format as customer_support_contacts_data  
-        public let dataSetType: String
+        public let dataSetType: SupportDataSetType
         /// (Optional) The desired S3 prefix for the published data set, similar to a directory path in standard file systems. For example, if given the bucket name "mybucket" and the prefix "myprefix/mydatasets", the output file "outputfile" would be published to "s3://mybucket/myprefix/mydatasets/outputfile". If the prefix directory structure does not exist, it will be created. If no prefix is provided, the data set will be published to the S3 bucket root.
         public let destinationS3Prefix: String?
         /// (Optional) Key-value pairs which will be returned, unmodified, in the Amazon SNS notification message and the data set metadata file.
@@ -110,7 +140,7 @@ extension Marketplacecommerceanalytics {
         /// The Amazon Resource Name (ARN) of the Role with an attached permissions policy to interact with the provided AWS services.
         public let roleNameArn: String
 
-        public init(snsTopicArn: String, dataSetType: String, destinationS3Prefix: String? = nil, customerDefinedValues: [String: String]? = nil, destinationS3BucketName: String, fromDate: Date, roleNameArn: String) {
+        public init(snsTopicArn: String, dataSetType: SupportDataSetType, destinationS3Prefix: String? = nil, customerDefinedValues: [String: String]? = nil, destinationS3BucketName: String, fromDate: Date, roleNameArn: String) {
             self.snsTopicArn = snsTopicArn
             self.dataSetType = dataSetType
             self.destinationS3Prefix = destinationS3Prefix
@@ -123,7 +153,7 @@ extension Marketplacecommerceanalytics {
         public init(dictionary: [String: Any]) throws {
             guard let snsTopicArn = dictionary["snsTopicArn"] as? String else { throw InitializableError.missingRequiredParam("snsTopicArn") }
             self.snsTopicArn = snsTopicArn
-            guard let dataSetType = dictionary["dataSetType"] as? String else { throw InitializableError.missingRequiredParam("dataSetType") }
+            guard let rawdataSetType = dictionary["dataSetType"] as? String, let dataSetType = SupportDataSetType(rawValue: rawdataSetType) else { throw InitializableError.missingRequiredParam("dataSetType") }
             self.dataSetType = dataSetType
             self.destinationS3Prefix = dictionary["destinationS3Prefix"] as? String
             if let customerDefinedValues = dictionary["customerDefinedValues"] as? [String: String] {

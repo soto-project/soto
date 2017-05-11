@@ -29,6 +29,14 @@ import Core
 
 extension Dynamodb {
 
+    public enum TimeToLiveStatus: String, CustomStringConvertible {
+        case enabling = "ENABLING"
+        case disabling = "DISABLING"
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct UpdateTableInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -127,16 +135,16 @@ extension Dynamodb {
         /// Represents the non-key attribute names which will be projected into the index. For local secondary indexes, the total count of NonKeyAttributes summed across all of the local secondary indexes, must not exceed 20. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.
         public let nonKeyAttributes: [String]?
         /// The set of attributes that are projected into the index:    KEYS_ONLY - Only the index and primary keys are projected into the index.    INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes are in NonKeyAttributes.    ALL - All of the table attributes are projected into the index.  
-        public let projectionType: String?
+        public let projectionType: ProjectionType?
 
-        public init(nonKeyAttributes: [String]? = nil, projectionType: String? = nil) {
+        public init(nonKeyAttributes: [String]? = nil, projectionType: ProjectionType? = nil) {
             self.nonKeyAttributes = nonKeyAttributes
             self.projectionType = projectionType
         }
 
         public init(dictionary: [String: Any]) throws {
             self.nonKeyAttributes = dictionary["NonKeyAttributes"] as? [String]
-            self.projectionType = dictionary["ProjectionType"] as? String
+            if let projectionType = dictionary["ProjectionType"] as? String { self.projectionType = ProjectionType(rawValue: projectionType) } else { self.projectionType = nil }
         }
     }
 
@@ -146,9 +154,9 @@ extension Dynamodb {
         /// The name of a key attribute.
         public let attributeName: String
         /// The role that this key attribute will assume:    HASH - partition key    RANGE - sort key    The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB' usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value. 
-        public let keyType: String
+        public let keyType: KeyType
 
-        public init(attributeName: String, keyType: String) {
+        public init(attributeName: String, keyType: KeyType) {
             self.attributeName = attributeName
             self.keyType = keyType
         }
@@ -156,7 +164,7 @@ extension Dynamodb {
         public init(dictionary: [String: Any]) throws {
             guard let attributeName = dictionary["AttributeName"] as? String else { throw InitializableError.missingRequiredParam("AttributeName") }
             self.attributeName = attributeName
-            guard let keyType = dictionary["KeyType"] as? String else { throw InitializableError.missingRequiredParam("KeyType") }
+            guard let rawKeyType = dictionary["KeyType"] as? String, let keyType = KeyType(rawValue: rawKeyType) else { throw InitializableError.missingRequiredParam("KeyType") }
             self.keyType = keyType
         }
     }
@@ -201,6 +209,19 @@ extension Dynamodb {
             guard let readCapacityUnits = dictionary["ReadCapacityUnits"] as? Int64 else { throw InitializableError.missingRequiredParam("ReadCapacityUnits") }
             self.readCapacityUnits = readCapacityUnits
         }
+    }
+
+    public enum AttributeAction: String, CustomStringConvertible {
+        case add = "ADD"
+        case put = "PUT"
+        case delete = "DELETE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum KeyType: String, CustomStringConvertible {
+        case hash = "HASH"
+        case range = "RANGE"
+        public var description: String { return self.rawValue }
     }
 
     public struct DescribeTimeToLiveOutput: AWSShape {
@@ -266,19 +287,27 @@ extension Dynamodb {
         }
     }
 
+    public enum Select: String, CustomStringConvertible {
+        case all_attributes = "ALL_ATTRIBUTES"
+        case all_projected_attributes = "ALL_PROJECTED_ATTRIBUTES"
+        case specific_attributes = "SPECIFIC_ATTRIBUTES"
+        case count = "COUNT"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ExpectedAttributeValue: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more values to evaluate against the supplied attribute. The number of values in the list depends on the ComparisonOperator being used. For type Number, value comparisons are numeric. String value comparisons for greater than, equals, or less than are based on ASCII character code values. For example, a is greater than A, and a is greater than B. For a list of code values, see http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters. For Binary, DynamoDB treats each byte of the binary data as unsigned when it compares binary values. For information on specifying data types in JSON, see JSON Data Format in the Amazon DynamoDB Developer Guide.
         public let attributeValueList: [AttributeValue]?
         /// A comparator for evaluating attributes in the AttributeValueList. For example, equals, greater than, less than, etc. The following comparison operators are available:  EQ | NE | LE | LT | GE | GT | NOT_NULL | NULL | CONTAINS | NOT_CONTAINS | BEGINS_WITH | IN | BETWEEN  The following are descriptions of each comparison operator.    EQ : Equal. EQ is supported for all data types, including lists and maps.  AttributeValueList can contain only one AttributeValue element of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not equal {"NS":["6", "2", "1"]}.     NE : Not equal. NE is supported for all data types, including lists and maps.  AttributeValueList can contain only one AttributeValue of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not equal {"NS":["6", "2", "1"]}.     LE : Less than or equal.   AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}.     LT : Less than.   AttributeValueList can contain only one AttributeValue of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}.     GE : Greater than or equal.   AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}.     GT : Greater than.   AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}.     NOT_NULL : The attribute exists. NOT_NULL is supported for all data types, including lists and maps.  This operator tests for the existence of an attribute, not its data type. If the data type of attribute "a" is null, and you evaluate it using NOT_NULL, the result is a Boolean true. This result is because the attribute "a" exists; its data type is not relevant to the NOT_NULL comparison operator.     NULL : The attribute does not exist. NULL is supported for all data types, including lists and maps.  This operator tests for the nonexistence of an attribute, not its data type. If the data type of attribute "a" is null, and you evaluate it using NULL, the result is a Boolean false. This is because the attribute "a" exists; its data type is not relevant to the NULL comparison operator.     CONTAINS : Checks for a subsequence, or value in a set.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is of type String, then the operator checks for a substring match. If the target attribute of the comparison is of type Binary, then the operator looks for a subsequence of the target that matches the input. If the target attribute of the comparison is a set ("SS", "NS", or "BS"), then the operator evaluates to true if it finds an exact match with any member of the set. CONTAINS is supported for lists: When evaluating "a CONTAINS b", "a" can be a list; however, "b" cannot be a set, a map, or a list.    NOT_CONTAINS : Checks for absence of a subsequence, or absence of a value in a set.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is a String, then the operator checks for the absence of a substring match. If the target attribute of the comparison is Binary, then the operator checks for the absence of a subsequence of the target that matches the input. If the target attribute of the comparison is a set ("SS", "NS", or "BS"), then the operator evaluates to true if it does not find an exact match with any member of the set. NOT_CONTAINS is supported for lists: When evaluating "a NOT CONTAINS b", "a" can be a list; however, "b" cannot be a set, a map, or a list.    BEGINS_WITH : Checks for a prefix.   AttributeValueList can contain only one AttributeValue of type String or Binary (not a Number or a set type). The target attribute of the comparison must be of type String or Binary (not a Number or a set type).     IN : Checks for matching elements in a list.  AttributeValueList can contain one or more AttributeValue elements of type String, Number, or Binary. These attributes are compared against an existing attribute of an item. If any elements of the input are equal to the item attribute, the expression evaluates to true.    BETWEEN : Greater than or equal to the first value, and less than or equal to the second value.   AttributeValueList must contain two AttributeValue elements of the same type, either String, Number, or Binary (not a set type). A target attribute matches if the target value is greater than, or equal to, the first element and less than, or equal to, the second element. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not compare to {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}   
-        public let comparisonOperator: String?
+        public let comparisonOperator: ComparisonOperator?
         /// Represents the data for the expected attribute. Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself. For more information, see Data Types in the Amazon DynamoDB Developer Guide.
         public let value: AttributeValue?
         /// Causes DynamoDB to evaluate the value before attempting a conditional operation:   If Exists is true, DynamoDB will check to see if that attribute value already exists in the table. If it is found, then the operation succeeds. If it is not found, the operation fails with a ConditionalCheckFailedException.   If Exists is false, DynamoDB assumes that the attribute value does not exist in the table. If in fact the value does not exist, then the assumption is valid and the operation succeeds. If the value is found, despite the assumption that it does not exist, the operation fails with a ConditionalCheckFailedException.   The default setting for Exists is true. If you supply a Value all by itself, DynamoDB assumes the attribute exists: You don't have to set Exists to true, because it is implied. DynamoDB returns a ValidationException if:    Exists is true but there is no Value to check. (You expect a value to exist, but don't specify what that value is.)    Exists is false but you also provide a Value. (You cannot expect an attribute to have a value, while also expecting it not to exist.)  
         public let exists: Bool?
 
-        public init(attributeValueList: [AttributeValue]? = nil, comparisonOperator: String? = nil, value: AttributeValue? = nil, exists: Bool? = nil) {
+        public init(attributeValueList: [AttributeValue]? = nil, comparisonOperator: ComparisonOperator? = nil, value: AttributeValue? = nil, exists: Bool? = nil) {
             self.attributeValueList = attributeValueList
             self.comparisonOperator = comparisonOperator
             self.value = value
@@ -291,7 +320,7 @@ extension Dynamodb {
             } else { 
                 self.attributeValueList = nil
             }
-            self.comparisonOperator = dictionary["ComparisonOperator"] as? String
+            if let comparisonOperator = dictionary["ComparisonOperator"] as? String { self.comparisonOperator = ComparisonOperator(rawValue: comparisonOperator) } else { self.comparisonOperator = nil }
             if let value = dictionary["Value"] as? [String: Any] { self.value = try Dynamodb.AttributeValue(dictionary: value) } else { self.value = nil }
             self.exists = dictionary["Exists"] as? Bool
         }
@@ -315,18 +344,18 @@ extension Dynamodb {
         /// The name of an index to query. This index can be any local secondary index or global secondary index on the table. Note that if you use the IndexName parameter, you must also provide TableName. 
         public let indexName: String?
         /// The attributes to be returned in the result. You can retrieve all item attributes, specific item attributes, the count of matching items, or in the case of an index, some or all of the attributes projected into the index.    ALL_ATTRIBUTES - Returns all of the item attributes from the specified table or index. If you query a local secondary index, then for each matching item in the index DynamoDB will fetch the entire item from the parent table. If the index is configured to project all item attributes, then all of the data can be obtained from the local secondary index, and no fetching is required.    ALL_PROJECTED_ATTRIBUTES - Allowed only when querying an index. Retrieves all attributes that have been projected into the index. If the index is configured to project all attributes, this return value is equivalent to specifying ALL_ATTRIBUTES.    COUNT - Returns the number of matching items, rather than the matching items themselves.    SPECIFIC_ATTRIBUTES - Returns only the attributes listed in AttributesToGet. This return value is equivalent to specifying AttributesToGet without specifying any value for Select. If you query or scan a local secondary index and request only attributes that are projected into that index, the operation will read only the index and not the table. If any of the requested attributes are not projected into the local secondary index, DynamoDB will fetch each of these attributes from the parent table. This extra fetching incurs additional throughput cost and latency. If you query or scan a global secondary index, you can only request attributes that are projected into the index. Global secondary index queries cannot fetch attributes from the parent table.   If neither Select nor AttributesToGet are specified, DynamoDB defaults to ALL_ATTRIBUTES when accessing a table, and ALL_PROJECTED_ATTRIBUTES when accessing an index. You cannot use both Select and AttributesToGet together in a single request, unless the value for Select is SPECIFIC_ATTRIBUTES. (This usage is equivalent to specifying AttributesToGet without any value for Select.)  If you use the ProjectionExpression parameter, then the value for Select can only be SPECIFIC_ATTRIBUTES. Any other value for Select will return an error. 
-        public let select: String?
+        public let select: Select?
         /// The primary key of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedKey in the previous operation. The data type for ExclusiveStartKey must be String, Number or Binary. No set data types are allowed.
         public let exclusiveStartKey: [String: AttributeValue]?
         /// This is a legacy parameter. Use ProjectionExpression instead. For more information, see AttributesToGet in the Amazon DynamoDB Developer Guide.
         public let attributesToGet: [String]?
         /// This is a legacy parameter. Use FilterExpression instead. For more information, see ConditionalOperator in the Amazon DynamoDB Developer Guide.
-        public let conditionalOperator: String?
+        public let conditionalOperator: ConditionalOperator?
         /// One or more values that can be substituted in an expression. Use the : (colon) character in an expression to dereference an attribute value. For example, suppose that you wanted to check whether the value of the ProductStatus attribute was one of the following:   Available | Backordered | Discontinued  You would first need to specify ExpressionAttributeValues as follows:  { ":avail":{"S":"Available"}, ":back":{"S":"Backordered"}, ":disc":{"S":"Discontinued"} }  You could then use these values in an expression, such as this:  ProductStatus IN (:avail, :back, :disc)  For more information on expression attribute values, see Specifying Conditions in the Amazon DynamoDB Developer Guide.
         public let expressionAttributeValues: [String: AttributeValue]?
         /// The name of the table containing the requested items.
         public let tableName: String
-        public let returnConsumedCapacity: String?
+        public let returnConsumedCapacity: ReturnConsumedCapacity?
         /// Specifies the order for index traversal: If true (default), the traversal is performed in ascending order; if false, the traversal is performed in descending order.  Items with the same partition key value are stored in sorted order by sort key. If the sort key data type is Number, the results are stored in numeric order. For type String, the results are stored in order of ASCII character code values. For type Binary, DynamoDB treats each byte of the binary data as unsigned. If ScanIndexForward is true, DynamoDB returns the results in the order in which they are stored (by sort key value). This is the default behavior. If ScanIndexForward is false, DynamoDB reads the results in reverse order by sort key value, and then returns the results to the client.
         public let scanIndexForward: Bool?
         /// A string that contains conditions that DynamoDB applies after the Query operation, but before the data is returned to you. Items that do not satisfy the FilterExpression criteria are not returned. A FilterExpression does not allow key attributes. You cannot define a filter expression based on a partition key or a sort key.  A FilterExpression is applied after the items have already been read; the process of filtering does not consume any additional read capacity units.  For more information, see Filter Expressions in the Amazon DynamoDB Developer Guide.
@@ -334,7 +363,7 @@ extension Dynamodb {
         /// The maximum number of items to evaluate (not necessarily the number of matching items). If DynamoDB processes the number of items up to the limit while processing the results, it stops the operation and returns the matching values up to that point, and a key in LastEvaluatedKey to apply in a subsequent operation, so that you can pick up where you left off. Also, if the processed data set size exceeds 1 MB before DynamoDB reaches this limit, it stops the operation and returns the matching values up to the limit, and a key in LastEvaluatedKey to apply in a subsequent operation to continue the operation. For more information, see Query and Scan in the Amazon DynamoDB Developer Guide.
         public let limit: Int32?
 
-        public init(consistentRead: Bool? = nil, expressionAttributeNames: [String: String]? = nil, projectionExpression: String? = nil, queryFilter: [String: Condition]? = nil, keyConditions: [String: Condition]? = nil, keyConditionExpression: String? = nil, indexName: String? = nil, select: String? = nil, exclusiveStartKey: [String: AttributeValue]? = nil, attributesToGet: [String]? = nil, conditionalOperator: String? = nil, expressionAttributeValues: [String: AttributeValue]? = nil, tableName: String, returnConsumedCapacity: String? = nil, scanIndexForward: Bool? = nil, filterExpression: String? = nil, limit: Int32? = nil) {
+        public init(consistentRead: Bool? = nil, expressionAttributeNames: [String: String]? = nil, projectionExpression: String? = nil, queryFilter: [String: Condition]? = nil, keyConditions: [String: Condition]? = nil, keyConditionExpression: String? = nil, indexName: String? = nil, select: Select? = nil, exclusiveStartKey: [String: AttributeValue]? = nil, attributesToGet: [String]? = nil, conditionalOperator: ConditionalOperator? = nil, expressionAttributeValues: [String: AttributeValue]? = nil, tableName: String, returnConsumedCapacity: ReturnConsumedCapacity? = nil, scanIndexForward: Bool? = nil, filterExpression: String? = nil, limit: Int32? = nil) {
             self.consistentRead = consistentRead
             self.expressionAttributeNames = expressionAttributeNames
             self.projectionExpression = projectionExpression
@@ -384,7 +413,7 @@ extension Dynamodb {
             }
             self.keyConditionExpression = dictionary["KeyConditionExpression"] as? String
             self.indexName = dictionary["IndexName"] as? String
-            self.select = dictionary["Select"] as? String
+            if let select = dictionary["Select"] as? String { self.select = Select(rawValue: select) } else { self.select = nil }
             if let exclusiveStartKey = dictionary["ExclusiveStartKey"] as? [String: Any] {
                 var exclusiveStartKeyDict: [String: AttributeValue] = [:]
                 for (key, value) in exclusiveStartKey {
@@ -396,7 +425,7 @@ extension Dynamodb {
                 self.exclusiveStartKey = nil
             }
             self.attributesToGet = dictionary["AttributesToGet"] as? [String]
-            self.conditionalOperator = dictionary["ConditionalOperator"] as? String
+            if let conditionalOperator = dictionary["ConditionalOperator"] as? String { self.conditionalOperator = ConditionalOperator(rawValue: conditionalOperator) } else { self.conditionalOperator = nil }
             if let expressionAttributeValues = dictionary["ExpressionAttributeValues"] as? [String: Any] {
                 var expressionAttributeValuesDict: [String: AttributeValue] = [:]
                 for (key, value) in expressionAttributeValues {
@@ -409,11 +438,17 @@ extension Dynamodb {
             }
             guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
             self.tableName = tableName
-            self.returnConsumedCapacity = dictionary["ReturnConsumedCapacity"] as? String
+            if let returnConsumedCapacity = dictionary["ReturnConsumedCapacity"] as? String { self.returnConsumedCapacity = ReturnConsumedCapacity(rawValue: returnConsumedCapacity) } else { self.returnConsumedCapacity = nil }
             self.scanIndexForward = dictionary["ScanIndexForward"] as? Bool
             self.filterExpression = dictionary["FilterExpression"] as? String
             self.limit = dictionary["Limit"] as? Int32
         }
+    }
+
+    public enum ConditionalOperator: String, CustomStringConvertible {
+        case and = "AND"
+        case or = "OR"
+        public var description: String { return self.rawValue }
     }
 
     public struct PutItemOutput: AWSShape {
@@ -484,9 +519,9 @@ extension Dynamodb {
         public let key: [String: AttributeValue]
         /// The name of the table containing the requested item.
         public let tableName: String
-        public let returnConsumedCapacity: String?
+        public let returnConsumedCapacity: ReturnConsumedCapacity?
 
-        public init(consistentRead: Bool? = nil, expressionAttributeNames: [String: String]? = nil, projectionExpression: String? = nil, attributesToGet: [String]? = nil, key: [String: AttributeValue], tableName: String, returnConsumedCapacity: String? = nil) {
+        public init(consistentRead: Bool? = nil, expressionAttributeNames: [String: String]? = nil, projectionExpression: String? = nil, attributesToGet: [String]? = nil, key: [String: AttributeValue], tableName: String, returnConsumedCapacity: ReturnConsumedCapacity? = nil) {
             self.consistentRead = consistentRead
             self.expressionAttributeNames = expressionAttributeNames
             self.projectionExpression = projectionExpression
@@ -514,7 +549,7 @@ extension Dynamodb {
             self.key = keyDict
             guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
             self.tableName = tableName
-            self.returnConsumedCapacity = dictionary["ReturnConsumedCapacity"] as? String
+            if let returnConsumedCapacity = dictionary["ReturnConsumedCapacity"] as? String { self.returnConsumedCapacity = ReturnConsumedCapacity(rawValue: returnConsumedCapacity) } else { self.returnConsumedCapacity = nil }
         }
     }
 
@@ -522,19 +557,26 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies how to perform the update. Valid values are PUT (default), DELETE, and ADD. The behavior depends on whether the specified primary key already exists in the table.  If an item with the specified Key is found in the table:     PUT - Adds the specified attribute to the item. If the attribute already exists, it is replaced by the new value.     DELETE - If no value is specified, the attribute and its value are removed from the item. The data type of the specified value must match the existing value's data type. If a set of values is specified, then those values are subtracted from the old set. For example, if the attribute value was the set [a,b,c] and the DELETE action specified [a,c], then the final attribute value would be [b]. Specifying an empty set is an error.    ADD - If the attribute does not already exist, then the attribute and its values are added to the item. If the attribute does exist, then the behavior of ADD depends on the data type of the attribute:   If the existing attribute is a number, and if Value is also a number, then the Value is mathematically added to the existing attribute. If Value is a negative number, then it is subtracted from the existing attribute.   If you use ADD to increment or decrement a number value for an item that doesn't exist before the update, DynamoDB uses 0 as the initial value. In addition, if you use ADD to update an existing item, and intend to increment or decrement an attribute value which does not yet exist, DynamoDB uses 0 as the initial value. For example, suppose that the item you want to update does not yet have an attribute named itemcount, but you decide to ADD the number 3 to this attribute anyway, even though it currently does not exist. DynamoDB will create the itemcount attribute, set its initial value to 0, and finally add 3 to it. The result will be a new itemcount attribute in the item, with a value of 3.    If the existing data type is a set, and if the Value is also a set, then the Value is added to the existing set. (This is a set operation, not mathematical addition.) For example, if the attribute value was the set [1,2], and the ADD action specified [3], then the final attribute value would be [1,2,3]. An error occurs if an Add action is specified for a set attribute and the attribute type specified does not match the existing set type.  Both sets must have the same primitive data type. For example, if the existing data type is a set of strings, the Value must also be a set of strings. The same holds true for number sets and binary sets.   This action is only valid for an existing attribute whose data type is number or is a set. Do not use ADD for any other data types.    If no item with the specified Key is found:     PUT - DynamoDB creates a new item with the specified primary key, and then adds the attribute.     DELETE - Nothing happens; there is no attribute to delete.    ADD - DynamoDB creates an item with the supplied primary key and number (or set of numbers) for the attribute value. The only data types allowed are number and number set; no other data types can be specified.  
-        public let action: String?
+        public let action: AttributeAction?
         /// Represents the data for an attribute. Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself. For more information, see Data TYpes in the Amazon DynamoDB Developer Guide. 
         public let value: AttributeValue?
 
-        public init(action: String? = nil, value: AttributeValue? = nil) {
+        public init(action: AttributeAction? = nil, value: AttributeValue? = nil) {
             self.action = action
             self.value = value
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.action = dictionary["Action"] as? String
+            if let action = dictionary["Action"] as? String { self.action = AttributeAction(rawValue: action) } else { self.action = nil }
             if let value = dictionary["Value"] as? [String: Any] { self.value = try Dynamodb.AttributeValue(dictionary: value) } else { self.value = nil }
         }
+    }
+
+    public enum ProjectionType: String, CustomStringConvertible {
+        case all = "ALL"
+        case keys_only = "KEYS_ONLY"
+        case include = "INCLUDE"
+        public var description: String { return self.rawValue }
     }
 
     public struct WriteRequest: AWSShape {
@@ -610,6 +652,14 @@ extension Dynamodb {
             self.resourceArn = resourceArn
             self.nextToken = dictionary["NextToken"] as? String
         }
+    }
+
+    public enum IndexStatus: String, CustomStringConvertible {
+        case creating = "CREATING"
+        case updating = "UPDATING"
+        case deleting = "DELETING"
+        case active = "ACTIVE"
+        public var description: String { return self.rawValue }
     }
 
     public struct DeleteTableInput: AWSShape {
@@ -711,6 +761,12 @@ extension Dynamodb {
         }
     }
 
+    public enum ReturnItemCollectionMetrics: String, CustomStringConvertible {
+        case size = "SIZE"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct PutRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -806,17 +862,17 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The Time to Live status for the table.
-        public let timeToLiveStatus: String?
+        public let timeToLiveStatus: TimeToLiveStatus?
         ///  The name of the Time to Live attribute for items in the table.
         public let attributeName: String?
 
-        public init(timeToLiveStatus: String? = nil, attributeName: String? = nil) {
+        public init(timeToLiveStatus: TimeToLiveStatus? = nil, attributeName: String? = nil) {
             self.timeToLiveStatus = timeToLiveStatus
             self.attributeName = attributeName
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.timeToLiveStatus = dictionary["TimeToLiveStatus"] as? String
+            if let timeToLiveStatus = dictionary["TimeToLiveStatus"] as? String { self.timeToLiveStatus = TimeToLiveStatus(rawValue: timeToLiveStatus) } else { self.timeToLiveStatus = nil }
             self.attributeName = dictionary["AttributeName"] as? String
         }
     }
@@ -824,17 +880,17 @@ extension Dynamodb {
     public struct BatchGetItemInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let returnConsumedCapacity: String?
+        public let returnConsumedCapacity: ReturnConsumedCapacity?
         /// A map of one or more table names and, for each table, a map that describes one or more items to retrieve from that table. Each table name can be used only once per BatchGetItem request. Each element in the map of items to retrieve consists of the following:    ConsistentRead - If true, a strongly consistent read is used; if false (the default), an eventually consistent read is used.    ExpressionAttributeNames - One or more substitution tokens for attribute names in the ProjectionExpression parameter. The following are some use cases for using ExpressionAttributeNames:   To access an attribute whose name conflicts with a DynamoDB reserved word.   To create a placeholder for repeating occurrences of an attribute name in an expression.   To prevent special characters in an attribute name from being misinterpreted in an expression.   Use the # character in an expression to dereference an attribute name. For example, consider the following attribute name:    Percentile    The name of this attribute conflicts with a reserved word, so it cannot be used directly in an expression. (For the complete list of reserved words, see Reserved Words in the Amazon DynamoDB Developer Guide). To work around this, you could specify the following for ExpressionAttributeNames:    {"#P":"Percentile"}    You could then use this substitution in an expression, as in this example:    #P = :val     Tokens that begin with the : character are expression attribute values, which are placeholders for the actual value at runtime.  For more information on expression attribute names, see Accessing Item Attributes in the Amazon DynamoDB Developer Guide.    Keys - An array of primary key attribute values that define specific items in the table. For each primary key, you must provide all of the key attributes. For example, with a simple primary key, you only need to provide the partition key value. For a composite key, you must provide both the partition key value and the sort key value.    ProjectionExpression - A string that identifies one or more attributes to retrieve from the table. These attributes can include scalars, sets, or elements of a JSON document. The attributes in the expression must be separated by commas. If no attribute names are specified, then all attributes will be returned. If any of the requested attributes are not found, they will not appear in the result. For more information, see Accessing Item Attributes in the Amazon DynamoDB Developer Guide.    AttributesToGet - This is a legacy parameter. Use ProjectionExpression instead. For more information, see AttributesToGet in the Amazon DynamoDB Developer Guide.   
         public let requestItems: [String: KeysAndAttributes]
 
-        public init(returnConsumedCapacity: String? = nil, requestItems: [String: KeysAndAttributes]) {
+        public init(returnConsumedCapacity: ReturnConsumedCapacity? = nil, requestItems: [String: KeysAndAttributes]) {
             self.returnConsumedCapacity = returnConsumedCapacity
             self.requestItems = requestItems
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.returnConsumedCapacity = dictionary["ReturnConsumedCapacity"] as? String
+            if let returnConsumedCapacity = dictionary["ReturnConsumedCapacity"] as? String { self.returnConsumedCapacity = ReturnConsumedCapacity(rawValue: returnConsumedCapacity) } else { self.returnConsumedCapacity = nil }
             guard let requestItems = dictionary["RequestItems"] as? [String: Any] else { throw InitializableError.missingRequiredParam("RequestItems") }
             var requestItemsDict: [String: KeysAndAttributes] = [:]
             for (key, value) in requestItems {
@@ -873,11 +929,11 @@ extension Dynamodb {
         /// The name of the table.
         public let tableName: String?
         /// The current state of the table:    CREATING - The table is being created.    UPDATING - The table is being updated.    DELETING - The table is being deleted.    ACTIVE - The table is ready for use.  
-        public let tableStatus: String?
+        public let tableStatus: TableStatus?
         /// A timestamp, in ISO 8601 format, for this stream. Note that LatestStreamLabel is not a unique identifier for the stream, because it is possible that a stream from another table might have the same timestamp. However, the combination of the following three elements is guaranteed to be unique:   the AWS customer ID.   the table name.   the StreamLabel.  
         public let latestStreamLabel: String?
 
-        public init(latestStreamArn: String? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, keySchema: [KeySchemaElement]? = nil, tableArn: String? = nil, itemCount: Int64? = nil, streamSpecification: StreamSpecification? = nil, attributeDefinitions: [AttributeDefinition]? = nil, creationDateTime: Date? = nil, localSecondaryIndexes: [LocalSecondaryIndexDescription]? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexDescription]? = nil, tableSizeBytes: Int64? = nil, tableName: String? = nil, tableStatus: String? = nil, latestStreamLabel: String? = nil) {
+        public init(latestStreamArn: String? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, keySchema: [KeySchemaElement]? = nil, tableArn: String? = nil, itemCount: Int64? = nil, streamSpecification: StreamSpecification? = nil, attributeDefinitions: [AttributeDefinition]? = nil, creationDateTime: Date? = nil, localSecondaryIndexes: [LocalSecondaryIndexDescription]? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexDescription]? = nil, tableSizeBytes: Int64? = nil, tableName: String? = nil, tableStatus: TableStatus? = nil, latestStreamLabel: String? = nil) {
             self.latestStreamArn = latestStreamArn
             self.provisionedThroughput = provisionedThroughput
             self.keySchema = keySchema
@@ -923,9 +979,18 @@ extension Dynamodb {
             }
             self.tableSizeBytes = dictionary["TableSizeBytes"] as? Int64
             self.tableName = dictionary["TableName"] as? String
-            self.tableStatus = dictionary["TableStatus"] as? String
+            if let tableStatus = dictionary["TableStatus"] as? String { self.tableStatus = TableStatus(rawValue: tableStatus) } else { self.tableStatus = nil }
             self.latestStreamLabel = dictionary["LatestStreamLabel"] as? String
         }
+    }
+
+    public enum ReturnValue: String, CustomStringConvertible {
+        case none = "NONE"
+        case all_old = "ALL_OLD"
+        case updated_old = "UPDATED_OLD"
+        case all_new = "ALL_NEW"
+        case updated_new = "UPDATED_NEW"
+        public var description: String { return self.rawValue }
     }
 
     public struct QueryOutput: AWSShape {
@@ -1044,17 +1109,17 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         ///  When an item in the table is modified, StreamViewType determines what information is written to the stream for this table. Valid values for StreamViewType are:    KEYS_ONLY - Only the key attributes of the modified item are written to the stream.    NEW_IMAGE - The entire item, as it appears after it was modified, is written to the stream.    OLD_IMAGE - The entire item, as it appeared before it was modified, is written to the stream.    NEW_AND_OLD_IMAGES - Both the new and the old item images of the item are written to the stream.  
-        public let streamViewType: String?
+        public let streamViewType: StreamViewType?
         /// Indicates whether DynamoDB Streams is enabled (true) or disabled (false) on the table.
         public let streamEnabled: Bool?
 
-        public init(streamViewType: String? = nil, streamEnabled: Bool? = nil) {
+        public init(streamViewType: StreamViewType? = nil, streamEnabled: Bool? = nil) {
             self.streamViewType = streamViewType
             self.streamEnabled = streamEnabled
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.streamViewType = dictionary["StreamViewType"] as? String
+            if let streamViewType = dictionary["StreamViewType"] as? String { self.streamViewType = StreamViewType(rawValue: streamViewType) } else { self.streamViewType = nil }
             self.streamEnabled = dictionary["StreamEnabled"] as? Bool
         }
     }
@@ -1091,22 +1156,22 @@ extension Dynamodb {
         /// A condition that must be satisfied in order for a conditional DeleteItem to succeed. An expression can contain any of the following:   Functions: attribute_exists | attribute_not_exists | attribute_type | contains | begins_with | size  These function names are case-sensitive.   Comparison operators: = | &lt;&gt; | &lt; | &gt; | &lt;= | &gt;= | BETWEEN | IN      Logical operators: AND | OR | NOT    For more information on condition expressions, see Specifying Conditions in the Amazon DynamoDB Developer Guide.
         public let conditionExpression: String?
         /// This is a legacy parameter. Use ConditionExpression instead. For more information, see ConditionalOperator in the Amazon DynamoDB Developer Guide.
-        public let conditionalOperator: String?
+        public let conditionalOperator: ConditionalOperator?
         /// Determines whether item collection metrics are returned. If set to SIZE, the response includes statistics about item collections, if any, that were modified during the operation are returned in the response. If set to NONE (the default), no statistics are returned.
-        public let returnItemCollectionMetrics: String?
+        public let returnItemCollectionMetrics: ReturnItemCollectionMetrics?
         /// Use ReturnValues if you want to get the item attributes as they appeared before they were deleted. For DeleteItem, the valid values are:    NONE - If ReturnValues is not specified, or if its value is NONE, then nothing is returned. (This setting is the default for ReturnValues.)    ALL_OLD - The content of the old item is returned.    The ReturnValues parameter is used by several DynamoDB operations; however, DeleteItem does not recognize any values other than NONE or ALL_OLD. 
-        public let returnValues: String?
+        public let returnValues: ReturnValue?
         /// A map of attribute names to AttributeValue objects, representing the primary key of the item to delete. For the primary key, you must provide all of the attributes. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide values for both the partition key and the sort key.
         public let key: [String: AttributeValue]
         /// The name of the table from which to delete the item.
         public let tableName: String
-        public let returnConsumedCapacity: String?
+        public let returnConsumedCapacity: ReturnConsumedCapacity?
         /// This is a legacy parameter. Use ConditionExpresssion instead. For more information, see Expected in the Amazon DynamoDB Developer Guide.
         public let expected: [String: ExpectedAttributeValue]?
         /// One or more values that can be substituted in an expression. Use the : (colon) character in an expression to dereference an attribute value. For example, suppose that you wanted to check whether the value of the ProductStatus attribute was one of the following:   Available | Backordered | Discontinued  You would first need to specify ExpressionAttributeValues as follows:  { ":avail":{"S":"Available"}, ":back":{"S":"Backordered"}, ":disc":{"S":"Discontinued"} }  You could then use these values in an expression, such as this:  ProductStatus IN (:avail, :back, :disc)  For more information on expression attribute values, see Specifying Conditions in the Amazon DynamoDB Developer Guide.
         public let expressionAttributeValues: [String: AttributeValue]?
 
-        public init(expressionAttributeNames: [String: String]? = nil, conditionExpression: String? = nil, conditionalOperator: String? = nil, returnItemCollectionMetrics: String? = nil, returnValues: String? = nil, key: [String: AttributeValue], tableName: String, returnConsumedCapacity: String? = nil, expected: [String: ExpectedAttributeValue]? = nil, expressionAttributeValues: [String: AttributeValue]? = nil) {
+        public init(expressionAttributeNames: [String: String]? = nil, conditionExpression: String? = nil, conditionalOperator: ConditionalOperator? = nil, returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil, returnValues: ReturnValue? = nil, key: [String: AttributeValue], tableName: String, returnConsumedCapacity: ReturnConsumedCapacity? = nil, expected: [String: ExpectedAttributeValue]? = nil, expressionAttributeValues: [String: AttributeValue]? = nil) {
             self.expressionAttributeNames = expressionAttributeNames
             self.conditionExpression = conditionExpression
             self.conditionalOperator = conditionalOperator
@@ -1126,9 +1191,9 @@ extension Dynamodb {
                 self.expressionAttributeNames = nil
             }
             self.conditionExpression = dictionary["ConditionExpression"] as? String
-            self.conditionalOperator = dictionary["ConditionalOperator"] as? String
-            self.returnItemCollectionMetrics = dictionary["ReturnItemCollectionMetrics"] as? String
-            self.returnValues = dictionary["ReturnValues"] as? String
+            if let conditionalOperator = dictionary["ConditionalOperator"] as? String { self.conditionalOperator = ConditionalOperator(rawValue: conditionalOperator) } else { self.conditionalOperator = nil }
+            if let returnItemCollectionMetrics = dictionary["ReturnItemCollectionMetrics"] as? String { self.returnItemCollectionMetrics = ReturnItemCollectionMetrics(rawValue: returnItemCollectionMetrics) } else { self.returnItemCollectionMetrics = nil }
+            if let returnValues = dictionary["ReturnValues"] as? String { self.returnValues = ReturnValue(rawValue: returnValues) } else { self.returnValues = nil }
             guard let key = dictionary["Key"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Key") }
             var keyDict: [String: AttributeValue] = [:]
             for (key, value) in key {
@@ -1138,7 +1203,7 @@ extension Dynamodb {
             self.key = keyDict
             guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
             self.tableName = tableName
-            self.returnConsumedCapacity = dictionary["ReturnConsumedCapacity"] as? String
+            if let returnConsumedCapacity = dictionary["ReturnConsumedCapacity"] as? String { self.returnConsumedCapacity = ReturnConsumedCapacity(rawValue: returnConsumedCapacity) } else { self.returnConsumedCapacity = nil }
             if let expected = dictionary["Expected"] as? [String: Any] {
                 var expectedDict: [String: ExpectedAttributeValue] = [:]
                 for (key, value) in expected {
@@ -1160,6 +1225,13 @@ extension Dynamodb {
                 self.expressionAttributeValues = nil
             }
         }
+    }
+
+    public enum ScalarAttributeType: String, CustomStringConvertible {
+        case s = "S"
+        case n = "N"
+        case b = "B"
+        public var description: String { return self.rawValue }
     }
 
     public struct DescribeTableOutput: AWSShape {
@@ -1198,6 +1270,14 @@ extension Dynamodb {
         }
     }
 
+    public enum TableStatus: String, CustomStringConvertible {
+        case creating = "CREATING"
+        case updating = "UPDATING"
+        case deleting = "DELETING"
+        case active = "ACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ScanInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1214,7 +1294,7 @@ extension Dynamodb {
         /// The name of a secondary index to scan. This index can be any local secondary index or global secondary index. Note that if you use the IndexName parameter, you must also provide TableName.
         public let indexName: String?
         /// The attributes to be returned in the result. You can retrieve all item attributes, specific item attributes, the count of matching items, or in the case of an index, some or all of the attributes projected into the index.    ALL_ATTRIBUTES - Returns all of the item attributes from the specified table or index. If you query a local secondary index, then for each matching item in the index DynamoDB will fetch the entire item from the parent table. If the index is configured to project all item attributes, then all of the data can be obtained from the local secondary index, and no fetching is required.    ALL_PROJECTED_ATTRIBUTES - Allowed only when querying an index. Retrieves all attributes that have been projected into the index. If the index is configured to project all attributes, this return value is equivalent to specifying ALL_ATTRIBUTES.    COUNT - Returns the number of matching items, rather than the matching items themselves.    SPECIFIC_ATTRIBUTES - Returns only the attributes listed in AttributesToGet. This return value is equivalent to specifying AttributesToGet without specifying any value for Select. If you query or scan a local secondary index and request only attributes that are projected into that index, the operation will read only the index and not the table. If any of the requested attributes are not projected into the local secondary index, DynamoDB will fetch each of these attributes from the parent table. This extra fetching incurs additional throughput cost and latency. If you query or scan a global secondary index, you can only request attributes that are projected into the index. Global secondary index queries cannot fetch attributes from the parent table.   If neither Select nor AttributesToGet are specified, DynamoDB defaults to ALL_ATTRIBUTES when accessing a table, and ALL_PROJECTED_ATTRIBUTES when accessing an index. You cannot use both Select and AttributesToGet together in a single request, unless the value for Select is SPECIFIC_ATTRIBUTES. (This usage is equivalent to specifying AttributesToGet without any value for Select.)  If you use the ProjectionExpression parameter, then the value for Select can only be SPECIFIC_ATTRIBUTES. Any other value for Select will return an error. 
-        public let select: String?
+        public let select: Select?
         /// The primary key of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedKey in the previous operation. The data type for ExclusiveStartKey must be String, Number or Binary. No set data types are allowed. In a parallel scan, a Scan request that includes ExclusiveStartKey must specify the same segment whose previous Scan returned the corresponding value of LastEvaluatedKey.
         public let exclusiveStartKey: [String: AttributeValue]?
         /// For a parallel Scan request, Segment identifies an individual segment to be scanned by an application worker. Segment IDs are zero-based, so the first segment is always 0. For example, if you want to use four application threads to scan a table or an index, then the first thread specifies a Segment value of 0, the second thread specifies 1, and so on. The value of LastEvaluatedKey returned from a parallel Scan request must be used as ExclusiveStartKey with the same segment ID in a subsequent Scan operation. The value for Segment must be greater than or equal to 0, and less than the value provided for TotalSegments. If you provide Segment, you must also provide TotalSegments.
@@ -1224,16 +1304,16 @@ extension Dynamodb {
         /// One or more values that can be substituted in an expression. Use the : (colon) character in an expression to dereference an attribute value. For example, suppose that you wanted to check whether the value of the ProductStatus attribute was one of the following:   Available | Backordered | Discontinued  You would first need to specify ExpressionAttributeValues as follows:  { ":avail":{"S":"Available"}, ":back":{"S":"Backordered"}, ":disc":{"S":"Discontinued"} }  You could then use these values in an expression, such as this:  ProductStatus IN (:avail, :back, :disc)  For more information on expression attribute values, see Specifying Conditions in the Amazon DynamoDB Developer Guide.
         public let expressionAttributeValues: [String: AttributeValue]?
         /// This is a legacy parameter. Use FilterExpression instead. For more information, see ConditionalOperator in the Amazon DynamoDB Developer Guide.
-        public let conditionalOperator: String?
+        public let conditionalOperator: ConditionalOperator?
         /// The name of the table containing the requested items; or, if you provide IndexName, the name of the table to which that index belongs.
         public let tableName: String
-        public let returnConsumedCapacity: String?
+        public let returnConsumedCapacity: ReturnConsumedCapacity?
         /// A string that contains conditions that DynamoDB applies after the Scan operation, but before the data is returned to you. Items that do not satisfy the FilterExpression criteria are not returned.  A FilterExpression is applied after the items have already been read; the process of filtering does not consume any additional read capacity units.  For more information, see Filter Expressions in the Amazon DynamoDB Developer Guide.
         public let filterExpression: String?
         /// The maximum number of items to evaluate (not necessarily the number of matching items). If DynamoDB processes the number of items up to the limit while processing the results, it stops the operation and returns the matching values up to that point, and a key in LastEvaluatedKey to apply in a subsequent operation, so that you can pick up where you left off. Also, if the processed data set size exceeds 1 MB before DynamoDB reaches this limit, it stops the operation and returns the matching values up to the limit, and a key in LastEvaluatedKey to apply in a subsequent operation to continue the operation. For more information, see Query and Scan in the Amazon DynamoDB Developer Guide.
         public let limit: Int32?
 
-        public init(consistentRead: Bool? = nil, expressionAttributeNames: [String: String]? = nil, projectionExpression: String? = nil, scanFilter: [String: Condition]? = nil, totalSegments: Int32? = nil, indexName: String? = nil, select: String? = nil, exclusiveStartKey: [String: AttributeValue]? = nil, segment: Int32? = nil, attributesToGet: [String]? = nil, expressionAttributeValues: [String: AttributeValue]? = nil, conditionalOperator: String? = nil, tableName: String, returnConsumedCapacity: String? = nil, filterExpression: String? = nil, limit: Int32? = nil) {
+        public init(consistentRead: Bool? = nil, expressionAttributeNames: [String: String]? = nil, projectionExpression: String? = nil, scanFilter: [String: Condition]? = nil, totalSegments: Int32? = nil, indexName: String? = nil, select: Select? = nil, exclusiveStartKey: [String: AttributeValue]? = nil, segment: Int32? = nil, attributesToGet: [String]? = nil, expressionAttributeValues: [String: AttributeValue]? = nil, conditionalOperator: ConditionalOperator? = nil, tableName: String, returnConsumedCapacity: ReturnConsumedCapacity? = nil, filterExpression: String? = nil, limit: Int32? = nil) {
             self.consistentRead = consistentRead
             self.expressionAttributeNames = expressionAttributeNames
             self.projectionExpression = projectionExpression
@@ -1272,7 +1352,7 @@ extension Dynamodb {
             }
             self.totalSegments = dictionary["TotalSegments"] as? Int32
             self.indexName = dictionary["IndexName"] as? String
-            self.select = dictionary["Select"] as? String
+            if let select = dictionary["Select"] as? String { self.select = Select(rawValue: select) } else { self.select = nil }
             if let exclusiveStartKey = dictionary["ExclusiveStartKey"] as? [String: Any] {
                 var exclusiveStartKeyDict: [String: AttributeValue] = [:]
                 for (key, value) in exclusiveStartKey {
@@ -1295,10 +1375,10 @@ extension Dynamodb {
             } else { 
                 self.expressionAttributeValues = nil
             }
-            self.conditionalOperator = dictionary["ConditionalOperator"] as? String
+            if let conditionalOperator = dictionary["ConditionalOperator"] as? String { self.conditionalOperator = ConditionalOperator(rawValue: conditionalOperator) } else { self.conditionalOperator = nil }
             guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
             self.tableName = tableName
-            self.returnConsumedCapacity = dictionary["ReturnConsumedCapacity"] as? String
+            if let returnConsumedCapacity = dictionary["ReturnConsumedCapacity"] as? String { self.returnConsumedCapacity = ReturnConsumedCapacity(rawValue: returnConsumedCapacity) } else { self.returnConsumedCapacity = nil }
             self.filterExpression = dictionary["FilterExpression"] as? String
             self.limit = dictionary["Limit"] as? Int32
         }
@@ -1405,22 +1485,22 @@ extension Dynamodb {
         /// A condition that must be satisfied in order for a conditional PutItem operation to succeed. An expression can contain any of the following:   Functions: attribute_exists | attribute_not_exists | attribute_type | contains | begins_with | size  These function names are case-sensitive.   Comparison operators: = | &lt;&gt; | &lt; | &gt; | &lt;= | &gt;= | BETWEEN | IN      Logical operators: AND | OR | NOT    For more information on condition expressions, see Specifying Conditions in the Amazon DynamoDB Developer Guide.
         public let conditionExpression: String?
         /// This is a legacy parameter. Use ConditionExpression instead. For more information, see ConditionalOperator in the Amazon DynamoDB Developer Guide.
-        public let conditionalOperator: String?
+        public let conditionalOperator: ConditionalOperator?
         /// Determines whether item collection metrics are returned. If set to SIZE, the response includes statistics about item collections, if any, that were modified during the operation are returned in the response. If set to NONE (the default), no statistics are returned.
-        public let returnItemCollectionMetrics: String?
+        public let returnItemCollectionMetrics: ReturnItemCollectionMetrics?
         /// Use ReturnValues if you want to get the item attributes as they appeared before they were updated with the PutItem request. For PutItem, the valid values are:    NONE - If ReturnValues is not specified, or if its value is NONE, then nothing is returned. (This setting is the default for ReturnValues.)    ALL_OLD - If PutItem overwrote an attribute name-value pair, then the content of the old item is returned.    The ReturnValues parameter is used by several DynamoDB operations; however, PutItem does not recognize any values other than NONE or ALL_OLD. 
-        public let returnValues: String?
+        public let returnValues: ReturnValue?
         /// A map of attribute name/value pairs, one for each attribute. Only the primary key attributes are required; you can optionally provide other attribute name-value pairs for the item. You must provide all of the attributes for the primary key. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide both values for both the partition key and the sort key. If you specify any attributes that are part of an index key, then the data types for those attributes must match those of the schema in the table's attribute definition. For more information about primary keys, see Primary Key in the Amazon DynamoDB Developer Guide. Each element in the Item map is an AttributeValue object.
         public let item: [String: AttributeValue]
         /// The name of the table to contain the item.
         public let tableName: String
-        public let returnConsumedCapacity: String?
+        public let returnConsumedCapacity: ReturnConsumedCapacity?
         /// This is a legacy parameter. Use ConditionExpresssion instead. For more information, see Expected in the Amazon DynamoDB Developer Guide.
         public let expected: [String: ExpectedAttributeValue]?
         /// One or more values that can be substituted in an expression. Use the : (colon) character in an expression to dereference an attribute value. For example, suppose that you wanted to check whether the value of the ProductStatus attribute was one of the following:   Available | Backordered | Discontinued  You would first need to specify ExpressionAttributeValues as follows:  { ":avail":{"S":"Available"}, ":back":{"S":"Backordered"}, ":disc":{"S":"Discontinued"} }  You could then use these values in an expression, such as this:  ProductStatus IN (:avail, :back, :disc)  For more information on expression attribute values, see Specifying Conditions in the Amazon DynamoDB Developer Guide.
         public let expressionAttributeValues: [String: AttributeValue]?
 
-        public init(expressionAttributeNames: [String: String]? = nil, conditionExpression: String? = nil, conditionalOperator: String? = nil, returnItemCollectionMetrics: String? = nil, returnValues: String? = nil, item: [String: AttributeValue], tableName: String, returnConsumedCapacity: String? = nil, expected: [String: ExpectedAttributeValue]? = nil, expressionAttributeValues: [String: AttributeValue]? = nil) {
+        public init(expressionAttributeNames: [String: String]? = nil, conditionExpression: String? = nil, conditionalOperator: ConditionalOperator? = nil, returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil, returnValues: ReturnValue? = nil, item: [String: AttributeValue], tableName: String, returnConsumedCapacity: ReturnConsumedCapacity? = nil, expected: [String: ExpectedAttributeValue]? = nil, expressionAttributeValues: [String: AttributeValue]? = nil) {
             self.expressionAttributeNames = expressionAttributeNames
             self.conditionExpression = conditionExpression
             self.conditionalOperator = conditionalOperator
@@ -1440,9 +1520,9 @@ extension Dynamodb {
                 self.expressionAttributeNames = nil
             }
             self.conditionExpression = dictionary["ConditionExpression"] as? String
-            self.conditionalOperator = dictionary["ConditionalOperator"] as? String
-            self.returnItemCollectionMetrics = dictionary["ReturnItemCollectionMetrics"] as? String
-            self.returnValues = dictionary["ReturnValues"] as? String
+            if let conditionalOperator = dictionary["ConditionalOperator"] as? String { self.conditionalOperator = ConditionalOperator(rawValue: conditionalOperator) } else { self.conditionalOperator = nil }
+            if let returnItemCollectionMetrics = dictionary["ReturnItemCollectionMetrics"] as? String { self.returnItemCollectionMetrics = ReturnItemCollectionMetrics(rawValue: returnItemCollectionMetrics) } else { self.returnItemCollectionMetrics = nil }
+            if let returnValues = dictionary["ReturnValues"] as? String { self.returnValues = ReturnValue(rawValue: returnValues) } else { self.returnValues = nil }
             guard let item = dictionary["Item"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Item") }
             var itemDict: [String: AttributeValue] = [:]
             for (key, value) in item {
@@ -1452,7 +1532,7 @@ extension Dynamodb {
             self.item = itemDict
             guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
             self.tableName = tableName
-            self.returnConsumedCapacity = dictionary["ReturnConsumedCapacity"] as? String
+            if let returnConsumedCapacity = dictionary["ReturnConsumedCapacity"] as? String { self.returnConsumedCapacity = ReturnConsumedCapacity(rawValue: returnConsumedCapacity) } else { self.returnConsumedCapacity = nil }
             if let expected = dictionary["Expected"] as? [String: Any] {
                 var expectedDict: [String: ExpectedAttributeValue] = [:]
                 for (key, value) in expected {
@@ -1480,17 +1560,17 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         /// A comparator for evaluating attributes. For example, equals, greater than, less than, etc. The following comparison operators are available:  EQ | NE | LE | LT | GE | GT | NOT_NULL | NULL | CONTAINS | NOT_CONTAINS | BEGINS_WITH | IN | BETWEEN  The following are descriptions of each comparison operator.    EQ : Equal. EQ is supported for all data types, including lists and maps.  AttributeValueList can contain only one AttributeValue element of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not equal {"NS":["6", "2", "1"]}.     NE : Not equal. NE is supported for all data types, including lists and maps.  AttributeValueList can contain only one AttributeValue of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not equal {"NS":["6", "2", "1"]}.     LE : Less than or equal.   AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}.     LT : Less than.   AttributeValueList can contain only one AttributeValue of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}.     GE : Greater than or equal.   AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}.     GT : Greater than.   AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}.     NOT_NULL : The attribute exists. NOT_NULL is supported for all data types, including lists and maps.  This operator tests for the existence of an attribute, not its data type. If the data type of attribute "a" is null, and you evaluate it using NOT_NULL, the result is a Boolean true. This result is because the attribute "a" exists; its data type is not relevant to the NOT_NULL comparison operator.     NULL : The attribute does not exist. NULL is supported for all data types, including lists and maps.  This operator tests for the nonexistence of an attribute, not its data type. If the data type of attribute "a" is null, and you evaluate it using NULL, the result is a Boolean false. This is because the attribute "a" exists; its data type is not relevant to the NULL comparison operator.     CONTAINS : Checks for a subsequence, or value in a set.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is of type String, then the operator checks for a substring match. If the target attribute of the comparison is of type Binary, then the operator looks for a subsequence of the target that matches the input. If the target attribute of the comparison is a set ("SS", "NS", or "BS"), then the operator evaluates to true if it finds an exact match with any member of the set. CONTAINS is supported for lists: When evaluating "a CONTAINS b", "a" can be a list; however, "b" cannot be a set, a map, or a list.    NOT_CONTAINS : Checks for absence of a subsequence, or absence of a value in a set.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is a String, then the operator checks for the absence of a substring match. If the target attribute of the comparison is Binary, then the operator checks for the absence of a subsequence of the target that matches the input. If the target attribute of the comparison is a set ("SS", "NS", or "BS"), then the operator evaluates to true if it does not find an exact match with any member of the set. NOT_CONTAINS is supported for lists: When evaluating "a NOT CONTAINS b", "a" can be a list; however, "b" cannot be a set, a map, or a list.    BEGINS_WITH : Checks for a prefix.   AttributeValueList can contain only one AttributeValue of type String or Binary (not a Number or a set type). The target attribute of the comparison must be of type String or Binary (not a Number or a set type).     IN : Checks for matching elements in a list.  AttributeValueList can contain one or more AttributeValue elements of type String, Number, or Binary. These attributes are compared against an existing attribute of an item. If any elements of the input are equal to the item attribute, the expression evaluates to true.    BETWEEN : Greater than or equal to the first value, and less than or equal to the second value.   AttributeValueList must contain two AttributeValue elements of the same type, either String, Number, or Binary (not a set type). A target attribute matches if the target value is greater than, or equal to, the first element and less than, or equal to, the second element. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not compare to {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}    For usage examples of AttributeValueList and ComparisonOperator, see Legacy Conditional Parameters in the Amazon DynamoDB Developer Guide.
-        public let comparisonOperator: String
+        public let comparisonOperator: ComparisonOperator
         /// One or more values to evaluate against the supplied attribute. The number of values in the list depends on the ComparisonOperator being used. For type Number, value comparisons are numeric. String value comparisons for greater than, equals, or less than are based on ASCII character code values. For example, a is greater than A, and a is greater than B. For a list of code values, see http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters. For Binary, DynamoDB treats each byte of the binary data as unsigned when it compares binary values.
         public let attributeValueList: [AttributeValue]?
 
-        public init(comparisonOperator: String, attributeValueList: [AttributeValue]? = nil) {
+        public init(comparisonOperator: ComparisonOperator, attributeValueList: [AttributeValue]? = nil) {
             self.comparisonOperator = comparisonOperator
             self.attributeValueList = attributeValueList
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let comparisonOperator = dictionary["ComparisonOperator"] as? String else { throw InitializableError.missingRequiredParam("ComparisonOperator") }
+            guard let rawComparisonOperator = dictionary["ComparisonOperator"] as? String, let comparisonOperator = ComparisonOperator(rawValue: rawComparisonOperator) else { throw InitializableError.missingRequiredParam("ComparisonOperator") }
             self.comparisonOperator = comparisonOperator
             if let attributeValueList = dictionary["AttributeValueList"] as? [[String: Any]] {
                 self.attributeValueList = try attributeValueList.map({ try AttributeValue(dictionary: $0) })
@@ -1518,11 +1598,11 @@ extension Dynamodb {
         /// The total size of the specified index, in bytes. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
         public let indexSizeBytes: Int64?
         /// The current state of the global secondary index:    CREATING - The index is being created.    UPDATING - The index is being updated.    DELETING - The index is being deleted.    ACTIVE - The index is ready for use.  
-        public let indexStatus: String?
+        public let indexStatus: IndexStatus?
         /// Indicates whether the index is currently backfilling. Backfilling is the process of reading items from the table and determining whether they can be added to the index. (Not all items will qualify: For example, a partition key cannot have any duplicate values.) If an item can be added to the index, DynamoDB will do so. After all items have been processed, the backfilling operation is complete and Backfilling is false.  For indexes that were created during a CreateTable operation, the Backfilling attribute does not appear in the DescribeTable output. 
         public let backfilling: Bool?
 
-        public init(indexName: String? = nil, keySchema: [KeySchemaElement]? = nil, indexArn: String? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, itemCount: Int64? = nil, projection: Projection? = nil, indexSizeBytes: Int64? = nil, indexStatus: String? = nil, backfilling: Bool? = nil) {
+        public init(indexName: String? = nil, keySchema: [KeySchemaElement]? = nil, indexArn: String? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, itemCount: Int64? = nil, projection: Projection? = nil, indexSizeBytes: Int64? = nil, indexStatus: IndexStatus? = nil, backfilling: Bool? = nil) {
             self.indexName = indexName
             self.keySchema = keySchema
             self.indexArn = indexArn
@@ -1546,7 +1626,7 @@ extension Dynamodb {
             self.itemCount = dictionary["ItemCount"] as? Int64
             if let projection = dictionary["Projection"] as? [String: Any] { self.projection = try Dynamodb.Projection(dictionary: projection) } else { self.projection = nil }
             self.indexSizeBytes = dictionary["IndexSizeBytes"] as? Int64
-            self.indexStatus = dictionary["IndexStatus"] as? String
+            if let indexStatus = dictionary["IndexStatus"] as? String { self.indexStatus = IndexStatus(rawValue: indexStatus) } else { self.indexStatus = nil }
             self.backfilling = dictionary["Backfilling"] as? Bool
         }
     }
@@ -1663,24 +1743,39 @@ extension Dynamodb {
         }
     }
 
+    public enum ReturnConsumedCapacity: String, CustomStringConvertible {
+        case indexes = "INDEXES"
+        case total = "TOTAL"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StreamViewType: String, CustomStringConvertible {
+        case new_image = "NEW_IMAGE"
+        case old_image = "OLD_IMAGE"
+        case new_and_old_images = "NEW_AND_OLD_IMAGES"
+        case keys_only = "KEYS_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
     public struct BatchWriteItemInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// Determines whether item collection metrics are returned. If set to SIZE, the response includes statistics about item collections, if any, that were modified during the operation are returned in the response. If set to NONE (the default), no statistics are returned.
-        public let returnItemCollectionMetrics: String?
-        public let returnConsumedCapacity: String?
+        public let returnItemCollectionMetrics: ReturnItemCollectionMetrics?
+        public let returnConsumedCapacity: ReturnConsumedCapacity?
         /// A map of one or more table names and, for each table, a list of operations to be performed (DeleteRequest or PutRequest). Each element in the map consists of the following:    DeleteRequest - Perform a DeleteItem operation on the specified item. The item to be deleted is identified by a Key subelement:    Key - A map of primary key attribute values that uniquely identify the ! item. Each entry in this map consists of an attribute name and an attribute value. For each primary key, you must provide all of the key attributes. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide values for both the partition key and the sort key.      PutRequest - Perform a PutItem operation on the specified item. The item to be put is identified by an Item subelement:    Item - A map of attributes and their values. Each entry in this map consists of an attribute name and an attribute value. Attribute values must not be null; string and binary type attributes must have lengths greater than zero; and set type attributes must not be empty. Requests that contain empty values will be rejected with a ValidationException exception. If you specify any attributes that are part of an index key, then the data types for those attributes must match those of the schema in the table's attribute definition.    
         public let requestItems: [String: [WriteRequest]]
 
-        public init(returnItemCollectionMetrics: String? = nil, returnConsumedCapacity: String? = nil, requestItems: [String: [WriteRequest]]) {
+        public init(returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil, returnConsumedCapacity: ReturnConsumedCapacity? = nil, requestItems: [String: [WriteRequest]]) {
             self.returnItemCollectionMetrics = returnItemCollectionMetrics
             self.returnConsumedCapacity = returnConsumedCapacity
             self.requestItems = requestItems
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.returnItemCollectionMetrics = dictionary["ReturnItemCollectionMetrics"] as? String
-            self.returnConsumedCapacity = dictionary["ReturnConsumedCapacity"] as? String
+            if let returnItemCollectionMetrics = dictionary["ReturnItemCollectionMetrics"] as? String { self.returnItemCollectionMetrics = ReturnItemCollectionMetrics(rawValue: returnItemCollectionMetrics) } else { self.returnItemCollectionMetrics = nil }
+            if let returnConsumedCapacity = dictionary["ReturnConsumedCapacity"] as? String { self.returnConsumedCapacity = ReturnConsumedCapacity(rawValue: returnConsumedCapacity) } else { self.returnConsumedCapacity = nil }
             guard let requestItems = dictionary["RequestItems"] as? [String: Any] else { throw InitializableError.missingRequiredParam("RequestItems") }
             var requestItemsDict: [String: [WriteRequest]] = [:]
             for (key, value) in requestItems {
@@ -1702,16 +1797,16 @@ extension Dynamodb {
         /// A condition that must be satisfied in order for a conditional update to succeed. An expression can contain any of the following:   Functions: attribute_exists | attribute_not_exists | attribute_type | contains | begins_with | size  These function names are case-sensitive.   Comparison operators: = | &lt;&gt; | &lt; | &gt; | &lt;= | &gt;= | BETWEEN | IN      Logical operators: AND | OR | NOT    For more information on condition expressions, see Specifying Conditions in the Amazon DynamoDB Developer Guide.
         public let conditionExpression: String?
         /// This is a legacy parameter. Use ConditionExpression instead. For more information, see ConditionalOperator in the Amazon DynamoDB Developer Guide.
-        public let conditionalOperator: String?
+        public let conditionalOperator: ConditionalOperator?
         /// Determines whether item collection metrics are returned. If set to SIZE, the response includes statistics about item collections, if any, that were modified during the operation are returned in the response. If set to NONE (the default), no statistics are returned.
-        public let returnItemCollectionMetrics: String?
+        public let returnItemCollectionMetrics: ReturnItemCollectionMetrics?
         /// Use ReturnValues if you want to get the item attributes as they appeared either before or after they were updated. For UpdateItem, the valid values are:    NONE - If ReturnValues is not specified, or if its value is NONE, then nothing is returned. (This setting is the default for ReturnValues.)    ALL_OLD - Returns all of the attributes of the item, as they appeared before the UpdateItem operation.    UPDATED_OLD - Returns only the updated attributes, as they appeared before the UpdateItem operation.    ALL_NEW - Returns all of the attributes of the item, as they appear after the UpdateItem operation.    UPDATED_NEW - Returns only the updated attributes, as they appear after the UpdateItem operation.   There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No Read Capacity Units are consumed. Values returned are strongly consistent
-        public let returnValues: String?
+        public let returnValues: ReturnValue?
         /// The primary key of the item to be updated. Each element consists of an attribute name and a value for that attribute. For the primary key, you must provide all of the attributes. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide values for both the partition key and the sort key.
         public let key: [String: AttributeValue]
         /// The name of the table containing the item to update.
         public let tableName: String
-        public let returnConsumedCapacity: String?
+        public let returnConsumedCapacity: ReturnConsumedCapacity?
         /// This is a legacy parameter. Use ConditionExpresssion instead. For more information, see Expected in the Amazon DynamoDB Developer Guide.
         public let expected: [String: ExpectedAttributeValue]?
         /// One or more values that can be substituted in an expression. Use the : (colon) character in an expression to dereference an attribute value. For example, suppose that you wanted to check whether the value of the ProductStatus attribute was one of the following:   Available | Backordered | Discontinued  You would first need to specify ExpressionAttributeValues as follows:  { ":avail":{"S":"Available"}, ":back":{"S":"Backordered"}, ":disc":{"S":"Discontinued"} }  You could then use these values in an expression, such as this:  ProductStatus IN (:avail, :back, :disc)  For more information on expression attribute values, see Specifying Conditions in the Amazon DynamoDB Developer Guide.
@@ -1719,7 +1814,7 @@ extension Dynamodb {
         /// An expression that defines one or more attributes to be updated, the action to be performed on them, and new value(s) for them. The following action values are available for UpdateExpression.    SET - Adds one or more attributes and values to an item. If any of these attribute already exist, they are replaced by the new values. You can also use SET to add or subtract from an attribute that is of type Number. For example: SET myNum = myNum + :val   SET supports the following functions:    if_not_exists (path, operand) - if the item does not contain an attribute at the specified path, then if_not_exists evaluates to operand; otherwise, it evaluates to path. You can use this function to avoid overwriting an attribute that may already be present in the item.    list_append (operand, operand) - evaluates to a list with a new element added to it. You can append the new element to the start or the end of the list by reversing the order of the operands.   These function names are case-sensitive.    REMOVE - Removes one or more attributes from an item.    ADD - Adds the specified value to the item, if the attribute does not already exist. If the attribute does exist, then the behavior of ADD depends on the data type of the attribute:   If the existing attribute is a number, and if Value is also a number, then Value is mathematically added to the existing attribute. If Value is a negative number, then it is subtracted from the existing attribute.  If you use ADD to increment or decrement a number value for an item that doesn't exist before the update, DynamoDB uses 0 as the initial value. Similarly, if you use ADD for an existing item to increment or decrement an attribute value that doesn't exist before the update, DynamoDB uses 0 as the initial value. For example, suppose that the item you want to update doesn't have an attribute named itemcount, but you decide to ADD the number 3 to this attribute anyway. DynamoDB will create the itemcount attribute, set its initial value to 0, and finally add 3 to it. The result will be a new itemcount attribute in the item, with a value of 3.    If the existing data type is a set and if Value is also a set, then Value is added to the existing set. For example, if the attribute value is the set [1,2], and the ADD action specified [3], then the final attribute value is [1,2,3]. An error occurs if an ADD action is specified for a set attribute and the attribute type specified does not match the existing set type.  Both sets must have the same primitive data type. For example, if the existing data type is a set of strings, the Value must also be a set of strings.    The ADD action only supports Number and set data types. In addition, ADD can only be used on top-level attributes, not nested attributes.     DELETE - Deletes an element from a set. If a set of values is specified, then those values are subtracted from the old set. For example, if the attribute value was the set [a,b,c] and the DELETE action specifies [a,c], then the final attribute value is [b]. Specifying an empty set is an error.  The DELETE action only supports set data types. In addition, DELETE can only be used on top-level attributes, not nested attributes.    You can have many actions in a single expression, such as the following: SET a=:value1, b=:value2 DELETE :value3, :value4, :value5  For more information on update expressions, see Modifying Items and Attributes in the Amazon DynamoDB Developer Guide.
         public let updateExpression: String?
 
-        public init(attributeUpdates: [String: AttributeValueUpdate]? = nil, expressionAttributeNames: [String: String]? = nil, conditionExpression: String? = nil, conditionalOperator: String? = nil, returnItemCollectionMetrics: String? = nil, returnValues: String? = nil, key: [String: AttributeValue], tableName: String, returnConsumedCapacity: String? = nil, expected: [String: ExpectedAttributeValue]? = nil, expressionAttributeValues: [String: AttributeValue]? = nil, updateExpression: String? = nil) {
+        public init(attributeUpdates: [String: AttributeValueUpdate]? = nil, expressionAttributeNames: [String: String]? = nil, conditionExpression: String? = nil, conditionalOperator: ConditionalOperator? = nil, returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil, returnValues: ReturnValue? = nil, key: [String: AttributeValue], tableName: String, returnConsumedCapacity: ReturnConsumedCapacity? = nil, expected: [String: ExpectedAttributeValue]? = nil, expressionAttributeValues: [String: AttributeValue]? = nil, updateExpression: String? = nil) {
             self.attributeUpdates = attributeUpdates
             self.expressionAttributeNames = expressionAttributeNames
             self.conditionExpression = conditionExpression
@@ -1751,9 +1846,9 @@ extension Dynamodb {
                 self.expressionAttributeNames = nil
             }
             self.conditionExpression = dictionary["ConditionExpression"] as? String
-            self.conditionalOperator = dictionary["ConditionalOperator"] as? String
-            self.returnItemCollectionMetrics = dictionary["ReturnItemCollectionMetrics"] as? String
-            self.returnValues = dictionary["ReturnValues"] as? String
+            if let conditionalOperator = dictionary["ConditionalOperator"] as? String { self.conditionalOperator = ConditionalOperator(rawValue: conditionalOperator) } else { self.conditionalOperator = nil }
+            if let returnItemCollectionMetrics = dictionary["ReturnItemCollectionMetrics"] as? String { self.returnItemCollectionMetrics = ReturnItemCollectionMetrics(rawValue: returnItemCollectionMetrics) } else { self.returnItemCollectionMetrics = nil }
+            if let returnValues = dictionary["ReturnValues"] as? String { self.returnValues = ReturnValue(rawValue: returnValues) } else { self.returnValues = nil }
             guard let key = dictionary["Key"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Key") }
             var keyDict: [String: AttributeValue] = [:]
             for (key, value) in key {
@@ -1763,7 +1858,7 @@ extension Dynamodb {
             self.key = keyDict
             guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
             self.tableName = tableName
-            self.returnConsumedCapacity = dictionary["ReturnConsumedCapacity"] as? String
+            if let returnConsumedCapacity = dictionary["ReturnConsumedCapacity"] as? String { self.returnConsumedCapacity = ReturnConsumedCapacity(rawValue: returnConsumedCapacity) } else { self.returnConsumedCapacity = nil }
             if let expected = dictionary["Expected"] as? [String: Any] {
                 var expectedDict: [String: ExpectedAttributeValue] = [:]
                 for (key, value) in expected {
@@ -1904,18 +1999,18 @@ extension Dynamodb {
     public struct AttributeDefinition: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// The data type for the attribute, where:    S - the attribute is of type String    N - the attribute is of type Number    B - the attribute is of type Binary  
-        public let attributeType: String
+        /// The data type for the attribute, where:    S - the attribute is of type String    N - the attribute is of type Number    B - the attribute is of type Binary
+        public let attributeType: ScalarAttributeType
         /// A name for the attribute.
         public let attributeName: String
 
-        public init(attributeType: String, attributeName: String) {
+        public init(attributeType: ScalarAttributeType, attributeName: String) {
             self.attributeType = attributeType
             self.attributeName = attributeName
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let attributeType = dictionary["AttributeType"] as? String else { throw InitializableError.missingRequiredParam("AttributeType") }
+            guard let rawAttributeType = dictionary["AttributeType"] as? String, let attributeType = ScalarAttributeType(rawValue: rawAttributeType) else { throw InitializableError.missingRequiredParam("AttributeType") }
             self.attributeType = attributeType
             guard let attributeName = dictionary["AttributeName"] as? String else { throw InitializableError.missingRequiredParam("AttributeName") }
             self.attributeName = attributeName
@@ -2169,6 +2264,23 @@ extension Dynamodb {
         public init(dictionary: [String: Any]) throws {
             self.capacityUnits = dictionary["CapacityUnits"] as? Double
         }
+    }
+
+    public enum ComparisonOperator: String, CustomStringConvertible {
+        case eq = "EQ"
+        case ne = "NE"
+        case `in` = "IN"
+        case le = "LE"
+        case lt = "LT"
+        case ge = "GE"
+        case gt = "GT"
+        case between = "BETWEEN"
+        case not_null = "NOT_NULL"
+        case null = "NULL"
+        case contains = "CONTAINS"
+        case not_contains = "NOT_CONTAINS"
+        case begins_with = "BEGINS_WITH"
+        public var description: String { return self.rawValue }
     }
 
     public struct GlobalSecondaryIndexUpdate: AWSShape {

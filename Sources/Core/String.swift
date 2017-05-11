@@ -25,7 +25,23 @@ let swiftReservedWords: [String] = [
     "catch",
     "try",
     "default",
-    "case"
+    "case",
+    "static",
+    "switch",
+    "if",
+    "else",
+    "func",
+    "enum",
+    "true",
+    "false",
+    "nil",
+    "in",
+    "import",
+    "as",
+    "is",
+    "do",
+    "try",
+    "type"
 ]
 
 extension String {
@@ -41,12 +57,15 @@ extension String {
         return self.replacingOccurrences(of: "-", with: "_").camelCased().lowerFirst()
     }
     
-    public func toSwiftVariableCase() -> String {
-        let variable = toSwiftLabelCase()
-        if swiftReservedWords.contains(variable) {
-            return "`\(variable)`"
+    public func reservedwordEscaped() -> String {
+        if swiftReservedWords.contains(self.lowercased()) {
+            return "`\(self)`"
         }
-        return variable
+        return self
+    }
+    
+    public func toSwiftVariableCase() -> String {
+        return toSwiftLabelCase().reservedwordEscaped()
     }
     
     public func toSwiftClassCase() -> String {

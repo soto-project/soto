@@ -153,13 +153,13 @@ extension CognitoSync {
         /// If BulkPublishStatus is SUCCEEDED, the time the last bulk publish operation completed.
         public let bulkPublishCompleteTime: Date?
         /// Status of the last bulk publish operation, valid values are: NOT_STARTED - No bulk publish has been requested for this identity pool IN_PROGRESS - Data is being published to the configured stream SUCCEEDED - All data for the identity pool has been published to the configured stream FAILED - Some portion of the data has failed to publish, check FailureMessage for the cause.
-        public let bulkPublishStatus: String?
+        public let bulkPublishStatus: BulkPublishStatus?
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
         public let identityPoolId: String?
         /// If BulkPublishStatus is FAILED this field will contain the error message that caused the bulk publish to fail.
         public let failureMessage: String?
 
-        public init(bulkPublishStartTime: Date? = nil, bulkPublishCompleteTime: Date? = nil, bulkPublishStatus: String? = nil, identityPoolId: String? = nil, failureMessage: String? = nil) {
+        public init(bulkPublishStartTime: Date? = nil, bulkPublishCompleteTime: Date? = nil, bulkPublishStatus: BulkPublishStatus? = nil, identityPoolId: String? = nil, failureMessage: String? = nil) {
             self.bulkPublishStartTime = bulkPublishStartTime
             self.bulkPublishCompleteTime = bulkPublishCompleteTime
             self.bulkPublishStatus = bulkPublishStatus
@@ -170,7 +170,7 @@ extension CognitoSync {
         public init(dictionary: [String: Any]) throws {
             self.bulkPublishStartTime = dictionary["BulkPublishStartTime"] as? Date
             self.bulkPublishCompleteTime = dictionary["BulkPublishCompleteTime"] as? Date
-            self.bulkPublishStatus = dictionary["BulkPublishStatus"] as? String
+            if let bulkPublishStatus = dictionary["BulkPublishStatus"] as? String { self.bulkPublishStatus = BulkPublishStatus(rawValue: bulkPublishStatus) } else { self.bulkPublishStatus = nil }
             self.identityPoolId = dictionary["IdentityPoolId"] as? String
             self.failureMessage = dictionary["FailureMessage"] as? String
         }
@@ -310,6 +310,12 @@ extension CognitoSync {
         }
     }
 
+    public enum StreamingStatus: String, CustomStringConvertible {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct RegisterDeviceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -317,7 +323,7 @@ extension CognitoSync {
             return ["IdentityPoolId": "IdentityPoolId", "IdentityId": "IdentityId"]
         }
         /// The SNS platform type (e.g. GCM, SDM, APNS, APNS_SANDBOX).
-        public let platform: String
+        public let platform: Platform
         /// The push token.
         public let token: String
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. Here, the ID of the pool that the identity belongs to.
@@ -325,7 +331,7 @@ extension CognitoSync {
         /// The unique ID for this identity.
         public let identityId: String
 
-        public init(platform: String, token: String, identityPoolId: String, identityId: String) {
+        public init(platform: Platform, token: String, identityPoolId: String, identityId: String) {
             self.platform = platform
             self.token = token
             self.identityPoolId = identityPoolId
@@ -333,7 +339,7 @@ extension CognitoSync {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let platform = dictionary["Platform"] as? String else { throw InitializableError.missingRequiredParam("Platform") }
+            guard let rawPlatform = dictionary["Platform"] as? String, let platform = Platform(rawValue: rawPlatform) else { throw InitializableError.missingRequiredParam("Platform") }
             self.platform = platform
             guard let token = dictionary["Token"] as? String else { throw InitializableError.missingRequiredParam("Token") }
             self.token = token
@@ -342,6 +348,14 @@ extension CognitoSync {
             guard let identityId = dictionary["IdentityId"] as? String else { throw InitializableError.missingRequiredParam("IdentityId") }
             self.identityId = identityId
         }
+    }
+
+    public enum Platform: String, CustomStringConvertible {
+        case apns = "APNS"
+        case apns_sandbox = "APNS_SANDBOX"
+        case gcm = "GCM"
+        case adm = "ADM"
+        public var description: String { return self.rawValue }
     }
 
     public struct SetIdentityPoolConfigurationRequest: AWSShape {
@@ -377,11 +391,11 @@ extension CognitoSync {
         /// The ARN of the role Amazon Cognito can assume in order to publish to the stream. This role must grant access to Amazon Cognito (cognito-sync) to invoke PutRecord on your Cognito stream.
         public let roleArn: String?
         /// Status of the Cognito streams. Valid values are: ENABLED - Streaming of updates to identity pool is enabled. DISABLED - Streaming of updates to identity pool is disabled. Bulk publish will also fail if StreamingStatus is DISABLED.
-        public let streamingStatus: String?
+        public let streamingStatus: StreamingStatus?
         /// The name of the Cognito stream to receive updates. This stream must be in the developers account and in the same region as the identity pool.
         public let streamName: String?
 
-        public init(roleArn: String? = nil, streamingStatus: String? = nil, streamName: String? = nil) {
+        public init(roleArn: String? = nil, streamingStatus: StreamingStatus? = nil, streamName: String? = nil) {
             self.roleArn = roleArn
             self.streamingStatus = streamingStatus
             self.streamName = streamName
@@ -389,7 +403,7 @@ extension CognitoSync {
 
         public init(dictionary: [String: Any]) throws {
             self.roleArn = dictionary["RoleArn"] as? String
-            self.streamingStatus = dictionary["StreamingStatus"] as? String
+            if let streamingStatus = dictionary["StreamingStatus"] as? String { self.streamingStatus = StreamingStatus(rawValue: streamingStatus) } else { self.streamingStatus = nil }
             self.streamName = dictionary["StreamName"] as? String
         }
     }
@@ -655,6 +669,12 @@ extension CognitoSync {
             if let pushSync = dictionary["PushSync"] as? [String: Any] { self.pushSync = try CognitoSync.PushSync(dictionary: pushSync) } else { self.pushSync = nil }
             if let cognitoStreams = dictionary["CognitoStreams"] as? [String: Any] { self.cognitoStreams = try CognitoSync.CognitoStreams(dictionary: cognitoStreams) } else { self.cognitoStreams = nil }
         }
+    }
+
+    public enum Operation: String, CustomStringConvertible {
+        case replace = "replace"
+        case remove = "remove"
+        public var description: String { return self.rawValue }
     }
 
     public struct DescribeIdentityUsageResponse: AWSShape {
@@ -935,6 +955,14 @@ extension CognitoSync {
         }
     }
 
+    public enum BulkPublishStatus: String, CustomStringConvertible {
+        case not_started = "NOT_STARTED"
+        case in_progress = "IN_PROGRESS"
+        case failed = "FAILED"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DeleteDatasetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -954,7 +982,7 @@ extension CognitoSync {
         /// The key for the payload
         public static let payload: String? = nil
         /// An operation, either replace or remove.
-        public let op: String
+        public let op: Operation
         /// The last modified date of the client device.
         public let deviceLastModifiedDate: Date?
         /// The key associated with the record patch.
@@ -964,7 +992,7 @@ extension CognitoSync {
         /// The value associated with the record patch.
         public let value: String?
 
-        public init(op: String, deviceLastModifiedDate: Date? = nil, key: String, syncCount: Int64, value: String? = nil) {
+        public init(op: Operation, deviceLastModifiedDate: Date? = nil, key: String, syncCount: Int64, value: String? = nil) {
             self.op = op
             self.deviceLastModifiedDate = deviceLastModifiedDate
             self.key = key
@@ -973,7 +1001,7 @@ extension CognitoSync {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let op = dictionary["Op"] as? String else { throw InitializableError.missingRequiredParam("Op") }
+            guard let rawOp = dictionary["Op"] as? String, let op = Operation(rawValue: rawOp) else { throw InitializableError.missingRequiredParam("Op") }
             self.op = op
             self.deviceLastModifiedDate = dictionary["DeviceLastModifiedDate"] as? Date
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }

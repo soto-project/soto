@@ -103,6 +103,15 @@ extension Route53domains {
         }
     }
 
+    public enum OperationStatus: String, CustomStringConvertible {
+        case submitted = "SUBMITTED"
+        case in_progress = "IN_PROGRESS"
+        case error = "ERROR"
+        case successful = "SUCCESSFUL"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct GetDomainSuggestionsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -155,6 +164,18 @@ extension Route53domains {
             guard let operationId = dictionary["OperationId"] as? String else { throw InitializableError.missingRequiredParam("OperationId") }
             self.operationId = operationId
         }
+    }
+
+    public enum DomainAvailability: String, CustomStringConvertible {
+        case available = "AVAILABLE"
+        case available_reserved = "AVAILABLE_RESERVED"
+        case available_preorder = "AVAILABLE_PREORDER"
+        case unavailable = "UNAVAILABLE"
+        case unavailable_premium = "UNAVAILABLE_PREMIUM"
+        case unavailable_restricted = "UNAVAILABLE_RESTRICTED"
+        case reserved = "RESERVED"
+        case dont_know = "DONT_KNOW"
+        public var description: String { return self.rawValue }
     }
 
     public struct UpdateDomainContactPrivacyRequest: AWSShape {
@@ -243,6 +264,31 @@ extension Route53domains {
         }
     }
 
+    public enum ExtraParamName: String, CustomStringConvertible {
+        case duns_number = "DUNS_NUMBER"
+        case brand_number = "BRAND_NUMBER"
+        case birth_department = "BIRTH_DEPARTMENT"
+        case birth_date_in_yyyy_mm_dd = "BIRTH_DATE_IN_YYYY_MM_DD"
+        case birth_country = "BIRTH_COUNTRY"
+        case birth_city = "BIRTH_CITY"
+        case document_number = "DOCUMENT_NUMBER"
+        case au_id_number = "AU_ID_NUMBER"
+        case au_id_type = "AU_ID_TYPE"
+        case ca_legal_type = "CA_LEGAL_TYPE"
+        case ca_business_entity_type = "CA_BUSINESS_ENTITY_TYPE"
+        case es_identification = "ES_IDENTIFICATION"
+        case es_identification_type = "ES_IDENTIFICATION_TYPE"
+        case es_legal_form = "ES_LEGAL_FORM"
+        case fi_business_number = "FI_BUSINESS_NUMBER"
+        case fi_id_number = "FI_ID_NUMBER"
+        case it_pin = "IT_PIN"
+        case ru_passport_data = "RU_PASSPORT_DATA"
+        case se_id_number = "SE_ID_NUMBER"
+        case sg_id_number = "SG_ID_NUMBER"
+        case vat_number = "VAT_NUMBER"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DeleteTagsForDomainResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -314,18 +360,27 @@ extension Route53domains {
         }
     }
 
+    public enum ContactType: String, CustomStringConvertible {
+        case person = "PERSON"
+        case company = "COMPANY"
+        case association = "ASSOCIATION"
+        case public_body = "PUBLIC_BODY"
+        case reseller = "RESELLER"
+        public var description: String { return self.rawValue }
+    }
+
     public struct CheckDomainAvailabilityResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// Whether the domain name is available for registering.  You can only register domains designated as AVAILABLE.  Type: String Valid values:  AVAILABLE – The domain name is available. AVAILABLE_RESERVED – The domain name is reserved under specific conditions. AVAILABLE_PREORDER – The domain name is available and can be preordered. UNAVAILABLE – The domain name is not available. UNAVAILABLE_PREMIUM – The domain name is not available. UNAVAILABLE_RESTRICTED – The domain name is forbidden. RESERVED – The domain name has been reserved for another person or organization. DONT_KNOW – The TLD registry didn't reply with a definitive answer about whether the domain name is available. Amazon Route 53 can return this response for a variety of reasons, for example, the registry is performing maintenance. Try again later. 
-        public let availability: String
+        public let availability: DomainAvailability
 
-        public init(availability: String) {
+        public init(availability: DomainAvailability) {
             self.availability = availability
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let availability = dictionary["Availability"] as? String else { throw InitializableError.missingRequiredParam("Availability") }
+            guard let rawAvailability = dictionary["Availability"] as? String, let availability = DomainAvailability(rawValue: rawAvailability) else { throw InitializableError.missingRequiredParam("Availability") }
             self.availability = availability
         }
     }
@@ -344,6 +399,13 @@ extension Route53domains {
             guard let operationId = dictionary["OperationId"] as? String else { throw InitializableError.missingRequiredParam("OperationId") }
             self.operationId = operationId
         }
+    }
+
+    public enum ReachabilityStatus: String, CustomStringConvertible {
+        case pending = "PENDING"
+        case done = "DONE"
+        case expired = "EXPIRED"
+        public var description: String { return self.rawValue }
     }
 
     public struct DomainSuggestion: AWSShape {
@@ -399,7 +461,7 @@ extension Route53domains {
         /// Last name of contact. Type: String Default: None Constraints: Maximum 255 characters. Parents: RegistrantContact, AdminContact, TechContact Required: Yes
         public let lastName: String?
         /// Indicates whether the contact is a person, company, association, or public organization. If you choose an option other than PERSON, you must enter an organization name, and you can&apos;t enable privacy protection for the contact. Type: String Default: None Constraints: Maximum 255 characters. Valid values: PERSON | COMPANY | ASSOCIATION | PUBLIC_BODY Parents: RegistrantContact, AdminContact, TechContact  Required: Yes
-        public let contactType: String?
+        public let contactType: ContactType?
         /// The zip or postal code of the contact&apos;s address. Type: String Default: None Constraints: Maximum 255 characters. Parents: RegistrantContact, AdminContact, TechContact Required: No
         public let zipCode: String?
         /// Fax number of the contact. Type: String Default: None Constraints: Phone number must be specified in the format "+[country dialing code].[number including any area code]". For example, a US phone number might appear as "+1.1234567890". Parents: RegistrantContact, AdminContact, TechContact Required: No
@@ -411,11 +473,11 @@ extension Route53domains {
         /// The city of the contact&apos;s address. Type: String Default: None Constraints: Maximum 255 characters. Parents: RegistrantContact, AdminContact, TechContact Required: Yes
         public let city: String?
         /// Code for the country of the contact&apos;s address. Type: String Default: None Constraints: Maximum 255 characters. Parents: RegistrantContact, AdminContact, TechContact Required: Yes
-        public let countryCode: String?
+        public let countryCode: CountryCode?
         /// Second line of contact&apos;s address, if any. Type: String Default: None Constraints: Maximum 255 characters. Parents: RegistrantContact, AdminContact, TechContact Required: No
         public let addressLine2: String?
 
-        public init(addressLine1: String? = nil, email: String? = nil, phoneNumber: String? = nil, organizationName: String? = nil, state: String? = nil, lastName: String? = nil, contactType: String? = nil, zipCode: String? = nil, fax: String? = nil, extraParams: [ExtraParam]? = nil, firstName: String? = nil, city: String? = nil, countryCode: String? = nil, addressLine2: String? = nil) {
+        public init(addressLine1: String? = nil, email: String? = nil, phoneNumber: String? = nil, organizationName: String? = nil, state: String? = nil, lastName: String? = nil, contactType: ContactType? = nil, zipCode: String? = nil, fax: String? = nil, extraParams: [ExtraParam]? = nil, firstName: String? = nil, city: String? = nil, countryCode: CountryCode? = nil, addressLine2: String? = nil) {
             self.addressLine1 = addressLine1
             self.email = email
             self.phoneNumber = phoneNumber
@@ -439,7 +501,7 @@ extension Route53domains {
             self.organizationName = dictionary["OrganizationName"] as? String
             self.state = dictionary["State"] as? String
             self.lastName = dictionary["LastName"] as? String
-            self.contactType = dictionary["ContactType"] as? String
+            if let contactType = dictionary["ContactType"] as? String { self.contactType = ContactType(rawValue: contactType) } else { self.contactType = nil }
             self.zipCode = dictionary["ZipCode"] as? String
             self.fax = dictionary["Fax"] as? String
             if let extraParams = dictionary["ExtraParams"] as? [[String: Any]] {
@@ -449,7 +511,7 @@ extension Route53domains {
             }
             self.firstName = dictionary["FirstName"] as? String
             self.city = dictionary["City"] as? String
-            self.countryCode = dictionary["CountryCode"] as? String
+            if let countryCode = dictionary["CountryCode"] as? String { self.countryCode = CountryCode(rawValue: countryCode) } else { self.countryCode = nil }
             self.addressLine2 = dictionary["AddressLine2"] as? String
         }
     }
@@ -671,16 +733,16 @@ extension Route53domains {
         /// The domain name for which you requested the reachability status.
         public let domainName: String?
         /// Whether the registrant contact has responded. PENDING indicates that we sent the confirmation email and haven't received a response yet, DONE indicates that we sent the email and got confirmation from the registrant contact, and EXPIRED indicates that the time limit expired before the registrant contact responded.  Type: String Valid values: PENDING, DONE, EXPIRED
-        public let status: String?
+        public let status: ReachabilityStatus?
 
-        public init(domainName: String? = nil, status: String? = nil) {
+        public init(domainName: String? = nil, status: ReachabilityStatus? = nil) {
             self.domainName = domainName
             self.status = status
         }
 
         public init(dictionary: [String: Any]) throws {
             self.domainName = dictionary["domainName"] as? String
-            self.status = dictionary["status"] as? String
+            if let status = dictionary["status"] as? String { self.status = ReachabilityStatus(rawValue: status) } else { self.status = nil }
         }
     }
 
@@ -726,9 +788,9 @@ extension Route53domains {
         /// Values corresponding to the additional parameter names required by some top-level domains. Type: String Default: None Constraints: Maximum 2048 characters. Parent: ExtraParams Required: Yes
         public let value: String
         /// Name of the additional parameter required by the top-level domain. Type: String Default: None Valid values: DUNS_NUMBER | BRAND_NUMBER | BIRTH_DEPARTMENT | BIRTH_DATE_IN_YYYY_MM_DD | BIRTH_COUNTRY | BIRTH_CITY | DOCUMENT_NUMBER | AU_ID_NUMBER | AU_ID_TYPE | CA_LEGAL_TYPE | CA_BUSINESS_ENTITY_TYPE |ES_IDENTIFICATION | ES_IDENTIFICATION_TYPE | ES_LEGAL_FORM | FI_BUSINESS_NUMBER | FI_ID_NUMBER | IT_PIN | RU_PASSPORT_DATA | SE_ID_NUMBER | SG_ID_NUMBER | VAT_NUMBER Parent: ExtraParams Required: Yes
-        public let name: String
+        public let name: ExtraParamName
 
-        public init(value: String, name: String) {
+        public init(value: String, name: ExtraParamName) {
             self.value = value
             self.name = name
         }
@@ -736,7 +798,7 @@ extension Route53domains {
         public init(dictionary: [String: Any]) throws {
             guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
             self.value = value
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            guard let rawName = dictionary["Name"] as? String, let name = ExtraParamName(rawValue: rawName) else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
         }
     }
@@ -745,7 +807,7 @@ extension Route53domains {
         /// The key for the payload
         public static let payload: String? = nil
         /// The current status of the requested operation in the system. Type: String
-        public let status: String?
+        public let status: OperationStatus?
         /// The identifier for the operation. Type: String
         public let operationId: String?
         /// Detailed information on the status including possible errors. Type: String
@@ -753,25 +815,25 @@ extension Route53domains {
         /// The date when the request was submitted.
         public let submittedDate: Date?
         /// The type of operation that was requested. Type: String
-        public let type: String?
+        public let `type`: OperationType?
         /// The name of a domain. Type: String
         public let domainName: String?
 
-        public init(status: String? = nil, operationId: String? = nil, message: String? = nil, submittedDate: Date? = nil, type: String? = nil, domainName: String? = nil) {
+        public init(status: OperationStatus? = nil, operationId: String? = nil, message: String? = nil, submittedDate: Date? = nil, type: OperationType? = nil, domainName: String? = nil) {
             self.status = status
             self.operationId = operationId
             self.message = message
             self.submittedDate = submittedDate
-            self.type = type
+            self.`type` = `type`
             self.domainName = domainName
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = OperationStatus(rawValue: status) } else { self.status = nil }
             self.operationId = dictionary["OperationId"] as? String
             self.message = dictionary["Message"] as? String
             self.submittedDate = dictionary["SubmittedDate"] as? Date
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = OperationType(rawValue: `type`) } else { self.`type` = nil }
             self.domainName = dictionary["DomainName"] as? String
         }
     }
@@ -837,11 +899,11 @@ extension Route53domains {
         /// The name of a domain. Type: String
         public let domainName: String?
         /// The operation that you were charged for. Type: String Valid values:  REGISTER_DOMAIN TRANSFER_IN_DOMAIN RENEW_DOMAIN CHANGE_DOMAIN_OWNER  
-        public let operation: String?
+        public let operation: OperationType?
         /// The price that you were charged for the operation, in US dollars. Type: Double Example value: 12.0
         public let price: Double?
 
-        public init(billDate: Date? = nil, invoiceId: String? = nil, domainName: String? = nil, operation: String? = nil, price: Double? = nil) {
+        public init(billDate: Date? = nil, invoiceId: String? = nil, domainName: String? = nil, operation: OperationType? = nil, price: Double? = nil) {
             self.billDate = billDate
             self.invoiceId = invoiceId
             self.domainName = domainName
@@ -853,7 +915,7 @@ extension Route53domains {
             self.billDate = dictionary["BillDate"] as? Date
             self.invoiceId = dictionary["InvoiceId"] as? String
             self.domainName = dictionary["DomainName"] as? String
-            self.operation = dictionary["Operation"] as? String
+            if let operation = dictionary["Operation"] as? String { self.operation = OperationType(rawValue: operation) } else { self.operation = nil }
             self.price = dictionary["Price"] as? Double
         }
     }
@@ -935,6 +997,17 @@ extension Route53domains {
             self.emailAddress = dictionary["emailAddress"] as? String
             self.domainName = dictionary["domainName"] as? String
         }
+    }
+
+    public enum OperationType: String, CustomStringConvertible {
+        case register_domain = "REGISTER_DOMAIN"
+        case delete_domain = "DELETE_DOMAIN"
+        case transfer_in_domain = "TRANSFER_IN_DOMAIN"
+        case update_domain_contact = "UPDATE_DOMAIN_CONTACT"
+        case update_nameserver = "UPDATE_NAMESERVER"
+        case change_privacy_protection = "CHANGE_PRIVACY_PROTECTION"
+        case domain_lock = "DOMAIN_LOCK"
+        public var description: String { return self.rawValue }
     }
 
     public struct DisableDomainAutoRenewRequest: AWSShape {
@@ -1087,30 +1160,30 @@ extension Route53domains {
         /// The key for the payload
         public static let payload: String? = nil
         /// The current status of the requested operation in the system. Type: String
-        public let status: String
+        public let status: OperationStatus
         /// Identifier returned to track the requested action. Type: String
         public let operationId: String
         /// The date when the request was submitted.
         public let submittedDate: Date
         /// Type of the action requested. Type: String Valid values: REGISTER_DOMAIN | DELETE_DOMAIN | TRANSFER_IN_DOMAIN | UPDATE_DOMAIN_CONTACT | UPDATE_NAMESERVER | CHANGE_PRIVACY_PROTECTION | DOMAIN_LOCK
-        public let type: String
+        public let `type`: OperationType
 
-        public init(status: String, operationId: String, submittedDate: Date, type: String) {
+        public init(status: OperationStatus, operationId: String, submittedDate: Date, type: OperationType) {
             self.status = status
             self.operationId = operationId
             self.submittedDate = submittedDate
-            self.type = type
+            self.`type` = `type`
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            guard let rawStatus = dictionary["Status"] as? String, let status = OperationStatus(rawValue: rawStatus) else { throw InitializableError.missingRequiredParam("Status") }
             self.status = status
             guard let operationId = dictionary["OperationId"] as? String else { throw InitializableError.missingRequiredParam("OperationId") }
             self.operationId = operationId
             guard let submittedDate = dictionary["SubmittedDate"] as? Date else { throw InitializableError.missingRequiredParam("SubmittedDate") }
             self.submittedDate = submittedDate
-            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
-            self.type = type
+            guard let rawType = dictionary["Type"] as? String, let `type` = OperationType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
+            self.`type` = `type`
         }
     }
 
@@ -1268,6 +1341,239 @@ extension Route53domains {
             guard let operationId = dictionary["OperationId"] as? String else { throw InitializableError.missingRequiredParam("OperationId") }
             self.operationId = operationId
         }
+    }
+
+    public enum CountryCode: String, CustomStringConvertible {
+        case ad = "AD"
+        case ae = "AE"
+        case af = "AF"
+        case ag = "AG"
+        case ai = "AI"
+        case al = "AL"
+        case am = "AM"
+        case an = "AN"
+        case ao = "AO"
+        case aq = "AQ"
+        case ar = "AR"
+        case `as` = "AS"
+        case at = "AT"
+        case au = "AU"
+        case aw = "AW"
+        case az = "AZ"
+        case ba = "BA"
+        case bb = "BB"
+        case bd = "BD"
+        case be = "BE"
+        case bf = "BF"
+        case bg = "BG"
+        case bh = "BH"
+        case bi = "BI"
+        case bj = "BJ"
+        case bl = "BL"
+        case bm = "BM"
+        case bn = "BN"
+        case bo = "BO"
+        case br = "BR"
+        case bs = "BS"
+        case bt = "BT"
+        case bw = "BW"
+        case by = "BY"
+        case bz = "BZ"
+        case ca = "CA"
+        case cc = "CC"
+        case cd = "CD"
+        case cf = "CF"
+        case cg = "CG"
+        case ch = "CH"
+        case ci = "CI"
+        case ck = "CK"
+        case cl = "CL"
+        case cm = "CM"
+        case cn = "CN"
+        case co = "CO"
+        case cr = "CR"
+        case cu = "CU"
+        case cv = "CV"
+        case cx = "CX"
+        case cy = "CY"
+        case cz = "CZ"
+        case de = "DE"
+        case dj = "DJ"
+        case dk = "DK"
+        case dm = "DM"
+        case `do` = "DO"
+        case dz = "DZ"
+        case ec = "EC"
+        case ee = "EE"
+        case eg = "EG"
+        case er = "ER"
+        case es = "ES"
+        case et = "ET"
+        case fi = "FI"
+        case fj = "FJ"
+        case fk = "FK"
+        case fm = "FM"
+        case fo = "FO"
+        case fr = "FR"
+        case ga = "GA"
+        case gb = "GB"
+        case gd = "GD"
+        case ge = "GE"
+        case gh = "GH"
+        case gi = "GI"
+        case gl = "GL"
+        case gm = "GM"
+        case gn = "GN"
+        case gq = "GQ"
+        case gr = "GR"
+        case gt = "GT"
+        case gu = "GU"
+        case gw = "GW"
+        case gy = "GY"
+        case hk = "HK"
+        case hn = "HN"
+        case hr = "HR"
+        case ht = "HT"
+        case hu = "HU"
+        case id = "ID"
+        case ie = "IE"
+        case il = "IL"
+        case im = "IM"
+        case `in` = "IN"
+        case iq = "IQ"
+        case ir = "IR"
+        case `is` = "IS"
+        case it = "IT"
+        case jm = "JM"
+        case jo = "JO"
+        case jp = "JP"
+        case ke = "KE"
+        case kg = "KG"
+        case kh = "KH"
+        case ki = "KI"
+        case km = "KM"
+        case kn = "KN"
+        case kp = "KP"
+        case kr = "KR"
+        case kw = "KW"
+        case ky = "KY"
+        case kz = "KZ"
+        case la = "LA"
+        case lb = "LB"
+        case lc = "LC"
+        case li = "LI"
+        case lk = "LK"
+        case lr = "LR"
+        case ls = "LS"
+        case lt = "LT"
+        case lu = "LU"
+        case lv = "LV"
+        case ly = "LY"
+        case ma = "MA"
+        case mc = "MC"
+        case md = "MD"
+        case me = "ME"
+        case mf = "MF"
+        case mg = "MG"
+        case mh = "MH"
+        case mk = "MK"
+        case ml = "ML"
+        case mm = "MM"
+        case mn = "MN"
+        case mo = "MO"
+        case mp = "MP"
+        case mr = "MR"
+        case ms = "MS"
+        case mt = "MT"
+        case mu = "MU"
+        case mv = "MV"
+        case mw = "MW"
+        case mx = "MX"
+        case my = "MY"
+        case mz = "MZ"
+        case na = "NA"
+        case nc = "NC"
+        case ne = "NE"
+        case ng = "NG"
+        case ni = "NI"
+        case nl = "NL"
+        case no = "NO"
+        case np = "NP"
+        case nr = "NR"
+        case nu = "NU"
+        case nz = "NZ"
+        case om = "OM"
+        case pa = "PA"
+        case pe = "PE"
+        case pf = "PF"
+        case pg = "PG"
+        case ph = "PH"
+        case pk = "PK"
+        case pl = "PL"
+        case pm = "PM"
+        case pn = "PN"
+        case pr = "PR"
+        case pt = "PT"
+        case pw = "PW"
+        case py = "PY"
+        case qa = "QA"
+        case ro = "RO"
+        case rs = "RS"
+        case ru = "RU"
+        case rw = "RW"
+        case sa = "SA"
+        case sb = "SB"
+        case sc = "SC"
+        case sd = "SD"
+        case se = "SE"
+        case sg = "SG"
+        case sh = "SH"
+        case si = "SI"
+        case sk = "SK"
+        case sl = "SL"
+        case sm = "SM"
+        case sn = "SN"
+        case so = "SO"
+        case sr = "SR"
+        case st = "ST"
+        case sv = "SV"
+        case sy = "SY"
+        case sz = "SZ"
+        case tc = "TC"
+        case td = "TD"
+        case tg = "TG"
+        case th = "TH"
+        case tj = "TJ"
+        case tk = "TK"
+        case tl = "TL"
+        case tm = "TM"
+        case tn = "TN"
+        case to = "TO"
+        case tr = "TR"
+        case tt = "TT"
+        case tv = "TV"
+        case tw = "TW"
+        case tz = "TZ"
+        case ua = "UA"
+        case ug = "UG"
+        case us = "US"
+        case uy = "UY"
+        case uz = "UZ"
+        case va = "VA"
+        case vc = "VC"
+        case ve = "VE"
+        case vg = "VG"
+        case vi = "VI"
+        case vn = "VN"
+        case vu = "VU"
+        case wf = "WF"
+        case ws = "WS"
+        case ye = "YE"
+        case yt = "YT"
+        case za = "ZA"
+        case zm = "ZM"
+        case zw = "ZW"
+        public var description: String { return self.rawValue }
     }
 
 }

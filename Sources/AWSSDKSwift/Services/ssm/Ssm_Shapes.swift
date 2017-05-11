@@ -183,24 +183,49 @@ extension Ssm {
         }
     }
 
+    public enum ResourceTypeForTagging: String, CustomStringConvertible {
+        case managedinstance = "ManagedInstance"
+        case maintenancewindow = "MaintenanceWindow"
+        case parameter = "Parameter"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ParametersFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the filter.
-        public let key: String?
+        public let key: ParametersFilterKey?
         /// The filter values.
         public let values: [String]
 
-        public init(key: String? = nil, values: [String]) {
+        public init(key: ParametersFilterKey? = nil, values: [String]) {
             self.key = key
             self.values = values
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.key = dictionary["Key"] as? String
+            if let key = dictionary["Key"] as? String { self.key = ParametersFilterKey(rawValue: key) } else { self.key = nil }
             guard let values = dictionary["Values"] as? [String] else { throw InitializableError.missingRequiredParam("Values") }
             self.values = values
         }
+    }
+
+    public enum InstanceInformationFilterKey: String, CustomStringConvertible {
+        case instanceids = "InstanceIds"
+        case agentversion = "AgentVersion"
+        case pingstatus = "PingStatus"
+        case platformtypes = "PlatformTypes"
+        case activationids = "ActivationIds"
+        case iamrole = "IamRole"
+        case resourcetype = "ResourceType"
+        case associationstatus = "AssociationStatus"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PlatformType: String, CustomStringConvertible {
+        case windows = "Windows"
+        case linux = "Linux"
+        public var description: String { return self.rawValue }
     }
 
     public struct ResultAttribute: AWSShape {
@@ -252,11 +277,11 @@ extension Ssm {
         /// User-provided idempotency token.
         public let clientToken: String?
         /// The type of target being registered with the Maintenance Window.
-        public let resourceType: String
+        public let resourceType: MaintenanceWindowResourceType
         /// User-provided value that will be included in any CloudWatch events raised while running tasks for these targets in this Maintenance Window.
         public let ownerInformation: String?
 
-        public init(windowId: String, targets: [Target], clientToken: String? = nil, resourceType: String, ownerInformation: String? = nil) {
+        public init(windowId: String, targets: [Target], clientToken: String? = nil, resourceType: MaintenanceWindowResourceType, ownerInformation: String? = nil) {
             self.windowId = windowId
             self.targets = targets
             self.clientToken = clientToken
@@ -270,7 +295,7 @@ extension Ssm {
             guard let targets = dictionary["Targets"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Targets") }
             self.targets = try targets.map({ try Target(dictionary: $0) })
             self.clientToken = dictionary["ClientToken"] as? String
-            guard let resourceType = dictionary["ResourceType"] as? String else { throw InitializableError.missingRequiredParam("ResourceType") }
+            guard let rawResourceType = dictionary["ResourceType"] as? String, let resourceType = MaintenanceWindowResourceType(rawValue: rawResourceType) else { throw InitializableError.missingRequiredParam("ResourceType") }
             self.resourceType = resourceType
             self.ownerInformation = dictionary["OwnerInformation"] as? String
         }
@@ -578,7 +603,7 @@ extension Ssm {
         /// (Optional) The region where the Amazon Simple Storage Service (Amazon S3) output bucket is located. The default value is the region where Run Command is being called.
         public let outputS3Region: String?
         /// Sha256 or Sha1.  Sha1 hashes have been deprecated. 
-        public let documentHashType: String?
+        public let documentHashType: DocumentHashType?
         /// Required. The instance IDs where the command should execute. You can specify a maximum of 50 IDs.
         public let instanceIds: [String]?
         /// The maximum number of errors allowed without the command failing. When the command fails one more time beyond the value of MaxErrors, the systems stops sending the command to additional targets. You can specify a number like “10” or a percentage like “10%”. The default value is 50. For more information about how to use MaxErrors, see Executing a Command Using Amazon EC2 Run Command (Linux) or Executing a Command Using Amazon EC2 Run Command (Windows).
@@ -594,7 +619,7 @@ extension Ssm {
         /// If this time is reached and the command has not already started executing, it will not execute.
         public let timeoutSeconds: Int32?
 
-        public init(serviceRoleArn: String? = nil, outputS3BucketName: String? = nil, notificationConfig: NotificationConfig? = nil, comment: String? = nil, targets: [Target]? = nil, outputS3KeyPrefix: String? = nil, outputS3Region: String? = nil, documentHashType: String? = nil, instanceIds: [String]? = nil, maxErrors: String? = nil, parameters: [String: [String]]? = nil, documentName: String, documentHash: String? = nil, maxConcurrency: String? = nil, timeoutSeconds: Int32? = nil) {
+        public init(serviceRoleArn: String? = nil, outputS3BucketName: String? = nil, notificationConfig: NotificationConfig? = nil, comment: String? = nil, targets: [Target]? = nil, outputS3KeyPrefix: String? = nil, outputS3Region: String? = nil, documentHashType: DocumentHashType? = nil, instanceIds: [String]? = nil, maxErrors: String? = nil, parameters: [String: [String]]? = nil, documentName: String, documentHash: String? = nil, maxConcurrency: String? = nil, timeoutSeconds: Int32? = nil) {
             self.serviceRoleArn = serviceRoleArn
             self.outputS3BucketName = outputS3BucketName
             self.notificationConfig = notificationConfig
@@ -624,7 +649,7 @@ extension Ssm {
             }
             self.outputS3KeyPrefix = dictionary["OutputS3KeyPrefix"] as? String
             self.outputS3Region = dictionary["OutputS3Region"] as? String
-            self.documentHashType = dictionary["DocumentHashType"] as? String
+            if let documentHashType = dictionary["DocumentHashType"] as? String { self.documentHashType = DocumentHashType(rawValue: documentHashType) } else { self.documentHashType = nil }
             self.instanceIds = dictionary["InstanceIds"] as? [String]
             self.maxErrors = dictionary["MaxErrors"] as? String
             if let parameters = dictionary["Parameters"] as? [String: Any] {
@@ -670,7 +695,7 @@ extension Ssm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of this plugin. You can execute a document with multiple plugins.
-        public let status: String?
+        public let status: CommandPluginStatus?
         /// The time the plugin started executing. 
         public let responseStartDateTime: Date?
         /// The time the plugin stopped executing. Could stop prematurely if, for example, a cancel command was sent. 
@@ -694,7 +719,7 @@ extension Ssm {
         /// A detailed status of the plugin execution. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Monitor Commands (Linux) or Monitor Commands (Windows). StatusDetails can be one of the following values:   Pending – The command has not been sent to the instance.   In Progress – The command has been sent to the instance but has not reached a terminal state.   Success – The execution of the command or plugin was successfully completed. This is a terminal state.   Delivery Timed Out – The command was not delivered to the instance before the delivery timeout expired. Delivery timeouts do not count against the parent command’s MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out – Command execution started on the instance, but the execution was not complete before the execution timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed – The command was not successful on the instance. For a plugin, this indicates that the result code was not zero. For a command invocation, this indicates that the result code for one or more plugins was not zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Canceled – The command was terminated before it was completed. This is a terminal state.   Undeliverable – The command can't be delivered to the instance. The instance might not exist, or it might not be responding. Undeliverable invocations don't count against the parent command’s MaxErrors limit, and they don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated – The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.  
         public let statusDetails: String?
 
-        public init(status: String? = nil, responseStartDateTime: Date? = nil, responseFinishDateTime: Date? = nil, outputS3BucketName: String? = nil, name: String? = nil, output: String? = nil, standardErrorUrl: String? = nil, standardOutputUrl: String? = nil, outputS3Region: String? = nil, outputS3KeyPrefix: String? = nil, responseCode: Int32? = nil, statusDetails: String? = nil) {
+        public init(status: CommandPluginStatus? = nil, responseStartDateTime: Date? = nil, responseFinishDateTime: Date? = nil, outputS3BucketName: String? = nil, name: String? = nil, output: String? = nil, standardErrorUrl: String? = nil, standardOutputUrl: String? = nil, outputS3Region: String? = nil, outputS3KeyPrefix: String? = nil, responseCode: Int32? = nil, statusDetails: String? = nil) {
             self.status = status
             self.responseStartDateTime = responseStartDateTime
             self.responseFinishDateTime = responseFinishDateTime
@@ -710,7 +735,7 @@ extension Ssm {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = CommandPluginStatus(rawValue: status) } else { self.status = nil }
             self.responseStartDateTime = dictionary["ResponseStartDateTime"] as? Date
             self.responseFinishDateTime = dictionary["ResponseFinishDateTime"] as? Date
             self.outputS3BucketName = dictionary["OutputS3BucketName"] as? String
@@ -936,7 +961,7 @@ extension Ssm {
         /// The number of targets for the command.
         public let targetCount: Int32?
         /// The status of the command.
-        public let status: String?
+        public let status: CommandStatus?
         /// The maximum number of errors allowed before the system stops sending the command to additional targets. You can specify a number of errors, such as 10, or a percentage or errors, such as 10%. The default value is 50. For more information about how to use MaxErrors, see Executing a Command Using Amazon EC2 Run Command (Linux) or Executing a Command Using Amazon EC2 Run Command (Windows).
         public let maxErrors: String?
         /// The date and time the command was requested.
@@ -956,7 +981,7 @@ extension Ssm {
         /// A detailed status of the command execution. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Monitor Commands (Linux) or Monitor Commands (Windows). StatusDetails can be one of the following values:   Pending – The command has not been sent to any instances.   In Progress – The command has been sent to at least one instance but has not reached a final state on all instances.   Success – The command successfully executed on all invocations. This is a terminal state.   Delivery Timed Out – The value of MaxErrors or more command invocations shows a status of Delivery Timed Out. This is a terminal state.   Execution Timed Out – The value of MaxErrors or more command invocations shows a status of Execution Timed Out. This is a terminal state.   Failed – The value of MaxErrors or more command invocations shows a status of Failed. This is a terminal state.   Incomplete – The command was attempted on all instances and one or more invocations does not have a value of Success but not enough invocations failed for the status to be Failed. This is a terminal state.   Canceled – The command was terminated before it was completed. This is a terminal state.   Rate Exceeded – The number of instances targeted by the command exceeded the account limit for pending invocations. The system has canceled the command before executing it on any instance. This is a terminal state.  
         public let statusDetails: String?
 
-        public init(outputS3BucketName: String? = nil, notificationConfig: NotificationConfig? = nil, completedCount: Int32? = nil, targets: [Target]? = nil, outputS3KeyPrefix: String? = nil, comment: String? = nil, serviceRole: String? = nil, outputS3Region: String? = nil, instanceIds: [String]? = nil, targetCount: Int32? = nil, status: String? = nil, maxErrors: String? = nil, requestedDateTime: Date? = nil, parameters: [String: [String]]? = nil, documentName: String? = nil, maxConcurrency: String? = nil, expiresAfter: Date? = nil, errorCount: Int32? = nil, commandId: String? = nil, statusDetails: String? = nil) {
+        public init(outputS3BucketName: String? = nil, notificationConfig: NotificationConfig? = nil, completedCount: Int32? = nil, targets: [Target]? = nil, outputS3KeyPrefix: String? = nil, comment: String? = nil, serviceRole: String? = nil, outputS3Region: String? = nil, instanceIds: [String]? = nil, targetCount: Int32? = nil, status: CommandStatus? = nil, maxErrors: String? = nil, requestedDateTime: Date? = nil, parameters: [String: [String]]? = nil, documentName: String? = nil, maxConcurrency: String? = nil, expiresAfter: Date? = nil, errorCount: Int32? = nil, commandId: String? = nil, statusDetails: String? = nil) {
             self.outputS3BucketName = outputS3BucketName
             self.notificationConfig = notificationConfig
             self.completedCount = completedCount
@@ -994,7 +1019,7 @@ extension Ssm {
             self.outputS3Region = dictionary["OutputS3Region"] as? String
             self.instanceIds = dictionary["InstanceIds"] as? [String]
             self.targetCount = dictionary["TargetCount"] as? Int32
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = CommandStatus(rawValue: status) } else { self.status = nil }
             self.maxErrors = dictionary["MaxErrors"] as? String
             self.requestedDateTime = dictionary["RequestedDateTime"] as? Date
             if let parameters = dictionary["Parameters"] as? [String: Any] {
@@ -1014,6 +1039,11 @@ extension Ssm {
             self.commandId = dictionary["CommandId"] as? String
             self.statusDetails = dictionary["StatusDetails"] as? String
         }
+    }
+
+    public enum DocumentPermissionType: String, CustomStringConvertible {
+        case share = "Share"
+        public var description: String { return self.rawValue }
     }
 
     public struct CreateAssociationRequest: AWSShape {
@@ -1073,7 +1103,7 @@ extension Ssm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The permission type for the document. The permission type can be Share.
-        public let permissionType: String
+        public let permissionType: DocumentPermissionType
         /// The name of the document that you want to share.
         public let name: String
         /// The AWS user accounts that should no longer have access to the document. The AWS user account can either be a group of account IDs or All. This action has a higher priority than AccountIdsToAdd. If you specify an account ID to add and the same ID to remove, the system removes access to the document.
@@ -1081,7 +1111,7 @@ extension Ssm {
         /// The AWS user accounts that should have access to the document. The account IDs can either be a group of account IDs or All.
         public let accountIdsToAdd: AccountIdList?
 
-        public init(permissionType: String, name: String, accountIdsToRemove: AccountIdList? = nil, accountIdsToAdd: AccountIdList? = nil) {
+        public init(permissionType: DocumentPermissionType, name: String, accountIdsToRemove: AccountIdList? = nil, accountIdsToAdd: AccountIdList? = nil) {
             self.permissionType = permissionType
             self.name = name
             self.accountIdsToRemove = accountIdsToRemove
@@ -1089,7 +1119,7 @@ extension Ssm {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let permissionType = dictionary["PermissionType"] as? String else { throw InitializableError.missingRequiredParam("PermissionType") }
+            guard let rawPermissionType = dictionary["PermissionType"] as? String, let permissionType = DocumentPermissionType(rawValue: rawPermissionType) else { throw InitializableError.missingRequiredParam("PermissionType") }
             self.permissionType = permissionType
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
@@ -1134,11 +1164,11 @@ extension Ssm {
         /// The title of the patch.
         public let title: String
         /// The state of the patch on the instance (INSTALLED, INSTALLED_OTHER, MISSING, NOT_APPLICABLE or FAILED).
-        public let state: String
+        public let state: PatchComplianceDataState
         /// The Microsoft Knowledge Base ID of the patch.
         public let kBId: String
 
-        public init(severity: String, classification: String, installedTime: Date, title: String, state: String, kBId: String) {
+        public init(severity: String, classification: String, installedTime: Date, title: String, state: PatchComplianceDataState, kBId: String) {
             self.severity = severity
             self.classification = classification
             self.installedTime = installedTime
@@ -1156,7 +1186,7 @@ extension Ssm {
             self.installedTime = installedTime
             guard let title = dictionary["Title"] as? String else { throw InitializableError.missingRequiredParam("Title") }
             self.title = title
-            guard let state = dictionary["State"] as? String else { throw InitializableError.missingRequiredParam("State") }
+            guard let rawState = dictionary["State"] as? String, let state = PatchComplianceDataState(rawValue: rawState) else { throw InitializableError.missingRequiredParam("State") }
             self.state = state
             guard let kBId = dictionary["KBId"] as? String else { throw InitializableError.missingRequiredParam("KBId") }
             self.kBId = kBId
@@ -1246,6 +1276,15 @@ extension Ssm {
             self.nextToken = dictionary["NextToken"] as? String
             self.maxResults = dictionary["MaxResults"] as? Int32
         }
+    }
+
+    public enum PatchComplianceDataState: String, CustomStringConvertible {
+        case installed = "INSTALLED"
+        case installed_other = "INSTALLED_OTHER"
+        case missing = "MISSING"
+        case not_applicable = "NOT_APPLICABLE"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
     }
 
     public struct DescribeAutomationExecutionsRequest: AWSShape {
@@ -1411,7 +1450,7 @@ extension Ssm {
         /// The IAM role ARN of the user who executed the Automation.
         public let executedBy: String?
         /// The status of the execution. Valid values include: Running, Succeeded, Failed, Timed out, or Cancelled.
-        public let automationExecutionStatus: String?
+        public let automationExecutionStatus: AutomationExecutionStatus?
         /// The name of the Automation document used during execution.
         public let documentName: String?
         /// The document version used during the execution.
@@ -1427,7 +1466,7 @@ extension Ssm {
         /// The time the execution finished. This is not populated if the execution is still in progress.
         public let executionEndTime: Date?
 
-        public init(executedBy: String? = nil, automationExecutionStatus: String? = nil, documentName: String? = nil, documentVersion: String? = nil, executionStartTime: Date? = nil, outputs: [String: [String]]? = nil, logFile: String? = nil, automationExecutionId: String? = nil, executionEndTime: Date? = nil) {
+        public init(executedBy: String? = nil, automationExecutionStatus: AutomationExecutionStatus? = nil, documentName: String? = nil, documentVersion: String? = nil, executionStartTime: Date? = nil, outputs: [String: [String]]? = nil, logFile: String? = nil, automationExecutionId: String? = nil, executionEndTime: Date? = nil) {
             self.executedBy = executedBy
             self.automationExecutionStatus = automationExecutionStatus
             self.documentName = documentName
@@ -1441,7 +1480,7 @@ extension Ssm {
 
         public init(dictionary: [String: Any]) throws {
             self.executedBy = dictionary["ExecutedBy"] as? String
-            self.automationExecutionStatus = dictionary["AutomationExecutionStatus"] as? String
+            if let automationExecutionStatus = dictionary["AutomationExecutionStatus"] as? String { self.automationExecutionStatus = AutomationExecutionStatus(rawValue: automationExecutionStatus) } else { self.automationExecutionStatus = nil }
             self.documentName = dictionary["DocumentName"] as? String
             self.documentVersion = dictionary["DocumentVersion"] as? String
             self.executionStartTime = dictionary["ExecutionStartTime"] as? Date
@@ -1553,6 +1592,16 @@ extension Ssm {
         }
     }
 
+    public enum AutomationExecutionStatus: String, CustomStringConvertible {
+        case pending = "Pending"
+        case inprogress = "InProgress"
+        case success = "Success"
+        case timedout = "TimedOut"
+        case cancelled = "Cancelled"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DeletePatchBaselineResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1600,7 +1649,7 @@ extension Ssm {
         /// The IP address of the managed instance.
         public let iPAddress: String?
         /// The type of instance. Instances are either EC2 instances or managed instances. 
-        public let resourceType: String?
+        public let resourceType: ResourceType?
         /// The version of the OS platform running on your instance. 
         public let platformVersion: String?
         /// The fully qualified host name of the managed instance.
@@ -1620,17 +1669,17 @@ extension Ssm {
         /// The instance ID. 
         public let instanceId: String?
         /// Connection status of the SSM agent. 
-        public let pingStatus: String?
+        public let pingStatus: PingStatus?
         /// The date the server or VM was registered with AWS as a managed instance.
         public let registrationDate: Date?
         /// The operating system platform type. 
-        public let platformType: String?
+        public let platformType: PlatformType?
         /// The activation ID created by Systems Manager when the server or VM was registered.
         public let activationId: String?
         /// The date and time when agent last pinged Systems Manager service. 
         public let lastPingDateTime: Date?
 
-        public init(lastSuccessfulAssociationExecutionDate: Date? = nil, isLatestVersion: Bool? = nil, associationOverview: InstanceAggregatedAssociationOverview? = nil, iPAddress: String? = nil, resourceType: String? = nil, platformVersion: String? = nil, computerName: String? = nil, associationStatus: String? = nil, lastAssociationExecutionDate: Date? = nil, iamRole: String? = nil, platformName: String? = nil, agentVersion: String? = nil, name: String? = nil, instanceId: String? = nil, pingStatus: String? = nil, registrationDate: Date? = nil, platformType: String? = nil, activationId: String? = nil, lastPingDateTime: Date? = nil) {
+        public init(lastSuccessfulAssociationExecutionDate: Date? = nil, isLatestVersion: Bool? = nil, associationOverview: InstanceAggregatedAssociationOverview? = nil, iPAddress: String? = nil, resourceType: ResourceType? = nil, platformVersion: String? = nil, computerName: String? = nil, associationStatus: String? = nil, lastAssociationExecutionDate: Date? = nil, iamRole: String? = nil, platformName: String? = nil, agentVersion: String? = nil, name: String? = nil, instanceId: String? = nil, pingStatus: PingStatus? = nil, registrationDate: Date? = nil, platformType: PlatformType? = nil, activationId: String? = nil, lastPingDateTime: Date? = nil) {
             self.lastSuccessfulAssociationExecutionDate = lastSuccessfulAssociationExecutionDate
             self.isLatestVersion = isLatestVersion
             self.associationOverview = associationOverview
@@ -1657,7 +1706,7 @@ extension Ssm {
             self.isLatestVersion = dictionary["IsLatestVersion"] as? Bool
             if let associationOverview = dictionary["AssociationOverview"] as? [String: Any] { self.associationOverview = try Ssm.InstanceAggregatedAssociationOverview(dictionary: associationOverview) } else { self.associationOverview = nil }
             self.iPAddress = dictionary["IPAddress"] as? String
-            self.resourceType = dictionary["ResourceType"] as? String
+            if let resourceType = dictionary["ResourceType"] as? String { self.resourceType = ResourceType(rawValue: resourceType) } else { self.resourceType = nil }
             self.platformVersion = dictionary["PlatformVersion"] as? String
             self.computerName = dictionary["ComputerName"] as? String
             self.associationStatus = dictionary["AssociationStatus"] as? String
@@ -1667,12 +1716,30 @@ extension Ssm {
             self.agentVersion = dictionary["AgentVersion"] as? String
             self.name = dictionary["Name"] as? String
             self.instanceId = dictionary["InstanceId"] as? String
-            self.pingStatus = dictionary["PingStatus"] as? String
+            if let pingStatus = dictionary["PingStatus"] as? String { self.pingStatus = PingStatus(rawValue: pingStatus) } else { self.pingStatus = nil }
             self.registrationDate = dictionary["RegistrationDate"] as? Date
-            self.platformType = dictionary["PlatformType"] as? String
+            if let platformType = dictionary["PlatformType"] as? String { self.platformType = PlatformType(rawValue: platformType) } else { self.platformType = nil }
             self.activationId = dictionary["ActivationId"] as? String
             self.lastPingDateTime = dictionary["LastPingDateTime"] as? Date
         }
+    }
+
+    public enum DocumentType: String, CustomStringConvertible {
+        case command = "Command"
+        case policy = "Policy"
+        case automation = "Automation"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CommandStatus: String, CustomStringConvertible {
+        case pending = "Pending"
+        case inprogress = "InProgress"
+        case success = "Success"
+        case cancelled = "Cancelled"
+        case failed = "Failed"
+        case timedout = "TimedOut"
+        case cancelling = "Cancelling"
+        public var description: String { return self.rawValue }
     }
 
     public struct DescribeActivationsRequest: AWSShape {
@@ -1742,6 +1809,16 @@ extension Ssm {
         }
     }
 
+    public enum CommandPluginStatus: String, CustomStringConvertible {
+        case pending = "Pending"
+        case inprogress = "InProgress"
+        case success = "Success"
+        case timedout = "TimedOut"
+        case cancelled = "Cancelled"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
     public struct CommandInvocation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1757,7 +1834,7 @@ extension Ssm {
         ///  Gets the trace output sent by the agent. 
         public let traceOutput: String?
         /// Whether or not the invocation succeeded, failed, or is pending.
-        public let status: String?
+        public let status: CommandInvocationStatus?
         /// The name of the invocation target. For Amazon EC2 instances this is the value for the aws:Name tag. For on-premises instances, this is the name of the instance.
         public let instanceName: String?
         /// The time and date the request was sent to this instance.
@@ -1773,7 +1850,7 @@ extension Ssm {
         /// A detailed status of the command execution for each invocation (each instance targeted by the command). StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Monitor Commands (Linux) or Monitor Commands (Windows). StatusDetails can be one of the following values:    Pending – The command has not been sent to the instance.   In Progress – The command has been sent to the instance but has not reached a terminal state.   Success – The execution of the command or plugin was successfully completed. This is a terminal state.   Delivery Timed Out – The command was not delivered to the instance before the delivery timeout expired. Delivery timeouts do not count against the parent command’s MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out – Command execution started on the instance, but the execution was not complete before the execution timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed – The command was not successful on the instance. For a plugin, this indicates that the result code was not zero. For a command invocation, this indicates that the result code for one or more plugins was not zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Canceled – The command was terminated before it was completed. This is a terminal state.   Undeliverable – The command can't be delivered to the instance. The instance might not exist or might not be responding. Undeliverable invocations don't count against the parent command’s MaxErrors limit and don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated – The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.  
         public let statusDetails: String?
 
-        public init(commandPlugins: [CommandPlugin]? = nil, notificationConfig: NotificationConfig? = nil, comment: String? = nil, standardOutputUrl: String? = nil, serviceRole: String? = nil, traceOutput: String? = nil, status: String? = nil, instanceName: String? = nil, requestedDateTime: Date? = nil, instanceId: String? = nil, documentName: String? = nil, standardErrorUrl: String? = nil, commandId: String? = nil, statusDetails: String? = nil) {
+        public init(commandPlugins: [CommandPlugin]? = nil, notificationConfig: NotificationConfig? = nil, comment: String? = nil, standardOutputUrl: String? = nil, serviceRole: String? = nil, traceOutput: String? = nil, status: CommandInvocationStatus? = nil, instanceName: String? = nil, requestedDateTime: Date? = nil, instanceId: String? = nil, documentName: String? = nil, standardErrorUrl: String? = nil, commandId: String? = nil, statusDetails: String? = nil) {
             self.commandPlugins = commandPlugins
             self.notificationConfig = notificationConfig
             self.comment = comment
@@ -1801,7 +1878,7 @@ extension Ssm {
             self.standardOutputUrl = dictionary["StandardOutputUrl"] as? String
             self.serviceRole = dictionary["ServiceRole"] as? String
             self.traceOutput = dictionary["TraceOutput"] as? String
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = CommandInvocationStatus(rawValue: status) } else { self.status = nil }
             self.instanceName = dictionary["InstanceName"] as? String
             self.requestedDateTime = dictionary["RequestedDateTime"] as? Date
             self.instanceId = dictionary["InstanceId"] as? String
@@ -1842,20 +1919,20 @@ extension Ssm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The source of the failure.
-        public let fault: String?
+        public let fault: Fault?
         /// The association.
         public let entry: CreateAssociationBatchRequestEntry?
         /// A description of the failure.
         public let message: String?
 
-        public init(fault: String? = nil, entry: CreateAssociationBatchRequestEntry? = nil, message: String? = nil) {
+        public init(fault: Fault? = nil, entry: CreateAssociationBatchRequestEntry? = nil, message: String? = nil) {
             self.fault = fault
             self.entry = entry
             self.message = message
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.fault = dictionary["Fault"] as? String
+            if let fault = dictionary["Fault"] as? String { self.fault = Fault(rawValue: fault) } else { self.fault = nil }
             if let entry = dictionary["Entry"] as? [String: Any] { self.entry = try Ssm.CreateAssociationBatchRequestEntry(dictionary: entry) } else { self.entry = nil }
             self.message = dictionary["Message"] as? String
         }
@@ -1867,7 +1944,7 @@ extension Ssm {
         /// The schema version.
         public let schemaVersion: String?
         /// The document type.
-        public let documentType: String?
+        public let documentType: DocumentType?
         /// The AWS user account of the person who created the document.
         public let owner: String?
         /// The name of the SSM document.
@@ -1877,7 +1954,7 @@ extension Ssm {
         /// The document version.
         public let documentVersion: String?
 
-        public init(schemaVersion: String? = nil, documentType: String? = nil, owner: String? = nil, name: String? = nil, platformTypes: PlatformTypeList? = nil, documentVersion: String? = nil) {
+        public init(schemaVersion: String? = nil, documentType: DocumentType? = nil, owner: String? = nil, name: String? = nil, platformTypes: PlatformTypeList? = nil, documentVersion: String? = nil) {
             self.schemaVersion = schemaVersion
             self.documentType = documentType
             self.owner = owner
@@ -1888,7 +1965,7 @@ extension Ssm {
 
         public init(dictionary: [String: Any]) throws {
             self.schemaVersion = dictionary["SchemaVersion"] as? String
-            self.documentType = dictionary["DocumentType"] as? String
+            if let documentType = dictionary["DocumentType"] as? String { self.documentType = DocumentType(rawValue: documentType) } else { self.documentType = nil }
             self.owner = dictionary["Owner"] as? String
             self.name = dictionary["Name"] as? String
             if let platformTypes = dictionary["PlatformTypes"] as? [String: Any] { self.platformTypes = try Ssm.PlatformTypeList(dictionary: platformTypes) } else { self.platformTypes = nil }
@@ -2009,6 +2086,14 @@ extension Ssm {
         }
     }
 
+    public enum DocumentFilterKey: String, CustomStringConvertible {
+        case name = "Name"
+        case owner = "Owner"
+        case platformtypes = "PlatformTypes"
+        case documenttype = "DocumentType"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Target: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2026,6 +2111,19 @@ extension Ssm {
             self.key = dictionary["Key"] as? String
             self.values = dictionary["Values"] as? [String]
         }
+    }
+
+    public enum AssociationStatusName: String, CustomStringConvertible {
+        case pending = "Pending"
+        case success = "Success"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PatchOperationType: String, CustomStringConvertible {
+        case scan = "Scan"
+        case install = "Install"
+        public var description: String { return self.rawValue }
     }
 
     public struct AssociationDescription: AWSShape {
@@ -2259,20 +2357,20 @@ extension Ssm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of filter. Valid values include the following: "Equal"|"NotEqual"|"BeginWith"|"LessThan"|"GreaterThan"
-        public let type: String?
+        public let `type`: InventoryQueryOperatorType?
         /// The name of the filter key.
         public let key: String
         /// Inventory filter values. Example: inventory filter where instance IDs are specified as values Key=AWS:InstanceInformation.InstanceId,Values= i-a12b3c4d5e6g, i-1a2b3c4d5e6,Type=Equal 
         public let values: InventoryFilterValueList
 
-        public init(type: String? = nil, key: String, values: InventoryFilterValueList) {
-            self.type = type
+        public init(type: InventoryQueryOperatorType? = nil, key: String, values: InventoryFilterValueList) {
+            self.`type` = `type`
             self.key = key
             self.values = values
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = InventoryQueryOperatorType(rawValue: `type`) } else { self.`type` = nil }
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
             guard let values = dictionary["Values"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Values") }
@@ -2301,6 +2399,12 @@ extension Ssm {
                 self.commands = nil
             }
         }
+    }
+
+    public enum DocumentParameterType: String, CustomStringConvertible {
+        case string = "String"
+        case stringlist = "StringList"
+        public var description: String { return self.rawValue }
     }
 
     public struct GetPatchBaselineForPatchGroupResult: AWSShape {
@@ -2385,19 +2489,26 @@ extension Ssm {
         }
     }
 
+    public enum ResourceType: String, CustomStringConvertible {
+        case managedinstance = "ManagedInstance"
+        case document = "Document"
+        case ec2instance = "EC2Instance"
+        public var description: String { return self.rawValue }
+    }
+
     public struct AssociationStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// The reason for the status.
         public let message: String
         /// The status.
-        public let name: String
+        public let name: AssociationStatusName
         /// The date when the status changed.
         public let date: Date
         /// A user-defined string.
         public let additionalInfo: String?
 
-        public init(message: String, name: String, date: Date, additionalInfo: String? = nil) {
+        public init(message: String, name: AssociationStatusName, date: Date, additionalInfo: String? = nil) {
             self.message = message
             self.name = name
             self.date = date
@@ -2407,7 +2518,7 @@ extension Ssm {
         public init(dictionary: [String: Any]) throws {
             guard let message = dictionary["Message"] as? String else { throw InitializableError.missingRequiredParam("Message") }
             self.message = message
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            guard let rawName = dictionary["Name"] as? String, let name = AssociationStatusName(rawValue: rawName) else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
             guard let date = dictionary["Date"] as? Date else { throw InitializableError.missingRequiredParam("Date") }
             self.date = date
@@ -2470,13 +2581,21 @@ extension Ssm {
         }
     }
 
+    public enum PatchFilterKey: String, CustomStringConvertible {
+        case product = "PRODUCT"
+        case classification = "CLASSIFICATION"
+        case msrc_severity = "MSRC_SEVERITY"
+        case patch_id = "PATCH_ID"
+        public var description: String { return self.rawValue }
+    }
+
     public struct AutomationExecution: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// The key-value map of execution parameters, which were supplied when calling StartAutomationExecution.
         public let parameters: [String: [String]]?
         /// The execution status of the Automation.
-        public let automationExecutionStatus: String?
+        public let automationExecutionStatus: AutomationExecutionStatus?
         /// The name of the Automation document used during the execution.
         public let documentName: String?
         /// The version of the document to use during execution.
@@ -2494,7 +2613,7 @@ extension Ssm {
         /// The time the execution finished.
         public let executionEndTime: Date?
 
-        public init(parameters: [String: [String]]? = nil, automationExecutionStatus: String? = nil, documentName: String? = nil, documentVersion: String? = nil, executionStartTime: Date? = nil, outputs: [String: [String]]? = nil, failureMessage: String? = nil, automationExecutionId: String? = nil, stepExecutions: [StepExecution]? = nil, executionEndTime: Date? = nil) {
+        public init(parameters: [String: [String]]? = nil, automationExecutionStatus: AutomationExecutionStatus? = nil, documentName: String? = nil, documentVersion: String? = nil, executionStartTime: Date? = nil, outputs: [String: [String]]? = nil, failureMessage: String? = nil, automationExecutionId: String? = nil, stepExecutions: [StepExecution]? = nil, executionEndTime: Date? = nil) {
             self.parameters = parameters
             self.automationExecutionStatus = automationExecutionStatus
             self.documentName = documentName
@@ -2518,7 +2637,7 @@ extension Ssm {
             } else { 
                 self.parameters = nil
             }
-            self.automationExecutionStatus = dictionary["AutomationExecutionStatus"] as? String
+            if let automationExecutionStatus = dictionary["AutomationExecutionStatus"] as? String { self.automationExecutionStatus = AutomationExecutionStatus(rawValue: automationExecutionStatus) } else { self.automationExecutionStatus = nil }
             self.documentName = dictionary["DocumentName"] as? String
             self.documentVersion = dictionary["DocumentVersion"] as? String
             self.executionStartTime = dictionary["ExecutionStartTime"] as? Date
@@ -2689,7 +2808,7 @@ extension Ssm {
         /// The maximum number of errors allowed before this task stops being scheduled.
         public let maxErrors: String
         /// The type of task being registered.
-        public let taskType: String
+        public let taskType: MaintenanceWindowTaskType
         /// User-provided idempotency token.
         public let clientToken: String?
         /// The parameters that should be passed to the task when it is executed.
@@ -2703,7 +2822,7 @@ extension Ssm {
         /// The maximum number of targets this task can be run for in parallel.
         public let maxConcurrency: String
 
-        public init(windowId: String, taskArn: String, serviceRoleArn: String, maxErrors: String, taskType: String, clientToken: String? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, targets: [Target], loggingInfo: LoggingInfo? = nil, priority: Int32? = nil, maxConcurrency: String) {
+        public init(windowId: String, taskArn: String, serviceRoleArn: String, maxErrors: String, taskType: MaintenanceWindowTaskType, clientToken: String? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, targets: [Target], loggingInfo: LoggingInfo? = nil, priority: Int32? = nil, maxConcurrency: String) {
             self.windowId = windowId
             self.taskArn = taskArn
             self.serviceRoleArn = serviceRoleArn
@@ -2726,7 +2845,7 @@ extension Ssm {
             self.serviceRoleArn = serviceRoleArn
             guard let maxErrors = dictionary["MaxErrors"] as? String else { throw InitializableError.missingRequiredParam("MaxErrors") }
             self.maxErrors = maxErrors
-            guard let taskType = dictionary["TaskType"] as? String else { throw InitializableError.missingRequiredParam("TaskType") }
+            guard let rawTaskType = dictionary["TaskType"] as? String, let taskType = MaintenanceWindowTaskType(rawValue: rawTaskType) else { throw InitializableError.missingRequiredParam("TaskType") }
             self.taskType = taskType
             self.clientToken = dictionary["ClientToken"] as? String
             if let taskParameters = dictionary["TaskParameters"] as? [String: Any] {
@@ -2819,12 +2938,28 @@ extension Ssm {
         }
     }
 
+    public enum NotificationType: String, CustomStringConvertible {
+        case command = "Command"
+        case invocation = "Invocation"
+        public var description: String { return self.rawValue }
+    }
+
     public struct CancelCommandResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
 
         public init(dictionary: [String: Any]) throws {
         }
+    }
+
+    public enum AssociationFilterKey: String, CustomStringConvertible {
+        case instanceid = "InstanceId"
+        case name = "Name"
+        case associationid = "AssociationId"
+        case associationstatusname = "AssociationStatusName"
+        case lastexecutedbefore = "LastExecutedBefore"
+        case lastexecutedafter = "LastExecutedAfter"
+        public var description: String { return self.rawValue }
     }
 
     public struct GetDefaultPatchBaselineRequest: AWSShape {
@@ -2863,7 +2998,7 @@ extension Ssm {
         /// Date the parameter was last changed or updated.
         public let lastModifiedDate: Date?
         /// The type of parameter used.
-        public let type: String?
+        public let `type`: ParameterType?
         /// The parameter value.
         public let value: String?
         /// Amazon Resource Name (ARN) of the AWS user who last changed the parameter.
@@ -2871,11 +3006,11 @@ extension Ssm {
         /// Information about the parameter.
         public let description: String?
 
-        public init(keyId: String? = nil, name: String? = nil, lastModifiedDate: Date? = nil, type: String? = nil, value: String? = nil, lastModifiedUser: String? = nil, description: String? = nil) {
+        public init(keyId: String? = nil, name: String? = nil, lastModifiedDate: Date? = nil, type: ParameterType? = nil, value: String? = nil, lastModifiedUser: String? = nil, description: String? = nil) {
             self.keyId = keyId
             self.name = name
             self.lastModifiedDate = lastModifiedDate
-            self.type = type
+            self.`type` = `type`
             self.value = value
             self.lastModifiedUser = lastModifiedUser
             self.description = description
@@ -2885,11 +3020,16 @@ extension Ssm {
             self.keyId = dictionary["KeyId"] as? String
             self.name = dictionary["Name"] as? String
             self.lastModifiedDate = dictionary["LastModifiedDate"] as? Date
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = ParameterType(rawValue: `type`) } else { self.`type` = nil }
             self.value = dictionary["Value"] as? String
             self.lastModifiedUser = dictionary["LastModifiedUser"] as? String
             self.description = dictionary["Description"] as? String
         }
+    }
+
+    public enum MaintenanceWindowTaskType: String, CustomStringConvertible {
+        case run_command = "RUN_COMMAND"
+        public var description: String { return self.rawValue }
     }
 
     public struct PatchOrchestratorFilter: AWSShape {
@@ -2911,6 +3051,13 @@ extension Ssm {
         }
     }
 
+    public enum CommandFilterKey: String, CustomStringConvertible {
+        case invokedafter = "InvokedAfter"
+        case invokedbefore = "InvokedBefore"
+        case status = "Status"
+        public var description: String { return self.rawValue }
+    }
+
     public struct UpdateDocumentResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2930,17 +3077,17 @@ extension Ssm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The data type of the inventory item attribute. 
-        public let dataType: String
+        public let dataType: InventoryAttributeDataType
         /// Name of the inventory item attribute.
         public let name: String
 
-        public init(dataType: String, name: String) {
+        public init(dataType: InventoryAttributeDataType, name: String) {
             self.dataType = dataType
             self.name = name
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let dataType = dictionary["DataType"] as? String else { throw InitializableError.missingRequiredParam("DataType") }
+            guard let rawDataType = dictionary["DataType"] as? String, let dataType = InventoryAttributeDataType(rawValue: rawDataType) else { throw InitializableError.missingRequiredParam("DataType") }
             self.dataType = dataType
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
@@ -2959,11 +3106,11 @@ extension Ssm {
         /// The AWS user account of the person who created the document.
         public let owner: String?
         /// The type of document. 
-        public let documentType: String?
+        public let documentType: DocumentType?
         ///  A description of the document. 
         public let description: String?
         /// The status of the SSM document.
-        public let status: String?
+        public let status: DocumentStatus?
         /// A description of the parameters for a document.
         public let parameters: DocumentParameterList?
         /// The name of the SSM document.
@@ -2979,9 +3126,9 @@ extension Ssm {
         /// The Sha256 or Sha1 hash created by the system when the document was created.   Sha1 hashes have been deprecated. 
         public let hash: String?
         /// Sha256 or Sha1.  Sha1 hashes have been deprecated. 
-        public let hashType: String?
+        public let hashType: DocumentHashType?
 
-        public init(sha1: String? = nil, defaultVersion: String? = nil, createdDate: Date? = nil, owner: String? = nil, documentType: String? = nil, description: String? = nil, status: String? = nil, parameters: DocumentParameterList? = nil, name: String? = nil, documentVersion: String? = nil, schemaVersion: String? = nil, latestVersion: String? = nil, platformTypes: PlatformTypeList? = nil, hash: String? = nil, hashType: String? = nil) {
+        public init(sha1: String? = nil, defaultVersion: String? = nil, createdDate: Date? = nil, owner: String? = nil, documentType: DocumentType? = nil, description: String? = nil, status: DocumentStatus? = nil, parameters: DocumentParameterList? = nil, name: String? = nil, documentVersion: String? = nil, schemaVersion: String? = nil, latestVersion: String? = nil, platformTypes: PlatformTypeList? = nil, hash: String? = nil, hashType: DocumentHashType? = nil) {
             self.sha1 = sha1
             self.defaultVersion = defaultVersion
             self.createdDate = createdDate
@@ -3004,9 +3151,9 @@ extension Ssm {
             self.defaultVersion = dictionary["DefaultVersion"] as? String
             self.createdDate = dictionary["CreatedDate"] as? Date
             self.owner = dictionary["Owner"] as? String
-            self.documentType = dictionary["DocumentType"] as? String
+            if let documentType = dictionary["DocumentType"] as? String { self.documentType = DocumentType(rawValue: documentType) } else { self.documentType = nil }
             self.description = dictionary["Description"] as? String
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = DocumentStatus(rawValue: status) } else { self.status = nil }
             if let parameters = dictionary["Parameters"] as? [String: Any] { self.parameters = try Ssm.DocumentParameterList(dictionary: parameters) } else { self.parameters = nil }
             self.name = dictionary["Name"] as? String
             self.documentVersion = dictionary["DocumentVersion"] as? String
@@ -3014,7 +3161,7 @@ extension Ssm {
             self.latestVersion = dictionary["LatestVersion"] as? String
             if let platformTypes = dictionary["PlatformTypes"] as? [String: Any] { self.platformTypes = try Ssm.PlatformTypeList(dictionary: platformTypes) } else { self.platformTypes = nil }
             self.hash = dictionary["Hash"] as? String
-            self.hashType = dictionary["HashType"] as? String
+            if let hashType = dictionary["HashType"] as? String { self.hashType = DocumentHashType(rawValue: hashType) } else { self.hashType = nil }
         }
     }
 
@@ -3043,17 +3190,17 @@ extension Ssm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the filter. 
-        public let key: String
+        public let key: InstanceInformationFilterKey
         /// The filter values.
         public let valueSet: InstanceInformationFilterValueSet
 
-        public init(key: String, valueSet: InstanceInformationFilterValueSet) {
+        public init(key: InstanceInformationFilterKey, valueSet: InstanceInformationFilterValueSet) {
             self.key = key
             self.valueSet = valueSet
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let key = dictionary["key"] as? String else { throw InitializableError.missingRequiredParam("key") }
+            guard let rawkey = dictionary["key"] as? String, let key = InstanceInformationFilterKey(rawValue: rawkey) else { throw InitializableError.missingRequiredParam("key") }
             self.key = key
             guard let valueSet = dictionary["valueSet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("valueSet") }
             self.valueSet = try Ssm.InstanceInformationFilterValueSet(dictionary: valueSet)
@@ -3114,9 +3261,9 @@ extension Ssm {
         /// The name of the document for which you are the owner.
         public let name: String
         /// The permission type for the document. The permission type can be Share.
-        public let permissionType: String
+        public let permissionType: DocumentPermissionType
 
-        public init(name: String, permissionType: String) {
+        public init(name: String, permissionType: DocumentPermissionType) {
             self.name = name
             self.permissionType = permissionType
         }
@@ -3124,7 +3271,7 @@ extension Ssm {
         public init(dictionary: [String: Any]) throws {
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
-            guard let permissionType = dictionary["PermissionType"] as? String else { throw InitializableError.missingRequiredParam("PermissionType") }
+            guard let rawPermissionType = dictionary["PermissionType"] as? String, let permissionType = DocumentPermissionType(rawValue: rawPermissionType) else { throw InitializableError.missingRequiredParam("PermissionType") }
             self.permissionType = permissionType
         }
     }
@@ -3152,21 +3299,26 @@ extension Ssm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the filter. For example, requested date and time.
-        public let key: String
+        public let key: CommandFilterKey
         /// The filter value. For example: June 30, 2015.
         public let value: String
 
-        public init(key: String, value: String) {
+        public init(key: CommandFilterKey, value: String) {
             self.key = key
             self.value = value
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let key = dictionary["key"] as? String else { throw InitializableError.missingRequiredParam("key") }
+            guard let rawkey = dictionary["key"] as? String, let key = CommandFilterKey(rawValue: rawkey) else { throw InitializableError.missingRequiredParam("key") }
             self.key = key
             guard let value = dictionary["value"] as? String else { throw InitializableError.missingRequiredParam("value") }
             self.value = value
         }
+    }
+
+    public enum MaintenanceWindowResourceType: String, CustomStringConvertible {
+        case instance = "INSTANCE"
+        public var description: String { return self.rawValue }
     }
 
     public struct CreateDocumentRequest: AWSShape {
@@ -3177,9 +3329,9 @@ extension Ssm {
         /// A name for the SSM document.
         public let name: String
         /// The type of document to create. Valid document types include: Policy, Automation, and Command.
-        public let documentType: String?
+        public let documentType: DocumentType?
 
-        public init(content: String, name: String, documentType: String? = nil) {
+        public init(content: String, name: String, documentType: DocumentType? = nil) {
             self.content = content
             self.name = name
             self.documentType = documentType
@@ -3190,7 +3342,7 @@ extension Ssm {
             self.content = content
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
-            self.documentType = dictionary["DocumentType"] as? String
+            if let documentType = dictionary["DocumentType"] as? String { self.documentType = DocumentType(rawValue: documentType) } else { self.documentType = nil }
         }
     }
 
@@ -3341,6 +3493,13 @@ extension Ssm {
         }
     }
 
+    public enum Fault: String, CustomStringConvertible {
+        case client = "Client"
+        case server = "Server"
+        case unknown = "Unknown"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ListCommandsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -3384,7 +3543,7 @@ extension Ssm {
         /// The ID of the query key used for this parameter.
         public let keyId: String?
         /// The type of parameter. Valid parameter types include the following: String, String list, Secure string.
-        public let type: String?
+        public let `type`: ParameterType?
         /// The parameter name.
         public let name: String?
         /// Amazon Resource Name (ARN) of the AWS user who last changed the parameter.
@@ -3392,10 +3551,10 @@ extension Ssm {
         /// Description of the parameter actions.
         public let description: String?
 
-        public init(lastModifiedDate: Date? = nil, keyId: String? = nil, type: String? = nil, name: String? = nil, lastModifiedUser: String? = nil, description: String? = nil) {
+        public init(lastModifiedDate: Date? = nil, keyId: String? = nil, type: ParameterType? = nil, name: String? = nil, lastModifiedUser: String? = nil, description: String? = nil) {
             self.lastModifiedDate = lastModifiedDate
             self.keyId = keyId
-            self.type = type
+            self.`type` = `type`
             self.name = name
             self.lastModifiedUser = lastModifiedUser
             self.description = description
@@ -3404,11 +3563,18 @@ extension Ssm {
         public init(dictionary: [String: Any]) throws {
             self.lastModifiedDate = dictionary["LastModifiedDate"] as? Date
             self.keyId = dictionary["KeyId"] as? String
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = ParameterType(rawValue: `type`) } else { self.`type` = nil }
             self.name = dictionary["Name"] as? String
             self.lastModifiedUser = dictionary["LastModifiedUser"] as? String
             self.description = dictionary["Description"] as? String
         }
+    }
+
+    public enum DescribeActivationsFilterKeys: String, CustomStringConvertible {
+        case activationids = "ActivationIds"
+        case defaultinstancename = "DefaultInstanceName"
+        case iamrole = "IamRole"
+        public var description: String { return self.rawValue }
     }
 
     public struct DescribeMaintenanceWindowsRequest: AWSShape {
@@ -3441,14 +3607,14 @@ extension Ssm {
     public struct PlatformTypeList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let platformType: [String]?
+        public let platformType: [PlatformType]?
 
-        public init(platformType: [String]? = nil) {
+        public init(platformType: [PlatformType]? = nil) {
             self.platformType = platformType
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.platformType = dictionary["PlatformType"] as? [String]
+            if let platformType = dictionary["PlatformType"] as? [String] { self.platformType = platformType.flatMap({ PlatformType(rawValue: $0)}) } else { self.platformType = nil }
         }
     }
 
@@ -3611,7 +3777,7 @@ extension Ssm {
         /// The URL for the complete text written by the plugin to stdout in Amazon S3. If an Amazon S3 bucket was not specified, then this string is empty.
         public let standardOutputUrl: String?
         /// The status of the parent command for this invocation. This status can be different than StatusDetails.
-        public let status: String?
+        public let status: CommandInvocationStatus?
         /// The ID of the managed instance targeted by the command. A managed instance can be an Amazon EC2 instance or an instance in your hybrid environment that is configured for Systems Manager.
         public let instanceId: String?
         /// The first 8,000 characters written by the plugin to stderr. If the command has not finished executing, then this string is empty.
@@ -3633,7 +3799,7 @@ extension Ssm {
         /// The date and time the plugin started executing. Date and time are written in ISO 8601 format. For example, August 28, 2016 is represented as 2016-08-28. If the plugin has not started to execute, the string is empty.
         public let executionStartDateTime: String?
 
-        public init(pluginName: String? = nil, executionElapsedTime: String? = nil, comment: String? = nil, standardOutputUrl: String? = nil, status: String? = nil, instanceId: String? = nil, standardErrorContent: String? = nil, documentName: String? = nil, standardErrorUrl: String? = nil, executionEndDateTime: String? = nil, responseCode: Int32? = nil, standardOutputContent: String? = nil, commandId: String? = nil, statusDetails: String? = nil, executionStartDateTime: String? = nil) {
+        public init(pluginName: String? = nil, executionElapsedTime: String? = nil, comment: String? = nil, standardOutputUrl: String? = nil, status: CommandInvocationStatus? = nil, instanceId: String? = nil, standardErrorContent: String? = nil, documentName: String? = nil, standardErrorUrl: String? = nil, executionEndDateTime: String? = nil, responseCode: Int32? = nil, standardOutputContent: String? = nil, commandId: String? = nil, statusDetails: String? = nil, executionStartDateTime: String? = nil) {
             self.pluginName = pluginName
             self.executionElapsedTime = executionElapsedTime
             self.comment = comment
@@ -3656,7 +3822,7 @@ extension Ssm {
             self.executionElapsedTime = dictionary["ExecutionElapsedTime"] as? String
             self.comment = dictionary["Comment"] as? String
             self.standardOutputUrl = dictionary["StandardOutputUrl"] as? String
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = CommandInvocationStatus(rawValue: status) } else { self.status = nil }
             self.instanceId = dictionary["InstanceId"] as? String
             self.standardErrorContent = dictionary["StandardErrorContent"] as? String
             self.documentName = dictionary["DocumentName"] as? String
@@ -3761,16 +3927,16 @@ extension Ssm {
         /// The date the patch was approved (or will be approved if the status is PENDING_APPROVAL).
         public let approvalDate: Date?
         /// The approval status of a patch (APPROVED, PENDING_APPROVAL, EXPLICIT_APPROVED, EXPLICIT_REJECTED).
-        public let deploymentStatus: String?
+        public let deploymentStatus: PatchDeploymentStatus?
 
-        public init(approvalDate: Date? = nil, deploymentStatus: String? = nil) {
+        public init(approvalDate: Date? = nil, deploymentStatus: PatchDeploymentStatus? = nil) {
             self.approvalDate = approvalDate
             self.deploymentStatus = deploymentStatus
         }
 
         public init(dictionary: [String: Any]) throws {
             self.approvalDate = dictionary["ApprovalDate"] as? Date
-            self.deploymentStatus = dictionary["DeploymentStatus"] as? String
+            if let deploymentStatus = dictionary["DeploymentStatus"] as? String { self.deploymentStatus = PatchDeploymentStatus(rawValue: deploymentStatus) } else { self.deploymentStatus = nil }
         }
     }
 
@@ -3842,13 +4008,13 @@ extension Ssm {
         /// The time the Maintenance Window started executing.
         public let startTime: Date?
         /// The status of the Maintenance Window execution.
-        public let status: String?
+        public let status: MaintenanceWindowExecutionStatus?
         /// The ID of the Maintenance Window execution.
         public let windowExecutionId: String?
         /// The details explaining the Status. Only available for certain status values.
         public let statusDetails: String?
 
-        public init(endTime: Date? = nil, taskIds: [String]? = nil, startTime: Date? = nil, status: String? = nil, windowExecutionId: String? = nil, statusDetails: String? = nil) {
+        public init(endTime: Date? = nil, taskIds: [String]? = nil, startTime: Date? = nil, status: MaintenanceWindowExecutionStatus? = nil, windowExecutionId: String? = nil, statusDetails: String? = nil) {
             self.endTime = endTime
             self.taskIds = taskIds
             self.startTime = startTime
@@ -3861,7 +4027,7 @@ extension Ssm {
             self.endTime = dictionary["EndTime"] as? Date
             self.taskIds = dictionary["TaskIds"] as? [String]
             self.startTime = dictionary["StartTime"] as? Date
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = MaintenanceWindowExecutionStatus(rawValue: status) } else { self.status = nil }
             self.windowExecutionId = dictionary["WindowExecutionId"] as? String
             self.statusDetails = dictionary["StatusDetails"] as? String
         }
@@ -4031,21 +4197,30 @@ extension Ssm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The aspect of the Automation execution information that should be limited.
-        public let key: String
+        public let key: AutomationExecutionFilterKey
         /// The values used to limit the execution information associated with the filter's key.
         public let values: [String]
 
-        public init(key: String, values: [String]) {
+        public init(key: AutomationExecutionFilterKey, values: [String]) {
             self.key = key
             self.values = values
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            guard let rawKey = dictionary["Key"] as? String, let key = AutomationExecutionFilterKey(rawValue: rawKey) else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
             guard let values = dictionary["Values"] as? [String] else { throw InitializableError.missingRequiredParam("Values") }
             self.values = values
         }
+    }
+
+    public enum InventoryQueryOperatorType: String, CustomStringConvertible {
+        case equal = "Equal"
+        case notequal = "NotEqual"
+        case beginwith = "BeginWith"
+        case lessthan = "LessThan"
+        case greaterthan = "GreaterThan"
+        public var description: String { return self.rawValue }
     }
 
     public struct CreateActivationRequest: AWSShape {
@@ -4088,9 +4263,9 @@ extension Ssm {
         ///  One or more tags. The value parameter is required, but if you don't want the tag to have a value, specify the parameter with no value, and we set the value to an empty string. 
         public let tags: [Tag]
         /// Specifies the type of resource you are tagging.
-        public let resourceType: String
+        public let resourceType: ResourceTypeForTagging
 
-        public init(resourceId: String, tags: [Tag], resourceType: String) {
+        public init(resourceId: String, tags: [Tag], resourceType: ResourceTypeForTagging) {
             self.resourceId = resourceId
             self.tags = tags
             self.resourceType = resourceType
@@ -4101,7 +4276,7 @@ extension Ssm {
             self.resourceId = resourceId
             guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
             self.tags = try tags.map({ try Tag(dictionary: $0) })
-            guard let resourceType = dictionary["ResourceType"] as? String else { throw InitializableError.missingRequiredParam("ResourceType") }
+            guard let rawResourceType = dictionary["ResourceType"] as? String, let resourceType = ResourceTypeForTagging(rawValue: rawResourceType) else { throw InitializableError.missingRequiredParam("ResourceType") }
             self.resourceType = resourceType
         }
     }
@@ -4130,9 +4305,9 @@ extension Ssm {
         /// The maximum number of targets this task can be run for in parallel.
         public let maxConcurrency: String?
         /// The type of task.
-        public let type: String?
+        public let `type`: MaintenanceWindowTaskType?
 
-        public init(windowId: String? = nil, taskArn: String? = nil, serviceRoleArn: String? = nil, maxErrors: String? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, windowTaskId: String? = nil, targets: [Target]? = nil, priority: Int32? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, type: String? = nil) {
+        public init(windowId: String? = nil, taskArn: String? = nil, serviceRoleArn: String? = nil, maxErrors: String? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, windowTaskId: String? = nil, targets: [Target]? = nil, priority: Int32? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, type: MaintenanceWindowTaskType? = nil) {
             self.windowId = windowId
             self.taskArn = taskArn
             self.serviceRoleArn = serviceRoleArn
@@ -4143,7 +4318,7 @@ extension Ssm {
             self.priority = priority
             self.loggingInfo = loggingInfo
             self.maxConcurrency = maxConcurrency
-            self.type = type
+            self.`type` = `type`
         }
 
         public init(dictionary: [String: Any]) throws {
@@ -4170,7 +4345,7 @@ extension Ssm {
             self.priority = dictionary["Priority"] as? Int32
             if let loggingInfo = dictionary["LoggingInfo"] as? [String: Any] { self.loggingInfo = try Ssm.LoggingInfo(dictionary: loggingInfo) } else { self.loggingInfo = nil }
             self.maxConcurrency = dictionary["MaxConcurrency"] as? String
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = MaintenanceWindowTaskType(rawValue: `type`) } else { self.`type` = nil }
         }
     }
 
@@ -4335,17 +4510,17 @@ extension Ssm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the filter.
-        public let filterKey: String?
+        public let filterKey: DescribeActivationsFilterKeys?
         /// The filter values.
         public let filterValues: [String]?
 
-        public init(filterKey: String? = nil, filterValues: [String]? = nil) {
+        public init(filterKey: DescribeActivationsFilterKeys? = nil, filterValues: [String]? = nil) {
             self.filterKey = filterKey
             self.filterValues = filterValues
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.filterKey = dictionary["FilterKey"] as? String
+            if let filterKey = dictionary["FilterKey"] as? String { self.filterKey = DescribeActivationsFilterKeys(rawValue: filterKey) } else { self.filterKey = nil }
             self.filterValues = dictionary["FilterValues"] as? [String]
         }
     }
@@ -4356,9 +4531,9 @@ extension Ssm {
         /// The resource ID for which you want to see a list of tags.
         public let resourceId: String
         /// Returns a list of tags for a specific resource type.
-        public let resourceType: String
+        public let resourceType: ResourceTypeForTagging
 
-        public init(resourceId: String, resourceType: String) {
+        public init(resourceId: String, resourceType: ResourceTypeForTagging) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
@@ -4366,7 +4541,7 @@ extension Ssm {
         public init(dictionary: [String: Any]) throws {
             guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
             self.resourceId = resourceId
-            guard let resourceType = dictionary["ResourceType"] as? String else { throw InitializableError.missingRequiredParam("ResourceType") }
+            guard let rawResourceType = dictionary["ResourceType"] as? String, let resourceType = ResourceTypeForTagging(rawValue: rawResourceType) else { throw InitializableError.missingRequiredParam("ResourceType") }
             self.resourceType = resourceType
         }
     }
@@ -4391,20 +4566,20 @@ extension Ssm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of parameter. Valid values include the following: String, String list, Secure string.
-        public let type: String?
+        public let `type`: ParameterType?
         /// The parameter value.
         public let value: String?
         /// The name of the parameter.
         public let name: String?
 
-        public init(type: String? = nil, value: String? = nil, name: String? = nil) {
-            self.type = type
+        public init(type: ParameterType? = nil, value: String? = nil, name: String? = nil) {
+            self.`type` = `type`
             self.value = value
             self.name = name
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = ParameterType(rawValue: `type`) } else { self.`type` = nil }
             self.value = dictionary["Value"] as? String
             self.name = dictionary["Name"] as? String
         }
@@ -4540,6 +4715,18 @@ extension Ssm {
         }
     }
 
+    public enum MaintenanceWindowExecutionStatus: String, CustomStringConvertible {
+        case pending = "PENDING"
+        case in_progress = "IN_PROGRESS"
+        case success = "SUCCESS"
+        case failed = "FAILED"
+        case timed_out = "TIMED_OUT"
+        case cancelling = "CANCELLING"
+        case cancelled = "CANCELLED"
+        case skipped_overlapping = "SKIPPED_OVERLAPPING"
+        public var description: String { return self.rawValue }
+    }
+
     public struct UpdateAssociationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -4612,7 +4799,7 @@ extension Ssm {
         /// The time the invocation started.
         public let startTime: Date?
         /// The status of the task invocation.
-        public let status: String?
+        public let status: MaintenanceWindowExecutionStatus?
         /// The ID of the Maintenance Window execution that ran the task.
         public let windowExecutionId: String?
         /// The ID of the task invocation.
@@ -4632,7 +4819,7 @@ extension Ssm {
         /// User-provided value that was specified when the target was registered with the Maintenance Window. This was also included in any CloudWatch events raised during the task invocation.
         public let ownerInformation: String?
 
-        public init(startTime: Date? = nil, status: String? = nil, windowExecutionId: String? = nil, invocationId: String? = nil, parameters: String? = nil, executionId: String? = nil, endTime: Date? = nil, windowTargetId: String? = nil, taskExecutionId: String? = nil, statusDetails: String? = nil, ownerInformation: String? = nil) {
+        public init(startTime: Date? = nil, status: MaintenanceWindowExecutionStatus? = nil, windowExecutionId: String? = nil, invocationId: String? = nil, parameters: String? = nil, executionId: String? = nil, endTime: Date? = nil, windowTargetId: String? = nil, taskExecutionId: String? = nil, statusDetails: String? = nil, ownerInformation: String? = nil) {
             self.startTime = startTime
             self.status = status
             self.windowExecutionId = windowExecutionId
@@ -4648,7 +4835,7 @@ extension Ssm {
 
         public init(dictionary: [String: Any]) throws {
             self.startTime = dictionary["StartTime"] as? Date
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = MaintenanceWindowExecutionStatus(rawValue: status) } else { self.status = nil }
             self.windowExecutionId = dictionary["WindowExecutionId"] as? String
             self.invocationId = dictionary["InvocationId"] as? String
             self.parameters = dictionary["Parameters"] as? String
@@ -4682,6 +4869,13 @@ extension Ssm {
         public init(dictionary: [String: Any]) throws {
             if let description = dictionary["Description"] as? [String: Any] { self.description = try Ssm.DocumentDefaultVersionDescription(dictionary: description) } else { self.description = nil }
         }
+    }
+
+    public enum PingStatus: String, CustomStringConvertible {
+        case online = "Online"
+        case connectionlost = "ConnectionLost"
+        case inactive = "Inactive"
+        public var description: String { return self.rawValue }
     }
 
     public struct CreateAssociationBatchResult: AWSShape {
@@ -4735,7 +4929,7 @@ extension Ssm {
         /// The ID of the managed instance the high-level patch compliance information was collected for.
         public let instanceId: String
         /// The type of patching operation that was performed: SCAN (assess patch compliance state) or INSTALL (install missing patches).
-        public let operation: String
+        public let operation: PatchOperationType
         /// The number of patches from the patch baseline that aren’t applicable for the instance and hence aren’t installed on the instance.
         public let notApplicableCount: Int32?
         /// The ID of the patch baseline snapshot used during the patching operation when this compliance data was collected.
@@ -4747,7 +4941,7 @@ extension Ssm {
         /// Placeholder information, this field will always be empty in the current release of the service.
         public let ownerInformation: String?
 
-        public init(installedOtherCount: Int32? = nil, failedCount: Int32? = nil, operationEndTime: Date, patchGroup: String, baselineId: String, missingCount: Int32? = nil, instanceId: String, operation: String, notApplicableCount: Int32? = nil, snapshotId: String? = nil, installedCount: Int32? = nil, operationStartTime: Date, ownerInformation: String? = nil) {
+        public init(installedOtherCount: Int32? = nil, failedCount: Int32? = nil, operationEndTime: Date, patchGroup: String, baselineId: String, missingCount: Int32? = nil, instanceId: String, operation: PatchOperationType, notApplicableCount: Int32? = nil, snapshotId: String? = nil, installedCount: Int32? = nil, operationStartTime: Date, ownerInformation: String? = nil) {
             self.installedOtherCount = installedOtherCount
             self.failedCount = failedCount
             self.operationEndTime = operationEndTime
@@ -4775,7 +4969,7 @@ extension Ssm {
             self.missingCount = dictionary["MissingCount"] as? Int32
             guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
             self.instanceId = instanceId
-            guard let operation = dictionary["Operation"] as? String else { throw InitializableError.missingRequiredParam("Operation") }
+            guard let rawOperation = dictionary["Operation"] as? String, let operation = PatchOperationType(rawValue: rawOperation) else { throw InitializableError.missingRequiredParam("Operation") }
             self.operation = operation
             self.notApplicableCount = dictionary["NotApplicableCount"] as? Int32
             self.snapshotId = dictionary["SnapshotId"] as? String
@@ -4792,13 +4986,13 @@ extension Ssm {
         /// The time the task execution started.
         public let startTime: Date?
         /// The status of the task execution.
-        public let status: String?
+        public let status: MaintenanceWindowExecutionStatus?
         /// The ID of the Maintenance Window execution that ran the task.
         public let windowExecutionId: String?
         /// The ARN of the executed task.
         public let taskArn: String?
         /// The type of executed task.
-        public let taskType: String?
+        public let taskType: MaintenanceWindowTaskType?
         /// The time the task execution finished.
         public let endTime: Date?
         /// The ID of the specific task execution in the Maintenance Window execution.
@@ -4806,7 +5000,7 @@ extension Ssm {
         /// The details explaining the status of the task execution. Only available for certain status values.
         public let statusDetails: String?
 
-        public init(startTime: Date? = nil, status: String? = nil, windowExecutionId: String? = nil, taskArn: String? = nil, taskType: String? = nil, endTime: Date? = nil, taskExecutionId: String? = nil, statusDetails: String? = nil) {
+        public init(startTime: Date? = nil, status: MaintenanceWindowExecutionStatus? = nil, windowExecutionId: String? = nil, taskArn: String? = nil, taskType: MaintenanceWindowTaskType? = nil, endTime: Date? = nil, taskExecutionId: String? = nil, statusDetails: String? = nil) {
             self.startTime = startTime
             self.status = status
             self.windowExecutionId = windowExecutionId
@@ -4819,10 +5013,10 @@ extension Ssm {
 
         public init(dictionary: [String: Any]) throws {
             self.startTime = dictionary["StartTime"] as? Date
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = MaintenanceWindowExecutionStatus(rawValue: status) } else { self.status = nil }
             self.windowExecutionId = dictionary["WindowExecutionId"] as? String
             self.taskArn = dictionary["TaskArn"] as? String
-            self.taskType = dictionary["TaskType"] as? String
+            if let taskType = dictionary["TaskType"] as? String { self.taskType = MaintenanceWindowTaskType(rawValue: taskType) } else { self.taskType = nil }
             self.endTime = dictionary["EndTime"] as? Date
             self.taskExecutionId = dictionary["TaskExecutionId"] as? String
             self.statusDetails = dictionary["StatusDetails"] as? String
@@ -4839,13 +5033,13 @@ extension Ssm {
         /// The time the execution started.
         public let startTime: Date?
         /// The status of the execution.
-        public let status: String?
+        public let status: MaintenanceWindowExecutionStatus?
         /// The ID of the Maintenance Window execution.
         public let windowExecutionId: String?
         /// The details explaining the Status. Only available for certain status values.
         public let statusDetails: String?
 
-        public init(endTime: Date? = nil, windowId: String? = nil, startTime: Date? = nil, status: String? = nil, windowExecutionId: String? = nil, statusDetails: String? = nil) {
+        public init(endTime: Date? = nil, windowId: String? = nil, startTime: Date? = nil, status: MaintenanceWindowExecutionStatus? = nil, windowExecutionId: String? = nil, statusDetails: String? = nil) {
             self.endTime = endTime
             self.windowId = windowId
             self.startTime = startTime
@@ -4858,10 +5052,31 @@ extension Ssm {
             self.endTime = dictionary["EndTime"] as? Date
             self.windowId = dictionary["WindowId"] as? String
             self.startTime = dictionary["StartTime"] as? Date
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = MaintenanceWindowExecutionStatus(rawValue: status) } else { self.status = nil }
             self.windowExecutionId = dictionary["WindowExecutionId"] as? String
             self.statusDetails = dictionary["StatusDetails"] as? String
         }
+    }
+
+    public enum InstancePatchStateOperatorType: String, CustomStringConvertible {
+        case equal = "Equal"
+        case notequal = "NotEqual"
+        case lessthan = "LessThan"
+        case greaterthan = "GreaterThan"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DocumentHashType: String, CustomStringConvertible {
+        case sha256 = "Sha256"
+        case sha1 = "Sha1"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ParameterType: String, CustomStringConvertible {
+        case string = "String"
+        case stringlist = "StringList"
+        case securestring = "SecureString"
+        public var description: String { return self.rawValue }
     }
 
     public struct AssociationList: AWSShape {
@@ -4975,11 +5190,11 @@ extension Ssm {
         /// If a step failed, this message explains why the execution failed.
         public let failureMessage: String?
         /// The execution status for this step. Valid values include: Pending, InProgress, Success, Cancelled, Failed, and TimedOut.
-        public let stepStatus: String?
+        public let stepStatus: AutomationExecutionStatus?
         /// A message associated with the response code for an execution.
         public let response: String?
 
-        public init(executionEndTime: Date? = nil, stepName: String? = nil, action: String? = nil, inputs: [String: String]? = nil, executionStartTime: Date? = nil, outputs: [String: [String]]? = nil, responseCode: String? = nil, failureMessage: String? = nil, stepStatus: String? = nil, response: String? = nil) {
+        public init(executionEndTime: Date? = nil, stepName: String? = nil, action: String? = nil, inputs: [String: String]? = nil, executionStartTime: Date? = nil, outputs: [String: [String]]? = nil, responseCode: String? = nil, failureMessage: String? = nil, stepStatus: AutomationExecutionStatus? = nil, response: String? = nil) {
             self.executionEndTime = executionEndTime
             self.stepName = stepName
             self.action = action
@@ -5014,7 +5229,7 @@ extension Ssm {
             }
             self.responseCode = dictionary["ResponseCode"] as? String
             self.failureMessage = dictionary["FailureMessage"] as? String
-            self.stepStatus = dictionary["StepStatus"] as? String
+            if let stepStatus = dictionary["StepStatus"] as? String { self.stepStatus = AutomationExecutionStatus(rawValue: stepStatus) } else { self.stepStatus = nil }
             self.response = dictionary["Response"] as? String
         }
     }
@@ -5064,7 +5279,7 @@ extension Ssm {
         /// The defined maximum number of task execution errors allowed before scheduling of the task execution would have been stopped.
         public let maxErrors: String?
         /// The status of the task.
-        public let status: String?
+        public let status: MaintenanceWindowExecutionStatus?
         /// The parameters passed to the task when it was executed. The map has the following format: Key: string, 1 ≤ length ≤ 255 Value: an array of strings where each string 1 ≤ length ≤ 255
         public let taskParameters: [[String: MaintenanceWindowTaskParameterValueExpression]]?
         /// The time the task execution completed.
@@ -5072,11 +5287,11 @@ extension Ssm {
         /// The defined maximum number of task executions that could be run in parallel.
         public let maxConcurrency: String?
         /// The type of task executed.
-        public let type: String?
+        public let `type`: MaintenanceWindowTaskType?
         /// The details explaining the Status. Only available for certain status values.
         public let statusDetails: String?
 
-        public init(priority: Int32? = nil, serviceRole: String? = nil, taskExecutionId: String? = nil, startTime: Date? = nil, windowExecutionId: String? = nil, taskArn: String? = nil, maxErrors: String? = nil, status: String? = nil, taskParameters: [[String: MaintenanceWindowTaskParameterValueExpression]]? = nil, endTime: Date? = nil, maxConcurrency: String? = nil, type: String? = nil, statusDetails: String? = nil) {
+        public init(priority: Int32? = nil, serviceRole: String? = nil, taskExecutionId: String? = nil, startTime: Date? = nil, windowExecutionId: String? = nil, taskArn: String? = nil, maxErrors: String? = nil, status: MaintenanceWindowExecutionStatus? = nil, taskParameters: [[String: MaintenanceWindowTaskParameterValueExpression]]? = nil, endTime: Date? = nil, maxConcurrency: String? = nil, type: MaintenanceWindowTaskType? = nil, statusDetails: String? = nil) {
             self.priority = priority
             self.serviceRole = serviceRole
             self.taskExecutionId = taskExecutionId
@@ -5088,7 +5303,7 @@ extension Ssm {
             self.taskParameters = taskParameters
             self.endTime = endTime
             self.maxConcurrency = maxConcurrency
-            self.type = type
+            self.`type` = `type`
             self.statusDetails = statusDetails
         }
 
@@ -5100,7 +5315,7 @@ extension Ssm {
             self.windowExecutionId = dictionary["WindowExecutionId"] as? String
             self.taskArn = dictionary["TaskArn"] as? String
             self.maxErrors = dictionary["MaxErrors"] as? String
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = MaintenanceWindowExecutionStatus(rawValue: status) } else { self.status = nil }
             if let taskParameters = dictionary["TaskParameters"] as? [[String: [String: Any]]] {
                 var taskParametersList: [[String: MaintenanceWindowTaskParameterValueExpression]] = []
                 var maintenanceWindowTaskParameterValueExpressionDict: [String: MaintenanceWindowTaskParameterValueExpression] = [:]
@@ -5116,7 +5331,7 @@ extension Ssm {
             }
             self.endTime = dictionary["EndTime"] as? Date
             self.maxConcurrency = dictionary["MaxConcurrency"] as? String
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = MaintenanceWindowTaskType(rawValue: `type`) } else { self.`type` = nil }
             self.statusDetails = dictionary["StatusDetails"] as? String
         }
     }
@@ -5409,21 +5624,21 @@ extension Ssm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of comparison that should be performed for the value: Equal, NotEqual, LessThan or GreaterThan.
-        public let type: String
+        public let `type`: InstancePatchStateOperatorType
         /// The key for the filter. Supported values are FailedCount, InstalledCount, InstalledOtherCount, MissingCount and NotApplicableCount.
         public let key: String
         /// The value for the filter, must be an integer greater than or equal to 0.
         public let values: [String]
 
-        public init(type: String, key: String, values: [String]) {
-            self.type = type
+        public init(type: InstancePatchStateOperatorType, key: String, values: [String]) {
+            self.`type` = `type`
             self.key = key
             self.values = values
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
-            self.type = type
+            guard let rawType = dictionary["Type"] as? String, let `type` = InstancePatchStateOperatorType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
+            self.`type` = `type`
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
             guard let values = dictionary["Values"] as? [String] else { throw InitializableError.missingRequiredParam("Values") }
@@ -5437,13 +5652,13 @@ extension Ssm {
         /// The contents of the SSM document.
         public let content: String?
         /// The document type.
-        public let documentType: String?
+        public let documentType: DocumentType?
         /// The name of the SSM document.
         public let name: String?
         /// The document version.
         public let documentVersion: String?
 
-        public init(content: String? = nil, documentType: String? = nil, name: String? = nil, documentVersion: String? = nil) {
+        public init(content: String? = nil, documentType: DocumentType? = nil, name: String? = nil, documentVersion: String? = nil) {
             self.content = content
             self.documentType = documentType
             self.name = name
@@ -5452,7 +5667,7 @@ extension Ssm {
 
         public init(dictionary: [String: Any]) throws {
             self.content = dictionary["Content"] as? String
-            self.documentType = dictionary["DocumentType"] as? String
+            if let documentType = dictionary["DocumentType"] as? String { self.documentType = DocumentType(rawValue: documentType) } else { self.documentType = nil }
             self.name = dictionary["Name"] as? String
             self.documentVersion = dictionary["DocumentVersion"] as? String
         }
@@ -5498,6 +5713,14 @@ extension Ssm {
             guard let approveAfterDays = dictionary["ApproveAfterDays"] as? Int32 else { throw InitializableError.missingRequiredParam("ApproveAfterDays") }
             self.approveAfterDays = approveAfterDays
         }
+    }
+
+    public enum PatchDeploymentStatus: String, CustomStringConvertible {
+        case approved = "APPROVED"
+        case pending_approval = "PENDING_APPROVAL"
+        case explicit_approved = "EXPLICIT_APPROVED"
+        case explicit_rejected = "EXPLICIT_REJECTED"
+        public var description: String { return self.rawValue }
     }
 
     public struct DeregisterPatchBaselineForPatchGroupResult: AWSShape {
@@ -5709,17 +5932,17 @@ extension Ssm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The key for the filter (PRODUCT, CLASSIFICATION, MSRC_SEVERITY, PATCH_ID)
-        public let key: String
+        public let key: PatchFilterKey
         /// The value for the filter key.
         public let values: [String]
 
-        public init(key: String, values: [String]) {
+        public init(key: PatchFilterKey, values: [String]) {
             self.key = key
             self.values = values
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            guard let rawKey = dictionary["Key"] as? String, let key = PatchFilterKey(rawValue: rawKey) else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
             guard let values = dictionary["Values"] as? [String] else { throw InitializableError.missingRequiredParam("Values") }
             self.values = values
@@ -5759,11 +5982,11 @@ extension Ssm {
         /// The ID of the target.
         public let windowTargetId: String?
         /// The type of target.
-        public let resourceType: String?
+        public let resourceType: MaintenanceWindowResourceType?
         /// User-provided value that will be included in any CloudWatch events raised while running tasks for these targets in this Maintenance Window.
         public let ownerInformation: String?
 
-        public init(windowId: String? = nil, targets: [Target]? = nil, windowTargetId: String? = nil, resourceType: String? = nil, ownerInformation: String? = nil) {
+        public init(windowId: String? = nil, targets: [Target]? = nil, windowTargetId: String? = nil, resourceType: MaintenanceWindowResourceType? = nil, ownerInformation: String? = nil) {
             self.windowId = windowId
             self.targets = targets
             self.windowTargetId = windowTargetId
@@ -5779,7 +6002,7 @@ extension Ssm {
                 self.targets = nil
             }
             self.windowTargetId = dictionary["WindowTargetId"] as? String
-            self.resourceType = dictionary["ResourceType"] as? String
+            if let resourceType = dictionary["ResourceType"] as? String { self.resourceType = MaintenanceWindowResourceType(rawValue: resourceType) } else { self.resourceType = nil }
             self.ownerInformation = dictionary["OwnerInformation"] as? String
         }
     }
@@ -5865,17 +6088,24 @@ extension Ssm {
         }
     }
 
+    public enum ParametersFilterKey: String, CustomStringConvertible {
+        case name = "Name"
+        case `type` = "Type"
+        case keyid = "KeyId"
+        public var description: String { return self.rawValue }
+    }
+
     public struct RemoveTagsFromResourceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// The resource ID for which you want to remove tags.
         public let resourceId: String
         /// The type of resource of which you want to remove a tag.
-        public let resourceType: String
+        public let resourceType: ResourceTypeForTagging
         /// Tag keys that you want to remove from the specified resource.
         public let tagKeys: [String]
 
-        public init(resourceId: String, resourceType: String, tagKeys: [String]) {
+        public init(resourceId: String, resourceType: ResourceTypeForTagging, tagKeys: [String]) {
             self.resourceId = resourceId
             self.resourceType = resourceType
             self.tagKeys = tagKeys
@@ -5884,7 +6114,7 @@ extension Ssm {
         public init(dictionary: [String: Any]) throws {
             guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
             self.resourceId = resourceId
-            guard let resourceType = dictionary["ResourceType"] as? String else { throw InitializableError.missingRequiredParam("ResourceType") }
+            guard let rawResourceType = dictionary["ResourceType"] as? String, let resourceType = ResourceTypeForTagging(rawValue: rawResourceType) else { throw InitializableError.missingRequiredParam("ResourceType") }
             self.resourceType = resourceType
             guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
             self.tagKeys = tagKeys
@@ -5969,6 +6199,18 @@ extension Ssm {
         }
     }
 
+    public enum CommandInvocationStatus: String, CustomStringConvertible {
+        case pending = "Pending"
+        case inprogress = "InProgress"
+        case delayed = "Delayed"
+        case success = "Success"
+        case cancelled = "Cancelled"
+        case timedout = "TimedOut"
+        case failed = "Failed"
+        case cancelling = "Cancelling"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DeleteActivationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -6025,17 +6267,17 @@ extension Ssm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the filter.
-        public let key: String
+        public let key: AssociationFilterKey
         /// The filter value.
         public let value: String
 
-        public init(key: String, value: String) {
+        public init(key: AssociationFilterKey, value: String) {
             self.key = key
             self.value = value
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let key = dictionary["key"] as? String else { throw InitializableError.missingRequiredParam("key") }
+            guard let rawkey = dictionary["key"] as? String, let key = AssociationFilterKey(rawValue: rawkey) else { throw InitializableError.missingRequiredParam("key") }
             self.key = key
             guard let value = dictionary["value"] as? String else { throw InitializableError.missingRequiredParam("value") }
             self.value = value
@@ -6048,11 +6290,11 @@ extension Ssm {
         /// An Amazon Resource Name (ARN) for a Simple Notification Service (SNS) topic. Run Command pushes notifications about command status changes to this topic.
         public let notificationArn: String?
         /// Command: Receive notification when the status of a command changes. Invocation: For commands sent to multiple instances, receive notification on a per-instance basis when the status of a command changes. 
-        public let notificationType: String?
+        public let notificationType: NotificationType?
         /// The different events for which you can receive notifications. These events include the following: All (events), InProgress, Success, TimedOut, Cancelled, Failed. To learn more about these events, see Monitoring Commands in the Amazon Elastic Compute Cloud User Guide .
-        public let notificationEvents: [String]?
+        public let notificationEvents: [NotificationEvent]?
 
-        public init(notificationArn: String? = nil, notificationType: String? = nil, notificationEvents: [String]? = nil) {
+        public init(notificationArn: String? = nil, notificationType: NotificationType? = nil, notificationEvents: [NotificationEvent]? = nil) {
             self.notificationArn = notificationArn
             self.notificationType = notificationType
             self.notificationEvents = notificationEvents
@@ -6060,9 +6302,17 @@ extension Ssm {
 
         public init(dictionary: [String: Any]) throws {
             self.notificationArn = dictionary["NotificationArn"] as? String
-            self.notificationType = dictionary["NotificationType"] as? String
-            self.notificationEvents = dictionary["NotificationEvents"] as? [String]
+            if let notificationType = dictionary["NotificationType"] as? String { self.notificationType = NotificationType(rawValue: notificationType) } else { self.notificationType = nil }
+            if let notificationEvents = dictionary["NotificationEvents"] as? [String] { self.notificationEvents = notificationEvents.flatMap({ NotificationEvent(rawValue: $0)}) } else { self.notificationEvents = nil }
         }
+    }
+
+    public enum DocumentStatus: String, CustomStringConvertible {
+        case creating = "Creating"
+        case active = "Active"
+        case updating = "Updating"
+        case deleting = "Deleting"
+        public var description: String { return self.rawValue }
     }
 
     public struct PutParameterRequest: AWSShape {
@@ -6073,7 +6323,7 @@ extension Ssm {
         /// The parameter key ID that you want to add to the system.
         public let keyId: String?
         /// The type of parameter that you want to add to the system.
-        public let type: String
+        public let `type`: ParameterType
         /// The name of the parameter that you want to add to the system.
         public let name: String
         /// The parameter value that you want to add to the system.
@@ -6081,10 +6331,10 @@ extension Ssm {
         /// Overwrite an existing parameter.
         public let overwrite: Bool?
 
-        public init(description: String? = nil, keyId: String? = nil, type: String, name: String, value: String, overwrite: Bool? = nil) {
+        public init(description: String? = nil, keyId: String? = nil, type: ParameterType, name: String, value: String, overwrite: Bool? = nil) {
             self.description = description
             self.keyId = keyId
-            self.type = type
+            self.`type` = `type`
             self.name = name
             self.value = value
             self.overwrite = overwrite
@@ -6093,8 +6343,8 @@ extension Ssm {
         public init(dictionary: [String: Any]) throws {
             self.description = dictionary["Description"] as? String
             self.keyId = dictionary["KeyId"] as? String
-            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
-            self.type = type
+            guard let rawType = dictionary["Type"] as? String, let `type` = ParameterType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
+            self.`type` = `type`
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
             guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
@@ -6334,6 +6584,12 @@ extension Ssm {
         }
     }
 
+    public enum AutomationExecutionFilterKey: String, CustomStringConvertible {
+        case documentnameprefix = "DocumentNamePrefix"
+        case executionstatus = "ExecutionStatus"
+        public var description: String { return self.rawValue }
+    }
+
     public struct EffectivePatch: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -6357,7 +6613,7 @@ extension Ssm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of parameter. The type can be either “String” or “StringList”.
-        public let type: String?
+        public let `type`: DocumentParameterType?
         /// The name of the parameter.
         public let name: String?
         /// If specified, the default values for the parameters. Parameters without a default value are required. Parameters with a default value are optional.
@@ -6365,15 +6621,15 @@ extension Ssm {
         /// A description of what the parameter does, how to use it, the default value, and whether or not the parameter is optional.
         public let description: String?
 
-        public init(type: String? = nil, name: String? = nil, defaultValue: String? = nil, description: String? = nil) {
-            self.type = type
+        public init(type: DocumentParameterType? = nil, name: String? = nil, defaultValue: String? = nil, description: String? = nil) {
+            self.`type` = `type`
             self.name = name
             self.defaultValue = defaultValue
             self.description = description
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = DocumentParameterType(rawValue: `type`) } else { self.`type` = nil }
             self.name = dictionary["Name"] as? String
             self.defaultValue = dictionary["DefaultValue"] as? String
             self.description = dictionary["Description"] as? String
@@ -6396,6 +6652,16 @@ extension Ssm {
                 self.attribute = nil
             }
         }
+    }
+
+    public enum NotificationEvent: String, CustomStringConvertible {
+        case all = "All"
+        case inprogress = "InProgress"
+        case success = "Success"
+        case timedout = "TimedOut"
+        case cancelled = "Cancelled"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
     }
 
     public struct DeleteParameterRequest: AWSShape {
@@ -6434,17 +6700,17 @@ extension Ssm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the filter.
-        public let key: String
+        public let key: DocumentFilterKey
         /// The value of the filter.
         public let value: String
 
-        public init(key: String, value: String) {
+        public init(key: DocumentFilterKey, value: String) {
             self.key = key
             self.value = value
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let key = dictionary["key"] as? String else { throw InitializableError.missingRequiredParam("key") }
+            guard let rawkey = dictionary["key"] as? String, let key = DocumentFilterKey(rawValue: rawkey) else { throw InitializableError.missingRequiredParam("key") }
             self.key = key
             guard let value = dictionary["value"] as? String else { throw InitializableError.missingRequiredParam("value") }
             self.value = value
@@ -6479,6 +6745,12 @@ extension Ssm {
         public init(dictionary: [String: Any]) throws {
             if let s3Location = dictionary["S3Location"] as? [String: Any] { self.s3Location = try Ssm.S3OutputLocation(dictionary: s3Location) } else { self.s3Location = nil }
         }
+    }
+
+    public enum InventoryAttributeDataType: String, CustomStringConvertible {
+        case string = "string"
+        case number = "number"
+        public var description: String { return self.rawValue }
     }
 
     public struct RegisterTargetWithMaintenanceWindowResult: AWSShape {

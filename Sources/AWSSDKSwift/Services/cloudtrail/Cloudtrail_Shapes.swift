@@ -217,17 +217,17 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The resource type in which you want to log data events. You can specify only the following value: AWS::S3::Object.
-        public let type: String?
+        public let `type`: String?
         /// A list of ARN-like strings for the specified S3 objects. To log data events for all objects in an S3 bucket, specify the bucket and an empty object prefix such as arn:aws:s3:::bucket-1/. The trail logs data events for all objects in this S3 bucket. To log data events for specific objects, specify the S3 bucket and object prefix such as arn:aws:s3:::bucket-1/example-images. The trail logs data events for objects in this S3 bucket that match the prefix.
         public let values: [String]?
 
         public init(type: String? = nil, values: [String]? = nil) {
-            self.type = type
+            self.`type` = `type`
             self.values = values
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.type = dictionary["Type"] as? String
+            self.`type` = dictionary["Type"] as? String
             self.values = dictionary["Values"] as? [String]
         }
     }
@@ -661,17 +661,17 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies an attribute on which to filter the events returned.
-        public let attributeKey: String
+        public let attributeKey: LookupAttributeKey
         /// Specifies a value for the specified AttributeKey.
         public let attributeValue: String
 
-        public init(attributeKey: String, attributeValue: String) {
+        public init(attributeKey: LookupAttributeKey, attributeValue: String) {
             self.attributeKey = attributeKey
             self.attributeValue = attributeValue
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let attributeKey = dictionary["AttributeKey"] as? String else { throw InitializableError.missingRequiredParam("AttributeKey") }
+            guard let rawAttributeKey = dictionary["AttributeKey"] as? String, let attributeKey = LookupAttributeKey(rawValue: rawAttributeKey) else { throw InitializableError.missingRequiredParam("AttributeKey") }
             self.attributeKey = attributeKey
             guard let attributeValue = dictionary["AttributeValue"] as? String else { throw InitializableError.missingRequiredParam("AttributeValue") }
             self.attributeValue = attributeValue
@@ -822,6 +822,16 @@ extension Cloudtrail {
         }
     }
 
+    public enum LookupAttributeKey: String, CustomStringConvertible {
+        case eventid = "EventId"
+        case eventname = "EventName"
+        case username = "Username"
+        case resourcetype = "ResourceType"
+        case resourcename = "ResourceName"
+        case eventsource = "EventSource"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Resource: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -896,20 +906,20 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specify if you want your trail to log read-only events, write-only events, or all. For example, the EC2 GetConsoleOutput is a read-only API operation and RunInstances is a write-only API operation.  By default, the value is All.
-        public let readWriteType: String?
+        public let readWriteType: ReadWriteType?
         /// CloudTrail supports logging only data events for S3 objects. You can specify up to 250 S3 buckets and object prefixes for a trail. For more information, see Data Events in the AWS CloudTrail User Guide.
         public let dataResources: [DataResource]?
         /// Specify if you want your event selector to include management events for your trail.  For more information, see Management Events in the AWS CloudTrail User Guide. By default, the value is true.
         public let includeManagementEvents: Bool?
 
-        public init(readWriteType: String? = nil, dataResources: [DataResource]? = nil, includeManagementEvents: Bool? = nil) {
+        public init(readWriteType: ReadWriteType? = nil, dataResources: [DataResource]? = nil, includeManagementEvents: Bool? = nil) {
             self.readWriteType = readWriteType
             self.dataResources = dataResources
             self.includeManagementEvents = includeManagementEvents
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.readWriteType = dictionary["ReadWriteType"] as? String
+            if let readWriteType = dictionary["ReadWriteType"] as? String { self.readWriteType = ReadWriteType(rawValue: readWriteType) } else { self.readWriteType = nil }
             if let dataResources = dictionary["DataResources"] as? [[String: Any]] {
                 self.dataResources = try dataResources.map({ try DataResource(dictionary: $0) })
             } else { 
@@ -955,6 +965,13 @@ extension Cloudtrail {
                 self.tagsList = nil
             }
         }
+    }
+
+    public enum ReadWriteType: String, CustomStringConvertible {
+        case readonly = "ReadOnly"
+        case writeonly = "WriteOnly"
+        case all = "All"
+        public var description: String { return self.rawValue }
     }
 
     public struct AddTagsResponse: AWSShape {

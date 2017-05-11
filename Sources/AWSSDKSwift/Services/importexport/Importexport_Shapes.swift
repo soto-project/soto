@@ -52,13 +52,13 @@ extension Importexport {
     public struct CreateJobInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let jobType: String
+        public let jobType: JobType
         public let manifestAddendum: String?
         public let manifest: String
         public let aPIVersion: String?
         public let validateOnly: Bool
 
-        public init(jobType: String, manifestAddendum: String? = nil, manifest: String, aPIVersion: String? = nil, validateOnly: Bool) {
+        public init(jobType: JobType, manifestAddendum: String? = nil, manifest: String, aPIVersion: String? = nil, validateOnly: Bool) {
             self.jobType = jobType
             self.manifestAddendum = manifestAddendum
             self.manifest = manifest
@@ -67,7 +67,7 @@ extension Importexport {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let jobType = dictionary["JobType"] as? String else { throw InitializableError.missingRequiredParam("JobType") }
+            guard let rawJobType = dictionary["JobType"] as? String, let jobType = JobType(rawValue: rawJobType) else { throw InitializableError.missingRequiredParam("JobType") }
             self.jobType = jobType
             self.manifestAddendum = dictionary["ManifestAddendum"] as? String
             guard let manifest = dictionary["Manifest"] as? String else { throw InitializableError.missingRequiredParam("Manifest") }
@@ -147,14 +147,14 @@ extension Importexport {
     public struct CreateJobOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let jobType: String?
+        public let jobType: JobType?
         public let artifactList: [Artifact]?
         public let signatureFileContents: String?
         public let warningMessage: String?
         public let signature: String?
         public let jobId: String?
 
-        public init(jobType: String? = nil, artifactList: [Artifact]? = nil, signatureFileContents: String? = nil, warningMessage: String? = nil, signature: String? = nil, jobId: String? = nil) {
+        public init(jobType: JobType? = nil, artifactList: [Artifact]? = nil, signatureFileContents: String? = nil, warningMessage: String? = nil, signature: String? = nil, jobId: String? = nil) {
             self.jobType = jobType
             self.artifactList = artifactList
             self.signatureFileContents = signatureFileContents
@@ -164,7 +164,7 @@ extension Importexport {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.jobType = dictionary["JobType"] as? String
+            if let jobType = dictionary["JobType"] as? String { self.jobType = JobType(rawValue: jobType) } else { self.jobType = nil }
             if let artifactList = dictionary["ArtifactList"] as? [[String: Any]] {
                 self.artifactList = try artifactList.map({ try Artifact(dictionary: $0) })
             } else { 
@@ -175,6 +175,12 @@ extension Importexport {
             self.signature = dictionary["Signature"] as? String
             self.jobId = dictionary["JobId"] as? String
         }
+    }
+
+    public enum JobType: String, CustomStringConvertible {
+        case `import` = "Import"
+        case export = "Export"
+        public var description: String { return self.rawValue }
     }
 
     public struct GetShippingLabelOutput: AWSShape {
@@ -221,13 +227,13 @@ extension Importexport {
     public struct UpdateJobInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let jobType: String
+        public let jobType: JobType
         public let aPIVersion: String?
         public let manifest: String
         public let jobId: String
         public let validateOnly: Bool
 
-        public init(jobType: String, aPIVersion: String? = nil, manifest: String, jobId: String, validateOnly: Bool) {
+        public init(jobType: JobType, aPIVersion: String? = nil, manifest: String, jobId: String, validateOnly: Bool) {
             self.jobType = jobType
             self.aPIVersion = aPIVersion
             self.manifest = manifest
@@ -236,7 +242,7 @@ extension Importexport {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let jobType = dictionary["JobType"] as? String else { throw InitializableError.missingRequiredParam("JobType") }
+            guard let rawJobType = dictionary["JobType"] as? String, let jobType = JobType(rawValue: rawJobType) else { throw InitializableError.missingRequiredParam("JobType") }
             self.jobType = jobType
             self.aPIVersion = dictionary["APIVersion"] as? String
             guard let manifest = dictionary["Manifest"] as? String else { throw InitializableError.missingRequiredParam("Manifest") }
@@ -251,12 +257,12 @@ extension Importexport {
     public struct Job: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let jobType: String?
+        public let jobType: JobType?
         public let creationDate: Date?
         public let jobId: String?
         public let isCanceled: Bool?
 
-        public init(jobType: String? = nil, creationDate: Date? = nil, jobId: String? = nil, isCanceled: Bool? = nil) {
+        public init(jobType: JobType? = nil, creationDate: Date? = nil, jobId: String? = nil, isCanceled: Bool? = nil) {
             self.jobType = jobType
             self.creationDate = creationDate
             self.jobId = jobId
@@ -264,7 +270,7 @@ extension Importexport {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.jobType = dictionary["JobType"] as? String
+            if let jobType = dictionary["JobType"] as? String { self.jobType = JobType(rawValue: jobType) } else { self.jobType = nil }
             self.creationDate = dictionary["CreationDate"] as? Date
             self.jobId = dictionary["JobId"] as? String
             self.isCanceled = dictionary["IsCanceled"] as? Bool
@@ -286,12 +292,12 @@ extension Importexport {
         public let logKey: String?
         public let signatureFileContents: String?
         public let locationMessage: String?
-        public let jobType: String?
+        public let jobType: JobType?
         public let errorCount: Int32?
         public let logBucket: String?
         public let locationCode: String?
 
-        public init(carrier: String? = nil, artifactList: [Artifact]? = nil, signature: String? = nil, progressMessage: String? = nil, creationDate: Date? = nil, currentManifest: String? = nil, trackingNumber: String? = nil, progressCode: String? = nil, jobId: String? = nil, logKey: String? = nil, signatureFileContents: String? = nil, locationMessage: String? = nil, jobType: String? = nil, errorCount: Int32? = nil, logBucket: String? = nil, locationCode: String? = nil) {
+        public init(carrier: String? = nil, artifactList: [Artifact]? = nil, signature: String? = nil, progressMessage: String? = nil, creationDate: Date? = nil, currentManifest: String? = nil, trackingNumber: String? = nil, progressCode: String? = nil, jobId: String? = nil, logKey: String? = nil, signatureFileContents: String? = nil, locationMessage: String? = nil, jobType: JobType? = nil, errorCount: Int32? = nil, logBucket: String? = nil, locationCode: String? = nil) {
             self.carrier = carrier
             self.artifactList = artifactList
             self.signature = signature
@@ -327,7 +333,7 @@ extension Importexport {
             self.logKey = dictionary["LogKey"] as? String
             self.signatureFileContents = dictionary["SignatureFileContents"] as? String
             self.locationMessage = dictionary["LocationMessage"] as? String
-            self.jobType = dictionary["JobType"] as? String
+            if let jobType = dictionary["JobType"] as? String { self.jobType = JobType(rawValue: jobType) } else { self.jobType = nil }
             self.errorCount = dictionary["ErrorCount"] as? Int32
             self.logBucket = dictionary["LogBucket"] as? String
             self.locationCode = dictionary["LocationCode"] as? String

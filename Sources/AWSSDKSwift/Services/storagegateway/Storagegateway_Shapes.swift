@@ -2153,6 +2153,71 @@ extension Storagegateway {
         }
     }
 
+    public enum ErrorCode: String, CustomStringConvertible {
+        case activationkeyexpired = "ActivationKeyExpired"
+        case activationkeyinvalid = "ActivationKeyInvalid"
+        case activationkeynotfound = "ActivationKeyNotFound"
+        case gatewayinternalerror = "GatewayInternalError"
+        case gatewaynotconnected = "GatewayNotConnected"
+        case gatewaynotfound = "GatewayNotFound"
+        case gatewayproxynetworkconnectionbusy = "GatewayProxyNetworkConnectionBusy"
+        case authenticationfailure = "AuthenticationFailure"
+        case bandwidththrottleschedulenotfound = "BandwidthThrottleScheduleNotFound"
+        case blocked = "Blocked"
+        case cannotexportsnapshot = "CannotExportSnapshot"
+        case chapcredentialnotfound = "ChapCredentialNotFound"
+        case diskalreadyallocated = "DiskAlreadyAllocated"
+        case diskdoesnotexist = "DiskDoesNotExist"
+        case disksizegreaterthanvolumemaxsize = "DiskSizeGreaterThanVolumeMaxSize"
+        case disksizelessthanvolumesize = "DiskSizeLessThanVolumeSize"
+        case disksizenotgigaligned = "DiskSizeNotGigAligned"
+        case duplicatecertificateinfo = "DuplicateCertificateInfo"
+        case duplicateschedule = "DuplicateSchedule"
+        case endpointnotfound = "EndpointNotFound"
+        case iamnotsupported = "IAMNotSupported"
+        case initiatorinvalid = "InitiatorInvalid"
+        case initiatornotfound = "InitiatorNotFound"
+        case internalerror = "InternalError"
+        case invalidgateway = "InvalidGateway"
+        case invalidendpoint = "InvalidEndpoint"
+        case invalidparameters = "InvalidParameters"
+        case invalidschedule = "InvalidSchedule"
+        case localstoragelimitexceeded = "LocalStorageLimitExceeded"
+        case lunalreadyallocated_ = "LunAlreadyAllocated "
+        case luninvalid = "LunInvalid"
+        case maximumcontentlengthexceeded = "MaximumContentLengthExceeded"
+        case maximumtapecartridgecountexceeded = "MaximumTapeCartridgeCountExceeded"
+        case maximumvolumecountexceeded = "MaximumVolumeCountExceeded"
+        case networkconfigurationchanged = "NetworkConfigurationChanged"
+        case nodisksavailable = "NoDisksAvailable"
+        case notimplemented = "NotImplemented"
+        case notsupported = "NotSupported"
+        case operationaborted = "OperationAborted"
+        case outdatedgateway = "OutdatedGateway"
+        case parametersnotimplemented = "ParametersNotImplemented"
+        case regioninvalid = "RegionInvalid"
+        case requesttimeout = "RequestTimeout"
+        case serviceunavailable = "ServiceUnavailable"
+        case snapshotdeleted = "SnapshotDeleted"
+        case snapshotidinvalid = "SnapshotIdInvalid"
+        case snapshotinprogress = "SnapshotInProgress"
+        case snapshotnotfound = "SnapshotNotFound"
+        case snapshotschedulenotfound = "SnapshotScheduleNotFound"
+        case stagingareafull = "StagingAreaFull"
+        case storagefailure = "StorageFailure"
+        case tapecartridgenotfound = "TapeCartridgeNotFound"
+        case targetalreadyexists = "TargetAlreadyExists"
+        case targetinvalid = "TargetInvalid"
+        case targetnotfound = "TargetNotFound"
+        case unauthorizedoperation = "UnauthorizedOperation"
+        case volumealreadyexists = "VolumeAlreadyExists"
+        case volumeidinvalid = "VolumeIdInvalid"
+        case volumeinuse = "VolumeInUse"
+        case volumenotfound = "VolumeNotFound"
+        case volumenotready = "VolumeNotReady"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DescribeNFSFileSharesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2857,17 +2922,17 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// Additional information about the error.
-        public let errorCode: String?
+        public let errorCode: ErrorCode?
         /// Human-readable text that provides detail about the error that occurred.
         public let errorDetails: [String: String]?
 
-        public init(errorCode: String? = nil, errorDetails: [String: String]? = nil) {
+        public init(errorCode: ErrorCode? = nil, errorDetails: [String: String]? = nil) {
             self.errorCode = errorCode
             self.errorDetails = errorDetails
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.errorCode = dictionary["errorCode"] as? String
+            if let errorCode = dictionary["errorCode"] as? String { self.errorCode = ErrorCode(rawValue: errorCode) } else { self.errorCode = nil }
             if let errorDetails = dictionary["errorDetails"] as? [String: String] {
                 self.errorDetails = errorDetails
             } else { 

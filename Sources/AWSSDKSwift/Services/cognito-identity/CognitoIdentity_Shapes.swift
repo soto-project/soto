@@ -35,13 +35,13 @@ extension CognitoIdentity {
         /// The claim name that must be present in the token, for example, "isAdmin" or "paid".
         public let claim: String
         /// The match condition that specifies how closely the claim value in the IdP token must match Value.
-        public let matchType: String
+        public let matchType: MappingRuleMatchType
         /// A brief string that the claim must match, for example, "paid" or "yes".
         public let value: String
         /// The role ARN.
         public let roleARN: String
 
-        public init(claim: String, matchType: String, value: String, roleARN: String) {
+        public init(claim: String, matchType: MappingRuleMatchType, value: String, roleARN: String) {
             self.claim = claim
             self.matchType = matchType
             self.value = value
@@ -51,7 +51,7 @@ extension CognitoIdentity {
         public init(dictionary: [String: Any]) throws {
             guard let claim = dictionary["Claim"] as? String else { throw InitializableError.missingRequiredParam("Claim") }
             self.claim = claim
-            guard let matchType = dictionary["MatchType"] as? String else { throw InitializableError.missingRequiredParam("MatchType") }
+            guard let rawMatchType = dictionary["MatchType"] as? String, let matchType = MappingRuleMatchType(rawValue: rawMatchType) else { throw InitializableError.missingRequiredParam("MatchType") }
             self.matchType = matchType
             guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
             self.value = value
@@ -672,6 +672,18 @@ extension CognitoIdentity {
         }
     }
 
+    public enum RoleMappingType: String, CustomStringConvertible {
+        case token = "Token"
+        case rules = "Rules"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ErrorCode: String, CustomStringConvertible {
+        case accessdenied = "AccessDenied"
+        case internalservererror = "InternalServerError"
+        public var description: String { return self.rawValue }
+    }
+
     public struct IdentityDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -855,17 +867,17 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// The error code indicating the type of error that occurred.
-        public let errorCode: String?
+        public let errorCode: ErrorCode?
         /// A unique identifier in the format REGION:GUID.
         public let identityId: String?
 
-        public init(errorCode: String? = nil, identityId: String? = nil) {
+        public init(errorCode: ErrorCode? = nil, identityId: String? = nil) {
             self.errorCode = errorCode
             self.identityId = identityId
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.errorCode = dictionary["ErrorCode"] as? String
+            if let errorCode = dictionary["ErrorCode"] as? String { self.errorCode = ErrorCode(rawValue: errorCode) } else { self.errorCode = nil }
             self.identityId = dictionary["IdentityId"] as? String
         }
     }
@@ -885,28 +897,42 @@ extension CognitoIdentity {
         }
     }
 
+    public enum MappingRuleMatchType: String, CustomStringConvertible {
+        case equals = "Equals"
+        case contains = "Contains"
+        case startswith = "StartsWith"
+        case notequal = "NotEqual"
+        public var description: String { return self.rawValue }
+    }
+
     public struct RoleMapping: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// The role mapping type. Token will use cognito:roles and cognito:preferred_role claims from the Cognito identity provider token to map groups to roles. Rules will attempt to match claims from the token to map to a role.
-        public let type: String
+        public let `type`: RoleMappingType
         /// The rules to be used for mapping users to roles. If you specify Rules as the role mapping type, RulesConfiguration is required.
         public let rulesConfiguration: RulesConfigurationType?
         /// If you specify Token or Rules as the Type, AmbiguousRoleResolution is required. Specifies the action to be taken if either no rules match the claim value for the Rules type, or there is no cognito:preferred_role claim and there are multiple cognito:roles matches for the Token type.
-        public let ambiguousRoleResolution: String?
+        public let ambiguousRoleResolution: AmbiguousRoleResolutionType?
 
-        public init(type: String, rulesConfiguration: RulesConfigurationType? = nil, ambiguousRoleResolution: String? = nil) {
-            self.type = type
+        public init(type: RoleMappingType, rulesConfiguration: RulesConfigurationType? = nil, ambiguousRoleResolution: AmbiguousRoleResolutionType? = nil) {
+            self.`type` = `type`
             self.rulesConfiguration = rulesConfiguration
             self.ambiguousRoleResolution = ambiguousRoleResolution
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
-            self.type = type
+            guard let rawType = dictionary["Type"] as? String, let `type` = RoleMappingType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
+            self.`type` = `type`
             if let rulesConfiguration = dictionary["RulesConfiguration"] as? [String: Any] { self.rulesConfiguration = try CognitoIdentity.RulesConfigurationType(dictionary: rulesConfiguration) } else { self.rulesConfiguration = nil }
-            self.ambiguousRoleResolution = dictionary["AmbiguousRoleResolution"] as? String
+            if let ambiguousRoleResolution = dictionary["AmbiguousRoleResolution"] as? String { self.ambiguousRoleResolution = AmbiguousRoleResolutionType(rawValue: ambiguousRoleResolution) } else { self.ambiguousRoleResolution = nil }
         }
+    }
+
+    public enum AmbiguousRoleResolutionType: String, CustomStringConvertible {
+        case authenticatedrole = "AuthenticatedRole"
+        case deny = "Deny"
+        public var description: String { return self.rawValue }
     }
 
     public struct DescribeIdentityInput: AWSShape {

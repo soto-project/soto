@@ -59,10 +59,14 @@ struct AWSService {
         let type: ShapeType
         switch json["type"].stringValue {
         case "string":
-            let max = json["max"].int
-            let min = json["min"].int
-            let pattern = json["pattern"].string
-            type = .string(max: max, min: min, pattern: pattern)
+            if let enumValues = json["enum"].arrayObject as? [String] {
+                type = .enum(enumValues)
+            } else {
+                let max = json["max"].int
+                let min = json["min"].int
+                let pattern = json["pattern"].string
+                type = .string(max: max, min: min, pattern: pattern)
+            }
             
         case "integer":
             let max = json["max"].int

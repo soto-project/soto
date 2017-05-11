@@ -720,13 +720,13 @@ extension Autoscaling {
         /// The launch configuration associated with the instance.
         public let launchConfigurationName: String
         /// A description of the current lifecycle state. Note that the Quarantined state is not used.
-        public let lifecycleState: String
+        public let lifecycleState: LifecycleState
         /// The ID of the instance.
         public let instanceId: String
         /// The Availability Zone in which the instance is running.
         public let availabilityZone: String
 
-        public init(protectedFromScaleIn: Bool, healthStatus: String, launchConfigurationName: String, lifecycleState: String, instanceId: String, availabilityZone: String) {
+        public init(protectedFromScaleIn: Bool, healthStatus: String, launchConfigurationName: String, lifecycleState: LifecycleState, instanceId: String, availabilityZone: String) {
             self.protectedFromScaleIn = protectedFromScaleIn
             self.healthStatus = healthStatus
             self.launchConfigurationName = launchConfigurationName
@@ -742,7 +742,7 @@ extension Autoscaling {
             self.healthStatus = healthStatus
             guard let launchConfigurationName = dictionary["LaunchConfigurationName"] as? String else { throw InitializableError.missingRequiredParam("LaunchConfigurationName") }
             self.launchConfigurationName = launchConfigurationName
-            guard let lifecycleState = dictionary["LifecycleState"] as? String else { throw InitializableError.missingRequiredParam("LifecycleState") }
+            guard let rawLifecycleState = dictionary["LifecycleState"] as? String, let lifecycleState = LifecycleState(rawValue: rawLifecycleState) else { throw InitializableError.missingRequiredParam("LifecycleState") }
             self.lifecycleState = lifecycleState
             guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
             self.instanceId = instanceId
@@ -1308,6 +1308,22 @@ extension Autoscaling {
             guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
             self.autoScalingGroupName = autoScalingGroupName
         }
+    }
+
+    public enum ScalingActivityStatusCode: String, CustomStringConvertible {
+        case pendingspotbidplacement = "PendingSpotBidPlacement"
+        case waitingforspotinstancerequestid = "WaitingForSpotInstanceRequestId"
+        case waitingforspotinstanceid = "WaitingForSpotInstanceId"
+        case waitingforinstanceid = "WaitingForInstanceId"
+        case preinservice = "PreInService"
+        case inprogress = "InProgress"
+        case waitingforelbconnectiondraining = "WaitingForELBConnectionDraining"
+        case midlifecycleaction = "MidLifecycleAction"
+        case waitingforinstancewarmup = "WaitingForInstanceWarmup"
+        case successful = "Successful"
+        case failed = "Failed"
+        case cancelled = "Cancelled"
+        public var description: String { return self.rawValue }
     }
 
     public struct DescribeScalingActivitiesType: AWSShape {
@@ -1885,7 +1901,7 @@ extension Autoscaling {
         /// The end time of the activity.
         public let endTime: Date?
         /// The current status of the activity.
-        public let statusCode: String
+        public let statusCode: ScalingActivityStatusCode
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The ID of the activity.
@@ -1895,7 +1911,7 @@ extension Autoscaling {
         /// A friendly, more verbose description of the activity.
         public let description: String?
 
-        public init(startTime: Date, details: String? = nil, progress: Int32? = nil, cause: String, endTime: Date? = nil, statusCode: String, autoScalingGroupName: String, activityId: String, statusMessage: String? = nil, description: String? = nil) {
+        public init(startTime: Date, details: String? = nil, progress: Int32? = nil, cause: String, endTime: Date? = nil, statusCode: ScalingActivityStatusCode, autoScalingGroupName: String, activityId: String, statusMessage: String? = nil, description: String? = nil) {
             self.startTime = startTime
             self.details = details
             self.progress = progress
@@ -1916,7 +1932,7 @@ extension Autoscaling {
             guard let cause = dictionary["Cause"] as? String else { throw InitializableError.missingRequiredParam("Cause") }
             self.cause = cause
             self.endTime = dictionary["EndTime"] as? Date
-            guard let statusCode = dictionary["StatusCode"] as? String else { throw InitializableError.missingRequiredParam("StatusCode") }
+            guard let rawStatusCode = dictionary["StatusCode"] as? String, let statusCode = ScalingActivityStatusCode(rawValue: rawStatusCode) else { throw InitializableError.missingRequiredParam("StatusCode") }
             self.statusCode = statusCode
             guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
             self.autoScalingGroupName = autoScalingGroupName
@@ -2289,6 +2305,23 @@ extension Autoscaling {
             guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
             self.autoScalingGroupName = autoScalingGroupName
         }
+    }
+
+    public enum LifecycleState: String, CustomStringConvertible {
+        case pending = "Pending"
+        case pending_wait = "Pending:Wait"
+        case pending_proceed = "Pending:Proceed"
+        case quarantined = "Quarantined"
+        case inservice = "InService"
+        case terminating = "Terminating"
+        case terminating_wait = "Terminating:Wait"
+        case terminating_proceed = "Terminating:Proceed"
+        case terminated = "Terminated"
+        case detaching = "Detaching"
+        case detached = "Detached"
+        case enteringstandby = "EnteringStandby"
+        case standby = "Standby"
+        public var description: String { return self.rawValue }
     }
 
     public struct LifecycleHook: AWSShape {

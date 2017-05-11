@@ -244,20 +244,20 @@ extension Es {
             return ["InstanceType": "InstanceType", "ElasticsearchVersion": "ElasticsearchVersion"]
         }
         ///  The instance type for an Elasticsearch cluster for which Elasticsearch  Limits  are needed. 
-        public let instanceType: String
+        public let instanceType: ESPartitionInstanceType
         ///  DomainName represents the name of the Domain that we are trying to modify. This should be present only if we are querying for Elasticsearch  Limits  for existing domain. 
         public let domainName: String?
         ///  Version of Elasticsearch for which  Limits  are needed. 
         public let elasticsearchVersion: String
 
-        public init(instanceType: String, domainName: String? = nil, elasticsearchVersion: String) {
+        public init(instanceType: ESPartitionInstanceType, domainName: String? = nil, elasticsearchVersion: String) {
             self.instanceType = instanceType
             self.domainName = domainName
             self.elasticsearchVersion = elasticsearchVersion
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let instanceType = dictionary["InstanceType"] as? String else { throw InitializableError.missingRequiredParam("InstanceType") }
+            guard let rawInstanceType = dictionary["InstanceType"] as? String, let instanceType = ESPartitionInstanceType(rawValue: rawInstanceType) else { throw InitializableError.missingRequiredParam("InstanceType") }
             self.instanceType = instanceType
             self.domainName = dictionary["DomainName"] as? String
             guard let elasticsearchVersion = dictionary["ElasticsearchVersion"] as? String else { throw InitializableError.missingRequiredParam("ElasticsearchVersion") }
@@ -296,11 +296,11 @@ extension Es {
         /// Timestamp which tells the creation date for the entity.
         public let creationDate: Date
         /// Provides the OptionState for the Elasticsearch domain.
-        public let state: String
+        public let state: OptionState
         /// Timestamp which tells the last updated time for the entity.
         public let updateDate: Date
 
-        public init(updateVersion: Int32? = nil, pendingDeletion: Bool? = nil, creationDate: Date, state: String, updateDate: Date) {
+        public init(updateVersion: Int32? = nil, pendingDeletion: Bool? = nil, creationDate: Date, state: OptionState, updateDate: Date) {
             self.updateVersion = updateVersion
             self.pendingDeletion = pendingDeletion
             self.creationDate = creationDate
@@ -313,7 +313,7 @@ extension Es {
             self.pendingDeletion = dictionary["PendingDeletion"] as? Bool
             guard let creationDate = dictionary["CreationDate"] as? Date else { throw InitializableError.missingRequiredParam("CreationDate") }
             self.creationDate = creationDate
-            guard let state = dictionary["State"] as? String else { throw InitializableError.missingRequiredParam("State") }
+            guard let rawState = dictionary["State"] as? String, let state = OptionState(rawValue: rawState) else { throw InitializableError.missingRequiredParam("State") }
             self.state = state
             guard let updateDate = dictionary["UpdateDate"] as? Date else { throw InitializableError.missingRequiredParam("UpdateDate") }
             self.updateDate = updateDate
@@ -357,6 +357,44 @@ extension Es {
             guard let domainStatus = dictionary["DomainStatus"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DomainStatus") }
             self.domainStatus = try Es.ElasticsearchDomainStatus(dictionary: domainStatus)
         }
+    }
+
+    public enum ESPartitionInstanceType: String, CustomStringConvertible {
+        case m3_medium_elasticsearch = "m3.medium.elasticsearch"
+        case m3_large_elasticsearch = "m3.large.elasticsearch"
+        case m3_xlarge_elasticsearch = "m3.xlarge.elasticsearch"
+        case m3_2xlarge_elasticsearch = "m3.2xlarge.elasticsearch"
+        case m4_large_elasticsearch = "m4.large.elasticsearch"
+        case m4_xlarge_elasticsearch = "m4.xlarge.elasticsearch"
+        case m4_2xlarge_elasticsearch = "m4.2xlarge.elasticsearch"
+        case m4_4xlarge_elasticsearch = "m4.4xlarge.elasticsearch"
+        case m4_10xlarge_elasticsearch = "m4.10xlarge.elasticsearch"
+        case t2_micro_elasticsearch = "t2.micro.elasticsearch"
+        case t2_small_elasticsearch = "t2.small.elasticsearch"
+        case t2_medium_elasticsearch = "t2.medium.elasticsearch"
+        case r3_large_elasticsearch = "r3.large.elasticsearch"
+        case r3_xlarge_elasticsearch = "r3.xlarge.elasticsearch"
+        case r3_2xlarge_elasticsearch = "r3.2xlarge.elasticsearch"
+        case r3_4xlarge_elasticsearch = "r3.4xlarge.elasticsearch"
+        case r3_8xlarge_elasticsearch = "r3.8xlarge.elasticsearch"
+        case i2_xlarge_elasticsearch = "i2.xlarge.elasticsearch"
+        case i2_2xlarge_elasticsearch = "i2.2xlarge.elasticsearch"
+        case d2_xlarge_elasticsearch = "d2.xlarge.elasticsearch"
+        case d2_2xlarge_elasticsearch = "d2.2xlarge.elasticsearch"
+        case d2_4xlarge_elasticsearch = "d2.4xlarge.elasticsearch"
+        case d2_8xlarge_elasticsearch = "d2.8xlarge.elasticsearch"
+        case c4_large_elasticsearch = "c4.large.elasticsearch"
+        case c4_xlarge_elasticsearch = "c4.xlarge.elasticsearch"
+        case c4_2xlarge_elasticsearch = "c4.2xlarge.elasticsearch"
+        case c4_4xlarge_elasticsearch = "c4.4xlarge.elasticsearch"
+        case c4_8xlarge_elasticsearch = "c4.8xlarge.elasticsearch"
+        case r4_large_elasticsearch = "r4.large.elasticsearch"
+        case r4_xlarge_elasticsearch = "r4.xlarge.elasticsearch"
+        case r4_2xlarge_elasticsearch = "r4.2xlarge.elasticsearch"
+        case r4_4xlarge_elasticsearch = "r4.4xlarge.elasticsearch"
+        case r4_8xlarge_elasticsearch = "r4.8xlarge.elasticsearch"
+        case r4_16xlarge_elasticsearch = "r4.16xlarge.elasticsearch"
+        public var description: String { return self.rawValue }
     }
 
     public struct AdditionalLimit: AWSShape {
@@ -418,13 +456,13 @@ extension Es {
         ///  Integer to specify the size of an EBS volume.
         public let volumeSize: Int32?
         ///  Specifies the volume type for EBS-based storage.
-        public let volumeType: String?
+        public let volumeType: VolumeType?
         /// Specifies the IOPD for a Provisioned IOPS EBS volume (SSD).
         public let iops: Int32?
         /// Specifies whether EBS-based storage is enabled.
         public let eBSEnabled: Bool?
 
-        public init(volumeSize: Int32? = nil, volumeType: String? = nil, iops: Int32? = nil, eBSEnabled: Bool? = nil) {
+        public init(volumeSize: Int32? = nil, volumeType: VolumeType? = nil, iops: Int32? = nil, eBSEnabled: Bool? = nil) {
             self.volumeSize = volumeSize
             self.volumeType = volumeType
             self.iops = iops
@@ -433,7 +471,7 @@ extension Es {
 
         public init(dictionary: [String: Any]) throws {
             self.volumeSize = dictionary["VolumeSize"] as? Int32
-            self.volumeType = dictionary["VolumeType"] as? String
+            if let volumeType = dictionary["VolumeType"] as? String { self.volumeType = VolumeType(rawValue: volumeType) } else { self.volumeType = nil }
             self.iops = dictionary["Iops"] as? Int32
             self.eBSEnabled = dictionary["EBSEnabled"] as? Bool
         }
@@ -499,17 +537,17 @@ extension Es {
         /// The key for the payload
         public static let payload: String? = nil
         ///  List of instance types supported by Amazon Elasticsearch service for given  ElasticsearchVersion  
-        public let elasticsearchInstanceTypes: [String]?
+        public let elasticsearchInstanceTypes: [ESPartitionInstanceType]?
         /// In case if there are more results available NextToken would be present, make further request to the same API with received NextToken to paginate remaining results. 
         public let nextToken: String?
 
-        public init(elasticsearchInstanceTypes: [String]? = nil, nextToken: String? = nil) {
+        public init(elasticsearchInstanceTypes: [ESPartitionInstanceType]? = nil, nextToken: String? = nil) {
             self.elasticsearchInstanceTypes = elasticsearchInstanceTypes
             self.nextToken = nextToken
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.elasticsearchInstanceTypes = dictionary["ElasticsearchInstanceTypes"] as? [String]
+            if let elasticsearchInstanceTypes = dictionary["ElasticsearchInstanceTypes"] as? [String] { self.elasticsearchInstanceTypes = elasticsearchInstanceTypes.flatMap({ ESPartitionInstanceType(rawValue: $0)}) } else { self.elasticsearchInstanceTypes = nil }
             self.nextToken = dictionary["NextToken"] as? String
         }
     }
@@ -884,6 +922,13 @@ extension Es {
         }
     }
 
+    public enum VolumeType: String, CustomStringConvertible {
+        case standard = "standard"
+        case gp2 = "gp2"
+        case io1 = "io1"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ListTagsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -911,15 +956,15 @@ extension Es {
         /// The number of instances in the specified domain cluster.
         public let instanceCount: Int32?
         /// The instance type for an Elasticsearch cluster.
-        public let instanceType: String?
+        public let instanceType: ESPartitionInstanceType?
         /// A boolean value to indicate whether a dedicated master node is enabled. See About Dedicated Master Nodes for more information.
         public let dedicatedMasterEnabled: Bool?
         /// The instance type for a dedicated master node.
-        public let dedicatedMasterType: String?
+        public let dedicatedMasterType: ESPartitionInstanceType?
         /// A boolean value to indicate whether zone awareness is enabled. See About Zone Awareness for more information.
         public let zoneAwarenessEnabled: Bool?
 
-        public init(dedicatedMasterCount: Int32? = nil, instanceCount: Int32? = nil, instanceType: String? = nil, dedicatedMasterEnabled: Bool? = nil, dedicatedMasterType: String? = nil, zoneAwarenessEnabled: Bool? = nil) {
+        public init(dedicatedMasterCount: Int32? = nil, instanceCount: Int32? = nil, instanceType: ESPartitionInstanceType? = nil, dedicatedMasterEnabled: Bool? = nil, dedicatedMasterType: ESPartitionInstanceType? = nil, zoneAwarenessEnabled: Bool? = nil) {
             self.dedicatedMasterCount = dedicatedMasterCount
             self.instanceCount = instanceCount
             self.instanceType = instanceType
@@ -931,11 +976,18 @@ extension Es {
         public init(dictionary: [String: Any]) throws {
             self.dedicatedMasterCount = dictionary["DedicatedMasterCount"] as? Int32
             self.instanceCount = dictionary["InstanceCount"] as? Int32
-            self.instanceType = dictionary["InstanceType"] as? String
+            if let instanceType = dictionary["InstanceType"] as? String { self.instanceType = ESPartitionInstanceType(rawValue: instanceType) } else { self.instanceType = nil }
             self.dedicatedMasterEnabled = dictionary["DedicatedMasterEnabled"] as? Bool
-            self.dedicatedMasterType = dictionary["DedicatedMasterType"] as? String
+            if let dedicatedMasterType = dictionary["DedicatedMasterType"] as? String { self.dedicatedMasterType = ESPartitionInstanceType(rawValue: dedicatedMasterType) } else { self.dedicatedMasterType = nil }
             self.zoneAwarenessEnabled = dictionary["ZoneAwarenessEnabled"] as? Bool
         }
+    }
+
+    public enum OptionState: String, CustomStringConvertible {
+        case requiresindexdocuments = "RequiresIndexDocuments"
+        case processing = "Processing"
+        case active = "Active"
+        public var description: String { return self.rawValue }
     }
 
     public struct AccessPoliciesStatus: AWSShape {

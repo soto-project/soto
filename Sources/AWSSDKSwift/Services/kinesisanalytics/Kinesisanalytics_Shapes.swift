@@ -245,6 +245,16 @@ extension Kinesisanalytics {
         }
     }
 
+    public enum ApplicationStatus: String, CustomStringConvertible {
+        case deleting = "DELETING"
+        case starting = "STARTING"
+        case stopping = "STOPPING"
+        case ready = "READY"
+        case running = "RUNNING"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
     public struct StartApplicationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -331,14 +341,14 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// The starting position on the stream.    LATEST - Start reading just after the most recent record in the stream.    TRIM_HORIZON - Start reading at the last untrimmed record in the stream, which is the oldest record available in the stream. This option is not available for an Amazon Kinesis Firehose delivery stream.    LAST_STOPPED_POINT - Resume reading from where the application last stopped reading.  
-        public let inputStartingPosition: String?
+        public let inputStartingPosition: InputStartingPosition?
 
-        public init(inputStartingPosition: String? = nil) {
+        public init(inputStartingPosition: InputStartingPosition? = nil) {
             self.inputStartingPosition = inputStartingPosition
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.inputStartingPosition = dictionary["InputStartingPosition"] as? String
+            if let inputStartingPosition = dictionary["InputStartingPosition"] as? String { self.inputStartingPosition = InputStartingPosition(rawValue: inputStartingPosition) } else { self.inputStartingPosition = nil }
         }
     }
 
@@ -377,16 +387,16 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of record format.
-        public let recordFormatType: String
+        public let recordFormatType: RecordFormatType
         public let mappingParameters: MappingParameters?
 
-        public init(recordFormatType: String, mappingParameters: MappingParameters? = nil) {
+        public init(recordFormatType: RecordFormatType, mappingParameters: MappingParameters? = nil) {
             self.recordFormatType = recordFormatType
             self.mappingParameters = mappingParameters
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let recordFormatType = dictionary["RecordFormatType"] as? String else { throw InitializableError.missingRequiredParam("RecordFormatType") }
+            guard let rawRecordFormatType = dictionary["RecordFormatType"] as? String, let recordFormatType = RecordFormatType(rawValue: rawRecordFormatType) else { throw InitializableError.missingRequiredParam("RecordFormatType") }
             self.recordFormatType = recordFormatType
             if let mappingParameters = dictionary["MappingParameters"] as? [String: Any] { self.mappingParameters = try Kinesisanalytics.MappingParameters(dictionary: mappingParameters) } else { self.mappingParameters = nil }
         }
@@ -436,14 +446,14 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the format of the records on the output stream.
-        public let recordFormatType: String?
+        public let recordFormatType: RecordFormatType?
 
-        public init(recordFormatType: String? = nil) {
+        public init(recordFormatType: RecordFormatType? = nil) {
             self.recordFormatType = recordFormatType
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.recordFormatType = dictionary["RecordFormatType"] as? String
+            if let recordFormatType = dictionary["RecordFormatType"] as? String { self.recordFormatType = RecordFormatType(rawValue: recordFormatType) } else { self.recordFormatType = nil }
         }
     }
 
@@ -578,9 +588,9 @@ extension Kinesisanalytics {
         /// Name of the application.
         public let applicationName: String
         /// Status of the application.
-        public let applicationStatus: String
+        public let applicationStatus: ApplicationStatus
 
-        public init(applicationARN: String, applicationName: String, applicationStatus: String) {
+        public init(applicationARN: String, applicationName: String, applicationStatus: ApplicationStatus) {
             self.applicationARN = applicationARN
             self.applicationName = applicationName
             self.applicationStatus = applicationStatus
@@ -591,7 +601,7 @@ extension Kinesisanalytics {
             self.applicationARN = applicationARN
             guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
             self.applicationName = applicationName
-            guard let applicationStatus = dictionary["ApplicationStatus"] as? String else { throw InitializableError.missingRequiredParam("ApplicationStatus") }
+            guard let rawApplicationStatus = dictionary["ApplicationStatus"] as? String, let applicationStatus = ApplicationStatus(rawValue: rawApplicationStatus) else { throw InitializableError.missingRequiredParam("ApplicationStatus") }
             self.applicationStatus = applicationStatus
         }
     }
@@ -921,7 +931,7 @@ extension Kinesisanalytics {
         /// Description of the application.
         public let applicationDescription: String?
         /// Status of the application.
-        public let applicationStatus: String
+        public let applicationStatus: ApplicationStatus
         /// Describes the application input configuration. For more information, see Configuring Application Input. 
         public let inputDescriptions: [InputDescription]?
         /// Timestamp when the application was last updated.
@@ -941,7 +951,7 @@ extension Kinesisanalytics {
         /// Describes reference data sources configured for the application. For more information, see Configuring Application Input. 
         public let referenceDataSourceDescriptions: [ReferenceDataSourceDescription]?
 
-        public init(applicationDescription: String? = nil, applicationStatus: String, inputDescriptions: [InputDescription]? = nil, lastUpdateTimestamp: Date? = nil, createTimestamp: Date? = nil, applicationCode: String? = nil, applicationName: String, applicationARN: String, applicationVersionId: Int64, outputDescriptions: [OutputDescription]? = nil, referenceDataSourceDescriptions: [ReferenceDataSourceDescription]? = nil) {
+        public init(applicationDescription: String? = nil, applicationStatus: ApplicationStatus, inputDescriptions: [InputDescription]? = nil, lastUpdateTimestamp: Date? = nil, createTimestamp: Date? = nil, applicationCode: String? = nil, applicationName: String, applicationARN: String, applicationVersionId: Int64, outputDescriptions: [OutputDescription]? = nil, referenceDataSourceDescriptions: [ReferenceDataSourceDescription]? = nil) {
             self.applicationDescription = applicationDescription
             self.applicationStatus = applicationStatus
             self.inputDescriptions = inputDescriptions
@@ -957,7 +967,7 @@ extension Kinesisanalytics {
 
         public init(dictionary: [String: Any]) throws {
             self.applicationDescription = dictionary["ApplicationDescription"] as? String
-            guard let applicationStatus = dictionary["ApplicationStatus"] as? String else { throw InitializableError.missingRequiredParam("ApplicationStatus") }
+            guard let rawApplicationStatus = dictionary["ApplicationStatus"] as? String, let applicationStatus = ApplicationStatus(rawValue: rawApplicationStatus) else { throw InitializableError.missingRequiredParam("ApplicationStatus") }
             self.applicationStatus = applicationStatus
             if let inputDescriptions = dictionary["InputDescriptions"] as? [[String: Any]] {
                 self.inputDescriptions = try inputDescriptions.map({ try InputDescription(dictionary: $0) })
@@ -1011,6 +1021,13 @@ extension Kinesisanalytics {
             self.recordEncodingUpdate = dictionary["RecordEncodingUpdate"] as? String
             if let recordFormatUpdate = dictionary["RecordFormatUpdate"] as? [String: Any] { self.recordFormatUpdate = try Kinesisanalytics.RecordFormat(dictionary: recordFormatUpdate) } else { self.recordFormatUpdate = nil }
         }
+    }
+
+    public enum InputStartingPosition: String, CustomStringConvertible {
+        case now = "NOW"
+        case trim_horizon = "TRIM_HORIZON"
+        case last_stopped_point = "LAST_STOPPED_POINT"
+        public var description: String { return self.rawValue }
     }
 
     public struct InputParallelism: AWSShape {
@@ -1110,6 +1127,12 @@ extension Kinesisanalytics {
             guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
             self.applicationName = applicationName
         }
+    }
+
+    public enum RecordFormatType: String, CustomStringConvertible {
+        case json = "JSON"
+        case csv = "CSV"
+        public var description: String { return self.rawValue }
     }
 
     public struct ReferenceDataSourceUpdate: AWSShape {

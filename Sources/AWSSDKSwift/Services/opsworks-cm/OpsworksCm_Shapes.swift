@@ -193,6 +193,23 @@ extension OpsworksCm {
         }
     }
 
+    public enum ServerStatus: String, CustomStringConvertible {
+        case backing_up = "BACKING_UP"
+        case connection_lost = "CONNECTION_LOST"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case modifying = "MODIFYING"
+        case failed = "FAILED"
+        case healthy = "HEALTHY"
+        case running = "RUNNING"
+        case restoring = "RESTORING"
+        case setup = "SETUP"
+        case under_maintenance = "UNDER_MAINTENANCE"
+        case unhealthy = "UNHEALTHY"
+        case terminated = "TERMINATED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct UpdateServerEngineAttributesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -242,6 +259,13 @@ extension OpsworksCm {
             guard let serverName = dictionary["ServerName"] as? String else { throw InitializableError.missingRequiredParam("ServerName") }
             self.serverName = serverName
         }
+    }
+
+    public enum NodeAssociationStatus: String, CustomStringConvertible {
+        case success = "SUCCESS"
+        case failed = "FAILED"
+        case in_progress = "IN_PROGRESS"
+        public var description: String { return self.rawValue }
     }
 
     public struct AccountAttribute: AWSShape {
@@ -297,6 +321,14 @@ extension OpsworksCm {
         }
     }
 
+    public enum BackupStatus: String, CustomStringConvertible {
+        case in_progress = "IN_PROGRESS"
+        case ok = "OK"
+        case failed = "FAILED"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DescribeNodeAssociationStatusRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -331,6 +363,12 @@ extension OpsworksCm {
             guard let serverName = dictionary["ServerName"] as? String else { throw InitializableError.missingRequiredParam("ServerName") }
             self.serverName = serverName
         }
+    }
+
+    public enum BackupType: String, CustomStringConvertible {
+        case automated = "AUTOMATED"
+        case manual = "MANUAL"
+        public var description: String { return self.rawValue }
     }
 
     public struct UpdateServerResponse: AWSShape {
@@ -448,6 +486,12 @@ extension OpsworksCm {
         }
     }
 
+    public enum MaintenanceStatus: String, CustomStringConvertible {
+        case success = "SUCCESS"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Backup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -470,7 +514,7 @@ extension OpsworksCm {
         ///  The preferred backup period that is obtained from the server when the backup is created. 
         public let preferredBackupWindow: String?
         /// The status of a backup while in progress. 
-        public let status: String?
+        public let status: BackupStatus?
         ///  The time stamp when the backup was created in the database. Example: 2016-07-29T13:38:47.520Z 
         public let createdAt: Date?
         ///  The engine version that is obtained from the server when the backup is created. 
@@ -484,7 +528,7 @@ extension OpsworksCm {
         ///  The subnet IDs that are obtained from the server when the backup is created. 
         public let subnetIds: [String]?
         ///  The backup type. Valid values are automated or manual. 
-        public let backupType: String?
+        public let backupType: BackupType?
         ///  The engine type that is obtained from the server when the backup is created. 
         public let engine: String?
         ///  This field is deprecated and is no longer used. 
@@ -500,7 +544,7 @@ extension OpsworksCm {
         ///  The key pair that is obtained from the server when the backup is created. 
         public let keyPair: String?
 
-        public init(engineModel: String? = nil, serviceRoleArn: String? = nil, s3DataSize: Int32? = nil, backupId: String? = nil, securityGroupIds: [String]? = nil, toolsVersion: String? = nil, instanceType: String? = nil, description: String? = nil, preferredBackupWindow: String? = nil, status: String? = nil, createdAt: Date? = nil, engineVersion: String? = nil, instanceProfileArn: String? = nil, preferredMaintenanceWindow: String? = nil, serverName: String? = nil, subnetIds: [String]? = nil, backupType: String? = nil, engine: String? = nil, s3DataUrl: String? = nil, s3LogUrl: String? = nil, userArn: String? = nil, statusDescription: String? = nil, backupArn: String? = nil, keyPair: String? = nil) {
+        public init(engineModel: String? = nil, serviceRoleArn: String? = nil, s3DataSize: Int32? = nil, backupId: String? = nil, securityGroupIds: [String]? = nil, toolsVersion: String? = nil, instanceType: String? = nil, description: String? = nil, preferredBackupWindow: String? = nil, status: BackupStatus? = nil, createdAt: Date? = nil, engineVersion: String? = nil, instanceProfileArn: String? = nil, preferredMaintenanceWindow: String? = nil, serverName: String? = nil, subnetIds: [String]? = nil, backupType: BackupType? = nil, engine: String? = nil, s3DataUrl: String? = nil, s3LogUrl: String? = nil, userArn: String? = nil, statusDescription: String? = nil, backupArn: String? = nil, keyPair: String? = nil) {
             self.engineModel = engineModel
             self.serviceRoleArn = serviceRoleArn
             self.s3DataSize = s3DataSize
@@ -537,14 +581,14 @@ extension OpsworksCm {
             self.instanceType = dictionary["InstanceType"] as? String
             self.description = dictionary["Description"] as? String
             self.preferredBackupWindow = dictionary["PreferredBackupWindow"] as? String
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = BackupStatus(rawValue: status) } else { self.status = nil }
             self.createdAt = dictionary["CreatedAt"] as? Date
             self.engineVersion = dictionary["EngineVersion"] as? String
             self.instanceProfileArn = dictionary["InstanceProfileArn"] as? String
             self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
             self.serverName = dictionary["ServerName"] as? String
             self.subnetIds = dictionary["SubnetIds"] as? [String]
-            self.backupType = dictionary["BackupType"] as? String
+            if let backupType = dictionary["BackupType"] as? String { self.backupType = BackupType(rawValue: backupType) } else { self.backupType = nil }
             self.engine = dictionary["Engine"] as? String
             self.s3DataUrl = dictionary["S3DataUrl"] as? String
             self.s3LogUrl = dictionary["S3LogUrl"] as? String
@@ -636,11 +680,11 @@ extension OpsworksCm {
         /// The engine type of the server. The valid value in this release is Chef. 
         public let engine: String?
         /// The status of the most recent server maintenance run. Shows SUCCESS or FAILED. 
-        public let maintenanceStatus: String?
+        public let maintenanceStatus: MaintenanceStatus?
         /// The ARN of the CloudFormation stack that was used to create the server. 
         public let cloudFormationStackArn: String?
         ///  The server's status. This field displays the states of actions in progress, such as creating, running, or backing up the server, as well as the server's health state. 
-        public let status: String?
+        public let status: ServerStatus?
         /// Disables automated backups. The number of stored backups is dependent on the value of PreferredBackupCount. 
         public let disableAutomatedBackup: Bool?
         ///  A DNS name that can be used to access the engine. Example: myserver-asdfghjkl.us-east-1.opsworks.io 
@@ -650,7 +694,7 @@ extension OpsworksCm {
         /// The key pair associated with the server. 
         public let keyPair: String?
 
-        public init(serverArn: String? = nil, engineModel: String? = nil, engineAttributes: [EngineAttribute]? = nil, serviceRoleArn: String? = nil, securityGroupIds: [String]? = nil, instanceType: String? = nil, backupRetentionCount: Int32? = nil, subnetIds: [String]? = nil, preferredBackupWindow: String? = nil, createdAt: Date? = nil, engineVersion: String? = nil, instanceProfileArn: String? = nil, statusReason: String? = nil, preferredMaintenanceWindow: String? = nil, serverName: String? = nil, engine: String? = nil, maintenanceStatus: String? = nil, cloudFormationStackArn: String? = nil, status: String? = nil, disableAutomatedBackup: Bool? = nil, endpoint: String? = nil, associatePublicIpAddress: Bool? = nil, keyPair: String? = nil) {
+        public init(serverArn: String? = nil, engineModel: String? = nil, engineAttributes: [EngineAttribute]? = nil, serviceRoleArn: String? = nil, securityGroupIds: [String]? = nil, instanceType: String? = nil, backupRetentionCount: Int32? = nil, subnetIds: [String]? = nil, preferredBackupWindow: String? = nil, createdAt: Date? = nil, engineVersion: String? = nil, instanceProfileArn: String? = nil, statusReason: String? = nil, preferredMaintenanceWindow: String? = nil, serverName: String? = nil, engine: String? = nil, maintenanceStatus: MaintenanceStatus? = nil, cloudFormationStackArn: String? = nil, status: ServerStatus? = nil, disableAutomatedBackup: Bool? = nil, endpoint: String? = nil, associatePublicIpAddress: Bool? = nil, keyPair: String? = nil) {
             self.serverArn = serverArn
             self.engineModel = engineModel
             self.engineAttributes = engineAttributes
@@ -697,9 +741,9 @@ extension OpsworksCm {
             self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
             self.serverName = dictionary["ServerName"] as? String
             self.engine = dictionary["Engine"] as? String
-            self.maintenanceStatus = dictionary["MaintenanceStatus"] as? String
+            if let maintenanceStatus = dictionary["MaintenanceStatus"] as? String { self.maintenanceStatus = MaintenanceStatus(rawValue: maintenanceStatus) } else { self.maintenanceStatus = nil }
             self.cloudFormationStackArn = dictionary["CloudFormationStackArn"] as? String
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = ServerStatus(rawValue: status) } else { self.status = nil }
             self.disableAutomatedBackup = dictionary["DisableAutomatedBackup"] as? Bool
             self.endpoint = dictionary["Endpoint"] as? String
             self.associatePublicIpAddress = dictionary["AssociatePublicIpAddress"] as? Bool
@@ -818,14 +862,14 @@ extension OpsworksCm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the association or disassociation request.   Possible values:     SUCCESS: The association or disassociation succeeded.     FAILED: The association or disassociation failed.     IN_PROGRESS: The association or disassociation is still in progress.   
-        public let nodeAssociationStatus: String?
+        public let nodeAssociationStatus: NodeAssociationStatus?
 
-        public init(nodeAssociationStatus: String? = nil) {
+        public init(nodeAssociationStatus: NodeAssociationStatus? = nil) {
             self.nodeAssociationStatus = nodeAssociationStatus
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.nodeAssociationStatus = dictionary["NodeAssociationStatus"] as? String
+            if let nodeAssociationStatus = dictionary["NodeAssociationStatus"] as? String { self.nodeAssociationStatus = NodeAssociationStatus(rawValue: nodeAssociationStatus) } else { self.nodeAssociationStatus = nil }
         }
     }
 

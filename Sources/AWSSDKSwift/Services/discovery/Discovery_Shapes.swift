@@ -124,7 +124,7 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// A valid configuration identified by the Discovery Service. 
-        public let configurationType: String
+        public let configurationType: ConfigurationItemType
         /// The total number of items to return. The maximum value is 100.
         public let maxResults: Int32?
         /// Token to retrieve the next set of results. For example, if a previous call to ListConfigurations returned 100 items, but you set ListConfigurationsRequest$maxResults to 10, you received a set of 10 results along with a token. Use that token in this query to get the next set of 10.
@@ -134,7 +134,7 @@ extension Discovery {
         /// Certain filter criteria return output that can be sorted in ascending or descending order. For a list of output characteristics for each filter, see Querying Discovered Configuration Items.
         public let orderBy: [OrderByElement]?
 
-        public init(configurationType: String, maxResults: Int32? = nil, nextToken: String? = nil, filters: [Filter]? = nil, orderBy: [OrderByElement]? = nil) {
+        public init(configurationType: ConfigurationItemType, maxResults: Int32? = nil, nextToken: String? = nil, filters: [Filter]? = nil, orderBy: [OrderByElement]? = nil) {
             self.configurationType = configurationType
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -143,7 +143,7 @@ extension Discovery {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let configurationType = dictionary["configurationType"] as? String else { throw InitializableError.missingRequiredParam("configurationType") }
+            guard let rawconfigurationType = dictionary["configurationType"] as? String, let configurationType = ConfigurationItemType(rawValue: rawconfigurationType) else { throw InitializableError.missingRequiredParam("configurationType") }
             self.configurationType = configurationType
             self.maxResults = dictionary["maxResults"] as? Int32
             self.nextToken = dictionary["nextToken"] as? String
@@ -184,9 +184,9 @@ extension Discovery {
         /// Field to order on.
         public let fieldName: String
         /// Ordering direction.
-        public let sortOrder: String?
+        public let sortOrder: OrderString?
 
-        public init(fieldName: String, sortOrder: String? = nil) {
+        public init(fieldName: String, sortOrder: OrderString? = nil) {
             self.fieldName = fieldName
             self.sortOrder = sortOrder
         }
@@ -194,7 +194,7 @@ extension Discovery {
         public init(dictionary: [String: Any]) throws {
             guard let fieldName = dictionary["fieldName"] as? String else { throw InitializableError.missingRequiredParam("fieldName") }
             self.fieldName = fieldName
-            self.sortOrder = dictionary["sortOrder"] as? String
+            if let sortOrder = dictionary["sortOrder"] as? String { self.sortOrder = OrderString(rawValue: sortOrder) } else { self.sortOrder = nil }
         }
     }
 
@@ -202,7 +202,7 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// The health of the agent or connector.
-        public let health: String?
+        public let health: AgentStatus?
         /// Network details about the host where the agent or connector resides.
         public let agentNetworkInfoList: [AgentNetworkInfo]?
         /// Time since agent or connector health was reported.
@@ -222,7 +222,7 @@ extension Discovery {
         /// The name of the host where the agent or connector resides. The host can be a server or virtual machine.
         public let hostName: String?
 
-        public init(health: String? = nil, agentNetworkInfoList: [AgentNetworkInfo]? = nil, lastHealthPingTime: String? = nil, agentType: String? = nil, collectionStatus: String? = nil, version: String? = nil, connectorId: String? = nil, agentId: String? = nil, registeredTime: String? = nil, hostName: String? = nil) {
+        public init(health: AgentStatus? = nil, agentNetworkInfoList: [AgentNetworkInfo]? = nil, lastHealthPingTime: String? = nil, agentType: String? = nil, collectionStatus: String? = nil, version: String? = nil, connectorId: String? = nil, agentId: String? = nil, registeredTime: String? = nil, hostName: String? = nil) {
             self.health = health
             self.agentNetworkInfoList = agentNetworkInfoList
             self.lastHealthPingTime = lastHealthPingTime
@@ -236,7 +236,7 @@ extension Discovery {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.health = dictionary["health"] as? String
+            if let health = dictionary["health"] as? String { self.health = AgentStatus(rawValue: health) } else { self.health = nil }
             if let agentNetworkInfoList = dictionary["agentNetworkInfoList"] as? [[String: Any]] {
                 self.agentNetworkInfoList = try agentNetworkInfoList.map({ try AgentNetworkInfo(dictionary: $0) })
             } else { 
@@ -251,6 +251,13 @@ extension Discovery {
             self.registeredTime = dictionary["registeredTime"] as? String
             self.hostName = dictionary["hostName"] as? String
         }
+    }
+
+    public enum ExportStatus: String, CustomStringConvertible {
+        case failed = "FAILED"
+        case succeeded = "SUCCEEDED"
+        case in_progress = "IN_PROGRESS"
+        public var description: String { return self.rawValue }
     }
 
     public struct GetDiscoverySummaryResponse: AWSShape {
@@ -317,7 +324,7 @@ extension Discovery {
         /// The time the configuration tag was created in Coordinated Universal Time (UTC).
         public let timeOfCreation: Date?
         /// A type of IT asset that you want to tag.
-        public let configurationType: String?
+        public let configurationType: ConfigurationItemType?
         /// A value to filter on. For example key = serverType and value = web server.
         public let value: String?
         /// A type of tag to filter on. For example, serverType.
@@ -325,7 +332,7 @@ extension Discovery {
         /// The configuration ID for the item you want to tag. You can specify a list of keys and values.
         public let configurationId: String?
 
-        public init(timeOfCreation: Date? = nil, configurationType: String? = nil, value: String? = nil, key: String? = nil, configurationId: String? = nil) {
+        public init(timeOfCreation: Date? = nil, configurationType: ConfigurationItemType? = nil, value: String? = nil, key: String? = nil, configurationId: String? = nil) {
             self.timeOfCreation = timeOfCreation
             self.configurationType = configurationType
             self.value = value
@@ -335,7 +342,7 @@ extension Discovery {
 
         public init(dictionary: [String: Any]) throws {
             self.timeOfCreation = dictionary["timeOfCreation"] as? Date
-            self.configurationType = dictionary["configurationType"] as? String
+            if let configurationType = dictionary["configurationType"] as? String { self.configurationType = ConfigurationItemType(rawValue: configurationType) } else { self.configurationType = nil }
             self.value = dictionary["value"] as? String
             self.key = dictionary["key"] as? String
             self.configurationId = dictionary["configurationId"] as? String
@@ -496,6 +503,14 @@ extension Discovery {
         }
     }
 
+    public enum ConfigurationItemType: String, CustomStringConvertible {
+        case server = "SERVER"
+        case process = "PROCESS"
+        case connection = "CONNECTION"
+        case application = "APPLICATION"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DescribeTagsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -583,6 +598,16 @@ extension Discovery {
         }
     }
 
+    public enum AgentStatus: String, CustomStringConvertible {
+        case healthy = "HEALTHY"
+        case unhealthy = "UNHEALTHY"
+        case running = "RUNNING"
+        case unknown = "UNKNOWN"
+        case blacklisted = "BLACKLISTED"
+        case shutdown = "SHUTDOWN"
+        public var description: String { return self.rawValue }
+    }
+
     public struct AssociateConfigurationItemsToApplicationResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -667,6 +692,12 @@ extension Discovery {
         }
     }
 
+    public enum OrderString: String, CustomStringConvertible {
+        case asc = "ASC"
+        case desc = "DESC"
+        public var description: String { return self.rawValue }
+    }
+
     public struct TagFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -744,7 +775,7 @@ extension Discovery {
         /// A unique identifier that you can use to query the export.
         public let exportId: String
         /// The status of the configuration data export. The status can succeed, fail, or be in-progress.
-        public let exportStatus: String
+        public let exportStatus: ExportStatus
         /// A URL for an Amazon S3 bucket where you can review the configuration data. The URL is displayed only if the export succeeded.
         public let configurationsDownloadUrl: String?
         /// Helpful status messages for API callers. For example: Too many exports in the last 6 hours. Export in progress. Export was successful.
@@ -752,7 +783,7 @@ extension Discovery {
         /// The time the configuration data export was initiated.
         public let exportRequestTime: Date
 
-        public init(exportId: String, exportStatus: String, configurationsDownloadUrl: String? = nil, statusMessage: String, exportRequestTime: Date) {
+        public init(exportId: String, exportStatus: ExportStatus, configurationsDownloadUrl: String? = nil, statusMessage: String, exportRequestTime: Date) {
             self.exportId = exportId
             self.exportStatus = exportStatus
             self.configurationsDownloadUrl = configurationsDownloadUrl
@@ -763,7 +794,7 @@ extension Discovery {
         public init(dictionary: [String: Any]) throws {
             guard let exportId = dictionary["exportId"] as? String else { throw InitializableError.missingRequiredParam("exportId") }
             self.exportId = exportId
-            guard let exportStatus = dictionary["exportStatus"] as? String else { throw InitializableError.missingRequiredParam("exportStatus") }
+            guard let rawexportStatus = dictionary["exportStatus"] as? String, let exportStatus = ExportStatus(rawValue: rawexportStatus) else { throw InitializableError.missingRequiredParam("exportStatus") }
             self.exportStatus = exportStatus
             self.configurationsDownloadUrl = dictionary["configurationsDownloadUrl"] as? String
             guard let statusMessage = dictionary["statusMessage"] as? String else { throw InitializableError.missingRequiredParam("statusMessage") }

@@ -403,6 +403,12 @@ extension Iam {
         }
     }
 
+    public enum EncodingType: String, CustomStringConvertible {
+        case ssh = "SSH"
+        case pem = "PEM"
+        public var description: String { return self.rawValue }
+    }
+
     public struct UploadServerCertificateResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -426,9 +432,9 @@ extension Iam {
         /// The full name of a condition context key, including the service prefix. For example, aws:SourceIp or s3:VersionId.
         public let contextKeyName: String?
         /// The data type of the value (or values) specified in the ContextKeyValues parameter.
-        public let contextKeyType: String?
+        public let contextKeyType: ContextKeyTypeEnum?
 
-        public init(contextKeyValues: [String]? = nil, contextKeyName: String? = nil, contextKeyType: String? = nil) {
+        public init(contextKeyValues: [String]? = nil, contextKeyName: String? = nil, contextKeyType: ContextKeyTypeEnum? = nil) {
             self.contextKeyValues = contextKeyValues
             self.contextKeyName = contextKeyName
             self.contextKeyType = contextKeyType
@@ -437,7 +443,7 @@ extension Iam {
         public init(dictionary: [String: Any]) throws {
             self.contextKeyValues = dictionary["ContextKeyValues"] as? [String]
             self.contextKeyName = dictionary["ContextKeyName"] as? String
-            self.contextKeyType = dictionary["ContextKeyType"] as? String
+            if let contextKeyType = dictionary["ContextKeyType"] as? String { self.contextKeyType = ContextKeyTypeEnum(rawValue: contextKeyType) } else { self.contextKeyType = nil }
         }
     }
 
@@ -454,6 +460,12 @@ extension Iam {
         public init(dictionary: [String: Any]) throws {
             if let sSHPublicKey = dictionary["SSHPublicKey"] as? [String: Any] { self.sSHPublicKey = try Iam.SSHPublicKey(dictionary: sSHPublicKey) } else { self.sSHPublicKey = nil }
         }
+    }
+
+    public enum StatusType: String, CustomStringConvertible {
+        case active = "Active"
+        case inactive = "Inactive"
+        public var description: String { return self.rawValue }
     }
 
     public struct AttachGroupPolicyRequest: AWSShape {
@@ -481,7 +493,7 @@ extension Iam {
         /// The key for the payload
         public static let payload: String? = nil
         /// The entity type to use for filtering the results. For example, when EntityFilter is Role, only the roles that are attached to the specified policy are returned. This parameter is optional. If it is not included, all attached entities (users, groups, and roles) are returned. The argument for this parameter must be one of the valid values listed below.
-        public let entityFilter: String?
+        public let entityFilter: EntityType?
         /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
         public let maxItems: Int32?
         /// The Amazon Resource Name (ARN) of the IAM policy for which you want the versions. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
@@ -491,7 +503,7 @@ extension Iam {
         /// The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all entities. This paramater allows (per its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (\u0021) thru the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
         public let pathPrefix: String?
 
-        public init(entityFilter: String? = nil, maxItems: Int32? = nil, policyArn: String, marker: String? = nil, pathPrefix: String? = nil) {
+        public init(entityFilter: EntityType? = nil, maxItems: Int32? = nil, policyArn: String, marker: String? = nil, pathPrefix: String? = nil) {
             self.entityFilter = entityFilter
             self.maxItems = maxItems
             self.policyArn = policyArn
@@ -500,7 +512,7 @@ extension Iam {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.entityFilter = dictionary["EntityFilter"] as? String
+            if let entityFilter = dictionary["EntityFilter"] as? String { self.entityFilter = EntityType(rawValue: entityFilter) } else { self.entityFilter = nil }
             self.maxItems = dictionary["MaxItems"] as? Int32
             guard let policyArn = dictionary["PolicyArn"] as? String else { throw InitializableError.missingRequiredParam("PolicyArn") }
             self.policyArn = policyArn
@@ -515,13 +527,13 @@ extension Iam {
         /// The name of the IAM user associated with the SSH public key.
         public let userName: String
         /// The status of the SSH public key. Active means the key can be used for authentication with an AWS CodeCommit repository. Inactive means the key cannot be used.
-        public let status: String
+        public let status: StatusType
         /// The date and time, in ISO 8601 date-time format, when the SSH public key was uploaded.
         public let uploadDate: Date
         /// The unique identifier for the SSH public key.
         public let sSHPublicKeyId: String
 
-        public init(userName: String, status: String, uploadDate: Date, sSHPublicKeyId: String) {
+        public init(userName: String, status: StatusType, uploadDate: Date, sSHPublicKeyId: String) {
             self.userName = userName
             self.status = status
             self.uploadDate = uploadDate
@@ -531,7 +543,7 @@ extension Iam {
         public init(dictionary: [String: Any]) throws {
             guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
             self.userName = userName
-            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            guard let rawStatus = dictionary["Status"] as? String, let status = StatusType(rawValue: rawStatus) else { throw InitializableError.missingRequiredParam("Status") }
             self.status = status
             guard let uploadDate = dictionary["UploadDate"] as? Date else { throw InitializableError.missingRequiredParam("UploadDate") }
             self.uploadDate = uploadDate
@@ -667,13 +679,13 @@ extension Iam {
         /// The name of the IAM user that the access key is associated with.
         public let userName: String
         /// The status of the access key. Active means the key is valid for API calls, while Inactive means it is not. 
-        public let status: String
+        public let status: StatusType
         /// The secret key used to sign requests.
         public let secretAccessKey: String
         /// The ID for this access key.
         public let accessKeyId: String
 
-        public init(createDate: Date? = nil, userName: String, status: String, secretAccessKey: String, accessKeyId: String) {
+        public init(createDate: Date? = nil, userName: String, status: StatusType, secretAccessKey: String, accessKeyId: String) {
             self.createDate = createDate
             self.userName = userName
             self.status = status
@@ -685,7 +697,7 @@ extension Iam {
             self.createDate = dictionary["CreateDate"] as? Date
             guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
             self.userName = userName
-            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            guard let rawStatus = dictionary["Status"] as? String, let status = StatusType(rawValue: rawStatus) else { throw InitializableError.missingRequiredParam("Status") }
             self.status = status
             guard let secretAccessKey = dictionary["SecretAccessKey"] as? String else { throw InitializableError.missingRequiredParam("SecretAccessKey") }
             self.secretAccessKey = secretAccessKey
@@ -848,11 +860,11 @@ extension Iam {
         /// The name of the user whose key you want to update. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let userName: String?
         ///  The status you want to assign to the secret access key. Active means the key can be used for API calls to AWS, while Inactive means the key cannot be used.
-        public let status: String
+        public let status: StatusType
         /// The access key ID of the secret access key you want to update. This parameter allows (per its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
         public let accessKeyId: String
 
-        public init(userName: String? = nil, status: String, accessKeyId: String) {
+        public init(userName: String? = nil, status: StatusType, accessKeyId: String) {
             self.userName = userName
             self.status = status
             self.accessKeyId = accessKeyId
@@ -860,7 +872,7 @@ extension Iam {
 
         public init(dictionary: [String: Any]) throws {
             self.userName = dictionary["UserName"] as? String
-            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            guard let rawStatus = dictionary["Status"] as? String, let status = StatusType(rawValue: rawStatus) else { throw InitializableError.missingRequiredParam("Status") }
             self.status = status
             guard let accessKeyId = dictionary["AccessKeyId"] as? String else { throw InitializableError.missingRequiredParam("AccessKeyId") }
             self.accessKeyId = accessKeyId
@@ -988,14 +1000,14 @@ extension Iam {
         /// The key for the payload
         public static let payload: String? = nil
         /// A set of key value pairs containing information about IAM entity usage and IAM quotas.
-        public let summaryMap: [String: Int32]?
+        public let summaryMap: [SummaryKeyType: Int32]?
 
-        public init(summaryMap: [String: Int32]? = nil) {
+        public init(summaryMap: [SummaryKeyType: Int32]? = nil) {
             self.summaryMap = summaryMap
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let summaryMap = dictionary["SummaryMap"] as? [String: Int32] {
+            if let summaryMap = dictionary["SummaryMap"] as? [SummaryKeyType: Int32] {
                 self.summaryMap = summaryMap
             } else { 
                 self.summaryMap = nil
@@ -1208,9 +1220,9 @@ extension Iam {
         /// The name of the IAM user associated with the service-specific credential. If you do not specify this value, then the operation assumes the user whose credentials are used to call the operation. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let userName: String?
         /// The status to be assigned to the service-specific credential.
-        public let status: String
+        public let status: StatusType
 
-        public init(serviceSpecificCredentialId: String, userName: String? = nil, status: String) {
+        public init(serviceSpecificCredentialId: String, userName: String? = nil, status: StatusType) {
             self.serviceSpecificCredentialId = serviceSpecificCredentialId
             self.userName = userName
             self.status = status
@@ -1220,7 +1232,7 @@ extension Iam {
             guard let serviceSpecificCredentialId = dictionary["ServiceSpecificCredentialId"] as? String else { throw InitializableError.missingRequiredParam("ServiceSpecificCredentialId") }
             self.serviceSpecificCredentialId = serviceSpecificCredentialId
             self.userName = dictionary["UserName"] as? String
-            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            guard let rawStatus = dictionary["Status"] as? String, let status = StatusType(rawValue: rawStatus) else { throw InitializableError.missingRequiredParam("Status") }
             self.status = status
         }
     }
@@ -1271,20 +1283,20 @@ extension Iam {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The status (Unassigned or Assigned) of the devices to list. If you do not specify an AssignmentStatus, the action defaults to Any which lists both assigned and unassigned virtual MFA devices.
-        public let assignmentStatus: String?
+        public let assignmentStatus: AssignmentStatusType?
         /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
         public let maxItems: Int32?
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
 
-        public init(assignmentStatus: String? = nil, maxItems: Int32? = nil, marker: String? = nil) {
+        public init(assignmentStatus: AssignmentStatusType? = nil, maxItems: Int32? = nil, marker: String? = nil) {
             self.assignmentStatus = assignmentStatus
             self.maxItems = maxItems
             self.marker = marker
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.assignmentStatus = dictionary["AssignmentStatus"] as? String
+            if let assignmentStatus = dictionary["AssignmentStatus"] as? String { self.assignmentStatus = AssignmentStatusType(rawValue: assignmentStatus) } else { self.assignmentStatus = nil }
             self.maxItems = dictionary["MaxItems"] as? Int32
             self.marker = dictionary["Marker"] as? String
         }
@@ -1363,6 +1375,17 @@ extension Iam {
         public init(dictionary: [String: Any]) throws {
             self.arn = dictionary["Arn"] as? String
         }
+    }
+
+    public enum PolicySourceType: String, CustomStringConvertible {
+        case user = "user"
+        case group = "group"
+        case role = "role"
+        case aws_managed = "aws-managed"
+        case user_managed = "user-managed"
+        case resource = "resource"
+        case none = "none"
+        public var description: String { return self.rawValue }
     }
 
     public struct CreatePolicyVersionRequest: AWSShape {
@@ -1605,7 +1628,7 @@ extension Iam {
         /// The name of the IAM user associated with the service-specific credential.
         public let userName: String
         /// The status of the service-specific credential. Active means the key is valid for API calls, while Inactive means it is not.
-        public let status: String
+        public let status: StatusType
         /// The generated user name for the service-specific credential. This value is generated by combining the IAM user's name combined with the ID number of the AWS account, as in jane-at-123456789012, for example. This value cannot be configured by the user.
         public let serviceUserName: String
         /// The name of the service associated with the service-specific credential.
@@ -1615,7 +1638,7 @@ extension Iam {
         /// The generated password for the service-specific credential.
         public let servicePassword: String
 
-        public init(serviceSpecificCredentialId: String, userName: String, status: String, serviceUserName: String, serviceName: String, createDate: Date, servicePassword: String) {
+        public init(serviceSpecificCredentialId: String, userName: String, status: StatusType, serviceUserName: String, serviceName: String, createDate: Date, servicePassword: String) {
             self.serviceSpecificCredentialId = serviceSpecificCredentialId
             self.userName = userName
             self.status = status
@@ -1630,7 +1653,7 @@ extension Iam {
             self.serviceSpecificCredentialId = serviceSpecificCredentialId
             guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
             self.userName = userName
-            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            guard let rawStatus = dictionary["Status"] as? String, let status = StatusType(rawValue: rawStatus) else { throw InitializableError.missingRequiredParam("Status") }
             self.status = status
             guard let serviceUserName = dictionary["ServiceUserName"] as? String else { throw InitializableError.missingRequiredParam("ServiceUserName") }
             self.serviceUserName = serviceUserName
@@ -1875,17 +1898,17 @@ extension Iam {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the state of the credential report.
-        public let state: String?
+        public let state: ReportStateType?
         /// Information about the credential report.
         public let description: String?
 
-        public init(state: String? = nil, description: String? = nil) {
+        public init(state: ReportStateType? = nil, description: String? = nil) {
             self.state = state
             self.description = description
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.state = dictionary["State"] as? String
+            if let state = dictionary["State"] as? String { self.state = ReportStateType(rawValue: state) } else { self.state = nil }
             self.description = dictionary["Description"] as? String
         }
     }
@@ -1937,13 +1960,13 @@ extension Iam {
         /// The name of the user the signing certificate is associated with.
         public let userName: String
         /// The status of the signing certificate. Active means the key is valid for API calls, while Inactive means it is not.
-        public let status: String
+        public let status: StatusType
         /// The date when the signing certificate was uploaded.
         public let uploadDate: Date?
         /// The contents of the signing certificate.
         public let certificateBody: String
 
-        public init(certificateId: String, userName: String, status: String, uploadDate: Date? = nil, certificateBody: String) {
+        public init(certificateId: String, userName: String, status: StatusType, uploadDate: Date? = nil, certificateBody: String) {
             self.certificateId = certificateId
             self.userName = userName
             self.status = status
@@ -1956,7 +1979,7 @@ extension Iam {
             self.certificateId = certificateId
             guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
             self.userName = userName
-            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            guard let rawStatus = dictionary["Status"] as? String, let status = StatusType(rawValue: rawStatus) else { throw InitializableError.missingRequiredParam("Status") }
             self.status = status
             self.uploadDate = dictionary["UploadDate"] as? Date
             guard let certificateBody = dictionary["CertificateBody"] as? String else { throw InitializableError.missingRequiredParam("CertificateBody") }
@@ -2089,6 +2112,35 @@ extension Iam {
             guard let path = dictionary["Path"] as? String else { throw InitializableError.missingRequiredParam("Path") }
             self.path = path
         }
+    }
+
+    public enum SummaryKeyType: String, CustomStringConvertible {
+        case users = "Users"
+        case usersquota = "UsersQuota"
+        case groups = "Groups"
+        case groupsquota = "GroupsQuota"
+        case servercertificates = "ServerCertificates"
+        case servercertificatesquota = "ServerCertificatesQuota"
+        case userpolicysizequota = "UserPolicySizeQuota"
+        case grouppolicysizequota = "GroupPolicySizeQuota"
+        case groupsperuserquota = "GroupsPerUserQuota"
+        case signingcertificatesperuserquota = "SigningCertificatesPerUserQuota"
+        case accesskeysperuserquota = "AccessKeysPerUserQuota"
+        case mfadevices = "MFADevices"
+        case mfadevicesinuse = "MFADevicesInUse"
+        case accountmfaenabled = "AccountMFAEnabled"
+        case accountaccesskeyspresent = "AccountAccessKeysPresent"
+        case accountsigningcertificatespresent = "AccountSigningCertificatesPresent"
+        case attachedpoliciespergroupquota = "AttachedPoliciesPerGroupQuota"
+        case attachedpoliciesperrolequota = "AttachedPoliciesPerRoleQuota"
+        case attachedpoliciesperuserquota = "AttachedPoliciesPerUserQuota"
+        case policies = "Policies"
+        case policiesquota = "PoliciesQuota"
+        case policysizequota = "PolicySizeQuota"
+        case policyversionsinuse = "PolicyVersionsInUse"
+        case policyversionsinusequota = "PolicyVersionsInUseQuota"
+        case versionsperpolicyquota = "VersionsPerPolicyQuota"
+        public var description: String { return self.rawValue }
     }
 
     public struct DeleteSSHPublicKeyRequest: AWSShape {
@@ -2353,9 +2405,9 @@ extension Iam {
         /// The key for the payload
         public static let payload: String? = nil
         /// The result of the simulation.
-        public let evalDecision: String
+        public let evalDecision: PolicyEvaluationDecisionType
         /// Additional details about the results of the evaluation decision. When there are both IAM policies and resource policies, this parameter explains how each set of policies contributes to the final evaluation decision. When simulating cross-account access to a resource, both the resource-based policy and the caller's IAM policy must grant access. See How IAM Roles Differ from Resource-based Policies 
-        public let evalDecisionDetails: [String: String]?
+        public let evalDecisionDetails: [String: PolicyEvaluationDecisionType]?
         /// The ARN of the resource that the indicated API action was tested on.
         public let evalResourceName: String?
         /// A list of the statements in the input policies that determine the result for this scenario. Remember that even if multiple statements allow the action on the resource, if only one statement denies that action, then the explicit deny overrides any allow, and the deny statement is the only entry included in the result.
@@ -2369,7 +2421,7 @@ extension Iam {
         /// The individual results of the simulation of the API action specified in EvalActionName on each resource.
         public let resourceSpecificResults: [ResourceSpecificResult]?
 
-        public init(evalDecision: String, evalDecisionDetails: [String: String]? = nil, evalResourceName: String? = nil, matchedStatements: [Statement]? = nil, evalActionName: String, organizationsDecisionDetail: OrganizationsDecisionDetail? = nil, missingContextValues: [String]? = nil, resourceSpecificResults: [ResourceSpecificResult]? = nil) {
+        public init(evalDecision: PolicyEvaluationDecisionType, evalDecisionDetails: [String: PolicyEvaluationDecisionType]? = nil, evalResourceName: String? = nil, matchedStatements: [Statement]? = nil, evalActionName: String, organizationsDecisionDetail: OrganizationsDecisionDetail? = nil, missingContextValues: [String]? = nil, resourceSpecificResults: [ResourceSpecificResult]? = nil) {
             self.evalDecision = evalDecision
             self.evalDecisionDetails = evalDecisionDetails
             self.evalResourceName = evalResourceName
@@ -2381,10 +2433,18 @@ extension Iam {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let evalDecision = dictionary["EvalDecision"] as? String else { throw InitializableError.missingRequiredParam("EvalDecision") }
+            guard let rawEvalDecision = dictionary["EvalDecision"] as? String, let evalDecision = PolicyEvaluationDecisionType(rawValue: rawEvalDecision) else { throw InitializableError.missingRequiredParam("EvalDecision") }
             self.evalDecision = evalDecision
-            if let evalDecisionDetails = dictionary["EvalDecisionDetails"] as? [String: String] {
-                self.evalDecisionDetails = evalDecisionDetails
+            if let evalDecisionDetails = dictionary["EvalDecisionDetails"] as? [String: Any] {
+                var evalDecisionDetailsDict: [String: PolicyEvaluationDecisionType] = [:]
+                for (key, value) in evalDecisionDetails {
+                    guard var policyEvaluationDecisionTypeDict = value as? [String: String] else { throw InitializableError.convertingError }
+                    for (key, value) in policyEvaluationDecisionTypeDict {
+                        guard let policyEvaluationDecisionType = PolicyEvaluationDecisionType(rawValue: value) else { continue }
+                        evalDecisionDetailsDict[key] = policyEvaluationDecisionType
+                    }
+                }
+                self.evalDecisionDetails = evalDecisionDetailsDict
             } else { 
                 self.evalDecisionDetails = nil
             }
@@ -2412,15 +2472,15 @@ extension Iam {
         /// A list of context keys that are required by the included input policies but that were not provided by one of the input parameters. This list is used when a list of ARNs is included in the ResourceArns parameter instead of "*". If you do not specify individual resources, by setting ResourceArns to "*" or by not including the ResourceArns parameter, then any missing context values are instead included under the EvaluationResults section. To discover the context keys used by a set of policies, you can call GetContextKeysForCustomPolicy or GetContextKeysForPrincipalPolicy.
         public let missingContextValues: [String]?
         /// The result of the simulation of the simulated API action on the resource specified in EvalResourceName.
-        public let evalResourceDecision: String
+        public let evalResourceDecision: PolicyEvaluationDecisionType
         /// Additional details about the results of the evaluation decision. When there are both IAM policies and resource policies, this parameter explains how each set of policies contributes to the final evaluation decision. When simulating cross-account access to a resource, both the resource-based policy and the caller's IAM policy must grant access.
-        public let evalDecisionDetails: [String: String]?
+        public let evalDecisionDetails: [String: PolicyEvaluationDecisionType]?
         /// A list of the statements in the input policies that determine the result for this part of the simulation. Remember that even if multiple statements allow the action on the resource, if any statement denies that action, then the explicit deny overrides any allow, and the deny statement is the only entry included in the result.
         public let matchedStatements: [Statement]?
         /// The name of the simulated resource, in Amazon Resource Name (ARN) format.
         public let evalResourceName: String
 
-        public init(missingContextValues: [String]? = nil, evalResourceDecision: String, evalDecisionDetails: [String: String]? = nil, matchedStatements: [Statement]? = nil, evalResourceName: String) {
+        public init(missingContextValues: [String]? = nil, evalResourceDecision: PolicyEvaluationDecisionType, evalDecisionDetails: [String: PolicyEvaluationDecisionType]? = nil, matchedStatements: [Statement]? = nil, evalResourceName: String) {
             self.missingContextValues = missingContextValues
             self.evalResourceDecision = evalResourceDecision
             self.evalDecisionDetails = evalDecisionDetails
@@ -2430,10 +2490,18 @@ extension Iam {
 
         public init(dictionary: [String: Any]) throws {
             self.missingContextValues = dictionary["MissingContextValues"] as? [String]
-            guard let evalResourceDecision = dictionary["EvalResourceDecision"] as? String else { throw InitializableError.missingRequiredParam("EvalResourceDecision") }
+            guard let rawEvalResourceDecision = dictionary["EvalResourceDecision"] as? String, let evalResourceDecision = PolicyEvaluationDecisionType(rawValue: rawEvalResourceDecision) else { throw InitializableError.missingRequiredParam("EvalResourceDecision") }
             self.evalResourceDecision = evalResourceDecision
-            if let evalDecisionDetails = dictionary["EvalDecisionDetails"] as? [String: String] {
-                self.evalDecisionDetails = evalDecisionDetails
+            if let evalDecisionDetails = dictionary["EvalDecisionDetails"] as? [String: Any] {
+                var evalDecisionDetailsDict: [String: PolicyEvaluationDecisionType] = [:]
+                for (key, value) in evalDecisionDetails {
+                    guard var policyEvaluationDecisionTypeDict = value as? [String: String] else { throw InitializableError.convertingError }
+                    for (key, value) in policyEvaluationDecisionTypeDict {
+                        guard let policyEvaluationDecisionType = PolicyEvaluationDecisionType(rawValue: value) else { continue }
+                        evalDecisionDetailsDict[key] = policyEvaluationDecisionType
+                    }
+                }
+                self.evalDecisionDetails = evalDecisionDetailsDict
             } else { 
                 self.evalDecisionDetails = nil
             }
@@ -2576,6 +2644,15 @@ extension Iam {
         }
     }
 
+    public enum EntityType: String, CustomStringConvertible {
+        case user = "User"
+        case role = "Role"
+        case group = "Group"
+        case localmanagedpolicy = "LocalManagedPolicy"
+        case awsmanagedpolicy = "AWSManagedPolicy"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DeleteLoginProfileRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2631,9 +2708,9 @@ extension Iam {
         /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
         public let maxItems: Int32?
         /// A list of entity types used to filter the results. Only the entities that match the types you specify are included in the output. Use the value LocalManagedPolicy to include customer managed policies. The format for this parameter is a comma-separated (if more than one) list of strings. Each string value in the list must be one of the valid values listed below.
-        public let filter: [String]?
+        public let filter: [EntityType]?
 
-        public init(marker: String? = nil, maxItems: Int32? = nil, filter: [String]? = nil) {
+        public init(marker: String? = nil, maxItems: Int32? = nil, filter: [EntityType]? = nil) {
             self.marker = marker
             self.maxItems = maxItems
             self.filter = filter
@@ -2642,7 +2719,7 @@ extension Iam {
         public init(dictionary: [String: Any]) throws {
             self.marker = dictionary["Marker"] as? String
             self.maxItems = dictionary["MaxItems"] as? Int32
-            self.filter = dictionary["Filter"] as? [String]
+            if let filter = dictionary["Filter"] as? [String] { self.filter = filter.flatMap({ EntityType(rawValue: $0)}) } else { self.filter = nil }
         }
     }
 
@@ -2654,11 +2731,11 @@ extension Iam {
         /// The name of the IAM user that the key is associated with.
         public let userName: String?
         /// The status of the access key. Active means the key is valid for API calls; Inactive means it is not.
-        public let status: String?
+        public let status: StatusType?
         /// The ID for this access key.
         public let accessKeyId: String?
 
-        public init(createDate: Date? = nil, userName: String? = nil, status: String? = nil, accessKeyId: String? = nil) {
+        public init(createDate: Date? = nil, userName: String? = nil, status: StatusType? = nil, accessKeyId: String? = nil) {
             self.createDate = createDate
             self.userName = userName
             self.status = status
@@ -2668,7 +2745,7 @@ extension Iam {
         public init(dictionary: [String: Any]) throws {
             self.createDate = dictionary["CreateDate"] as? Date
             self.userName = dictionary["UserName"] as? String
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = StatusType(rawValue: status) } else { self.status = nil }
             self.accessKeyId = dictionary["AccessKeyId"] as? String
         }
     }
@@ -2677,7 +2754,7 @@ extension Iam {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of the policy.
-        public let sourcePolicyType: String?
+        public let sourcePolicyType: PolicySourceType?
         /// The row and column of the beginning of the Statement in an IAM policy.
         public let startPosition: Position?
         /// The identifier of the policy that was provided as an input.
@@ -2685,7 +2762,7 @@ extension Iam {
         /// The row and column of the end of a Statement in an IAM policy.
         public let endPosition: Position?
 
-        public init(sourcePolicyType: String? = nil, startPosition: Position? = nil, sourcePolicyId: String? = nil, endPosition: Position? = nil) {
+        public init(sourcePolicyType: PolicySourceType? = nil, startPosition: Position? = nil, sourcePolicyId: String? = nil, endPosition: Position? = nil) {
             self.sourcePolicyType = sourcePolicyType
             self.startPosition = startPosition
             self.sourcePolicyId = sourcePolicyId
@@ -2693,7 +2770,7 @@ extension Iam {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.sourcePolicyType = dictionary["SourcePolicyType"] as? String
+            if let sourcePolicyType = dictionary["SourcePolicyType"] as? String { self.sourcePolicyType = PolicySourceType(rawValue: sourcePolicyType) } else { self.sourcePolicyType = nil }
             if let startPosition = dictionary["StartPosition"] as? [String: Any] { self.startPosition = try Iam.Position(dictionary: startPosition) } else { self.startPosition = nil }
             self.sourcePolicyId = dictionary["SourcePolicyId"] as? String
             if let endPosition = dictionary["EndPosition"] as? [String: Any] { self.endPosition = try Iam.Position(dictionary: endPosition) } else { self.endPosition = nil }
@@ -2821,6 +2898,13 @@ extension Iam {
             self.userName = userName
             self.passwordResetRequired = dictionary["PasswordResetRequired"] as? Bool
         }
+    }
+
+    public enum PolicyEvaluationDecisionType: String, CustomStringConvertible {
+        case allowed = "allowed"
+        case explicitdeny = "explicitDeny"
+        case implicitdeny = "implicitDeny"
+        public var description: String { return self.rawValue }
     }
 
     public struct ListAttachedUserPoliciesResponse: AWSShape {
@@ -2985,7 +3069,7 @@ extension Iam {
         /// The name of the IAM user associated with the service-specific credential.
         public let userName: String
         /// The status of the service-specific credential. Active means the key is valid for API calls, while Inactive means it is not.
-        public let status: String
+        public let status: StatusType
         /// The name of the service associated with the service-specific credential.
         public let serviceName: String
         /// The generated user name for the service-specific credential.
@@ -2993,7 +3077,7 @@ extension Iam {
         /// The date and time, in ISO 8601 date-time format, when the service-specific credential were created.
         public let createDate: Date
 
-        public init(serviceSpecificCredentialId: String, userName: String, status: String, serviceName: String, serviceUserName: String, createDate: Date) {
+        public init(serviceSpecificCredentialId: String, userName: String, status: StatusType, serviceName: String, serviceUserName: String, createDate: Date) {
             self.serviceSpecificCredentialId = serviceSpecificCredentialId
             self.userName = userName
             self.status = status
@@ -3007,7 +3091,7 @@ extension Iam {
             self.serviceSpecificCredentialId = serviceSpecificCredentialId
             guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
             self.userName = userName
-            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            guard let rawStatus = dictionary["Status"] as? String, let status = StatusType(rawValue: rawStatus) else { throw InitializableError.missingRequiredParam("Status") }
             self.status = status
             guard let serviceName = dictionary["ServiceName"] as? String else { throw InitializableError.missingRequiredParam("ServiceName") }
             self.serviceName = serviceName
@@ -3026,7 +3110,7 @@ extension Iam {
         /// The name of the IAM user associated with the SSH public key.
         public let userName: String
         /// The status of the SSH public key. Active means the key can be used for authentication with an AWS CodeCommit repository. Inactive means the key cannot be used.
-        public let status: String
+        public let status: StatusType
         /// The MD5 message digest of the SSH public key.
         public let fingerprint: String
         /// The date and time, in ISO 8601 date-time format, when the SSH public key was uploaded.
@@ -3034,7 +3118,7 @@ extension Iam {
         /// The unique identifier for the SSH public key.
         public let sSHPublicKeyId: String
 
-        public init(sSHPublicKeyBody: String, userName: String, status: String, fingerprint: String, uploadDate: Date? = nil, sSHPublicKeyId: String) {
+        public init(sSHPublicKeyBody: String, userName: String, status: StatusType, fingerprint: String, uploadDate: Date? = nil, sSHPublicKeyId: String) {
             self.sSHPublicKeyBody = sSHPublicKeyBody
             self.userName = userName
             self.status = status
@@ -3048,7 +3132,7 @@ extension Iam {
             self.sSHPublicKeyBody = sSHPublicKeyBody
             guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
             self.userName = userName
-            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            guard let rawStatus = dictionary["Status"] as? String, let status = StatusType(rawValue: rawStatus) else { throw InitializableError.missingRequiredParam("Status") }
             self.status = status
             guard let fingerprint = dictionary["Fingerprint"] as? String else { throw InitializableError.missingRequiredParam("Fingerprint") }
             self.fingerprint = fingerprint
@@ -3459,13 +3543,13 @@ extension Iam {
         /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
         public let maxItems: Int32?
         /// The scope to use for filtering the results. To list only AWS managed policies, set Scope to AWS. To list only the customer managed policies in your AWS account, set Scope to Local. This parameter is optional. If it is not included, or if it is set to All, all policies are returned.
-        public let scope: String?
+        public let scope: PolicyScopeType?
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
         /// The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all policies. This paramater allows (per its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (\u0021) thru the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
         public let pathPrefix: String?
 
-        public init(onlyAttached: Bool? = nil, maxItems: Int32? = nil, scope: String? = nil, marker: String? = nil, pathPrefix: String? = nil) {
+        public init(onlyAttached: Bool? = nil, maxItems: Int32? = nil, scope: PolicyScopeType? = nil, marker: String? = nil, pathPrefix: String? = nil) {
             self.onlyAttached = onlyAttached
             self.maxItems = maxItems
             self.scope = scope
@@ -3476,7 +3560,7 @@ extension Iam {
         public init(dictionary: [String: Any]) throws {
             self.onlyAttached = dictionary["OnlyAttached"] as? Bool
             self.maxItems = dictionary["MaxItems"] as? Int32
-            self.scope = dictionary["Scope"] as? String
+            if let scope = dictionary["Scope"] as? String { self.scope = PolicyScopeType(rawValue: scope) } else { self.scope = nil }
             self.marker = dictionary["Marker"] as? String
             self.pathPrefix = dictionary["PathPrefix"] as? String
         }
@@ -3567,6 +3651,13 @@ extension Iam {
             guard let passwordPolicy = dictionary["PasswordPolicy"] as? [String: Any] else { throw InitializableError.missingRequiredParam("PasswordPolicy") }
             self.passwordPolicy = try Iam.PasswordPolicy(dictionary: passwordPolicy)
         }
+    }
+
+    public enum ReportStateType: String, CustomStringConvertible {
+        case started = "STARTED"
+        case inprogress = "INPROGRESS"
+        case complete = "COMPLETE"
+        public var description: String { return self.rawValue }
     }
 
     public struct AddClientIDToOpenIDConnectProviderRequest: AWSShape {
@@ -3788,11 +3879,11 @@ extension Iam {
         /// The name of the IAM user associated with the SSH public key. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let userName: String
         /// The status to assign to the SSH public key. Active means the key can be used for authentication with an AWS CodeCommit repository. Inactive means the key cannot be used.
-        public let status: String
+        public let status: StatusType
         /// The unique identifier for the SSH public key. This parameter allows (per its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
         public let sSHPublicKeyId: String
 
-        public init(userName: String, status: String, sSHPublicKeyId: String) {
+        public init(userName: String, status: StatusType, sSHPublicKeyId: String) {
             self.userName = userName
             self.status = status
             self.sSHPublicKeyId = sSHPublicKeyId
@@ -3801,7 +3892,7 @@ extension Iam {
         public init(dictionary: [String: Any]) throws {
             guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
             self.userName = userName
-            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            guard let rawStatus = dictionary["Status"] as? String, let status = StatusType(rawValue: rawStatus) else { throw InitializableError.missingRequiredParam("Status") }
             self.status = status
             guard let sSHPublicKeyId = dictionary["SSHPublicKeyId"] as? String else { throw InitializableError.missingRequiredParam("SSHPublicKeyId") }
             self.sSHPublicKeyId = sSHPublicKeyId
@@ -4017,9 +4108,9 @@ extension Iam {
         /// The name of the IAM user the signing certificate belongs to. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let userName: String?
         ///  The status you want to assign to the certificate. Active means the certificate can be used for API calls to AWS, while Inactive means the certificate cannot be used.
-        public let status: String
+        public let status: StatusType
 
-        public init(certificateId: String, userName: String? = nil, status: String) {
+        public init(certificateId: String, userName: String? = nil, status: StatusType) {
             self.certificateId = certificateId
             self.userName = userName
             self.status = status
@@ -4029,7 +4120,7 @@ extension Iam {
             guard let certificateId = dictionary["CertificateId"] as? String else { throw InitializableError.missingRequiredParam("CertificateId") }
             self.certificateId = certificateId
             self.userName = dictionary["UserName"] as? String
-            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            guard let rawStatus = dictionary["Status"] as? String, let status = StatusType(rawValue: rawStatus) else { throw InitializableError.missingRequiredParam("Status") }
             self.status = status
         }
     }
@@ -4106,11 +4197,11 @@ extension Iam {
         /// Contains the credential report. The report is Base64-encoded.
         public let content: Data?
         /// The format (MIME type) of the credential report.
-        public let reportFormat: String?
+        public let reportFormat: ReportFormatType?
         ///  The date and time when the credential report was created, in ISO 8601 date-time format.
         public let generatedTime: Date?
 
-        public init(content: Data? = nil, reportFormat: String? = nil, generatedTime: Date? = nil) {
+        public init(content: Data? = nil, reportFormat: ReportFormatType? = nil, generatedTime: Date? = nil) {
             self.content = content
             self.reportFormat = reportFormat
             self.generatedTime = generatedTime
@@ -4118,7 +4209,7 @@ extension Iam {
 
         public init(dictionary: [String: Any]) throws {
             self.content = dictionary["Content"] as? Data
-            self.reportFormat = dictionary["ReportFormat"] as? String
+            if let reportFormat = dictionary["ReportFormat"] as? String { self.reportFormat = ReportFormatType(rawValue: reportFormat) } else { self.reportFormat = nil }
             self.generatedTime = dictionary["GeneratedTime"] as? Date
         }
     }
@@ -4358,20 +4449,20 @@ extension Iam {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the public key encoding format to use in the response. To retrieve the public key in ssh-rsa format, use SSH. To retrieve the public key in PEM format, use PEM.
-        public let encoding: String
+        public let encoding: EncodingType
         /// The name of the IAM user associated with the SSH public key. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let userName: String
         /// The unique identifier for the SSH public key. This parameter allows (per its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
         public let sSHPublicKeyId: String
 
-        public init(encoding: String, userName: String, sSHPublicKeyId: String) {
+        public init(encoding: EncodingType, userName: String, sSHPublicKeyId: String) {
             self.encoding = encoding
             self.userName = userName
             self.sSHPublicKeyId = sSHPublicKeyId
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let encoding = dictionary["Encoding"] as? String else { throw InitializableError.missingRequiredParam("Encoding") }
+            guard let rawEncoding = dictionary["Encoding"] as? String, let encoding = EncodingType(rawValue: rawEncoding) else { throw InitializableError.missingRequiredParam("Encoding") }
             self.encoding = encoding
             guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
             self.userName = userName
@@ -4744,6 +4835,13 @@ extension Iam {
         }
     }
 
+    public enum AssignmentStatusType: String, CustomStringConvertible {
+        case assigned = "Assigned"
+        case unassigned = "Unassigned"
+        case any = "Any"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DeleteSAMLProviderRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -4877,6 +4975,11 @@ extension Iam {
         }
     }
 
+    public enum ReportFormatType: String, CustomStringConvertible {
+        case text_csv = "text/csv"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DetachGroupPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -4960,6 +5063,22 @@ extension Iam {
             guard let roles = dictionary["Roles"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Roles") }
             self.roles = try roles.map({ try Role(dictionary: $0) })
         }
+    }
+
+    public enum ContextKeyTypeEnum: String, CustomStringConvertible {
+        case string = "string"
+        case stringlist = "stringList"
+        case numeric = "numeric"
+        case numericlist = "numericList"
+        case boolean = "boolean"
+        case booleanlist = "booleanList"
+        case ip = "ip"
+        case iplist = "ipList"
+        case binary = "binary"
+        case binarylist = "binaryList"
+        case date = "date"
+        case datelist = "dateList"
+        public var description: String { return self.rawValue }
     }
 
     public struct DeleteUserPolicyRequest: AWSShape {
@@ -5090,6 +5209,13 @@ extension Iam {
                 self.serviceSpecificCredentials = nil
             }
         }
+    }
+
+    public enum PolicyScopeType: String, CustomStringConvertible {
+        case all = "All"
+        case aws = "AWS"
+        case local = "Local"
+        public var description: String { return self.rawValue }
     }
 
     public struct ListMFADevicesRequest: AWSShape {

@@ -79,6 +79,12 @@ extension Email {
         }
     }
 
+    public enum ReceiptFilterPolicy: String, CustomStringConvertible {
+        case block = "Block"
+        case allow = "Allow"
+        public var description: String { return self.rawValue }
+    }
+
     public struct CloneReceiptRuleSetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -149,20 +155,20 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of notifications that will be published to the specified Amazon SNS topic.
-        public let notificationType: String
+        public let notificationType: NotificationType
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic. If the parameter is omitted from the request or a null value is passed, SnsTopic is cleared and publishing is disabled.
         public let snsTopic: String?
         /// The identity for which the Amazon SNS topic will be set. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com.
         public let identity: String
 
-        public init(notificationType: String, snsTopic: String? = nil, identity: String) {
+        public init(notificationType: NotificationType, snsTopic: String? = nil, identity: String) {
             self.notificationType = notificationType
             self.snsTopic = snsTopic
             self.identity = identity
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let notificationType = dictionary["NotificationType"] as? String else { throw InitializableError.missingRequiredParam("NotificationType") }
+            guard let rawNotificationType = dictionary["NotificationType"] as? String, let notificationType = NotificationType(rawValue: rawNotificationType) else { throw InitializableError.missingRequiredParam("NotificationType") }
             self.notificationType = notificationType
             self.snsTopic = dictionary["SnsTopic"] as? String
             guard let identity = dictionary["Identity"] as? String else { throw InitializableError.missingRequiredParam("Identity") }
@@ -192,7 +198,7 @@ extension Email {
         /// An object that contains the names, default values, and sources of the dimensions associated with an Amazon CloudWatch event destination.
         public let cloudWatchDestination: CloudWatchDestination?
         /// The type of email sending events to publish to the event destination.
-        public let matchingEventTypes: [String]
+        public let matchingEventTypes: [EventType]
         /// The name of the event destination. The name must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 64 characters.  
         public let name: String
         /// An object that contains the delivery stream ARN and the IAM role ARN associated with an Amazon Kinesis Firehose event destination.
@@ -200,7 +206,7 @@ extension Email {
         /// Sets whether Amazon SES publishes events to this destination when you send an email with the associated configuration set. Set to true to enable publishing to this destination; set to false to prevent publishing to this destination. The default value is false.
         public let enabled: Bool?
 
-        public init(cloudWatchDestination: CloudWatchDestination? = nil, matchingEventTypes: [String], name: String, kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, enabled: Bool? = nil) {
+        public init(cloudWatchDestination: CloudWatchDestination? = nil, matchingEventTypes: [EventType], name: String, kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, enabled: Bool? = nil) {
             self.cloudWatchDestination = cloudWatchDestination
             self.matchingEventTypes = matchingEventTypes
             self.name = name
@@ -211,7 +217,7 @@ extension Email {
         public init(dictionary: [String: Any]) throws {
             if let cloudWatchDestination = dictionary["CloudWatchDestination"] as? [String: Any] { self.cloudWatchDestination = try Email.CloudWatchDestination(dictionary: cloudWatchDestination) } else { self.cloudWatchDestination = nil }
             guard let matchingEventTypes = dictionary["MatchingEventTypes"] as? [String] else { throw InitializableError.missingRequiredParam("MatchingEventTypes") }
-            self.matchingEventTypes = matchingEventTypes
+            self.matchingEventTypes = matchingEventTypes.flatMap({ EventType(rawValue: $0)})
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
             if let kinesisFirehoseDestination = dictionary["KinesisFirehoseDestination"] as? [String: Any] { self.kinesisFirehoseDestination = try Email.KinesisFirehoseDestination(dictionary: kinesisFirehoseDestination) } else { self.kinesisFirehoseDestination = nil }
@@ -369,20 +375,20 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of the identities to list. Possible values are "EmailAddress" and "Domain". If this parameter is omitted, then all identities will be listed.
-        public let identityType: String?
+        public let identityType: IdentityType?
         /// The token to use for pagination.
         public let nextToken: String?
         /// The maximum number of identities per page. Possible values are 1-1000 inclusive.
         public let maxItems: Int32?
 
-        public init(identityType: String? = nil, nextToken: String? = nil, maxItems: Int32? = nil) {
+        public init(identityType: IdentityType? = nil, nextToken: String? = nil, maxItems: Int32? = nil) {
             self.identityType = identityType
             self.nextToken = nextToken
             self.maxItems = maxItems
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.identityType = dictionary["IdentityType"] as? String
+            if let identityType = dictionary["IdentityType"] as? String { self.identityType = IdentityType(rawValue: identityType) } else { self.identityType = nil }
             self.nextToken = dictionary["NextToken"] as? String
             self.maxItems = dictionary["MaxItems"] as? Int32
         }
@@ -475,17 +481,17 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The verification status of the identity: "Pending", "Success", "Failed", or "TemporaryFailure".
-        public let verificationStatus: String
+        public let verificationStatus: VerificationStatus
         /// The verification token for a domain identity. Null for email address identities.
         public let verificationToken: String?
 
-        public init(verificationStatus: String, verificationToken: String? = nil) {
+        public init(verificationStatus: VerificationStatus, verificationToken: String? = nil) {
             self.verificationStatus = verificationStatus
             self.verificationToken = verificationToken
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let verificationStatus = dictionary["VerificationStatus"] as? String else { throw InitializableError.missingRequiredParam("VerificationStatus") }
+            guard let rawVerificationStatus = dictionary["VerificationStatus"] as? String, let verificationStatus = VerificationStatus(rawValue: rawVerificationStatus) else { throw InitializableError.missingRequiredParam("VerificationStatus") }
             self.verificationStatus = verificationStatus
             self.verificationToken = dictionary["VerificationToken"] as? String
         }
@@ -615,6 +621,11 @@ extension Email {
         }
     }
 
+    public enum StopScope: String, CustomStringConvertible {
+        case ruleset = "RuleSet"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ListConfigurationSetsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -710,20 +721,20 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The place where Amazon SES finds the value of a dimension to publish to Amazon CloudWatch. If you want Amazon SES to use the message tags that you specify using an X-SES-MESSAGE-TAGS header or a parameter to the SendEmail/SendRawEmail API, choose messageTag. If you want Amazon SES to use your own email headers, choose emailHeader.
-        public let dimensionValueSource: String
+        public let dimensionValueSource: DimensionValueSource
         /// The name of an Amazon CloudWatch dimension associated with an email sending metric. The name must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 256 characters.  
         public let dimensionName: String
         /// The default value of the dimension that is published to Amazon CloudWatch if you do not provide the value of the dimension when you send an email. The default value must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 256 characters.  
         public let defaultDimensionValue: String
 
-        public init(dimensionValueSource: String, dimensionName: String, defaultDimensionValue: String) {
+        public init(dimensionValueSource: DimensionValueSource, dimensionName: String, defaultDimensionValue: String) {
             self.dimensionValueSource = dimensionValueSource
             self.dimensionName = dimensionName
             self.defaultDimensionValue = defaultDimensionValue
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let dimensionValueSource = dictionary["DimensionValueSource"] as? String else { throw InitializableError.missingRequiredParam("DimensionValueSource") }
+            guard let rawDimensionValueSource = dictionary["DimensionValueSource"] as? String, let dimensionValueSource = DimensionValueSource(rawValue: rawDimensionValueSource) else { throw InitializableError.missingRequiredParam("DimensionValueSource") }
             self.dimensionValueSource = dimensionValueSource
             guard let dimensionName = dictionary["DimensionName"] as? String else { throw InitializableError.missingRequiredParam("DimensionName") }
             self.dimensionName = dimensionName
@@ -827,11 +838,11 @@ extension Email {
         /// Recipient-related DSN fields, most of which would normally be filled in automatically when provided with a BounceType. You must provide either this parameter or BounceType.
         public let recipientDsnFields: RecipientDsnFields?
         /// The reason for the bounce. You must provide either this parameter or RecipientDsnFields.
-        public let bounceType: String?
+        public let bounceType: BounceType?
         /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to receive email for the recipient of the bounced email. For more information about sending authorization, see the Amazon SES Developer Guide.
         public let recipientArn: String?
 
-        public init(recipient: String, recipientDsnFields: RecipientDsnFields? = nil, bounceType: String? = nil, recipientArn: String? = nil) {
+        public init(recipient: String, recipientDsnFields: RecipientDsnFields? = nil, bounceType: BounceType? = nil, recipientArn: String? = nil) {
             self.recipient = recipient
             self.recipientDsnFields = recipientDsnFields
             self.bounceType = bounceType
@@ -842,7 +853,7 @@ extension Email {
             guard let recipient = dictionary["Recipient"] as? String else { throw InitializableError.missingRequiredParam("Recipient") }
             self.recipient = recipient
             if let recipientDsnFields = dictionary["RecipientDsnFields"] as? [String: Any] { self.recipientDsnFields = try Email.RecipientDsnFields(dictionary: recipientDsnFields) } else { self.recipientDsnFields = nil }
-            self.bounceType = dictionary["BounceType"] as? String
+            if let bounceType = dictionary["BounceType"] as? String { self.bounceType = BounceType(rawValue: bounceType) } else { self.bounceType = nil }
             self.recipientArn = dictionary["RecipientArn"] as? String
         }
     }
@@ -876,17 +887,17 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The encoding to use for the email within the Amazon SNS notification. UTF-8 is easier to use, but may not preserve all special characters when a message was encoded with a different encoding format. Base64 preserves all special characters. The default value is UTF-8.
-        public let encoding: String?
+        public let encoding: SNSActionEncoding?
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
         public let topicArn: String
 
-        public init(encoding: String? = nil, topicArn: String) {
+        public init(encoding: SNSActionEncoding? = nil, topicArn: String) {
             self.encoding = encoding
             self.topicArn = topicArn
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.encoding = dictionary["Encoding"] as? String
+            if let encoding = dictionary["Encoding"] as? String { self.encoding = SNSActionEncoding(rawValue: encoding) } else { self.encoding = nil }
             guard let topicArn = dictionary["TopicArn"] as? String else { throw InitializableError.missingRequiredParam("TopicArn") }
             self.topicArn = topicArn
         }
@@ -914,6 +925,23 @@ extension Email {
             guard let configurationSetName = dictionary["ConfigurationSetName"] as? String else { throw InitializableError.missingRequiredParam("ConfigurationSetName") }
             self.configurationSetName = configurationSetName
         }
+    }
+
+    public enum CustomMailFromStatus: String, CustomStringConvertible {
+        case pending = "Pending"
+        case success = "Success"
+        case failed = "Failed"
+        case temporaryfailure = "TemporaryFailure"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DsnAction: String, CustomStringConvertible {
+        case failed = "failed"
+        case delayed = "delayed"
+        case delivered = "delivered"
+        case relayed = "relayed"
+        case expanded = "expanded"
+        public var description: String { return self.rawValue }
     }
 
     public struct DeleteIdentityPolicyResponse: AWSShape {
@@ -1026,9 +1054,9 @@ extension Email {
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the Lambda action is taken. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
         public let topicArn: String?
         /// The invocation type of the AWS Lambda function. An invocation type of RequestResponse means that the execution of the function will immediately result in a response, and a value of Event means that the function will be invoked asynchronously. The default value is Event. For information about AWS Lambda invocation types, see the AWS Lambda Developer Guide.  There is a 30-second timeout on RequestResponse invocations. You should use Event invocation in most cases. Use RequestResponse only when you want to make a mail flow decision, such as whether to stop the receipt rule or the receipt rule set. 
-        public let invocationType: String?
+        public let invocationType: InvocationType?
 
-        public init(functionArn: String, topicArn: String? = nil, invocationType: String? = nil) {
+        public init(functionArn: String, topicArn: String? = nil, invocationType: InvocationType? = nil) {
             self.functionArn = functionArn
             self.topicArn = topicArn
             self.invocationType = invocationType
@@ -1038,8 +1066,33 @@ extension Email {
             guard let functionArn = dictionary["FunctionArn"] as? String else { throw InitializableError.missingRequiredParam("FunctionArn") }
             self.functionArn = functionArn
             self.topicArn = dictionary["TopicArn"] as? String
-            self.invocationType = dictionary["InvocationType"] as? String
+            if let invocationType = dictionary["InvocationType"] as? String { self.invocationType = InvocationType(rawValue: invocationType) } else { self.invocationType = nil }
         }
+    }
+
+    public enum EventType: String, CustomStringConvertible {
+        case send = "send"
+        case reject = "reject"
+        case bounce = "bounce"
+        case complaint = "complaint"
+        case delivery = "delivery"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BounceType: String, CustomStringConvertible {
+        case doesnotexist = "DoesNotExist"
+        case messagetoolarge = "MessageTooLarge"
+        case exceededquota = "ExceededQuota"
+        case contentrejected = "ContentRejected"
+        case undefined = "Undefined"
+        case temporaryfailure = "TemporaryFailure"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DimensionValueSource: String, CustomStringConvertible {
+        case messagetag = "messageTag"
+        case emailheader = "emailHeader"
+        public var description: String { return self.rawValue }
     }
 
     public struct GetSendQuotaResponse: AWSShape {
@@ -1097,6 +1150,15 @@ extension Email {
             self.sender = sender
             self.statusCode = dictionary["StatusCode"] as? String
         }
+    }
+
+    public enum VerificationStatus: String, CustomStringConvertible {
+        case pending = "Pending"
+        case success = "Success"
+        case failed = "Failed"
+        case temporaryfailure = "TemporaryFailure"
+        case notstarted = "NotStarted"
+        public var description: String { return self.rawValue }
     }
 
     public struct GetSendStatisticsResponse: AWSShape {
@@ -1194,6 +1256,18 @@ extension Email {
         }
     }
 
+    public enum SNSActionEncoding: String, CustomStringConvertible {
+        case utf_8 = "UTF-8"
+        case base64 = "Base64"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TlsPolicy: String, CustomStringConvertible {
+        case require = "Require"
+        case optional = "Optional"
+        public var description: String { return self.rawValue }
+    }
+
     public struct CreateConfigurationSetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1273,6 +1347,11 @@ extension Email {
         }
     }
 
+    public enum ConfigurationSetAttribute: String, CustomStringConvertible {
+        case eventdestinations = "eventDestinations"
+        public var description: String { return self.rawValue }
+    }
+
     public struct GetIdentityVerificationAttributesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1308,9 +1387,9 @@ extension Email {
         /// The name of the configuration set to describe.
         public let configurationSetName: String
         /// A list of configuration set attributes to return.
-        public let configurationSetAttributeNames: [String]?
+        public let configurationSetAttributeNames: [ConfigurationSetAttribute]?
 
-        public init(configurationSetName: String, configurationSetAttributeNames: [String]? = nil) {
+        public init(configurationSetName: String, configurationSetAttributeNames: [ConfigurationSetAttribute]? = nil) {
             self.configurationSetName = configurationSetName
             self.configurationSetAttributeNames = configurationSetAttributeNames
         }
@@ -1318,7 +1397,7 @@ extension Email {
         public init(dictionary: [String: Any]) throws {
             guard let configurationSetName = dictionary["ConfigurationSetName"] as? String else { throw InitializableError.missingRequiredParam("ConfigurationSetName") }
             self.configurationSetName = configurationSetName
-            self.configurationSetAttributeNames = dictionary["ConfigurationSetAttributeNames"] as? [String]
+            if let configurationSetAttributeNames = dictionary["ConfigurationSetAttributeNames"] as? [String] { self.configurationSetAttributeNames = configurationSetAttributeNames.flatMap({ ConfigurationSetAttribute(rawValue: $0)}) } else { self.configurationSetAttributeNames = nil }
         }
     }
 
@@ -1368,6 +1447,12 @@ extension Email {
             guard let identity = dictionary["Identity"] as? String else { throw InitializableError.missingRequiredParam("Identity") }
             self.identity = identity
         }
+    }
+
+    public enum InvocationType: String, CustomStringConvertible {
+        case event = "Event"
+        case requestresponse = "RequestResponse"
+        public var description: String { return self.rawValue }
     }
 
     public struct AddHeaderAction: AWSShape {
@@ -1464,20 +1549,20 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// Describes whether Amazon SES has successfully verified the DKIM DNS records (tokens) published in the domain name's DNS. (This only applies to domain identities, not email address identities.)
-        public let dkimVerificationStatus: String
+        public let dkimVerificationStatus: VerificationStatus
         /// A set of character strings that represent the domain's identity. Using these tokens, you will need to create DNS CNAME records that point to DKIM public keys hosted by Amazon SES. Amazon Web Services will eventually detect that you have updated your DNS records; this detection process may take up to 72 hours. Upon successful detection, Amazon SES will be able to DKIM-sign email originating from that domain. (This only applies to domain identities, not email address identities.) For more information about creating DNS records using DKIM tokens, go to the Amazon SES Developer Guide.
         public let dkimTokens: [String]?
         /// True if DKIM signing is enabled for email sent from the identity; false otherwise. The default value is true.
         public let dkimEnabled: Bool
 
-        public init(dkimVerificationStatus: String, dkimTokens: [String]? = nil, dkimEnabled: Bool) {
+        public init(dkimVerificationStatus: VerificationStatus, dkimTokens: [String]? = nil, dkimEnabled: Bool) {
             self.dkimVerificationStatus = dkimVerificationStatus
             self.dkimTokens = dkimTokens
             self.dkimEnabled = dkimEnabled
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let dkimVerificationStatus = dictionary["DkimVerificationStatus"] as? String else { throw InitializableError.missingRequiredParam("DkimVerificationStatus") }
+            guard let rawDkimVerificationStatus = dictionary["DkimVerificationStatus"] as? String, let dkimVerificationStatus = VerificationStatus(rawValue: rawDkimVerificationStatus) else { throw InitializableError.missingRequiredParam("DkimVerificationStatus") }
             self.dkimVerificationStatus = dkimVerificationStatus
             self.dkimTokens = dictionary["DkimTokens"] as? [String]
             guard let dkimEnabled = dictionary["DkimEnabled"] as? Bool else { throw InitializableError.missingRequiredParam("DkimEnabled") }
@@ -1489,22 +1574,22 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The action that Amazon SES takes if it cannot successfully read the required MX record when you send an email. A value of UseDefaultValue indicates that if Amazon SES cannot read the required MX record, it uses amazonses.com (or a subdomain of that) as the MAIL FROM domain. A value of RejectMessage indicates that if Amazon SES cannot read the required MX record, Amazon SES returns a MailFromDomainNotVerified error and does not send the email. The custom MAIL FROM setup states that result in this behavior are Pending, Failed, and TemporaryFailure.
-        public let behaviorOnMXFailure: String
+        public let behaviorOnMXFailure: BehaviorOnMXFailure
         /// The state that indicates whether Amazon SES has successfully read the MX record required for custom MAIL FROM domain setup. If the state is Success, Amazon SES uses the specified custom MAIL FROM domain when the verified identity sends an email. All other states indicate that Amazon SES takes the action described by BehaviorOnMXFailure.
-        public let mailFromDomainStatus: String
+        public let mailFromDomainStatus: CustomMailFromStatus
         /// The custom MAIL FROM domain that the identity is configured to use.
         public let mailFromDomain: String
 
-        public init(behaviorOnMXFailure: String, mailFromDomainStatus: String, mailFromDomain: String) {
+        public init(behaviorOnMXFailure: BehaviorOnMXFailure, mailFromDomainStatus: CustomMailFromStatus, mailFromDomain: String) {
             self.behaviorOnMXFailure = behaviorOnMXFailure
             self.mailFromDomainStatus = mailFromDomainStatus
             self.mailFromDomain = mailFromDomain
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let behaviorOnMXFailure = dictionary["BehaviorOnMXFailure"] as? String else { throw InitializableError.missingRequiredParam("BehaviorOnMXFailure") }
+            guard let rawBehaviorOnMXFailure = dictionary["BehaviorOnMXFailure"] as? String, let behaviorOnMXFailure = BehaviorOnMXFailure(rawValue: rawBehaviorOnMXFailure) else { throw InitializableError.missingRequiredParam("BehaviorOnMXFailure") }
             self.behaviorOnMXFailure = behaviorOnMXFailure
-            guard let mailFromDomainStatus = dictionary["MailFromDomainStatus"] as? String else { throw InitializableError.missingRequiredParam("MailFromDomainStatus") }
+            guard let rawMailFromDomainStatus = dictionary["MailFromDomainStatus"] as? String, let mailFromDomainStatus = CustomMailFromStatus(rawValue: rawMailFromDomainStatus) else { throw InitializableError.missingRequiredParam("MailFromDomainStatus") }
             self.mailFromDomainStatus = mailFromDomainStatus
             guard let mailFromDomain = dictionary["MailFromDomain"] as? String else { throw InitializableError.missingRequiredParam("MailFromDomain") }
             self.mailFromDomain = mailFromDomain
@@ -1751,6 +1836,25 @@ extension Email {
         }
     }
 
+    public enum BehaviorOnMXFailure: String, CustomStringConvertible {
+        case usedefaultvalue = "UseDefaultValue"
+        case rejectmessage = "RejectMessage"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IdentityType: String, CustomStringConvertible {
+        case emailaddress = "EmailAddress"
+        case domain = "Domain"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NotificationType: String, CustomStringConvertible {
+        case bounce = "Bounce"
+        case complaint = "Complaint"
+        case delivery = "Delivery"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DeleteReceiptRuleSetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1804,11 +1908,11 @@ extension Email {
         /// Sets whether Amazon SES includes the original email headers in Amazon SNS notifications of the specified notification type. A value of true specifies that Amazon SES will include headers in notifications, and a value of false specifies that Amazon SES will not include headers in notifications. This value can only be set when NotificationType is already set to use a particular Amazon SNS topic.
         public let enabled: Bool
         /// The notification type for which to enable or disable headers in notifications. 
-        public let notificationType: String
+        public let notificationType: NotificationType
         /// The identity for which to enable or disable headers in notifications. Examples: user@example.com, example.com.
         public let identity: String
 
-        public init(enabled: Bool, notificationType: String, identity: String) {
+        public init(enabled: Bool, notificationType: NotificationType, identity: String) {
             self.enabled = enabled
             self.notificationType = notificationType
             self.identity = identity
@@ -1817,7 +1921,7 @@ extension Email {
         public init(dictionary: [String: Any]) throws {
             guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
             self.enabled = enabled
-            guard let notificationType = dictionary["NotificationType"] as? String else { throw InitializableError.missingRequiredParam("NotificationType") }
+            guard let rawNotificationType = dictionary["NotificationType"] as? String, let notificationType = NotificationType(rawValue: rawNotificationType) else { throw InitializableError.missingRequiredParam("NotificationType") }
             self.notificationType = notificationType
             guard let identity = dictionary["Identity"] as? String else { throw InitializableError.missingRequiredParam("Identity") }
             self.identity = identity
@@ -1908,16 +2012,16 @@ extension Email {
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the stop action is taken. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
         public let topicArn: String?
         /// The scope to which the Stop action applies. That is, what is being stopped.
-        public let scope: String
+        public let scope: StopScope
 
-        public init(topicArn: String? = nil, scope: String) {
+        public init(topicArn: String? = nil, scope: StopScope) {
             self.topicArn = topicArn
             self.scope = scope
         }
 
         public init(dictionary: [String: Any]) throws {
             self.topicArn = dictionary["TopicArn"] as? String
-            guard let scope = dictionary["Scope"] as? String else { throw InitializableError.missingRequiredParam("Scope") }
+            guard let rawScope = dictionary["Scope"] as? String, let scope = StopScope(rawValue: rawScope) else { throw InitializableError.missingRequiredParam("Scope") }
             self.scope = scope
         }
     }
@@ -2035,20 +2139,20 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The action that you want Amazon SES to take if it cannot successfully read the required MX record when you send an email. If you choose UseDefaultValue, Amazon SES will use amazonses.com (or a subdomain of that) as the MAIL FROM domain. If you choose RejectMessage, Amazon SES will return a MailFromDomainNotVerified error and not send the email. The action specified in BehaviorOnMXFailure is taken when the custom MAIL FROM domain setup is in the Pending, Failed, and TemporaryFailure states.
-        public let behaviorOnMXFailure: String?
+        public let behaviorOnMXFailure: BehaviorOnMXFailure?
         /// The custom MAIL FROM domain that you want the verified identity to use. The MAIL FROM domain must 1) be a subdomain of the verified identity, 2) not be used in a "From" address if the MAIL FROM domain is the destination of email feedback forwarding (for more information, see the Amazon SES Developer Guide), and 3) not be used to receive emails. A value of null disables the custom MAIL FROM setting for the identity.
         public let mailFromDomain: String?
         /// The verified identity for which you want to enable or disable the specified custom MAIL FROM domain.
         public let identity: String
 
-        public init(behaviorOnMXFailure: String? = nil, mailFromDomain: String? = nil, identity: String) {
+        public init(behaviorOnMXFailure: BehaviorOnMXFailure? = nil, mailFromDomain: String? = nil, identity: String) {
             self.behaviorOnMXFailure = behaviorOnMXFailure
             self.mailFromDomain = mailFromDomain
             self.identity = identity
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.behaviorOnMXFailure = dictionary["BehaviorOnMXFailure"] as? String
+            if let behaviorOnMXFailure = dictionary["BehaviorOnMXFailure"] as? String { self.behaviorOnMXFailure = BehaviorOnMXFailure(rawValue: behaviorOnMXFailure) } else { self.behaviorOnMXFailure = nil }
             self.mailFromDomain = dictionary["MailFromDomain"] as? String
             guard let identity = dictionary["Identity"] as? String else { throw InitializableError.missingRequiredParam("Identity") }
             self.identity = identity
@@ -2165,7 +2269,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies whether Amazon SES should require that incoming email is delivered over a connection encrypted with Transport Layer Security (TLS). If this parameter is set to Require, Amazon SES will bounce emails that are not received over TLS. The default is Optional.
-        public let tlsPolicy: String?
+        public let tlsPolicy: TlsPolicy?
         /// If true, then messages to which this receipt rule applies are scanned for spam and viruses. The default value is false.
         public let scanEnabled: Bool?
         /// An ordered list of actions to perform on messages that match at least one of the recipient email addresses or domains specified in the receipt rule.
@@ -2177,7 +2281,7 @@ extension Email {
         /// The recipient domains and email addresses to which the receipt rule applies. If this field is not specified, this rule will match all recipients under all verified domains.
         public let recipients: [String]?
 
-        public init(tlsPolicy: String? = nil, scanEnabled: Bool? = nil, actions: [ReceiptAction]? = nil, enabled: Bool? = nil, name: String, recipients: [String]? = nil) {
+        public init(tlsPolicy: TlsPolicy? = nil, scanEnabled: Bool? = nil, actions: [ReceiptAction]? = nil, enabled: Bool? = nil, name: String, recipients: [String]? = nil) {
             self.tlsPolicy = tlsPolicy
             self.scanEnabled = scanEnabled
             self.actions = actions
@@ -2187,7 +2291,7 @@ extension Email {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.tlsPolicy = dictionary["TlsPolicy"] as? String
+            if let tlsPolicy = dictionary["TlsPolicy"] as? String { self.tlsPolicy = TlsPolicy(rawValue: tlsPolicy) } else { self.tlsPolicy = nil }
             self.scanEnabled = dictionary["ScanEnabled"] as? Bool
             if let actions = dictionary["Actions"] as? [[String: Any]] {
                 self.actions = try actions.map({ try ReceiptAction(dictionary: $0) })
@@ -2253,7 +2357,7 @@ extension Email {
         /// The email address to which the message was ultimately delivered. This corresponds to the Final-Recipient in the DSN. If not specified, FinalRecipient will be set to the Recipient specified in the BouncedRecipientInfo structure. Either FinalRecipient or the recipient in BouncedRecipientInfo must be a recipient of the original bounced message.  Do not prepend the FinalRecipient email address with rfc 822;, as described in RFC 3798. 
         public let finalRecipient: String?
         /// The action performed by the reporting mail transfer agent (MTA) as a result of its attempt to deliver the message to the recipient address. This is required by RFC 3464.
-        public let action: String
+        public let action: DsnAction
         /// An extended explanation of what went wrong; this is usually an SMTP response. See RFC 3463 for the correct formatting of this parameter.
         public let diagnosticCode: String?
         /// The time the final delivery attempt was made, in RFC 822 date-time format.
@@ -2261,7 +2365,7 @@ extension Email {
         /// The MTA to which the remote MTA attempted to deliver the message, formatted as specified in RFC 3464 (mta-name-type; mta-name). This parameter typically applies only to propagating synchronous bounces.
         public let remoteMta: String?
 
-        public init(status: String, extensionFields: [ExtensionField]? = nil, finalRecipient: String? = nil, action: String, diagnosticCode: String? = nil, lastAttemptDate: Date? = nil, remoteMta: String? = nil) {
+        public init(status: String, extensionFields: [ExtensionField]? = nil, finalRecipient: String? = nil, action: DsnAction, diagnosticCode: String? = nil, lastAttemptDate: Date? = nil, remoteMta: String? = nil) {
             self.status = status
             self.extensionFields = extensionFields
             self.finalRecipient = finalRecipient
@@ -2280,7 +2384,7 @@ extension Email {
                 self.extensionFields = nil
             }
             self.finalRecipient = dictionary["FinalRecipient"] as? String
-            guard let action = dictionary["Action"] as? String else { throw InitializableError.missingRequiredParam("Action") }
+            guard let rawAction = dictionary["Action"] as? String, let action = DsnAction(rawValue: rawAction) else { throw InitializableError.missingRequiredParam("Action") }
             self.action = action
             self.diagnosticCode = dictionary["DiagnosticCode"] as? String
             self.lastAttemptDate = dictionary["LastAttemptDate"] as? Date
@@ -2292,17 +2396,17 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates whether to block or allow incoming mail from the specified IP addresses.
-        public let policy: String
+        public let policy: ReceiptFilterPolicy
         /// A single IP address or a range of IP addresses that you want to block or allow, specified in Classless Inter-Domain Routing (CIDR) notation. An example of a single email address is 10.0.0.1. An example of a range of IP addresses is 10.0.0.1/24. For more information about CIDR notation, see RFC 2317.
         public let cidr: String
 
-        public init(policy: String, cidr: String) {
+        public init(policy: ReceiptFilterPolicy, cidr: String) {
             self.policy = policy
             self.cidr = cidr
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let policy = dictionary["Policy"] as? String else { throw InitializableError.missingRequiredParam("Policy") }
+            guard let rawPolicy = dictionary["Policy"] as? String, let policy = ReceiptFilterPolicy(rawValue: rawPolicy) else { throw InitializableError.missingRequiredParam("Policy") }
             self.policy = policy
             guard let cidr = dictionary["Cidr"] as? String else { throw InitializableError.missingRequiredParam("Cidr") }
             self.cidr = cidr

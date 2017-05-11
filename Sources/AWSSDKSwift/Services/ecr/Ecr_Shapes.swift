@@ -173,13 +173,13 @@ extension Ecr {
         /// The size, in bytes, of the image layer.
         public let layerSize: Int64?
         /// The availability status of the image layer.
-        public let layerAvailability: String?
+        public let layerAvailability: LayerAvailability?
         /// The media type of the layer, such as application/vnd.docker.image.rootfs.diff.tar.gzip or application/vnd.oci.image.layer.v1.tar+gzip.
         public let mediaType: String?
         /// The sha256 digest of the image layer.
         public let layerDigest: String?
 
-        public init(layerSize: Int64? = nil, layerAvailability: String? = nil, mediaType: String? = nil, layerDigest: String? = nil) {
+        public init(layerSize: Int64? = nil, layerAvailability: LayerAvailability? = nil, mediaType: String? = nil, layerDigest: String? = nil) {
             self.layerSize = layerSize
             self.layerAvailability = layerAvailability
             self.mediaType = mediaType
@@ -188,7 +188,7 @@ extension Ecr {
 
         public init(dictionary: [String: Any]) throws {
             self.layerSize = dictionary["layerSize"] as? Int64
-            self.layerAvailability = dictionary["layerAvailability"] as? String
+            if let layerAvailability = dictionary["layerAvailability"] as? String { self.layerAvailability = LayerAvailability(rawValue: layerAvailability) } else { self.layerAvailability = nil }
             self.mediaType = dictionary["mediaType"] as? String
             self.layerDigest = dictionary["layerDigest"] as? String
         }
@@ -282,11 +282,11 @@ extension Ecr {
         /// The layer digest associated with the failure.
         public let layerDigest: String?
         /// The failure code associated with the failure.
-        public let failureCode: String?
+        public let failureCode: LayerFailureCode?
         /// The reason for the failure.
         public let failureReason: String?
 
-        public init(layerDigest: String? = nil, failureCode: String? = nil, failureReason: String? = nil) {
+        public init(layerDigest: String? = nil, failureCode: LayerFailureCode? = nil, failureReason: String? = nil) {
             self.layerDigest = layerDigest
             self.failureCode = failureCode
             self.failureReason = failureReason
@@ -294,7 +294,7 @@ extension Ecr {
 
         public init(dictionary: [String: Any]) throws {
             self.layerDigest = dictionary["layerDigest"] as? String
-            self.failureCode = dictionary["failureCode"] as? String
+            if let failureCode = dictionary["failureCode"] as? String { self.failureCode = LayerFailureCode(rawValue: failureCode) } else { self.failureCode = nil }
             self.failureReason = dictionary["failureReason"] as? String
         }
     }
@@ -305,11 +305,11 @@ extension Ecr {
         /// The image ID associated with the failure.
         public let imageId: ImageIdentifier?
         /// The code associated with the failure.
-        public let failureCode: String?
+        public let failureCode: ImageFailureCode?
         /// The reason for the failure.
         public let failureReason: String?
 
-        public init(imageId: ImageIdentifier? = nil, failureCode: String? = nil, failureReason: String? = nil) {
+        public init(imageId: ImageIdentifier? = nil, failureCode: ImageFailureCode? = nil, failureReason: String? = nil) {
             self.imageId = imageId
             self.failureCode = failureCode
             self.failureReason = failureReason
@@ -317,7 +317,7 @@ extension Ecr {
 
         public init(dictionary: [String: Any]) throws {
             if let imageId = dictionary["imageId"] as? [String: Any] { self.imageId = try Ecr.ImageIdentifier(dictionary: imageId) } else { self.imageId = nil }
-            self.failureCode = dictionary["failureCode"] as? String
+            if let failureCode = dictionary["failureCode"] as? String { self.failureCode = ImageFailureCode(rawValue: failureCode) } else { self.failureCode = nil }
             self.failureReason = dictionary["failureReason"] as? String
         }
     }
@@ -347,6 +347,12 @@ extension Ecr {
                 self.images = nil
             }
         }
+    }
+
+    public enum LayerAvailability: String, CustomStringConvertible {
+        case available = "AVAILABLE"
+        case unavailable = "UNAVAILABLE"
+        public var description: String { return self.rawValue }
     }
 
     public struct SetRepositoryPolicyResponse: AWSShape {
@@ -385,6 +391,12 @@ extension Ecr {
         public init(dictionary: [String: Any]) throws {
             self.registryIds = dictionary["registryIds"] as? [String]
         }
+    }
+
+    public enum LayerFailureCode: String, CustomStringConvertible {
+        case invalidlayerdigest = "InvalidLayerDigest"
+        case missinglayerdigest = "MissingLayerDigest"
+        public var description: String { return self.rawValue }
     }
 
     public struct ImageDetail: AWSShape {
@@ -623,14 +635,14 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// The tag status with which to filter your ListImages results. You can filter results based on whether they are TAGGED or UNTAGGED.
-        public let tagStatus: String?
+        public let tagStatus: TagStatus?
 
-        public init(tagStatus: String? = nil) {
+        public init(tagStatus: TagStatus? = nil) {
             self.tagStatus = tagStatus
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.tagStatus = dictionary["tagStatus"] as? String
+            if let tagStatus = dictionary["tagStatus"] as? String { self.tagStatus = TagStatus(rawValue: tagStatus) } else { self.tagStatus = nil }
         }
     }
 
@@ -849,6 +861,15 @@ extension Ecr {
         }
     }
 
+    public enum ImageFailureCode: String, CustomStringConvertible {
+        case invalidimagedigest = "InvalidImageDigest"
+        case invalidimagetag = "InvalidImageTag"
+        case imagetagdoesnotmatchdigest = "ImageTagDoesNotMatchDigest"
+        case imagenotfound = "ImageNotFound"
+        case missingdigestandtag = "MissingDigestAndTag"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DeleteRepositoryRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1041,18 +1062,24 @@ extension Ecr {
         }
     }
 
+    public enum TagStatus: String, CustomStringConvertible {
+        case tagged = "TAGGED"
+        case untagged = "UNTAGGED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DescribeImagesFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// The tag status with which to filter your DescribeImages results. You can filter results based on whether they are TAGGED or UNTAGGED.
-        public let tagStatus: String?
+        public let tagStatus: TagStatus?
 
-        public init(tagStatus: String? = nil) {
+        public init(tagStatus: TagStatus? = nil) {
             self.tagStatus = tagStatus
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.tagStatus = dictionary["tagStatus"] as? String
+            if let tagStatus = dictionary["tagStatus"] as? String { self.tagStatus = TagStatus(rawValue: tagStatus) } else { self.tagStatus = nil }
         }
     }
 

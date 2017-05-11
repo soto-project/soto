@@ -183,6 +183,12 @@ extension Budgets {
         }
     }
 
+    public enum SubscriptionType: String, CustomStringConvertible {
+        case sns = "SNS"
+        case email = "EMAIL"
+        public var description: String { return self.rawValue }
+    }
+
     public struct CreateNotificationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -411,6 +417,12 @@ extension Budgets {
         }
     }
 
+    public enum BudgetType: String, CustomStringConvertible {
+        case usage = "USAGE"
+        case cost = "COST"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DescribeSubscribersForNotificationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -478,22 +490,22 @@ extension Budgets {
     public struct Notification: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let comparisonOperator: String
+        public let comparisonOperator: ComparisonOperator
         public let threshold: Double
-        public let notificationType: String
+        public let notificationType: NotificationType
 
-        public init(comparisonOperator: String, threshold: Double, notificationType: String) {
+        public init(comparisonOperator: ComparisonOperator, threshold: Double, notificationType: NotificationType) {
             self.comparisonOperator = comparisonOperator
             self.threshold = threshold
             self.notificationType = notificationType
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let comparisonOperator = dictionary["ComparisonOperator"] as? String else { throw InitializableError.missingRequiredParam("ComparisonOperator") }
+            guard let rawComparisonOperator = dictionary["ComparisonOperator"] as? String, let comparisonOperator = ComparisonOperator(rawValue: rawComparisonOperator) else { throw InitializableError.missingRequiredParam("ComparisonOperator") }
             self.comparisonOperator = comparisonOperator
             guard let threshold = dictionary["Threshold"] as? Double else { throw InitializableError.missingRequiredParam("Threshold") }
             self.threshold = threshold
-            guard let notificationType = dictionary["NotificationType"] as? String else { throw InitializableError.missingRequiredParam("NotificationType") }
+            guard let rawNotificationType = dictionary["NotificationType"] as? String, let notificationType = NotificationType(rawValue: rawNotificationType) else { throw InitializableError.missingRequiredParam("NotificationType") }
             self.notificationType = notificationType
         }
     }
@@ -502,9 +514,9 @@ extension Budgets {
         /// The key for the payload
         public static let payload: String? = nil
         public let address: String
-        public let subscriptionType: String
+        public let subscriptionType: SubscriptionType
 
-        public init(address: String, subscriptionType: String) {
+        public init(address: String, subscriptionType: SubscriptionType) {
             self.address = address
             self.subscriptionType = subscriptionType
         }
@@ -512,7 +524,7 @@ extension Budgets {
         public init(dictionary: [String: Any]) throws {
             guard let address = dictionary["Address"] as? String else { throw InitializableError.missingRequiredParam("Address") }
             self.address = address
-            guard let subscriptionType = dictionary["SubscriptionType"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionType") }
+            guard let rawSubscriptionType = dictionary["SubscriptionType"] as? String, let subscriptionType = SubscriptionType(rawValue: rawSubscriptionType) else { throw InitializableError.missingRequiredParam("SubscriptionType") }
             self.subscriptionType = subscriptionType
         }
     }
@@ -561,19 +573,26 @@ extension Budgets {
         }
     }
 
+    public enum TimeUnit: String, CustomStringConvertible {
+        case monthly = "MONTHLY"
+        case quarterly = "QUARTERLY"
+        case annually = "ANNUALLY"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Budget: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let timeUnit: String
+        public let timeUnit: TimeUnit
         public let budgetLimit: Spend
         public let budgetName: String
         public let timePeriod: TimePeriod
-        public let budgetType: String
+        public let budgetType: BudgetType
         public let costFilters: [String: [String]]?
         public let calculatedSpend: CalculatedSpend?
         public let costTypes: CostTypes
 
-        public init(timeUnit: String, budgetLimit: Spend, budgetName: String, timePeriod: TimePeriod, budgetType: String, costFilters: [String: [String]]? = nil, calculatedSpend: CalculatedSpend? = nil, costTypes: CostTypes) {
+        public init(timeUnit: TimeUnit, budgetLimit: Spend, budgetName: String, timePeriod: TimePeriod, budgetType: BudgetType, costFilters: [String: [String]]? = nil, calculatedSpend: CalculatedSpend? = nil, costTypes: CostTypes) {
             self.timeUnit = timeUnit
             self.budgetLimit = budgetLimit
             self.budgetName = budgetName
@@ -585,7 +604,7 @@ extension Budgets {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let timeUnit = dictionary["TimeUnit"] as? String else { throw InitializableError.missingRequiredParam("TimeUnit") }
+            guard let rawTimeUnit = dictionary["TimeUnit"] as? String, let timeUnit = TimeUnit(rawValue: rawTimeUnit) else { throw InitializableError.missingRequiredParam("TimeUnit") }
             self.timeUnit = timeUnit
             guard let budgetLimit = dictionary["BudgetLimit"] as? [String: Any] else { throw InitializableError.missingRequiredParam("BudgetLimit") }
             self.budgetLimit = try Budgets.Spend(dictionary: budgetLimit)
@@ -593,7 +612,7 @@ extension Budgets {
             self.budgetName = budgetName
             guard let timePeriod = dictionary["TimePeriod"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TimePeriod") }
             self.timePeriod = try Budgets.TimePeriod(dictionary: timePeriod)
-            guard let budgetType = dictionary["BudgetType"] as? String else { throw InitializableError.missingRequiredParam("BudgetType") }
+            guard let rawBudgetType = dictionary["BudgetType"] as? String, let budgetType = BudgetType(rawValue: rawBudgetType) else { throw InitializableError.missingRequiredParam("BudgetType") }
             self.budgetType = budgetType
             if let costFilters = dictionary["CostFilters"] as? [String: Any] {
                 var costFiltersDict: [String: [String]] = [:]
@@ -686,6 +705,19 @@ extension Budgets {
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
+    }
+
+    public enum ComparisonOperator: String, CustomStringConvertible {
+        case greater_than = "GREATER_THAN"
+        case less_than = "LESS_THAN"
+        case equal_to = "EQUAL_TO"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NotificationType: String, CustomStringConvertible {
+        case actual = "ACTUAL"
+        case forecasted = "FORECASTED"
+        public var description: String { return self.rawValue }
     }
 
 }

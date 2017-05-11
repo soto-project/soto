@@ -35,9 +35,9 @@ extension Inspector {
         /// The ARN that specifies the rules package that you want to describe.
         public let rulesPackageArns: [String]
         /// The locale that you want to translate a rules package description into.
-        public let locale: String?
+        public let locale: Locale?
 
-        public init(rulesPackageArns: [String], locale: String? = nil) {
+        public init(rulesPackageArns: [String], locale: Locale? = nil) {
             self.rulesPackageArns = rulesPackageArns
             self.locale = locale
         }
@@ -45,8 +45,17 @@ extension Inspector {
         public init(dictionary: [String: Any]) throws {
             guard let rulesPackageArns = dictionary["rulesPackageArns"] as? [String] else { throw InitializableError.missingRequiredParam("rulesPackageArns") }
             self.rulesPackageArns = rulesPackageArns
-            self.locale = dictionary["locale"] as? String
+            if let locale = dictionary["locale"] as? String { self.locale = Locale(rawValue: locale) } else { self.locale = nil }
         }
+    }
+
+    public enum InspectorEvent: String, CustomStringConvertible {
+        case assessment_run_started = "ASSESSMENT_RUN_STARTED"
+        case assessment_run_completed = "ASSESSMENT_RUN_COMPLETED"
+        case assessment_run_state_changed = "ASSESSMENT_RUN_STATE_CHANGED"
+        case finding_reported = "FINDING_REPORTED"
+        case other = "OTHER"
+        public var description: String { return self.rawValue }
     }
 
     public struct RemoveAttributesFromFindingsResponse: AWSShape {
@@ -68,6 +77,18 @@ extension Inspector {
             }
             self.failedItems = failedItemsDict
         }
+    }
+
+    public enum AccessDeniedErrorCode: String, CustomStringConvertible {
+        case access_denied_to_assessment_target = "ACCESS_DENIED_TO_ASSESSMENT_TARGET"
+        case access_denied_to_assessment_template = "ACCESS_DENIED_TO_ASSESSMENT_TEMPLATE"
+        case access_denied_to_assessment_run = "ACCESS_DENIED_TO_ASSESSMENT_RUN"
+        case access_denied_to_finding = "ACCESS_DENIED_TO_FINDING"
+        case access_denied_to_resource_group = "ACCESS_DENIED_TO_RESOURCE_GROUP"
+        case access_denied_to_rules_package = "ACCESS_DENIED_TO_RULES_PACKAGE"
+        case access_denied_to_sns_topic = "ACCESS_DENIED_TO_SNS_TOPIC"
+        case access_denied_to_iam_role = "ACCESS_DENIED_TO_IAM_ROLE"
+        public var description: String { return self.rawValue }
     }
 
     public struct DescribeResourceGroupsRequest: AWSShape {
@@ -337,17 +358,17 @@ extension Inspector {
         /// The key for the payload
         public static let payload: String? = nil
         /// The event for which Amazon Simple Notification Service (SNS) notifications are sent.
-        public let event: String
+        public let event: InspectorEvent
         /// The time at which SubscribeToEvent is called.
         public let subscribedAt: Date
 
-        public init(event: String, subscribedAt: Date) {
+        public init(event: InspectorEvent, subscribedAt: Date) {
             self.event = event
             self.subscribedAt = subscribedAt
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let event = dictionary["event"] as? String else { throw InitializableError.missingRequiredParam("event") }
+            guard let rawevent = dictionary["event"] as? String, let event = InspectorEvent(rawValue: rawevent) else { throw InitializableError.missingRequiredParam("event") }
             self.event = event
             guard let subscribedAt = dictionary["subscribedAt"] as? Date else { throw InitializableError.missingRequiredParam("subscribedAt") }
             self.subscribedAt = subscribedAt
@@ -473,6 +494,11 @@ extension Inspector {
         }
     }
 
+    public enum AssetType: String, CustomStringConvertible {
+        case ec2_instance = "ec2-instance"
+        public var description: String { return self.rawValue }
+    }
+
     public struct StartAssessmentRunResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -507,6 +533,15 @@ extension Inspector {
             self.key = key
             self.value = dictionary["value"] as? String
         }
+    }
+
+    public enum LimitExceededErrorCode: String, CustomStringConvertible {
+        case assessment_target_limit_exceeded = "ASSESSMENT_TARGET_LIMIT_EXCEEDED"
+        case assessment_template_limit_exceeded = "ASSESSMENT_TEMPLATE_LIMIT_EXCEEDED"
+        case assessment_run_limit_exceeded = "ASSESSMENT_RUN_LIMIT_EXCEEDED"
+        case resource_group_limit_exceeded = "RESOURCE_GROUP_LIMIT_EXCEEDED"
+        case event_subscription_limit_exceeded = "EVENT_SUBSCRIPTION_LIMIT_EXCEEDED"
+        public var description: String { return self.rawValue }
     }
 
     public struct ListAssessmentTargetsResponse: AWSShape {
@@ -561,11 +596,11 @@ extension Inspector {
         /// The ARN of the assessment template that is used during the event for which you want to stop receiving SNS notifications.
         public let resourceArn: String
         /// The event for which you want to stop receiving SNS notifications.
-        public let event: String
+        public let event: InspectorEvent
         /// The ARN of the SNS topic to which SNS notifications are sent.
         public let topicArn: String
 
-        public init(resourceArn: String, event: String, topicArn: String) {
+        public init(resourceArn: String, event: InspectorEvent, topicArn: String) {
             self.resourceArn = resourceArn
             self.event = event
             self.topicArn = topicArn
@@ -574,7 +609,7 @@ extension Inspector {
         public init(dictionary: [String: Any]) throws {
             guard let resourceArn = dictionary["resourceArn"] as? String else { throw InitializableError.missingRequiredParam("resourceArn") }
             self.resourceArn = resourceArn
-            guard let event = dictionary["event"] as? String else { throw InitializableError.missingRequiredParam("event") }
+            guard let rawevent = dictionary["event"] as? String, let event = InspectorEvent(rawValue: rawevent) else { throw InitializableError.missingRequiredParam("event") }
             self.event = event
             guard let topicArn = dictionary["topicArn"] as? String else { throw InitializableError.missingRequiredParam("topicArn") }
             self.topicArn = topicArn
@@ -655,7 +690,7 @@ extension Inspector {
         /// For a record to match a filter, one of the values that is specified for this data type property must be the exact match of the value of the ruleName property of the Finding data type.
         public let ruleNames: [String]?
         /// For a record to match a filter, one of the values that is specified for this data type property must be the exact match of the value of the severity property of the Finding data type.
-        public let severities: [String]?
+        public let severities: [Severity]?
         /// For a record to match a filter, the list of values that are specified for this data type property must be contained in the list of values of the attributes property of the Finding data type.
         public let attributes: [Attribute]?
         /// For a record to match a filter, the value that is specified for this data type property must be contained in the list of values of the userAttributes property of the Finding data type.
@@ -669,7 +704,7 @@ extension Inspector {
         /// For a record to match a filter, one of the values that is specified for this data type property must be the exact match of the value of the autoScalingGroup property of the Finding data type.
         public let autoScalingGroups: [String]?
 
-        public init(ruleNames: [String]? = nil, severities: [String]? = nil, attributes: [Attribute]? = nil, userAttributes: [Attribute]? = nil, agentIds: [String]? = nil, rulesPackageArns: [String]? = nil, creationTimeRange: TimestampRange? = nil, autoScalingGroups: [String]? = nil) {
+        public init(ruleNames: [String]? = nil, severities: [Severity]? = nil, attributes: [Attribute]? = nil, userAttributes: [Attribute]? = nil, agentIds: [String]? = nil, rulesPackageArns: [String]? = nil, creationTimeRange: TimestampRange? = nil, autoScalingGroups: [String]? = nil) {
             self.ruleNames = ruleNames
             self.severities = severities
             self.attributes = attributes
@@ -682,7 +717,7 @@ extension Inspector {
 
         public init(dictionary: [String: Any]) throws {
             self.ruleNames = dictionary["ruleNames"] as? [String]
-            self.severities = dictionary["severities"] as? [String]
+            if let severities = dictionary["severities"] as? [String] { self.severities = severities.flatMap({ Severity(rawValue: $0)}) } else { self.severities = nil }
             if let attributes = dictionary["attributes"] as? [[String: Any]] {
                 self.attributes = try attributes.map({ try Attribute(dictionary: $0) })
             } else { 
@@ -698,6 +733,85 @@ extension Inspector {
             if let creationTimeRange = dictionary["creationTimeRange"] as? [String: Any] { self.creationTimeRange = try Inspector.TimestampRange(dictionary: creationTimeRange) } else { self.creationTimeRange = nil }
             self.autoScalingGroups = dictionary["autoScalingGroups"] as? [String]
         }
+    }
+
+    public enum InvalidInputErrorCode: String, CustomStringConvertible {
+        case invalid_assessment_target_arn = "INVALID_ASSESSMENT_TARGET_ARN"
+        case invalid_assessment_template_arn = "INVALID_ASSESSMENT_TEMPLATE_ARN"
+        case invalid_assessment_run_arn = "INVALID_ASSESSMENT_RUN_ARN"
+        case invalid_finding_arn = "INVALID_FINDING_ARN"
+        case invalid_resource_group_arn = "INVALID_RESOURCE_GROUP_ARN"
+        case invalid_rules_package_arn = "INVALID_RULES_PACKAGE_ARN"
+        case invalid_resource_arn = "INVALID_RESOURCE_ARN"
+        case invalid_sns_topic_arn = "INVALID_SNS_TOPIC_ARN"
+        case invalid_iam_role_arn = "INVALID_IAM_ROLE_ARN"
+        case invalid_assessment_target_name = "INVALID_ASSESSMENT_TARGET_NAME"
+        case invalid_assessment_target_name_pattern = "INVALID_ASSESSMENT_TARGET_NAME_PATTERN"
+        case invalid_assessment_template_name = "INVALID_ASSESSMENT_TEMPLATE_NAME"
+        case invalid_assessment_template_name_pattern = "INVALID_ASSESSMENT_TEMPLATE_NAME_PATTERN"
+        case invalid_assessment_template_duration = "INVALID_ASSESSMENT_TEMPLATE_DURATION"
+        case invalid_assessment_template_duration_range = "INVALID_ASSESSMENT_TEMPLATE_DURATION_RANGE"
+        case invalid_assessment_run_duration_range = "INVALID_ASSESSMENT_RUN_DURATION_RANGE"
+        case invalid_assessment_run_start_time_range = "INVALID_ASSESSMENT_RUN_START_TIME_RANGE"
+        case invalid_assessment_run_completion_time_range = "INVALID_ASSESSMENT_RUN_COMPLETION_TIME_RANGE"
+        case invalid_assessment_run_state_change_time_range = "INVALID_ASSESSMENT_RUN_STATE_CHANGE_TIME_RANGE"
+        case invalid_assessment_run_state = "INVALID_ASSESSMENT_RUN_STATE"
+        case invalid_tag = "INVALID_TAG"
+        case invalid_tag_key = "INVALID_TAG_KEY"
+        case invalid_tag_value = "INVALID_TAG_VALUE"
+        case invalid_resource_group_tag_key = "INVALID_RESOURCE_GROUP_TAG_KEY"
+        case invalid_resource_group_tag_value = "INVALID_RESOURCE_GROUP_TAG_VALUE"
+        case invalid_attribute = "INVALID_ATTRIBUTE"
+        case invalid_user_attribute = "INVALID_USER_ATTRIBUTE"
+        case invalid_user_attribute_key = "INVALID_USER_ATTRIBUTE_KEY"
+        case invalid_user_attribute_value = "INVALID_USER_ATTRIBUTE_VALUE"
+        case invalid_pagination_token = "INVALID_PAGINATION_TOKEN"
+        case invalid_max_results = "INVALID_MAX_RESULTS"
+        case invalid_agent_id = "INVALID_AGENT_ID"
+        case invalid_auto_scaling_group = "INVALID_AUTO_SCALING_GROUP"
+        case invalid_rule_name = "INVALID_RULE_NAME"
+        case invalid_severity = "INVALID_SEVERITY"
+        case invalid_locale = "INVALID_LOCALE"
+        case invalid_event = "INVALID_EVENT"
+        case assessment_target_name_already_taken = "ASSESSMENT_TARGET_NAME_ALREADY_TAKEN"
+        case assessment_template_name_already_taken = "ASSESSMENT_TEMPLATE_NAME_ALREADY_TAKEN"
+        case invalid_number_of_assessment_target_arns = "INVALID_NUMBER_OF_ASSESSMENT_TARGET_ARNS"
+        case invalid_number_of_assessment_template_arns = "INVALID_NUMBER_OF_ASSESSMENT_TEMPLATE_ARNS"
+        case invalid_number_of_assessment_run_arns = "INVALID_NUMBER_OF_ASSESSMENT_RUN_ARNS"
+        case invalid_number_of_finding_arns = "INVALID_NUMBER_OF_FINDING_ARNS"
+        case invalid_number_of_resource_group_arns = "INVALID_NUMBER_OF_RESOURCE_GROUP_ARNS"
+        case invalid_number_of_rules_package_arns = "INVALID_NUMBER_OF_RULES_PACKAGE_ARNS"
+        case invalid_number_of_assessment_run_states = "INVALID_NUMBER_OF_ASSESSMENT_RUN_STATES"
+        case invalid_number_of_tags = "INVALID_NUMBER_OF_TAGS"
+        case invalid_number_of_resource_group_tags = "INVALID_NUMBER_OF_RESOURCE_GROUP_TAGS"
+        case invalid_number_of_attributes = "INVALID_NUMBER_OF_ATTRIBUTES"
+        case invalid_number_of_user_attributes = "INVALID_NUMBER_OF_USER_ATTRIBUTES"
+        case invalid_number_of_agent_ids = "INVALID_NUMBER_OF_AGENT_IDS"
+        case invalid_number_of_auto_scaling_groups = "INVALID_NUMBER_OF_AUTO_SCALING_GROUPS"
+        case invalid_number_of_rule_names = "INVALID_NUMBER_OF_RULE_NAMES"
+        case invalid_number_of_severities = "INVALID_NUMBER_OF_SEVERITIES"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NoSuchEntityErrorCode: String, CustomStringConvertible {
+        case assessment_target_does_not_exist = "ASSESSMENT_TARGET_DOES_NOT_EXIST"
+        case assessment_template_does_not_exist = "ASSESSMENT_TEMPLATE_DOES_NOT_EXIST"
+        case assessment_run_does_not_exist = "ASSESSMENT_RUN_DOES_NOT_EXIST"
+        case finding_does_not_exist = "FINDING_DOES_NOT_EXIST"
+        case resource_group_does_not_exist = "RESOURCE_GROUP_DOES_NOT_EXIST"
+        case rules_package_does_not_exist = "RULES_PACKAGE_DOES_NOT_EXIST"
+        case sns_topic_does_not_exist = "SNS_TOPIC_DOES_NOT_EXIST"
+        case iam_role_does_not_exist = "IAM_ROLE_DOES_NOT_EXIST"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Severity: String, CustomStringConvertible {
+        case low = "Low"
+        case medium = "Medium"
+        case high = "High"
+        case informational = "Informational"
+        case undefined = "Undefined"
+        public var description: String { return self.rawValue }
     }
 
     public struct RulesPackage: AWSShape {
@@ -739,17 +853,17 @@ extension Inspector {
         /// The key for the payload
         public static let payload: String? = nil
         /// The assessment run state.
-        public let state: String
+        public let state: AssessmentRunState
         /// The last time the assessment run state changed.
         public let stateChangedAt: Date
 
-        public init(state: String, stateChangedAt: Date) {
+        public init(state: AssessmentRunState, stateChangedAt: Date) {
             self.state = state
             self.stateChangedAt = stateChangedAt
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let state = dictionary["state"] as? String else { throw InitializableError.missingRequiredParam("state") }
+            guard let rawstate = dictionary["state"] as? String, let state = AssessmentRunState(rawValue: rawstate) else { throw InitializableError.missingRequiredParam("state") }
             self.state = state
             guard let stateChangedAt = dictionary["stateChangedAt"] as? Date else { throw InitializableError.missingRequiredParam("stateChangedAt") }
             self.stateChangedAt = stateChangedAt
@@ -848,7 +962,7 @@ extension Inspector {
         /// For a record to match a filter, an explicit value or a string containing a wildcard that is specified for this data type property must match the value of the assessmentRunName property of the AssessmentRun data type.
         public let namePattern: String?
         /// For a record to match a filter, one of the values specified for this data type property must be the exact match of the value of the assessmentRunState property of the AssessmentRun data type.
-        public let states: [String]?
+        public let states: [AssessmentRunState]?
         /// For a record to match a filter, the value that is specified for this data type property must inclusively match any value between the specified minimum and maximum values of the startTime property of the AssessmentRun data type.
         public let startTimeRange: TimestampRange?
         /// For a record to match a filter, the value that is specified for this data type property must inclusively match any value between the specified minimum and maximum values of the durationInSeconds property of the AssessmentRun data type.
@@ -860,7 +974,7 @@ extension Inspector {
         /// For a record to match a filter, the value that is specified for this data type property must match the stateChangedAt property of the AssessmentRun data type.
         public let stateChangeTimeRange: TimestampRange?
 
-        public init(namePattern: String? = nil, states: [String]? = nil, startTimeRange: TimestampRange? = nil, durationRange: DurationRange? = nil, rulesPackageArns: [String]? = nil, completionTimeRange: TimestampRange? = nil, stateChangeTimeRange: TimestampRange? = nil) {
+        public init(namePattern: String? = nil, states: [AssessmentRunState]? = nil, startTimeRange: TimestampRange? = nil, durationRange: DurationRange? = nil, rulesPackageArns: [String]? = nil, completionTimeRange: TimestampRange? = nil, stateChangeTimeRange: TimestampRange? = nil) {
             self.namePattern = namePattern
             self.states = states
             self.startTimeRange = startTimeRange
@@ -872,7 +986,7 @@ extension Inspector {
 
         public init(dictionary: [String: Any]) throws {
             self.namePattern = dictionary["namePattern"] as? String
-            self.states = dictionary["states"] as? [String]
+            if let states = dictionary["states"] as? [String] { self.states = states.flatMap({ AssessmentRunState(rawValue: $0)}) } else { self.states = nil }
             if let startTimeRange = dictionary["startTimeRange"] as? [String: Any] { self.startTimeRange = try Inspector.TimestampRange(dictionary: startTimeRange) } else { self.startTimeRange = nil }
             if let durationRange = dictionary["durationRange"] as? [String: Any] { self.durationRange = try Inspector.DurationRange(dictionary: durationRange) } else { self.durationRange = nil }
             self.rulesPackageArns = dictionary["rulesPackageArns"] as? [String]
@@ -916,7 +1030,7 @@ extension Inspector {
         /// The key for the payload
         public static let payload: String? = nil
         /// The state of the assessment run.
-        public let state: String
+        public let state: AssessmentRunState
         /// The auto-generated name for the assessment run.
         public let name: String
         /// The time when StartAssessmentRun was called.
@@ -944,7 +1058,7 @@ extension Inspector {
         /// The ARN of the assessment template that is associated with the assessment run.
         public let assessmentTemplateArn: String
 
-        public init(state: String, name: String, createdAt: Date, startedAt: Date? = nil, notifications: [AssessmentRunNotification], dataCollected: Bool, rulesPackageArns: [String], stateChangedAt: Date, userAttributesForFindings: [Attribute], arn: String, stateChanges: [AssessmentRunStateChange], completedAt: Date? = nil, durationInSeconds: Int32, assessmentTemplateArn: String) {
+        public init(state: AssessmentRunState, name: String, createdAt: Date, startedAt: Date? = nil, notifications: [AssessmentRunNotification], dataCollected: Bool, rulesPackageArns: [String], stateChangedAt: Date, userAttributesForFindings: [Attribute], arn: String, stateChanges: [AssessmentRunStateChange], completedAt: Date? = nil, durationInSeconds: Int32, assessmentTemplateArn: String) {
             self.state = state
             self.name = name
             self.createdAt = createdAt
@@ -962,7 +1076,7 @@ extension Inspector {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let state = dictionary["state"] as? String else { throw InitializableError.missingRequiredParam("state") }
+            guard let rawstate = dictionary["state"] as? String, let state = AssessmentRunState(rawValue: rawstate) else { throw InitializableError.missingRequiredParam("state") }
             self.state = state
             guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
             self.name = name
@@ -1027,6 +1141,12 @@ extension Inspector {
         }
     }
 
+    public enum AgentHealth: String, CustomStringConvertible {
+        case healthy = "HEALTHY"
+        case unhealthy = "UNHEALTHY"
+        public var description: String { return self.rawValue }
+    }
+
     public struct CreateAssessmentTemplateResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1043,11 +1163,25 @@ extension Inspector {
         }
     }
 
+    public enum AssessmentRunState: String, CustomStringConvertible {
+        case created = "CREATED"
+        case start_data_collection_pending = "START_DATA_COLLECTION_PENDING"
+        case start_data_collection_in_progress = "START_DATA_COLLECTION_IN_PROGRESS"
+        case collecting_data = "COLLECTING_DATA"
+        case stop_data_collection_pending = "STOP_DATA_COLLECTION_PENDING"
+        case data_collected = "DATA_COLLECTED"
+        case evaluating_rules = "EVALUATING_RULES"
+        case failed = "FAILED"
+        case completed = "COMPLETED"
+        case completed_with_errors = "COMPLETED_WITH_ERRORS"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Finding: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of the host from which the finding is generated.
-        public let assetType: String?
+        public let assetType: AssetType?
         /// The schema version of this data type.
         public let schemaVersion: Int32?
         /// The user-defined attributes that are assigned to the finding.
@@ -1062,7 +1196,7 @@ extension Inspector {
         /// This data element is currently not used.
         public let indicatorOfCompromise: Bool?
         /// The finding severity. Values can be set to High, Medium, Low, and Informational.
-        public let severity: String?
+        public let severity: Severity?
         /// A collection of attributes of the host from which the finding is generated.
         public let assetAttributes: AssetAttributes?
         /// The numeric value of the finding severity.
@@ -1082,7 +1216,7 @@ extension Inspector {
         /// This data element is currently not used.
         public let confidence: Int32?
 
-        public init(assetType: String? = nil, schemaVersion: Int32? = nil, userAttributes: [Attribute], recommendation: String? = nil, createdAt: Date, description: String? = nil, serviceAttributes: InspectorServiceAttributes? = nil, indicatorOfCompromise: Bool? = nil, severity: String? = nil, assetAttributes: AssetAttributes? = nil, numericSeverity: Double? = nil, service: String? = nil, arn: String, attributes: [Attribute], id: String? = nil, updatedAt: Date, title: String? = nil, confidence: Int32? = nil) {
+        public init(assetType: AssetType? = nil, schemaVersion: Int32? = nil, userAttributes: [Attribute], recommendation: String? = nil, createdAt: Date, description: String? = nil, serviceAttributes: InspectorServiceAttributes? = nil, indicatorOfCompromise: Bool? = nil, severity: Severity? = nil, assetAttributes: AssetAttributes? = nil, numericSeverity: Double? = nil, service: String? = nil, arn: String, attributes: [Attribute], id: String? = nil, updatedAt: Date, title: String? = nil, confidence: Int32? = nil) {
             self.assetType = assetType
             self.schemaVersion = schemaVersion
             self.userAttributes = userAttributes
@@ -1104,7 +1238,7 @@ extension Inspector {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.assetType = dictionary["assetType"] as? String
+            if let assetType = dictionary["assetType"] as? String { self.assetType = AssetType(rawValue: assetType) } else { self.assetType = nil }
             self.schemaVersion = dictionary["schemaVersion"] as? Int32
             guard let userAttributes = dictionary["userAttributes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("userAttributes") }
             self.userAttributes = try userAttributes.map({ try Attribute(dictionary: $0) })
@@ -1114,7 +1248,7 @@ extension Inspector {
             self.description = dictionary["description"] as? String
             if let serviceAttributes = dictionary["serviceAttributes"] as? [String: Any] { self.serviceAttributes = try Inspector.InspectorServiceAttributes(dictionary: serviceAttributes) } else { self.serviceAttributes = nil }
             self.indicatorOfCompromise = dictionary["indicatorOfCompromise"] as? Bool
-            self.severity = dictionary["severity"] as? String
+            if let severity = dictionary["severity"] as? String { self.severity = Severity(rawValue: severity) } else { self.severity = nil }
             if let assetAttributes = dictionary["assetAttributes"] as? [String: Any] { self.assetAttributes = try Inspector.AssetAttributes(dictionary: assetAttributes) } else { self.assetAttributes = nil }
             self.numericSeverity = dictionary["numericSeverity"] as? Double
             self.service = dictionary["service"] as? String
@@ -1244,6 +1378,17 @@ extension Inspector {
         }
     }
 
+    public enum InvalidCrossAccountRoleErrorCode: String, CustomStringConvertible {
+        case role_does_not_exist_or_invalid_trust_relationship = "ROLE_DOES_NOT_EXIST_OR_INVALID_TRUST_RELATIONSHIP"
+        case role_does_not_have_correct_policy = "ROLE_DOES_NOT_HAVE_CORRECT_POLICY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Locale: String, CustomStringConvertible {
+        case en_us = "EN_US"
+        public var description: String { return self.rawValue }
+    }
+
     public struct CreateAssessmentTargetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1288,17 +1433,17 @@ extension Inspector {
         /// The Auto Scaling group of the EC2 instance that is specified by the agent ID.
         public let autoScalingGroup: String?
         /// The current health state of the agent.
-        public let agentHealth: String
+        public let agentHealth: AgentHealth
         /// The description for the agent health code.
         public let agentHealthDetails: String?
         /// The ARN of the assessment run that is associated with the agent.
         public let assessmentRunArn: String
         /// The detailed health state of the agent.
-        public let agentHealthCode: String
+        public let agentHealthCode: AgentHealthCode
         /// The AWS account of the EC2 instance where the agent is installed.
         public let agentId: String
 
-        public init(telemetryMetadata: [TelemetryMetadata], autoScalingGroup: String? = nil, agentHealth: String, agentHealthDetails: String? = nil, assessmentRunArn: String, agentHealthCode: String, agentId: String) {
+        public init(telemetryMetadata: [TelemetryMetadata], autoScalingGroup: String? = nil, agentHealth: AgentHealth, agentHealthDetails: String? = nil, assessmentRunArn: String, agentHealthCode: AgentHealthCode, agentId: String) {
             self.telemetryMetadata = telemetryMetadata
             self.autoScalingGroup = autoScalingGroup
             self.agentHealth = agentHealth
@@ -1312,12 +1457,12 @@ extension Inspector {
             guard let telemetryMetadata = dictionary["telemetryMetadata"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("telemetryMetadata") }
             self.telemetryMetadata = try telemetryMetadata.map({ try TelemetryMetadata(dictionary: $0) })
             self.autoScalingGroup = dictionary["autoScalingGroup"] as? String
-            guard let agentHealth = dictionary["agentHealth"] as? String else { throw InitializableError.missingRequiredParam("agentHealth") }
+            guard let rawagentHealth = dictionary["agentHealth"] as? String, let agentHealth = AgentHealth(rawValue: rawagentHealth) else { throw InitializableError.missingRequiredParam("agentHealth") }
             self.agentHealth = agentHealth
             self.agentHealthDetails = dictionary["agentHealthDetails"] as? String
             guard let assessmentRunArn = dictionary["assessmentRunArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentRunArn") }
             self.assessmentRunArn = assessmentRunArn
-            guard let agentHealthCode = dictionary["agentHealthCode"] as? String else { throw InitializableError.missingRequiredParam("agentHealthCode") }
+            guard let rawagentHealthCode = dictionary["agentHealthCode"] as? String, let agentHealthCode = AgentHealthCode(rawValue: rawagentHealthCode) else { throw InitializableError.missingRequiredParam("agentHealthCode") }
             self.agentHealthCode = agentHealthCode
             guard let agentId = dictionary["agentId"] as? String else { throw InitializableError.missingRequiredParam("agentId") }
             self.agentId = agentId
@@ -1427,6 +1572,26 @@ extension Inspector {
             self.maxSeconds = dictionary["maxSeconds"] as? Int32
             self.minSeconds = dictionary["minSeconds"] as? Int32
         }
+    }
+
+    public enum FailedItemErrorCode: String, CustomStringConvertible {
+        case invalid_arn = "INVALID_ARN"
+        case duplicate_arn = "DUPLICATE_ARN"
+        case item_does_not_exist = "ITEM_DOES_NOT_EXIST"
+        case access_denied = "ACCESS_DENIED"
+        case limit_exceeded = "LIMIT_EXCEEDED"
+        case internal_error = "INTERNAL_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AgentHealthCode: String, CustomStringConvertible {
+        case idle = "IDLE"
+        case running = "RUNNING"
+        case shutdown = "SHUTDOWN"
+        case unhealthy = "UNHEALTHY"
+        case throttled = "THROTTLED"
+        case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
     }
 
     public struct TimestampRange: AWSShape {
@@ -1693,20 +1858,20 @@ extension Inspector {
         /// The key for the payload
         public static let payload: String? = nil
         /// The detailed health state of the agent. Values can be set to IDLE, RUNNING, SHUTDOWN, UNHEALTHY, THROTTLED, and UNKNOWN. 
-        public let agentHealthCodes: [String]
+        public let agentHealthCodes: [AgentHealthCode]
         /// The current health state of the agent. Values can be set to HEALTHY or UNHEALTHY.
-        public let agentHealths: [String]
+        public let agentHealths: [AgentHealth]
 
-        public init(agentHealthCodes: [String], agentHealths: [String]) {
+        public init(agentHealthCodes: [AgentHealthCode], agentHealths: [AgentHealth]) {
             self.agentHealthCodes = agentHealthCodes
             self.agentHealths = agentHealths
         }
 
         public init(dictionary: [String: Any]) throws {
             guard let agentHealthCodes = dictionary["agentHealthCodes"] as? [String] else { throw InitializableError.missingRequiredParam("agentHealthCodes") }
-            self.agentHealthCodes = agentHealthCodes
+            self.agentHealthCodes = agentHealthCodes.flatMap({ AgentHealthCode(rawValue: $0)})
             guard let agentHealths = dictionary["agentHealths"] as? [String] else { throw InitializableError.missingRequiredParam("agentHealths") }
-            self.agentHealths = agentHealths
+            self.agentHealths = agentHealths.flatMap({ AgentHealth(rawValue: $0)})
         }
     }
 
@@ -1716,11 +1881,11 @@ extension Inspector {
         /// The ARN of the assessment template that is used during the event for which you want to receive SNS notifications.
         public let resourceArn: String
         /// The event for which you want to receive SNS notifications.
-        public let event: String
+        public let event: InspectorEvent
         /// The ARN of the SNS topic to which the SNS notifications are sent.
         public let topicArn: String
 
-        public init(resourceArn: String, event: String, topicArn: String) {
+        public init(resourceArn: String, event: InspectorEvent, topicArn: String) {
             self.resourceArn = resourceArn
             self.event = event
             self.topicArn = topicArn
@@ -1729,11 +1894,19 @@ extension Inspector {
         public init(dictionary: [String: Any]) throws {
             guard let resourceArn = dictionary["resourceArn"] as? String else { throw InitializableError.missingRequiredParam("resourceArn") }
             self.resourceArn = resourceArn
-            guard let event = dictionary["event"] as? String else { throw InitializableError.missingRequiredParam("event") }
+            guard let rawevent = dictionary["event"] as? String, let event = InspectorEvent(rawValue: rawevent) else { throw InitializableError.missingRequiredParam("event") }
             self.event = event
             guard let topicArn = dictionary["topicArn"] as? String else { throw InitializableError.missingRequiredParam("topicArn") }
             self.topicArn = topicArn
         }
+    }
+
+    public enum AssessmentRunNotificationSnsStatusCode: String, CustomStringConvertible {
+        case success = "SUCCESS"
+        case topic_does_not_exist = "TOPIC_DOES_NOT_EXIST"
+        case access_denied = "ACCESS_DENIED"
+        case internal_error = "INTERNAL_ERROR"
+        public var description: String { return self.rawValue }
     }
 
     public struct CreateResourceGroupRequest: AWSShape {
@@ -1806,17 +1979,17 @@ extension Inspector {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status code of a failed item.
-        public let failureCode: String
+        public let failureCode: FailedItemErrorCode
         /// Indicates whether you can immediately retry a request for this item for a specified resource.
         public let retryable: Bool
 
-        public init(failureCode: String, retryable: Bool) {
+        public init(failureCode: FailedItemErrorCode, retryable: Bool) {
             self.failureCode = failureCode
             self.retryable = retryable
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let failureCode = dictionary["failureCode"] as? String else { throw InitializableError.missingRequiredParam("failureCode") }
+            guard let rawfailureCode = dictionary["failureCode"] as? String, let failureCode = FailedItemErrorCode(rawValue: rawfailureCode) else { throw InitializableError.missingRequiredParam("failureCode") }
             self.failureCode = failureCode
             guard let retryable = dictionary["retryable"] as? Bool else { throw InitializableError.missingRequiredParam("retryable") }
             self.retryable = retryable
@@ -1829,16 +2002,16 @@ extension Inspector {
         /// The SNS topic to which the SNS notification is sent.
         public let snsTopicArn: String?
         /// The status code of the SNS notification.
-        public let snsPublishStatusCode: String?
+        public let snsPublishStatusCode: AssessmentRunNotificationSnsStatusCode?
         /// The event for which a notification is sent.
-        public let event: String
+        public let event: InspectorEvent
         public let message: String?
         /// The date of the notification.
         public let date: Date
         /// The Boolean value that specifies whether the notification represents an error.
         public let error: Bool
 
-        public init(snsTopicArn: String? = nil, snsPublishStatusCode: String? = nil, event: String, message: String? = nil, date: Date, error: Bool) {
+        public init(snsTopicArn: String? = nil, snsPublishStatusCode: AssessmentRunNotificationSnsStatusCode? = nil, event: InspectorEvent, message: String? = nil, date: Date, error: Bool) {
             self.snsTopicArn = snsTopicArn
             self.snsPublishStatusCode = snsPublishStatusCode
             self.event = event
@@ -1849,8 +2022,8 @@ extension Inspector {
 
         public init(dictionary: [String: Any]) throws {
             self.snsTopicArn = dictionary["snsTopicArn"] as? String
-            self.snsPublishStatusCode = dictionary["snsPublishStatusCode"] as? String
-            guard let event = dictionary["event"] as? String else { throw InitializableError.missingRequiredParam("event") }
+            if let snsPublishStatusCode = dictionary["snsPublishStatusCode"] as? String { self.snsPublishStatusCode = AssessmentRunNotificationSnsStatusCode(rawValue: snsPublishStatusCode) } else { self.snsPublishStatusCode = nil }
+            guard let rawevent = dictionary["event"] as? String, let event = InspectorEvent(rawValue: rawevent) else { throw InitializableError.missingRequiredParam("event") }
             self.event = event
             self.message = dictionary["message"] as? String
             guard let date = dictionary["date"] as? Date else { throw InitializableError.missingRequiredParam("date") }
@@ -1998,17 +2171,17 @@ extension Inspector {
         /// The key for the payload
         public static let payload: String? = nil
         /// The locale into which you want to translate a finding description, recommendation, and the short description that identifies the finding.
-        public let locale: String?
+        public let locale: Locale?
         /// The ARN that specifies the finding that you want to describe.
         public let findingArns: [String]
 
-        public init(locale: String? = nil, findingArns: [String]) {
+        public init(locale: Locale? = nil, findingArns: [String]) {
             self.locale = locale
             self.findingArns = findingArns
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.locale = dictionary["locale"] as? String
+            if let locale = dictionary["locale"] as? String { self.locale = Locale(rawValue: locale) } else { self.locale = nil }
             guard let findingArns = dictionary["findingArns"] as? [String] else { throw InitializableError.missingRequiredParam("findingArns") }
             self.findingArns = findingArns
         }

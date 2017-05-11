@@ -29,6 +29,12 @@ import Core
 
 extension Acm {
 
+    public enum CertificateType: String, CustomStringConvertible {
+        case imported = "IMPORTED"
+        case amazon_issued = "AMAZON_ISSUED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct RemoveTagsFromCertificateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -48,6 +54,13 @@ extension Acm {
             guard let certificateArn = dictionary["CertificateArn"] as? String else { throw InitializableError.missingRequiredParam("CertificateArn") }
             self.certificateArn = certificateArn
         }
+    }
+
+    public enum DomainStatus: String, CustomStringConvertible {
+        case pending_validation = "PENDING_VALIDATION"
+        case success = "SUCCESS"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
     }
 
     public struct ListCertificatesResponse: AWSShape {
@@ -86,6 +99,17 @@ extension Acm {
         public init(dictionary: [String: Any]) throws {
             self.certificateArn = dictionary["CertificateArn"] as? String
         }
+    }
+
+    public enum CertificateStatus: String, CustomStringConvertible {
+        case pending_validation = "PENDING_VALIDATION"
+        case issued = "ISSUED"
+        case inactive = "INACTIVE"
+        case expired = "EXPIRED"
+        case validation_timed_out = "VALIDATION_TIMED_OUT"
+        case revoked = "REVOKED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
     }
 
     public struct ImportCertificateRequest: AWSShape {
@@ -178,13 +202,13 @@ extension Acm {
         /// The domain name that ACM used to send domain validation emails.
         public let validationDomain: String?
         /// The validation status of the domain name.
-        public let validationStatus: String?
+        public let validationStatus: DomainStatus?
         /// A fully qualified domain name (FQDN) in the certificate. For example, www.example.com or example.com.
         public let domainName: String
         /// A list of email addresses that ACM used to send domain validation emails.
         public let validationEmails: [String]?
 
-        public init(validationDomain: String? = nil, validationStatus: String? = nil, domainName: String, validationEmails: [String]? = nil) {
+        public init(validationDomain: String? = nil, validationStatus: DomainStatus? = nil, domainName: String, validationEmails: [String]? = nil) {
             self.validationDomain = validationDomain
             self.validationStatus = validationStatus
             self.domainName = domainName
@@ -193,11 +217,19 @@ extension Acm {
 
         public init(dictionary: [String: Any]) throws {
             self.validationDomain = dictionary["ValidationDomain"] as? String
-            self.validationStatus = dictionary["ValidationStatus"] as? String
+            if let validationStatus = dictionary["ValidationStatus"] as? String { self.validationStatus = DomainStatus(rawValue: validationStatus) } else { self.validationStatus = nil }
             guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
             self.domainName = domainName
             self.validationEmails = dictionary["ValidationEmails"] as? [String]
         }
+    }
+
+    public enum RenewalStatus: String, CustomStringConvertible {
+        case pending_auto_renewal = "PENDING_AUTO_RENEWAL"
+        case pending_validation = "PENDING_VALIDATION"
+        case success = "SUCCESS"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
     }
 
     public struct AddTagsToCertificateRequest: AWSShape {
@@ -266,15 +298,29 @@ extension Acm {
         }
     }
 
+    public enum RevocationReason: String, CustomStringConvertible {
+        case unspecified = "UNSPECIFIED"
+        case key_compromise = "KEY_COMPROMISE"
+        case ca_compromise = "CA_COMPROMISE"
+        case affiliation_changed = "AFFILIATION_CHANGED"
+        case superceded = "SUPERCEDED"
+        case cessation_of_operation = "CESSATION_OF_OPERATION"
+        case certificate_hold = "CERTIFICATE_HOLD"
+        case remove_from_crl = "REMOVE_FROM_CRL"
+        case privilege_withdrawn = "PRIVILEGE_WITHDRAWN"
+        case a_a_compromise = "A_A_COMPROMISE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct RenewalSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// Contains information about the validation of each domain name in the certificate, as it pertains to ACM's managed renewal. This is different from the initial validation that occurs as a result of the RequestCertificate request. This field exists only when the certificate type is AMAZON_ISSUED.
         public let domainValidationOptions: [DomainValidation]
         /// The status of ACM's managed renewal of the certificate.
-        public let renewalStatus: String
+        public let renewalStatus: RenewalStatus
 
-        public init(domainValidationOptions: [DomainValidation], renewalStatus: String) {
+        public init(domainValidationOptions: [DomainValidation], renewalStatus: RenewalStatus) {
             self.domainValidationOptions = domainValidationOptions
             self.renewalStatus = renewalStatus
         }
@@ -282,7 +328,7 @@ extension Acm {
         public init(dictionary: [String: Any]) throws {
             guard let domainValidationOptions = dictionary["DomainValidationOptions"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("DomainValidationOptions") }
             self.domainValidationOptions = try domainValidationOptions.map({ try DomainValidation(dictionary: $0) })
-            guard let renewalStatus = dictionary["RenewalStatus"] as? String else { throw InitializableError.missingRequiredParam("RenewalStatus") }
+            guard let rawRenewalStatus = dictionary["RenewalStatus"] as? String, let renewalStatus = RenewalStatus(rawValue: rawRenewalStatus) else { throw InitializableError.missingRequiredParam("RenewalStatus") }
             self.renewalStatus = renewalStatus
         }
     }
@@ -343,24 +389,31 @@ extension Acm {
         }
     }
 
+    public enum KeyAlgorithm: String, CustomStringConvertible {
+        case rsa_2048 = "RSA_2048"
+        case rsa_1024 = "RSA_1024"
+        case ec_prime256v1 = "EC_prime256v1"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ListCertificatesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status or statuses on which to filter the list of ACM Certificates.
-        public let certificateStatuses: [String]?
+        public let certificateStatuses: [CertificateStatus]?
         /// Use this parameter only when paginating results and only in a subsequent request after you receive a response with truncated results. Set it to the value of NextToken from the response you just received.
         public let nextToken: String?
         /// Use this parameter when paginating results to specify the maximum number of items to return in the response. If additional items exist beyond the number you specify, the NextToken element is sent in the response. Use this NextToken value in a subsequent request to retrieve additional items.
         public let maxItems: Int32?
 
-        public init(certificateStatuses: [String]? = nil, nextToken: String? = nil, maxItems: Int32? = nil) {
+        public init(certificateStatuses: [CertificateStatus]? = nil, nextToken: String? = nil, maxItems: Int32? = nil) {
             self.certificateStatuses = certificateStatuses
             self.nextToken = nextToken
             self.maxItems = maxItems
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.certificateStatuses = dictionary["CertificateStatuses"] as? [String]
+            if let certificateStatuses = dictionary["CertificateStatuses"] as? [String] { self.certificateStatuses = certificateStatuses.flatMap({ CertificateStatus(rawValue: $0)}) } else { self.certificateStatuses = nil }
             self.nextToken = dictionary["NextToken"] as? String
             self.maxItems = dictionary["MaxItems"] as? Int32
         }
@@ -460,11 +513,20 @@ extension Acm {
         }
     }
 
+    public enum FailureReason: String, CustomStringConvertible {
+        case no_available_contacts = "NO_AVAILABLE_CONTACTS"
+        case additional_verification_required = "ADDITIONAL_VERIFICATION_REQUIRED"
+        case domain_not_allowed = "DOMAIN_NOT_ALLOWED"
+        case invalid_public_domain = "INVALID_PUBLIC_DOMAIN"
+        case other = "OTHER"
+        public var description: String { return self.rawValue }
+    }
+
     public struct CertificateDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// The reason the certificate request failed. This value exists only when the certificate status is FAILED. For more information, see Certificate Request Failed in the AWS Certificate Manager User Guide.
-        public let failureReason: String?
+        public let failureReason: FailureReason?
         /// The time at which the certificate was issued. This value exists only when the certificate type is AMAZON_ISSUED.
         public let issuedAt: Date?
         /// The date and time at which the certificate was imported. This value exists only when the certificate type is IMPORTED.
@@ -478,11 +540,11 @@ extension Acm {
         /// The serial number of the certificate.
         public let serial: String?
         /// The reason the certificate was revoked. This value exists only when the certificate status is REVOKED.
-        public let revocationReason: String?
+        public let revocationReason: RevocationReason?
         /// The time after which the certificate is not valid.
         public let notAfter: Date?
         /// The status of the certificate.
-        public let status: String?
+        public let status: CertificateStatus?
         /// The time at which the certificate was requested. This value exists only when the certificate type is AMAZON_ISSUED.
         public let createdAt: Date?
         /// The time before which the certificate is not valid.
@@ -492,13 +554,13 @@ extension Acm {
         /// Contains information about the initial validation of each domain name that occurs as a result of the RequestCertificate request. This field exists only when the certificate type is AMAZON_ISSUED.
         public let domainValidationOptions: [DomainValidation]?
         /// The algorithm that was used to generate the key pair (the public and private key).
-        public let keyAlgorithm: String?
+        public let keyAlgorithm: KeyAlgorithm?
         /// The Amazon Resource Name (ARN) of the certificate. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let certificateArn: String?
         /// The fully qualified domain name for the certificate, such as www.example.com or example.com.
         public let domainName: String?
         /// The source of the certificate. For certificates provided by ACM, this value is AMAZON_ISSUED. For certificates that you imported with ImportCertificate, this value is IMPORTED. ACM does not provide managed renewal for imported certificates. For more information about the differences between certificates that you import and those that ACM provides, see Importing Certificates in the AWS Certificate Manager User Guide.
-        public let type: String?
+        public let `type`: CertificateType?
         /// A list of ARNs for the AWS resources that are using the certificate. A certificate can be used by multiple AWS resources.
         public let inUseBy: [String]?
         /// The name of the certificate authority that issued and signed the certificate.
@@ -506,7 +568,7 @@ extension Acm {
         /// The name of the entity that is associated with the public key contained in the certificate.
         public let subject: String?
 
-        public init(failureReason: String? = nil, issuedAt: Date? = nil, importedAt: Date? = nil, revokedAt: Date? = nil, renewalSummary: RenewalSummary? = nil, signatureAlgorithm: String? = nil, serial: String? = nil, revocationReason: String? = nil, notAfter: Date? = nil, status: String? = nil, createdAt: Date? = nil, notBefore: Date? = nil, subjectAlternativeNames: [String]? = nil, domainValidationOptions: [DomainValidation]? = nil, keyAlgorithm: String? = nil, certificateArn: String? = nil, domainName: String? = nil, type: String? = nil, inUseBy: [String]? = nil, issuer: String? = nil, subject: String? = nil) {
+        public init(failureReason: FailureReason? = nil, issuedAt: Date? = nil, importedAt: Date? = nil, revokedAt: Date? = nil, renewalSummary: RenewalSummary? = nil, signatureAlgorithm: String? = nil, serial: String? = nil, revocationReason: RevocationReason? = nil, notAfter: Date? = nil, status: CertificateStatus? = nil, createdAt: Date? = nil, notBefore: Date? = nil, subjectAlternativeNames: [String]? = nil, domainValidationOptions: [DomainValidation]? = nil, keyAlgorithm: KeyAlgorithm? = nil, certificateArn: String? = nil, domainName: String? = nil, type: CertificateType? = nil, inUseBy: [String]? = nil, issuer: String? = nil, subject: String? = nil) {
             self.failureReason = failureReason
             self.issuedAt = issuedAt
             self.importedAt = importedAt
@@ -524,23 +586,23 @@ extension Acm {
             self.keyAlgorithm = keyAlgorithm
             self.certificateArn = certificateArn
             self.domainName = domainName
-            self.type = type
+            self.`type` = `type`
             self.inUseBy = inUseBy
             self.issuer = issuer
             self.subject = subject
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.failureReason = dictionary["FailureReason"] as? String
+            if let failureReason = dictionary["FailureReason"] as? String { self.failureReason = FailureReason(rawValue: failureReason) } else { self.failureReason = nil }
             self.issuedAt = dictionary["IssuedAt"] as? Date
             self.importedAt = dictionary["ImportedAt"] as? Date
             self.revokedAt = dictionary["RevokedAt"] as? Date
             if let renewalSummary = dictionary["RenewalSummary"] as? [String: Any] { self.renewalSummary = try Acm.RenewalSummary(dictionary: renewalSummary) } else { self.renewalSummary = nil }
             self.signatureAlgorithm = dictionary["SignatureAlgorithm"] as? String
             self.serial = dictionary["Serial"] as? String
-            self.revocationReason = dictionary["RevocationReason"] as? String
+            if let revocationReason = dictionary["RevocationReason"] as? String { self.revocationReason = RevocationReason(rawValue: revocationReason) } else { self.revocationReason = nil }
             self.notAfter = dictionary["NotAfter"] as? Date
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = CertificateStatus(rawValue: status) } else { self.status = nil }
             self.createdAt = dictionary["CreatedAt"] as? Date
             self.notBefore = dictionary["NotBefore"] as? Date
             self.subjectAlternativeNames = dictionary["SubjectAlternativeNames"] as? [String]
@@ -549,10 +611,10 @@ extension Acm {
             } else { 
                 self.domainValidationOptions = nil
             }
-            self.keyAlgorithm = dictionary["KeyAlgorithm"] as? String
+            if let keyAlgorithm = dictionary["KeyAlgorithm"] as? String { self.keyAlgorithm = KeyAlgorithm(rawValue: keyAlgorithm) } else { self.keyAlgorithm = nil }
             self.certificateArn = dictionary["CertificateArn"] as? String
             self.domainName = dictionary["DomainName"] as? String
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = CertificateType(rawValue: `type`) } else { self.`type` = nil }
             self.inUseBy = dictionary["InUseBy"] as? [String]
             self.issuer = dictionary["Issuer"] as? String
             self.subject = dictionary["Subject"] as? String

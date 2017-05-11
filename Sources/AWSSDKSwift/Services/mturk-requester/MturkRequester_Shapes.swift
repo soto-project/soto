@@ -50,7 +50,7 @@ extension MturkRequester {
         public let hITGroupId: String?
         public let reward: String?
         ///  Indicates the review status of the HIT. Valid Values are NotReviewed | MarkedForReview | ReviewedAppropriate | ReviewedInappropriate.
-        public let hITReviewStatus: String?
+        public let hITReviewStatus: HITReviewStatus?
         /// The ID of the HIT type of this HIT
         public let hITTypeId: String?
         ///  A general description of the HIT.
@@ -60,7 +60,7 @@ extension MturkRequester {
         ///  A unique identifier for the HIT.
         public let hITId: String?
         /// The status of the HIT and its assignments. Valid Values are Assignable | Unassignable | Reviewable | Reviewing | Disposed. 
-        public let hITStatus: String?
+        public let hITStatus: HITStatus?
         /// The date and time the HIT expires.
         public let expiration: Date?
         ///  A condition that a Worker's Qualifications must meet in order to accept the HIT. A HIT can have between zero and ten Qualification requirements. All requirements must be met by a Worker's Qualifications for the Worker to accept the HIT.
@@ -74,7 +74,7 @@ extension MturkRequester {
         ///  The number of assignments for this HIT that are being previewed or have been accepted by Workers, but have not yet been submitted, returned, or abandoned.
         public let numberOfAssignmentsPending: Int32?
 
-        public init(autoApprovalDelayInSeconds: Int64? = nil, hITLayoutId: String? = nil, numberOfAssignmentsCompleted: Int32? = nil, numberOfAssignmentsAvailable: Int32? = nil, title: String? = nil, assignmentDurationInSeconds: Int64? = nil, creationTime: Date? = nil, hITGroupId: String? = nil, reward: String? = nil, hITReviewStatus: String? = nil, hITTypeId: String? = nil, description: String? = nil, maxAssignments: Int32? = nil, hITId: String? = nil, hITStatus: String? = nil, expiration: Date? = nil, qualificationRequirements: [QualificationRequirement]? = nil, keywords: String? = nil, question: String? = nil, requesterAnnotation: String? = nil, numberOfAssignmentsPending: Int32? = nil) {
+        public init(autoApprovalDelayInSeconds: Int64? = nil, hITLayoutId: String? = nil, numberOfAssignmentsCompleted: Int32? = nil, numberOfAssignmentsAvailable: Int32? = nil, title: String? = nil, assignmentDurationInSeconds: Int64? = nil, creationTime: Date? = nil, hITGroupId: String? = nil, reward: String? = nil, hITReviewStatus: HITReviewStatus? = nil, hITTypeId: String? = nil, description: String? = nil, maxAssignments: Int32? = nil, hITId: String? = nil, hITStatus: HITStatus? = nil, expiration: Date? = nil, qualificationRequirements: [QualificationRequirement]? = nil, keywords: String? = nil, question: String? = nil, requesterAnnotation: String? = nil, numberOfAssignmentsPending: Int32? = nil) {
             self.autoApprovalDelayInSeconds = autoApprovalDelayInSeconds
             self.hITLayoutId = hITLayoutId
             self.numberOfAssignmentsCompleted = numberOfAssignmentsCompleted
@@ -108,12 +108,12 @@ extension MturkRequester {
             self.creationTime = dictionary["CreationTime"] as? Date
             self.hITGroupId = dictionary["HITGroupId"] as? String
             self.reward = dictionary["Reward"] as? String
-            self.hITReviewStatus = dictionary["HITReviewStatus"] as? String
+            if let hITReviewStatus = dictionary["HITReviewStatus"] as? String { self.hITReviewStatus = HITReviewStatus(rawValue: hITReviewStatus) } else { self.hITReviewStatus = nil }
             self.hITTypeId = dictionary["HITTypeId"] as? String
             self.description = dictionary["Description"] as? String
             self.maxAssignments = dictionary["MaxAssignments"] as? Int32
             self.hITId = dictionary["HITId"] as? String
-            self.hITStatus = dictionary["HITStatus"] as? String
+            if let hITStatus = dictionary["HITStatus"] as? String { self.hITStatus = HITStatus(rawValue: hITStatus) } else { self.hITStatus = nil }
             self.expiration = dictionary["Expiration"] as? Date
             if let qualificationRequirements = dictionary["QualificationRequirements"] as? [[String: Any]] {
                 self.qualificationRequirements = try qualificationRequirements.map({ try QualificationRequirement(dictionary: $0) })
@@ -151,10 +151,10 @@ extension MturkRequester {
         /// Pagination token
         public let nextToken: String?
         /// The status of the assignments to return: Submitted | Approved | Rejected
-        public let assignmentStatuses: [String]?
+        public let assignmentStatuses: [AssignmentStatus]?
         public let maxResults: Int32?
 
-        public init(hITId: String, nextToken: String? = nil, assignmentStatuses: [String]? = nil, maxResults: Int32? = nil) {
+        public init(hITId: String, nextToken: String? = nil, assignmentStatuses: [AssignmentStatus]? = nil, maxResults: Int32? = nil) {
             self.hITId = hITId
             self.nextToken = nextToken
             self.assignmentStatuses = assignmentStatuses
@@ -165,7 +165,7 @@ extension MturkRequester {
             guard let hITId = dictionary["HITId"] as? String else { throw InitializableError.missingRequiredParam("HITId") }
             self.hITId = hITId
             self.nextToken = dictionary["NextToken"] as? String
-            self.assignmentStatuses = dictionary["AssignmentStatuses"] as? [String]
+            if let assignmentStatuses = dictionary["AssignmentStatuses"] as? [String] { self.assignmentStatuses = assignmentStatuses.flatMap({ AssignmentStatus(rawValue: $0)}) } else { self.assignmentStatuses = nil }
             self.maxResults = dictionary["MaxResults"] as? Int32
         }
     }
@@ -184,6 +184,12 @@ extension MturkRequester {
 
         public init(dictionary: [String: Any]) throws {
         }
+    }
+
+    public enum NotificationTransport: String, CustomStringConvertible {
+        case email = "Email"
+        case sqs = "SQS"
+        public var description: String { return self.rawValue }
     }
 
     public struct NotifyWorkersRequest: AWSShape {
@@ -306,6 +312,12 @@ extension MturkRequester {
         }
     }
 
+    public enum NotifyWorkersFailureCode: String, CustomStringConvertible {
+        case softfailure = "SoftFailure"
+        case hardfailure = "HardFailure"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ListReviewableHITsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -366,6 +378,14 @@ extension MturkRequester {
         }
     }
 
+    public enum HITReviewStatus: String, CustomStringConvertible {
+        case notreviewed = "NotReviewed"
+        case markedforreview = "MarkedForReview"
+        case reviewedappropriate = "ReviewedAppropriate"
+        case reviewedinappropriate = "ReviewedInappropriate"
+        public var description: String { return self.rawValue }
+    }
+
     public struct QualificationType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -374,7 +394,7 @@ extension MturkRequester {
         ///  The amount of time, in seconds, Workers must wait after taking the Qualification test before they can take it again. Workers can take a Qualification test multiple times if they were not granted the Qualification from a previous attempt, or if the test offers a gradient score and they want a better score. If not specified, retries are disabled and Workers can request a Qualification only once. 
         public let retryDelayInSeconds: Int64?
         ///  The status of the Qualification type. A Qualification type's status determines if users can apply to receive a Qualification of this type, and if HITs can be created with requirements based on this type. Valid values are Active | Inactive. 
-        public let qualificationTypeStatus: String?
+        public let qualificationTypeStatus: QualificationTypeStatus?
         ///  The date and time the Qualification type was created. 
         public let creationTime: Date?
         /// The answers to the Qualification test specified in the Test parameter.
@@ -396,7 +416,7 @@ extension MturkRequester {
         ///  A unique identifier for the Qualification type. A Qualification type is given a Qualification type ID when you call the CreateQualificationType operation. 
         public let qualificationTypeId: String?
 
-        public init(testDurationInSeconds: Int64? = nil, retryDelayInSeconds: Int64? = nil, qualificationTypeStatus: String? = nil, creationTime: Date? = nil, answerKey: String? = nil, description: String? = nil, autoGranted: Bool? = nil, test: String? = nil, name: String? = nil, keywords: String? = nil, isRequestable: Bool? = nil, autoGrantedValue: Int32? = nil, qualificationTypeId: String? = nil) {
+        public init(testDurationInSeconds: Int64? = nil, retryDelayInSeconds: Int64? = nil, qualificationTypeStatus: QualificationTypeStatus? = nil, creationTime: Date? = nil, answerKey: String? = nil, description: String? = nil, autoGranted: Bool? = nil, test: String? = nil, name: String? = nil, keywords: String? = nil, isRequestable: Bool? = nil, autoGrantedValue: Int32? = nil, qualificationTypeId: String? = nil) {
             self.testDurationInSeconds = testDurationInSeconds
             self.retryDelayInSeconds = retryDelayInSeconds
             self.qualificationTypeStatus = qualificationTypeStatus
@@ -415,7 +435,7 @@ extension MturkRequester {
         public init(dictionary: [String: Any]) throws {
             self.testDurationInSeconds = dictionary["TestDurationInSeconds"] as? Int64
             self.retryDelayInSeconds = dictionary["RetryDelayInSeconds"] as? Int64
-            self.qualificationTypeStatus = dictionary["QualificationTypeStatus"] as? String
+            if let qualificationTypeStatus = dictionary["QualificationTypeStatus"] as? String { self.qualificationTypeStatus = QualificationTypeStatus(rawValue: qualificationTypeStatus) } else { self.qualificationTypeStatus = nil }
             self.creationTime = dictionary["CreationTime"] as? Date
             self.answerKey = dictionary["AnswerKey"] as? String
             self.description = dictionary["Description"] as? String
@@ -455,6 +475,14 @@ extension MturkRequester {
 
         public init(dictionary: [String: Any]) throws {
         }
+    }
+
+    public enum ReviewActionStatus: String, CustomStringConvertible {
+        case intended = "Intended"
+        case succeeded = "Succeeded"
+        case failed = "Failed"
+        case cancelled = "Cancelled"
+        public var description: String { return self.rawValue }
     }
 
     public struct DisassociateQualificationFromWorkerResponse: AWSShape {
@@ -522,6 +550,12 @@ extension MturkRequester {
         }
     }
 
+    public enum ReviewableHITStatus: String, CustomStringConvertible {
+        case reviewable = "Reviewable"
+        case reviewing = "Reviewing"
+        public var description: String { return self.rawValue }
+    }
+
     public struct GetHITResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -545,9 +579,9 @@ extension MturkRequester {
         ///  The ID of the Worker.
         public let workerId: String?
         ///  Encoded value for the failure type. 
-        public let notifyWorkersFailureCode: String?
+        public let notifyWorkersFailureCode: NotifyWorkersFailureCode?
 
-        public init(notifyWorkersFailureMessage: String? = nil, workerId: String? = nil, notifyWorkersFailureCode: String? = nil) {
+        public init(notifyWorkersFailureMessage: String? = nil, workerId: String? = nil, notifyWorkersFailureCode: NotifyWorkersFailureCode? = nil) {
             self.notifyWorkersFailureMessage = notifyWorkersFailureMessage
             self.workerId = workerId
             self.notifyWorkersFailureCode = notifyWorkersFailureCode
@@ -556,7 +590,7 @@ extension MturkRequester {
         public init(dictionary: [String: Any]) throws {
             self.notifyWorkersFailureMessage = dictionary["NotifyWorkersFailureMessage"] as? String
             self.workerId = dictionary["WorkerId"] as? String
-            self.notifyWorkersFailureCode = dictionary["NotifyWorkersFailureCode"] as? String
+            if let notifyWorkersFailureCode = dictionary["NotifyWorkersFailureCode"] as? String { self.notifyWorkersFailureCode = NotifyWorkersFailureCode(rawValue: notifyWorkersFailureCode) } else { self.notifyWorkersFailureCode = nil }
         }
     }
 
@@ -820,6 +854,12 @@ extension MturkRequester {
         }
     }
 
+    public enum QualificationTypeStatus: String, CustomStringConvertible {
+        case active = "Active"
+        case inactive = "Inactive"
+        public var description: String { return self.rawValue }
+    }
+
     public struct UpdateQualificationTypeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -832,7 +872,7 @@ extension MturkRequester {
         /// The amount of time, in seconds, that Workers must wait after requesting a Qualification of the specified Qualification type before they can retry the Qualification request. It is not possible to disable retries for a Qualification type after it has been created with retries enabled. If you want to disable retries, you must dispose of the existing retry-enabled Qualification type using DisposeQualificationType and then create a new Qualification type with retries disabled using CreateQualificationType.
         public let retryDelayInSeconds: Int64?
         /// The new status of the Qualification type - Active | Inactive
-        public let qualificationTypeStatus: String?
+        public let qualificationTypeStatus: QualificationTypeStatus?
         /// The answers to the Qualification test specified in the Test parameter, in the form of an AnswerKey data structure.
         public let answerKey: String?
         /// The Qualification value to use for automatically granted Qualifications. This parameter is used only if the AutoGranted parameter is true.
@@ -842,7 +882,7 @@ extension MturkRequester {
         /// The new description of the Qualification type.
         public let description: String?
 
-        public init(testDurationInSeconds: Int64? = nil, autoGranted: Bool? = nil, test: String? = nil, retryDelayInSeconds: Int64? = nil, qualificationTypeStatus: String? = nil, answerKey: String? = nil, autoGrantedValue: Int32? = nil, qualificationTypeId: String, description: String? = nil) {
+        public init(testDurationInSeconds: Int64? = nil, autoGranted: Bool? = nil, test: String? = nil, retryDelayInSeconds: Int64? = nil, qualificationTypeStatus: QualificationTypeStatus? = nil, answerKey: String? = nil, autoGrantedValue: Int32? = nil, qualificationTypeId: String, description: String? = nil) {
             self.testDurationInSeconds = testDurationInSeconds
             self.autoGranted = autoGranted
             self.test = test
@@ -859,7 +899,7 @@ extension MturkRequester {
             self.autoGranted = dictionary["AutoGranted"] as? Bool
             self.test = dictionary["Test"] as? String
             self.retryDelayInSeconds = dictionary["RetryDelayInSeconds"] as? Int64
-            self.qualificationTypeStatus = dictionary["QualificationTypeStatus"] as? String
+            if let qualificationTypeStatus = dictionary["QualificationTypeStatus"] as? String { self.qualificationTypeStatus = QualificationTypeStatus(rawValue: qualificationTypeStatus) } else { self.qualificationTypeStatus = nil }
             self.answerKey = dictionary["AnswerKey"] as? String
             self.autoGrantedValue = dictionary["AutoGrantedValue"] as? Int32
             guard let qualificationTypeId = dictionary["QualificationTypeId"] as? String else { throw InitializableError.missingRequiredParam("QualificationTypeId") }
@@ -868,13 +908,27 @@ extension MturkRequester {
         }
     }
 
+    public enum Comparator: String, CustomStringConvertible {
+        case lessthan = "LessThan"
+        case lessthanorequalto = "LessThanOrEqualTo"
+        case greaterthan = "GreaterThan"
+        case greaterthanorequalto = "GreaterThanOrEqualTo"
+        case equalto = "EqualTo"
+        case notequalto = "NotEqualTo"
+        case exists = "Exists"
+        case doesnotexist = "DoesNotExist"
+        case `in` = "In"
+        case notin = "NotIn"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Qualification: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The value (score) of the Qualification, if the Qualification has an integer value.
         public let integerValue: Int32?
         ///  The status of the Qualification. Valid values are Granted | Revoked.
-        public let status: String?
+        public let status: QualificationStatus?
         public let localeValue: Locale?
         ///  The date and time the Qualification was granted to the Worker. If the Worker's Qualification was revoked, and then re-granted based on a new Qualification request, GrantTime is the date and time of the last call to the AcceptQualificationRequest operation.
         public let grantTime: Date?
@@ -883,7 +937,7 @@ extension MturkRequester {
         ///  The ID of the Qualification type for the Qualification.
         public let qualificationTypeId: String?
 
-        public init(integerValue: Int32? = nil, status: String? = nil, localeValue: Locale? = nil, grantTime: Date? = nil, workerId: String? = nil, qualificationTypeId: String? = nil) {
+        public init(integerValue: Int32? = nil, status: QualificationStatus? = nil, localeValue: Locale? = nil, grantTime: Date? = nil, workerId: String? = nil, qualificationTypeId: String? = nil) {
             self.integerValue = integerValue
             self.status = status
             self.localeValue = localeValue
@@ -894,7 +948,7 @@ extension MturkRequester {
 
         public init(dictionary: [String: Any]) throws {
             self.integerValue = dictionary["IntegerValue"] as? Int32
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = QualificationStatus(rawValue: status) } else { self.status = nil }
             if let localeValue = dictionary["LocaleValue"] as? [String: Any] { self.localeValue = try MturkRequester.Locale(dictionary: localeValue) } else { self.localeValue = nil }
             self.grantTime = dictionary["GrantTime"] as? Date
             self.workerId = dictionary["WorkerId"] as? String
@@ -1100,11 +1154,11 @@ extension MturkRequester {
         ///  If true, the question data for the HIT will not be shown when a Worker whose Qualifications do not meet this requirement tries to preview the HIT. That is, a Worker's Qualifications must meet all of the requirements for which RequiredToPreview is true in order to preview the HIT. If a Worker meets all of the requirements where RequiredToPreview is true (or if there are no such requirements), but does not meet all of the requirements for the HIT, the Worker will be allowed to preview the HIT's question data, but will not be allowed to accept and complete the HIT. The default is false. 
         public let requiredToPreview: Bool?
         /// The kind of comparison to make against a Qualification's value. You can compare a Qualification's value to an IntegerValue to see if it is LessThan, LessThanOrEqualTo, GreaterThan, GreaterThanOrEqualTo, EqualTo, or NotEqualTo the IntegerValue. You can compare it to a LocaleValue to see if it is EqualTo, or NotEqualTo the LocaleValue. You can check to see if the value is In or NotIn a set of IntegerValue or LocaleValue values. Lastly, a Qualification requirement can also test if a Qualification Exists or DoesNotExist in the user's profile, regardless of its value. 
-        public let comparator: String
+        public let comparator: Comparator
         ///  The locale value to compare against the Qualification's value. The local value must be a valid ISO 3166 country code or supports ISO 3166-2 subdivisions. LocaleValue can only be used with a Worker_Locale QualificationType ID. LocaleValue can only be used with the EqualTo, NotEqualTo, In, and NotIn comparators. You must only use a single LocaleValue element when using the EqualTo or NotEqualTo comparators. When performing a set comparison by using the In or the NotIn comparator, you can use up to 30 LocaleValue elements in a QualificationRequirement data structure. 
         public let localeValues: [Locale]?
 
-        public init(qualificationTypeId: String, integerValues: [Int32]? = nil, requiredToPreview: Bool? = nil, comparator: String, localeValues: [Locale]? = nil) {
+        public init(qualificationTypeId: String, integerValues: [Int32]? = nil, requiredToPreview: Bool? = nil, comparator: Comparator, localeValues: [Locale]? = nil) {
             self.qualificationTypeId = qualificationTypeId
             self.integerValues = integerValues
             self.requiredToPreview = requiredToPreview
@@ -1117,7 +1171,7 @@ extension MturkRequester {
             self.qualificationTypeId = qualificationTypeId
             self.integerValues = dictionary["IntegerValues"] as? [Int32]
             self.requiredToPreview = dictionary["RequiredToPreview"] as? Bool
-            guard let comparator = dictionary["Comparator"] as? String else { throw InitializableError.missingRequiredParam("Comparator") }
+            guard let rawComparator = dictionary["Comparator"] as? String, let comparator = Comparator(rawValue: rawComparator) else { throw InitializableError.missingRequiredParam("Comparator") }
             self.comparator = comparator
             if let localeValues = dictionary["LocaleValues"] as? [[String: Any]] {
                 self.localeValues = try localeValues.map({ try Locale(dictionary: $0) })
@@ -1200,6 +1254,15 @@ extension MturkRequester {
         }
     }
 
+    public enum HITStatus: String, CustomStringConvertible {
+        case assignable = "Assignable"
+        case unassignable = "Unassignable"
+        case reviewable = "Reviewable"
+        case reviewing = "Reviewing"
+        case disposed = "Disposed"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ParameterMapEntry: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1254,7 +1317,7 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The status of the Qualifications to return. Can be Granted | Revoked. 
-        public let status: String?
+        public let status: QualificationStatus?
         /// Pagination Token
         public let nextToken: String?
         /// The ID of the Qualification type of the Qualifications to return.
@@ -1262,7 +1325,7 @@ extension MturkRequester {
         ///  Limit the number of results returned. 
         public let maxResults: Int32?
 
-        public init(status: String? = nil, nextToken: String? = nil, qualificationTypeId: String, maxResults: Int32? = nil) {
+        public init(status: QualificationStatus? = nil, nextToken: String? = nil, qualificationTypeId: String, maxResults: Int32? = nil) {
             self.status = status
             self.nextToken = nextToken
             self.qualificationTypeId = qualificationTypeId
@@ -1270,7 +1333,7 @@ extension MturkRequester {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = QualificationStatus(rawValue: status) } else { self.status = nil }
             self.nextToken = dictionary["NextToken"] as? String
             guard let qualificationTypeId = dictionary["QualificationTypeId"] as? String else { throw InitializableError.missingRequiredParam("QualificationTypeId") }
             self.qualificationTypeId = qualificationTypeId
@@ -1294,7 +1357,7 @@ extension MturkRequester {
         /// One or more words or phrases that describe the Qualification type, separated by commas. The keywords of a type make the type easier to find during a search.
         public let keywords: String?
         /// The initial status of the Qualification type. Constraints: Valid values are: Active | Inactive
-        public let qualificationTypeStatus: String
+        public let qualificationTypeStatus: QualificationTypeStatus
         /// The answers to the Qualification test specified in the Test parameter, in the form of an AnswerKey data structure. Constraints: Must not be longer than 65535 bytes. Constraints: None. If not specified, you must process Qualification requests manually.
         public let answerKey: String?
         /// The Qualification value to use for automatically granted Qualifications. This parameter is used only if the AutoGranted parameter is true.
@@ -1302,7 +1365,7 @@ extension MturkRequester {
         /// A long description for the Qualification type. On the Amazon Mechanical Turk website, the long description is displayed when a Worker examines a Qualification type.
         public let description: String
 
-        public init(testDurationInSeconds: Int64? = nil, autoGranted: Bool? = nil, test: String? = nil, retryDelayInSeconds: Int64? = nil, name: String, keywords: String? = nil, qualificationTypeStatus: String, answerKey: String? = nil, autoGrantedValue: Int32? = nil, description: String) {
+        public init(testDurationInSeconds: Int64? = nil, autoGranted: Bool? = nil, test: String? = nil, retryDelayInSeconds: Int64? = nil, name: String, keywords: String? = nil, qualificationTypeStatus: QualificationTypeStatus, answerKey: String? = nil, autoGrantedValue: Int32? = nil, description: String) {
             self.testDurationInSeconds = testDurationInSeconds
             self.autoGranted = autoGranted
             self.test = test
@@ -1323,7 +1386,7 @@ extension MturkRequester {
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
             self.keywords = dictionary["Keywords"] as? String
-            guard let qualificationTypeStatus = dictionary["QualificationTypeStatus"] as? String else { throw InitializableError.missingRequiredParam("QualificationTypeStatus") }
+            guard let rawQualificationTypeStatus = dictionary["QualificationTypeStatus"] as? String, let qualificationTypeStatus = QualificationTypeStatus(rawValue: rawQualificationTypeStatus) else { throw InitializableError.missingRequiredParam("QualificationTypeStatus") }
             self.qualificationTypeStatus = qualificationTypeStatus
             self.answerKey = dictionary["AnswerKey"] as? String
             self.autoGrantedValue = dictionary["AutoGrantedValue"] as? Int32
@@ -1382,6 +1445,12 @@ extension MturkRequester {
             guard let qualificationRequestId = dictionary["QualificationRequestId"] as? String else { throw InitializableError.missingRequiredParam("QualificationRequestId") }
             self.qualificationRequestId = qualificationRequestId
         }
+    }
+
+    public enum ReviewPolicyLevel: String, CustomStringConvertible {
+        case assignment = "Assignment"
+        case hit = "HIT"
+        public var description: String { return self.rawValue }
     }
 
     public struct CreateHITTypeRequest: AWSShape {
@@ -1443,7 +1512,7 @@ extension MturkRequester {
         ///  The date and time of the deadline for the assignment. This value is derived from the deadline specification for the HIT and the date and time the Worker accepted the HIT.
         public let deadline: Date?
         ///  The status of the assignment.
-        public let assignmentStatus: String?
+        public let assignmentStatus: AssignmentStatus?
         ///  If the Worker has submitted results and the Requester has approved the results, ApprovalTime is the date and time the Requester approved the results. This value is omitted from the assignment if the Requester has not yet approved the results.
         public let approvalTime: Date?
         ///  The feedback string included with the call to the ApproveAssignment operation or the RejectAssignment operation, if the Requester approved or rejected the assignment and specified feedback.
@@ -1459,7 +1528,7 @@ extension MturkRequester {
         ///  The Worker's answers submitted for the HIT contained in a QuestionFormAnswers document, if the Worker provides an answer. If the Worker does not provide any answers, Answer may contain a QuestionFormAnswers document, or Answer may be empty.
         public let answer: String?
 
-        public init(autoApprovalTime: Date? = nil, submitTime: Date? = nil, hITId: String? = nil, deadline: Date? = nil, assignmentStatus: String? = nil, approvalTime: Date? = nil, requesterFeedback: String? = nil, acceptTime: Date? = nil, rejectionTime: Date? = nil, assignmentId: String? = nil, workerId: String? = nil, answer: String? = nil) {
+        public init(autoApprovalTime: Date? = nil, submitTime: Date? = nil, hITId: String? = nil, deadline: Date? = nil, assignmentStatus: AssignmentStatus? = nil, approvalTime: Date? = nil, requesterFeedback: String? = nil, acceptTime: Date? = nil, rejectionTime: Date? = nil, assignmentId: String? = nil, workerId: String? = nil, answer: String? = nil) {
             self.autoApprovalTime = autoApprovalTime
             self.submitTime = submitTime
             self.hITId = hITId
@@ -1479,7 +1548,7 @@ extension MturkRequester {
             self.submitTime = dictionary["SubmitTime"] as? Date
             self.hITId = dictionary["HITId"] as? String
             self.deadline = dictionary["Deadline"] as? Date
-            self.assignmentStatus = dictionary["AssignmentStatus"] as? String
+            if let assignmentStatus = dictionary["AssignmentStatus"] as? String { self.assignmentStatus = AssignmentStatus(rawValue: assignmentStatus) } else { self.assignmentStatus = nil }
             self.approvalTime = dictionary["ApprovalTime"] as? Date
             self.requesterFeedback = dictionary["RequesterFeedback"] as? String
             self.acceptTime = dictionary["AcceptTime"] as? Date
@@ -1739,7 +1808,7 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The current disposition of the action: INTENDED, SUCCEEDED, FAILED, or CANCELLED. 
-        public let status: String?
+        public let status: ReviewActionStatus?
         ///  The nature of the action itself. The Review Policy is responsible for examining the HIT and Assignments, emitting results, and deciding which other actions will be necessary. 
         public let actionName: String?
         /// The unique identifier for the action.
@@ -1755,7 +1824,7 @@ extension MturkRequester {
         ///  The date when the action was completed.
         public let completeTime: Date?
 
-        public init(status: String? = nil, actionName: String? = nil, actionId: String? = nil, targetId: String? = nil, targetType: String? = nil, result: String? = nil, errorCode: String? = nil, completeTime: Date? = nil) {
+        public init(status: ReviewActionStatus? = nil, actionName: String? = nil, actionId: String? = nil, targetId: String? = nil, targetType: String? = nil, result: String? = nil, errorCode: String? = nil, completeTime: Date? = nil) {
             self.status = status
             self.actionName = actionName
             self.actionId = actionId
@@ -1767,7 +1836,7 @@ extension MturkRequester {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = ReviewActionStatus(rawValue: status) } else { self.status = nil }
             self.actionName = dictionary["ActionName"] as? String
             self.actionId = dictionary["ActionId"] as? String
             self.targetId = dictionary["TargetId"] as? String
@@ -1970,6 +2039,22 @@ extension MturkRequester {
         }
     }
 
+    public enum EventType: String, CustomStringConvertible {
+        case assignmentaccepted = "AssignmentAccepted"
+        case assignmentabandoned = "AssignmentAbandoned"
+        case assignmentreturned = "AssignmentReturned"
+        case assignmentsubmitted = "AssignmentSubmitted"
+        case assignmentrejected = "AssignmentRejected"
+        case assignmentapproved = "AssignmentApproved"
+        case hitcreated = "HITCreated"
+        case hitexpired = "HITExpired"
+        case hitreviewable = "HITReviewable"
+        case hitextended = "HITExtended"
+        case hitdisposed = "HITDisposed"
+        case ping = "Ping"
+        public var description: String { return self.rawValue }
+    }
+
     public struct GetQualificationTypeResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2032,6 +2117,13 @@ extension MturkRequester {
         }
     }
 
+    public enum AssignmentStatus: String, CustomStringConvertible {
+        case submitted = "Submitted"
+        case approved = "Approved"
+        case rejected = "Rejected"
+        public var description: String { return self.rawValue }
+    }
+
     public struct RejectAssignmentRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2076,7 +2168,7 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  Can be either Reviewable or Reviewing. Reviewable is the default value. 
-        public let status: String?
+        public let status: ReviewableHITStatus?
         ///  The ID of the HIT type of the HITs to consider for the query. If not specified, all HITs for the Reviewer are considered 
         public let hITTypeId: String?
         /// Pagination Token
@@ -2084,7 +2176,7 @@ extension MturkRequester {
         ///  Limit the number of results returned. 
         public let maxResults: Int32?
 
-        public init(status: String? = nil, hITTypeId: String? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
+        public init(status: ReviewableHITStatus? = nil, hITTypeId: String? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.status = status
             self.hITTypeId = hITTypeId
             self.nextToken = nextToken
@@ -2092,7 +2184,7 @@ extension MturkRequester {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = ReviewableHITStatus(rawValue: status) } else { self.status = nil }
             self.hITTypeId = dictionary["HITTypeId"] as? String
             self.nextToken = dictionary["NextToken"] as? String
             self.maxResults = dictionary["MaxResults"] as? Int32
@@ -2105,9 +2197,9 @@ extension MturkRequester {
         ///  The notification specification to test. This value is identical to the value you would provide to the UpdateNotificationSettings operation when you establish the notification specification for a HIT type. 
         public let notification: NotificationSpecification
         ///  The event to simulate to test the notification specification. This event is included in the test message even if the notification specification does not include the event type. The notification specification does not filter out the test event. 
-        public let testEventType: String
+        public let testEventType: EventType
 
-        public init(notification: NotificationSpecification, testEventType: String) {
+        public init(notification: NotificationSpecification, testEventType: EventType) {
             self.notification = notification
             self.testEventType = testEventType
         }
@@ -2115,7 +2207,7 @@ extension MturkRequester {
         public init(dictionary: [String: Any]) throws {
             guard let notification = dictionary["Notification"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Notification") }
             self.notification = try MturkRequester.NotificationSpecification(dictionary: notification)
-            guard let testEventType = dictionary["TestEventType"] as? String else { throw InitializableError.missingRequiredParam("TestEventType") }
+            guard let rawTestEventType = dictionary["TestEventType"] as? String, let testEventType = EventType(rawValue: rawTestEventType) else { throw InitializableError.missingRequiredParam("TestEventType") }
             self.testEventType = testEventType
         }
     }
@@ -2252,15 +2344,15 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The list of events that should cause notifications to be sent. Valid Values: AssignmentAccepted | AssignmentAbandoned | AssignmentReturned | AssignmentSubmitted | AssignmentRejected | AssignmentApproved | HITCreated | HITExtended | HITDisposed | HITReviewable | HITExpired | Ping. The Ping event is only valid for the SendTestEventNotification operation. 
-        public let eventTypes: [String]?
+        public let eventTypes: [EventType]?
         ///  The destination for notification messages. or email notifications (if Transport is Email), this is an email address. For Amazon Simple Queue Service (Amazon SQS) notifications (if Transport is SQS), this is the URL for your Amazon SQS queue. 
         public let destination: String
         ///  The method Amazon Mechanical Turk uses to send the notification. Valid Values: Email | SQS. 
-        public let transport: String
+        public let transport: NotificationTransport
         /// The version of the Notification API to use. Valid value is 2006-05-05.
         public let version: String?
 
-        public init(eventTypes: [String]? = nil, destination: String, transport: String, version: String? = nil) {
+        public init(eventTypes: [EventType]? = nil, destination: String, transport: NotificationTransport, version: String? = nil) {
             self.eventTypes = eventTypes
             self.destination = destination
             self.transport = transport
@@ -2268,10 +2360,10 @@ extension MturkRequester {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.eventTypes = dictionary["EventTypes"] as? [String]
+            if let eventTypes = dictionary["EventTypes"] as? [String] { self.eventTypes = eventTypes.flatMap({ EventType(rawValue: $0)}) } else { self.eventTypes = nil }
             guard let destination = dictionary["Destination"] as? String else { throw InitializableError.missingRequiredParam("Destination") }
             self.destination = destination
-            guard let transport = dictionary["Transport"] as? String else { throw InitializableError.missingRequiredParam("Transport") }
+            guard let rawTransport = dictionary["Transport"] as? String, let transport = NotificationTransport(rawValue: rawTransport) else { throw InitializableError.missingRequiredParam("Transport") }
             self.transport = transport
             self.version = dictionary["Version"] as? String
         }
@@ -2283,7 +2375,7 @@ extension MturkRequester {
         /// Pagination token
         public let nextToken: String?
         ///  The Policy Level(s) to retrieve review results for - HIT or Assignment. If omitted, the default behavior is to retrieve all data for both policy levels. For a list of all the described policies, see Review Policies. 
-        public let policyLevels: [String]?
+        public let policyLevels: [ReviewPolicyLevel]?
         /// The unique identifier of the HIT to retrieve review results for.
         public let hITId: String
         ///  Specify if the operation should retrieve a list of the results computed by the Review Policies. 
@@ -2293,7 +2385,7 @@ extension MturkRequester {
         /// Limit the number of results returned.
         public let maxResults: Int32?
 
-        public init(nextToken: String? = nil, policyLevels: [String]? = nil, hITId: String, retrieveResults: Bool? = nil, retrieveActions: Bool? = nil, maxResults: Int32? = nil) {
+        public init(nextToken: String? = nil, policyLevels: [ReviewPolicyLevel]? = nil, hITId: String, retrieveResults: Bool? = nil, retrieveActions: Bool? = nil, maxResults: Int32? = nil) {
             self.nextToken = nextToken
             self.policyLevels = policyLevels
             self.hITId = hITId
@@ -2304,13 +2396,19 @@ extension MturkRequester {
 
         public init(dictionary: [String: Any]) throws {
             self.nextToken = dictionary["NextToken"] as? String
-            self.policyLevels = dictionary["PolicyLevels"] as? [String]
+            if let policyLevels = dictionary["PolicyLevels"] as? [String] { self.policyLevels = policyLevels.flatMap({ ReviewPolicyLevel(rawValue: $0)}) } else { self.policyLevels = nil }
             guard let hITId = dictionary["HITId"] as? String else { throw InitializableError.missingRequiredParam("HITId") }
             self.hITId = hITId
             self.retrieveResults = dictionary["RetrieveResults"] as? Bool
             self.retrieveActions = dictionary["RetrieveActions"] as? Bool
             self.maxResults = dictionary["MaxResults"] as? Int32
         }
+    }
+
+    public enum QualificationStatus: String, CustomStringConvertible {
+        case granted = "Granted"
+        case revoked = "Revoked"
+        public var description: String { return self.rawValue }
     }
 
 }

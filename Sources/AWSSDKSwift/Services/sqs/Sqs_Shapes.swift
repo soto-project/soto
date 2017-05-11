@@ -261,7 +261,7 @@ extension Sqs {
         /// An MD5 digest of the non-URL-encoded message attribute string. You can use this attribute to verify that Amazon SQS received the message correctly. Amazon SQS URL-decodes the message before creating the MD5 digest. For information on MD5, see RFC1321.
         public let mD5OfMessageAttributes: String?
         ///  SenderId, SentTimestamp, ApproximateReceiveCount, and/or ApproximateFirstReceiveTimestamp. SentTimestamp and ApproximateFirstReceiveTimestamp are each returned as an integer representing the epoch time in milliseconds.
-        public let attributes: [String: String]?
+        public let attributes: [MessageSystemAttributeName: String]?
         /// The message's contents (not URL-encoded).
         public let body: String?
         /// An MD5 digest of the non-URL-encoded message body string.
@@ -269,7 +269,7 @@ extension Sqs {
         /// Each message attribute consists of a Name, Type, and Value. For more information, see Message Attribute Items and Validation in the Amazon SQS Developer Guide.
         public let messageAttributes: [String: MessageAttributeValue]?
 
-        public init(receiptHandle: String? = nil, messageId: String? = nil, mD5OfMessageAttributes: String? = nil, attributes: [String: String]? = nil, body: String? = nil, mD5OfBody: String? = nil, messageAttributes: [String: MessageAttributeValue]? = nil) {
+        public init(receiptHandle: String? = nil, messageId: String? = nil, mD5OfMessageAttributes: String? = nil, attributes: [MessageSystemAttributeName: String]? = nil, body: String? = nil, mD5OfBody: String? = nil, messageAttributes: [String: MessageAttributeValue]? = nil) {
             self.receiptHandle = receiptHandle
             self.messageId = messageId
             self.mD5OfMessageAttributes = mD5OfMessageAttributes
@@ -283,7 +283,7 @@ extension Sqs {
             self.receiptHandle = dictionary["ReceiptHandle"] as? String
             self.messageId = dictionary["MessageId"] as? String
             self.mD5OfMessageAttributes = dictionary["MD5OfMessageAttributes"] as? String
-            if let attributes = dictionary["Attribute"] as? [String: String] {
+            if let attributes = dictionary["Attribute"] as? [MessageSystemAttributeName: String] {
                 self.attributes = attributes
             } else { 
                 self.attributes = nil
@@ -436,9 +436,9 @@ extension Sqs {
         /// The name of the new queue. The following limits apply to this name:   A queue name can have up to 80 characters.   Valid values: alphanumeric characters, hyphens (-), and underscores (_).   A FIFO queue name must end with the .fifo suffix.   Queue names are case-sensitive.
         public let queueName: String
         /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the special request parameters that the CreateQueue action uses:    DelaySeconds - The number of seconds for which the delivery of all messages in the queue is delayed. Valid values: An integer from 0 to 900 seconds (15 minutes). The default is 0 (zero).     MaximumMessageSize - The limit of how many bytes a message can contain before Amazon SQS rejects it. Valid values: An integer from 1,024 bytes (1 KiB) to 262,144 bytes (256 KiB). The default is 262,144 (256 KiB).     MessageRetentionPeriod - The number of seconds for which Amazon SQS retains a message. Valid values: An integer from 60 seconds (1 minute) to 1,209,600 seconds (14 days). The default is 345,600 (4 days).     Policy - The queue's policy. A valid AWS policy. For more information about policy structure, see Overview of AWS IAM Policies in the Amazon IAM User Guide.     ReceiveMessageWaitTimeSeconds - The number of seconds for which a  ReceiveMessage  action waits for a message to arrive. Valid values: An integer from 0 to 20 (seconds). The default is 0 (zero).     RedrivePolicy - The parameters for the dead letter queue functionality of the source queue. For more information about the redrive policy and dead letter queues, see Using Amazon SQS Dead Letter Queues in the Amazon SQS Developer Guide.   The dead letter queue of a FIFO queue must also be a FIFO queue. Similarly, the dead letter queue of a standard queue must also be a standard queue.     VisibilityTimeout - The visibility timeout for the queue. Valid values: An integer from 0 to 43,200 (12 hours). The default is 30. For more information about the visibility timeout, see Visibility Timeout in the Amazon SQS Developer Guide.   The following attributes apply only to FIFO (first-in-first-out) queues:    FifoQueue - Designates a queue as FIFO. You can provide this attribute only during queue creation. You can't change it for an existing queue. When you set this attribute, you must provide a MessageGroupId explicitly. For more information, see FIFO Queue Logic in the Amazon SQS Developer Guide.    ContentBasedDeduplication - Enables content-based deduplication. For more information, see Exactly-Once Processing in the Amazon SQS Developer Guide.    Every message must have a unique MessageDeduplicationId,   You may provide a MessageDeduplicationId explicitly.   If you aren't able to provide a MessageDeduplicationId and you enable ContentBasedDeduplication for your queue, Amazon SQS uses a SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not the attributes of the message).    If you don't provide a MessageDeduplicationId and the queue doesn't have ContentBasedDeduplication set, the action fails with an error.   If the queue has ContentBasedDeduplication set, your MessageDeduplicationId overrides the generated one.     When ContentBasedDeduplication is in effect, messages with identical content sent within the deduplication interval are treated as duplicates and only one copy of the message is delivered.   You can also use ContentBasedDeduplication for messages with identical content to be treated as duplicates.   If you send one message with ContentBasedDeduplication enabled and then another message with a MessageDeduplicationId that is the same as the one generated for the first MessageDeduplicationId, the two messages are treated as duplicates and only one copy of the message is delivered.      Any other valid special request parameters (such as the following) are ignored:    ApproximateNumberOfMessages     ApproximateNumberOfMessagesDelayed     ApproximateNumberOfMessagesNotVisible     CreatedTimestamp     LastModifiedTimestamp     QueueArn   
-        public let attributes: [String: String]?
+        public let attributes: [QueueAttributeName: String]?
 
-        public init(queueName: String, attributes: [String: String]? = nil) {
+        public init(queueName: String, attributes: [QueueAttributeName: String]? = nil) {
             self.queueName = queueName
             self.attributes = attributes
         }
@@ -446,7 +446,7 @@ extension Sqs {
         public init(dictionary: [String: Any]) throws {
             guard let queueName = dictionary["QueueName"] as? String else { throw InitializableError.missingRequiredParam("QueueName") }
             self.queueName = queueName
-            if let attributes = dictionary["Attribute"] as? [String: String] {
+            if let attributes = dictionary["Attribute"] as? [QueueAttributeName: String] {
                 self.attributes = attributes
             } else { 
                 self.attributes = nil
@@ -496,6 +496,26 @@ extension Sqs {
         public init(dictionary: [String: Any]) throws {
             self.queueUrl = dictionary["QueueUrl"] as? [String]
         }
+    }
+
+    public enum QueueAttributeName: String, CustomStringConvertible {
+        case all = "All"
+        case policy = "Policy"
+        case visibilitytimeout = "VisibilityTimeout"
+        case maximummessagesize = "MaximumMessageSize"
+        case messageretentionperiod = "MessageRetentionPeriod"
+        case approximatenumberofmessages = "ApproximateNumberOfMessages"
+        case approximatenumberofmessagesnotvisible = "ApproximateNumberOfMessagesNotVisible"
+        case createdtimestamp = "CreatedTimestamp"
+        case lastmodifiedtimestamp = "LastModifiedTimestamp"
+        case queuearn = "QueueArn"
+        case approximatenumberofmessagesdelayed = "ApproximateNumberOfMessagesDelayed"
+        case delayseconds = "DelaySeconds"
+        case receivemessagewaittimeseconds = "ReceiveMessageWaitTimeSeconds"
+        case redrivepolicy = "RedrivePolicy"
+        case fifoqueue = "FifoQueue"
+        case contentbaseddeduplication = "ContentBasedDeduplication"
+        public var description: String { return self.rawValue }
     }
 
     public struct ListQueuesRequest: AWSShape {
@@ -663,17 +683,17 @@ extension Sqs {
         /// The key for the payload
         public static let payload: String? = nil
         /// A map of attributes to set. The following lists the names, descriptions, and values of the special request parameters that the SetQueueAttributes action uses:    DelaySeconds - The number of seconds for which the delivery of all messages in the queue is delayed. Valid values: An integer from 0 to 900 (15 minutes). The default is 0 (zero).     MaximumMessageSize - The limit of how many bytes a message can contain before Amazon SQS rejects it. Valid values: An integer from 1,024 bytes (1 KiB) up to 262,144 bytes (256 KiB). The default is 262,144 (256 KiB).     MessageRetentionPeriod - The number of seconds for which Amazon SQS retains a message. Valid values: An integer representing seconds, from 60 (1 minute) to 1,209,600 (14 days). The default is 345,600 (4 days).     Policy - The queue's policy. A valid AWS policy. For more information about policy structure, see Overview of AWS IAM Policies in the Amazon IAM User Guide.     ReceiveMessageWaitTimeSeconds - The number of seconds for which a  ReceiveMessage  action waits for a message to arrive. Valid values: an integer from 0 to 20 (seconds). The default is 0.     RedrivePolicy - The parameters for the dead letter queue functionality of the source queue. For more information about the redrive policy and dead letter queues, see Using Amazon SQS Dead Letter Queues in the Amazon SQS Developer Guide.   The dead letter queue of a FIFO queue must also be a FIFO queue. Similarly, the dead letter queue of a standard queue must also be a standard queue.     VisibilityTimeout - The visibility timeout for the queue. Valid values: an integer from 0 to 43,200 (12 hours). The default is 30. For more information about the visibility timeout, see Visibility Timeout in the Amazon SQS Developer Guide.   The following attribute applies only to FIFO (first-in-first-out) queues:    ContentBasedDeduplication - Enables content-based deduplication. For more information, see Exactly-Once Processing in the Amazon SQS Developer Guide.    Every message must have a unique MessageDeduplicationId,   You may provide a MessageDeduplicationId explicitly.   If you aren't able to provide a MessageDeduplicationId and you enable ContentBasedDeduplication for your queue, Amazon SQS uses a SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not the attributes of the message).    If you don't provide a MessageDeduplicationId and the queue doesn't have ContentBasedDeduplication set, the action fails with an error.   If the queue has ContentBasedDeduplication set, your MessageDeduplicationId overrides the generated one.     When ContentBasedDeduplication is in effect, messages with identical content sent within the deduplication interval are treated as duplicates and only one copy of the message is delivered.   You can also use ContentBasedDeduplication for messages with identical content to be treated as duplicates.   If you send one message with ContentBasedDeduplication enabled and then another message with a MessageDeduplicationId that is the same as the one generated for the first MessageDeduplicationId, the two messages are treated as duplicates and only one copy of the message is delivered.      Any other valid special request parameters (such as the following) are ignored:    ApproximateNumberOfMessages     ApproximateNumberOfMessagesDelayed     ApproximateNumberOfMessagesNotVisible     CreatedTimestamp     LastModifiedTimestamp     QueueArn   
-        public let attributes: [String: String]
+        public let attributes: [QueueAttributeName: String]
         /// The URL of the Amazon SQS queue whose attributes are set. Queue URLs are case-sensitive.
         public let queueUrl: String
 
-        public init(attributes: [String: String], queueUrl: String) {
+        public init(attributes: [QueueAttributeName: String], queueUrl: String) {
             self.attributes = attributes
             self.queueUrl = queueUrl
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let attributes = dictionary["Attribute"] as? [String: String] else { throw InitializableError.missingRequiredParam("Attribute") }
+            guard let attributes = dictionary["Attribute"] as? [QueueAttributeName: String] else { throw InitializableError.missingRequiredParam("Attribute") }
             self.attributes = attributes
             guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
             self.queueUrl = queueUrl
@@ -683,14 +703,14 @@ extension Sqs {
     public struct AttributeNameList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let attributeName: [String]?
+        public let attributeName: [QueueAttributeName]?
 
-        public init(attributeName: [String]? = nil) {
+        public init(attributeName: [QueueAttributeName]? = nil) {
             self.attributeName = attributeName
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.attributeName = dictionary["AttributeName"] as? [String]
+            if let attributeName = dictionary["AttributeName"] as? [String] { self.attributeName = attributeName.flatMap({ QueueAttributeName(rawValue: $0)}) } else { self.attributeName = nil }
         }
     }
 
@@ -698,14 +718,14 @@ extension Sqs {
         /// The key for the payload
         public static let payload: String? = nil
         /// A map of attributes to their respective values.
-        public let attributes: [String: String]?
+        public let attributes: [QueueAttributeName: String]?
 
-        public init(attributes: [String: String]? = nil) {
+        public init(attributes: [QueueAttributeName: String]? = nil) {
             self.attributes = attributes
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let attributes = dictionary["Attribute"] as? [String: String] {
+            if let attributes = dictionary["Attribute"] as? [QueueAttributeName: String] {
                 self.attributes = attributes
             } else { 
                 self.attributes = nil
@@ -785,6 +805,17 @@ extension Sqs {
                 self.changeMessageVisibilityBatchRequestEntry = nil
             }
         }
+    }
+
+    public enum MessageSystemAttributeName: String, CustomStringConvertible {
+        case senderid = "SenderId"
+        case senttimestamp = "SentTimestamp"
+        case approximatereceivecount = "ApproximateReceiveCount"
+        case approximatefirstreceivetimestamp = "ApproximateFirstReceiveTimestamp"
+        case sequencenumber = "SequenceNumber"
+        case messagededuplicationid = "MessageDeduplicationId"
+        case messagegroupid = "MessageGroupId"
+        public var description: String { return self.rawValue }
     }
 
     public struct DeleteMessageBatchRequestEntry: AWSShape {

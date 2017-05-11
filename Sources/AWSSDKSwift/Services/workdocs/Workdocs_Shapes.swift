@@ -67,6 +67,13 @@ extension Workdocs {
         }
     }
 
+    public enum DocumentThumbnailType: String, CustomStringConvertible {
+        case small = "SMALL"
+        case small_hq = "SMALL_HQ"
+        case large = "LARGE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct CreateNotificationSubscriptionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -76,13 +83,13 @@ extension Workdocs {
         /// The ID of the organization.
         public let organizationId: String
         /// The notification type.
-        public let subscriptionType: String
+        public let subscriptionType: SubscriptionType
         /// The protocol to use. The supported value is https, which delivers JSON-encoded messasges using HTTPS POST.
-        public let `protocol`: String
+        public let `protocol`: SubscriptionProtocolType
         /// The endpoint to receive the notifications. If the protocol is HTTPS, the endpoint is a URL that begins with "https://".
         public let endpoint: String
 
-        public init(organizationId: String, subscriptionType: String, protocol: String, endpoint: String) {
+        public init(organizationId: String, subscriptionType: SubscriptionType, protocol: SubscriptionProtocolType, endpoint: String) {
             self.organizationId = organizationId
             self.subscriptionType = subscriptionType
             self.`protocol` = `protocol`
@@ -92,9 +99,9 @@ extension Workdocs {
         public init(dictionary: [String: Any]) throws {
             guard let organizationId = dictionary["OrganizationId"] as? String else { throw InitializableError.missingRequiredParam("OrganizationId") }
             self.organizationId = organizationId
-            guard let subscriptionType = dictionary["SubscriptionType"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionType") }
+            guard let rawSubscriptionType = dictionary["SubscriptionType"] as? String, let subscriptionType = SubscriptionType(rawValue: rawSubscriptionType) else { throw InitializableError.missingRequiredParam("SubscriptionType") }
             self.subscriptionType = subscriptionType
-            guard let `protocol` = dictionary["Protocol"] as? String else { throw InitializableError.missingRequiredParam("Protocol") }
+            guard let rawProtocol = dictionary["Protocol"] as? String, let `protocol` = SubscriptionProtocolType(rawValue: rawProtocol) else { throw InitializableError.missingRequiredParam("Protocol") }
             self.`protocol` = `protocol`
             guard let endpoint = dictionary["Endpoint"] as? String else { throw InitializableError.missingRequiredParam("Endpoint") }
             self.endpoint = endpoint
@@ -105,9 +112,9 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The role.
-        public let role: String?
+        public let role: RoleType?
         /// The status.
-        public let status: String?
+        public let status: ShareStatusType?
         /// The ID of the principal.
         public let principalId: String?
         /// The status message.
@@ -115,7 +122,7 @@ extension Workdocs {
         /// The ID of the resource that was shared.
         public let shareId: String?
 
-        public init(role: String? = nil, status: String? = nil, principalId: String? = nil, statusMessage: String? = nil, shareId: String? = nil) {
+        public init(role: RoleType? = nil, status: ShareStatusType? = nil, principalId: String? = nil, statusMessage: String? = nil, shareId: String? = nil) {
             self.role = role
             self.status = status
             self.principalId = principalId
@@ -124,8 +131,8 @@ extension Workdocs {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.role = dictionary["Role"] as? String
-            self.status = dictionary["Status"] as? String
+            if let role = dictionary["Role"] as? String { self.role = RoleType(rawValue: role) } else { self.role = nil }
+            if let status = dictionary["Status"] as? String { self.status = ShareStatusType(rawValue: status) } else { self.status = nil }
             self.principalId = dictionary["PrincipalId"] as? String
             self.statusMessage = dictionary["StatusMessage"] as? String
             self.shareId = dictionary["ShareId"] as? String
@@ -167,18 +174,18 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of permissions.
-        public let type: String?
+        public let `type`: RolePermissionType?
         /// The role of the user.
-        public let role: String?
+        public let role: RoleType?
 
-        public init(type: String? = nil, role: String? = nil) {
-            self.type = type
+        public init(type: RolePermissionType? = nil, role: RoleType? = nil) {
+            self.`type` = `type`
             self.role = role
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.type = dictionary["Type"] as? String
-            self.role = dictionary["Role"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = RolePermissionType(rawValue: `type`) } else { self.`type` = nil }
+            if let role = dictionary["Role"] as? String { self.role = RoleType(rawValue: role) } else { self.role = nil }
         }
     }
 
@@ -224,6 +231,15 @@ extension Workdocs {
         }
     }
 
+    public enum PrincipalType: String, CustomStringConvertible {
+        case user = "USER"
+        case group = "GROUP"
+        case invite = "INVITE"
+        case anonymous = "ANONYMOUS"
+        case organization = "ORGANIZATION"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Subscription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -232,9 +248,9 @@ extension Workdocs {
         /// The endpoint of the subscription.
         public let endPoint: String?
         /// The protocol of the subscription.
-        public let `protocol`: String?
+        public let `protocol`: SubscriptionProtocolType?
 
-        public init(subscriptionId: String? = nil, endPoint: String? = nil, protocol: String? = nil) {
+        public init(subscriptionId: String? = nil, endPoint: String? = nil, protocol: SubscriptionProtocolType? = nil) {
             self.subscriptionId = subscriptionId
             self.endPoint = endPoint
             self.`protocol` = `protocol`
@@ -243,7 +259,7 @@ extension Workdocs {
         public init(dictionary: [String: Any]) throws {
             self.subscriptionId = dictionary["SubscriptionId"] as? String
             self.endPoint = dictionary["EndPoint"] as? String
-            self.`protocol` = dictionary["Protocol"] as? String
+            if let `protocol` = dictionary["Protocol"] as? String { self.`protocol` = SubscriptionProtocolType(rawValue: `protocol`) } else { self.`protocol` = nil }
         }
     }
 
@@ -297,6 +313,12 @@ extension Workdocs {
         }
     }
 
+    public enum DocumentStatusType: String, CustomStringConvertible {
+        case initialized = "INITIALIZED"
+        case active = "ACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DescribeResourcePermissionsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -348,13 +370,13 @@ extension Workdocs {
         /// The ID of the parent folder.
         public let parentFolderId: String?
         /// The resource state of the document. Note that only ACTIVE and RECYCLED are supported.
-        public let resourceState: String?
+        public let resourceState: ResourceStateType?
         /// The ID of the document.
         public let documentId: String
         /// The name of the document.
         public let name: String?
 
-        public init(parentFolderId: String? = nil, resourceState: String? = nil, documentId: String, name: String? = nil) {
+        public init(parentFolderId: String? = nil, resourceState: ResourceStateType? = nil, documentId: String, name: String? = nil) {
             self.parentFolderId = parentFolderId
             self.resourceState = resourceState
             self.documentId = documentId
@@ -363,7 +385,7 @@ extension Workdocs {
 
         public init(dictionary: [String: Any]) throws {
             self.parentFolderId = dictionary["ParentFolderId"] as? String
-            self.resourceState = dictionary["ResourceState"] as? String
+            if let resourceState = dictionary["ResourceState"] as? String { self.resourceState = ResourceStateType(rawValue: resourceState) } else { self.resourceState = nil }
             guard let documentId = dictionary["DocumentId"] as? String else { throw InitializableError.missingRequiredParam("DocumentId") }
             self.documentId = documentId
             self.name = dictionary["Name"] as? String
@@ -429,6 +451,12 @@ extension Workdocs {
         }
     }
 
+    public enum RolePermissionType: String, CustomStringConvertible {
+        case direct = "DIRECT"
+        case inherited = "INHERITED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct AddResourcePermissionsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -454,7 +482,7 @@ extension Workdocs {
         /// The unique identifier created from the subfolders and documents of the folder.
         public let signature: String?
         /// The resource state of the folder.
-        public let resourceState: String?
+        public let resourceState: ResourceStateType?
         /// The name of the folder.
         public let name: String?
         /// The ID of the creator.
@@ -468,7 +496,7 @@ extension Workdocs {
         /// The ID of the folder.
         public let id: String?
 
-        public init(signature: String? = nil, resourceState: String? = nil, name: String? = nil, creatorId: String? = nil, modifiedTimestamp: Date? = nil, parentFolderId: String? = nil, createdTimestamp: Date? = nil, id: String? = nil) {
+        public init(signature: String? = nil, resourceState: ResourceStateType? = nil, name: String? = nil, creatorId: String? = nil, modifiedTimestamp: Date? = nil, parentFolderId: String? = nil, createdTimestamp: Date? = nil, id: String? = nil) {
             self.signature = signature
             self.resourceState = resourceState
             self.name = name
@@ -481,7 +509,7 @@ extension Workdocs {
 
         public init(dictionary: [String: Any]) throws {
             self.signature = dictionary["Signature"] as? String
-            self.resourceState = dictionary["ResourceState"] as? String
+            if let resourceState = dictionary["ResourceState"] as? String { self.resourceState = ResourceStateType(rawValue: resourceState) } else { self.resourceState = nil }
             self.name = dictionary["Name"] as? String
             self.creatorId = dictionary["CreatorId"] as? String
             self.modifiedTimestamp = dictionary["ModifiedTimestamp"] as? Date
@@ -501,13 +529,13 @@ extension Workdocs {
         /// The time stamp when the document was last uploaded.
         public let modifiedTimestamp: Date?
         /// The source of the document.
-        public let source: [String: String]?
+        public let source: [DocumentSourceType: String]?
         /// The time stamp when the document was first uploaded.
         public let createdTimestamp: Date?
         /// The ID of the version.
         public let id: String?
         /// The status of the document.
-        public let status: String?
+        public let status: DocumentStatusType?
         /// The name of the version.
         public let name: String?
         /// The size of the document, in bytes.
@@ -517,11 +545,11 @@ extension Workdocs {
         /// The ID of the creator.
         public let creatorId: String?
         /// The thumbnail of the document.
-        public let thumbnail: [String: String]?
+        public let thumbnail: [DocumentThumbnailType: String]?
         /// The time stamp when the content of the document was originally created.
         public let contentCreatedTimestamp: Date?
 
-        public init(contentModifiedTimestamp: Date? = nil, signature: String? = nil, modifiedTimestamp: Date? = nil, source: [String: String]? = nil, createdTimestamp: Date? = nil, id: String? = nil, status: String? = nil, name: String? = nil, size: Int64? = nil, contentType: String? = nil, creatorId: String? = nil, thumbnail: [String: String]? = nil, contentCreatedTimestamp: Date? = nil) {
+        public init(contentModifiedTimestamp: Date? = nil, signature: String? = nil, modifiedTimestamp: Date? = nil, source: [DocumentSourceType: String]? = nil, createdTimestamp: Date? = nil, id: String? = nil, status: DocumentStatusType? = nil, name: String? = nil, size: Int64? = nil, contentType: String? = nil, creatorId: String? = nil, thumbnail: [DocumentThumbnailType: String]? = nil, contentCreatedTimestamp: Date? = nil) {
             self.contentModifiedTimestamp = contentModifiedTimestamp
             self.signature = signature
             self.modifiedTimestamp = modifiedTimestamp
@@ -541,19 +569,19 @@ extension Workdocs {
             self.contentModifiedTimestamp = dictionary["ContentModifiedTimestamp"] as? Date
             self.signature = dictionary["Signature"] as? String
             self.modifiedTimestamp = dictionary["ModifiedTimestamp"] as? Date
-            if let source = dictionary["Source"] as? [String: String] {
+            if let source = dictionary["Source"] as? [DocumentSourceType: String] {
                 self.source = source
             } else { 
                 self.source = nil
             }
             self.createdTimestamp = dictionary["CreatedTimestamp"] as? Date
             self.id = dictionary["Id"] as? String
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = DocumentStatusType(rawValue: status) } else { self.status = nil }
             self.name = dictionary["Name"] as? String
             self.size = dictionary["Size"] as? Int64
             self.contentType = dictionary["ContentType"] as? String
             self.creatorId = dictionary["CreatorId"] as? String
-            if let thumbnail = dictionary["Thumbnail"] as? [String: String] {
+            if let thumbnail = dictionary["Thumbnail"] as? [DocumentThumbnailType: String] {
                 self.thumbnail = thumbnail
             } else { 
                 self.thumbnail = nil
@@ -609,6 +637,17 @@ extension Workdocs {
         public init(dictionary: [String: Any]) throws {
             if let metadata = dictionary["Metadata"] as? [String: Any] { self.metadata = try Workdocs.FolderMetadata(dictionary: metadata) } else { self.metadata = nil }
         }
+    }
+
+    public enum DocumentSourceType: String, CustomStringConvertible {
+        case original = "ORIGINAL"
+        case with_comments = "WITH_COMMENTS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DocumentVersionStatus: String, CustomStringConvertible {
+        case active = "ACTIVE"
+        public var description: String { return self.rawValue }
     }
 
     public struct CreateUserRequest: AWSShape {
@@ -727,6 +766,12 @@ extension Workdocs {
         }
     }
 
+    public enum OrderType: String, CustomStringConvertible {
+        case ascending = "ASCENDING"
+        case descending = "DESCENDING"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DeleteUserRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -795,11 +840,11 @@ extension Workdocs {
         /// The ID of the folder.
         public let folderId: String
         /// The resource state of the folder. Note that only ACTIVE and RECYCLED are accepted values from the API.
-        public let resourceState: String?
+        public let resourceState: ResourceStateType?
         /// The name of the folder.
         public let name: String?
 
-        public init(parentFolderId: String? = nil, folderId: String, resourceState: String? = nil, name: String? = nil) {
+        public init(parentFolderId: String? = nil, folderId: String, resourceState: ResourceStateType? = nil, name: String? = nil) {
             self.parentFolderId = parentFolderId
             self.folderId = folderId
             self.resourceState = resourceState
@@ -810,7 +855,7 @@ extension Workdocs {
             self.parentFolderId = dictionary["ParentFolderId"] as? String
             guard let folderId = dictionary["FolderId"] as? String else { throw InitializableError.missingRequiredParam("FolderId") }
             self.folderId = folderId
-            self.resourceState = dictionary["ResourceState"] as? String
+            if let resourceState = dictionary["ResourceState"] as? String { self.resourceState = ResourceStateType(rawValue: resourceState) } else { self.resourceState = nil }
             self.name = dictionary["Name"] as? String
         }
     }
@@ -843,6 +888,21 @@ extension Workdocs {
             self.marker = dictionary["Marker"] as? String
             self.limit = dictionary["Limit"] as? Int32
         }
+    }
+
+    public enum LocaleType: String, CustomStringConvertible {
+        case en = "en"
+        case fr = "fr"
+        case ko = "ko"
+        case de = "de"
+        case es = "es"
+        case ja = "ja"
+        case ru = "ru"
+        case zh_cn = "zh_CN"
+        case zh_tw = "zh_TW"
+        case pt_br = "pt_BR"
+        case `default` = "default"
+        public var description: String { return self.rawValue }
     }
 
     public struct RemoveAllResourcePermissionsRequest: AWSShape {
@@ -886,7 +946,7 @@ extension Workdocs {
             return ["UserId": "UserId"]
         }
         /// The locale of the user.
-        public let locale: String?
+        public let locale: LocaleType?
         /// The ID of the user.
         public let userId: String
         /// The given name of the user.
@@ -896,28 +956,28 @@ extension Workdocs {
         /// The surname of the user.
         public let surname: String?
         /// The type of the user.
-        public let type: String?
+        public let `type`: UserType?
         /// The amount of storage for the user.
         public let storageRule: StorageRuleType?
 
-        public init(locale: String? = nil, userId: String, givenName: String? = nil, timeZoneId: String? = nil, surname: String? = nil, type: String? = nil, storageRule: StorageRuleType? = nil) {
+        public init(locale: LocaleType? = nil, userId: String, givenName: String? = nil, timeZoneId: String? = nil, surname: String? = nil, type: UserType? = nil, storageRule: StorageRuleType? = nil) {
             self.locale = locale
             self.userId = userId
             self.givenName = givenName
             self.timeZoneId = timeZoneId
             self.surname = surname
-            self.type = type
+            self.`type` = `type`
             self.storageRule = storageRule
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.locale = dictionary["Locale"] as? String
+            if let locale = dictionary["Locale"] as? String { self.locale = LocaleType(rawValue: locale) } else { self.locale = nil }
             guard let userId = dictionary["UserId"] as? String else { throw InitializableError.missingRequiredParam("UserId") }
             self.userId = userId
             self.givenName = dictionary["GivenName"] as? String
             self.timeZoneId = dictionary["TimeZoneId"] as? String
             self.surname = dictionary["Surname"] as? String
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = UserType(rawValue: `type`) } else { self.`type` = nil }
             if let storageRule = dictionary["StorageRule"] as? [String: Any] { self.storageRule = try Workdocs.StorageRuleType(dictionary: storageRule) } else { self.storageRule = nil }
         }
     }
@@ -961,11 +1021,19 @@ extension Workdocs {
         }
     }
 
+    public enum ResourceStateType: String, CustomStringConvertible {
+        case active = "ACTIVE"
+        case restoring = "RESTORING"
+        case recycling = "RECYCLING"
+        case recycled = "RECYCLED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DocumentMetadata: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// The resource state.
-        public let resourceState: String?
+        public let resourceState: ResourceStateType?
         /// The ID of the creator.
         public let creatorId: String?
         /// The time when the document was updated.
@@ -979,7 +1047,7 @@ extension Workdocs {
         /// The ID of the document.
         public let id: String?
 
-        public init(resourceState: String? = nil, creatorId: String? = nil, modifiedTimestamp: Date? = nil, parentFolderId: String? = nil, latestVersionMetadata: DocumentVersionMetadata? = nil, createdTimestamp: Date? = nil, id: String? = nil) {
+        public init(resourceState: ResourceStateType? = nil, creatorId: String? = nil, modifiedTimestamp: Date? = nil, parentFolderId: String? = nil, latestVersionMetadata: DocumentVersionMetadata? = nil, createdTimestamp: Date? = nil, id: String? = nil) {
             self.resourceState = resourceState
             self.creatorId = creatorId
             self.modifiedTimestamp = modifiedTimestamp
@@ -990,7 +1058,7 @@ extension Workdocs {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.resourceState = dictionary["ResourceState"] as? String
+            if let resourceState = dictionary["ResourceState"] as? String { self.resourceState = ResourceStateType(rawValue: resourceState) } else { self.resourceState = nil }
             self.creatorId = dictionary["CreatorId"] as? String
             self.modifiedTimestamp = dictionary["ModifiedTimestamp"] as? Date
             self.parentFolderId = dictionary["ParentFolderId"] as? String
@@ -998,6 +1066,11 @@ extension Workdocs {
             self.createdTimestamp = dictionary["CreatedTimestamp"] as? Date
             self.id = dictionary["Id"] as? String
         }
+    }
+
+    public enum SubscriptionType: String, CustomStringConvertible {
+        case all = "ALL"
+        public var description: String { return self.rawValue }
     }
 
     public struct DescribeResourcePermissionsRequest: AWSShape {
@@ -1030,24 +1103,39 @@ extension Workdocs {
         }
     }
 
+    public enum RoleType: String, CustomStringConvertible {
+        case viewer = "VIEWER"
+        case contributor = "CONTRIBUTOR"
+        case owner = "OWNER"
+        case coowner = "COOWNER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UserStatusType: String, CustomStringConvertible {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Principal: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of resource.
-        public let type: String?
+        public let `type`: PrincipalType?
         /// The permission information for the resource.
         public let roles: [PermissionInfo]?
         /// The ID of the resource.
         public let id: String?
 
-        public init(type: String? = nil, roles: [PermissionInfo]? = nil, id: String? = nil) {
-            self.type = type
+        public init(type: PrincipalType? = nil, roles: [PermissionInfo]? = nil, id: String? = nil) {
+            self.`type` = `type`
             self.roles = roles
             self.id = id
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = PrincipalType(rawValue: `type`) } else { self.`type` = nil }
             if let roles = dictionary["Roles"] as? [[String: Any]] {
                 self.roles = try roles.map({ try PermissionInfo(dictionary: $0) })
             } else { 
@@ -1080,6 +1168,12 @@ extension Workdocs {
         }
     }
 
+    public enum UserFilterType: String, CustomStringConvertible {
+        case all = "ALL"
+        case active_pending = "ACTIVE_PENDING"
+        public var description: String { return self.rawValue }
+    }
+
     public struct UpdateDocumentVersionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1087,25 +1181,38 @@ extension Workdocs {
             return ["VersionId": "VersionId", "DocumentId": "DocumentId"]
         }
         /// The status of the version.
-        public let versionStatus: String?
+        public let versionStatus: DocumentVersionStatus?
         /// The version ID of the document.
         public let versionId: String
         /// The ID of the document.
         public let documentId: String
 
-        public init(versionStatus: String? = nil, versionId: String, documentId: String) {
+        public init(versionStatus: DocumentVersionStatus? = nil, versionId: String, documentId: String) {
             self.versionStatus = versionStatus
             self.versionId = versionId
             self.documentId = documentId
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.versionStatus = dictionary["VersionStatus"] as? String
+            if let versionStatus = dictionary["VersionStatus"] as? String { self.versionStatus = DocumentVersionStatus(rawValue: versionStatus) } else { self.versionStatus = nil }
             guard let versionId = dictionary["VersionId"] as? String else { throw InitializableError.missingRequiredParam("VersionId") }
             self.versionId = versionId
             guard let documentId = dictionary["DocumentId"] as? String else { throw InitializableError.missingRequiredParam("DocumentId") }
             self.documentId = documentId
         }
+    }
+
+    public enum ShareStatusType: String, CustomStringConvertible {
+        case success = "SUCCESS"
+        case failure = "FAILURE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FolderContentType: String, CustomStringConvertible {
+        case all = "ALL"
+        case document = "DOCUMENT"
+        case folder = "FOLDER"
+        public var description: String { return self.rawValue }
     }
 
     public struct GetDocumentPathRequest: AWSShape {
@@ -1154,11 +1261,11 @@ extension Workdocs {
         /// The ID of the resource.
         public let resourceId: String
         /// The principal type of the resource.
-        public let principalType: String?
+        public let principalType: PrincipalType?
         /// The principal ID of the resource.
         public let principalId: String
 
-        public init(resourceId: String, principalType: String? = nil, principalId: String) {
+        public init(resourceId: String, principalType: PrincipalType? = nil, principalId: String) {
             self.resourceId = resourceId
             self.principalType = principalType
             self.principalId = principalId
@@ -1167,7 +1274,7 @@ extension Workdocs {
         public init(dictionary: [String: Any]) throws {
             guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
             self.resourceId = resourceId
-            self.principalType = dictionary["Type"] as? String
+            if let principalType = dictionary["Type"] as? String { self.principalType = PrincipalType(rawValue: principalType) } else { self.principalType = nil }
             guard let principalId = dictionary["PrincipalId"] as? String else { throw InitializableError.missingRequiredParam("PrincipalId") }
             self.principalId = principalId
         }
@@ -1186,6 +1293,12 @@ extension Workdocs {
         public init(dictionary: [String: Any]) throws {
             if let user = dictionary["User"] as? [String: Any] { self.user = try Workdocs.User(dictionary: user) } else { self.user = nil }
         }
+    }
+
+    public enum ResourceSortType: String, CustomStringConvertible {
+        case date = "DATE"
+        case name = "NAME"
+        public var description: String { return self.rawValue }
     }
 
     public struct DescribeDocumentVersionsResponse: AWSShape {
@@ -1211,6 +1324,12 @@ extension Workdocs {
         }
     }
 
+    public enum UserType: String, CustomStringConvertible {
+        case user = "USER"
+        case admin = "ADMIN"
+        public var description: String { return self.rawValue }
+    }
+
     public struct User: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1231,9 +1350,9 @@ extension Workdocs {
         /// The time zone ID of the user.
         public let timeZoneId: String?
         /// The locale of the user.
-        public let locale: String?
+        public let locale: LocaleType?
         /// The status of the user.
-        public let status: String?
+        public let status: UserStatusType?
         /// The given name of the user.
         public let givenName: String?
         /// The storage for the user.
@@ -1243,9 +1362,9 @@ extension Workdocs {
         /// The ID of the root folder.
         public let rootFolderId: String?
         /// The type of user.
-        public let type: String?
+        public let `type`: UserType?
 
-        public init(emailAddress: String? = nil, recycleBinFolderId: String? = nil, username: String? = nil, modifiedTimestamp: Date? = nil, organizationId: String? = nil, createdTimestamp: Date? = nil, id: String? = nil, timeZoneId: String? = nil, locale: String? = nil, status: String? = nil, givenName: String? = nil, storage: UserStorageMetadata? = nil, surname: String? = nil, rootFolderId: String? = nil, type: String? = nil) {
+        public init(emailAddress: String? = nil, recycleBinFolderId: String? = nil, username: String? = nil, modifiedTimestamp: Date? = nil, organizationId: String? = nil, createdTimestamp: Date? = nil, id: String? = nil, timeZoneId: String? = nil, locale: LocaleType? = nil, status: UserStatusType? = nil, givenName: String? = nil, storage: UserStorageMetadata? = nil, surname: String? = nil, rootFolderId: String? = nil, type: UserType? = nil) {
             self.emailAddress = emailAddress
             self.recycleBinFolderId = recycleBinFolderId
             self.username = username
@@ -1260,7 +1379,7 @@ extension Workdocs {
             self.storage = storage
             self.surname = surname
             self.rootFolderId = rootFolderId
-            self.type = type
+            self.`type` = `type`
         }
 
         public init(dictionary: [String: Any]) throws {
@@ -1272,31 +1391,36 @@ extension Workdocs {
             self.createdTimestamp = dictionary["CreatedTimestamp"] as? Date
             self.id = dictionary["Id"] as? String
             self.timeZoneId = dictionary["TimeZoneId"] as? String
-            self.locale = dictionary["Locale"] as? String
-            self.status = dictionary["Status"] as? String
+            if let locale = dictionary["Locale"] as? String { self.locale = LocaleType(rawValue: locale) } else { self.locale = nil }
+            if let status = dictionary["Status"] as? String { self.status = UserStatusType(rawValue: status) } else { self.status = nil }
             self.givenName = dictionary["GivenName"] as? String
             if let storage = dictionary["Storage"] as? [String: Any] { self.storage = try Workdocs.UserStorageMetadata(dictionary: storage) } else { self.storage = nil }
             self.surname = dictionary["Surname"] as? String
             self.rootFolderId = dictionary["RootFolderId"] as? String
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = UserType(rawValue: `type`) } else { self.`type` = nil }
         }
+    }
+
+    public enum SubscriptionProtocolType: String, CustomStringConvertible {
+        case https = "HTTPS"
+        public var description: String { return self.rawValue }
     }
 
     public struct StorageRuleType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of storage.
-        public let storageType: String?
+        public let storageType: StorageType?
         /// The amount of storage allocated, in bytes.
         public let storageAllocatedInBytes: Int64?
 
-        public init(storageType: String? = nil, storageAllocatedInBytes: Int64? = nil) {
+        public init(storageType: StorageType? = nil, storageAllocatedInBytes: Int64? = nil) {
             self.storageType = storageType
             self.storageAllocatedInBytes = storageAllocatedInBytes
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.storageType = dictionary["StorageType"] as? String
+            if let storageType = dictionary["StorageType"] as? String { self.storageType = StorageType(rawValue: storageType) } else { self.storageType = nil }
             self.storageAllocatedInBytes = dictionary["StorageAllocatedInBytes"] as? Int64
         }
     }
@@ -1320,23 +1444,23 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The role of the recipient.
-        public let role: String
+        public let role: RoleType
         /// The type of the recipient.
-        public let type: String
+        public let `type`: PrincipalType
         /// The ID of the recipient.
         public let id: String
 
-        public init(role: String, type: String, id: String) {
+        public init(role: RoleType, type: PrincipalType, id: String) {
             self.role = role
-            self.type = type
+            self.`type` = `type`
             self.id = id
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let role = dictionary["Role"] as? String else { throw InitializableError.missingRequiredParam("Role") }
+            guard let rawRole = dictionary["Role"] as? String, let role = RoleType(rawValue: rawRole) else { throw InitializableError.missingRequiredParam("Role") }
             self.role = role
-            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
-            self.type = type
+            guard let rawType = dictionary["Type"] as? String, let `type` = PrincipalType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
+            self.`type` = `type`
             guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
             self.id = id
         }
@@ -1444,7 +1568,7 @@ extension Workdocs {
         /// The IDs of the users.
         public let userIds: String?
         /// The sorting criteria.
-        public let sort: String?
+        public let sort: UserSortType?
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
         /// A query to filter users by user name.
@@ -1454,11 +1578,11 @@ extension Workdocs {
         /// The ID of the organization.
         public let organizationId: String?
         /// The order for the results.
-        public let order: String?
+        public let order: OrderType?
         /// The state of the users. Specify "ALL" to include inactive users.
-        public let include: String?
+        public let include: UserFilterType?
 
-        public init(fields: String? = nil, userIds: String? = nil, sort: String? = nil, marker: String? = nil, query: String? = nil, limit: Int32? = nil, organizationId: String? = nil, order: String? = nil, include: String? = nil) {
+        public init(fields: String? = nil, userIds: String? = nil, sort: UserSortType? = nil, marker: String? = nil, query: String? = nil, limit: Int32? = nil, organizationId: String? = nil, order: OrderType? = nil, include: UserFilterType? = nil) {
             self.fields = fields
             self.userIds = userIds
             self.sort = sort
@@ -1473,13 +1597,13 @@ extension Workdocs {
         public init(dictionary: [String: Any]) throws {
             self.fields = dictionary["Fields"] as? String
             self.userIds = dictionary["UserIds"] as? String
-            self.sort = dictionary["Sort"] as? String
+            if let sort = dictionary["Sort"] as? String { self.sort = UserSortType(rawValue: sort) } else { self.sort = nil }
             self.marker = dictionary["Marker"] as? String
             self.query = dictionary["Query"] as? String
             self.limit = dictionary["Limit"] as? Int32
             self.organizationId = dictionary["OrganizationId"] as? String
-            self.order = dictionary["Order"] as? String
-            self.include = dictionary["Include"] as? String
+            if let order = dictionary["Order"] as? String { self.order = OrderType(rawValue: order) } else { self.order = nil }
+            if let include = dictionary["Include"] as? String { self.include = UserFilterType(rawValue: include) } else { self.include = nil }
         }
     }
 
@@ -1512,7 +1636,7 @@ extension Workdocs {
             return ["FolderId": "FolderId"]
         }
         /// The sorting criteria.
-        public let sort: String?
+        public let sort: ResourceSortType?
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
         /// The ID of the folder.
@@ -1520,32 +1644,41 @@ extension Workdocs {
         /// The maximum number of items to return with this call.
         public let limit: Int32?
         /// The order for the contents of the folder.
-        public let order: String?
+        public let order: OrderType?
         /// The type of items.
-        public let type: String?
+        public let `type`: FolderContentType?
         /// The contents to include. Specify "INITIALIZED" to include initialized documents.
         public let include: String?
 
-        public init(sort: String? = nil, marker: String? = nil, folderId: String, limit: Int32? = nil, order: String? = nil, type: String? = nil, include: String? = nil) {
+        public init(sort: ResourceSortType? = nil, marker: String? = nil, folderId: String, limit: Int32? = nil, order: OrderType? = nil, type: FolderContentType? = nil, include: String? = nil) {
             self.sort = sort
             self.marker = marker
             self.folderId = folderId
             self.limit = limit
             self.order = order
-            self.type = type
+            self.`type` = `type`
             self.include = include
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.sort = dictionary["Sort"] as? String
+            if let sort = dictionary["Sort"] as? String { self.sort = ResourceSortType(rawValue: sort) } else { self.sort = nil }
             self.marker = dictionary["Marker"] as? String
             guard let folderId = dictionary["FolderId"] as? String else { throw InitializableError.missingRequiredParam("FolderId") }
             self.folderId = folderId
             self.limit = dictionary["Limit"] as? Int32
-            self.order = dictionary["Order"] as? String
-            self.type = dictionary["Type"] as? String
+            if let order = dictionary["Order"] as? String { self.order = OrderType(rawValue: order) } else { self.order = nil }
+            if let `type` = dictionary["Type"] as? String { self.`type` = FolderContentType(rawValue: `type`) } else { self.`type` = nil }
             self.include = dictionary["Include"] as? String
         }
+    }
+
+    public enum UserSortType: String, CustomStringConvertible {
+        case user_name = "USER_NAME"
+        case full_name = "FULL_NAME"
+        case storage_limit = "STORAGE_LIMIT"
+        case user_status = "USER_STATUS"
+        case storage_used = "STORAGE_USED"
+        public var description: String { return self.rawValue }
     }
 
     public struct AbortDocumentVersionUploadRequest: AWSShape {
@@ -1585,6 +1718,12 @@ extension Workdocs {
         public init(dictionary: [String: Any]) throws {
             if let metadata = dictionary["Metadata"] as? [String: Any] { self.metadata = try Workdocs.DocumentVersionMetadata(dictionary: metadata) } else { self.metadata = nil }
         }
+    }
+
+    public enum StorageType: String, CustomStringConvertible {
+        case unlimited = "UNLIMITED"
+        case quota = "QUOTA"
+        public var description: String { return self.rawValue }
     }
 
     public struct DeleteNotificationSubscriptionRequest: AWSShape {

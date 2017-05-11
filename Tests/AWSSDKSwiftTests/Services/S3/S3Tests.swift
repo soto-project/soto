@@ -43,7 +43,7 @@ class S3Tests: XCTestCase {
     func testPutObject() {
         do {
             let bodyData = "hello world".data(using: .utf8)!
-            let putRequest = S3.PutObjectRequest(bucket: bucket, contentLength: Int64(bodyData.count), key: "hello.txt", body: bodyData, aCL: "public-read")
+            let putRequest = S3.PutObjectRequest(bucket: bucket, contentLength: Int64(bodyData.count), key: "hello.txt", body: bodyData, aCL: .public_read)
             let output = try client.putObject(putRequest)
             XCTAssert(output.eTag != nil)
         } catch {

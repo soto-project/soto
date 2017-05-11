@@ -208,7 +208,7 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The current status of the execution.
-        public let status: String
+        public let status: ExecutionStatus
         /// The name of the execution.
         public let name: String
         /// The Amazon Resource Name (ARN) of the executed state machine.
@@ -220,7 +220,7 @@ extension States {
         /// The Amazon Resource Name (ARN) that identifies the execution.
         public let executionArn: String
 
-        public init(status: String, name: String, stateMachineArn: String, startDate: Date, stopDate: Date? = nil, executionArn: String) {
+        public init(status: ExecutionStatus, name: String, stateMachineArn: String, startDate: Date, stopDate: Date? = nil, executionArn: String) {
             self.status = status
             self.name = name
             self.stateMachineArn = stateMachineArn
@@ -230,7 +230,7 @@ extension States {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let status = dictionary["status"] as? String else { throw InitializableError.missingRequiredParam("status") }
+            guard let rawstatus = dictionary["status"] as? String, let status = ExecutionStatus(rawValue: rawstatus) else { throw InitializableError.missingRequiredParam("status") }
             self.status = status
             guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
             self.name = name
@@ -276,11 +276,46 @@ extension States {
         }
     }
 
+    public enum HistoryEventType: String, CustomStringConvertible {
+        case activityfailed = "ActivityFailed"
+        case activityschedulefailed = "ActivityScheduleFailed"
+        case activityscheduled = "ActivityScheduled"
+        case activitystarted = "ActivityStarted"
+        case activitysucceeded = "ActivitySucceeded"
+        case activitytimedout = "ActivityTimedOut"
+        case choicestateentered = "ChoiceStateEntered"
+        case choicestateexited = "ChoiceStateExited"
+        case executionfailed = "ExecutionFailed"
+        case executionstarted = "ExecutionStarted"
+        case executionsucceeded = "ExecutionSucceeded"
+        case executionaborted = "ExecutionAborted"
+        case executiontimedout = "ExecutionTimedOut"
+        case failstateentered = "FailStateEntered"
+        case lambdafunctionfailed = "LambdaFunctionFailed"
+        case lambdafunctionschedulefailed = "LambdaFunctionScheduleFailed"
+        case lambdafunctionscheduled = "LambdaFunctionScheduled"
+        case lambdafunctionstartfailed = "LambdaFunctionStartFailed"
+        case lambdafunctionstarted = "LambdaFunctionStarted"
+        case lambdafunctionsucceeded = "LambdaFunctionSucceeded"
+        case lambdafunctiontimedout = "LambdaFunctionTimedOut"
+        case succeedstateentered = "SucceedStateEntered"
+        case succeedstateexited = "SucceedStateExited"
+        case taskstateentered = "TaskStateEntered"
+        case taskstateexited = "TaskStateExited"
+        case passstateentered = "PassStateEntered"
+        case passstateexited = "PassStateExited"
+        case parallelstateentered = "ParallelStateEntered"
+        case parallelstateexited = "ParallelStateExited"
+        case waitstateentered = "WaitStateEntered"
+        case waitstateexited = "WaitStateExited"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DescribeStateMachineOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// The current status of the state machine.
-        public let status: String?
+        public let status: StateMachineStatus?
         /// The name of the state machine.
         public let name: String
         /// The Amazon Resource Name (ARN) that identifies the state machine.
@@ -292,7 +327,7 @@ extension States {
         /// The Amazon Resource Name (ARN) of the IAM role used for executing this state machine.
         public let roleArn: String
 
-        public init(status: String? = nil, name: String, stateMachineArn: String, creationDate: Date, definition: String, roleArn: String) {
+        public init(status: StateMachineStatus? = nil, name: String, stateMachineArn: String, creationDate: Date, definition: String, roleArn: String) {
             self.status = status
             self.name = name
             self.stateMachineArn = stateMachineArn
@@ -302,7 +337,7 @@ extension States {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["status"] as? String
+            if let status = dictionary["status"] as? String { self.status = StateMachineStatus(rawValue: status) } else { self.status = nil }
             guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
             self.name = name
             guard let stateMachineArn = dictionary["stateMachineArn"] as? String else { throw InitializableError.missingRequiredParam("stateMachineArn") }
@@ -389,7 +424,7 @@ extension States {
         public let activityScheduledEventDetails: ActivityScheduledEventDetails?
         public let activityStartedEventDetails: ActivityStartedEventDetails?
         /// The type of the event.
-        public let type: String
+        public let `type`: HistoryEventType
         public let stateEnteredEventDetails: StateEnteredEventDetails?
         public let executionStartedEventDetails: ExecutionStartedEventDetails?
         public let activityScheduleFailedEventDetails: ActivityScheduleFailedEventDetails?
@@ -406,7 +441,7 @@ extension States {
         public let lambdaFunctionScheduleFailedEventDetails: LambdaFunctionScheduleFailedEventDetails?
         public let lambdaFunctionStartFailedEventDetails: LambdaFunctionStartFailedEventDetails?
 
-        public init(lambdaFunctionSucceededEventDetails: LambdaFunctionSucceededEventDetails? = nil, lambdaFunctionFailedEventDetails: LambdaFunctionFailedEventDetails? = nil, executionSucceededEventDetails: ExecutionSucceededEventDetails? = nil, activityFailedEventDetails: ActivityFailedEventDetails? = nil, executionTimedOutEventDetails: ExecutionTimedOutEventDetails? = nil, lambdaFunctionTimedOutEventDetails: LambdaFunctionTimedOutEventDetails? = nil, executionAbortedEventDetails: ExecutionAbortedEventDetails? = nil, executionFailedEventDetails: ExecutionFailedEventDetails? = nil, activityScheduledEventDetails: ActivityScheduledEventDetails? = nil, activityStartedEventDetails: ActivityStartedEventDetails? = nil, type: String, stateEnteredEventDetails: StateEnteredEventDetails? = nil, executionStartedEventDetails: ExecutionStartedEventDetails? = nil, activityScheduleFailedEventDetails: ActivityScheduleFailedEventDetails? = nil, timestamp: Date, previousEventId: Int64? = nil, id: Int64, activityTimedOutEventDetails: ActivityTimedOutEventDetails? = nil, lambdaFunctionScheduledEventDetails: LambdaFunctionScheduledEventDetails? = nil, activitySucceededEventDetails: ActivitySucceededEventDetails? = nil, stateExitedEventDetails: StateExitedEventDetails? = nil, lambdaFunctionScheduleFailedEventDetails: LambdaFunctionScheduleFailedEventDetails? = nil, lambdaFunctionStartFailedEventDetails: LambdaFunctionStartFailedEventDetails? = nil) {
+        public init(lambdaFunctionSucceededEventDetails: LambdaFunctionSucceededEventDetails? = nil, lambdaFunctionFailedEventDetails: LambdaFunctionFailedEventDetails? = nil, executionSucceededEventDetails: ExecutionSucceededEventDetails? = nil, activityFailedEventDetails: ActivityFailedEventDetails? = nil, executionTimedOutEventDetails: ExecutionTimedOutEventDetails? = nil, lambdaFunctionTimedOutEventDetails: LambdaFunctionTimedOutEventDetails? = nil, executionAbortedEventDetails: ExecutionAbortedEventDetails? = nil, executionFailedEventDetails: ExecutionFailedEventDetails? = nil, activityScheduledEventDetails: ActivityScheduledEventDetails? = nil, activityStartedEventDetails: ActivityStartedEventDetails? = nil, type: HistoryEventType, stateEnteredEventDetails: StateEnteredEventDetails? = nil, executionStartedEventDetails: ExecutionStartedEventDetails? = nil, activityScheduleFailedEventDetails: ActivityScheduleFailedEventDetails? = nil, timestamp: Date, previousEventId: Int64? = nil, id: Int64, activityTimedOutEventDetails: ActivityTimedOutEventDetails? = nil, lambdaFunctionScheduledEventDetails: LambdaFunctionScheduledEventDetails? = nil, activitySucceededEventDetails: ActivitySucceededEventDetails? = nil, stateExitedEventDetails: StateExitedEventDetails? = nil, lambdaFunctionScheduleFailedEventDetails: LambdaFunctionScheduleFailedEventDetails? = nil, lambdaFunctionStartFailedEventDetails: LambdaFunctionStartFailedEventDetails? = nil) {
             self.lambdaFunctionSucceededEventDetails = lambdaFunctionSucceededEventDetails
             self.lambdaFunctionFailedEventDetails = lambdaFunctionFailedEventDetails
             self.executionSucceededEventDetails = executionSucceededEventDetails
@@ -417,7 +452,7 @@ extension States {
             self.executionFailedEventDetails = executionFailedEventDetails
             self.activityScheduledEventDetails = activityScheduledEventDetails
             self.activityStartedEventDetails = activityStartedEventDetails
-            self.type = type
+            self.`type` = `type`
             self.stateEnteredEventDetails = stateEnteredEventDetails
             self.executionStartedEventDetails = executionStartedEventDetails
             self.activityScheduleFailedEventDetails = activityScheduleFailedEventDetails
@@ -443,8 +478,8 @@ extension States {
             if let executionFailedEventDetails = dictionary["executionFailedEventDetails"] as? [String: Any] { self.executionFailedEventDetails = try States.ExecutionFailedEventDetails(dictionary: executionFailedEventDetails) } else { self.executionFailedEventDetails = nil }
             if let activityScheduledEventDetails = dictionary["activityScheduledEventDetails"] as? [String: Any] { self.activityScheduledEventDetails = try States.ActivityScheduledEventDetails(dictionary: activityScheduledEventDetails) } else { self.activityScheduledEventDetails = nil }
             if let activityStartedEventDetails = dictionary["activityStartedEventDetails"] as? [String: Any] { self.activityStartedEventDetails = try States.ActivityStartedEventDetails(dictionary: activityStartedEventDetails) } else { self.activityStartedEventDetails = nil }
-            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
-            self.type = type
+            guard let rawtype = dictionary["type"] as? String, let `type` = HistoryEventType(rawValue: rawtype) else { throw InitializableError.missingRequiredParam("type") }
+            self.`type` = `type`
             if let stateEnteredEventDetails = dictionary["stateEnteredEventDetails"] as? [String: Any] { self.stateEnteredEventDetails = try States.StateEnteredEventDetails(dictionary: stateEnteredEventDetails) } else { self.stateEnteredEventDetails = nil }
             if let executionStartedEventDetails = dictionary["executionStartedEventDetails"] as? [String: Any] { self.executionStartedEventDetails = try States.ExecutionStartedEventDetails(dictionary: executionStartedEventDetails) } else { self.executionStartedEventDetails = nil }
             if let activityScheduleFailedEventDetails = dictionary["activityScheduleFailedEventDetails"] as? [String: Any] { self.activityScheduleFailedEventDetails = try States.ActivityScheduleFailedEventDetails(dictionary: activityScheduleFailedEventDetails) } else { self.activityScheduleFailedEventDetails = nil }
@@ -588,6 +623,12 @@ extension States {
             self.cause = dictionary["cause"] as? String
             self.error = dictionary["error"] as? String
         }
+    }
+
+    public enum StateMachineStatus: String, CustomStringConvertible {
+        case active = "ACTIVE"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
     }
 
     public struct ActivitySucceededEventDetails: AWSShape {
@@ -734,6 +775,15 @@ extension States {
             guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
             self.name = name
         }
+    }
+
+    public enum ExecutionStatus: String, CustomStringConvertible {
+        case running = "RUNNING"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        case timed_out = "TIMED_OUT"
+        case aborted = "ABORTED"
+        public var description: String { return self.rawValue }
     }
 
     public struct LambdaFunctionSucceededEventDetails: AWSShape {
@@ -962,7 +1012,7 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// If specified, only list the executions whose current execution status matches the given filter.
-        public let statusFilter: String?
+        public let statusFilter: ExecutionStatus?
         /// The maximum number of results that will be returned per call. nextToken can be used to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
         public let maxResults: Int32?
         /// The Amazon Resource Name (ARN) of the state machine whose executions will be listed.
@@ -970,7 +1020,7 @@ extension States {
         /// If a nextToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextToken. Keep all other arguments unchanged. The configured maxResults determines how many results can be returned in a single call.
         public let nextToken: String?
 
-        public init(statusFilter: String? = nil, maxResults: Int32? = nil, stateMachineArn: String, nextToken: String? = nil) {
+        public init(statusFilter: ExecutionStatus? = nil, maxResults: Int32? = nil, stateMachineArn: String, nextToken: String? = nil) {
             self.statusFilter = statusFilter
             self.maxResults = maxResults
             self.stateMachineArn = stateMachineArn
@@ -978,7 +1028,7 @@ extension States {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.statusFilter = dictionary["statusFilter"] as? String
+            if let statusFilter = dictionary["statusFilter"] as? String { self.statusFilter = ExecutionStatus(rawValue: statusFilter) } else { self.statusFilter = nil }
             self.maxResults = dictionary["maxResults"] as? Int32
             guard let stateMachineArn = dictionary["stateMachineArn"] as? String else { throw InitializableError.missingRequiredParam("stateMachineArn") }
             self.stateMachineArn = stateMachineArn
@@ -1177,7 +1227,7 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The current status of the execution.
-        public let status: String
+        public let status: ExecutionStatus
         /// The name of the execution.
         public let name: String?
         /// If the execution has already ended, the date the execution stopped.
@@ -1193,7 +1243,7 @@ extension States {
         /// The Amazon Resource Name (ARN) of the executed stated machine.
         public let stateMachineArn: String
 
-        public init(status: String, name: String? = nil, stopDate: Date? = nil, startDate: Date, output: String? = nil, executionArn: String, input: String, stateMachineArn: String) {
+        public init(status: ExecutionStatus, name: String? = nil, stopDate: Date? = nil, startDate: Date, output: String? = nil, executionArn: String, input: String, stateMachineArn: String) {
             self.status = status
             self.name = name
             self.stopDate = stopDate
@@ -1205,7 +1255,7 @@ extension States {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let status = dictionary["status"] as? String else { throw InitializableError.missingRequiredParam("status") }
+            guard let rawstatus = dictionary["status"] as? String, let status = ExecutionStatus(rawValue: rawstatus) else { throw InitializableError.missingRequiredParam("status") }
             self.status = status
             self.name = dictionary["name"] as? String
             self.stopDate = dictionary["stopDate"] as? Date

@@ -240,6 +240,20 @@ extension Machinelearning {
         }
     }
 
+    public enum MLModelFilterVariable: String, CustomStringConvertible {
+        case createdat = "CreatedAt"
+        case lastupdatedat = "LastUpdatedAt"
+        case status = "Status"
+        case name = "Name"
+        case iamuser = "IAMUser"
+        case trainingdatasourceid = "TrainingDataSourceId"
+        case realtimeendpointstatus = "RealtimeEndpointStatus"
+        case mlmodeltype = "MLModelType"
+        case algorithm = "Algorithm"
+        case trainingdatauri = "TrainingDataURI"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DeleteBatchPredictionInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -254,6 +268,15 @@ extension Machinelearning {
             guard let batchPredictionId = dictionary["BatchPredictionId"] as? String else { throw InitializableError.missingRequiredParam("BatchPredictionId") }
             self.batchPredictionId = batchPredictionId
         }
+    }
+
+    public enum EntityStatus: String, CustomStringConvertible {
+        case pending = "PENDING"
+        case inprogress = "INPROGRESS"
+        case failed = "FAILED"
+        case completed = "COMPLETED"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
     }
 
     public struct UpdateMLModelInput: AWSShape {
@@ -278,6 +301,18 @@ extension Machinelearning {
             self.scoreThreshold = dictionary["ScoreThreshold"] as? Float
             self.mLModelName = dictionary["MLModelName"] as? String
         }
+    }
+
+    public enum EvaluationFilterVariable: String, CustomStringConvertible {
+        case createdat = "CreatedAt"
+        case lastupdatedat = "LastUpdatedAt"
+        case status = "Status"
+        case name = "Name"
+        case iamuser = "IAMUser"
+        case mlmodelid = "MLModelId"
+        case datasourceid = "DataSourceId"
+        case datauri = "DataURI"
+        public var description: String { return self.rawValue }
     }
 
     public struct DescribeMLModelsOutput: AWSShape {
@@ -322,6 +357,12 @@ extension Machinelearning {
         }
     }
 
+    public enum DetailsAttributes: String, CustomStringConvertible {
+        case predictivemodeltype = "PredictiveModelType"
+        case algorithm = "Algorithm"
+        public var description: String { return self.rawValue }
+    }
+
     public struct CreateEvaluationInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -362,9 +403,9 @@ extension Machinelearning {
         /// The time that the request to create the real-time endpoint for the MLModel was received. The time is expressed in epoch time.
         public let createdAt: Date?
         ///  The current status of the real-time endpoint for the MLModel. This element can have one of the following values:    NONE - Endpoint does not exist or was previously deleted.  READY - Endpoint is ready to be used for real-time predictions.  UPDATING - Updating/creating the endpoint.  
-        public let endpointStatus: String?
+        public let endpointStatus: RealtimeEndpointStatus?
 
-        public init(peakRequestsPerSecond: Int32? = nil, endpointUrl: String? = nil, createdAt: Date? = nil, endpointStatus: String? = nil) {
+        public init(peakRequestsPerSecond: Int32? = nil, endpointUrl: String? = nil, createdAt: Date? = nil, endpointStatus: RealtimeEndpointStatus? = nil) {
             self.peakRequestsPerSecond = peakRequestsPerSecond
             self.endpointUrl = endpointUrl
             self.createdAt = createdAt
@@ -375,7 +416,7 @@ extension Machinelearning {
             self.peakRequestsPerSecond = dictionary["PeakRequestsPerSecond"] as? Int32
             self.endpointUrl = dictionary["EndpointUrl"] as? String
             self.createdAt = dictionary["CreatedAt"] as? Date
-            self.endpointStatus = dictionary["EndpointStatus"] as? String
+            if let endpointStatus = dictionary["EndpointStatus"] as? String { self.endpointStatus = RealtimeEndpointStatus(rawValue: endpointStatus) } else { self.endpointStatus = nil }
         }
     }
 
@@ -400,6 +441,12 @@ extension Machinelearning {
                 self.results = nil
             }
         }
+    }
+
+    public enum SortOrder: String, CustomStringConvertible {
+        case asc = "asc"
+        case dsc = "dsc"
+        public var description: String { return self.rawValue }
     }
 
     public struct GetDataSourceOutput: AWSShape {
@@ -432,7 +479,7 @@ extension Machinelearning {
         /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
         public let dataLocationS3: String?
         /// The current status of the DataSource. This element can have one of the following values:   PENDING - Amazon ML submitted a request to create a DataSource.  INPROGRESS - The creation process is underway.  FAILED - The request to create a DataSource did not run to completion. It is not usable.  COMPLETED - The creation process completed successfully.  DELETED - The DataSource is marked as deleted. It is not usable. 
-        public let status: String?
+        public let status: EntityStatus?
         /// A user-supplied name or description of the DataSource.
         public let name: String?
         public let redshiftMetadata: RedshiftMetadata?
@@ -443,7 +490,7 @@ extension Machinelearning {
         ///  The parameter is true if statistics need to be generated from the observation data. 
         public let computeStatistics: Bool?
 
-        public init(dataSizeInBytes: Int64? = nil, message: String? = nil, numberOfFiles: Int64? = nil, roleARN: String? = nil, dataSourceSchema: String? = nil, createdByIamUser: String? = nil, rDSMetadata: RDSMetadata? = nil, finishedAt: Date? = nil, computeTime: Int64? = nil, lastUpdatedAt: Date? = nil, dataRearrangement: String? = nil, dataSourceId: String? = nil, createdAt: Date? = nil, dataLocationS3: String? = nil, status: String? = nil, name: String? = nil, redshiftMetadata: RedshiftMetadata? = nil, logUri: String? = nil, startedAt: Date? = nil, computeStatistics: Bool? = nil) {
+        public init(dataSizeInBytes: Int64? = nil, message: String? = nil, numberOfFiles: Int64? = nil, roleARN: String? = nil, dataSourceSchema: String? = nil, createdByIamUser: String? = nil, rDSMetadata: RDSMetadata? = nil, finishedAt: Date? = nil, computeTime: Int64? = nil, lastUpdatedAt: Date? = nil, dataRearrangement: String? = nil, dataSourceId: String? = nil, createdAt: Date? = nil, dataLocationS3: String? = nil, status: EntityStatus? = nil, name: String? = nil, redshiftMetadata: RedshiftMetadata? = nil, logUri: String? = nil, startedAt: Date? = nil, computeStatistics: Bool? = nil) {
             self.dataSizeInBytes = dataSizeInBytes
             self.message = message
             self.numberOfFiles = numberOfFiles
@@ -481,7 +528,7 @@ extension Machinelearning {
             self.dataSourceId = dictionary["DataSourceId"] as? String
             self.createdAt = dictionary["CreatedAt"] as? Date
             self.dataLocationS3 = dictionary["DataLocationS3"] as? String
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = EntityStatus(rawValue: status) } else { self.status = nil }
             self.name = dictionary["Name"] as? String
             if let redshiftMetadata = dictionary["RedshiftMetadata"] as? [String: Any] { self.redshiftMetadata = try Machinelearning.RedshiftMetadata(dictionary: redshiftMetadata) } else { self.redshiftMetadata = nil }
             self.logUri = dictionary["LogUri"] as? String
@@ -622,14 +669,14 @@ extension Machinelearning {
     public struct Prediction: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let details: [String: String]?
+        public let details: [DetailsAttributes: String]?
         public let predictedScores: [String: Float]?
         /// The prediction label for either a BINARY or MULTICLASS MLModel.
         public let predictedLabel: String?
         /// The prediction value for REGRESSION MLModel.
         public let predictedValue: Float?
 
-        public init(details: [String: String]? = nil, predictedScores: [String: Float]? = nil, predictedLabel: String? = nil, predictedValue: Float? = nil) {
+        public init(details: [DetailsAttributes: String]? = nil, predictedScores: [String: Float]? = nil, predictedLabel: String? = nil, predictedValue: Float? = nil) {
             self.details = details
             self.predictedScores = predictedScores
             self.predictedLabel = predictedLabel
@@ -637,7 +684,7 @@ extension Machinelearning {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let details = dictionary["details"] as? [String: String] {
+            if let details = dictionary["details"] as? [DetailsAttributes: String] {
                 self.details = details
             } else { 
                 self.details = nil
@@ -666,6 +713,11 @@ extension Machinelearning {
             guard let mLModelId = dictionary["MLModelId"] as? String else { throw InitializableError.missingRequiredParam("MLModelId") }
             self.mLModelId = mLModelId
         }
+    }
+
+    public enum Algorithm: String, CustomStringConvertible {
+        case sgd = "sgd"
+        public var description: String { return self.rawValue }
     }
 
     public struct GetBatchPredictionInput: AWSShape {
@@ -783,14 +835,14 @@ extension Machinelearning {
         /// The time that the Evaluation was created. The time is expressed in epoch time.
         public let createdAt: Date?
         /// The status of the evaluation. This element can have one of the following values:   PENDING - Amazon Machine Learning (Amazon ML) submitted a request to evaluate an MLModel.  INPROGRESS - The evaluation is underway.  FAILED - The request to evaluate an MLModel did not run to completion. It is not usable.  COMPLETED - The evaluation process completed successfully.  DELETED - The Evaluation is marked as deleted. It is not usable. 
-        public let status: String?
+        public let status: EntityStatus?
         /// A user-supplied name or description of the Evaluation. 
         public let name: String?
         public let startedAt: Date?
         /// The ID of the DataSource that is used to evaluate the MLModel.
         public let evaluationDataSourceId: String?
 
-        public init(performanceMetrics: PerformanceMetrics? = nil, evaluationId: String? = nil, message: String? = nil, mLModelId: String? = nil, createdByIamUser: String? = nil, computeTime: Int64? = nil, finishedAt: Date? = nil, lastUpdatedAt: Date? = nil, inputDataLocationS3: String? = nil, createdAt: Date? = nil, status: String? = nil, name: String? = nil, startedAt: Date? = nil, evaluationDataSourceId: String? = nil) {
+        public init(performanceMetrics: PerformanceMetrics? = nil, evaluationId: String? = nil, message: String? = nil, mLModelId: String? = nil, createdByIamUser: String? = nil, computeTime: Int64? = nil, finishedAt: Date? = nil, lastUpdatedAt: Date? = nil, inputDataLocationS3: String? = nil, createdAt: Date? = nil, status: EntityStatus? = nil, name: String? = nil, startedAt: Date? = nil, evaluationDataSourceId: String? = nil) {
             self.performanceMetrics = performanceMetrics
             self.evaluationId = evaluationId
             self.message = message
@@ -818,7 +870,7 @@ extension Machinelearning {
             self.lastUpdatedAt = dictionary["LastUpdatedAt"] as? Date
             self.inputDataLocationS3 = dictionary["InputDataLocationS3"] as? String
             self.createdAt = dictionary["CreatedAt"] as? Date
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = EntityStatus(rawValue: status) } else { self.status = nil }
             self.name = dictionary["Name"] as? String
             self.startedAt = dictionary["StartedAt"] as? Date
             self.evaluationDataSourceId = dictionary["EvaluationDataSourceId"] as? String
@@ -882,9 +934,9 @@ extension Machinelearning {
         /// A list of tags associated with the ML object.
         public let tags: [Tag]?
         /// The type of the tagged ML object.
-        public let resourceType: String?
+        public let resourceType: TaggableResourceType?
 
-        public init(resourceId: String? = nil, tags: [Tag]? = nil, resourceType: String? = nil) {
+        public init(resourceId: String? = nil, tags: [Tag]? = nil, resourceType: TaggableResourceType? = nil) {
             self.resourceId = resourceId
             self.tags = tags
             self.resourceType = resourceType
@@ -897,7 +949,7 @@ extension Machinelearning {
             } else { 
                 self.tags = nil
             }
-            self.resourceType = dictionary["ResourceType"] as? String
+            if let resourceType = dictionary["ResourceType"] as? String { self.resourceType = TaggableResourceType(rawValue: resourceType) } else { self.resourceType = nil }
         }
     }
 
@@ -922,16 +974,16 @@ extension Machinelearning {
         /// The ID of the ML object that was tagged.
         public let resourceId: String?
         /// The type of the ML object that was tagged.
-        public let resourceType: String?
+        public let resourceType: TaggableResourceType?
 
-        public init(resourceId: String? = nil, resourceType: String? = nil) {
+        public init(resourceId: String? = nil, resourceType: TaggableResourceType? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         public init(dictionary: [String: Any]) throws {
             self.resourceId = dictionary["ResourceId"] as? String
-            self.resourceType = dictionary["ResourceType"] as? String
+            if let resourceType = dictionary["ResourceType"] as? String { self.resourceType = TaggableResourceType(rawValue: resourceType) } else { self.resourceType = nil }
         }
     }
 
@@ -998,7 +1050,7 @@ extension Machinelearning {
         /// The time when the BatchPrediction was created. The time is expressed in epoch time.
         public let createdAt: Date?
         /// The status of the BatchPrediction, which can be one of the following values:   PENDING - Amazon Machine Learning (Amazon ML) submitted a request to generate batch predictions.  INPROGRESS - The batch predictions are in progress.  FAILED - The request to perform a batch prediction did not run to completion. It is not usable.  COMPLETED - The batch prediction process completed successfully.  DELETED - The BatchPrediction is marked as deleted. It is not usable. 
-        public let status: String?
+        public let status: EntityStatus?
         /// A user-supplied name or description of the BatchPrediction.
         public let name: String?
         /// A link to the file that contains logs of the CreateBatchPrediction operation.
@@ -1010,7 +1062,7 @@ extension Machinelearning {
         /// The ID of the DataSource that was used to create the BatchPrediction. 
         public let batchPredictionDataSourceId: String?
 
-        public init(message: String? = nil, mLModelId: String? = nil, createdByIamUser: String? = nil, totalRecordCount: Int64? = nil, invalidRecordCount: Int64? = nil, batchPredictionId: String? = nil, computeTime: Int64? = nil, finishedAt: Date? = nil, lastUpdatedAt: Date? = nil, inputDataLocationS3: String? = nil, createdAt: Date? = nil, status: String? = nil, name: String? = nil, logUri: String? = nil, startedAt: Date? = nil, outputUri: String? = nil, batchPredictionDataSourceId: String? = nil) {
+        public init(message: String? = nil, mLModelId: String? = nil, createdByIamUser: String? = nil, totalRecordCount: Int64? = nil, invalidRecordCount: Int64? = nil, batchPredictionId: String? = nil, computeTime: Int64? = nil, finishedAt: Date? = nil, lastUpdatedAt: Date? = nil, inputDataLocationS3: String? = nil, createdAt: Date? = nil, status: EntityStatus? = nil, name: String? = nil, logUri: String? = nil, startedAt: Date? = nil, outputUri: String? = nil, batchPredictionDataSourceId: String? = nil) {
             self.message = message
             self.mLModelId = mLModelId
             self.createdByIamUser = createdByIamUser
@@ -1042,7 +1094,7 @@ extension Machinelearning {
             self.lastUpdatedAt = dictionary["LastUpdatedAt"] as? Date
             self.inputDataLocationS3 = dictionary["InputDataLocationS3"] as? String
             self.createdAt = dictionary["CreatedAt"] as? Date
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = EntityStatus(rawValue: status) } else { self.status = nil }
             self.name = dictionary["Name"] as? String
             self.logUri = dictionary["LogUri"] as? String
             self.startedAt = dictionary["StartedAt"] as? Date
@@ -1089,6 +1141,18 @@ extension Machinelearning {
             guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
             self.username = username
         }
+    }
+
+    public enum BatchPredictionFilterVariable: String, CustomStringConvertible {
+        case createdat = "CreatedAt"
+        case lastupdatedat = "LastUpdatedAt"
+        case status = "Status"
+        case name = "Name"
+        case iamuser = "IAMUser"
+        case mlmodelid = "MLModelId"
+        case datasourceid = "DataSourceId"
+        case datauri = "DataURI"
+        public var description: String { return self.rawValue }
     }
 
     public struct UpdateEvaluationOutput: AWSShape {
@@ -1152,7 +1216,7 @@ extension Machinelearning {
         /// The greater than operator. The Evaluation results will have FilterVariable values that are greater than the value specified with GT.
         public let gT: String?
         /// Use one of the following variable to filter a list of Evaluation objects:   CreatedAt - Sets the search criteria to the Evaluation creation date.  Status - Sets the search criteria to the Evaluation status.  Name - Sets the search criteria to the contents of Evaluation   Name.  IAMUser - Sets the search criteria to the user account that invoked an Evaluation.  MLModelId - Sets the search criteria to the MLModel that was evaluated.  DataSourceId - Sets the search criteria to the DataSource used in Evaluation.  DataUri - Sets the search criteria to the data file(s) used in Evaluation. The URL can identify either a file or an Amazon Simple Storage Solution (Amazon S3) bucket or directory. 
-        public let filterVariable: String?
+        public let filterVariable: EvaluationFilterVariable?
         /// The less than operator. The Evaluation results will have FilterVariable values that are less than the value specified with LT.
         public let lT: String?
         /// A string that is found at the beginning of a variable, such as Name or Id. For example, an Evaluation could have the Name 2014-09-09-HolidayGiftMailer. To search for this Evaluation, select Name for the FilterVariable and any of the following strings for the Prefix:   2014-09 2014-09-09 2014-09-09-Holiday 
@@ -1160,7 +1224,7 @@ extension Machinelearning {
         /// The less than or equal to operator. The Evaluation results will have FilterVariable values that are less than or equal to the value specified with LE.
         public let lE: String?
         /// A two-value parameter that determines the sequence of the resulting list of Evaluation.   asc - Arranges the list in ascending order (A-Z, 0-9).  dsc - Arranges the list in descending order (Z-A, 9-0).  Results are sorted by FilterVariable.
-        public let sortOrder: String?
+        public let sortOrder: SortOrder?
         ///  The maximum number of Evaluation to include in the result.
         public let limit: Int32?
         /// The ID of the page in the paginated results.
@@ -1168,7 +1232,7 @@ extension Machinelearning {
         /// The greater than or equal to operator. The Evaluation results will have FilterVariable values that are greater than or equal to the value specified with GE. 
         public let gE: String?
 
-        public init(nE: String? = nil, eQ: String? = nil, gT: String? = nil, filterVariable: String? = nil, lT: String? = nil, prefix: String? = nil, lE: String? = nil, sortOrder: String? = nil, limit: Int32? = nil, nextToken: String? = nil, gE: String? = nil) {
+        public init(nE: String? = nil, eQ: String? = nil, gT: String? = nil, filterVariable: EvaluationFilterVariable? = nil, lT: String? = nil, prefix: String? = nil, lE: String? = nil, sortOrder: SortOrder? = nil, limit: Int32? = nil, nextToken: String? = nil, gE: String? = nil) {
             self.nE = nE
             self.eQ = eQ
             self.gT = gT
@@ -1186,11 +1250,11 @@ extension Machinelearning {
             self.nE = dictionary["NE"] as? String
             self.eQ = dictionary["EQ"] as? String
             self.gT = dictionary["GT"] as? String
-            self.filterVariable = dictionary["FilterVariable"] as? String
+            if let filterVariable = dictionary["FilterVariable"] as? String { self.filterVariable = EvaluationFilterVariable(rawValue: filterVariable) } else { self.filterVariable = nil }
             self.lT = dictionary["LT"] as? String
             self.prefix = dictionary["Prefix"] as? String
             self.lE = dictionary["LE"] as? String
-            self.sortOrder = dictionary["SortOrder"] as? String
+            if let sortOrder = dictionary["SortOrder"] as? String { self.sortOrder = SortOrder(rawValue: sortOrder) } else { self.sortOrder = nil }
             self.limit = dictionary["Limit"] as? Int32
             self.nextToken = dictionary["NextToken"] as? String
             self.gE = dictionary["GE"] as? String
@@ -1268,7 +1332,7 @@ extension Machinelearning {
         /// The time that the BatchPrediction was created. The time is expressed in epoch time.
         public let createdAt: Date?
         /// The status of the BatchPrediction. This element can have one of the following values:   PENDING - Amazon Machine Learning (Amazon ML) submitted a request to generate predictions for a batch of observations.  INPROGRESS - The process is underway.  FAILED - The request to perform a batch prediction did not run to completion. It is not usable.  COMPLETED - The batch prediction process completed successfully.  DELETED - The BatchPrediction is marked as deleted. It is not usable. 
-        public let status: String?
+        public let status: EntityStatus?
         /// A user-supplied name or description of the BatchPrediction.
         public let name: String?
         public let startedAt: Date?
@@ -1277,7 +1341,7 @@ extension Machinelearning {
         /// The ID of the DataSource that points to the group of observations to predict.
         public let batchPredictionDataSourceId: String?
 
-        public init(message: String? = nil, mLModelId: String? = nil, createdByIamUser: String? = nil, totalRecordCount: Int64? = nil, invalidRecordCount: Int64? = nil, batchPredictionId: String? = nil, computeTime: Int64? = nil, finishedAt: Date? = nil, lastUpdatedAt: Date? = nil, inputDataLocationS3: String? = nil, createdAt: Date? = nil, status: String? = nil, name: String? = nil, startedAt: Date? = nil, outputUri: String? = nil, batchPredictionDataSourceId: String? = nil) {
+        public init(message: String? = nil, mLModelId: String? = nil, createdByIamUser: String? = nil, totalRecordCount: Int64? = nil, invalidRecordCount: Int64? = nil, batchPredictionId: String? = nil, computeTime: Int64? = nil, finishedAt: Date? = nil, lastUpdatedAt: Date? = nil, inputDataLocationS3: String? = nil, createdAt: Date? = nil, status: EntityStatus? = nil, name: String? = nil, startedAt: Date? = nil, outputUri: String? = nil, batchPredictionDataSourceId: String? = nil) {
             self.message = message
             self.mLModelId = mLModelId
             self.createdByIamUser = createdByIamUser
@@ -1308,7 +1372,7 @@ extension Machinelearning {
             self.lastUpdatedAt = dictionary["LastUpdatedAt"] as? Date
             self.inputDataLocationS3 = dictionary["InputDataLocationS3"] as? String
             self.createdAt = dictionary["CreatedAt"] as? Date
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = EntityStatus(rawValue: status) } else { self.status = nil }
             self.name = dictionary["Name"] as? String
             self.startedAt = dictionary["StartedAt"] as? Date
             self.outputUri = dictionary["OutputUri"] as? String
@@ -1447,7 +1511,7 @@ extension Machinelearning {
         /// The schema used by all of the data files referenced by the DataSource. Note This parameter is provided as part of the verbose format.
         public let schema: String?
         /// Identifies the MLModel category. The following are the available types:   REGRESSION -- Produces a numeric result. For example, "What price should a house be listed at?" BINARY -- Produces one of two possible results. For example, "Is this an e-commerce website?" MULTICLASS -- Produces one of several possible results. For example, "Is this a HIGH, LOW or MEDIUM risk trade?" 
-        public let mLModelType: String?
+        public let mLModelType: MLModelType?
         /// The epoch time when Amazon Machine Learning marked the MLModel as COMPLETED or FAILED. FinishedAt is only available when the MLModel is in the COMPLETED or FAILED state.
         public let finishedAt: Date?
         /// The approximate CPU time in milliseconds that Amazon Machine Learning spent processing the MLModel, normalized and scaled on computation resources. ComputeTime is only available if the MLModel is in the COMPLETED state.
@@ -1455,7 +1519,7 @@ extension Machinelearning {
         /// The time of the most recent edit to the MLModel. The time is expressed in epoch time.
         public let lastUpdatedAt: Date?
         /// The current status of the MLModel. This element can have one of the following values:   PENDING - Amazon Machine Learning (Amazon ML) submitted a request to describe a MLModel.  INPROGRESS - The request is processing.  FAILED - The request did not run to completion. The ML model isn't usable.  COMPLETED - The request completed successfully.  DELETED - The MLModel is marked as deleted. It isn't usable. 
-        public let status: String?
+        public let status: EntityStatus?
         /// The time that the MLModel was created. The time is expressed in epoch time.
         public let createdAt: Date?
         /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
@@ -1472,7 +1536,7 @@ extension Machinelearning {
         /// A list of the training parameters in the MLModel. The list is implemented as a map of key-value pairs. The following is the current set of training parameters:    sgd.maxMLModelSizeInBytes - The maximum allowed size of the model. Depending on the input data, the size of the model might affect its performance.  The value is an integer that ranges from 100000 to 2147483648. The default value is 33554432.  sgd.maxPasses - The number of times that the training process traverses the observations to build the MLModel. The value is an integer that ranges from 1 to 10000. The default value is 10. sgd.shuffleType - Whether Amazon ML shuffles the training data. Shuffling data improves a model's ability to find the optimal solution for a variety of data types. The valid values are auto and none. The default value is none. We strongly recommend that you shuffle your data.  sgd.l1RegularizationAmount - The coefficient regularization L1 norm. It controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to zero, resulting in a sparse feature set. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L1 normalization. This parameter can't be used when L2 is specified. Use this parameter sparingly.   sgd.l2RegularizationAmount - The coefficient regularization L2 norm. It controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to small, nonzero values. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L2 normalization. This parameter can't be used when L1 is specified. Use this parameter sparingly.  
         public let trainingParameters: [String: String]?
 
-        public init(scoreThresholdLastUpdatedAt: Date? = nil, message: String? = nil, trainingDataSourceId: String? = nil, mLModelId: String? = nil, recipe: String? = nil, endpointInfo: RealtimeEndpointInfo? = nil, createdByIamUser: String? = nil, schema: String? = nil, mLModelType: String? = nil, finishedAt: Date? = nil, computeTime: Int64? = nil, lastUpdatedAt: Date? = nil, status: String? = nil, createdAt: Date? = nil, inputDataLocationS3: String? = nil, name: String? = nil, scoreThreshold: Float? = nil, sizeInBytes: Int64? = nil, logUri: String? = nil, startedAt: Date? = nil, trainingParameters: [String: String]? = nil) {
+        public init(scoreThresholdLastUpdatedAt: Date? = nil, message: String? = nil, trainingDataSourceId: String? = nil, mLModelId: String? = nil, recipe: String? = nil, endpointInfo: RealtimeEndpointInfo? = nil, createdByIamUser: String? = nil, schema: String? = nil, mLModelType: MLModelType? = nil, finishedAt: Date? = nil, computeTime: Int64? = nil, lastUpdatedAt: Date? = nil, status: EntityStatus? = nil, createdAt: Date? = nil, inputDataLocationS3: String? = nil, name: String? = nil, scoreThreshold: Float? = nil, sizeInBytes: Int64? = nil, logUri: String? = nil, startedAt: Date? = nil, trainingParameters: [String: String]? = nil) {
             self.scoreThresholdLastUpdatedAt = scoreThresholdLastUpdatedAt
             self.message = message
             self.trainingDataSourceId = trainingDataSourceId
@@ -1505,11 +1569,11 @@ extension Machinelearning {
             if let endpointInfo = dictionary["EndpointInfo"] as? [String: Any] { self.endpointInfo = try Machinelearning.RealtimeEndpointInfo(dictionary: endpointInfo) } else { self.endpointInfo = nil }
             self.createdByIamUser = dictionary["CreatedByIamUser"] as? String
             self.schema = dictionary["Schema"] as? String
-            self.mLModelType = dictionary["MLModelType"] as? String
+            if let mLModelType = dictionary["MLModelType"] as? String { self.mLModelType = MLModelType(rawValue: mLModelType) } else { self.mLModelType = nil }
             self.finishedAt = dictionary["FinishedAt"] as? Date
             self.computeTime = dictionary["ComputeTime"] as? Int64
             self.lastUpdatedAt = dictionary["LastUpdatedAt"] as? Date
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = EntityStatus(rawValue: status) } else { self.status = nil }
             self.createdAt = dictionary["CreatedAt"] as? Date
             self.inputDataLocationS3 = dictionary["InputDataLocationS3"] as? String
             self.name = dictionary["Name"] as? String
@@ -1546,9 +1610,9 @@ extension Machinelearning {
         /// The ID of the ML object. For example, exampleModelId. 
         public let resourceId: String
         /// The type of the ML object.
-        public let resourceType: String
+        public let resourceType: TaggableResourceType
 
-        public init(resourceId: String, resourceType: String) {
+        public init(resourceId: String, resourceType: TaggableResourceType) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
@@ -1556,7 +1620,7 @@ extension Machinelearning {
         public init(dictionary: [String: Any]) throws {
             guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
             self.resourceId = resourceId
-            guard let resourceType = dictionary["ResourceType"] as? String else { throw InitializableError.missingRequiredParam("ResourceType") }
+            guard let rawResourceType = dictionary["ResourceType"] as? String, let resourceType = TaggableResourceType(rawValue: rawResourceType) else { throw InitializableError.missingRequiredParam("ResourceType") }
             self.resourceType = resourceType
         }
     }
@@ -1581,7 +1645,7 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         /// The algorithm used to train the MLModel. The following algorithm is supported:   SGD -- Stochastic gradient descent. The goal of SGD is to minimize the gradient of the loss function.  
-        public let algorithm: String?
+        public let algorithm: Algorithm?
         /// The time of the most recent edit to the ScoreThreshold. The time is expressed in epoch time.
         public let scoreThresholdLastUpdatedAt: Date?
         /// A description of the most recent details about accessing the MLModel.
@@ -1591,7 +1655,7 @@ extension Machinelearning {
         /// The ID of the training DataSource. The CreateMLModel operation uses the TrainingDataSourceId.
         public let trainingDataSourceId: String?
         /// Identifies the MLModel category. The following are the available types:   REGRESSION - Produces a numeric result. For example, "What price should a house be listed at?"  BINARY - Produces one of two possible results. For example, "Is this a child-friendly web site?".  MULTICLASS - Produces one of several possible results. For example, "Is this a HIGH-, LOW-, or MEDIUM-risk trade?". 
-        public let mLModelType: String?
+        public let mLModelType: MLModelType?
         /// The AWS user account from which the MLModel was created. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
         public let createdByIamUser: String?
         /// The current endpoint of the MLModel.
@@ -1605,7 +1669,7 @@ extension Machinelearning {
         /// The time that the MLModel was created. The time is expressed in epoch time.
         public let createdAt: Date?
         /// The current status of an MLModel. This element can have one of the following values:    PENDING - Amazon Machine Learning (Amazon ML) submitted a request to create an MLModel.  INPROGRESS - The creation process is underway.  FAILED - The request to create an MLModel didn't run to completion. The model isn't usable.  COMPLETED - The creation process completed successfully.  DELETED - The MLModel is marked as deleted. It isn't usable. 
-        public let status: String?
+        public let status: EntityStatus?
         /// A user-supplied name or description of the MLModel.
         public let name: String?
         public let scoreThreshold: Float?
@@ -1614,7 +1678,7 @@ extension Machinelearning {
         /// A list of the training parameters in the MLModel. The list is implemented as a map of key-value pairs. The following is the current set of training parameters:    sgd.maxMLModelSizeInBytes - The maximum allowed size of the model. Depending on the input data, the size of the model might affect its performance.  The value is an integer that ranges from 100000 to 2147483648. The default value is 33554432.  sgd.maxPasses - The number of times that the training process traverses the observations to build the MLModel. The value is an integer that ranges from 1 to 10000. The default value is 10. sgd.shuffleType - Whether Amazon ML shuffles the training data. Shuffling the data improves a model's ability to find the optimal solution for a variety of data types. The valid values are auto and none. The default value is none.  sgd.l1RegularizationAmount - The coefficient regularization L1 norm, which controls overfitting the data by penalizing large coefficients. This parameter tends to drive coefficients to zero, resulting in sparse feature set. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L1 normalization. This parameter can't be used when L2 is specified. Use this parameter sparingly.   sgd.l2RegularizationAmount - The coefficient regularization L2 norm, which controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to small, nonzero values. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L2 normalization. This parameter can't be used when L1 is specified. Use this parameter sparingly.  
         public let trainingParameters: [String: String]?
 
-        public init(algorithm: String? = nil, scoreThresholdLastUpdatedAt: Date? = nil, message: String? = nil, mLModelId: String? = nil, trainingDataSourceId: String? = nil, mLModelType: String? = nil, createdByIamUser: String? = nil, endpointInfo: RealtimeEndpointInfo? = nil, computeTime: Int64? = nil, finishedAt: Date? = nil, lastUpdatedAt: Date? = nil, inputDataLocationS3: String? = nil, createdAt: Date? = nil, status: String? = nil, name: String? = nil, scoreThreshold: Float? = nil, sizeInBytes: Int64? = nil, startedAt: Date? = nil, trainingParameters: [String: String]? = nil) {
+        public init(algorithm: Algorithm? = nil, scoreThresholdLastUpdatedAt: Date? = nil, message: String? = nil, mLModelId: String? = nil, trainingDataSourceId: String? = nil, mLModelType: MLModelType? = nil, createdByIamUser: String? = nil, endpointInfo: RealtimeEndpointInfo? = nil, computeTime: Int64? = nil, finishedAt: Date? = nil, lastUpdatedAt: Date? = nil, inputDataLocationS3: String? = nil, createdAt: Date? = nil, status: EntityStatus? = nil, name: String? = nil, scoreThreshold: Float? = nil, sizeInBytes: Int64? = nil, startedAt: Date? = nil, trainingParameters: [String: String]? = nil) {
             self.algorithm = algorithm
             self.scoreThresholdLastUpdatedAt = scoreThresholdLastUpdatedAt
             self.message = message
@@ -1637,12 +1701,12 @@ extension Machinelearning {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.algorithm = dictionary["Algorithm"] as? String
+            if let algorithm = dictionary["Algorithm"] as? String { self.algorithm = Algorithm(rawValue: algorithm) } else { self.algorithm = nil }
             self.scoreThresholdLastUpdatedAt = dictionary["ScoreThresholdLastUpdatedAt"] as? Date
             self.message = dictionary["Message"] as? String
             self.mLModelId = dictionary["MLModelId"] as? String
             self.trainingDataSourceId = dictionary["TrainingDataSourceId"] as? String
-            self.mLModelType = dictionary["MLModelType"] as? String
+            if let mLModelType = dictionary["MLModelType"] as? String { self.mLModelType = MLModelType(rawValue: mLModelType) } else { self.mLModelType = nil }
             self.createdByIamUser = dictionary["CreatedByIamUser"] as? String
             if let endpointInfo = dictionary["EndpointInfo"] as? [String: Any] { self.endpointInfo = try Machinelearning.RealtimeEndpointInfo(dictionary: endpointInfo) } else { self.endpointInfo = nil }
             self.computeTime = dictionary["ComputeTime"] as? Int64
@@ -1650,7 +1714,7 @@ extension Machinelearning {
             self.lastUpdatedAt = dictionary["LastUpdatedAt"] as? Date
             self.inputDataLocationS3 = dictionary["InputDataLocationS3"] as? String
             self.createdAt = dictionary["CreatedAt"] as? Date
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = EntityStatus(rawValue: status) } else { self.status = nil }
             self.name = dictionary["Name"] as? String
             self.scoreThreshold = dictionary["ScoreThreshold"] as? Float
             self.sizeInBytes = dictionary["SizeInBytes"] as? Int64
@@ -1661,6 +1725,14 @@ extension Machinelearning {
                 self.trainingParameters = nil
             }
         }
+    }
+
+    public enum RealtimeEndpointStatus: String, CustomStringConvertible {
+        case none = "NONE"
+        case ready = "READY"
+        case updating = "UPDATING"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
     }
 
     public struct DataSource: AWSShape {
@@ -1689,7 +1761,7 @@ extension Machinelearning {
         /// The location and name of the data in Amazon Simple Storage Service (Amazon S3) that is used by a DataSource.
         public let dataLocationS3: String?
         /// The current status of the DataSource. This element can have one of the following values:   PENDING - Amazon Machine Learning (Amazon ML) submitted a request to create a DataSource. INPROGRESS - The creation process is underway. FAILED - The request to create a DataSource did not run to completion. It is not usable. COMPLETED - The creation process completed successfully. DELETED - The DataSource is marked as deleted. It is not usable. 
-        public let status: String?
+        public let status: EntityStatus?
         /// A user-supplied name or description of the DataSource.
         public let name: String?
         public let redshiftMetadata: RedshiftMetadata?
@@ -1697,7 +1769,7 @@ extension Machinelearning {
         ///  The parameter is true if statistics need to be generated from the observation data. 
         public let computeStatistics: Bool?
 
-        public init(dataSizeInBytes: Int64? = nil, message: String? = nil, numberOfFiles: Int64? = nil, roleARN: String? = nil, createdByIamUser: String? = nil, rDSMetadata: RDSMetadata? = nil, computeTime: Int64? = nil, finishedAt: Date? = nil, lastUpdatedAt: Date? = nil, dataRearrangement: String? = nil, dataSourceId: String? = nil, createdAt: Date? = nil, dataLocationS3: String? = nil, status: String? = nil, name: String? = nil, redshiftMetadata: RedshiftMetadata? = nil, startedAt: Date? = nil, computeStatistics: Bool? = nil) {
+        public init(dataSizeInBytes: Int64? = nil, message: String? = nil, numberOfFiles: Int64? = nil, roleARN: String? = nil, createdByIamUser: String? = nil, rDSMetadata: RDSMetadata? = nil, computeTime: Int64? = nil, finishedAt: Date? = nil, lastUpdatedAt: Date? = nil, dataRearrangement: String? = nil, dataSourceId: String? = nil, createdAt: Date? = nil, dataLocationS3: String? = nil, status: EntityStatus? = nil, name: String? = nil, redshiftMetadata: RedshiftMetadata? = nil, startedAt: Date? = nil, computeStatistics: Bool? = nil) {
             self.dataSizeInBytes = dataSizeInBytes
             self.message = message
             self.numberOfFiles = numberOfFiles
@@ -1732,7 +1804,7 @@ extension Machinelearning {
             self.dataSourceId = dictionary["DataSourceId"] as? String
             self.createdAt = dictionary["CreatedAt"] as? Date
             self.dataLocationS3 = dictionary["DataLocationS3"] as? String
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = EntityStatus(rawValue: status) } else { self.status = nil }
             self.name = dictionary["Name"] as? String
             if let redshiftMetadata = dictionary["RedshiftMetadata"] as? [String: Any] { self.redshiftMetadata = try Machinelearning.RedshiftMetadata(dictionary: redshiftMetadata) } else { self.redshiftMetadata = nil }
             self.startedAt = dictionary["StartedAt"] as? Date
@@ -1782,7 +1854,7 @@ extension Machinelearning {
         /// The greater than operator. The MLModel results will have FilterVariable values that are greater than the value specified with GT.
         public let gT: String?
         /// Use one of the following variables to filter a list of MLModel:   CreatedAt - Sets the search criteria to MLModel creation date.  Status - Sets the search criteria to MLModel status.  Name - Sets the search criteria to the contents of MLModel  Name.  IAMUser - Sets the search criteria to the user account that invoked the MLModel creation.  TrainingDataSourceId - Sets the search criteria to the DataSource used to train one or more MLModel.  RealtimeEndpointStatus - Sets the search criteria to the MLModel real-time endpoint status.  MLModelType - Sets the search criteria to MLModel type: binary, regression, or multi-class.  Algorithm - Sets the search criteria to the algorithm that the MLModel uses.  TrainingDataURI - Sets the search criteria to the data file(s) used in training a MLModel. The URL can identify either a file or an Amazon Simple Storage Service (Amazon S3) bucket or directory. 
-        public let filterVariable: String?
+        public let filterVariable: MLModelFilterVariable?
         /// The less than operator. The MLModel results will have FilterVariable values that are less than the value specified with LT.
         public let lT: String?
         /// A string that is found at the beginning of a variable, such as Name or Id. For example, an MLModel could have the Name 2014-09-09-HolidayGiftMailer. To search for this MLModel, select Name for the FilterVariable and any of the following strings for the Prefix:   2014-09 2014-09-09 2014-09-09-Holiday 
@@ -1790,7 +1862,7 @@ extension Machinelearning {
         /// The less than or equal to operator. The MLModel results will have FilterVariable values that are less than or equal to the value specified with LE.
         public let lE: String?
         /// A two-value parameter that determines the sequence of the resulting list of MLModel.   asc - Arranges the list in ascending order (A-Z, 0-9).  dsc - Arranges the list in descending order (Z-A, 9-0).  Results are sorted by FilterVariable.
-        public let sortOrder: String?
+        public let sortOrder: SortOrder?
         /// The number of pages of information to include in the result. The range of acceptable values is 1 through 100. The default value is 100.
         public let limit: Int32?
         /// The ID of the page in the paginated results.
@@ -1798,7 +1870,7 @@ extension Machinelearning {
         /// The greater than or equal to operator. The MLModel results will have FilterVariable values that are greater than or equal to the value specified with GE. 
         public let gE: String?
 
-        public init(nE: String? = nil, eQ: String? = nil, gT: String? = nil, filterVariable: String? = nil, lT: String? = nil, prefix: String? = nil, lE: String? = nil, sortOrder: String? = nil, limit: Int32? = nil, nextToken: String? = nil, gE: String? = nil) {
+        public init(nE: String? = nil, eQ: String? = nil, gT: String? = nil, filterVariable: MLModelFilterVariable? = nil, lT: String? = nil, prefix: String? = nil, lE: String? = nil, sortOrder: SortOrder? = nil, limit: Int32? = nil, nextToken: String? = nil, gE: String? = nil) {
             self.nE = nE
             self.eQ = eQ
             self.gT = gT
@@ -1816,11 +1888,11 @@ extension Machinelearning {
             self.nE = dictionary["NE"] as? String
             self.eQ = dictionary["EQ"] as? String
             self.gT = dictionary["GT"] as? String
-            self.filterVariable = dictionary["FilterVariable"] as? String
+            if let filterVariable = dictionary["FilterVariable"] as? String { self.filterVariable = MLModelFilterVariable(rawValue: filterVariable) } else { self.filterVariable = nil }
             self.lT = dictionary["LT"] as? String
             self.prefix = dictionary["Prefix"] as? String
             self.lE = dictionary["LE"] as? String
-            self.sortOrder = dictionary["SortOrder"] as? String
+            if let sortOrder = dictionary["SortOrder"] as? String { self.sortOrder = SortOrder(rawValue: sortOrder) } else { self.sortOrder = nil }
             self.limit = dictionary["Limit"] as? Int32
             self.nextToken = dictionary["NextToken"] as? String
             self.gE = dictionary["GE"] as? String
@@ -1833,11 +1905,11 @@ extension Machinelearning {
         /// The ID of the tagged ML object. For example, exampleModelId.
         public let resourceId: String
         /// The type of the tagged ML object.
-        public let resourceType: String
+        public let resourceType: TaggableResourceType
         /// One or more tags to delete.
         public let tagKeys: [String]
 
-        public init(resourceId: String, resourceType: String, tagKeys: [String]) {
+        public init(resourceId: String, resourceType: TaggableResourceType, tagKeys: [String]) {
             self.resourceId = resourceId
             self.resourceType = resourceType
             self.tagKeys = tagKeys
@@ -1846,11 +1918,18 @@ extension Machinelearning {
         public init(dictionary: [String: Any]) throws {
             guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
             self.resourceId = resourceId
-            guard let resourceType = dictionary["ResourceType"] as? String else { throw InitializableError.missingRequiredParam("ResourceType") }
+            guard let rawResourceType = dictionary["ResourceType"] as? String, let resourceType = TaggableResourceType(rawValue: rawResourceType) else { throw InitializableError.missingRequiredParam("ResourceType") }
             self.resourceType = resourceType
             guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
             self.tagKeys = tagKeys
         }
+    }
+
+    public enum MLModelType: String, CustomStringConvertible {
+        case regression = "REGRESSION"
+        case binary = "BINARY"
+        case multiclass = "MULTICLASS"
+        public var description: String { return self.rawValue }
     }
 
     public struct GetEvaluationOutput: AWSShape {
@@ -1877,7 +1956,7 @@ extension Machinelearning {
         /// The time that the Evaluation was created. The time is expressed in epoch time.
         public let createdAt: Date?
         /// The status of the evaluation. This element can have one of the following values:   PENDING - Amazon Machine Language (Amazon ML) submitted a request to evaluate an MLModel.  INPROGRESS - The evaluation is underway.  FAILED - The request to evaluate an MLModel did not run to completion. It is not usable.  COMPLETED - The evaluation process completed successfully.  DELETED - The Evaluation is marked as deleted. It is not usable. 
-        public let status: String?
+        public let status: EntityStatus?
         /// A user-supplied name or description of the Evaluation. 
         public let name: String?
         /// A link to the file that contains logs of the CreateEvaluation operation.
@@ -1887,7 +1966,7 @@ extension Machinelearning {
         /// The DataSource used for this evaluation.
         public let evaluationDataSourceId: String?
 
-        public init(performanceMetrics: PerformanceMetrics? = nil, evaluationId: String? = nil, message: String? = nil, mLModelId: String? = nil, createdByIamUser: String? = nil, computeTime: Int64? = nil, finishedAt: Date? = nil, lastUpdatedAt: Date? = nil, inputDataLocationS3: String? = nil, createdAt: Date? = nil, status: String? = nil, name: String? = nil, logUri: String? = nil, startedAt: Date? = nil, evaluationDataSourceId: String? = nil) {
+        public init(performanceMetrics: PerformanceMetrics? = nil, evaluationId: String? = nil, message: String? = nil, mLModelId: String? = nil, createdByIamUser: String? = nil, computeTime: Int64? = nil, finishedAt: Date? = nil, lastUpdatedAt: Date? = nil, inputDataLocationS3: String? = nil, createdAt: Date? = nil, status: EntityStatus? = nil, name: String? = nil, logUri: String? = nil, startedAt: Date? = nil, evaluationDataSourceId: String? = nil) {
             self.performanceMetrics = performanceMetrics
             self.evaluationId = evaluationId
             self.message = message
@@ -1916,7 +1995,7 @@ extension Machinelearning {
             self.lastUpdatedAt = dictionary["LastUpdatedAt"] as? Date
             self.inputDataLocationS3 = dictionary["InputDataLocationS3"] as? String
             self.createdAt = dictionary["CreatedAt"] as? Date
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = EntityStatus(rawValue: status) } else { self.status = nil }
             self.name = dictionary["Name"] as? String
             self.logUri = dictionary["LogUri"] as? String
             self.startedAt = dictionary["StartedAt"] as? Date
@@ -1932,9 +2011,9 @@ extension Machinelearning {
         /// The key-value pairs to use to create tags. If you specify a key without specifying a value, Amazon ML creates a tag with the specified key and a value of null.
         public let tags: [Tag]
         /// The type of the ML object to tag. 
-        public let resourceType: String
+        public let resourceType: TaggableResourceType
 
-        public init(resourceId: String, tags: [Tag], resourceType: String) {
+        public init(resourceId: String, tags: [Tag], resourceType: TaggableResourceType) {
             self.resourceId = resourceId
             self.tags = tags
             self.resourceType = resourceType
@@ -1945,7 +2024,7 @@ extension Machinelearning {
             self.resourceId = resourceId
             guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
             self.tags = try tags.map({ try Tag(dictionary: $0) })
-            guard let resourceType = dictionary["ResourceType"] as? String else { throw InitializableError.missingRequiredParam("ResourceType") }
+            guard let rawResourceType = dictionary["ResourceType"] as? String, let resourceType = TaggableResourceType(rawValue: rawResourceType) else { throw InitializableError.missingRequiredParam("ResourceType") }
             self.resourceType = resourceType
         }
     }
@@ -2026,13 +2105,13 @@ extension Machinelearning {
         /// The data recipe for creating the MLModel. You must specify either the recipe or its URI. If you don't specify a recipe or its URI, Amazon ML creates a default.
         public let recipe: String?
         /// The category of supervised learning that this MLModel will address. Choose from the following types:  Choose REGRESSION if the MLModel will be used to predict a numeric value. Choose BINARY if the MLModel result has two possible values. Choose MULTICLASS if the MLModel result has a limited number of values.    For more information, see the Amazon Machine Learning Developer Guide.
-        public let mLModelType: String
+        public let mLModelType: MLModelType
         /// A list of the training parameters in the MLModel. The list is implemented as a map of key-value pairs. The following is the current set of training parameters:    sgd.maxMLModelSizeInBytes - The maximum allowed size of the model. Depending on the input data, the size of the model might affect its performance.  The value is an integer that ranges from 100000 to 2147483648. The default value is 33554432.  sgd.maxPasses - The number of times that the training process traverses the observations to build the MLModel. The value is an integer that ranges from 1 to 10000. The default value is 10.  sgd.shuffleType - Whether Amazon ML shuffles the training data. Shuffling the data improves a model's ability to find the optimal solution for a variety of data types. The valid values are auto and none. The default value is none. We strongly recommend that you shuffle your data.   sgd.l1RegularizationAmount - The coefficient regularization L1 norm. It controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to zero, resulting in a sparse feature set. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L1 normalization. This parameter can't be used when L2 is specified. Use this parameter sparingly.   sgd.l2RegularizationAmount - The coefficient regularization L2 norm. It controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to small, nonzero values. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L2 normalization. This parameter can't be used when L1 is specified. Use this parameter sparingly.  
         public let parameters: [String: String]?
         /// A user-supplied name or description of the MLModel.
         public let mLModelName: String?
 
-        public init(recipeUri: String? = nil, trainingDataSourceId: String, mLModelId: String, recipe: String? = nil, mLModelType: String, parameters: [String: String]? = nil, mLModelName: String? = nil) {
+        public init(recipeUri: String? = nil, trainingDataSourceId: String, mLModelId: String, recipe: String? = nil, mLModelType: MLModelType, parameters: [String: String]? = nil, mLModelName: String? = nil) {
             self.recipeUri = recipeUri
             self.trainingDataSourceId = trainingDataSourceId
             self.mLModelId = mLModelId
@@ -2049,7 +2128,7 @@ extension Machinelearning {
             guard let mLModelId = dictionary["MLModelId"] as? String else { throw InitializableError.missingRequiredParam("MLModelId") }
             self.mLModelId = mLModelId
             self.recipe = dictionary["Recipe"] as? String
-            guard let mLModelType = dictionary["MLModelType"] as? String else { throw InitializableError.missingRequiredParam("MLModelType") }
+            guard let rawMLModelType = dictionary["MLModelType"] as? String, let mLModelType = MLModelType(rawValue: rawMLModelType) else { throw InitializableError.missingRequiredParam("MLModelType") }
             self.mLModelType = mLModelType
             if let parameters = dictionary["Parameters"] as? [String: String] {
                 self.parameters = parameters
@@ -2070,7 +2149,7 @@ extension Machinelearning {
         /// The greater than operator. The BatchPrediction results will have FilterVariable values that are greater than the value specified with GT.
         public let gT: String?
         /// Use one of the following variables to filter a list of BatchPrediction:   CreatedAt - Sets the search criteria to the BatchPrediction creation date.  Status - Sets the search criteria to the BatchPrediction status.  Name - Sets the search criteria to the contents of the BatchPrediction  Name.  IAMUser - Sets the search criteria to the user account that invoked the BatchPrediction creation.  MLModelId - Sets the search criteria to the MLModel used in the BatchPrediction.  DataSourceId - Sets the search criteria to the DataSource used in the BatchPrediction.  DataURI - Sets the search criteria to the data file(s) used in the BatchPrediction. The URL can identify either a file or an Amazon Simple Storage Solution (Amazon S3) bucket or directory. 
-        public let filterVariable: String?
+        public let filterVariable: BatchPredictionFilterVariable?
         /// The less than operator. The BatchPrediction results will have FilterVariable values that are less than the value specified with LT.
         public let lT: String?
         /// A string that is found at the beginning of a variable, such as Name or Id. For example, a Batch Prediction operation could have the Name 2014-09-09-HolidayGiftMailer. To search for this BatchPrediction, select Name for the FilterVariable and any of the following strings for the Prefix:   2014-09 2014-09-09 2014-09-09-Holiday 
@@ -2078,7 +2157,7 @@ extension Machinelearning {
         /// The less than or equal to operator. The BatchPrediction results will have FilterVariable values that are less than or equal to the value specified with LE.
         public let lE: String?
         /// A two-value parameter that determines the sequence of the resulting list of MLModels.   asc - Arranges the list in ascending order (A-Z, 0-9).  dsc - Arranges the list in descending order (Z-A, 9-0).  Results are sorted by FilterVariable.
-        public let sortOrder: String?
+        public let sortOrder: SortOrder?
         /// The number of pages of information to include in the result. The range of acceptable values is 1 through 100. The default value is 100.
         public let limit: Int32?
         /// An ID of the page in the paginated results.
@@ -2086,7 +2165,7 @@ extension Machinelearning {
         /// The greater than or equal to operator. The BatchPrediction results will have FilterVariable values that are greater than or equal to the value specified with GE. 
         public let gE: String?
 
-        public init(nE: String? = nil, eQ: String? = nil, gT: String? = nil, filterVariable: String? = nil, lT: String? = nil, prefix: String? = nil, lE: String? = nil, sortOrder: String? = nil, limit: Int32? = nil, nextToken: String? = nil, gE: String? = nil) {
+        public init(nE: String? = nil, eQ: String? = nil, gT: String? = nil, filterVariable: BatchPredictionFilterVariable? = nil, lT: String? = nil, prefix: String? = nil, lE: String? = nil, sortOrder: SortOrder? = nil, limit: Int32? = nil, nextToken: String? = nil, gE: String? = nil) {
             self.nE = nE
             self.eQ = eQ
             self.gT = gT
@@ -2104,11 +2183,11 @@ extension Machinelearning {
             self.nE = dictionary["NE"] as? String
             self.eQ = dictionary["EQ"] as? String
             self.gT = dictionary["GT"] as? String
-            self.filterVariable = dictionary["FilterVariable"] as? String
+            if let filterVariable = dictionary["FilterVariable"] as? String { self.filterVariable = BatchPredictionFilterVariable(rawValue: filterVariable) } else { self.filterVariable = nil }
             self.lT = dictionary["LT"] as? String
             self.prefix = dictionary["Prefix"] as? String
             self.lE = dictionary["LE"] as? String
-            self.sortOrder = dictionary["SortOrder"] as? String
+            if let sortOrder = dictionary["SortOrder"] as? String { self.sortOrder = SortOrder(rawValue: sortOrder) } else { self.sortOrder = nil }
             self.limit = dictionary["Limit"] as? Int32
             self.nextToken = dictionary["NextToken"] as? String
             self.gE = dictionary["GE"] as? String
@@ -2125,7 +2204,7 @@ extension Machinelearning {
         /// The greater than operator. The DataSource results will have FilterVariable values that are greater than the value specified with GT.
         public let gT: String?
         /// Use one of the following variables to filter a list of DataSource:   CreatedAt - Sets the search criteria to DataSource creation dates.  Status - Sets the search criteria to DataSource statuses.  Name - Sets the search criteria to the contents of DataSource   Name.  DataUri - Sets the search criteria to the URI of data files used to create the DataSource. The URI can identify either a file or an Amazon Simple Storage Service (Amazon S3) bucket or directory.  IAMUser - Sets the search criteria to the user account that invoked the DataSource creation. 
-        public let filterVariable: String?
+        public let filterVariable: DataSourceFilterVariable?
         /// The less than operator. The DataSource results will have FilterVariable values that are less than the value specified with LT.
         public let lT: String?
         /// A string that is found at the beginning of a variable, such as Name or Id. For example, a DataSource could have the Name 2014-09-09-HolidayGiftMailer. To search for this DataSource, select Name for the FilterVariable and any of the following strings for the Prefix:   2014-09 2014-09-09 2014-09-09-Holiday 
@@ -2133,7 +2212,7 @@ extension Machinelearning {
         /// The less than or equal to operator. The DataSource results will have FilterVariable values that are less than or equal to the value specified with LE.
         public let lE: String?
         /// A two-value parameter that determines the sequence of the resulting list of DataSource.   asc - Arranges the list in ascending order (A-Z, 0-9).  dsc - Arranges the list in descending order (Z-A, 9-0).  Results are sorted by FilterVariable.
-        public let sortOrder: String?
+        public let sortOrder: SortOrder?
         ///  The maximum number of DataSource to include in the result.
         public let limit: Int32?
         /// The ID of the page in the paginated results.
@@ -2141,7 +2220,7 @@ extension Machinelearning {
         /// The greater than or equal to operator. The DataSource results will have FilterVariable values that are greater than or equal to the value specified with GE. 
         public let gE: String?
 
-        public init(nE: String? = nil, eQ: String? = nil, gT: String? = nil, filterVariable: String? = nil, lT: String? = nil, prefix: String? = nil, lE: String? = nil, sortOrder: String? = nil, limit: Int32? = nil, nextToken: String? = nil, gE: String? = nil) {
+        public init(nE: String? = nil, eQ: String? = nil, gT: String? = nil, filterVariable: DataSourceFilterVariable? = nil, lT: String? = nil, prefix: String? = nil, lE: String? = nil, sortOrder: SortOrder? = nil, limit: Int32? = nil, nextToken: String? = nil, gE: String? = nil) {
             self.nE = nE
             self.eQ = eQ
             self.gT = gT
@@ -2159,11 +2238,11 @@ extension Machinelearning {
             self.nE = dictionary["NE"] as? String
             self.eQ = dictionary["EQ"] as? String
             self.gT = dictionary["GT"] as? String
-            self.filterVariable = dictionary["FilterVariable"] as? String
+            if let filterVariable = dictionary["FilterVariable"] as? String { self.filterVariable = DataSourceFilterVariable(rawValue: filterVariable) } else { self.filterVariable = nil }
             self.lT = dictionary["LT"] as? String
             self.prefix = dictionary["Prefix"] as? String
             self.lE = dictionary["LE"] as? String
-            self.sortOrder = dictionary["SortOrder"] as? String
+            if let sortOrder = dictionary["SortOrder"] as? String { self.sortOrder = SortOrder(rawValue: sortOrder) } else { self.sortOrder = nil }
             self.limit = dictionary["Limit"] as? Int32
             self.nextToken = dictionary["NextToken"] as? String
             self.gE = dictionary["GE"] as? String
@@ -2176,16 +2255,16 @@ extension Machinelearning {
         /// The ID of the ML object from which tags were deleted.
         public let resourceId: String?
         /// The type of the ML object from which tags were deleted.
-        public let resourceType: String?
+        public let resourceType: TaggableResourceType?
 
-        public init(resourceId: String? = nil, resourceType: String? = nil) {
+        public init(resourceId: String? = nil, resourceType: TaggableResourceType? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         public init(dictionary: [String: Any]) throws {
             self.resourceId = dictionary["ResourceId"] as? String
-            self.resourceType = dictionary["ResourceType"] as? String
+            if let resourceType = dictionary["ResourceType"] as? String { self.resourceType = TaggableResourceType(rawValue: resourceType) } else { self.resourceType = nil }
         }
     }
 
@@ -2207,6 +2286,24 @@ extension Machinelearning {
             self.dataSourceId = dataSourceId
             self.verbose = dictionary["Verbose"] as? Bool
         }
+    }
+
+    public enum TaggableResourceType: String, CustomStringConvertible {
+        case batchprediction = "BatchPrediction"
+        case datasource = "DataSource"
+        case evaluation = "Evaluation"
+        case mlmodel = "MLModel"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataSourceFilterVariable: String, CustomStringConvertible {
+        case createdat = "CreatedAt"
+        case lastupdatedat = "LastUpdatedAt"
+        case status = "Status"
+        case name = "Name"
+        case datalocations3 = "DataLocationS3"
+        case iamuser = "IAMUser"
+        public var description: String { return self.rawValue }
     }
 
     public struct DeleteEvaluationOutput: AWSShape {

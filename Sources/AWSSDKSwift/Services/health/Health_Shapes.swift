@@ -54,7 +54,7 @@ extension Health {
         /// The most recent time that the entity was updated.
         public let lastUpdatedTime: Date?
         /// The most recent status of the entity affected by the event. The possible values are IMPAIRED, UNIMPAIRED, and UNKNOWN.
-        public let statusCode: String?
+        public let statusCode: EntityStatusCode?
         /// The unique identifier for the entity. Format: arn:aws:health:entity-region:aws-account:entity/entity-id . Example: arn:aws:health:us-east-1:111222333444:entity/AVh5GGT7ul1arKr1sE1K 
         public let entityArn: String?
         /// A map of entity tags attached to the affected entity.
@@ -66,7 +66,7 @@ extension Health {
         /// The ID of the affected entity.
         public let entityValue: String?
 
-        public init(lastUpdatedTime: Date? = nil, statusCode: String? = nil, entityArn: String? = nil, tags: [String: String]? = nil, awsAccountId: String? = nil, eventArn: String? = nil, entityValue: String? = nil) {
+        public init(lastUpdatedTime: Date? = nil, statusCode: EntityStatusCode? = nil, entityArn: String? = nil, tags: [String: String]? = nil, awsAccountId: String? = nil, eventArn: String? = nil, entityValue: String? = nil) {
             self.lastUpdatedTime = lastUpdatedTime
             self.statusCode = statusCode
             self.entityArn = entityArn
@@ -78,7 +78,7 @@ extension Health {
 
         public init(dictionary: [String: Any]) throws {
             self.lastUpdatedTime = dictionary["lastUpdatedTime"] as? Date
-            self.statusCode = dictionary["statusCode"] as? String
+            if let statusCode = dictionary["statusCode"] as? String { self.statusCode = EntityStatusCode(rawValue: statusCode) } else { self.statusCode = nil }
             self.entityArn = dictionary["entityArn"] as? String
             if let tags = dictionary["tags"] as? [String: String] {
                 self.tags = tags
@@ -118,20 +118,20 @@ extension Health {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of event type category codes (issue, scheduledChange, or accountNotification).
-        public let eventTypeCategories: [String]?
+        public let eventTypeCategories: [EventTypeCategory]?
         /// The AWS services associated with the event. For example, EC2, RDS.
         public let services: [String]?
         /// A list of event type codes.
         public let eventTypeCodes: [String]?
 
-        public init(eventTypeCategories: [String]? = nil, services: [String]? = nil, eventTypeCodes: [String]? = nil) {
+        public init(eventTypeCategories: [EventTypeCategory]? = nil, services: [String]? = nil, eventTypeCodes: [String]? = nil) {
             self.eventTypeCategories = eventTypeCategories
             self.services = services
             self.eventTypeCodes = eventTypeCodes
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.eventTypeCategories = dictionary["eventTypeCategories"] as? [String]
+            if let eventTypeCategories = dictionary["eventTypeCategories"] as? [String] { self.eventTypeCategories = eventTypeCategories.flatMap({ EventTypeCategory(rawValue: $0)}) } else { self.eventTypeCategories = nil }
             self.services = dictionary["services"] as? [String]
             self.eventTypeCodes = dictionary["eventTypeCodes"] as? [String]
         }
@@ -160,6 +160,13 @@ extension Health {
         }
     }
 
+    public enum EventTypeCategory: String, CustomStringConvertible {
+        case issue = "issue"
+        case accountnotification = "accountNotification"
+        case scheduledchange = "scheduledChange"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Event: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -170,9 +177,9 @@ extension Health {
         /// The most recent date and time that the event was updated.
         public let lastUpdatedTime: Date?
         /// The most recent status of the event. Possible values are open, closed, and upcoming.
-        public let statusCode: String?
+        public let statusCode: EventStatusCode?
         /// The 
-        public let eventTypeCategory: String?
+        public let eventTypeCategory: EventTypeCategory?
         /// The AWS region name of the event.
         public let region: String?
         /// The date and time that the event ended.
@@ -184,7 +191,7 @@ extension Health {
         /// The unique identifier for the event. Format: arn:aws:health:event-region::event/EVENT_TYPE_PLUS_ID . Example: arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331 
         public let arn: String?
 
-        public init(service: String? = nil, availabilityZone: String? = nil, lastUpdatedTime: Date? = nil, statusCode: String? = nil, eventTypeCategory: String? = nil, region: String? = nil, endTime: Date? = nil, eventTypeCode: String? = nil, startTime: Date? = nil, arn: String? = nil) {
+        public init(service: String? = nil, availabilityZone: String? = nil, lastUpdatedTime: Date? = nil, statusCode: EventStatusCode? = nil, eventTypeCategory: EventTypeCategory? = nil, region: String? = nil, endTime: Date? = nil, eventTypeCode: String? = nil, startTime: Date? = nil, arn: String? = nil) {
             self.service = service
             self.availabilityZone = availabilityZone
             self.lastUpdatedTime = lastUpdatedTime
@@ -201,8 +208,8 @@ extension Health {
             self.service = dictionary["service"] as? String
             self.availabilityZone = dictionary["availabilityZone"] as? String
             self.lastUpdatedTime = dictionary["lastUpdatedTime"] as? Date
-            self.statusCode = dictionary["statusCode"] as? String
-            self.eventTypeCategory = dictionary["eventTypeCategory"] as? String
+            if let statusCode = dictionary["statusCode"] as? String { self.statusCode = EventStatusCode(rawValue: statusCode) } else { self.statusCode = nil }
+            if let eventTypeCategory = dictionary["eventTypeCategory"] as? String { self.eventTypeCategory = EventTypeCategory(rawValue: eventTypeCategory) } else { self.eventTypeCategory = nil }
             self.region = dictionary["region"] as? String
             self.endTime = dictionary["endTime"] as? Date
             self.eventTypeCode = dictionary["eventTypeCode"] as? String
@@ -258,6 +265,13 @@ extension Health {
         }
     }
 
+    public enum EventStatusCode: String, CustomStringConvertible {
+        case open = "open"
+        case closed = "closed"
+        case upcoming = "upcoming"
+        public var description: String { return self.rawValue }
+    }
+
     public struct EventDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -306,9 +320,9 @@ extension Health {
         /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
         public let maxResults: Int32?
         /// The only currently supported value is eventTypeCategory.
-        public let aggregateField: String
+        public let aggregateField: EventAggregateField
 
-        public init(nextToken: String? = nil, filter: EventFilter? = nil, maxResults: Int32? = nil, aggregateField: String) {
+        public init(nextToken: String? = nil, filter: EventFilter? = nil, maxResults: Int32? = nil, aggregateField: EventAggregateField) {
             self.nextToken = nextToken
             self.filter = filter
             self.maxResults = maxResults
@@ -319,7 +333,7 @@ extension Health {
             self.nextToken = dictionary["nextToken"] as? String
             if let filter = dictionary["filter"] as? [String: Any] { self.filter = try Health.EventFilter(dictionary: filter) } else { self.filter = nil }
             self.maxResults = dictionary["maxResults"] as? Int32
-            guard let aggregateField = dictionary["aggregateField"] as? String else { throw InitializableError.missingRequiredParam("aggregateField") }
+            guard let rawaggregateField = dictionary["aggregateField"] as? String, let aggregateField = EventAggregateField(rawValue: rawaggregateField) else { throw InitializableError.missingRequiredParam("aggregateField") }
             self.aggregateField = aggregateField
         }
     }
@@ -328,11 +342,11 @@ extension Health {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of event type category codes (issue, scheduledChange, or accountNotification).
-        public let eventTypeCategories: [String]?
+        public let eventTypeCategories: [EventTypeCategory]?
         /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331", "arn:aws:health:us-west-1::event/AWS_EBS_LOST_VOLUME_xyz" 
         public let eventArns: [String]?
         /// A list of event status codes.
-        public let eventStatusCodes: [String]?
+        public let eventStatusCodes: [EventStatusCode]?
         /// A list of dates and times that the event was last updated.
         public let lastUpdatedTimes: [DateTimeRange]?
         /// A map of entity tags attached to the affected entity.
@@ -354,7 +368,7 @@ extension Health {
         /// A list of dates and times that the event began.
         public let startTimes: [DateTimeRange]?
 
-        public init(eventTypeCategories: [String]? = nil, eventArns: [String]? = nil, eventStatusCodes: [String]? = nil, lastUpdatedTimes: [DateTimeRange]? = nil, tags: [[String: String]]? = nil, eventTypeCodes: [String]? = nil, entityArns: [String]? = nil, entityValues: [String]? = nil, availabilityZones: [String]? = nil, services: [String]? = nil, endTimes: [DateTimeRange]? = nil, regions: [String]? = nil, startTimes: [DateTimeRange]? = nil) {
+        public init(eventTypeCategories: [EventTypeCategory]? = nil, eventArns: [String]? = nil, eventStatusCodes: [EventStatusCode]? = nil, lastUpdatedTimes: [DateTimeRange]? = nil, tags: [[String: String]]? = nil, eventTypeCodes: [String]? = nil, entityArns: [String]? = nil, entityValues: [String]? = nil, availabilityZones: [String]? = nil, services: [String]? = nil, endTimes: [DateTimeRange]? = nil, regions: [String]? = nil, startTimes: [DateTimeRange]? = nil) {
             self.eventTypeCategories = eventTypeCategories
             self.eventArns = eventArns
             self.eventStatusCodes = eventStatusCodes
@@ -371,9 +385,9 @@ extension Health {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.eventTypeCategories = dictionary["eventTypeCategories"] as? [String]
+            if let eventTypeCategories = dictionary["eventTypeCategories"] as? [String] { self.eventTypeCategories = eventTypeCategories.flatMap({ EventTypeCategory(rawValue: $0)}) } else { self.eventTypeCategories = nil }
             self.eventArns = dictionary["eventArns"] as? [String]
-            self.eventStatusCodes = dictionary["eventStatusCodes"] as? [String]
+            if let eventStatusCodes = dictionary["eventStatusCodes"] as? [String] { self.eventStatusCodes = eventStatusCodes.flatMap({ EventStatusCode(rawValue: $0)}) } else { self.eventStatusCodes = nil }
             if let lastUpdatedTimes = dictionary["lastUpdatedTimes"] as? [[String: Any]] {
                 self.lastUpdatedTimes = try lastUpdatedTimes.map({ try DateTimeRange(dictionary: $0) })
             } else { 
@@ -418,6 +432,11 @@ extension Health {
         }
     }
 
+    public enum EventAggregateField: String, CustomStringConvertible {
+        case eventtypecategory = "eventTypeCategory"
+        public var description: String { return self.rawValue }
+    }
+
     public struct EntityAggregate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -443,11 +462,11 @@ extension Health {
         /// The AWS service that is affected by the event. For example, EC2, RDS.
         public let service: String?
         /// A list of event type category codes (issue, scheduledChange, or accountNotification).
-        public let category: String?
+        public let category: EventTypeCategory?
         /// The unique identifier for the event type. The format is AWS_SERVICE_DESCRIPTION ; for example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT.
         public let code: String?
 
-        public init(service: String? = nil, category: String? = nil, code: String? = nil) {
+        public init(service: String? = nil, category: EventTypeCategory? = nil, code: String? = nil) {
             self.service = service
             self.category = category
             self.code = code
@@ -455,7 +474,7 @@ extension Health {
 
         public init(dictionary: [String: Any]) throws {
             self.service = dictionary["service"] as? String
-            self.category = dictionary["category"] as? String
+            if let category = dictionary["category"] as? String { self.category = EventTypeCategory(rawValue: category) } else { self.category = nil }
             self.code = dictionary["code"] as? String
         }
     }
@@ -607,7 +626,7 @@ extension Health {
         /// A list of the most recent dates and times that the entity was updated.
         public let lastUpdatedTimes: [DateTimeRange]?
         /// A list of entity status codes (IMPAIRED, UNIMPAIRED, or UNKNOWN).
-        public let statusCodes: [String]?
+        public let statusCodes: [EntityStatusCode]?
         /// A map of entity tags attached to the affected entity.
         public let tags: [[String: String]]?
         /// A list of entity ARNs (unique identifiers).
@@ -615,7 +634,7 @@ extension Health {
         /// A list of IDs for affected entities.
         public let entityValues: [String]?
 
-        public init(eventArns: [String], lastUpdatedTimes: [DateTimeRange]? = nil, statusCodes: [String]? = nil, tags: [[String: String]]? = nil, entityArns: [String]? = nil, entityValues: [String]? = nil) {
+        public init(eventArns: [String], lastUpdatedTimes: [DateTimeRange]? = nil, statusCodes: [EntityStatusCode]? = nil, tags: [[String: String]]? = nil, entityArns: [String]? = nil, entityValues: [String]? = nil) {
             self.eventArns = eventArns
             self.lastUpdatedTimes = lastUpdatedTimes
             self.statusCodes = statusCodes
@@ -632,11 +651,18 @@ extension Health {
             } else { 
                 self.lastUpdatedTimes = nil
             }
-            self.statusCodes = dictionary["statusCodes"] as? [String]
+            if let statusCodes = dictionary["statusCodes"] as? [String] { self.statusCodes = statusCodes.flatMap({ EntityStatusCode(rawValue: $0)}) } else { self.statusCodes = nil }
             self.tags = dictionary["tags"] as? [[String: String]]
             self.entityArns = dictionary["entityArns"] as? [String]
             self.entityValues = dictionary["entityValues"] as? [String]
         }
+    }
+
+    public enum EntityStatusCode: String, CustomStringConvertible {
+        case impaired = "IMPAIRED"
+        case unimpaired = "UNIMPAIRED"
+        case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
     }
 
     public struct DescribeEventTypesRequest: AWSShape {

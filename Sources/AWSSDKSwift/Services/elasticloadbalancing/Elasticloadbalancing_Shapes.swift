@@ -29,347 +29,408 @@ import Core
 
 extension Elasticloadbalancing {
 
-    public struct ModifyTargetGroupAttributesOutput: AWSShape {
+    public struct PolicyAttributeTypeDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// Information about the attributes.
-        public let attributes: [TargetGroupAttribute]?
+        /// The name of the attribute.
+        public let attributeName: String?
+        /// The type of the attribute. For example, Boolean or Integer.
+        public let attributeType: String?
+        /// The default value of the attribute, if applicable.
+        public let defaultValue: String?
+        /// The cardinality of the attribute. Valid values:   ONE(1) : Single value required   ZERO_OR_ONE(0..1) : Up to one value is allowed   ZERO_OR_MORE(0..*) : Optional. Multiple values are allowed   ONE_OR_MORE(1..*0) : Required. Multiple values are allowed  
+        public let cardinality: String?
+        /// A description of the attribute.
+        public let description: String?
 
-        public init(attributes: [TargetGroupAttribute]? = nil) {
-            self.attributes = attributes
+        public init(attributeName: String? = nil, attributeType: String? = nil, defaultValue: String? = nil, cardinality: String? = nil, description: String? = nil) {
+            self.attributeName = attributeName
+            self.attributeType = attributeType
+            self.defaultValue = defaultValue
+            self.cardinality = cardinality
+            self.description = description
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let attributes = dictionary["Attributes"] as? [[String: Any]] {
-                self.attributes = try attributes.map({ try TargetGroupAttribute(dictionary: $0) })
+            self.attributeName = dictionary["AttributeName"] as? String
+            self.attributeType = dictionary["AttributeType"] as? String
+            self.defaultValue = dictionary["DefaultValue"] as? String
+            self.cardinality = dictionary["Cardinality"] as? String
+            self.description = dictionary["Description"] as? String
+        }
+    }
+
+    public struct AddAvailabilityZonesOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        /// The updated list of Availability Zones for the load balancer.
+        public let availabilityZones: [String]?
+
+        public init(availabilityZones: [String]? = nil) {
+            self.availabilityZones = availabilityZones
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.availabilityZones = dictionary["AvailabilityZones"] as? [String]
+        }
+    }
+
+    public struct DeleteLoadBalancerPolicyInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        /// The name of the load balancer.
+        public let loadBalancerName: String
+        /// The name of the policy.
+        public let policyName: String
+
+        public init(loadBalancerName: String, policyName: String) {
+            self.loadBalancerName = loadBalancerName
+            self.policyName = policyName
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
+            self.loadBalancerName = loadBalancerName
+            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
+            self.policyName = policyName
+        }
+    }
+
+    public struct PolicyAttributeDescription: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        /// The name of the attribute.
+        public let attributeName: String?
+        /// The value of the attribute.
+        public let attributeValue: String?
+
+        public init(attributeName: String? = nil, attributeValue: String? = nil) {
+            self.attributeName = attributeName
+            self.attributeValue = attributeValue
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.attributeName = dictionary["AttributeName"] as? String
+            self.attributeValue = dictionary["AttributeValue"] as? String
+        }
+    }
+
+    public struct DetachLoadBalancerFromSubnetsInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        /// The IDs of the subnets.
+        public let subnets: [String]
+        /// The name of the load balancer.
+        public let loadBalancerName: String
+
+        public init(subnets: [String], loadBalancerName: String) {
+            self.subnets = subnets
+            self.loadBalancerName = loadBalancerName
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let subnets = dictionary["Subnets"] as? [String] else { throw InitializableError.missingRequiredParam("Subnets") }
+            self.subnets = subnets
+            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
+            self.loadBalancerName = loadBalancerName
+        }
+    }
+
+    public struct DescribeAccessPointsOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        /// Information about the load balancers.
+        public let loadBalancerDescriptions: [LoadBalancerDescription]?
+        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
+        public let nextMarker: String?
+
+        public init(loadBalancerDescriptions: [LoadBalancerDescription]? = nil, nextMarker: String? = nil) {
+            self.loadBalancerDescriptions = loadBalancerDescriptions
+            self.nextMarker = nextMarker
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let loadBalancerDescriptions = dictionary["LoadBalancerDescriptions"] as? [[String: Any]] {
+                self.loadBalancerDescriptions = try loadBalancerDescriptions.map({ try LoadBalancerDescription(dictionary: $0) })
             } else { 
-                self.attributes = nil
+                self.loadBalancerDescriptions = nil
             }
+            self.nextMarker = dictionary["NextMarker"] as? String
         }
     }
 
-    public struct Rule: AWSShape {
+    public struct RemoveAvailabilityZonesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// The priority.
-        public let priority: String?
-        /// Indicates whether this is the default rule.
-        public let isDefault: Bool?
-        /// The Amazon Resource Name (ARN) of the rule.
-        public let ruleArn: String?
-        /// The actions.
-        public let actions: [Action]?
-        /// The conditions.
-        public let conditions: [RuleCondition]?
+        /// The Availability Zones.
+        public let availabilityZones: [String]
+        /// The name of the load balancer.
+        public let loadBalancerName: String
 
-        public init(priority: String? = nil, isDefault: Bool? = nil, ruleArn: String? = nil, actions: [Action]? = nil, conditions: [RuleCondition]? = nil) {
-            self.priority = priority
-            self.isDefault = isDefault
-            self.ruleArn = ruleArn
-            self.actions = actions
-            self.conditions = conditions
+        public init(availabilityZones: [String], loadBalancerName: String) {
+            self.availabilityZones = availabilityZones
+            self.loadBalancerName = loadBalancerName
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.priority = dictionary["Priority"] as? String
-            self.isDefault = dictionary["IsDefault"] as? Bool
-            self.ruleArn = dictionary["RuleArn"] as? String
-            if let actions = dictionary["Actions"] as? [[String: Any]] {
-                self.actions = try actions.map({ try Action(dictionary: $0) })
-            } else { 
-                self.actions = nil
-            }
-            if let conditions = dictionary["Conditions"] as? [[String: Any]] {
-                self.conditions = try conditions.map({ try RuleCondition(dictionary: $0) })
-            } else { 
-                self.conditions = nil
-            }
+            guard let availabilityZones = dictionary["AvailabilityZones"] as? [String] else { throw InitializableError.missingRequiredParam("AvailabilityZones") }
+            self.availabilityZones = availabilityZones
+            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
+            self.loadBalancerName = loadBalancerName
         }
     }
 
-    public struct TargetHealthDescription: AWSShape {
+    public struct CreateLoadBalancerListenerInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// The health information for the target.
-        public let targetHealth: TargetHealth?
-        /// The description of the target.
-        public let target: TargetDescription?
-        /// The port to use to connect with the target.
-        public let healthCheckPort: String?
+        /// The name of the load balancer.
+        public let loadBalancerName: String
+        /// The listeners.
+        public let listeners: [Listener]
 
-        public init(targetHealth: TargetHealth? = nil, target: TargetDescription? = nil, healthCheckPort: String? = nil) {
-            self.targetHealth = targetHealth
-            self.target = target
-            self.healthCheckPort = healthCheckPort
+        public init(loadBalancerName: String, listeners: [Listener]) {
+            self.loadBalancerName = loadBalancerName
+            self.listeners = listeners
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let targetHealth = dictionary["TargetHealth"] as? [String: Any] { self.targetHealth = try Elasticloadbalancing.TargetHealth(dictionary: targetHealth) } else { self.targetHealth = nil }
-            if let target = dictionary["Target"] as? [String: Any] { self.target = try Elasticloadbalancing.TargetDescription(dictionary: target) } else { self.target = nil }
-            self.healthCheckPort = dictionary["HealthCheckPort"] as? String
+            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
+            self.loadBalancerName = loadBalancerName
+            guard let listeners = dictionary["Listeners"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Listeners") }
+            self.listeners = try listeners.map({ try Listener(dictionary: $0) })
         }
     }
 
-    public struct Action: AWSShape {
+    public struct CreateAccessPointOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// The type of action.
-        public let type: String
-        /// The Amazon Resource Name (ARN) of the target group.
-        public let targetGroupArn: String
+        /// The DNS name of the load balancer.
+        public let dNSName: String?
 
-        public init(type: String, targetGroupArn: String) {
-            self.type = type
-            self.targetGroupArn = targetGroupArn
+        public init(dNSName: String? = nil) {
+            self.dNSName = dNSName
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
-            self.type = type
-            guard let targetGroupArn = dictionary["TargetGroupArn"] as? String else { throw InitializableError.missingRequiredParam("TargetGroupArn") }
-            self.targetGroupArn = targetGroupArn
-        }
-    }
-
-    public struct DeleteListenerInput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        /// The Amazon Resource Name (ARN) of the listener.
-        public let listenerArn: String
-
-        public init(listenerArn: String) {
-            self.listenerArn = listenerArn
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let listenerArn = dictionary["ListenerArn"] as? String else { throw InitializableError.missingRequiredParam("ListenerArn") }
-            self.listenerArn = listenerArn
-        }
-    }
-
-    public struct DeleteLoadBalancerOutput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-
-        public init(dictionary: [String: Any]) throws {
-        }
-    }
-
-    public struct DescribeTargetGroupAttributesInput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        /// The Amazon Resource Name (ARN) of the target group.
-        public let targetGroupArn: String
-
-        public init(targetGroupArn: String) {
-            self.targetGroupArn = targetGroupArn
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let targetGroupArn = dictionary["TargetGroupArn"] as? String else { throw InitializableError.missingRequiredParam("TargetGroupArn") }
-            self.targetGroupArn = targetGroupArn
-        }
-    }
-
-    public struct ModifyTargetGroupAttributesInput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        /// The attributes.
-        public let attributes: [TargetGroupAttribute]
-        /// The Amazon Resource Name (ARN) of the target group.
-        public let targetGroupArn: String
-
-        public init(attributes: [TargetGroupAttribute], targetGroupArn: String) {
-            self.attributes = attributes
-            self.targetGroupArn = targetGroupArn
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let attributes = dictionary["Attributes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Attributes") }
-            self.attributes = try attributes.map({ try TargetGroupAttribute(dictionary: $0) })
-            guard let targetGroupArn = dictionary["TargetGroupArn"] as? String else { throw InitializableError.missingRequiredParam("TargetGroupArn") }
-            self.targetGroupArn = targetGroupArn
+            self.dNSName = dictionary["DNSName"] as? String
         }
     }
 
     public struct ModifyLoadBalancerAttributesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// The Amazon Resource Name (ARN) of the load balancer.
-        public let loadBalancerArn: String
-        /// The load balancer attributes.
-        public let attributes: [LoadBalancerAttribute]
+        /// The name of the load balancer.
+        public let loadBalancerName: String
+        /// The attributes of the load balancer.
+        public let loadBalancerAttributes: LoadBalancerAttributes
 
-        public init(loadBalancerArn: String, attributes: [LoadBalancerAttribute]) {
-            self.loadBalancerArn = loadBalancerArn
-            self.attributes = attributes
+        public init(loadBalancerName: String, loadBalancerAttributes: LoadBalancerAttributes) {
+            self.loadBalancerName = loadBalancerName
+            self.loadBalancerAttributes = loadBalancerAttributes
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let loadBalancerArn = dictionary["LoadBalancerArn"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerArn") }
-            self.loadBalancerArn = loadBalancerArn
-            guard let attributes = dictionary["Attributes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Attributes") }
-            self.attributes = try attributes.map({ try LoadBalancerAttribute(dictionary: $0) })
+            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
+            self.loadBalancerName = loadBalancerName
+            guard let loadBalancerAttributes = dictionary["LoadBalancerAttributes"] as? [String: Any] else { throw InitializableError.missingRequiredParam("LoadBalancerAttributes") }
+            self.loadBalancerAttributes = try Elasticloadbalancing.LoadBalancerAttributes(dictionary: loadBalancerAttributes)
         }
     }
 
-    public struct RegisterTargetsOutput: AWSShape {
+    public struct AttachLoadBalancerToSubnetsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        /// The IDs of the subnets to add. You can add only one subnet per Availability Zone.
+        public let subnets: [String]
+        /// The name of the load balancer.
+        public let loadBalancerName: String
+
+        public init(subnets: [String], loadBalancerName: String) {
+            self.subnets = subnets
+            self.loadBalancerName = loadBalancerName
+        }
 
         public init(dictionary: [String: Any]) throws {
+            guard let subnets = dictionary["Subnets"] as? [String] else { throw InitializableError.missingRequiredParam("Subnets") }
+            self.subnets = subnets
+            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
+            self.loadBalancerName = loadBalancerName
         }
     }
 
-    public struct CreateListenerInput: AWSShape {
+    public struct TagKeyOnly: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// The protocol for connections from clients to the load balancer.
-        public let `protocol`: String
-        /// The security policy that defines which ciphers and protocols are supported. The default is the current predefined security policy.
-        public let sslPolicy: String?
-        /// The SSL server certificate. You must provide exactly one certificate if the protocol is HTTPS.
-        public let certificates: [Certificate]?
-        /// The default action for the listener.
-        public let defaultActions: [Action]
-        /// The Amazon Resource Name (ARN) of the load balancer.
-        public let loadBalancerArn: String
-        /// The port on which the load balancer is listening.
-        public let port: Int32
+        /// The name of the key.
+        public let key: String?
 
-        public init(protocol: String, sslPolicy: String? = nil, certificates: [Certificate]? = nil, defaultActions: [Action], loadBalancerArn: String, port: Int32) {
-            self.`protocol` = `protocol`
-            self.sslPolicy = sslPolicy
-            self.certificates = certificates
-            self.defaultActions = defaultActions
-            self.loadBalancerArn = loadBalancerArn
-            self.port = port
+        public init(key: String? = nil) {
+            self.key = key
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let `protocol` = dictionary["Protocol"] as? String else { throw InitializableError.missingRequiredParam("Protocol") }
-            self.`protocol` = `protocol`
-            self.sslPolicy = dictionary["SslPolicy"] as? String
-            if let certificates = dictionary["Certificates"] as? [[String: Any]] {
-                self.certificates = try certificates.map({ try Certificate(dictionary: $0) })
+            self.key = dictionary["Key"] as? String
+        }
+    }
+
+    public struct ListenerDescription: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        /// The policies. If there are no policies enabled, the list is empty.
+        public let policyNames: [String]?
+        public let listener: Listener?
+
+        public init(policyNames: [String]? = nil, listener: Listener? = nil) {
+            self.policyNames = policyNames
+            self.listener = listener
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.policyNames = dictionary["PolicyNames"] as? [String]
+            if let listener = dictionary["Listener"] as? [String: Any] { self.listener = try Elasticloadbalancing.Listener(dictionary: listener) } else { self.listener = nil }
+        }
+    }
+
+    public struct DeregisterEndPointsOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        /// The remaining instances registered with the load balancer.
+        public let instances: [Instance]?
+
+        public init(instances: [Instance]? = nil) {
+            self.instances = instances
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let instances = dictionary["Instances"] as? [[String: Any]] {
+                self.instances = try instances.map({ try Instance(dictionary: $0) })
             } else { 
-                self.certificates = nil
+                self.instances = nil
             }
-            guard let defaultActions = dictionary["DefaultActions"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("DefaultActions") }
-            self.defaultActions = try defaultActions.map({ try Action(dictionary: $0) })
-            guard let loadBalancerArn = dictionary["LoadBalancerArn"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerArn") }
-            self.loadBalancerArn = loadBalancerArn
-            guard let port = dictionary["Port"] as? Int32 else { throw InitializableError.missingRequiredParam("Port") }
-            self.port = port
         }
     }
 
-    public struct DescribeLoadBalancersOutput: AWSShape {
+    public struct LoadBalancerAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
-        public let nextMarker: String?
-        /// Information about the load balancers.
-        public let loadBalancers: [LoadBalancer]?
+        /// If enabled, the load balancer allows the connections to remain idle (no data is sent over the connection) for the specified duration. By default, Elastic Load Balancing maintains a 60-second idle connection timeout for both front-end and back-end connections of your load balancer. For more information, see Configure Idle Connection Timeout in the Classic Load Balancers Guide.
+        public let connectionSettings: ConnectionSettings?
+        /// This parameter is reserved.
+        public let additionalAttributes: [AdditionalAttribute]?
+        /// If enabled, the load balancer captures detailed information of all requests and delivers the information to the Amazon S3 bucket that you specify. For more information, see Enable Access Logs in the Classic Load Balancers Guide.
+        public let accessLog: AccessLog?
+        /// If enabled, the load balancer allows existing requests to complete before the load balancer shifts traffic away from a deregistered or unhealthy instance. For more information, see Configure Connection Draining in the Classic Load Balancers Guide.
+        public let connectionDraining: ConnectionDraining?
+        /// If enabled, the load balancer routes the request traffic evenly across all instances regardless of the Availability Zones. For more information, see Configure Cross-Zone Load Balancing in the Classic Load Balancers Guide.
+        public let crossZoneLoadBalancing: CrossZoneLoadBalancing?
 
-        public init(nextMarker: String? = nil, loadBalancers: [LoadBalancer]? = nil) {
-            self.nextMarker = nextMarker
-            self.loadBalancers = loadBalancers
+        public init(connectionSettings: ConnectionSettings? = nil, additionalAttributes: [AdditionalAttribute]? = nil, accessLog: AccessLog? = nil, connectionDraining: ConnectionDraining? = nil, crossZoneLoadBalancing: CrossZoneLoadBalancing? = nil) {
+            self.connectionSettings = connectionSettings
+            self.additionalAttributes = additionalAttributes
+            self.accessLog = accessLog
+            self.connectionDraining = connectionDraining
+            self.crossZoneLoadBalancing = crossZoneLoadBalancing
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.nextMarker = dictionary["NextMarker"] as? String
-            if let loadBalancers = dictionary["LoadBalancers"] as? [[String: Any]] {
-                self.loadBalancers = try loadBalancers.map({ try LoadBalancer(dictionary: $0) })
+            if let connectionSettings = dictionary["ConnectionSettings"] as? [String: Any] { self.connectionSettings = try Elasticloadbalancing.ConnectionSettings(dictionary: connectionSettings) } else { self.connectionSettings = nil }
+            if let additionalAttributes = dictionary["AdditionalAttributes"] as? [[String: Any]] {
+                self.additionalAttributes = try additionalAttributes.map({ try AdditionalAttribute(dictionary: $0) })
             } else { 
-                self.loadBalancers = nil
+                self.additionalAttributes = nil
             }
+            if let accessLog = dictionary["AccessLog"] as? [String: Any] { self.accessLog = try Elasticloadbalancing.AccessLog(dictionary: accessLog) } else { self.accessLog = nil }
+            if let connectionDraining = dictionary["ConnectionDraining"] as? [String: Any] { self.connectionDraining = try Elasticloadbalancing.ConnectionDraining(dictionary: connectionDraining) } else { self.connectionDraining = nil }
+            if let crossZoneLoadBalancing = dictionary["CrossZoneLoadBalancing"] as? [String: Any] { self.crossZoneLoadBalancing = try Elasticloadbalancing.CrossZoneLoadBalancing(dictionary: crossZoneLoadBalancing) } else { self.crossZoneLoadBalancing = nil }
         }
     }
 
-    public struct LoadBalancerState: AWSShape {
+    public struct DescribeAccessPointsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// A description of the state.
-        public let reason: String?
-        /// The state code. The initial state of the load balancer is provisioning. After the load balancer is fully set up and ready to route traffic, its state is active. If the load balancer could not be set up, its state is failed.
-        public let code: String?
+        /// The marker for the next set of results. (You received this marker from a previous call.)
+        public let marker: String?
+        /// The names of the load balancers.
+        public let loadBalancerNames: [String]?
+        /// The maximum number of results to return with this call (a number from 1 to 400). The default is 400.
+        public let pageSize: Int32?
 
-        public init(reason: String? = nil, code: String? = nil) {
-            self.reason = reason
-            self.code = code
+        public init(marker: String? = nil, loadBalancerNames: [String]? = nil, pageSize: Int32? = nil) {
+            self.marker = marker
+            self.loadBalancerNames = loadBalancerNames
+            self.pageSize = pageSize
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.reason = dictionary["Reason"] as? String
-            self.code = dictionary["Code"] as? String
+            self.marker = dictionary["Marker"] as? String
+            self.loadBalancerNames = dictionary["LoadBalancerNames"] as? [String]
+            self.pageSize = dictionary["PageSize"] as? Int32
         }
     }
 
-    public struct TargetGroup: AWSShape {
+    public struct AdditionalAttribute: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// The Amazon Resource Name (ARN) of the target group.
-        public let targetGroupArn: String?
-        /// The Amazon Resource Names (ARN) of the load balancers that route traffic to this target group.
-        public let loadBalancerArns: [String]?
-        /// The HTTP codes to use when checking for a successful response from a target.
-        public let matcher: Matcher?
-        /// The approximate amount of time, in seconds, between health checks of an individual target.
-        public let healthCheckIntervalSeconds: Int32?
-        /// The amount of time, in seconds, during which no response means a failed health check.
-        public let healthCheckTimeoutSeconds: Int32?
-        /// The number of consecutive health check failures required before considering the target unhealthy.
-        public let unhealthyThresholdCount: Int32?
-        /// The name of the target group.
-        public let targetGroupName: String?
-        /// The protocol to use to connect with the target.
-        public let healthCheckProtocol: String?
-        /// The ID of the VPC for the targets.
-        public let vpcId: String?
-        /// The number of consecutive health checks successes required before considering an unhealthy target healthy.
-        public let healthyThresholdCount: Int32?
-        /// The protocol to use for routing traffic to the targets.
-        public let `protocol`: String?
-        /// The destination for the health check request.
-        public let healthCheckPath: String?
-        /// The port to use to connect with the target.
-        public let healthCheckPort: String?
-        /// The port on which the targets are listening.
-        public let port: Int32?
+        /// This parameter is reserved.
+        public let value: String?
+        /// This parameter is reserved.
+        public let key: String?
 
-        public init(targetGroupArn: String? = nil, loadBalancerArns: [String]? = nil, matcher: Matcher? = nil, healthCheckIntervalSeconds: Int32? = nil, healthCheckTimeoutSeconds: Int32? = nil, unhealthyThresholdCount: Int32? = nil, targetGroupName: String? = nil, healthCheckProtocol: String? = nil, vpcId: String? = nil, healthyThresholdCount: Int32? = nil, protocol: String? = nil, healthCheckPath: String? = nil, healthCheckPort: String? = nil, port: Int32? = nil) {
-            self.targetGroupArn = targetGroupArn
-            self.loadBalancerArns = loadBalancerArns
-            self.matcher = matcher
-            self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
-            self.healthCheckTimeoutSeconds = healthCheckTimeoutSeconds
-            self.unhealthyThresholdCount = unhealthyThresholdCount
-            self.targetGroupName = targetGroupName
-            self.healthCheckProtocol = healthCheckProtocol
-            self.vpcId = vpcId
-            self.healthyThresholdCount = healthyThresholdCount
-            self.`protocol` = `protocol`
-            self.healthCheckPath = healthCheckPath
-            self.healthCheckPort = healthCheckPort
-            self.port = port
+        public init(value: String? = nil, key: String? = nil) {
+            self.value = value
+            self.key = key
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.targetGroupArn = dictionary["TargetGroupArn"] as? String
-            self.loadBalancerArns = dictionary["LoadBalancerArns"] as? [String]
-            if let matcher = dictionary["Matcher"] as? [String: Any] { self.matcher = try Elasticloadbalancing.Matcher(dictionary: matcher) } else { self.matcher = nil }
-            self.healthCheckIntervalSeconds = dictionary["HealthCheckIntervalSeconds"] as? Int32
-            self.healthCheckTimeoutSeconds = dictionary["HealthCheckTimeoutSeconds"] as? Int32
-            self.unhealthyThresholdCount = dictionary["UnhealthyThresholdCount"] as? Int32
-            self.targetGroupName = dictionary["TargetGroupName"] as? String
-            self.healthCheckProtocol = dictionary["HealthCheckProtocol"] as? String
-            self.vpcId = dictionary["VpcId"] as? String
-            self.healthyThresholdCount = dictionary["HealthyThresholdCount"] as? Int32
-            self.`protocol` = dictionary["Protocol"] as? String
-            self.healthCheckPath = dictionary["HealthCheckPath"] as? String
-            self.healthCheckPort = dictionary["HealthCheckPort"] as? String
-            self.port = dictionary["Port"] as? Int32
+            self.value = dictionary["Value"] as? String
+            self.key = dictionary["Key"] as? String
+        }
+    }
+
+    public struct SetLoadBalancerPoliciesOfListenerInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        /// The name of the load balancer.
+        public let loadBalancerName: String
+        /// The external port of the load balancer.
+        public let loadBalancerPort: Int32
+        /// The names of the policies. This list must include all policies to be enabled. If you omit a policy that is currently enabled, it is disabled. If the list is empty, all current policies are disabled.
+        public let policyNames: [String]
+
+        public init(loadBalancerName: String, loadBalancerPort: Int32, policyNames: [String]) {
+            self.loadBalancerName = loadBalancerName
+            self.loadBalancerPort = loadBalancerPort
+            self.policyNames = policyNames
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
+            self.loadBalancerName = loadBalancerName
+            guard let loadBalancerPort = dictionary["LoadBalancerPort"] as? Int32 else { throw InitializableError.missingRequiredParam("LoadBalancerPort") }
+            self.loadBalancerPort = loadBalancerPort
+            guard let policyNames = dictionary["PolicyNames"] as? [String] else { throw InitializableError.missingRequiredParam("PolicyNames") }
+            self.policyNames = policyNames
+        }
+    }
+
+    public struct AddAvailabilityZonesInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        /// The Availability Zones. These must be in the same region as the load balancer.
+        public let availabilityZones: [String]
+        /// The name of the load balancer.
+        public let loadBalancerName: String
+
+        public init(availabilityZones: [String], loadBalancerName: String) {
+            self.availabilityZones = availabilityZones
+            self.loadBalancerName = loadBalancerName
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let availabilityZones = dictionary["AvailabilityZones"] as? [String] else { throw InitializableError.missingRequiredParam("AvailabilityZones") }
+            self.availabilityZones = availabilityZones
+            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
+            self.loadBalancerName = loadBalancerName
         }
     }
 
@@ -393,21 +454,29 @@ extension Elasticloadbalancing {
         }
     }
 
+    public struct SetLoadBalancerPoliciesOfListenerOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+
+        public init(dictionary: [String: Any]) throws {
+        }
+    }
+
     public struct TagDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// The Amazon Resource Name (ARN) of the resource.
-        public let resourceArn: String?
-        /// Information about the tags.
+        /// The name of the load balancer.
+        public let loadBalancerName: String?
+        /// The tags.
         public let tags: [Tag]?
 
-        public init(resourceArn: String? = nil, tags: [Tag]? = nil) {
-            self.resourceArn = resourceArn
+        public init(loadBalancerName: String? = nil, tags: [Tag]? = nil) {
+            self.loadBalancerName = loadBalancerName
             self.tags = tags
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.resourceArn = dictionary["ResourceArn"] as? String
+            self.loadBalancerName = dictionary["LoadBalancerName"] as? String
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
             } else { 
@@ -416,307 +485,220 @@ extension Elasticloadbalancing {
         }
     }
 
-    public struct RuleCondition: AWSShape {
+    public struct CreateLBCookieStickinessPolicyOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// The only possible value is path-pattern.
-        public let field: String?
-        /// The path pattern. You can specify a single path pattern. A path pattern is case sensitive, can be up to 128 characters in length, and can contain any of the following characters. Note that you can include up to three wildcard characters in a path pattern.   A-Z, a-z, 0-9   _ - . $ / ~ " ' @ : +   &amp; (using &amp;amp;)   * (matches 0 or more characters)   ? (matches exactly 1 character)  
-        public let values: [String]?
 
-        public init(field: String? = nil, values: [String]? = nil) {
-            self.field = field
-            self.values = values
+        public init(dictionary: [String: Any]) throws {
+        }
+    }
+
+    public struct ApplySecurityGroupsToLoadBalancerInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        /// The name of the load balancer.
+        public let loadBalancerName: String
+        /// The IDs of the security groups to associate with the load balancer. Note that you cannot specify the name of the security group.
+        public let securityGroups: [String]
+
+        public init(loadBalancerName: String, securityGroups: [String]) {
+            self.loadBalancerName = loadBalancerName
+            self.securityGroups = securityGroups
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.field = dictionary["Field"] as? String
-            self.values = dictionary["Values"] as? [String]
+            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
+            self.loadBalancerName = loadBalancerName
+            guard let securityGroups = dictionary["SecurityGroups"] as? [String] else { throw InitializableError.missingRequiredParam("SecurityGroups") }
+            self.securityGroups = securityGroups
+        }
+    }
+
+    public struct ConnectionDraining: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        /// The maximum time, in seconds, to keep the existing connections open before deregistering the instances.
+        public let timeout: Int32?
+        /// Specifies whether connection draining is enabled for the load balancer.
+        public let enabled: Bool
+
+        public init(timeout: Int32? = nil, enabled: Bool) {
+            self.timeout = timeout
+            self.enabled = enabled
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.timeout = dictionary["Timeout"] as? Int32
+            guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
+            self.enabled = enabled
+        }
+    }
+
+    public struct AccessLog: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        /// The interval for publishing the access logs. You can specify an interval of either 5 minutes or 60 minutes. Default: 60 minutes
+        public let emitInterval: Int32?
+        /// The name of the Amazon S3 bucket where the access logs are stored.
+        public let s3BucketName: String?
+        /// The logical hierarchy you created for your Amazon S3 bucket, for example my-bucket-prefix/prod. If the prefix is not provided, the log is placed at the root level of the bucket.
+        public let s3BucketPrefix: String?
+        /// Specifies whether access logs are enabled for the load balancer.
+        public let enabled: Bool
+
+        public init(emitInterval: Int32? = nil, s3BucketName: String? = nil, s3BucketPrefix: String? = nil, enabled: Bool) {
+            self.emitInterval = emitInterval
+            self.s3BucketName = s3BucketName
+            self.s3BucketPrefix = s3BucketPrefix
+            self.enabled = enabled
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.emitInterval = dictionary["EmitInterval"] as? Int32
+            self.s3BucketName = dictionary["S3BucketName"] as? String
+            self.s3BucketPrefix = dictionary["S3BucketPrefix"] as? String
+            guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
+            self.enabled = enabled
         }
     }
 
     public struct Listener: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// The SSL server certificate. You must provide a certificate if the protocol is HTTPS.
-        public let certificates: [Certificate]?
-        /// The Amazon Resource Name (ARN) of the listener.
-        public let listenerArn: String?
-        /// The protocol for connections from clients to the load balancer.
-        public let `protocol`: String?
-        /// The security policy that defines which ciphers and protocols are supported. The default is the current predefined security policy.
-        public let sslPolicy: String?
-        /// The default actions for the listener.
-        public let defaultActions: [Action]?
-        /// The Amazon Resource Name (ARN) of the load balancer.
-        public let loadBalancerArn: String?
-        /// The port on which the load balancer is listening.
-        public let port: Int32?
+        /// The protocol to use for routing traffic to instances: HTTP, HTTPS, TCP, or SSL. If the front-end protocol is HTTP, HTTPS, TCP, or SSL, InstanceProtocol must be at the same protocol. If there is another listener with the same InstancePort whose InstanceProtocol is secure, (HTTPS or SSL), the listener's InstanceProtocol must also be secure. If there is another listener with the same InstancePort whose InstanceProtocol is HTTP or TCP, the listener's InstanceProtocol must be HTTP or TCP.
+        public let instanceProtocol: String?
+        /// The port on which the instance is listening.
+        public let instancePort: Int32
+        /// The port on which the load balancer is listening. On EC2-VPC, you can specify any port from the range 1-65535. On EC2-Classic, you can specify any port from the following list: 25, 80, 443, 465, 587, 1024-65535.
+        public let loadBalancerPort: Int32
+        /// The load balancer transport protocol to use for routing: HTTP, HTTPS, TCP, or SSL.
+        public let `protocol`: String
+        /// The Amazon Resource Name (ARN) of the server certificate.
+        public let sSLCertificateId: String?
 
-        public init(certificates: [Certificate]? = nil, listenerArn: String? = nil, protocol: String? = nil, sslPolicy: String? = nil, defaultActions: [Action]? = nil, loadBalancerArn: String? = nil, port: Int32? = nil) {
-            self.certificates = certificates
-            self.listenerArn = listenerArn
+        public init(instanceProtocol: String? = nil, instancePort: Int32, loadBalancerPort: Int32, protocol: String, sSLCertificateId: String? = nil) {
+            self.instanceProtocol = instanceProtocol
+            self.instancePort = instancePort
+            self.loadBalancerPort = loadBalancerPort
             self.`protocol` = `protocol`
-            self.sslPolicy = sslPolicy
-            self.defaultActions = defaultActions
-            self.loadBalancerArn = loadBalancerArn
-            self.port = port
+            self.sSLCertificateId = sSLCertificateId
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let certificates = dictionary["Certificates"] as? [[String: Any]] {
-                self.certificates = try certificates.map({ try Certificate(dictionary: $0) })
+            self.instanceProtocol = dictionary["InstanceProtocol"] as? String
+            guard let instancePort = dictionary["InstancePort"] as? Int32 else { throw InitializableError.missingRequiredParam("InstancePort") }
+            self.instancePort = instancePort
+            guard let loadBalancerPort = dictionary["LoadBalancerPort"] as? Int32 else { throw InitializableError.missingRequiredParam("LoadBalancerPort") }
+            self.loadBalancerPort = loadBalancerPort
+            guard let `protocol` = dictionary["Protocol"] as? String else { throw InitializableError.missingRequiredParam("Protocol") }
+            self.`protocol` = `protocol`
+            self.sSLCertificateId = dictionary["SSLCertificateId"] as? String
+        }
+    }
+
+    public struct Instance: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        /// The instance ID.
+        public let instanceId: String?
+
+        public init(instanceId: String? = nil) {
+            self.instanceId = instanceId
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.instanceId = dictionary["InstanceId"] as? String
+        }
+    }
+
+    public struct CreateLBCookieStickinessPolicyInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        /// The name of the load balancer.
+        public let loadBalancerName: String
+        /// The time period, in seconds, after which the cookie should be considered stale. If you do not specify this parameter, the default value is 0, which indicates that the sticky session should last for the duration of the browser session.
+        public let cookieExpirationPeriod: Int64?
+        /// The name of the policy being created. Policy names must consist of alphanumeric characters and dashes (-). This name must be unique within the set of policies for this load balancer.
+        public let policyName: String
+
+        public init(loadBalancerName: String, cookieExpirationPeriod: Int64? = nil, policyName: String) {
+            self.loadBalancerName = loadBalancerName
+            self.cookieExpirationPeriod = cookieExpirationPeriod
+            self.policyName = policyName
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
+            self.loadBalancerName = loadBalancerName
+            self.cookieExpirationPeriod = dictionary["CookieExpirationPeriod"] as? Int64
+            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
+            self.policyName = policyName
+        }
+    }
+
+    public struct RegisterEndPointsOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        /// The updated list of instances for the load balancer.
+        public let instances: [Instance]?
+
+        public init(instances: [Instance]? = nil) {
+            self.instances = instances
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let instances = dictionary["Instances"] as? [[String: Any]] {
+                self.instances = try instances.map({ try Instance(dictionary: $0) })
             } else { 
-                self.certificates = nil
-            }
-            self.listenerArn = dictionary["ListenerArn"] as? String
-            self.`protocol` = dictionary["Protocol"] as? String
-            self.sslPolicy = dictionary["SslPolicy"] as? String
-            if let defaultActions = dictionary["DefaultActions"] as? [[String: Any]] {
-                self.defaultActions = try defaultActions.map({ try Action(dictionary: $0) })
-            } else { 
-                self.defaultActions = nil
-            }
-            self.loadBalancerArn = dictionary["LoadBalancerArn"] as? String
-            self.port = dictionary["Port"] as? Int32
-        }
-    }
-
-    public struct CreateListenerOutput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        /// Information about the listener.
-        public let listeners: [Listener]?
-
-        public init(listeners: [Listener]? = nil) {
-            self.listeners = listeners
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let listeners = dictionary["Listeners"] as? [[String: Any]] {
-                self.listeners = try listeners.map({ try Listener(dictionary: $0) })
-            } else { 
-                self.listeners = nil
-            }
-        }
-    }
-
-    public struct SetIpAddressTypeOutput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        /// The IP address type.
-        public let ipAddressType: String?
-
-        public init(ipAddressType: String? = nil) {
-            self.ipAddressType = ipAddressType
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.ipAddressType = dictionary["IpAddressType"] as? String
-        }
-    }
-
-    public struct ModifyTargetGroupInput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        /// The protocol to use to connect with the target.
-        public let healthCheckProtocol: String?
-        /// The number of consecutive health checks successes required before considering an unhealthy target healthy.
-        public let healthyThresholdCount: Int32?
-        /// The Amazon Resource Name (ARN) of the target group.
-        public let targetGroupArn: String
-        /// The HTTP codes to use when checking for a successful response from a target.
-        public let matcher: Matcher?
-        /// The approximate amount of time, in seconds, between health checks of an individual target.
-        public let healthCheckIntervalSeconds: Int32?
-        /// The amount of time, in seconds, during which no response means a failed health check.
-        public let healthCheckTimeoutSeconds: Int32?
-        /// The port to use to connect with the target.
-        public let healthCheckPort: String?
-        /// The ping path that is the destination for the health check request.
-        public let healthCheckPath: String?
-        /// The number of consecutive health check failures required before considering the target unhealthy.
-        public let unhealthyThresholdCount: Int32?
-
-        public init(healthCheckProtocol: String? = nil, healthyThresholdCount: Int32? = nil, targetGroupArn: String, matcher: Matcher? = nil, healthCheckIntervalSeconds: Int32? = nil, healthCheckTimeoutSeconds: Int32? = nil, healthCheckPort: String? = nil, healthCheckPath: String? = nil, unhealthyThresholdCount: Int32? = nil) {
-            self.healthCheckProtocol = healthCheckProtocol
-            self.healthyThresholdCount = healthyThresholdCount
-            self.targetGroupArn = targetGroupArn
-            self.matcher = matcher
-            self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
-            self.healthCheckTimeoutSeconds = healthCheckTimeoutSeconds
-            self.healthCheckPort = healthCheckPort
-            self.healthCheckPath = healthCheckPath
-            self.unhealthyThresholdCount = unhealthyThresholdCount
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.healthCheckProtocol = dictionary["HealthCheckProtocol"] as? String
-            self.healthyThresholdCount = dictionary["HealthyThresholdCount"] as? Int32
-            guard let targetGroupArn = dictionary["TargetGroupArn"] as? String else { throw InitializableError.missingRequiredParam("TargetGroupArn") }
-            self.targetGroupArn = targetGroupArn
-            if let matcher = dictionary["Matcher"] as? [String: Any] { self.matcher = try Elasticloadbalancing.Matcher(dictionary: matcher) } else { self.matcher = nil }
-            self.healthCheckIntervalSeconds = dictionary["HealthCheckIntervalSeconds"] as? Int32
-            self.healthCheckTimeoutSeconds = dictionary["HealthCheckTimeoutSeconds"] as? Int32
-            self.healthCheckPort = dictionary["HealthCheckPort"] as? String
-            self.healthCheckPath = dictionary["HealthCheckPath"] as? String
-            self.unhealthyThresholdCount = dictionary["UnhealthyThresholdCount"] as? Int32
-        }
-    }
-
-    public struct CreateLoadBalancerInput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        /// The IDs of the subnets to attach to the load balancer. You can specify only one subnet per Availability Zone. You must specify subnets from at least two Availability Zones.
-        public let subnets: [String]
-        /// The IDs of the security groups to assign to the load balancer.
-        public let securityGroups: [String]?
-        /// The nodes of an Internet-facing load balancer have public IP addresses. The DNS name of an Internet-facing load balancer is publicly resolvable to the public IP addresses of the nodes. Therefore, Internet-facing load balancers can route requests from clients over the Internet. The nodes of an internal load balancer have only private IP addresses. The DNS name of an internal load balancer is publicly resolvable to the private IP addresses of the nodes. Therefore, internal load balancers can only route requests from clients with access to the VPC for the load balancer. The default is an Internet-facing load balancer.
-        public let scheme: String?
-        /// One or more tags to assign to the load balancer.
-        public let tags: [Tag]?
-        /// The name of the load balancer. This name must be unique within your AWS account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, and must not begin or end with a hyphen.
-        public let name: String
-        /// The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). Internal load balancers must use ipv4.
-        public let ipAddressType: String?
-
-        public init(subnets: [String], securityGroups: [String]? = nil, scheme: String? = nil, tags: [Tag]? = nil, name: String, ipAddressType: String? = nil) {
-            self.subnets = subnets
-            self.securityGroups = securityGroups
-            self.scheme = scheme
-            self.tags = tags
-            self.name = name
-            self.ipAddressType = ipAddressType
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let subnets = dictionary["Subnets"] as? [String] else { throw InitializableError.missingRequiredParam("Subnets") }
-            self.subnets = subnets
-            self.securityGroups = dictionary["SecurityGroups"] as? [String]
-            self.scheme = dictionary["Scheme"] as? String
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            self.ipAddressType = dictionary["IpAddressType"] as? String
-        }
-    }
-
-    public struct DeregisterTargetsInput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        /// The targets. If you specified a port override when you registered a target, you must specify both the target ID and the port when you deregister it.
-        public let targets: [TargetDescription]
-        /// The Amazon Resource Name (ARN) of the target group.
-        public let targetGroupArn: String
-
-        public init(targets: [TargetDescription], targetGroupArn: String) {
-            self.targets = targets
-            self.targetGroupArn = targetGroupArn
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let targets = dictionary["Targets"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Targets") }
-            self.targets = try targets.map({ try TargetDescription(dictionary: $0) })
-            guard let targetGroupArn = dictionary["TargetGroupArn"] as? String else { throw InitializableError.missingRequiredParam("TargetGroupArn") }
-            self.targetGroupArn = targetGroupArn
-        }
-    }
-
-    public struct SetSecurityGroupsInput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        /// The IDs of the security groups.
-        public let securityGroups: [String]
-        /// The Amazon Resource Name (ARN) of the load balancer.
-        public let loadBalancerArn: String
-
-        public init(securityGroups: [String], loadBalancerArn: String) {
-            self.securityGroups = securityGroups
-            self.loadBalancerArn = loadBalancerArn
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let securityGroups = dictionary["SecurityGroups"] as? [String] else { throw InitializableError.missingRequiredParam("SecurityGroups") }
-            self.securityGroups = securityGroups
-            guard let loadBalancerArn = dictionary["LoadBalancerArn"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerArn") }
-            self.loadBalancerArn = loadBalancerArn
-        }
-    }
-
-    public struct DescribeRulesOutput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        /// Information about the rules.
-        public let rules: [Rule]?
-
-        public init(rules: [Rule]? = nil) {
-            self.rules = rules
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let rules = dictionary["Rules"] as? [[String: Any]] {
-                self.rules = try rules.map({ try Rule(dictionary: $0) })
-            } else { 
-                self.rules = nil
+                self.instances = nil
             }
         }
     }
 
-    public struct CreateRuleOutput: AWSShape {
+    public struct Policies: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// Information about the rule.
-        public let rules: [Rule]?
+        /// The stickiness policies created using CreateAppCookieStickinessPolicy.
+        public let appCookieStickinessPolicies: [AppCookieStickinessPolicy]?
+        /// The policies other than the stickiness policies.
+        public let otherPolicies: [String]?
+        /// The stickiness policies created using CreateLBCookieStickinessPolicy.
+        public let lBCookieStickinessPolicies: [LBCookieStickinessPolicy]?
 
-        public init(rules: [Rule]? = nil) {
-            self.rules = rules
+        public init(appCookieStickinessPolicies: [AppCookieStickinessPolicy]? = nil, otherPolicies: [String]? = nil, lBCookieStickinessPolicies: [LBCookieStickinessPolicy]? = nil) {
+            self.appCookieStickinessPolicies = appCookieStickinessPolicies
+            self.otherPolicies = otherPolicies
+            self.lBCookieStickinessPolicies = lBCookieStickinessPolicies
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let rules = dictionary["Rules"] as? [[String: Any]] {
-                self.rules = try rules.map({ try Rule(dictionary: $0) })
+            if let appCookieStickinessPolicies = dictionary["AppCookieStickinessPolicies"] as? [[String: Any]] {
+                self.appCookieStickinessPolicies = try appCookieStickinessPolicies.map({ try AppCookieStickinessPolicy(dictionary: $0) })
             } else { 
-                self.rules = nil
+                self.appCookieStickinessPolicies = nil
             }
-        }
-    }
-
-    public struct LoadBalancerAttribute: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        /// The value of the attribute.
-        public let value: String?
-        /// The name of the attribute.    access_logs.s3.enabled - Indicates whether access logs stored in Amazon S3 are enabled. The value is true or false.    access_logs.s3.bucket - The name of the S3 bucket for the access logs. This attribute is required if access logs in Amazon S3 are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permission to write to the bucket.    access_logs.s3.prefix - The prefix for the location in the S3 bucket. If you don't specify a prefix, the access logs are stored in the root of the bucket.    deletion_protection.enabled - Indicates whether deletion protection is enabled. The value is true or false.    idle_timeout.timeout_seconds - The idle timeout value, in seconds. The valid range is 1-3600. The default is 60 seconds.  
-        public let key: String?
-
-        public init(value: String? = nil, key: String? = nil) {
-            self.value = value
-            self.key = key
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            self.key = dictionary["Key"] as? String
+            self.otherPolicies = dictionary["OtherPolicies"] as? [String]
+            if let lBCookieStickinessPolicies = dictionary["LBCookieStickinessPolicies"] as? [[String: Any]] {
+                self.lBCookieStickinessPolicies = try lBCookieStickinessPolicies.map({ try LBCookieStickinessPolicy(dictionary: $0) })
+            } else { 
+                self.lBCookieStickinessPolicies = nil
+            }
         }
     }
 
     public struct DescribeLoadBalancerAttributesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// The Amazon Resource Name (ARN) of the load balancer.
-        public let loadBalancerArn: String
+        /// The name of the load balancer.
+        public let loadBalancerName: String
 
-        public init(loadBalancerArn: String) {
-            self.loadBalancerArn = loadBalancerArn
+        public init(loadBalancerName: String) {
+            self.loadBalancerName = loadBalancerName
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let loadBalancerArn = dictionary["LoadBalancerArn"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerArn") }
-            self.loadBalancerArn = loadBalancerArn
+            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
+            self.loadBalancerName = loadBalancerName
         }
     }
 
@@ -739,38 +721,43 @@ extension Elasticloadbalancing {
         }
     }
 
-    public struct DescribeListenersInput: AWSShape {
+    public struct PolicyAttribute: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// The maximum number of results to return with this call.
-        public let pageSize: Int32?
-        /// The Amazon Resource Names (ARN) of the listeners.
-        public let listenerArns: [String]?
-        /// The marker for the next set of results. (You received this marker from a previous call.)
-        public let marker: String?
-        /// The Amazon Resource Name (ARN) of the load balancer.
-        public let loadBalancerArn: String?
+        /// The name of the attribute.
+        public let attributeName: String?
+        /// The value of the attribute.
+        public let attributeValue: String?
 
-        public init(pageSize: Int32? = nil, listenerArns: [String]? = nil, marker: String? = nil, loadBalancerArn: String? = nil) {
-            self.pageSize = pageSize
-            self.listenerArns = listenerArns
-            self.marker = marker
-            self.loadBalancerArn = loadBalancerArn
+        public init(attributeName: String? = nil, attributeValue: String? = nil) {
+            self.attributeName = attributeName
+            self.attributeValue = attributeValue
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.pageSize = dictionary["PageSize"] as? Int32
-            self.listenerArns = dictionary["ListenerArns"] as? [String]
-            self.marker = dictionary["Marker"] as? String
-            self.loadBalancerArn = dictionary["LoadBalancerArn"] as? String
+            self.attributeName = dictionary["AttributeName"] as? String
+            self.attributeValue = dictionary["AttributeValue"] as? String
         }
     }
 
-    public struct DeleteListenerOutput: AWSShape {
+    public struct RegisterEndPointsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        /// The name of the load balancer.
+        public let loadBalancerName: String
+        /// The IDs of the instances.
+        public let instances: [Instance]
+
+        public init(loadBalancerName: String, instances: [Instance]) {
+            self.loadBalancerName = loadBalancerName
+            self.instances = instances
+        }
 
         public init(dictionary: [String: Any]) throws {
+            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
+            self.loadBalancerName = loadBalancerName
+            guard let instances = dictionary["Instances"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Instances") }
+            self.instances = try instances.map({ try Instance(dictionary: $0) })
         }
     }
 
@@ -782,608 +769,445 @@ extension Elasticloadbalancing {
         }
     }
 
-    public struct RulePriorityPair: AWSShape {
+    public struct DeleteLoadBalancerPolicyOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// The rule priority.
-        public let priority: Int32?
-        /// The Amazon Resource Name (ARN) of the rule.
-        public let ruleArn: String?
-
-        public init(priority: Int32? = nil, ruleArn: String? = nil) {
-            self.priority = priority
-            self.ruleArn = ruleArn
-        }
 
         public init(dictionary: [String: Any]) throws {
-            self.priority = dictionary["Priority"] as? Int32
-            self.ruleArn = dictionary["RuleArn"] as? String
         }
     }
 
-    public struct ModifyRuleOutput: AWSShape {
+    public struct HealthCheck: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// Information about the rule.
-        public let rules: [Rule]?
+        /// The instance being checked. The protocol is either TCP, HTTP, HTTPS, or SSL. The range of valid ports is one (1) through 65535. TCP is the default, specified as a TCP: port pair, for example "TCP:5000". In this case, a health check simply attempts to open a TCP connection to the instance on the specified port. Failure to connect within the configured timeout is considered unhealthy. SSL is also specified as SSL: port pair, for example, SSL:5000. For HTTP/HTTPS, you must include a ping path in the string. HTTP is specified as a HTTP:port;/;PathToPing; grouping, for example "HTTP:80/weather/us/wa/seattle". In this case, a HTTP GET request is issued to the instance on the given port and path. Any answer other than "200 OK" within the timeout period is considered unhealthy. The total length of the HTTP ping target must be 1024 16-bit Unicode characters or less.
+        public let target: String
+        /// The number of consecutive health check failures required before moving the instance to the Unhealthy state.
+        public let unhealthyThreshold: Int32
+        /// The number of consecutive health checks successes required before moving the instance to the Healthy state.
+        public let healthyThreshold: Int32
+        /// The approximate interval, in seconds, between health checks of an individual instance.
+        public let interval: Int32
+        /// The amount of time, in seconds, during which no response means a failed health check. This value must be less than the Interval value.
+        public let timeout: Int32
 
-        public init(rules: [Rule]? = nil) {
-            self.rules = rules
+        public init(target: String, unhealthyThreshold: Int32, healthyThreshold: Int32, interval: Int32, timeout: Int32) {
+            self.target = target
+            self.unhealthyThreshold = unhealthyThreshold
+            self.healthyThreshold = healthyThreshold
+            self.interval = interval
+            self.timeout = timeout
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let rules = dictionary["Rules"] as? [[String: Any]] {
-                self.rules = try rules.map({ try Rule(dictionary: $0) })
-            } else { 
-                self.rules = nil
-            }
-        }
-    }
-
-    public struct DescribeSSLPoliciesOutput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        /// Information about the policies.
-        public let sslPolicies: [SslPolicy]?
-        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
-        public let nextMarker: String?
-
-        public init(sslPolicies: [SslPolicy]? = nil, nextMarker: String? = nil) {
-            self.sslPolicies = sslPolicies
-            self.nextMarker = nextMarker
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let sslPolicies = dictionary["SslPolicies"] as? [[String: Any]] {
-                self.sslPolicies = try sslPolicies.map({ try SslPolicy(dictionary: $0) })
-            } else { 
-                self.sslPolicies = nil
-            }
-            self.nextMarker = dictionary["NextMarker"] as? String
-        }
-    }
-
-    public struct SslPolicy: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        /// The protocols.
-        public let sslProtocols: [String]?
-        /// The ciphers.
-        public let ciphers: [Cipher]?
-        /// The name of the policy.
-        public let name: String?
-
-        public init(sslProtocols: [String]? = nil, ciphers: [Cipher]? = nil, name: String? = nil) {
-            self.sslProtocols = sslProtocols
-            self.ciphers = ciphers
-            self.name = name
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.sslProtocols = dictionary["SslProtocols"] as? [String]
-            if let ciphers = dictionary["Ciphers"] as? [[String: Any]] {
-                self.ciphers = try ciphers.map({ try Cipher(dictionary: $0) })
-            } else { 
-                self.ciphers = nil
-            }
-            self.name = dictionary["Name"] as? String
-        }
-    }
-
-    public struct CreateTargetGroupOutput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        /// Information about the target group.
-        public let targetGroups: [TargetGroup]?
-
-        public init(targetGroups: [TargetGroup]? = nil) {
-            self.targetGroups = targetGroups
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let targetGroups = dictionary["TargetGroups"] as? [[String: Any]] {
-                self.targetGroups = try targetGroups.map({ try TargetGroup(dictionary: $0) })
-            } else { 
-                self.targetGroups = nil
-            }
+            guard let target = dictionary["Target"] as? String else { throw InitializableError.missingRequiredParam("Target") }
+            self.target = target
+            guard let unhealthyThreshold = dictionary["UnhealthyThreshold"] as? Int32 else { throw InitializableError.missingRequiredParam("UnhealthyThreshold") }
+            self.unhealthyThreshold = unhealthyThreshold
+            guard let healthyThreshold = dictionary["HealthyThreshold"] as? Int32 else { throw InitializableError.missingRequiredParam("HealthyThreshold") }
+            self.healthyThreshold = healthyThreshold
+            guard let interval = dictionary["Interval"] as? Int32 else { throw InitializableError.missingRequiredParam("Interval") }
+            self.interval = interval
+            guard let timeout = dictionary["Timeout"] as? Int32 else { throw InitializableError.missingRequiredParam("Timeout") }
+            self.timeout = timeout
         }
     }
 
     public struct ModifyLoadBalancerAttributesOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// Information about the load balancer attributes.
-        public let attributes: [LoadBalancerAttribute]?
-
-        public init(attributes: [LoadBalancerAttribute]? = nil) {
-            self.attributes = attributes
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let attributes = dictionary["Attributes"] as? [[String: Any]] {
-                self.attributes = try attributes.map({ try LoadBalancerAttribute(dictionary: $0) })
-            } else { 
-                self.attributes = nil
-            }
-        }
-    }
-
-    public struct LoadBalancer: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        /// The Availability Zones for the load balancer.
-        public let availabilityZones: [AvailabilityZone]?
-        /// The IDs of the security groups for the load balancer.
-        public let securityGroups: [String]?
-        /// The Amazon Resource Name (ARN) of the load balancer.
-        public let loadBalancerArn: String?
-        /// The ID of the VPC for the load balancer.
-        public let vpcId: String?
-        /// The state of the load balancer.
-        public let state: LoadBalancerState?
-        /// The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses).
-        public let ipAddressType: String?
-        /// The ID of the Amazon Route 53 hosted zone associated with the load balancer.
-        public let canonicalHostedZoneId: String?
-        /// The public DNS name of the load balancer.
-        public let dNSName: String?
         /// The name of the load balancer.
         public let loadBalancerName: String?
-        /// The nodes of an Internet-facing load balancer have public IP addresses. The DNS name of an Internet-facing load balancer is publicly resolvable to the public IP addresses of the nodes. Therefore, Internet-facing load balancers can route requests from clients over the Internet. The nodes of an internal load balancer have only private IP addresses. The DNS name of an internal load balancer is publicly resolvable to the private IP addresses of the nodes. Therefore, internal load balancers can only route requests from clients with access to the VPC for the load balancer.
-        public let scheme: String?
-        /// The type of load balancer.
-        public let type: String?
-        /// The date and time the load balancer was created.
-        public let createdTime: Date?
+        public let loadBalancerAttributes: LoadBalancerAttributes?
 
-        public init(availabilityZones: [AvailabilityZone]? = nil, securityGroups: [String]? = nil, loadBalancerArn: String? = nil, vpcId: String? = nil, state: LoadBalancerState? = nil, ipAddressType: String? = nil, canonicalHostedZoneId: String? = nil, dNSName: String? = nil, loadBalancerName: String? = nil, scheme: String? = nil, type: String? = nil, createdTime: Date? = nil) {
-            self.availabilityZones = availabilityZones
-            self.securityGroups = securityGroups
-            self.loadBalancerArn = loadBalancerArn
-            self.vpcId = vpcId
-            self.state = state
-            self.ipAddressType = ipAddressType
-            self.canonicalHostedZoneId = canonicalHostedZoneId
-            self.dNSName = dNSName
+        public init(loadBalancerName: String? = nil, loadBalancerAttributes: LoadBalancerAttributes? = nil) {
             self.loadBalancerName = loadBalancerName
-            self.scheme = scheme
-            self.type = type
-            self.createdTime = createdTime
+            self.loadBalancerAttributes = loadBalancerAttributes
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let availabilityZones = dictionary["AvailabilityZones"] as? [[String: Any]] {
-                self.availabilityZones = try availabilityZones.map({ try AvailabilityZone(dictionary: $0) })
-            } else { 
-                self.availabilityZones = nil
-            }
-            self.securityGroups = dictionary["SecurityGroups"] as? [String]
-            self.loadBalancerArn = dictionary["LoadBalancerArn"] as? String
-            self.vpcId = dictionary["VpcId"] as? String
-            if let state = dictionary["State"] as? [String: Any] { self.state = try Elasticloadbalancing.LoadBalancerState(dictionary: state) } else { self.state = nil }
-            self.ipAddressType = dictionary["IpAddressType"] as? String
-            self.canonicalHostedZoneId = dictionary["CanonicalHostedZoneId"] as? String
-            self.dNSName = dictionary["DNSName"] as? String
             self.loadBalancerName = dictionary["LoadBalancerName"] as? String
-            self.scheme = dictionary["Scheme"] as? String
-            self.type = dictionary["Type"] as? String
-            self.createdTime = dictionary["CreatedTime"] as? Date
+            if let loadBalancerAttributes = dictionary["LoadBalancerAttributes"] as? [String: Any] { self.loadBalancerAttributes = try Elasticloadbalancing.LoadBalancerAttributes(dictionary: loadBalancerAttributes) } else { self.loadBalancerAttributes = nil }
         }
     }
 
-    public struct SetSecurityGroupsOutput: AWSShape {
+    public struct PolicyDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// The IDs of the security groups associated with the load balancer.
-        public let securityGroupIds: [String]?
+        /// The name of the policy type.
+        public let policyTypeName: String?
+        /// The policy attributes.
+        public let policyAttributeDescriptions: [PolicyAttributeDescription]?
+        /// The name of the policy.
+        public let policyName: String?
 
-        public init(securityGroupIds: [String]? = nil) {
-            self.securityGroupIds = securityGroupIds
+        public init(policyTypeName: String? = nil, policyAttributeDescriptions: [PolicyAttributeDescription]? = nil, policyName: String? = nil) {
+            self.policyTypeName = policyTypeName
+            self.policyAttributeDescriptions = policyAttributeDescriptions
+            self.policyName = policyName
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.securityGroupIds = dictionary["SecurityGroupIds"] as? [String]
-        }
-    }
-
-    public struct DescribeTargetGroupsInput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        /// The maximum number of results to return with this call.
-        public let pageSize: Int32?
-        /// The Amazon Resource Names (ARN) of the target groups.
-        public let targetGroupArns: [String]?
-        /// The marker for the next set of results. (You received this marker from a previous call.)
-        public let marker: String?
-        /// The names of the target groups.
-        public let names: [String]?
-        /// The Amazon Resource Name (ARN) of the load balancer.
-        public let loadBalancerArn: String?
-
-        public init(pageSize: Int32? = nil, targetGroupArns: [String]? = nil, marker: String? = nil, names: [String]? = nil, loadBalancerArn: String? = nil) {
-            self.pageSize = pageSize
-            self.targetGroupArns = targetGroupArns
-            self.marker = marker
-            self.names = names
-            self.loadBalancerArn = loadBalancerArn
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.pageSize = dictionary["PageSize"] as? Int32
-            self.targetGroupArns = dictionary["TargetGroupArns"] as? [String]
-            self.marker = dictionary["Marker"] as? String
-            self.names = dictionary["Names"] as? [String]
-            self.loadBalancerArn = dictionary["LoadBalancerArn"] as? String
-        }
-    }
-
-    public struct DescribeTargetGroupsOutput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        /// Information about the target groups.
-        public let targetGroups: [TargetGroup]?
-        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
-        public let nextMarker: String?
-
-        public init(targetGroups: [TargetGroup]? = nil, nextMarker: String? = nil) {
-            self.targetGroups = targetGroups
-            self.nextMarker = nextMarker
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let targetGroups = dictionary["TargetGroups"] as? [[String: Any]] {
-                self.targetGroups = try targetGroups.map({ try TargetGroup(dictionary: $0) })
+            self.policyTypeName = dictionary["PolicyTypeName"] as? String
+            if let policyAttributeDescriptions = dictionary["PolicyAttributeDescriptions"] as? [[String: Any]] {
+                self.policyAttributeDescriptions = try policyAttributeDescriptions.map({ try PolicyAttributeDescription(dictionary: $0) })
             } else { 
-                self.targetGroups = nil
+                self.policyAttributeDescriptions = nil
             }
-            self.nextMarker = dictionary["NextMarker"] as? String
+            self.policyName = dictionary["PolicyName"] as? String
         }
     }
 
-    public struct Certificate: AWSShape {
+    public struct CreateAppCookieStickinessPolicyInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// The Amazon Resource Name (ARN) of the certificate.
-        public let certificateArn: String?
+        /// The name of the application cookie used for stickiness.
+        public let cookieName: String
+        /// The name of the load balancer.
+        public let loadBalancerName: String
+        /// The name of the policy being created. Policy names must consist of alphanumeric characters and dashes (-). This name must be unique within the set of policies for this load balancer.
+        public let policyName: String
 
-        public init(certificateArn: String? = nil) {
-            self.certificateArn = certificateArn
+        public init(cookieName: String, loadBalancerName: String, policyName: String) {
+            self.cookieName = cookieName
+            self.loadBalancerName = loadBalancerName
+            self.policyName = policyName
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.certificateArn = dictionary["CertificateArn"] as? String
+            guard let cookieName = dictionary["CookieName"] as? String else { throw InitializableError.missingRequiredParam("CookieName") }
+            self.cookieName = cookieName
+            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
+            self.loadBalancerName = loadBalancerName
+            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
+            self.policyName = policyName
         }
     }
 
-    public struct AvailabilityZone: AWSShape {
+    public struct DescribeLoadBalancerPoliciesOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// The name of the Availability Zone.
-        public let zoneName: String?
-        /// The ID of the subnet.
-        public let subnetId: String?
+        /// Information about the policies.
+        public let policyDescriptions: [PolicyDescription]?
 
-        public init(zoneName: String? = nil, subnetId: String? = nil) {
-            self.zoneName = zoneName
-            self.subnetId = subnetId
+        public init(policyDescriptions: [PolicyDescription]? = nil) {
+            self.policyDescriptions = policyDescriptions
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.zoneName = dictionary["ZoneName"] as? String
-            self.subnetId = dictionary["SubnetId"] as? String
+            if let policyDescriptions = dictionary["PolicyDescriptions"] as? [[String: Any]] {
+                self.policyDescriptions = try policyDescriptions.map({ try PolicyDescription(dictionary: $0) })
+            } else { 
+                self.policyDescriptions = nil
+            }
         }
     }
 
-    public struct RegisterTargetsInput: AWSShape {
+    public struct DeleteAccessPointInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// The targets. The default port for a target is the port for the target group. You can specify a port override. If a target is already registered, you can register it again using a different port.
-        public let targets: [TargetDescription]
-        /// The Amazon Resource Name (ARN) of the target group.
-        public let targetGroupArn: String
+        /// The name of the load balancer.
+        public let loadBalancerName: String
 
-        public init(targets: [TargetDescription], targetGroupArn: String) {
-            self.targets = targets
-            self.targetGroupArn = targetGroupArn
+        public init(loadBalancerName: String) {
+            self.loadBalancerName = loadBalancerName
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let targets = dictionary["Targets"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Targets") }
-            self.targets = try targets.map({ try TargetDescription(dictionary: $0) })
-            guard let targetGroupArn = dictionary["TargetGroupArn"] as? String else { throw InitializableError.missingRequiredParam("TargetGroupArn") }
-            self.targetGroupArn = targetGroupArn
+            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
+            self.loadBalancerName = loadBalancerName
         }
     }
 
-    public struct DeleteTargetGroupInput: AWSShape {
+    public struct PolicyTypeDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// The Amazon Resource Name (ARN) of the target group.
-        public let targetGroupArn: String
-
-        public init(targetGroupArn: String) {
-            self.targetGroupArn = targetGroupArn
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let targetGroupArn = dictionary["TargetGroupArn"] as? String else { throw InitializableError.missingRequiredParam("TargetGroupArn") }
-            self.targetGroupArn = targetGroupArn
-        }
-    }
-
-    public struct CreateRuleInput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        /// The priority for the rule. A listener can't have multiple rules with the same priority.
-        public let priority: Int32
-        /// An action. Each action has the type forward and specifies a target group.
-        public let actions: [Action]
-        /// A condition. Each condition has the field path-pattern and specifies one path pattern. A path pattern is case sensitive, can be up to 128 characters in length, and can contain any of the following characters. Note that you can include up to three wildcard characters in a path pattern.   A-Z, a-z, 0-9   _ - . $ / ~ " ' @ : +   &amp; (using &amp;amp;)   * (matches 0 or more characters)   ? (matches exactly 1 character)  
-        public let conditions: [RuleCondition]
-        /// The Amazon Resource Name (ARN) of the listener.
-        public let listenerArn: String
-
-        public init(priority: Int32, actions: [Action], conditions: [RuleCondition], listenerArn: String) {
-            self.priority = priority
-            self.actions = actions
-            self.conditions = conditions
-            self.listenerArn = listenerArn
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let priority = dictionary["Priority"] as? Int32 else { throw InitializableError.missingRequiredParam("Priority") }
-            self.priority = priority
-            guard let actions = dictionary["Actions"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Actions") }
-            self.actions = try actions.map({ try Action(dictionary: $0) })
-            guard let conditions = dictionary["Conditions"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Conditions") }
-            self.conditions = try conditions.map({ try RuleCondition(dictionary: $0) })
-            guard let listenerArn = dictionary["ListenerArn"] as? String else { throw InitializableError.missingRequiredParam("ListenerArn") }
-            self.listenerArn = listenerArn
-        }
-    }
-
-    public struct TargetHealth: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        /// The reason code. If the target state is healthy, a reason code is not provided. If the target state is initial, the reason code can be one of the following values:    Elb.RegistrationInProgress - The target is in the process of being registered with the load balancer.    Elb.InitialHealthChecking - The load balancer is still sending the target the minimum number of health checks required to determine its health status.   If the target state is unhealthy, the reason code can be one of the following values:    Target.ResponseCodeMismatch - The health checks did not return an expected HTTP code.    Target.Timeout - The health check requests timed out.    Target.FailedHealthChecks - The health checks failed because the connection to the target timed out, the target response was malformed, or the target failed the health check for an unknown reason.    Elb.InternalError - The health checks failed due to an internal error.   If the target state is unused, the reason code can be one of the following values:    Target.NotRegistered - The target is not registered with the target group.    Target.NotInUse - The target group is not used by any load balancer or the target is in an Availability Zone that is not enabled for its load balancer.    Target.InvalidState - The target is in the stopped or terminated state.   If the target state is draining, the reason code can be the following value:    Target.DeregistrationInProgress - The target is in the process of being deregistered and the deregistration delay period has not expired.  
-        public let reason: String?
-        /// The state of the target.
-        public let state: String?
-        /// A description of the target health that provides additional details. If the state is healthy, a description is not provided.
+        /// The name of the policy type.
+        public let policyTypeName: String?
+        /// The description of the policy attributes associated with the policies defined by Elastic Load Balancing.
+        public let policyAttributeTypeDescriptions: [PolicyAttributeTypeDescription]?
+        /// A description of the policy type.
         public let description: String?
 
-        public init(reason: String? = nil, state: String? = nil, description: String? = nil) {
-            self.reason = reason
+        public init(policyTypeName: String? = nil, policyAttributeTypeDescriptions: [PolicyAttributeTypeDescription]? = nil, description: String? = nil) {
+            self.policyTypeName = policyTypeName
+            self.policyAttributeTypeDescriptions = policyAttributeTypeDescriptions
+            self.description = description
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.policyTypeName = dictionary["PolicyTypeName"] as? String
+            if let policyAttributeTypeDescriptions = dictionary["PolicyAttributeTypeDescriptions"] as? [[String: Any]] {
+                self.policyAttributeTypeDescriptions = try policyAttributeTypeDescriptions.map({ try PolicyAttributeTypeDescription(dictionary: $0) })
+            } else { 
+                self.policyAttributeTypeDescriptions = nil
+            }
+            self.description = dictionary["Description"] as? String
+        }
+    }
+
+    public struct DetachLoadBalancerFromSubnetsOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        /// The IDs of the remaining subnets for the load balancer.
+        public let subnets: [String]?
+
+        public init(subnets: [String]? = nil) {
+            self.subnets = subnets
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.subnets = dictionary["Subnets"] as? [String]
+        }
+    }
+
+    public struct ConfigureHealthCheckOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        /// The updated health check.
+        public let healthCheck: HealthCheck?
+
+        public init(healthCheck: HealthCheck? = nil) {
+            self.healthCheck = healthCheck
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let healthCheck = dictionary["HealthCheck"] as? [String: Any] { self.healthCheck = try Elasticloadbalancing.HealthCheck(dictionary: healthCheck) } else { self.healthCheck = nil }
+        }
+    }
+
+    public struct DescribeLoadBalancerPolicyTypesInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        /// The names of the policy types. If no names are specified, describes all policy types defined by Elastic Load Balancing.
+        public let policyTypeNames: [String]?
+
+        public init(policyTypeNames: [String]? = nil) {
+            self.policyTypeNames = policyTypeNames
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.policyTypeNames = dictionary["PolicyTypeNames"] as? [String]
+        }
+    }
+
+    public struct CreateAccessPointInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        /// One or more Availability Zones from the same region as the load balancer. You must specify at least one Availability Zone. You can add more Availability Zones after you create the load balancer using EnableAvailabilityZonesForLoadBalancer.
+        public let availabilityZones: [String]?
+        /// The IDs of the security groups to assign to the load balancer.
+        public let securityGroups: [String]?
+        /// The listeners. For more information, see Listeners for Your Classic Load Balancer in the Classic Load Balancers Guide.
+        public let listeners: [Listener]
+        /// A list of tags to assign to the load balancer. For more information about tagging your load balancer, see Tag Your Classic Load Balancer in the Classic Load Balancers Guide.
+        public let tags: [Tag]?
+        /// The IDs of the subnets in your VPC to attach to the load balancer. Specify one subnet per Availability Zone specified in AvailabilityZones.
+        public let subnets: [String]?
+        /// The type of a load balancer. Valid only for load balancers in a VPC. By default, Elastic Load Balancing creates an Internet-facing load balancer with a DNS name that resolves to public IP addresses. For more information about Internet-facing and Internal load balancers, see Load Balancer Scheme in the Elastic Load Balancing User Guide. Specify internal to create a load balancer with a DNS name that resolves to private IP addresses.
+        public let scheme: String?
+        /// The name of the load balancer. This name must be unique within your set of load balancers for the region, must have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, and cannot begin or end with a hyphen.
+        public let loadBalancerName: String
+
+        public init(availabilityZones: [String]? = nil, securityGroups: [String]? = nil, listeners: [Listener], tags: [Tag]? = nil, subnets: [String]? = nil, scheme: String? = nil, loadBalancerName: String) {
+            self.availabilityZones = availabilityZones
+            self.securityGroups = securityGroups
+            self.listeners = listeners
+            self.tags = tags
+            self.subnets = subnets
+            self.scheme = scheme
+            self.loadBalancerName = loadBalancerName
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.availabilityZones = dictionary["AvailabilityZones"] as? [String]
+            self.securityGroups = dictionary["SecurityGroups"] as? [String]
+            guard let listeners = dictionary["Listeners"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Listeners") }
+            self.listeners = try listeners.map({ try Listener(dictionary: $0) })
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
+            }
+            self.subnets = dictionary["Subnets"] as? [String]
+            self.scheme = dictionary["Scheme"] as? String
+            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
+            self.loadBalancerName = loadBalancerName
+        }
+    }
+
+    public struct SetLoadBalancerPoliciesForBackendServerOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+
+        public init(dictionary: [String: Any]) throws {
+        }
+    }
+
+    public struct CreateLoadBalancerListenerOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+
+        public init(dictionary: [String: Any]) throws {
+        }
+    }
+
+    public struct SetLoadBalancerListenerSSLCertificateOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+
+        public init(dictionary: [String: Any]) throws {
+        }
+    }
+
+    public struct DescribeLoadBalancerPoliciesInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        /// The name of the load balancer.
+        public let loadBalancerName: String?
+        /// The names of the policies.
+        public let policyNames: [String]?
+
+        public init(loadBalancerName: String? = nil, policyNames: [String]? = nil) {
+            self.loadBalancerName = loadBalancerName
+            self.policyNames = policyNames
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.loadBalancerName = dictionary["LoadBalancerName"] as? String
+            self.policyNames = dictionary["PolicyNames"] as? [String]
+        }
+    }
+
+    public struct DeleteLoadBalancerListenerInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        /// The client port numbers of the listeners.
+        public let loadBalancerPorts: [Int32]
+        /// The name of the load balancer.
+        public let loadBalancerName: String
+
+        public init(loadBalancerPorts: [Int32], loadBalancerName: String) {
+            self.loadBalancerPorts = loadBalancerPorts
+            self.loadBalancerName = loadBalancerName
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let loadBalancerPorts = dictionary["LoadBalancerPorts"] as? [Int32] else { throw InitializableError.missingRequiredParam("LoadBalancerPorts") }
+            self.loadBalancerPorts = loadBalancerPorts
+            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
+            self.loadBalancerName = loadBalancerName
+        }
+    }
+
+    public struct CreateLoadBalancerPolicyOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+
+        public init(dictionary: [String: Any]) throws {
+        }
+    }
+
+    public struct InstanceState: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        /// Information about the cause of OutOfService instances. Specifically, whether the cause is Elastic Load Balancing or the instance. Valid values: ELB | Instance | N/A 
+        public let reasonCode: String?
+        /// The ID of the instance.
+        public let instanceId: String?
+        /// The current state of the instance. Valid values: InService | OutOfService | Unknown 
+        public let state: String?
+        /// A description of the instance state. This string can contain one or more of the following messages.    N/A     A transient error occurred. Please try again later.     Instance has failed at least the UnhealthyThreshold number of health checks consecutively.     Instance has not passed the configured HealthyThreshold number of health checks consecutively.     Instance registration is still in progress.     Instance is in the EC2 Availability Zone for which LoadBalancer is not configured to route traffic to.     Instance is not currently registered with the LoadBalancer.     Instance deregistration currently in progress.     Disable Availability Zone is currently in progress.     Instance is in pending state.     Instance is in stopped state.     Instance is in terminated state.   
+        public let description: String?
+
+        public init(reasonCode: String? = nil, instanceId: String? = nil, state: String? = nil, description: String? = nil) {
+            self.reasonCode = reasonCode
+            self.instanceId = instanceId
             self.state = state
             self.description = description
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.reason = dictionary["Reason"] as? String
+            self.reasonCode = dictionary["ReasonCode"] as? String
+            self.instanceId = dictionary["InstanceId"] as? String
             self.state = dictionary["State"] as? String
             self.description = dictionary["Description"] as? String
         }
     }
 
-    public struct ModifyListenerInput: AWSShape {
+    public struct DeregisterEndPointsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// The protocol for connections from clients to the load balancer.
-        public let `protocol`: String?
-        /// The security policy that defines which ciphers and protocols are supported.
-        public let sslPolicy: String?
-        /// The SSL server certificate.
-        public let certificates: [Certificate]?
-        /// The default actions.
-        public let defaultActions: [Action]?
-        /// The Amazon Resource Name (ARN) of the listener.
-        public let listenerArn: String
-        /// The port for connections from clients to the load balancer.
-        public let port: Int32?
+        /// The name of the load balancer.
+        public let loadBalancerName: String
+        /// The IDs of the instances.
+        public let instances: [Instance]
 
-        public init(protocol: String? = nil, sslPolicy: String? = nil, certificates: [Certificate]? = nil, defaultActions: [Action]? = nil, listenerArn: String, port: Int32? = nil) {
-            self.`protocol` = `protocol`
-            self.sslPolicy = sslPolicy
-            self.certificates = certificates
-            self.defaultActions = defaultActions
-            self.listenerArn = listenerArn
-            self.port = port
+        public init(loadBalancerName: String, instances: [Instance]) {
+            self.loadBalancerName = loadBalancerName
+            self.instances = instances
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.`protocol` = dictionary["Protocol"] as? String
-            self.sslPolicy = dictionary["SslPolicy"] as? String
-            if let certificates = dictionary["Certificates"] as? [[String: Any]] {
-                self.certificates = try certificates.map({ try Certificate(dictionary: $0) })
-            } else { 
-                self.certificates = nil
-            }
-            if let defaultActions = dictionary["DefaultActions"] as? [[String: Any]] {
-                self.defaultActions = try defaultActions.map({ try Action(dictionary: $0) })
-            } else { 
-                self.defaultActions = nil
-            }
-            guard let listenerArn = dictionary["ListenerArn"] as? String else { throw InitializableError.missingRequiredParam("ListenerArn") }
-            self.listenerArn = listenerArn
-            self.port = dictionary["Port"] as? Int32
+            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
+            self.loadBalancerName = loadBalancerName
+            guard let instances = dictionary["Instances"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Instances") }
+            self.instances = try instances.map({ try Instance(dictionary: $0) })
         }
     }
 
-    public struct SetSubnetsInput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        /// The IDs of the subnets. You must specify at least two subnets. You can add only one subnet per Availability Zone.
-        public let subnets: [String]
-        /// The Amazon Resource Name (ARN) of the load balancer.
-        public let loadBalancerArn: String
-
-        public init(subnets: [String], loadBalancerArn: String) {
-            self.subnets = subnets
-            self.loadBalancerArn = loadBalancerArn
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let subnets = dictionary["Subnets"] as? [String] else { throw InitializableError.missingRequiredParam("Subnets") }
-            self.subnets = subnets
-            guard let loadBalancerArn = dictionary["LoadBalancerArn"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerArn") }
-            self.loadBalancerArn = loadBalancerArn
-        }
-    }
-
-    public struct DeleteRuleOutput: AWSShape {
+    public struct DeleteAccessPointOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
 
         public init(dictionary: [String: Any]) throws {
-        }
-    }
-
-    public struct DescribeTargetHealthInput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        /// The targets.
-        public let targets: [TargetDescription]?
-        /// The Amazon Resource Name (ARN) of the target group.
-        public let targetGroupArn: String
-
-        public init(targets: [TargetDescription]? = nil, targetGroupArn: String) {
-            self.targets = targets
-            self.targetGroupArn = targetGroupArn
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let targets = dictionary["Targets"] as? [[String: Any]] {
-                self.targets = try targets.map({ try TargetDescription(dictionary: $0) })
-            } else { 
-                self.targets = nil
-            }
-            guard let targetGroupArn = dictionary["TargetGroupArn"] as? String else { throw InitializableError.missingRequiredParam("TargetGroupArn") }
-            self.targetGroupArn = targetGroupArn
-        }
-    }
-
-    public struct Cipher: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        /// The priority of the cipher.
-        public let priority: Int32?
-        /// The name of the cipher.
-        public let name: String?
-
-        public init(priority: Int32? = nil, name: String? = nil) {
-            self.priority = priority
-            self.name = name
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.priority = dictionary["Priority"] as? Int32
-            self.name = dictionary["Name"] as? String
-        }
-    }
-
-    public struct TargetGroupAttribute: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        /// The value of the attribute.
-        public let value: String?
-        /// The name of the attribute.    deregistration_delay.timeout_seconds - The amount time for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused. The range is 0-3600 seconds. The default value is 300 seconds.    stickiness.enabled - Indicates whether sticky sessions are enabled. The value is true or false.    stickiness.type - The type of sticky sessions. The possible value is lb_cookie.    stickiness.lb_cookie.duration_seconds - The time period, in seconds, during which requests from a client should be routed to the same target. After this time period expires, the load balancer-generated cookie is considered stale. The range is 1 second to 1 week (604800 seconds). The default value is 1 day (86400 seconds).  
-        public let key: String?
-
-        public init(value: String? = nil, key: String? = nil) {
-            self.value = value
-            self.key = key
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            self.key = dictionary["Key"] as? String
-        }
-    }
-
-    public struct SetRulePrioritiesInput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        /// The rule priorities.
-        public let rulePriorities: [RulePriorityPair]
-
-        public init(rulePriorities: [RulePriorityPair]) {
-            self.rulePriorities = rulePriorities
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let rulePriorities = dictionary["RulePriorities"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("RulePriorities") }
-            self.rulePriorities = try rulePriorities.map({ try RulePriorityPair(dictionary: $0) })
-        }
-    }
-
-    public struct Matcher: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        /// The HTTP codes. The default value is 200. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299").
-        public let httpCode: String
-
-        public init(httpCode: String) {
-            self.httpCode = httpCode
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let httpCode = dictionary["HttpCode"] as? String else { throw InitializableError.missingRequiredParam("HttpCode") }
-            self.httpCode = httpCode
-        }
-    }
-
-    public struct DeleteRuleInput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        /// The Amazon Resource Name (ARN) of the rule.
-        public let ruleArn: String
-
-        public init(ruleArn: String) {
-            self.ruleArn = ruleArn
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let ruleArn = dictionary["RuleArn"] as? String else { throw InitializableError.missingRequiredParam("RuleArn") }
-            self.ruleArn = ruleArn
-        }
-    }
-
-    public struct DescribeSSLPoliciesInput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        /// The marker for the next set of results. (You received this marker from a previous call.)
-        public let marker: String?
-        /// The maximum number of results to return with this call.
-        public let pageSize: Int32?
-        /// The names of the policies.
-        public let names: [String]?
-
-        public init(marker: String? = nil, pageSize: Int32? = nil, names: [String]? = nil) {
-            self.marker = marker
-            self.pageSize = pageSize
-            self.names = names
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.pageSize = dictionary["PageSize"] as? Int32
-            self.names = dictionary["Names"] as? [String]
         }
     }
 
     public struct DescribeTagsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// The Amazon Resource Names (ARN) of the resources.
-        public let resourceArns: [String]
+        /// The names of the load balancers.
+        public let loadBalancerNames: [String]
 
-        public init(resourceArns: [String]) {
-            self.resourceArns = resourceArns
+        public init(loadBalancerNames: [String]) {
+            self.loadBalancerNames = loadBalancerNames
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let resourceArns = dictionary["ResourceArns"] as? [String] else { throw InitializableError.missingRequiredParam("ResourceArns") }
-            self.resourceArns = resourceArns
+            guard let loadBalancerNames = dictionary["LoadBalancerNames"] as? [String] else { throw InitializableError.missingRequiredParam("LoadBalancerNames") }
+            self.loadBalancerNames = loadBalancerNames
+        }
+    }
+
+    public struct ApplySecurityGroupsToLoadBalancerOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        /// The IDs of the security groups associated with the load balancer.
+        public let securityGroups: [String]?
+
+        public init(securityGroups: [String]? = nil) {
+            self.securityGroups = securityGroups
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.securityGroups = dictionary["SecurityGroups"] as? [String]
+        }
+    }
+
+    public struct CrossZoneLoadBalancing: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        /// Specifies whether cross-zone load balancing is enabled for the load balancer.
+        public let enabled: Bool
+
+        public init(enabled: Bool) {
+            self.enabled = enabled
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
+            self.enabled = enabled
         }
     }
 
@@ -1391,64 +1215,140 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the load balancer attributes.
-        public let attributes: [LoadBalancerAttribute]?
+        public let loadBalancerAttributes: LoadBalancerAttributes?
 
-        public init(attributes: [LoadBalancerAttribute]? = nil) {
-            self.attributes = attributes
+        public init(loadBalancerAttributes: LoadBalancerAttributes? = nil) {
+            self.loadBalancerAttributes = loadBalancerAttributes
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let attributes = dictionary["Attributes"] as? [[String: Any]] {
-                self.attributes = try attributes.map({ try LoadBalancerAttribute(dictionary: $0) })
+            if let loadBalancerAttributes = dictionary["LoadBalancerAttributes"] as? [String: Any] { self.loadBalancerAttributes = try Elasticloadbalancing.LoadBalancerAttributes(dictionary: loadBalancerAttributes) } else { self.loadBalancerAttributes = nil }
+        }
+    }
+
+    public struct LBCookieStickinessPolicy: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        /// The time period, in seconds, after which the cookie should be considered stale. If this parameter is not specified, the stickiness session lasts for the duration of the browser session.
+        public let cookieExpirationPeriod: Int64?
+        /// The name of the policy. This name must be unique within the set of policies for this load balancer.
+        public let policyName: String?
+
+        public init(cookieExpirationPeriod: Int64? = nil, policyName: String? = nil) {
+            self.cookieExpirationPeriod = cookieExpirationPeriod
+            self.policyName = policyName
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.cookieExpirationPeriod = dictionary["CookieExpirationPeriod"] as? Int64
+            self.policyName = dictionary["PolicyName"] as? String
+        }
+    }
+
+    public struct ConnectionSettings: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        /// The time, in seconds, that the connection is allowed to be idle (no data has been sent over the connection) before it is closed by the load balancer.
+        public let idleTimeout: Int32
+
+        public init(idleTimeout: Int32) {
+            self.idleTimeout = idleTimeout
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let idleTimeout = dictionary["IdleTimeout"] as? Int32 else { throw InitializableError.missingRequiredParam("IdleTimeout") }
+            self.idleTimeout = idleTimeout
+        }
+    }
+
+    public struct SetLoadBalancerPoliciesForBackendServerInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        /// The names of the policies. If the list is empty, then all current polices are removed from the EC2 instance.
+        public let policyNames: [String]
+        /// The name of the load balancer.
+        public let loadBalancerName: String
+        /// The port number associated with the EC2 instance.
+        public let instancePort: Int32
+
+        public init(policyNames: [String], loadBalancerName: String, instancePort: Int32) {
+            self.policyNames = policyNames
+            self.loadBalancerName = loadBalancerName
+            self.instancePort = instancePort
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let policyNames = dictionary["PolicyNames"] as? [String] else { throw InitializableError.missingRequiredParam("PolicyNames") }
+            self.policyNames = policyNames
+            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
+            self.loadBalancerName = loadBalancerName
+            guard let instancePort = dictionary["InstancePort"] as? Int32 else { throw InitializableError.missingRequiredParam("InstancePort") }
+            self.instancePort = instancePort
+        }
+    }
+
+    public struct DescribeLoadBalancerPolicyTypesOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        /// Information about the policy types.
+        public let policyTypeDescriptions: [PolicyTypeDescription]?
+
+        public init(policyTypeDescriptions: [PolicyTypeDescription]? = nil) {
+            self.policyTypeDescriptions = policyTypeDescriptions
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let policyTypeDescriptions = dictionary["PolicyTypeDescriptions"] as? [[String: Any]] {
+                self.policyTypeDescriptions = try policyTypeDescriptions.map({ try PolicyTypeDescription(dictionary: $0) })
             } else { 
-                self.attributes = nil
+                self.policyTypeDescriptions = nil
             }
         }
     }
 
-    public struct DescribeTargetGroupAttributesOutput: AWSShape {
+    public struct DescribeEndPointStateOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// Information about the target group attributes
-        public let attributes: [TargetGroupAttribute]?
+        /// Information about the health of the instances.
+        public let instanceStates: [InstanceState]?
 
-        public init(attributes: [TargetGroupAttribute]? = nil) {
-            self.attributes = attributes
+        public init(instanceStates: [InstanceState]? = nil) {
+            self.instanceStates = instanceStates
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let attributes = dictionary["Attributes"] as? [[String: Any]] {
-                self.attributes = try attributes.map({ try TargetGroupAttribute(dictionary: $0) })
+            if let instanceStates = dictionary["InstanceStates"] as? [[String: Any]] {
+                self.instanceStates = try instanceStates.map({ try InstanceState(dictionary: $0) })
             } else { 
-                self.attributes = nil
+                self.instanceStates = nil
             }
         }
     }
 
-    public struct DescribeLoadBalancersInput: AWSShape {
+    public struct DeleteLoadBalancerListenerOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// The maximum number of results to return with this call.
-        public let pageSize: Int32?
-        /// The Amazon Resource Names (ARN) of the load balancers.
-        public let loadBalancerArns: [String]?
-        /// The names of the load balancers.
-        public let names: [String]?
-        /// The marker for the next set of results. (You received this marker from a previous call.)
-        public let marker: String?
 
-        public init(pageSize: Int32? = nil, loadBalancerArns: [String]? = nil, names: [String]? = nil, marker: String? = nil) {
-            self.pageSize = pageSize
-            self.loadBalancerArns = loadBalancerArns
-            self.names = names
-            self.marker = marker
+        public init(dictionary: [String: Any]) throws {
+        }
+    }
+
+    public struct SourceSecurityGroup: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        /// The owner of the security group.
+        public let ownerAlias: String?
+        /// The name of the security group.
+        public let groupName: String?
+
+        public init(ownerAlias: String? = nil, groupName: String? = nil) {
+            self.ownerAlias = ownerAlias
+            self.groupName = groupName
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.pageSize = dictionary["PageSize"] as? Int32
-            self.loadBalancerArns = dictionary["LoadBalancerArns"] as? [String]
-            self.names = dictionary["Names"] as? [String]
-            self.marker = dictionary["Marker"] as? String
+            self.ownerAlias = dictionary["OwnerAlias"] as? String
+            self.groupName = dictionary["GroupName"] as? String
         }
     }
 
@@ -1460,347 +1360,291 @@ extension Elasticloadbalancing {
         }
     }
 
-    public struct SetRulePrioritiesOutput: AWSShape {
+    public struct RemoveAvailabilityZonesOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// Information about the rules.
-        public let rules: [Rule]?
+        /// The remaining Availability Zones for the load balancer.
+        public let availabilityZones: [String]?
 
-        public init(rules: [Rule]? = nil) {
-            self.rules = rules
+        public init(availabilityZones: [String]? = nil) {
+            self.availabilityZones = availabilityZones
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let rules = dictionary["Rules"] as? [[String: Any]] {
-                self.rules = try rules.map({ try Rule(dictionary: $0) })
-            } else { 
-                self.rules = nil
-            }
+            self.availabilityZones = dictionary["AvailabilityZones"] as? [String]
         }
     }
 
-    public struct ModifyRuleInput: AWSShape {
+    public struct AppCookieStickinessPolicy: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// The actions.
-        public let actions: [Action]?
-        /// The conditions.
-        public let conditions: [RuleCondition]?
-        /// The Amazon Resource Name (ARN) of the rule.
-        public let ruleArn: String
+        /// The name of the application cookie used for stickiness.
+        public let cookieName: String?
+        /// The mnemonic name for the policy being created. The name must be unique within a set of policies for this load balancer.
+        public let policyName: String?
 
-        public init(actions: [Action]? = nil, conditions: [RuleCondition]? = nil, ruleArn: String) {
-            self.actions = actions
-            self.conditions = conditions
-            self.ruleArn = ruleArn
+        public init(cookieName: String? = nil, policyName: String? = nil) {
+            self.cookieName = cookieName
+            self.policyName = policyName
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let actions = dictionary["Actions"] as? [[String: Any]] {
-                self.actions = try actions.map({ try Action(dictionary: $0) })
-            } else { 
-                self.actions = nil
-            }
-            if let conditions = dictionary["Conditions"] as? [[String: Any]] {
-                self.conditions = try conditions.map({ try RuleCondition(dictionary: $0) })
-            } else { 
-                self.conditions = nil
-            }
-            guard let ruleArn = dictionary["RuleArn"] as? String else { throw InitializableError.missingRequiredParam("RuleArn") }
-            self.ruleArn = ruleArn
-        }
-    }
-
-    public struct DeregisterTargetsOutput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-
-        public init(dictionary: [String: Any]) throws {
-        }
-    }
-
-    public struct TargetDescription: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        /// The port on which the target is listening.
-        public let port: Int32?
-        /// The ID of the target.
-        public let id: String
-
-        public init(port: Int32? = nil, id: String) {
-            self.port = port
-            self.id = id
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.port = dictionary["Port"] as? Int32
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
-        }
-    }
-
-    public struct DescribeListenersOutput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        /// Information about the listeners.
-        public let listeners: [Listener]?
-        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
-        public let nextMarker: String?
-
-        public init(listeners: [Listener]? = nil, nextMarker: String? = nil) {
-            self.listeners = listeners
-            self.nextMarker = nextMarker
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let listeners = dictionary["Listeners"] as? [[String: Any]] {
-                self.listeners = try listeners.map({ try Listener(dictionary: $0) })
-            } else { 
-                self.listeners = nil
-            }
-            self.nextMarker = dictionary["NextMarker"] as? String
+            self.cookieName = dictionary["CookieName"] as? String
+            self.policyName = dictionary["PolicyName"] as? String
         }
     }
 
     public struct AddTagsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// The Amazon Resource Name (ARN) of the resource.
-        public let resourceArns: [String]
-        /// The tags. Each resource can have a maximum of 10 tags.
+        /// The name of the load balancer. You can specify one load balancer only.
+        public let loadBalancerNames: [String]
+        /// The tags.
         public let tags: [Tag]
 
-        public init(resourceArns: [String], tags: [Tag]) {
-            self.resourceArns = resourceArns
+        public init(loadBalancerNames: [String], tags: [Tag]) {
+            self.loadBalancerNames = loadBalancerNames
             self.tags = tags
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let resourceArns = dictionary["ResourceArns"] as? [String] else { throw InitializableError.missingRequiredParam("ResourceArns") }
-            self.resourceArns = resourceArns
+            guard let loadBalancerNames = dictionary["LoadBalancerNames"] as? [String] else { throw InitializableError.missingRequiredParam("LoadBalancerNames") }
+            self.loadBalancerNames = loadBalancerNames
             guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
             self.tags = try tags.map({ try Tag(dictionary: $0) })
         }
     }
 
-    public struct DescribeRulesInput: AWSShape {
+    public struct CreateLoadBalancerPolicyInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// The Amazon Resource Names (ARN) of the rules.
-        public let ruleArns: [String]?
-        /// The Amazon Resource Name (ARN) of the listener.
-        public let listenerArn: String?
+        /// The policy attributes.
+        public let policyAttributes: [PolicyAttribute]?
+        /// The name of the base policy type. To get the list of policy types, use DescribeLoadBalancerPolicyTypes.
+        public let policyTypeName: String
+        /// The name of the load balancer.
+        public let loadBalancerName: String
+        /// The name of the load balancer policy to be created. This name must be unique within the set of policies for this load balancer.
+        public let policyName: String
 
-        public init(ruleArns: [String]? = nil, listenerArn: String? = nil) {
-            self.ruleArns = ruleArns
-            self.listenerArn = listenerArn
+        public init(policyAttributes: [PolicyAttribute]? = nil, policyTypeName: String, loadBalancerName: String, policyName: String) {
+            self.policyAttributes = policyAttributes
+            self.policyTypeName = policyTypeName
+            self.loadBalancerName = loadBalancerName
+            self.policyName = policyName
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.ruleArns = dictionary["RuleArns"] as? [String]
-            self.listenerArn = dictionary["ListenerArn"] as? String
-        }
-    }
-
-    public struct DescribeTargetHealthOutput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        /// Information about the health of the targets.
-        public let targetHealthDescriptions: [TargetHealthDescription]?
-
-        public init(targetHealthDescriptions: [TargetHealthDescription]? = nil) {
-            self.targetHealthDescriptions = targetHealthDescriptions
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let targetHealthDescriptions = dictionary["TargetHealthDescriptions"] as? [[String: Any]] {
-                self.targetHealthDescriptions = try targetHealthDescriptions.map({ try TargetHealthDescription(dictionary: $0) })
+            if let policyAttributes = dictionary["PolicyAttributes"] as? [[String: Any]] {
+                self.policyAttributes = try policyAttributes.map({ try PolicyAttribute(dictionary: $0) })
             } else { 
-                self.targetHealthDescriptions = nil
+                self.policyAttributes = nil
             }
+            guard let policyTypeName = dictionary["PolicyTypeName"] as? String else { throw InitializableError.missingRequiredParam("PolicyTypeName") }
+            self.policyTypeName = policyTypeName
+            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
+            self.loadBalancerName = loadBalancerName
+            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
+            self.policyName = policyName
         }
     }
 
-    public struct ModifyListenerOutput: AWSShape {
+    public struct CreateAppCookieStickinessPolicyOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// Information about the modified listeners.
-        public let listeners: [Listener]?
 
-        public init(listeners: [Listener]? = nil) {
-            self.listeners = listeners
+        public init(dictionary: [String: Any]) throws {
+        }
+    }
+
+    public struct AttachLoadBalancerToSubnetsOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        /// The IDs of the subnets attached to the load balancer.
+        public let subnets: [String]?
+
+        public init(subnets: [String]? = nil) {
+            self.subnets = subnets
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let listeners = dictionary["Listeners"] as? [[String: Any]] {
-                self.listeners = try listeners.map({ try Listener(dictionary: $0) })
-            } else { 
-                self.listeners = nil
-            }
+            self.subnets = dictionary["Subnets"] as? [String]
         }
     }
 
-    public struct SetSubnetsOutput: AWSShape {
+    public struct ConfigureHealthCheckInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// Information about the subnet and Availability Zone.
-        public let availabilityZones: [AvailabilityZone]?
+        /// The name of the load balancer.
+        public let loadBalancerName: String
+        /// The configuration information.
+        public let healthCheck: HealthCheck
 
-        public init(availabilityZones: [AvailabilityZone]? = nil) {
+        public init(loadBalancerName: String, healthCheck: HealthCheck) {
+            self.loadBalancerName = loadBalancerName
+            self.healthCheck = healthCheck
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
+            self.loadBalancerName = loadBalancerName
+            guard let healthCheck = dictionary["HealthCheck"] as? [String: Any] else { throw InitializableError.missingRequiredParam("HealthCheck") }
+            self.healthCheck = try Elasticloadbalancing.HealthCheck(dictionary: healthCheck)
+        }
+    }
+
+    public struct BackendServerDescription: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        /// The names of the policies enabled for the EC2 instance.
+        public let policyNames: [String]?
+        /// The port on which the EC2 instance is listening.
+        public let instancePort: Int32?
+
+        public init(policyNames: [String]? = nil, instancePort: Int32? = nil) {
+            self.policyNames = policyNames
+            self.instancePort = instancePort
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.policyNames = dictionary["PolicyNames"] as? [String]
+            self.instancePort = dictionary["InstancePort"] as? Int32
+        }
+    }
+
+    public struct LoadBalancerDescription: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        /// The Availability Zones for the load balancer.
+        public let availabilityZones: [String]?
+        /// The ID of the VPC for the load balancer.
+        public let vPCId: String?
+        /// Information about your EC2 instances.
+        public let backendServerDescriptions: [BackendServerDescription]?
+        /// The IDs of the subnets for the load balancer.
+        public let subnets: [String]?
+        /// The policies defined for the load balancer.
+        public let policies: Policies?
+        /// The ID of the Amazon Route 53 hosted zone for the load balancer.
+        public let canonicalHostedZoneNameID: String?
+        /// The DNS name of the load balancer.
+        public let dNSName: String?
+        /// The name of the load balancer.
+        public let loadBalancerName: String?
+        /// The date and time the load balancer was created.
+        public let createdTime: Date?
+        /// The DNS name of the load balancer. For more information, see Configure a Custom Domain Name in the Classic Load Balancers Guide.
+        public let canonicalHostedZoneName: String?
+        /// The security groups for the load balancer. Valid only for load balancers in a VPC.
+        public let securityGroups: [String]?
+        /// The listeners for the load balancer.
+        public let listenerDescriptions: [ListenerDescription]?
+        /// The security group for the load balancer, which you can use as part of your inbound rules for your registered instances. To only allow traffic from load balancers, add a security group rule that specifies this source security group as the inbound source.
+        public let sourceSecurityGroup: SourceSecurityGroup?
+        /// Information about the health checks conducted on the load balancer.
+        public let healthCheck: HealthCheck?
+        /// The IDs of the instances for the load balancer.
+        public let instances: [Instance]?
+        /// The type of load balancer. Valid only for load balancers in a VPC. If Scheme is internet-facing, the load balancer has a public DNS name that resolves to a public IP address. If Scheme is internal, the load balancer has a public DNS name that resolves to a private IP address.
+        public let scheme: String?
+
+        public init(availabilityZones: [String]? = nil, vPCId: String? = nil, backendServerDescriptions: [BackendServerDescription]? = nil, subnets: [String]? = nil, policies: Policies? = nil, canonicalHostedZoneNameID: String? = nil, dNSName: String? = nil, loadBalancerName: String? = nil, createdTime: Date? = nil, canonicalHostedZoneName: String? = nil, securityGroups: [String]? = nil, listenerDescriptions: [ListenerDescription]? = nil, sourceSecurityGroup: SourceSecurityGroup? = nil, healthCheck: HealthCheck? = nil, instances: [Instance]? = nil, scheme: String? = nil) {
             self.availabilityZones = availabilityZones
+            self.vPCId = vPCId
+            self.backendServerDescriptions = backendServerDescriptions
+            self.subnets = subnets
+            self.policies = policies
+            self.canonicalHostedZoneNameID = canonicalHostedZoneNameID
+            self.dNSName = dNSName
+            self.loadBalancerName = loadBalancerName
+            self.createdTime = createdTime
+            self.canonicalHostedZoneName = canonicalHostedZoneName
+            self.securityGroups = securityGroups
+            self.listenerDescriptions = listenerDescriptions
+            self.sourceSecurityGroup = sourceSecurityGroup
+            self.healthCheck = healthCheck
+            self.instances = instances
+            self.scheme = scheme
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let availabilityZones = dictionary["AvailabilityZones"] as? [[String: Any]] {
-                self.availabilityZones = try availabilityZones.map({ try AvailabilityZone(dictionary: $0) })
+            self.availabilityZones = dictionary["AvailabilityZones"] as? [String]
+            self.vPCId = dictionary["VPCId"] as? String
+            if let backendServerDescriptions = dictionary["BackendServerDescriptions"] as? [[String: Any]] {
+                self.backendServerDescriptions = try backendServerDescriptions.map({ try BackendServerDescription(dictionary: $0) })
             } else { 
-                self.availabilityZones = nil
+                self.backendServerDescriptions = nil
             }
-        }
-    }
-
-    public struct SetIpAddressTypeInput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        /// The Amazon Resource Name (ARN) of the load balancer.
-        public let loadBalancerArn: String
-        /// The IP address type. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). Internal load balancers must use ipv4.
-        public let ipAddressType: String
-
-        public init(loadBalancerArn: String, ipAddressType: String) {
-            self.loadBalancerArn = loadBalancerArn
-            self.ipAddressType = ipAddressType
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let loadBalancerArn = dictionary["LoadBalancerArn"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerArn") }
-            self.loadBalancerArn = loadBalancerArn
-            guard let ipAddressType = dictionary["IpAddressType"] as? String else { throw InitializableError.missingRequiredParam("IpAddressType") }
-            self.ipAddressType = ipAddressType
-        }
-    }
-
-    public struct CreateTargetGroupInput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        /// The number of consecutive health check failures required before considering a target unhealthy. The default is 2.
-        public let unhealthyThresholdCount: Int32?
-        /// The number of consecutive health checks successes required before considering an unhealthy target healthy. The default is 5.
-        public let healthyThresholdCount: Int32?
-        /// The identifier of the virtual private cloud (VPC).
-        public let vpcId: String
-        /// The protocol the load balancer uses when performing health checks on targets. The default is the HTTP protocol.
-        public let healthCheckProtocol: String?
-        /// The name of the target group.
-        public let name: String
-        /// The protocol to use for routing traffic to the targets.
-        public let `protocol`: String
-        /// The HTTP codes to use when checking for a successful response from a target. The default is 200.
-        public let matcher: Matcher?
-        /// The approximate amount of time, in seconds, between health checks of an individual target. The default is 30 seconds.
-        public let healthCheckIntervalSeconds: Int32?
-        /// The ping path that is the destination on the targets for health checks. The default is /.
-        public let healthCheckPath: String?
-        /// The port the load balancer uses when performing health checks on targets. The default is traffic-port, which indicates the port on which each target receives traffic from the load balancer.
-        public let healthCheckPort: String?
-        /// The amount of time, in seconds, during which no response from a target means a failed health check. The default is 5 seconds.
-        public let healthCheckTimeoutSeconds: Int32?
-        /// The port on which the targets receive traffic. This port is used unless you specify a port override when registering the target.
-        public let port: Int32
-
-        public init(unhealthyThresholdCount: Int32? = nil, healthyThresholdCount: Int32? = nil, vpcId: String, healthCheckProtocol: String? = nil, name: String, protocol: String, matcher: Matcher? = nil, healthCheckIntervalSeconds: Int32? = nil, healthCheckPath: String? = nil, healthCheckPort: String? = nil, healthCheckTimeoutSeconds: Int32? = nil, port: Int32) {
-            self.unhealthyThresholdCount = unhealthyThresholdCount
-            self.healthyThresholdCount = healthyThresholdCount
-            self.vpcId = vpcId
-            self.healthCheckProtocol = healthCheckProtocol
-            self.name = name
-            self.`protocol` = `protocol`
-            self.matcher = matcher
-            self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
-            self.healthCheckPath = healthCheckPath
-            self.healthCheckPort = healthCheckPort
-            self.healthCheckTimeoutSeconds = healthCheckTimeoutSeconds
-            self.port = port
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.unhealthyThresholdCount = dictionary["UnhealthyThresholdCount"] as? Int32
-            self.healthyThresholdCount = dictionary["HealthyThresholdCount"] as? Int32
-            guard let vpcId = dictionary["VpcId"] as? String else { throw InitializableError.missingRequiredParam("VpcId") }
-            self.vpcId = vpcId
-            self.healthCheckProtocol = dictionary["HealthCheckProtocol"] as? String
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let `protocol` = dictionary["Protocol"] as? String else { throw InitializableError.missingRequiredParam("Protocol") }
-            self.`protocol` = `protocol`
-            if let matcher = dictionary["Matcher"] as? [String: Any] { self.matcher = try Elasticloadbalancing.Matcher(dictionary: matcher) } else { self.matcher = nil }
-            self.healthCheckIntervalSeconds = dictionary["HealthCheckIntervalSeconds"] as? Int32
-            self.healthCheckPath = dictionary["HealthCheckPath"] as? String
-            self.healthCheckPort = dictionary["HealthCheckPort"] as? String
-            self.healthCheckTimeoutSeconds = dictionary["HealthCheckTimeoutSeconds"] as? Int32
-            guard let port = dictionary["Port"] as? Int32 else { throw InitializableError.missingRequiredParam("Port") }
-            self.port = port
-        }
-    }
-
-    public struct DeleteTargetGroupOutput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-
-        public init(dictionary: [String: Any]) throws {
-        }
-    }
-
-    public struct DeleteLoadBalancerInput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        /// The Amazon Resource Name (ARN) of the load balancer.
-        public let loadBalancerArn: String
-
-        public init(loadBalancerArn: String) {
-            self.loadBalancerArn = loadBalancerArn
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let loadBalancerArn = dictionary["LoadBalancerArn"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerArn") }
-            self.loadBalancerArn = loadBalancerArn
-        }
-    }
-
-    public struct ModifyTargetGroupOutput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        /// Information about the target group.
-        public let targetGroups: [TargetGroup]?
-
-        public init(targetGroups: [TargetGroup]? = nil) {
-            self.targetGroups = targetGroups
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let targetGroups = dictionary["TargetGroups"] as? [[String: Any]] {
-                self.targetGroups = try targetGroups.map({ try TargetGroup(dictionary: $0) })
+            self.subnets = dictionary["Subnets"] as? [String]
+            if let policies = dictionary["Policies"] as? [String: Any] { self.policies = try Elasticloadbalancing.Policies(dictionary: policies) } else { self.policies = nil }
+            self.canonicalHostedZoneNameID = dictionary["CanonicalHostedZoneNameID"] as? String
+            self.dNSName = dictionary["DNSName"] as? String
+            self.loadBalancerName = dictionary["LoadBalancerName"] as? String
+            self.createdTime = dictionary["CreatedTime"] as? Date
+            self.canonicalHostedZoneName = dictionary["CanonicalHostedZoneName"] as? String
+            self.securityGroups = dictionary["SecurityGroups"] as? [String]
+            if let listenerDescriptions = dictionary["ListenerDescriptions"] as? [[String: Any]] {
+                self.listenerDescriptions = try listenerDescriptions.map({ try ListenerDescription(dictionary: $0) })
             } else { 
-                self.targetGroups = nil
+                self.listenerDescriptions = nil
             }
+            if let sourceSecurityGroup = dictionary["SourceSecurityGroup"] as? [String: Any] { self.sourceSecurityGroup = try Elasticloadbalancing.SourceSecurityGroup(dictionary: sourceSecurityGroup) } else { self.sourceSecurityGroup = nil }
+            if let healthCheck = dictionary["HealthCheck"] as? [String: Any] { self.healthCheck = try Elasticloadbalancing.HealthCheck(dictionary: healthCheck) } else { self.healthCheck = nil }
+            if let instances = dictionary["Instances"] as? [[String: Any]] {
+                self.instances = try instances.map({ try Instance(dictionary: $0) })
+            } else { 
+                self.instances = nil
+            }
+            self.scheme = dictionary["Scheme"] as? String
         }
     }
 
-    public struct CreateLoadBalancerOutput: AWSShape {
+    public struct SetLoadBalancerListenerSSLCertificateInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// Information about the load balancer.
-        public let loadBalancers: [LoadBalancer]?
+        /// The name of the load balancer.
+        public let loadBalancerName: String
+        /// The port that uses the specified SSL certificate.
+        public let loadBalancerPort: Int32
+        /// The Amazon Resource Name (ARN) of the SSL certificate.
+        public let sSLCertificateId: String
 
-        public init(loadBalancers: [LoadBalancer]? = nil) {
-            self.loadBalancers = loadBalancers
+        public init(loadBalancerName: String, loadBalancerPort: Int32, sSLCertificateId: String) {
+            self.loadBalancerName = loadBalancerName
+            self.loadBalancerPort = loadBalancerPort
+            self.sSLCertificateId = sSLCertificateId
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let loadBalancers = dictionary["LoadBalancers"] as? [[String: Any]] {
-                self.loadBalancers = try loadBalancers.map({ try LoadBalancer(dictionary: $0) })
+            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
+            self.loadBalancerName = loadBalancerName
+            guard let loadBalancerPort = dictionary["LoadBalancerPort"] as? Int32 else { throw InitializableError.missingRequiredParam("LoadBalancerPort") }
+            self.loadBalancerPort = loadBalancerPort
+            guard let sSLCertificateId = dictionary["SSLCertificateId"] as? String else { throw InitializableError.missingRequiredParam("SSLCertificateId") }
+            self.sSLCertificateId = sSLCertificateId
+        }
+    }
+
+    public struct DescribeEndPointStateInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        /// The name of the load balancer.
+        public let loadBalancerName: String
+        /// The IDs of the instances.
+        public let instances: [Instance]?
+
+        public init(loadBalancerName: String, instances: [Instance]? = nil) {
+            self.loadBalancerName = loadBalancerName
+            self.instances = instances
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
+            self.loadBalancerName = loadBalancerName
+            if let instances = dictionary["Instances"] as? [[String: Any]] {
+                self.instances = try instances.map({ try Instance(dictionary: $0) })
             } else { 
-                self.loadBalancers = nil
+                self.instances = nil
             }
         }
     }
@@ -1808,21 +1652,21 @@ extension Elasticloadbalancing {
     public struct RemoveTagsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// The Amazon Resource Name (ARN) of the resource.
-        public let resourceArns: [String]
-        /// The tag keys for the tags to remove.
-        public let tagKeys: [String]
+        /// The name of the load balancer. You can specify a maximum of one load balancer name.
+        public let loadBalancerNames: [String]
+        /// The list of tag keys to remove.
+        public let tags: [TagKeyOnly]
 
-        public init(resourceArns: [String], tagKeys: [String]) {
-            self.resourceArns = resourceArns
-            self.tagKeys = tagKeys
+        public init(loadBalancerNames: [String], tags: [TagKeyOnly]) {
+            self.loadBalancerNames = loadBalancerNames
+            self.tags = tags
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let resourceArns = dictionary["ResourceArns"] as? [String] else { throw InitializableError.missingRequiredParam("ResourceArns") }
-            self.resourceArns = resourceArns
-            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
-            self.tagKeys = tagKeys
+            guard let loadBalancerNames = dictionary["LoadBalancerNames"] as? [String] else { throw InitializableError.missingRequiredParam("LoadBalancerNames") }
+            self.loadBalancerNames = loadBalancerNames
+            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
+            self.tags = try tags.map({ try TagKeyOnly(dictionary: $0) })
         }
     }
 

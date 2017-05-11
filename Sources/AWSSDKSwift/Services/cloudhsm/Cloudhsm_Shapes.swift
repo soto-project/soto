@@ -135,9 +135,9 @@ extension Cloudhsm {
         /// A list of ARNs that identify the high-availability partition groups that are associated with the client.
         public let hapgList: [String]
         /// The client version.
-        public let clientVersion: String
+        public let clientVersion: ClientVersion
 
-        public init(clientArn: String, hapgList: [String], clientVersion: String) {
+        public init(clientArn: String, hapgList: [String], clientVersion: ClientVersion) {
             self.clientArn = clientArn
             self.hapgList = hapgList
             self.clientVersion = clientVersion
@@ -148,7 +148,7 @@ extension Cloudhsm {
             self.clientArn = clientArn
             guard let hapgList = dictionary["HapgList"] as? [String] else { throw InitializableError.missingRequiredParam("HapgList") }
             self.hapgList = hapgList
-            guard let clientVersion = dictionary["ClientVersion"] as? String else { throw InitializableError.missingRequiredParam("ClientVersion") }
+            guard let rawClientVersion = dictionary["ClientVersion"] as? String, let clientVersion = ClientVersion(rawValue: rawClientVersion) else { throw InitializableError.missingRequiredParam("ClientVersion") }
             self.clientVersion = clientVersion
         }
     }
@@ -212,6 +212,18 @@ extension Cloudhsm {
         }
     }
 
+    public enum SubscriptionType: String, CustomStringConvertible {
+        case production = "PRODUCTION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CloudHsmObjectState: String, CustomStringConvertible {
+        case ready = "READY"
+        case updating = "UPDATING"
+        case degraded = "DEGRADED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ModifyLunaClientRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -273,6 +285,17 @@ extension Cloudhsm {
             self.configFile = dictionary["ConfigFile"] as? String
             self.configCred = dictionary["ConfigCred"] as? String
         }
+    }
+
+    public enum HsmStatus: String, CustomStringConvertible {
+        case pending = "PENDING"
+        case running = "RUNNING"
+        case updating = "UPDATING"
+        case suspended = "SUSPENDED"
+        case terminating = "TERMINATING"
+        case terminated = "TERMINATED"
+        case degraded = "DEGRADED"
+        public var description: String { return self.rawValue }
     }
 
     public struct DeleteHsmRequest: AWSShape {
@@ -347,7 +370,7 @@ extension Cloudhsm {
         public static let payload: String? = nil
         public let hsmsPendingDeletion: [String]?
         /// The state of the high-availability partition group.
-        public let state: String?
+        public let state: CloudHsmObjectState?
         /// The ARN of the high-availability partition group.
         public let hapgArn: String?
         /// The serial number of the high-availability partition group.
@@ -361,7 +384,7 @@ extension Cloudhsm {
         /// The label for the high-availability partition group.
         public let label: String?
 
-        public init(hsmsPendingDeletion: [String]? = nil, state: String? = nil, hapgArn: String? = nil, hapgSerial: String? = nil, hsmsLastActionFailed: [String]? = nil, partitionSerialList: [String]? = nil, hsmsPendingRegistration: [String]? = nil, lastModifiedTimestamp: String? = nil, label: String? = nil) {
+        public init(hsmsPendingDeletion: [String]? = nil, state: CloudHsmObjectState? = nil, hapgArn: String? = nil, hapgSerial: String? = nil, hsmsLastActionFailed: [String]? = nil, partitionSerialList: [String]? = nil, hsmsPendingRegistration: [String]? = nil, lastModifiedTimestamp: String? = nil, label: String? = nil) {
             self.hsmsPendingDeletion = hsmsPendingDeletion
             self.state = state
             self.hapgArn = hapgArn
@@ -375,7 +398,7 @@ extension Cloudhsm {
 
         public init(dictionary: [String: Any]) throws {
             self.hsmsPendingDeletion = dictionary["HsmsPendingDeletion"] as? [String]
-            self.state = dictionary["State"] as? String
+            if let state = dictionary["State"] as? String { self.state = CloudHsmObjectState(rawValue: state) } else { self.state = nil }
             self.hapgArn = dictionary["HapgArn"] as? String
             self.hapgSerial = dictionary["HapgSerial"] as? String
             self.hsmsLastActionFailed = dictionary["HsmsLastActionFailed"] as? [String]
@@ -510,14 +533,14 @@ extension Cloudhsm {
         /// The Availability Zone that the HSM is in.
         public let availabilityZone: String?
         /// The status of the HSM.
-        public let status: String?
+        public let status: HsmStatus?
         /// The ARN of the IAM role assigned to the HSM.
         public let iamRoleArn: String?
         /// The date and time that the server certificate was last updated.
         public let serverCertLastUpdated: String?
         /// The identifier of the VPC that the HSM is in.
         public let vpcId: String?
-        public let subscriptionType: String?
+        public let subscriptionType: SubscriptionType?
         /// The URI of the certificate server.
         public let serverCertUri: String?
         /// The list of partitions on the HSM.
@@ -531,7 +554,7 @@ extension Cloudhsm {
         /// The name of the HSM vendor.
         public let vendorName: String?
 
-        public init(statusDetails: String? = nil, subnetId: String? = nil, eniIp: String? = nil, eniId: String? = nil, hsmArn: String? = nil, sshPublicKey: String? = nil, subscriptionEndDate: String? = nil, sshKeyLastUpdated: String? = nil, serialNumber: String? = nil, availabilityZone: String? = nil, status: String? = nil, iamRoleArn: String? = nil, serverCertLastUpdated: String? = nil, vpcId: String? = nil, subscriptionType: String? = nil, serverCertUri: String? = nil, partitions: [String]? = nil, softwareVersion: String? = nil, hsmType: String? = nil, subscriptionStartDate: String? = nil, vendorName: String? = nil) {
+        public init(statusDetails: String? = nil, subnetId: String? = nil, eniIp: String? = nil, eniId: String? = nil, hsmArn: String? = nil, sshPublicKey: String? = nil, subscriptionEndDate: String? = nil, sshKeyLastUpdated: String? = nil, serialNumber: String? = nil, availabilityZone: String? = nil, status: HsmStatus? = nil, iamRoleArn: String? = nil, serverCertLastUpdated: String? = nil, vpcId: String? = nil, subscriptionType: SubscriptionType? = nil, serverCertUri: String? = nil, partitions: [String]? = nil, softwareVersion: String? = nil, hsmType: String? = nil, subscriptionStartDate: String? = nil, vendorName: String? = nil) {
             self.statusDetails = statusDetails
             self.subnetId = subnetId
             self.eniIp = eniIp
@@ -566,11 +589,11 @@ extension Cloudhsm {
             self.sshKeyLastUpdated = dictionary["SshKeyLastUpdated"] as? String
             self.serialNumber = dictionary["SerialNumber"] as? String
             self.availabilityZone = dictionary["AvailabilityZone"] as? String
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = HsmStatus(rawValue: status) } else { self.status = nil }
             self.iamRoleArn = dictionary["IamRoleArn"] as? String
             self.serverCertLastUpdated = dictionary["ServerCertLastUpdated"] as? String
             self.vpcId = dictionary["VpcId"] as? String
-            self.subscriptionType = dictionary["SubscriptionType"] as? String
+            if let subscriptionType = dictionary["SubscriptionType"] as? String { self.subscriptionType = SubscriptionType(rawValue: subscriptionType) } else { self.subscriptionType = nil }
             self.serverCertUri = dictionary["ServerCertUri"] as? String
             self.partitions = dictionary["Partitions"] as? [String]
             self.softwareVersion = dictionary["SoftwareVersion"] as? String
@@ -730,13 +753,13 @@ extension Cloudhsm {
         public let iamRoleArn: String
         /// The SSH public key to install on the HSM.
         public let sshKey: String
-        public let subscriptionType: String
+        public let subscriptionType: SubscriptionType
         /// The IP address for the syslog monitoring server. The AWS CloudHSM service only supports one syslog monitoring server.
         public let syslogIp: String?
         /// The external ID from IamRoleArn, if present.
         public let externalId: String?
 
-        public init(subnetId: String, clientToken: String? = nil, eniIp: String? = nil, iamRoleArn: String, sshKey: String, subscriptionType: String, syslogIp: String? = nil, externalId: String? = nil) {
+        public init(subnetId: String, clientToken: String? = nil, eniIp: String? = nil, iamRoleArn: String, sshKey: String, subscriptionType: SubscriptionType, syslogIp: String? = nil, externalId: String? = nil) {
             self.subnetId = subnetId
             self.clientToken = clientToken
             self.eniIp = eniIp
@@ -756,7 +779,7 @@ extension Cloudhsm {
             self.iamRoleArn = iamRoleArn
             guard let sshKey = dictionary["SshKey"] as? String else { throw InitializableError.missingRequiredParam("SshKey") }
             self.sshKey = sshKey
-            guard let subscriptionType = dictionary["SubscriptionType"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionType") }
+            guard let rawSubscriptionType = dictionary["SubscriptionType"] as? String, let subscriptionType = SubscriptionType(rawValue: rawSubscriptionType) else { throw InitializableError.missingRequiredParam("SubscriptionType") }
             self.subscriptionType = subscriptionType
             self.syslogIp = dictionary["SyslogIp"] as? String
             self.externalId = dictionary["ExternalId"] as? String
@@ -902,6 +925,12 @@ extension Cloudhsm {
         public init(dictionary: [String: Any]) throws {
             self.nextToken = dictionary["NextToken"] as? String
         }
+    }
+
+    public enum ClientVersion: String, CustomStringConvertible {
+        case _5_1 = "5.1"
+        case _5_3 = "5.3"
+        public var description: String { return self.rawValue }
     }
 
 }

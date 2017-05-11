@@ -33,17 +33,17 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the type of handshake action. If you specify ActionType, you cannot also specify ParentHandshakeId.
-        public let actionType: String?
+        public let actionType: ActionType?
         /// Specifies the parent handshake. Only used for handshake types that are a child of another type. If you specify ParentHandshakeId, you cannot also specify ActionType. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
         public let parentHandshakeId: String?
 
-        public init(actionType: String? = nil, parentHandshakeId: String? = nil) {
+        public init(actionType: ActionType? = nil, parentHandshakeId: String? = nil) {
             self.actionType = actionType
             self.parentHandshakeId = parentHandshakeId
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.actionType = dictionary["ActionType"] as? String
+            if let actionType = dictionary["ActionType"] as? String { self.actionType = ActionType(rawValue: actionType) } else { self.actionType = nil }
             self.parentHandshakeId = dictionary["ParentHandshakeId"] as? String
         }
     }
@@ -84,6 +84,25 @@ extension Organizations {
                 self.accounts = nil
             }
         }
+    }
+
+    public enum HandshakeConstraintViolationExceptionReason: String, CustomStringConvertible {
+        case account_number_limit_exceeded = "ACCOUNT_NUMBER_LIMIT_EXCEEDED"
+        case handshake_rate_limit_exceeded = "HANDSHAKE_RATE_LIMIT_EXCEEDED"
+        case already_in_an_organization = "ALREADY_IN_AN_ORGANIZATION"
+        case organization_already_has_all_features = "ORGANIZATION_ALREADY_HAS_ALL_FEATURES"
+        case invite_disabled_during_enable_all_features = "INVITE_DISABLED_DURING_ENABLE_ALL_FEATURES"
+        case payment_instrument_required = "PAYMENT_INSTRUMENT_REQUIRED"
+        case organization_from_different_seller_of_record = "ORGANIZATION_FROM_DIFFERENT_SELLER_OF_RECORD"
+        case organization_membership_change_rate_limit_exceeded = "ORGANIZATION_MEMBERSHIP_CHANGE_RATE_LIMIT_EXCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HandshakePartyType: String, CustomStringConvertible {
+        case account = "ACCOUNT"
+        case organization = "ORGANIZATION"
+        case email = "EMAIL"
+        public var description: String { return self.rawValue }
     }
 
     public struct Policy: AWSShape {
@@ -140,6 +159,19 @@ extension Organizations {
         }
     }
 
+    public enum OrganizationFeatureSet: String, CustomStringConvertible {
+        case all = "ALL"
+        case consolidated_billing = "CONSOLIDATED_BILLING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CreateAccountState: String, CustomStringConvertible {
+        case in_progress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct CreateAccountStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -148,17 +180,17 @@ extension Organizations {
         /// The date and time that the request was made for the account creation.
         public let requestedTimestamp: Date?
         /// The status of the request.
-        public let state: String?
+        public let state: CreateAccountState?
         /// The account name given to the account when it was created.
         public let accountName: String?
         /// The date and time that the account was created and the request completed.
         public let completedTimestamp: Date?
         /// If the request failed, a description of the reason for the failure.
-        public let failureReason: String?
+        public let failureReason: CreateAccountFailureReason?
         /// The unique identifier (ID) that references this request. You get this value from the response of the initial CreateAccount request to create the account. The regex pattern for an create account request ID string requires "car-" followed by from 8 to 32 lower-case letters or digits.
         public let id: String?
 
-        public init(accountId: String? = nil, requestedTimestamp: Date? = nil, state: String? = nil, accountName: String? = nil, completedTimestamp: Date? = nil, failureReason: String? = nil, id: String? = nil) {
+        public init(accountId: String? = nil, requestedTimestamp: Date? = nil, state: CreateAccountState? = nil, accountName: String? = nil, completedTimestamp: Date? = nil, failureReason: CreateAccountFailureReason? = nil, id: String? = nil) {
             self.accountId = accountId
             self.requestedTimestamp = requestedTimestamp
             self.state = state
@@ -171,12 +203,28 @@ extension Organizations {
         public init(dictionary: [String: Any]) throws {
             self.accountId = dictionary["AccountId"] as? String
             self.requestedTimestamp = dictionary["RequestedTimestamp"] as? Date
-            self.state = dictionary["State"] as? String
+            if let state = dictionary["State"] as? String { self.state = CreateAccountState(rawValue: state) } else { self.state = nil }
             self.accountName = dictionary["AccountName"] as? String
             self.completedTimestamp = dictionary["CompletedTimestamp"] as? Date
-            self.failureReason = dictionary["FailureReason"] as? String
+            if let failureReason = dictionary["FailureReason"] as? String { self.failureReason = CreateAccountFailureReason(rawValue: failureReason) } else { self.failureReason = nil }
             self.id = dictionary["Id"] as? String
         }
+    }
+
+    public enum AccountJoinedMethod: String, CustomStringConvertible {
+        case invited = "INVITED"
+        case created = "CREATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HandshakeState: String, CustomStringConvertible {
+        case requested = "REQUESTED"
+        case open = "OPEN"
+        case canceled = "CANCELED"
+        case accepted = "ACCEPTED"
+        case declined = "DECLINED"
+        case expired = "EXPIRED"
+        public var description: String { return self.rawValue }
     }
 
     public struct DeclineHandshakeResponse: AWSShape {
@@ -225,9 +273,9 @@ extension Organizations {
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
         /// Specifies the type of policy that you want to include in the response.
-        public let filter: String
+        public let filter: PolicyType
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, filter: String) {
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, filter: PolicyType) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.filter = filter
@@ -236,7 +284,7 @@ extension Organizations {
         public init(dictionary: [String: Any]) throws {
             self.maxResults = dictionary["MaxResults"] as? Int32
             self.nextToken = dictionary["NextToken"] as? String
-            guard let filter = dictionary["Filter"] as? String else { throw InitializableError.missingRequiredParam("Filter") }
+            guard let rawFilter = dictionary["Filter"] as? String, let filter = PolicyType(rawValue: rawFilter) else { throw InitializableError.missingRequiredParam("Filter") }
             self.filter = filter
         }
     }
@@ -245,7 +293,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of policy that you want to include in the returned list.
-        public let filter: String
+        public let filter: PolicyType
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
         /// The unique identifier (ID) of the root, organizational unit, or account whose policies you want to list. The regex pattern for a target ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Account: a string that consists of exactly 12 digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
@@ -253,7 +301,7 @@ extension Organizations {
         /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int32?
 
-        public init(filter: String, nextToken: String? = nil, targetId: String, maxResults: Int32? = nil) {
+        public init(filter: PolicyType, nextToken: String? = nil, targetId: String, maxResults: Int32? = nil) {
             self.filter = filter
             self.nextToken = nextToken
             self.targetId = targetId
@@ -261,7 +309,7 @@ extension Organizations {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let filter = dictionary["Filter"] as? String else { throw InitializableError.missingRequiredParam("Filter") }
+            guard let rawFilter = dictionary["Filter"] as? String, let filter = PolicyType(rawValue: rawFilter) else { throw InitializableError.missingRequiredParam("Filter") }
             self.filter = filter
             self.nextToken = dictionary["NextToken"] as? String
             guard let targetId = dictionary["TargetId"] as? String else { throw InitializableError.missingRequiredParam("TargetId") }
@@ -321,20 +369,20 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of information being passed, specifying how the value is to be interpreted by the other party:    ACCOUNT - Specifies an AWS account ID number.    ORGANIZATION - Specifies an organization ID number.    EMAIL - Specifies the email address that is associated with the account that receives the handshake.     OWNER_EMAIL - Specifies the email address associated with the master account. Included as information about an organization.     OWNER_NAME - Specifies the name associated with the master account. Included as information about an organization.     NOTES - Additional text provided by the handshake initiator and intended for the recipient to read.  
-        public let type: String?
+        public let `type`: HandshakeResourceType?
         /// The information that is passed to the other party in the handshake. The format of the value string must match the requirements of the specified type.
         public let value: String?
         /// When needed, contains an additional array of HandshakeResource objects.
         public let resources: [HandshakeResource]?
 
-        public init(type: String? = nil, value: String? = nil, resources: [HandshakeResource]? = nil) {
-            self.type = type
+        public init(type: HandshakeResourceType? = nil, value: String? = nil, resources: [HandshakeResource]? = nil) {
+            self.`type` = `type`
             self.value = value
             self.resources = resources
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = HandshakeResourceType(rawValue: `type`) } else { self.`type` = nil }
             self.value = dictionary["Value"] as? String
             if let resources = dictionary["Resources"] as? [[String: Any]] {
                 self.resources = try resources.map({ try HandshakeResource(dictionary: $0) })
@@ -439,17 +487,17 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The policy type that you want to enable.
-        public let policyType: String
+        public let policyType: PolicyType
         /// The unique identifier (ID) of the root in which you want to enable a policy type. You can get the ID from the ListRoots operation. The regex pattern for a root ID string requires "r-" followed by from 4 to 32 lower-case letters or digits.
         public let rootId: String
 
-        public init(policyType: String, rootId: String) {
+        public init(policyType: PolicyType, rootId: String) {
             self.policyType = policyType
             self.rootId = rootId
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let policyType = dictionary["PolicyType"] as? String else { throw InitializableError.missingRequiredParam("PolicyType") }
+            guard let rawPolicyType = dictionary["PolicyType"] as? String, let policyType = PolicyType(rawValue: rawPolicyType) else { throw InitializableError.missingRequiredParam("PolicyType") }
             self.policyType = policyType
             guard let rootId = dictionary["RootId"] as? String else { throw InitializableError.missingRequiredParam("RootId") }
             self.rootId = rootId
@@ -519,20 +567,20 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of one or more states that you want included in the response. If this parameter is not present, then all requests are included in the response.
-        public let states: [String]?
+        public let states: [CreateAccountState]?
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
         /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int32?
 
-        public init(states: [String]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
+        public init(states: [CreateAccountState]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.states = states
             self.nextToken = nextToken
             self.maxResults = maxResults
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.states = dictionary["States"] as? [String]
+            if let states = dictionary["States"] as? [String] { self.states = states.flatMap({ CreateAccountState(rawValue: $0)}) } else { self.states = nil }
             self.nextToken = dictionary["NextToken"] as? String
             self.maxResults = dictionary["MaxResults"] as? Int32
         }
@@ -577,6 +625,26 @@ extension Organizations {
             guard let destinationParentId = dictionary["DestinationParentId"] as? String else { throw InitializableError.missingRequiredParam("DestinationParentId") }
             self.destinationParentId = destinationParentId
         }
+    }
+
+    public enum InvalidInputExceptionReason: String, CustomStringConvertible {
+        case invalid_party_type_target = "INVALID_PARTY_TYPE_TARGET"
+        case invalid_syntax_organization_arn = "INVALID_SYNTAX_ORGANIZATION_ARN"
+        case invalid_syntax_policy_id = "INVALID_SYNTAX_POLICY_ID"
+        case invalid_enum = "INVALID_ENUM"
+        case invalid_list_member = "INVALID_LIST_MEMBER"
+        case max_length_exceeded = "MAX_LENGTH_EXCEEDED"
+        case max_value_exceeded = "MAX_VALUE_EXCEEDED"
+        case min_length_exceeded = "MIN_LENGTH_EXCEEDED"
+        case min_value_exceeded = "MIN_VALUE_EXCEEDED"
+        case immutable_policy = "IMMUTABLE_POLICY"
+        case invalid_pattern = "INVALID_PATTERN"
+        case invalid_pattern_target_id = "INVALID_PATTERN_TARGET_ID"
+        case input_required = "INPUT_REQUIRED"
+        case invalid_next_token = "INVALID_NEXT_TOKEN"
+        case max_limit_exceeded_filter = "MAX_LIMIT_EXCEEDED_FILTER"
+        case moving_account_between_different_roots = "MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS"
+        public var description: String { return self.rawValue }
     }
 
     public struct AttachPolicyRequest: AWSShape {
@@ -663,13 +731,13 @@ extension Organizations {
         /// The Amazon Resource Name (ARN) of the account that is designated as the master account for the organization. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let masterAccountArn: String?
         /// Specifies the functionality that currently is available to the organization. If set to "ALL", then all features are enabled and policies can be applied to accounts in the organization. If set to "CONSOLIDATED_BILLING", then only consolidated billing functionality is available. For more information, see Enabling All Features in Your Organization in the AWS Organizations User Guide.
-        public let featureSet: String?
+        public let featureSet: OrganizationFeatureSet?
         /// The unique identifier (ID) of the master account of an organization. The regex pattern for an account ID string requires exactly 12 digits.
         public let masterAccountId: String?
         /// The unique identifier (ID) of an organization. The regex pattern for an organization ID string requires "o-" followed by from 10 to 32 lower-case letters or digits.
         public let id: String?
 
-        public init(masterAccountEmail: String? = nil, arn: String? = nil, availablePolicyTypes: [PolicyTypeSummary]? = nil, masterAccountArn: String? = nil, featureSet: String? = nil, masterAccountId: String? = nil, id: String? = nil) {
+        public init(masterAccountEmail: String? = nil, arn: String? = nil, availablePolicyTypes: [PolicyTypeSummary]? = nil, masterAccountArn: String? = nil, featureSet: OrganizationFeatureSet? = nil, masterAccountId: String? = nil, id: String? = nil) {
             self.masterAccountEmail = masterAccountEmail
             self.arn = arn
             self.availablePolicyTypes = availablePolicyTypes
@@ -688,7 +756,7 @@ extension Organizations {
                 self.availablePolicyTypes = nil
             }
             self.masterAccountArn = dictionary["MasterAccountArn"] as? String
-            self.featureSet = dictionary["FeatureSet"] as? String
+            if let featureSet = dictionary["FeatureSet"] as? String { self.featureSet = OrganizationFeatureSet(rawValue: featureSet) } else { self.featureSet = nil }
             self.masterAccountId = dictionary["MasterAccountId"] as? String
             self.id = dictionary["Id"] as? String
         }
@@ -698,26 +766,58 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of this child entity.
-        public let type: String?
+        public let `type`: ChildType?
         /// The unique identifier (ID) of this child entity. The regex pattern for a child ID string requires one of the following:   Account: a string that consists of exactly 12 digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
         public let id: String?
 
-        public init(type: String? = nil, id: String? = nil) {
-            self.type = type
+        public init(type: ChildType? = nil, id: String? = nil) {
+            self.`type` = `type`
             self.id = id
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = ChildType(rawValue: `type`) } else { self.`type` = nil }
             self.id = dictionary["Id"] as? String
         }
+    }
+
+    public enum ChildType: String, CustomStringConvertible {
+        case account = "ACCOUNT"
+        case organizational_unit = "ORGANIZATIONAL_UNIT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConstraintViolationExceptionReason: String, CustomStringConvertible {
+        case account_number_limit_exceeded = "ACCOUNT_NUMBER_LIMIT_EXCEEDED"
+        case handshake_rate_limit_exceeded = "HANDSHAKE_RATE_LIMIT_EXCEEDED"
+        case ou_number_limit_exceeded = "OU_NUMBER_LIMIT_EXCEEDED"
+        case ou_depth_limit_exceeded = "OU_DEPTH_LIMIT_EXCEEDED"
+        case policy_number_limit_exceeded = "POLICY_NUMBER_LIMIT_EXCEEDED"
+        case max_policy_type_attachment_limit_exceeded = "MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED"
+        case min_policy_type_attachment_limit_exceeded = "MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED"
+        case account_cannot_leave_organization = "ACCOUNT_CANNOT_LEAVE_ORGANIZATION"
+        case master_account_payment_instrument_required = "MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED"
+        case account_creation_rate_limit_exceeded = "ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IAMUserAccessToBilling: String, CustomStringConvertible {
+        case allow = "ALLOW"
+        case deny = "DENY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AccountStatus: String, CustomStringConvertible {
+        case active = "ACTIVE"
+        case suspended = "SUSPENDED"
+        public var description: String { return self.rawValue }
     }
 
     public struct ListChildrenRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// Filters the output to include only the specified child type.
-        public let childType: String
+        public let childType: ChildType
         /// The unique identifier (ID) for the parent root or OU whose children you want to list. The regex pattern for a parent ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
         public let parentId: String
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
@@ -725,7 +825,7 @@ extension Organizations {
         /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int32?
 
-        public init(childType: String, parentId: String, nextToken: String? = nil, maxResults: Int32? = nil) {
+        public init(childType: ChildType, parentId: String, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.childType = childType
             self.parentId = parentId
             self.nextToken = nextToken
@@ -733,7 +833,7 @@ extension Organizations {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let childType = dictionary["ChildType"] as? String else { throw InitializableError.missingRequiredParam("ChildType") }
+            guard let rawChildType = dictionary["ChildType"] as? String, let childType = ChildType(rawValue: rawChildType) else { throw InitializableError.missingRequiredParam("ChildType") }
             self.childType = childType
             guard let parentId = dictionary["ParentId"] as? String else { throw InitializableError.missingRequiredParam("ParentId") }
             self.parentId = parentId
@@ -742,22 +842,29 @@ extension Organizations {
         }
     }
 
+    public enum TargetType: String, CustomStringConvertible {
+        case account = "ACCOUNT"
+        case organizational_unit = "ORGANIZATIONAL_UNIT"
+        case root = "ROOT"
+        public var description: String { return self.rawValue }
+    }
+
     public struct PolicyTypeSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the policy type.
-        public let type: String?
+        public let `type`: PolicyType?
         /// The status of the policy type as it relates to the associated root. To attach a policy of the specified type to a root or to an OU or account in that root, it must be available in the organization and enabled for that root.
-        public let status: String?
+        public let status: PolicyTypeStatus?
 
-        public init(type: String? = nil, status: String? = nil) {
-            self.type = type
+        public init(type: PolicyType? = nil, status: PolicyTypeStatus? = nil) {
+            self.`type` = `type`
             self.status = status
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.type = dictionary["Type"] as? String
-            self.status = dictionary["Status"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = PolicyType(rawValue: `type`) } else { self.`type` = nil }
+            if let status = dictionary["Status"] as? String { self.status = PolicyTypeStatus(rawValue: status) } else { self.status = nil }
         }
     }
 
@@ -799,17 +906,17 @@ extension Organizations {
         /// The date the account became a part of the organization.
         public let joinedTimestamp: Date?
         /// The status of the account in the organization.
-        public let status: String?
+        public let status: AccountStatus?
         /// The Amazon Resource Name (ARN) of the account. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let arn: String?
         /// The friendly name of the account. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
         public let name: String?
         /// The method by which the account joined the organization.
-        public let joinedMethod: String?
+        public let joinedMethod: AccountJoinedMethod?
         /// The unique identifier (ID) of the account. The regex pattern for an account ID string requires exactly 12 digits.
         public let id: String?
 
-        public init(joinedTimestamp: Date? = nil, status: String? = nil, arn: String? = nil, name: String? = nil, joinedMethod: String? = nil, id: String? = nil) {
+        public init(joinedTimestamp: Date? = nil, status: AccountStatus? = nil, arn: String? = nil, name: String? = nil, joinedMethod: AccountJoinedMethod? = nil, id: String? = nil) {
             self.joinedTimestamp = joinedTimestamp
             self.status = status
             self.arn = arn
@@ -820,10 +927,10 @@ extension Organizations {
 
         public init(dictionary: [String: Any]) throws {
             self.joinedTimestamp = dictionary["JoinedTimestamp"] as? Date
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = AccountStatus(rawValue: status) } else { self.status = nil }
             self.arn = dictionary["Arn"] as? String
             self.name = dictionary["Name"] as? String
-            self.joinedMethod = dictionary["JoinedMethod"] as? String
+            if let joinedMethod = dictionary["JoinedMethod"] as? String { self.joinedMethod = AccountJoinedMethod(rawValue: joinedMethod) } else { self.joinedMethod = nil }
             self.id = dictionary["Id"] as? String
         }
     }
@@ -851,17 +958,17 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of party.
-        public let type: String?
+        public let `type`: HandshakePartyType?
         /// The unique identifier (ID) for the party. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
         public let id: String?
 
-        public init(type: String? = nil, id: String? = nil) {
-            self.type = type
+        public init(type: HandshakePartyType? = nil, id: String? = nil) {
+            self.`type` = `type`
             self.id = id
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = HandshakePartyType(rawValue: `type`) } else { self.`type` = nil }
             self.id = dictionary["Id"] as? String
         }
     }
@@ -916,19 +1023,26 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of the parent entity.
-        public let type: String?
+        public let `type`: ParentType?
         /// The unique identifier (ID) of the parent entity. The regex pattern for a parent ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
         public let id: String?
 
-        public init(type: String? = nil, id: String? = nil) {
-            self.type = type
+        public init(type: ParentType? = nil, id: String? = nil) {
+            self.`type` = `type`
             self.id = id
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = ParentType(rawValue: `type`) } else { self.`type` = nil }
             self.id = dictionary["Id"] as? String
         }
+    }
+
+    public enum PolicyTypeStatus: String, CustomStringConvertible {
+        case enabled = "ENABLED"
+        case pending_enable = "PENDING_ENABLE"
+        case pending_disable = "PENDING_DISABLE"
+        public var description: String { return self.rawValue }
     }
 
     public struct DescribePolicyResponse: AWSShape {
@@ -1016,17 +1130,17 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The policy type that you want to disable in this root.
-        public let policyType: String
+        public let policyType: PolicyType
         /// The unique identifier (ID) of the root in which you want to disable a policy type. You can get the ID from the ListPolicies operation. The regex pattern for a root ID string requires "r-" followed by from 4 to 32 lower-case letters or digits.
         public let rootId: String
 
-        public init(policyType: String, rootId: String) {
+        public init(policyType: PolicyType, rootId: String) {
             self.policyType = policyType
             self.rootId = rootId
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let policyType = dictionary["PolicyType"] as? String else { throw InitializableError.missingRequiredParam("PolicyType") }
+            guard let rawPolicyType = dictionary["PolicyType"] as? String, let policyType = PolicyType(rawValue: rawPolicyType) else { throw InitializableError.missingRequiredParam("PolicyType") }
             self.policyType = policyType
             guard let rootId = dictionary["RootId"] as? String else { throw InitializableError.missingRequiredParam("RootId") }
             self.rootId = rootId
@@ -1064,9 +1178,9 @@ extension Organizations {
         /// (Optional) The name of an IAM role that Organizations automatically preconfigures in the new member account. This role trusts the master account, allowing users in the master account to assume the role, as permitted by the master account administrator. The role has administrator permissions in the new member account. If you do not specify this parameter, the role name defaults to OrganizationAccountAccessRole. For more information about how to use this role to access the member account, see Accessing and Administering the Member Accounts in Your Organization in the AWS Organizations User Guide, and steps 2 and 3 in Tutorial: Delegate Access Across AWS Accounts Using IAM Roles in the IAM User Guide. The regex pattern that is used to validate this parameter is a string of characters that can consist of uppercase letters, lowercase letters, digits with no spaces, and any of the following characters: =,.@-
         public let roleName: String?
         /// If set to ALLOW, the new account enables IAM users to access account billing information if they have the required permissions. If set to DENY, then only the root user of the new account can access account billing information. For more information, see Activating Access to the Billing and Cost Management Console in the AWS Billing and Cost Management User Guide.
-        public let iamUserAccessToBilling: String?
+        public let iamUserAccessToBilling: IAMUserAccessToBilling?
 
-        public init(accountName: String, email: String, roleName: String? = nil, iamUserAccessToBilling: String? = nil) {
+        public init(accountName: String, email: String, roleName: String? = nil, iamUserAccessToBilling: IAMUserAccessToBilling? = nil) {
             self.accountName = accountName
             self.email = email
             self.roleName = roleName
@@ -1079,7 +1193,7 @@ extension Organizations {
             guard let email = dictionary["Email"] as? String else { throw InitializableError.missingRequiredParam("Email") }
             self.email = email
             self.roleName = dictionary["RoleName"] as? String
-            self.iamUserAccessToBilling = dictionary["IamUserAccessToBilling"] as? String
+            if let iamUserAccessToBilling = dictionary["IamUserAccessToBilling"] as? String { self.iamUserAccessToBilling = IAMUserAccessToBilling(rawValue: iamUserAccessToBilling) } else { self.iamUserAccessToBilling = nil }
         }
     }
 
@@ -1121,6 +1235,13 @@ extension Organizations {
             guard let createAccountRequestId = dictionary["CreateAccountRequestId"] as? String else { throw InitializableError.missingRequiredParam("CreateAccountRequestId") }
             self.createAccountRequestId = createAccountRequestId
         }
+    }
+
+    public enum ActionType: String, CustomStringConvertible {
+        case invite = "INVITE"
+        case enable_all_features = "ENABLE_ALL_FEATURES"
+        case approve_all_features = "APPROVE_ALL_FEATURES"
+        public var description: String { return self.rawValue }
     }
 
     public struct DeletePolicyRequest: AWSShape {
@@ -1299,15 +1420,15 @@ extension Organizations {
         /// The policy content to add to the new policy. For example, if you create a service control policy (SCP), this string must be JSON text that specifies the permissions that admins in attached accounts can delegate to their users, groups, and roles. For more information about the SCP syntax, see Service Control Policy Syntax in the AWS Organizations User Guide.
         public let content: String
         /// The type of policy to create.  In the current release, the only type of policy that you can create is a service control policy (SCP). 
-        public let type: String
+        public let `type`: PolicyType
         /// The friendly name to assign to the policy. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
         public let name: String
         /// An optional description to assign to the policy.
         public let description: String
 
-        public init(content: String, type: String, name: String, description: String) {
+        public init(content: String, type: PolicyType, name: String, description: String) {
             self.content = content
-            self.type = type
+            self.`type` = `type`
             self.name = name
             self.description = description
         }
@@ -1315,8 +1436,8 @@ extension Organizations {
         public init(dictionary: [String: Any]) throws {
             guard let content = dictionary["Content"] as? String else { throw InitializableError.missingRequiredParam("Content") }
             self.content = content
-            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
-            self.type = type
+            guard let rawType = dictionary["Type"] as? String, let `type` = PolicyType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
+            self.`type` = `type`
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
             guard let description = dictionary["Description"] as? String else { throw InitializableError.missingRequiredParam("Description") }
@@ -1334,17 +1455,17 @@ extension Organizations {
         /// A boolean value that indicates whether the specified policy is an AWS managed policy. If true, then you can attach the policy to roots, OUs, or accounts, but you cannot edit it.
         public let awsManaged: Bool?
         /// The type of policy.
-        public let type: String?
+        public let `type`: PolicyType?
         /// The friendly name of the policy. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
         public let name: String?
         /// The unique identifier (ID) of the policy. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
         public let id: String?
 
-        public init(description: String? = nil, arn: String? = nil, awsManaged: Bool? = nil, type: String? = nil, name: String? = nil, id: String? = nil) {
+        public init(description: String? = nil, arn: String? = nil, awsManaged: Bool? = nil, type: PolicyType? = nil, name: String? = nil, id: String? = nil) {
             self.description = description
             self.arn = arn
             self.awsManaged = awsManaged
-            self.type = type
+            self.`type` = `type`
             self.name = name
             self.id = id
         }
@@ -1353,7 +1474,7 @@ extension Organizations {
             self.description = dictionary["Description"] as? String
             self.arn = dictionary["Arn"] as? String
             self.awsManaged = dictionary["AwsManaged"] as? Bool
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = PolicyType(rawValue: `type`) } else { self.`type` = nil }
             self.name = dictionary["Name"] as? String
             self.id = dictionary["Id"] as? String
         }
@@ -1405,9 +1526,9 @@ extension Organizations {
         /// The Amazon Resource Name (ARN) of a handshake. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let arn: String?
         /// The type of handshake, indicating what action occurs when the recipient accepts the handshake.
-        public let action: String?
+        public let action: ActionType?
         /// The current state of the handshake. Use the state to trace the flow of the handshake through the process from its creation to its acceptance. The meaning of each of the valid values is as follows:    REQUESTED: This handshake was sent to multiple recipients (applicable to only some handshake types) and not all recipients have responded yet. The request stays in this state until all recipients respond.    OPEN: This handshake was sent to multiple recipients (applicable to only some policy types) and all recipients have responded, allowing the originator to complete the handshake action.    CANCELED: This handshake is no longer active because it was canceled by the originating account.    ACCEPTED: This handshake is complete because it has been accepted by the recipient.    DECLINED: This handshake is no longer active because it was declined by the recipient account.    EXPIRED: This handshake is no longer active because the originator did not receive a response of any kind from the recipient before the expiration time (15 days).  
-        public let state: String?
+        public let state: HandshakeState?
         /// The date and time that the handshake expires. If the recipient of the handshake request fails to respond before the specified date and time, the handshake becomes inactive and is no longer valid.
         public let expirationTimestamp: Date?
         /// Additional information that is needed to process the handshake.
@@ -1417,7 +1538,7 @@ extension Organizations {
         /// The unique identifier (ID) of a handshake. The originating account creates the ID when it initiates the handshake. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
         public let id: String?
 
-        public init(requestedTimestamp: Date? = nil, arn: String? = nil, action: String? = nil, state: String? = nil, expirationTimestamp: Date? = nil, resources: [HandshakeResource]? = nil, parties: [HandshakeParty]? = nil, id: String? = nil) {
+        public init(requestedTimestamp: Date? = nil, arn: String? = nil, action: ActionType? = nil, state: HandshakeState? = nil, expirationTimestamp: Date? = nil, resources: [HandshakeResource]? = nil, parties: [HandshakeParty]? = nil, id: String? = nil) {
             self.requestedTimestamp = requestedTimestamp
             self.arn = arn
             self.action = action
@@ -1431,8 +1552,8 @@ extension Organizations {
         public init(dictionary: [String: Any]) throws {
             self.requestedTimestamp = dictionary["RequestedTimestamp"] as? Date
             self.arn = dictionary["Arn"] as? String
-            self.action = dictionary["Action"] as? String
-            self.state = dictionary["State"] as? String
+            if let action = dictionary["Action"] as? String { self.action = ActionType(rawValue: action) } else { self.action = nil }
+            if let state = dictionary["State"] as? String { self.state = HandshakeState(rawValue: state) } else { self.state = nil }
             self.expirationTimestamp = dictionary["ExpirationTimestamp"] as? Date
             if let resources = dictionary["Resources"] as? [[String: Any]] {
                 self.resources = try resources.map({ try HandshakeResource(dictionary: $0) })
@@ -1463,6 +1584,18 @@ extension Organizations {
         }
     }
 
+    public enum HandshakeResourceType: String, CustomStringConvertible {
+        case account = "ACCOUNT"
+        case organization = "ORGANIZATION"
+        case organization_feature_set = "ORGANIZATION_FEATURE_SET"
+        case email = "EMAIL"
+        case master_email = "MASTER_EMAIL"
+        case master_name = "MASTER_NAME"
+        case notes = "NOTES"
+        case parent_handshake = "PARENT_HANDSHAKE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct CancelHandshakeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1483,14 +1616,14 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the feature set supported by the new organization. Each feature set supports different levels of functionality.    CONSOLIDATED_BILLING: All member accounts have their bills consolidated to and paid by the master account. For more information, see Consolidated Billing in the AWS Organizations User Guide.    ALL: In addition to all the features supported by the consolidated billing feature set, the master account can also apply any type of policy to any member account in the organization. For more information, see All features in the AWS Organizations User Guide.  
-        public let featureSet: String?
+        public let featureSet: OrganizationFeatureSet?
 
-        public init(featureSet: String? = nil) {
+        public init(featureSet: OrganizationFeatureSet? = nil) {
             self.featureSet = featureSet
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.featureSet = dictionary["FeatureSet"] as? String
+            if let featureSet = dictionary["FeatureSet"] as? String { self.featureSet = OrganizationFeatureSet(rawValue: featureSet) } else { self.featureSet = nil }
         }
     }
 
@@ -1518,28 +1651,36 @@ extension Organizations {
         }
     }
 
+    public enum CreateAccountFailureReason: String, CustomStringConvertible {
+        case account_limit_exceeded = "ACCOUNT_LIMIT_EXCEEDED"
+        case email_already_exists = "EMAIL_ALREADY_EXISTS"
+        case invalid_address = "INVALID_ADDRESS"
+        case internal_failure = "INTERNAL_FAILURE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct PolicyTargetSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the policy target. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let arn: String?
         /// The type of the policy target.
-        public let type: String?
+        public let `type`: TargetType?
         /// The friendly name of the policy target. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
         public let name: String?
         /// The unique identifier (ID) of the policy target. The regex pattern for a target ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Account: a string that consists of exactly 12 digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
         public let targetId: String?
 
-        public init(arn: String? = nil, type: String? = nil, name: String? = nil, targetId: String? = nil) {
+        public init(arn: String? = nil, type: TargetType? = nil, name: String? = nil, targetId: String? = nil) {
             self.arn = arn
-            self.type = type
+            self.`type` = `type`
             self.name = name
             self.targetId = targetId
         }
 
         public init(dictionary: [String: Any]) throws {
             self.arn = dictionary["Arn"] as? String
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = TargetType(rawValue: `type`) } else { self.`type` = nil }
             self.name = dictionary["Name"] as? String
             self.targetId = dictionary["TargetId"] as? String
         }
@@ -1558,6 +1699,11 @@ extension Organizations {
         public init(dictionary: [String: Any]) throws {
             if let handshake = dictionary["Handshake"] as? [String: Any] { self.handshake = try Organizations.Handshake(dictionary: handshake) } else { self.handshake = nil }
         }
+    }
+
+    public enum PolicyType: String, CustomStringConvertible {
+        case service_control_policy = "SERVICE_CONTROL_POLICY"
+        public var description: String { return self.rawValue }
     }
 
     public struct ListHandshakesForAccountResponse: AWSShape {
@@ -1651,6 +1797,12 @@ extension Organizations {
             self.name = dictionary["Name"] as? String
             self.id = dictionary["Id"] as? String
         }
+    }
+
+    public enum ParentType: String, CustomStringConvertible {
+        case root = "ROOT"
+        case organizational_unit = "ORGANIZATIONAL_UNIT"
+        public var description: String { return self.rawValue }
     }
 
     public struct DescribeAccountResponse: AWSShape {

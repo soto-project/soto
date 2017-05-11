@@ -110,20 +110,20 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of the alias.
-        public let type: String?
+        public let `type`: String?
         /// The canonical name of the alias.
         public let name: String?
         /// A list of names for the alias, including the canonical name.
         public let names: [String]?
 
         public init(type: String? = nil, name: String? = nil, names: [String]? = nil) {
-            self.type = type
+            self.`type` = `type`
             self.name = name
             self.names = names
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.type = dictionary["Type"] as? String
+            self.`type` = dictionary["Type"] as? String
             self.name = dictionary["Name"] as? String
             self.names = dictionary["Names"] as? [String]
         }
@@ -670,7 +670,7 @@ extension Xray {
         /// Connections to downstream services.
         public let edges: [Edge]?
         /// The type of service.   AWS Resource - The type of an AWS resource. For example, AWS::EC2::Instance for a application running on Amazon EC2 or AWS::DynamoDB::Table for an Amazon DynamoDB table that the application used.   AWS Service - The type of an AWS service. For example, AWS::DynamoDB for downstream calls to Amazon DynamoDB that didn't target a specific table.    client - Represents the clients that sent requests to a root service.    remote - A downstream service of indeterminate type.  
-        public let type: String?
+        public let `type`: String?
 
         public init(startTime: Date? = nil, summaryStatistics: ServiceStatistics? = nil, durationHistogram: [HistogramEntry]? = nil, accountId: String? = nil, root: Bool? = nil, name: String? = nil, state: String? = nil, endTime: Date? = nil, referenceId: Int32? = nil, names: [String]? = nil, edges: [Edge]? = nil, type: String? = nil) {
             self.startTime = startTime
@@ -684,7 +684,7 @@ extension Xray {
             self.referenceId = referenceId
             self.names = names
             self.edges = edges
-            self.type = type
+            self.`type` = `type`
         }
 
         public init(dictionary: [String: Any]) throws {
@@ -707,7 +707,7 @@ extension Xray {
             } else { 
                 self.edges = nil
             }
-            self.type = dictionary["Type"] as? String
+            self.`type` = dictionary["Type"] as? String
         }
     }
 
@@ -716,20 +716,20 @@ extension Xray {
         public static let payload: String? = nil
         public let accountId: String?
         public let names: [String]?
-        public let type: String?
+        public let `type`: String?
         public let name: String?
 
         public init(accountId: String? = nil, names: [String]? = nil, type: String? = nil, name: String? = nil) {
             self.accountId = accountId
             self.names = names
-            self.type = type
+            self.`type` = `type`
             self.name = name
         }
 
         public init(dictionary: [String: Any]) throws {
             self.accountId = dictionary["AccountId"] as? String
             self.names = dictionary["Names"] as? [String]
-            self.type = dictionary["Type"] as? String
+            self.`type` = dictionary["Type"] as? String
             self.name = dictionary["Name"] as? String
         }
     }

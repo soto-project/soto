@@ -127,18 +127,18 @@ extension Opsworks {
         /// An array containing the layer's security group names.
         public let defaultSecurityGroupNames: [String]?
         /// The layer attributes. For the HaproxyStatsPassword, MysqlRootPassword, and GangliaPassword attributes, AWS OpsWorks returns *****FILTERED***** instead of the actual value For an ECS Cluster layer, AWS OpsWorks the EcsClusterArn attribute is set to the cluster's ARN.
-        public let attributes: [String: String]?
+        public let attributes: [LayerAttributesKeys: String]?
         /// Whether the layer uses Amazon EBS-optimized instances.
         public let useEbsOptimizedInstances: Bool?
         public let defaultRecipes: Recipes?
         /// The layer type.
-        public let type: String?
+        public let `type`: LayerType?
         /// For stacks that are running in a VPC, whether to automatically assign a public IP address to the layer's instances. For more information, see How to Edit a Layer.
         public let autoAssignPublicIps: Bool?
         /// The ARN of the default IAM profile to be used for the layer's EC2 instances. For more information about IAM ARNs, see Using Identifiers.
         public let customInstanceProfileArn: String?
 
-        public init(shortname: String? = nil, packages: [String]? = nil, lifecycleEventConfiguration: LifecycleEventConfiguration? = nil, customRecipes: Recipes? = nil, autoAssignElasticIps: Bool? = nil, installUpdatesOnBoot: Bool? = nil, customJson: String? = nil, createdAt: String? = nil, customSecurityGroupIds: [String]? = nil, stackId: String? = nil, name: String? = nil, layerId: String? = nil, enableAutoHealing: Bool? = nil, volumeConfigurations: [VolumeConfiguration]? = nil, defaultSecurityGroupNames: [String]? = nil, attributes: [String: String]? = nil, useEbsOptimizedInstances: Bool? = nil, defaultRecipes: Recipes? = nil, type: String? = nil, autoAssignPublicIps: Bool? = nil, customInstanceProfileArn: String? = nil) {
+        public init(shortname: String? = nil, packages: [String]? = nil, lifecycleEventConfiguration: LifecycleEventConfiguration? = nil, customRecipes: Recipes? = nil, autoAssignElasticIps: Bool? = nil, installUpdatesOnBoot: Bool? = nil, customJson: String? = nil, createdAt: String? = nil, customSecurityGroupIds: [String]? = nil, stackId: String? = nil, name: String? = nil, layerId: String? = nil, enableAutoHealing: Bool? = nil, volumeConfigurations: [VolumeConfiguration]? = nil, defaultSecurityGroupNames: [String]? = nil, attributes: [LayerAttributesKeys: String]? = nil, useEbsOptimizedInstances: Bool? = nil, defaultRecipes: Recipes? = nil, type: LayerType? = nil, autoAssignPublicIps: Bool? = nil, customInstanceProfileArn: String? = nil) {
             self.shortname = shortname
             self.packages = packages
             self.lifecycleEventConfiguration = lifecycleEventConfiguration
@@ -157,7 +157,7 @@ extension Opsworks {
             self.attributes = attributes
             self.useEbsOptimizedInstances = useEbsOptimizedInstances
             self.defaultRecipes = defaultRecipes
-            self.type = type
+            self.`type` = `type`
             self.autoAssignPublicIps = autoAssignPublicIps
             self.customInstanceProfileArn = customInstanceProfileArn
         }
@@ -182,14 +182,14 @@ extension Opsworks {
                 self.volumeConfigurations = nil
             }
             self.defaultSecurityGroupNames = dictionary["DefaultSecurityGroupNames"] as? [String]
-            if let attributes = dictionary["Attributes"] as? [String: String] {
+            if let attributes = dictionary["Attributes"] as? [LayerAttributesKeys: String] {
                 self.attributes = attributes
             } else { 
                 self.attributes = nil
             }
             self.useEbsOptimizedInstances = dictionary["UseEbsOptimizedInstances"] as? Bool
             if let defaultRecipes = dictionary["DefaultRecipes"] as? [String: Any] { self.defaultRecipes = try Opsworks.Recipes(dictionary: defaultRecipes) } else { self.defaultRecipes = nil }
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = LayerType(rawValue: `type`) } else { self.`type` = nil }
             self.autoAssignPublicIps = dictionary["AutoAssignPublicIps"] as? Bool
             self.customInstanceProfileArn = dictionary["CustomInstanceProfileArn"] as? String
         }
@@ -457,17 +457,17 @@ extension Opsworks {
         /// An SslConfiguration object with the SSL configuration.
         public let sslConfiguration: SslConfiguration?
         /// One or more user-defined key/value pairs to be added to the stack attributes.
-        public let attributes: [String: String]?
+        public let attributes: [AppAttributesKeys: String]?
         /// Whether SSL is enabled for the app.
         public let enableSsl: Bool?
         /// The app type.
-        public let type: String?
+        public let `type`: AppType?
         /// The app's virtual host settings, with multiple domains separated by commas. For example: 'www.example.com, example.com' 
         public let domains: [String]?
         /// A description of the app.
         public let description: String?
 
-        public init(appId: String, name: String? = nil, dataSources: [DataSource]? = nil, environment: [EnvironmentVariable]? = nil, appSource: Source? = nil, sslConfiguration: SslConfiguration? = nil, attributes: [String: String]? = nil, enableSsl: Bool? = nil, type: String? = nil, domains: [String]? = nil, description: String? = nil) {
+        public init(appId: String, name: String? = nil, dataSources: [DataSource]? = nil, environment: [EnvironmentVariable]? = nil, appSource: Source? = nil, sslConfiguration: SslConfiguration? = nil, attributes: [AppAttributesKeys: String]? = nil, enableSsl: Bool? = nil, type: AppType? = nil, domains: [String]? = nil, description: String? = nil) {
             self.appId = appId
             self.name = name
             self.dataSources = dataSources
@@ -476,7 +476,7 @@ extension Opsworks {
             self.sslConfiguration = sslConfiguration
             self.attributes = attributes
             self.enableSsl = enableSsl
-            self.type = type
+            self.`type` = `type`
             self.domains = domains
             self.description = description
         }
@@ -497,13 +497,13 @@ extension Opsworks {
             }
             if let appSource = dictionary["AppSource"] as? [String: Any] { self.appSource = try Opsworks.Source(dictionary: appSource) } else { self.appSource = nil }
             if let sslConfiguration = dictionary["SslConfiguration"] as? [String: Any] { self.sslConfiguration = try Opsworks.SslConfiguration(dictionary: sslConfiguration) } else { self.sslConfiguration = nil }
-            if let attributes = dictionary["Attributes"] as? [String: String] {
+            if let attributes = dictionary["Attributes"] as? [AppAttributesKeys: String] {
                 self.attributes = attributes
             } else { 
                 self.attributes = nil
             }
             self.enableSsl = dictionary["EnableSsl"] as? Bool
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = AppType(rawValue: `type`) } else { self.`type` = nil }
             self.domains = dictionary["Domains"] as? [String]
             self.description = dictionary["Description"] as? String
         }
@@ -541,7 +541,7 @@ extension Opsworks {
         /// The instance's Amazon EC2 key-pair name.
         public let sshKeyName: String?
         /// The instance's root device type. For more information, see Storage for the Root Device.
-        public let rootDeviceType: String?
+        public let rootDeviceType: RootDeviceType?
         /// The ID of the last service error. For more information, call DescribeServiceErrors.
         public let lastServiceErrorId: String?
         /// The instance public DNS name.
@@ -583,17 +583,17 @@ extension Opsworks {
         /// The SSH key's Deep Security Agent (DSA) fingerprint.
         public let sshHostDsaKeyFingerprint: String?
         /// The instance architecture: "i386" or "x86_64".
-        public let architecture: String?
+        public let architecture: Architecture?
         /// The ARN of the instance's IAM profile. For more information about IAM ARNs, see Using Identifiers.
         public let instanceProfileArn: String?
         /// The instance's operating system.
         public let os: String?
         /// For load-based or time-based instances, the type.
-        public let autoScalingType: String?
+        public let autoScalingType: AutoScalingType?
         /// The instance's virtualization type: paravirtual or hvm.
-        public let virtualizationType: String?
+        public let virtualizationType: VirtualizationType?
 
-        public init(ecsContainerInstanceArn: String? = nil, hostname: String? = nil, ebsOptimized: Bool? = nil, installUpdatesOnBoot: Bool? = nil, publicIp: String? = nil, instanceType: String? = nil, availabilityZone: String? = nil, ec2InstanceId: String? = nil, status: String? = nil, reportedAgentVersion: String? = nil, stackId: String? = nil, elasticIp: String? = nil, instanceId: String? = nil, sshKeyName: String? = nil, rootDeviceType: String? = nil, lastServiceErrorId: String? = nil, publicDns: String? = nil, layerIds: [String]? = nil, subnetId: String? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, platform: String? = nil, ecsClusterArn: String? = nil, privateIp: String? = nil, infrastructureClass: String? = nil, securityGroupIds: [String]? = nil, amiId: String? = nil, privateDns: String? = nil, rootDeviceVolumeId: String? = nil, tenancy: String? = nil, sshHostRsaKeyFingerprint: String? = nil, registeredBy: String? = nil, createdAt: String? = nil, reportedOs: ReportedOs? = nil, agentVersion: String? = nil, sshHostDsaKeyFingerprint: String? = nil, architecture: String? = nil, instanceProfileArn: String? = nil, os: String? = nil, autoScalingType: String? = nil, virtualizationType: String? = nil) {
+        public init(ecsContainerInstanceArn: String? = nil, hostname: String? = nil, ebsOptimized: Bool? = nil, installUpdatesOnBoot: Bool? = nil, publicIp: String? = nil, instanceType: String? = nil, availabilityZone: String? = nil, ec2InstanceId: String? = nil, status: String? = nil, reportedAgentVersion: String? = nil, stackId: String? = nil, elasticIp: String? = nil, instanceId: String? = nil, sshKeyName: String? = nil, rootDeviceType: RootDeviceType? = nil, lastServiceErrorId: String? = nil, publicDns: String? = nil, layerIds: [String]? = nil, subnetId: String? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, platform: String? = nil, ecsClusterArn: String? = nil, privateIp: String? = nil, infrastructureClass: String? = nil, securityGroupIds: [String]? = nil, amiId: String? = nil, privateDns: String? = nil, rootDeviceVolumeId: String? = nil, tenancy: String? = nil, sshHostRsaKeyFingerprint: String? = nil, registeredBy: String? = nil, createdAt: String? = nil, reportedOs: ReportedOs? = nil, agentVersion: String? = nil, sshHostDsaKeyFingerprint: String? = nil, architecture: Architecture? = nil, instanceProfileArn: String? = nil, os: String? = nil, autoScalingType: AutoScalingType? = nil, virtualizationType: VirtualizationType? = nil) {
             self.ecsContainerInstanceArn = ecsContainerInstanceArn
             self.hostname = hostname
             self.ebsOptimized = ebsOptimized
@@ -651,7 +651,7 @@ extension Opsworks {
             self.elasticIp = dictionary["ElasticIp"] as? String
             self.instanceId = dictionary["InstanceId"] as? String
             self.sshKeyName = dictionary["SshKeyName"] as? String
-            self.rootDeviceType = dictionary["RootDeviceType"] as? String
+            if let rootDeviceType = dictionary["RootDeviceType"] as? String { self.rootDeviceType = RootDeviceType(rawValue: rootDeviceType) } else { self.rootDeviceType = nil }
             self.lastServiceErrorId = dictionary["LastServiceErrorId"] as? String
             self.publicDns = dictionary["PublicDns"] as? String
             self.layerIds = dictionary["LayerIds"] as? [String]
@@ -676,11 +676,11 @@ extension Opsworks {
             if let reportedOs = dictionary["ReportedOs"] as? [String: Any] { self.reportedOs = try Opsworks.ReportedOs(dictionary: reportedOs) } else { self.reportedOs = nil }
             self.agentVersion = dictionary["AgentVersion"] as? String
             self.sshHostDsaKeyFingerprint = dictionary["SshHostDsaKeyFingerprint"] as? String
-            self.architecture = dictionary["Architecture"] as? String
+            if let architecture = dictionary["Architecture"] as? String { self.architecture = Architecture(rawValue: architecture) } else { self.architecture = nil }
             self.instanceProfileArn = dictionary["InstanceProfileArn"] as? String
             self.os = dictionary["Os"] as? String
-            self.autoScalingType = dictionary["AutoScalingType"] as? String
-            self.virtualizationType = dictionary["VirtualizationType"] as? String
+            if let autoScalingType = dictionary["AutoScalingType"] as? String { self.autoScalingType = AutoScalingType(rawValue: autoScalingType) } else { self.autoScalingType = nil }
+            if let virtualizationType = dictionary["VirtualizationType"] as? String { self.virtualizationType = VirtualizationType(rawValue: virtualizationType) } else { self.virtualizationType = nil }
         }
     }
 
@@ -840,15 +840,15 @@ extension Opsworks {
         /// A VolumeConfigurations object that describes the layer's Amazon EBS volumes.
         public let volumeConfigurations: [VolumeConfiguration]?
         /// One or more user-defined key-value pairs to be added to the stack attributes. To create a cluster layer, set the EcsClusterArn attribute to the cluster's ARN.
-        public let attributes: [String: String]?
+        public let attributes: [LayerAttributesKeys: String]?
         /// Whether to use Amazon EBS-optimized instances.
         public let useEbsOptimizedInstances: Bool?
         /// For stacks that are running in a VPC, whether to automatically assign a public IP address to the layer's instances. For more information, see How to Edit a Layer.
         public let autoAssignPublicIps: Bool?
         /// The layer type. A stack cannot have more than one built-in layer of the same type. It can have any number of custom layers. Built-in layers are not available in Chef 12 stacks.
-        public let type: String
+        public let `type`: LayerType
 
-        public init(shortname: String, packages: [String]? = nil, lifecycleEventConfiguration: LifecycleEventConfiguration? = nil, customRecipes: Recipes? = nil, autoAssignElasticIps: Bool? = nil, installUpdatesOnBoot: Bool? = nil, customJson: String? = nil, customSecurityGroupIds: [String]? = nil, stackId: String, name: String, customInstanceProfileArn: String? = nil, enableAutoHealing: Bool? = nil, volumeConfigurations: [VolumeConfiguration]? = nil, attributes: [String: String]? = nil, useEbsOptimizedInstances: Bool? = nil, autoAssignPublicIps: Bool? = nil, type: String) {
+        public init(shortname: String, packages: [String]? = nil, lifecycleEventConfiguration: LifecycleEventConfiguration? = nil, customRecipes: Recipes? = nil, autoAssignElasticIps: Bool? = nil, installUpdatesOnBoot: Bool? = nil, customJson: String? = nil, customSecurityGroupIds: [String]? = nil, stackId: String, name: String, customInstanceProfileArn: String? = nil, enableAutoHealing: Bool? = nil, volumeConfigurations: [VolumeConfiguration]? = nil, attributes: [LayerAttributesKeys: String]? = nil, useEbsOptimizedInstances: Bool? = nil, autoAssignPublicIps: Bool? = nil, type: LayerType) {
             self.shortname = shortname
             self.packages = packages
             self.lifecycleEventConfiguration = lifecycleEventConfiguration
@@ -865,7 +865,7 @@ extension Opsworks {
             self.attributes = attributes
             self.useEbsOptimizedInstances = useEbsOptimizedInstances
             self.autoAssignPublicIps = autoAssignPublicIps
-            self.type = type
+            self.`type` = `type`
         }
 
         public init(dictionary: [String: Any]) throws {
@@ -889,15 +889,15 @@ extension Opsworks {
             } else { 
                 self.volumeConfigurations = nil
             }
-            if let attributes = dictionary["Attributes"] as? [String: String] {
+            if let attributes = dictionary["Attributes"] as? [LayerAttributesKeys: String] {
                 self.attributes = attributes
             } else { 
                 self.attributes = nil
             }
             self.useEbsOptimizedInstances = dictionary["UseEbsOptimizedInstances"] as? Bool
             self.autoAssignPublicIps = dictionary["AutoAssignPublicIps"] as? Bool
-            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
-            self.type = type
+            guard let rawType = dictionary["Type"] as? String, let `type` = LayerType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
+            self.`type` = `type`
         }
     }
 
@@ -913,11 +913,11 @@ extension Opsworks {
         /// This property cannot be updated.
         public let ebsOptimized: Bool?
         /// The instance architecture. Instance types do not necessarily support both architectures. For a list of the architectures that are supported by the different instance types, see Instance Families and Types.
-        public let architecture: String?
+        public let architecture: Architecture?
         /// The ID of the AMI that was used to create the instance. The value of this parameter must be the same AMI ID that the instance is already using. You cannot apply a new AMI to an instance by running UpdateInstance. UpdateInstance does not work on instances that are using custom AMIs. 
         public let amiId: String?
         /// For load-based or time-based instances, the type. Windows stacks can use only time-based instances.
-        public let autoScalingType: String?
+        public let autoScalingType: AutoScalingType?
         /// Whether to install operating system and package updates when the instance boots. The default value is true. To control when updates are installed, set this value to false. You must then update your instances manually by using CreateDeployment to run the update_dependencies stack command or by manually running yum (Amazon Linux) or apt-get (Ubuntu) on the instances.   We strongly recommend using the default value of true, to ensure that your instances have the latest security updates. 
         public let installUpdatesOnBoot: Bool?
         /// The instance ID.
@@ -929,7 +929,7 @@ extension Opsworks {
         /// The instance's Amazon EC2 key name.
         public let sshKeyName: String?
 
-        public init(layerIds: [String]? = nil, hostname: String? = nil, agentVersion: String? = nil, ebsOptimized: Bool? = nil, architecture: String? = nil, amiId: String? = nil, autoScalingType: String? = nil, installUpdatesOnBoot: Bool? = nil, instanceId: String, instanceType: String? = nil, os: String? = nil, sshKeyName: String? = nil) {
+        public init(layerIds: [String]? = nil, hostname: String? = nil, agentVersion: String? = nil, ebsOptimized: Bool? = nil, architecture: Architecture? = nil, amiId: String? = nil, autoScalingType: AutoScalingType? = nil, installUpdatesOnBoot: Bool? = nil, instanceId: String, instanceType: String? = nil, os: String? = nil, sshKeyName: String? = nil) {
             self.layerIds = layerIds
             self.hostname = hostname
             self.agentVersion = agentVersion
@@ -949,9 +949,9 @@ extension Opsworks {
             self.hostname = dictionary["Hostname"] as? String
             self.agentVersion = dictionary["AgentVersion"] as? String
             self.ebsOptimized = dictionary["EbsOptimized"] as? Bool
-            self.architecture = dictionary["Architecture"] as? String
+            if let architecture = dictionary["Architecture"] as? String { self.architecture = Architecture(rawValue: architecture) } else { self.architecture = nil }
             self.amiId = dictionary["AmiId"] as? String
-            self.autoScalingType = dictionary["AutoScalingType"] as? String
+            if let autoScalingType = dictionary["AutoScalingType"] as? String { self.autoScalingType = AutoScalingType(rawValue: autoScalingType) } else { self.autoScalingType = nil }
             self.installUpdatesOnBoot = dictionary["InstallUpdatesOnBoot"] as? Bool
             guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
             self.instanceId = instanceId
@@ -1054,6 +1054,12 @@ extension Opsworks {
         }
     }
 
+    public enum AutoScalingType: String, CustomStringConvertible {
+        case load = "load"
+        case timer = "timer"
+        public var description: String { return self.rawValue }
+    }
+
     public struct LoadBasedAutoScalingConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1107,13 +1113,13 @@ extension Opsworks {
         /// An array of EnvironmentVariable objects that specify environment variables to be associated with the app. After you deploy the app, these variables are defined on the associated app server instances. For more information, see  Environment Variables.   There is no specific limit on the number of environment variables. However, the size of the associated data structure - which includes the variable names, values, and protected flag values - cannot exceed 10 KB (10240 Bytes). This limit should accommodate most if not all use cases, but if you do exceed it, you will cause an exception (API) with an "Environment: is too large (maximum is 10KB)" message. 
         public let environment: [EnvironmentVariable]?
         /// The stack attributes.
-        public let attributes: [String: String]?
+        public let attributes: [AppAttributesKeys: String]?
         /// The app type.
-        public let type: String?
+        public let `type`: AppType?
         /// The app ID.
         public let appId: String?
 
-        public init(shortname: String? = nil, sslConfiguration: SslConfiguration? = nil, appSource: Source? = nil, enableSsl: Bool? = nil, domains: [String]? = nil, description: String? = nil, createdAt: String? = nil, stackId: String? = nil, name: String? = nil, dataSources: [DataSource]? = nil, environment: [EnvironmentVariable]? = nil, attributes: [String: String]? = nil, type: String? = nil, appId: String? = nil) {
+        public init(shortname: String? = nil, sslConfiguration: SslConfiguration? = nil, appSource: Source? = nil, enableSsl: Bool? = nil, domains: [String]? = nil, description: String? = nil, createdAt: String? = nil, stackId: String? = nil, name: String? = nil, dataSources: [DataSource]? = nil, environment: [EnvironmentVariable]? = nil, attributes: [AppAttributesKeys: String]? = nil, type: AppType? = nil, appId: String? = nil) {
             self.shortname = shortname
             self.sslConfiguration = sslConfiguration
             self.appSource = appSource
@@ -1126,7 +1132,7 @@ extension Opsworks {
             self.dataSources = dataSources
             self.environment = environment
             self.attributes = attributes
-            self.type = type
+            self.`type` = `type`
             self.appId = appId
         }
 
@@ -1150,14 +1156,20 @@ extension Opsworks {
             } else { 
                 self.environment = nil
             }
-            if let attributes = dictionary["Attributes"] as? [String: String] {
+            if let attributes = dictionary["Attributes"] as? [AppAttributesKeys: String] {
                 self.attributes = attributes
             } else { 
                 self.attributes = nil
             }
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = AppType(rawValue: `type`) } else { self.`type` = nil }
             self.appId = dictionary["AppId"] as? String
         }
+    }
+
+    public enum VirtualizationType: String, CustomStringConvertible {
+        case paravirtual = "paravirtual"
+        case hvm = "hvm"
+        public var description: String { return self.rawValue }
     }
 
     public struct Command: AWSShape {
@@ -1180,7 +1192,7 @@ extension Opsworks {
         /// The command ID.
         public let commandId: String?
         /// The command type:    deploy     rollback     start     stop     restart     undeploy     update_dependencies     install_dependencies     update_custom_cookbooks     execute_recipes   
-        public let type: String?
+        public let `type`: String?
         /// Date when the command completed.
         public let completedAt: String?
 
@@ -1193,7 +1205,7 @@ extension Opsworks {
             self.deploymentId = deploymentId
             self.exitCode = exitCode
             self.commandId = commandId
-            self.type = type
+            self.`type` = `type`
             self.completedAt = completedAt
         }
 
@@ -1206,9 +1218,25 @@ extension Opsworks {
             self.deploymentId = dictionary["DeploymentId"] as? String
             self.exitCode = dictionary["ExitCode"] as? Int32
             self.commandId = dictionary["CommandId"] as? String
-            self.type = dictionary["Type"] as? String
+            self.`type` = dictionary["Type"] as? String
             self.completedAt = dictionary["CompletedAt"] as? String
         }
+    }
+
+    public enum LayerType: String, CustomStringConvertible {
+        case aws_flow_ruby = "aws-flow-ruby"
+        case ecs_cluster = "ecs-cluster"
+        case java_app = "java-app"
+        case lb = "lb"
+        case web = "web"
+        case php_app = "php-app"
+        case rails_app = "rails-app"
+        case nodejs_app = "nodejs-app"
+        case memcached = "memcached"
+        case db_master = "db-master"
+        case monitoring_master = "monitoring-master"
+        case custom = "custom"
+        public var description: String { return self.rawValue }
     }
 
     public struct UserProfile: AWSShape {
@@ -1399,11 +1427,11 @@ extension Opsworks {
         /// The stack ID.
         public let stackId: String
         /// The instance architecture. The default option is x86_64. Instance types do not necessarily support both architectures. For a list of the architectures that are supported by the different instance types, see Instance Families and Types.
-        public let architecture: String?
+        public let architecture: Architecture?
         /// The instance root device type. For more information, see Storage for the Root Device.
-        public let rootDeviceType: String?
+        public let rootDeviceType: RootDeviceType?
         /// For load-based or time-based instances, the type. Windows stacks can use only time-based instances.
-        public let autoScalingType: String?
+        public let autoScalingType: AutoScalingType?
         /// The instance's operating system, which must be set to one of the following.   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS 7     Red Hat Enterprise Linux 7    A supported Windows operating system, such as Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express, Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   A custom AMI: Custom.   For more information on the supported operating systems, see AWS OpsWorks Operating Systems. The default option is the current Amazon Linux version. If you set this parameter to Custom, you must use the CreateInstance action's AmiId parameter to specify the custom AMI that you want to use. Block device mappings are not supported if the value is Custom. For more information on the supported operating systems, see Operating SystemsFor more information on how to use custom AMIs with AWS OpsWorks, see Using Custom AMIs.
         public let os: String?
         /// The instance's Amazon EC2 key-pair name.
@@ -1411,7 +1439,7 @@ extension Opsworks {
         /// The instance's virtualization type, paravirtual or hvm.
         public let virtualizationType: String?
 
-        public init(blockDeviceMappings: [BlockDeviceMapping]? = nil, subnetId: String? = nil, layerIds: [String], hostname: String? = nil, ebsOptimized: Bool? = nil, tenancy: String? = nil, amiId: String? = nil, installUpdatesOnBoot: Bool? = nil, instanceType: String, availabilityZone: String? = nil, agentVersion: String? = nil, stackId: String, architecture: String? = nil, rootDeviceType: String? = nil, autoScalingType: String? = nil, os: String? = nil, sshKeyName: String? = nil, virtualizationType: String? = nil) {
+        public init(blockDeviceMappings: [BlockDeviceMapping]? = nil, subnetId: String? = nil, layerIds: [String], hostname: String? = nil, ebsOptimized: Bool? = nil, tenancy: String? = nil, amiId: String? = nil, installUpdatesOnBoot: Bool? = nil, instanceType: String, availabilityZone: String? = nil, agentVersion: String? = nil, stackId: String, architecture: Architecture? = nil, rootDeviceType: RootDeviceType? = nil, autoScalingType: AutoScalingType? = nil, os: String? = nil, sshKeyName: String? = nil, virtualizationType: String? = nil) {
             self.blockDeviceMappings = blockDeviceMappings
             self.subnetId = subnetId
             self.layerIds = layerIds
@@ -1452,9 +1480,9 @@ extension Opsworks {
             self.agentVersion = dictionary["AgentVersion"] as? String
             guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
             self.stackId = stackId
-            self.architecture = dictionary["Architecture"] as? String
-            self.rootDeviceType = dictionary["RootDeviceType"] as? String
-            self.autoScalingType = dictionary["AutoScalingType"] as? String
+            if let architecture = dictionary["Architecture"] as? String { self.architecture = Architecture(rawValue: architecture) } else { self.architecture = nil }
+            if let rootDeviceType = dictionary["RootDeviceType"] as? String { self.rootDeviceType = RootDeviceType(rawValue: rootDeviceType) } else { self.rootDeviceType = nil }
+            if let autoScalingType = dictionary["AutoScalingType"] as? String { self.autoScalingType = AutoScalingType(rawValue: autoScalingType) } else { self.autoScalingType = nil }
             self.os = dictionary["Os"] as? String
             self.sshKeyName = dictionary["SshKeyName"] as? String
             self.virtualizationType = dictionary["VirtualizationType"] as? String
@@ -1477,7 +1505,7 @@ extension Opsworks {
         /// A Source object that specifies the app repository.
         public let appSource: Source?
         /// One or more user-defined key/value pairs to be added to the stack attributes.
-        public let attributes: [String: String]?
+        public let attributes: [AppAttributesKeys: String]?
         /// An array of EnvironmentVariable objects that specify environment variables to be associated with the app. After you deploy the app, these variables are defined on the associated app server instance. For more information, see  Environment Variables. There is no specific limit on the number of environment variables. However, the size of the associated data structure - which includes the variables' names, values, and protected flag values - cannot exceed 10 KB (10240 Bytes). This limit should accommodate most if not all use cases. Exceeding it will cause an exception with the message, "Environment: is too large (maximum is 10KB)."  This parameter is supported only by Chef 11.10 stacks. If you have specified one or more environment variables, you cannot modify the stack's Chef version. 
         public let environment: [EnvironmentVariable]?
         /// Whether to enable SSL for the app.
@@ -1485,11 +1513,11 @@ extension Opsworks {
         /// The app virtual host settings, with multiple domains separated by commas. For example: 'www.example.com, example.com' 
         public let domains: [String]?
         /// The app type. Each supported type is associated with a particular layer. For example, PHP applications are associated with a PHP layer. AWS OpsWorks deploys an application to those instances that are members of the corresponding layer. If your app isn't one of the standard types, or you prefer to implement your own Deploy recipes, specify other.
-        public let type: String
+        public let `type`: AppType
         /// A description of the app.
         public let description: String?
 
-        public init(shortname: String? = nil, stackId: String, name: String, dataSources: [DataSource]? = nil, sslConfiguration: SslConfiguration? = nil, appSource: Source? = nil, attributes: [String: String]? = nil, environment: [EnvironmentVariable]? = nil, enableSsl: Bool? = nil, domains: [String]? = nil, type: String, description: String? = nil) {
+        public init(shortname: String? = nil, stackId: String, name: String, dataSources: [DataSource]? = nil, sslConfiguration: SslConfiguration? = nil, appSource: Source? = nil, attributes: [AppAttributesKeys: String]? = nil, environment: [EnvironmentVariable]? = nil, enableSsl: Bool? = nil, domains: [String]? = nil, type: AppType, description: String? = nil) {
             self.shortname = shortname
             self.stackId = stackId
             self.name = name
@@ -1500,7 +1528,7 @@ extension Opsworks {
             self.environment = environment
             self.enableSsl = enableSsl
             self.domains = domains
-            self.type = type
+            self.`type` = `type`
             self.description = description
         }
 
@@ -1517,7 +1545,7 @@ extension Opsworks {
             }
             if let sslConfiguration = dictionary["SslConfiguration"] as? [String: Any] { self.sslConfiguration = try Opsworks.SslConfiguration(dictionary: sslConfiguration) } else { self.sslConfiguration = nil }
             if let appSource = dictionary["AppSource"] as? [String: Any] { self.appSource = try Opsworks.Source(dictionary: appSource) } else { self.appSource = nil }
-            if let attributes = dictionary["Attributes"] as? [String: String] {
+            if let attributes = dictionary["Attributes"] as? [AppAttributesKeys: String] {
                 self.attributes = attributes
             } else { 
                 self.attributes = nil
@@ -1529,8 +1557,8 @@ extension Opsworks {
             }
             self.enableSsl = dictionary["EnableSsl"] as? Bool
             self.domains = dictionary["Domains"] as? [String]
-            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
-            self.type = type
+            guard let rawType = dictionary["Type"] as? String, let `type` = AppType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
+            self.`type` = `type`
             self.description = dictionary["Description"] as? String
         }
     }
@@ -1579,7 +1607,7 @@ extension Opsworks {
         /// The stack AWS Identity and Access Management (IAM) role, which allows AWS OpsWorks to work with AWS resources on your behalf. You must set this parameter to the Amazon Resource Name (ARN) for an existing IAM role. If you create a stack by using the AWS OpsWorks console, it creates the role for you. You can obtain an existing stack's IAM ARN programmatically by calling DescribePermissions. For more information about IAM ARNs, see Using Identifiers.  You must set this parameter to a valid service role ARN or the action will fail; there is no default value. You can specify the source stack's service role ARN, if you prefer, but you must do so explicitly. 
         public let serviceRoleArn: String
         /// The default root device type. This value is used by default for all instances in the cloned stack, but you can override it when you create an instance. For more information, see Storage for the Root Device.
-        public let defaultRootDeviceType: String?
+        public let defaultRootDeviceType: RootDeviceType?
         /// The Amazon Resource Name (ARN) of an IAM profile that is the default profile for all of the stack's EC2 instances. For more information about IAM ARNs, see Using Identifiers.
         public let defaultInstanceProfileArn: String?
         /// A ChefConfiguration object that specifies whether to enable Berkshelf and the Berkshelf version on Chef 11.10 stacks. For more information, see Create a New Stack.
@@ -1604,7 +1632,7 @@ extension Opsworks {
         /// A list of source stack app IDs to be included in the cloned stack.
         public let cloneAppIds: [String]?
         /// A list of stack attributes and values as key/value pairs to be added to the cloned stack.
-        public let attributes: [String: String]?
+        public let attributes: [StackAttributesKeys: String]?
         /// The stack's default VPC subnet ID. This parameter is required if you specify a value for the VpcId parameter. All instances are launched into this subnet unless you specify otherwise when you create the instance. If you also specify a value for DefaultAvailabilityZone, the subnet must be in that zone. For information on default values and when this parameter is required, see the VpcId parameter description. 
         public let defaultSubnetId: String?
         /// The cloned stack's default Availability Zone, which must be in the specified region. For more information, see Regions and Endpoints. If you also specify a value for DefaultSubnetId, the subnet must be in the same zone. For more information, see the VpcId parameter description. 
@@ -1616,7 +1644,7 @@ extension Opsworks {
         /// Whether to associate the AWS OpsWorks built-in security groups with the stack's layers. AWS OpsWorks provides a standard set of built-in security groups, one for each layer, which are associated with layers by default. With UseOpsworksSecurityGroups you can instead provide your own custom security groups. UseOpsworksSecurityGroups has the following settings:    True - AWS OpsWorks automatically associates the appropriate built-in security group with each layer (default setting). You can associate additional security groups with a layer after you create it but you cannot delete the built-in security group.   False - AWS OpsWorks does not associate built-in security groups with layers. You must create appropriate Amazon Elastic Compute Cloud (Amazon EC2) security groups and associate a security group with each layer that you create. However, you can still manually associate a built-in security group with a layer on creation; custom security groups are required only for those layers that need custom settings.   For more information, see Create a New Stack.
         public let useOpsworksSecurityGroups: Bool?
 
-        public init(defaultOs: String? = nil, clonePermissions: Bool? = nil, serviceRoleArn: String, defaultRootDeviceType: String? = nil, defaultInstanceProfileArn: String? = nil, chefConfiguration: ChefConfiguration? = nil, region: String? = nil, sourceStackId: String, customJson: String? = nil, useCustomCookbooks: Bool? = nil, customCookbooksSource: Source? = nil, defaultSshKeyName: String? = nil, agentVersion: String? = nil, vpcId: String? = nil, name: String? = nil, cloneAppIds: [String]? = nil, attributes: [String: String]? = nil, defaultSubnetId: String? = nil, defaultAvailabilityZone: String? = nil, hostnameTheme: String? = nil, configurationManager: StackConfigurationManager? = nil, useOpsworksSecurityGroups: Bool? = nil) {
+        public init(defaultOs: String? = nil, clonePermissions: Bool? = nil, serviceRoleArn: String, defaultRootDeviceType: RootDeviceType? = nil, defaultInstanceProfileArn: String? = nil, chefConfiguration: ChefConfiguration? = nil, region: String? = nil, sourceStackId: String, customJson: String? = nil, useCustomCookbooks: Bool? = nil, customCookbooksSource: Source? = nil, defaultSshKeyName: String? = nil, agentVersion: String? = nil, vpcId: String? = nil, name: String? = nil, cloneAppIds: [String]? = nil, attributes: [StackAttributesKeys: String]? = nil, defaultSubnetId: String? = nil, defaultAvailabilityZone: String? = nil, hostnameTheme: String? = nil, configurationManager: StackConfigurationManager? = nil, useOpsworksSecurityGroups: Bool? = nil) {
             self.defaultOs = defaultOs
             self.clonePermissions = clonePermissions
             self.serviceRoleArn = serviceRoleArn
@@ -1646,7 +1674,7 @@ extension Opsworks {
             self.clonePermissions = dictionary["ClonePermissions"] as? Bool
             guard let serviceRoleArn = dictionary["ServiceRoleArn"] as? String else { throw InitializableError.missingRequiredParam("ServiceRoleArn") }
             self.serviceRoleArn = serviceRoleArn
-            self.defaultRootDeviceType = dictionary["DefaultRootDeviceType"] as? String
+            if let defaultRootDeviceType = dictionary["DefaultRootDeviceType"] as? String { self.defaultRootDeviceType = RootDeviceType(rawValue: defaultRootDeviceType) } else { self.defaultRootDeviceType = nil }
             self.defaultInstanceProfileArn = dictionary["DefaultInstanceProfileArn"] as? String
             if let chefConfiguration = dictionary["ChefConfiguration"] as? [String: Any] { self.chefConfiguration = try Opsworks.ChefConfiguration(dictionary: chefConfiguration) } else { self.chefConfiguration = nil }
             self.region = dictionary["Region"] as? String
@@ -1660,7 +1688,7 @@ extension Opsworks {
             self.vpcId = dictionary["VpcId"] as? String
             self.name = dictionary["Name"] as? String
             self.cloneAppIds = dictionary["CloneAppIds"] as? [String]
-            if let attributes = dictionary["Attributes"] as? [String: String] {
+            if let attributes = dictionary["Attributes"] as? [StackAttributesKeys: String] {
                 self.attributes = attributes
             } else { 
                 self.attributes = nil
@@ -1893,6 +1921,12 @@ extension Opsworks {
         }
     }
 
+    public enum RootDeviceType: String, CustomStringConvertible {
+        case ebs = "ebs"
+        case instance_store = "instance-store"
+        public var description: String { return self.rawValue }
+    }
+
     public struct AssignInstanceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2081,6 +2115,11 @@ extension Opsworks {
         }
     }
 
+    public enum StackAttributesKeys: String, CustomStringConvertible {
+        case color = "Color"
+        public var description: String { return self.rawValue }
+    }
+
     public struct StopInstanceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2143,17 +2182,17 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the operation. You can specify only one command. For stacks, the following commands are available:    execute_recipes: Execute one or more recipes. To specify the recipes, set an Args parameter named recipes to the list of recipes to be executed. For example, to execute phpapp::appsetup, set Args to {"recipes":["phpapp::appsetup"]}.    install_dependencies: Install the stack's dependencies.    update_custom_cookbooks: Update the stack's custom cookbooks.    update_dependencies: Update the stack's dependencies.    The update_dependencies and install_dependencies commands are supported only for Linux instances. You can run the commands successfully on Windows instances, but they do nothing.  For apps, the following commands are available:    deploy: Deploy an app. Ruby on Rails apps have an optional Args parameter named migrate. Set Args to {"migrate":["true"]} to migrate the database. The default setting is {"migrate":["false"]}.    rollback Roll the app back to the previous version. When you update an app, AWS OpsWorks stores the previous version, up to a maximum of five versions. You can use this command to roll an app back as many as four versions.    start: Start the app's web or application server.    stop: Stop the app's web or application server.    restart: Restart the app's web or application server.    undeploy: Undeploy the app.  
-        public let name: String
+        public let name: DeploymentCommandName
         /// The arguments of those commands that take arguments. It should be set to a JSON object with the following format:  {"arg_name1" : ["value1", "value2", ...], "arg_name2" : ["value1", "value2", ...], ...}  The update_dependencies command takes two arguments:    upgrade_os_to - Specifies the desired Amazon Linux version for instances whose OS you want to upgrade, such as Amazon Linux 2014.09. You must also set the allow_reboot argument to true.    allow_reboot - Specifies whether to allow AWS OpsWorks to reboot the instances if necessary, after installing the updates. This argument can be set to either true or false. The default value is false.   For example, to upgrade an instance to Amazon Linux 2014.09, set Args to the following.   { "upgrade_os_to":["Amazon Linux 2014.09"], "allow_reboot":["true"] }  
         public let args: [String: [String]]?
 
-        public init(name: String, args: [String: [String]]? = nil) {
+        public init(name: DeploymentCommandName, args: [String: [String]]? = nil) {
             self.name = name
             self.args = args
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            guard let rawName = dictionary["Name"] as? String, let name = DeploymentCommandName(rawValue: rawName) else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
             if let args = dictionary["Args"] as? [String: Any] {
                 var argsDict: [String: [String]] = [:]
@@ -2341,17 +2380,17 @@ extension Opsworks {
         /// When included in a request, the parameter depends on the repository type.   For Amazon S3 bundles, set Password to the appropriate IAM secret access key.   For HTTP bundles and Subversion repositories, set Password to the password.   For more information on how to safely handle IAM credentials, see http://docs.aws.amazon.com/general/latest/gr/aws-access-keys-best-practices.html. In responses, AWS OpsWorks returns *****FILTERED***** instead of the actual value.
         public let password: String?
         /// The repository type.
-        public let type: String?
+        public let `type`: SourceType?
         /// The source URL.
         public let url: String?
         /// The application's version. AWS OpsWorks enables you to easily deploy new versions of an application. One of the simplest approaches is to have branches or revisions in your repository that represent different versions that can potentially be deployed.
         public let revision: String?
 
-        public init(sshKey: String? = nil, username: String? = nil, password: String? = nil, type: String? = nil, url: String? = nil, revision: String? = nil) {
+        public init(sshKey: String? = nil, username: String? = nil, password: String? = nil, type: SourceType? = nil, url: String? = nil, revision: String? = nil) {
             self.sshKey = sshKey
             self.username = username
             self.password = password
-            self.type = type
+            self.`type` = `type`
             self.url = url
             self.revision = revision
         }
@@ -2360,7 +2399,7 @@ extension Opsworks {
             self.sshKey = dictionary["SshKey"] as? String
             self.username = dictionary["Username"] as? String
             self.password = dictionary["Password"] as? String
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = SourceType(rawValue: `type`) } else { self.`type` = nil }
             self.url = dictionary["Url"] as? String
             self.revision = dictionary["Revision"] as? String
         }
@@ -2493,6 +2532,35 @@ extension Opsworks {
         }
     }
 
+    public enum LayerAttributesKeys: String, CustomStringConvertible {
+        case ecsclusterarn = "EcsClusterArn"
+        case enablehaproxystats = "EnableHaproxyStats"
+        case haproxystatsurl = "HaproxyStatsUrl"
+        case haproxystatsuser = "HaproxyStatsUser"
+        case haproxystatspassword = "HaproxyStatsPassword"
+        case haproxyhealthcheckurl = "HaproxyHealthCheckUrl"
+        case haproxyhealthcheckmethod = "HaproxyHealthCheckMethod"
+        case mysqlrootpassword = "MysqlRootPassword"
+        case mysqlrootpasswordubiquitous = "MysqlRootPasswordUbiquitous"
+        case gangliaurl = "GangliaUrl"
+        case gangliauser = "GangliaUser"
+        case gangliapassword = "GangliaPassword"
+        case memcachedmemory = "MemcachedMemory"
+        case nodejsversion = "NodejsVersion"
+        case rubyversion = "RubyVersion"
+        case rubygemsversion = "RubygemsVersion"
+        case managebundler = "ManageBundler"
+        case bundlerversion = "BundlerVersion"
+        case railsstack = "RailsStack"
+        case passengerversion = "PassengerVersion"
+        case jvm = "Jvm"
+        case jvmversion = "JvmVersion"
+        case jvmoptions = "JvmOptions"
+        case javaappserver = "JavaAppServer"
+        case javaappserverversion = "JavaAppServerVersion"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DescribeEcsClustersRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2549,13 +2617,13 @@ extension Opsworks {
         /// A VolumeConfigurations object that describes the layer's Amazon EBS volumes.
         public let volumeConfigurations: [VolumeConfiguration]?
         /// One or more user-defined key/value pairs to be added to the stack attributes.
-        public let attributes: [String: String]?
+        public let attributes: [LayerAttributesKeys: String]?
         /// Whether to use Amazon EBS-optimized instances.
         public let useEbsOptimizedInstances: Bool?
         /// For stacks that are running in a VPC, whether to automatically assign a public IP address to the layer's instances. For more information, see How to Edit a Layer.
         public let autoAssignPublicIps: Bool?
 
-        public init(shortname: String? = nil, packages: [String]? = nil, lifecycleEventConfiguration: LifecycleEventConfiguration? = nil, customRecipes: Recipes? = nil, autoAssignElasticIps: Bool? = nil, installUpdatesOnBoot: Bool? = nil, customJson: String? = nil, customSecurityGroupIds: [String]? = nil, name: String? = nil, layerId: String, customInstanceProfileArn: String? = nil, enableAutoHealing: Bool? = nil, volumeConfigurations: [VolumeConfiguration]? = nil, attributes: [String: String]? = nil, useEbsOptimizedInstances: Bool? = nil, autoAssignPublicIps: Bool? = nil) {
+        public init(shortname: String? = nil, packages: [String]? = nil, lifecycleEventConfiguration: LifecycleEventConfiguration? = nil, customRecipes: Recipes? = nil, autoAssignElasticIps: Bool? = nil, installUpdatesOnBoot: Bool? = nil, customJson: String? = nil, customSecurityGroupIds: [String]? = nil, name: String? = nil, layerId: String, customInstanceProfileArn: String? = nil, enableAutoHealing: Bool? = nil, volumeConfigurations: [VolumeConfiguration]? = nil, attributes: [LayerAttributesKeys: String]? = nil, useEbsOptimizedInstances: Bool? = nil, autoAssignPublicIps: Bool? = nil) {
             self.shortname = shortname
             self.packages = packages
             self.lifecycleEventConfiguration = lifecycleEventConfiguration
@@ -2593,7 +2661,7 @@ extension Opsworks {
             } else { 
                 self.volumeConfigurations = nil
             }
-            if let attributes = dictionary["Attributes"] as? [String: String] {
+            if let attributes = dictionary["Attributes"] as? [LayerAttributesKeys: String] {
                 self.attributes = attributes
             } else { 
                 self.attributes = nil
@@ -2642,6 +2710,17 @@ extension Opsworks {
         }
     }
 
+    public enum AppType: String, CustomStringConvertible {
+        case aws_flow_ruby = "aws-flow-ruby"
+        case java = "java"
+        case rails = "rails"
+        case php = "php"
+        case nodejs = "nodejs"
+        case `static` = "static"
+        case other = "other"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Stack: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2652,7 +2731,7 @@ extension Opsworks {
         /// The stack's ARN.
         public let arn: String?
         /// The default root device type. This value is used by default for all instances in the stack, but you can override it when you create an instance. For more information, see Storage for the Root Device.
-        public let defaultRootDeviceType: String?
+        public let defaultRootDeviceType: RootDeviceType?
         /// The ARN of an IAM profile that is the default profile for all of the stack's EC2 instances. For more information about IAM ARNs, see Using Identifiers.
         public let defaultInstanceProfileArn: String?
         /// The stack AWS Identity and Access Management (IAM) role.
@@ -2677,7 +2756,7 @@ extension Opsworks {
         /// The agent version. This parameter is set to LATEST for auto-update. or a version number for a fixed agent version.
         public let agentVersion: String?
         /// The stack's attributes.
-        public let attributes: [String: String]?
+        public let attributes: [StackAttributesKeys: String]?
         /// The default subnet ID; applicable only if the stack is running in a VPC.
         public let defaultSubnetId: String?
         /// The stack's default Availability Zone. For more information, see Regions and Endpoints.
@@ -2689,7 +2768,7 @@ extension Opsworks {
         /// A ChefConfiguration object that specifies whether to enable Berkshelf and the Berkshelf version. For more information, see Create a New Stack.
         public let chefConfiguration: ChefConfiguration?
 
-        public init(defaultOs: String? = nil, useOpsworksSecurityGroups: Bool? = nil, arn: String? = nil, defaultRootDeviceType: String? = nil, defaultInstanceProfileArn: String? = nil, serviceRoleArn: String? = nil, region: String? = nil, useCustomCookbooks: Bool? = nil, customJson: String? = nil, customCookbooksSource: Source? = nil, defaultSshKeyName: String? = nil, createdAt: String? = nil, vpcId: String? = nil, stackId: String? = nil, name: String? = nil, agentVersion: String? = nil, attributes: [String: String]? = nil, defaultSubnetId: String? = nil, defaultAvailabilityZone: String? = nil, hostnameTheme: String? = nil, configurationManager: StackConfigurationManager? = nil, chefConfiguration: ChefConfiguration? = nil) {
+        public init(defaultOs: String? = nil, useOpsworksSecurityGroups: Bool? = nil, arn: String? = nil, defaultRootDeviceType: RootDeviceType? = nil, defaultInstanceProfileArn: String? = nil, serviceRoleArn: String? = nil, region: String? = nil, useCustomCookbooks: Bool? = nil, customJson: String? = nil, customCookbooksSource: Source? = nil, defaultSshKeyName: String? = nil, createdAt: String? = nil, vpcId: String? = nil, stackId: String? = nil, name: String? = nil, agentVersion: String? = nil, attributes: [StackAttributesKeys: String]? = nil, defaultSubnetId: String? = nil, defaultAvailabilityZone: String? = nil, hostnameTheme: String? = nil, configurationManager: StackConfigurationManager? = nil, chefConfiguration: ChefConfiguration? = nil) {
             self.defaultOs = defaultOs
             self.useOpsworksSecurityGroups = useOpsworksSecurityGroups
             self.arn = arn
@@ -2718,7 +2797,7 @@ extension Opsworks {
             self.defaultOs = dictionary["DefaultOs"] as? String
             self.useOpsworksSecurityGroups = dictionary["UseOpsworksSecurityGroups"] as? Bool
             self.arn = dictionary["Arn"] as? String
-            self.defaultRootDeviceType = dictionary["DefaultRootDeviceType"] as? String
+            if let defaultRootDeviceType = dictionary["DefaultRootDeviceType"] as? String { self.defaultRootDeviceType = RootDeviceType(rawValue: defaultRootDeviceType) } else { self.defaultRootDeviceType = nil }
             self.defaultInstanceProfileArn = dictionary["DefaultInstanceProfileArn"] as? String
             self.serviceRoleArn = dictionary["ServiceRoleArn"] as? String
             self.region = dictionary["Region"] as? String
@@ -2731,7 +2810,7 @@ extension Opsworks {
             self.stackId = dictionary["StackId"] as? String
             self.name = dictionary["Name"] as? String
             self.agentVersion = dictionary["AgentVersion"] as? String
-            if let attributes = dictionary["Attributes"] as? [String: String] {
+            if let attributes = dictionary["Attributes"] as? [StackAttributesKeys: String] {
                 self.attributes = attributes
             } else { 
                 self.attributes = nil
@@ -2812,6 +2891,12 @@ extension Opsworks {
             self.shutdown = dictionary["Shutdown"] as? [String]
             self.deploy = dictionary["Deploy"] as? [String]
         }
+    }
+
+    public enum Architecture: String, CustomStringConvertible {
+        case x86_64 = "x86_64"
+        case i386 = "i386"
+        public var description: String { return self.rawValue }
     }
 
     public struct SetPermissionRequest: AWSShape {
@@ -3002,6 +3087,14 @@ extension Opsworks {
         }
     }
 
+    public enum SourceType: String, CustomStringConvertible {
+        case git = "git"
+        case svn = "svn"
+        case archive = "archive"
+        case s3 = "s3"
+        public var description: String { return self.rawValue }
+    }
+
     public struct CreateStackRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -3012,7 +3105,7 @@ extension Opsworks {
         /// The stack's AWS Identity and Access Management (IAM) role, which allows AWS OpsWorks to work with AWS resources on your behalf. You must set this parameter to the Amazon Resource Name (ARN) for an existing IAM role. For more information about IAM ARNs, see Using Identifiers.
         public let serviceRoleArn: String
         /// The default root device type. This value is the default for all instances in the stack, but you can override it when you create an instance. The default option is instance-store. For more information, see Storage for the Root Device.
-        public let defaultRootDeviceType: String?
+        public let defaultRootDeviceType: RootDeviceType?
         /// The Amazon Resource Name (ARN) of an IAM profile that is the default profile for all of the stack's EC2 instances. For more information about IAM ARNs, see Using Identifiers.
         public let defaultInstanceProfileArn: String
         /// The stack's AWS region, such as "ap-south-1". For more information about Amazon regions, see Regions and Endpoints.
@@ -3031,7 +3124,7 @@ extension Opsworks {
         /// The ID of the VPC that the stack is to be launched into. The VPC must be in the stack's region. All instances are launched into this VPC. You cannot change the ID later.   If your account supports EC2-Classic, the default value is no VPC.   If your account does not support EC2-Classic, the default value is the default VPC for the specified region.   If the VPC ID corresponds to a default VPC and you have specified either the DefaultAvailabilityZone or the DefaultSubnetId parameter only, AWS OpsWorks infers the value of the other parameter. If you specify neither parameter, AWS OpsWorks sets these parameters to the first valid Availability Zone for the specified region and the corresponding default VPC subnet ID, respectively. If you specify a nondefault VPC ID, note the following:   It must belong to a VPC in your account that is in the specified region.   You must specify a value for DefaultSubnetId.   For more information on how to use AWS OpsWorks with a VPC, see Running a Stack in a VPC. For more information on default VPC and EC2-Classic, see Supported Platforms. 
         public let vpcId: String?
         /// One or more user-defined key-value pairs to be added to the stack attributes.
-        public let attributes: [String: String]?
+        public let attributes: [StackAttributesKeys: String]?
         /// The stack's default VPC subnet ID. This parameter is required if you specify a value for the VpcId parameter. All instances are launched into this subnet unless you specify otherwise when you create the instance. If you also specify a value for DefaultAvailabilityZone, the subnet must be in that zone. For information on default values and when this parameter is required, see the VpcId parameter description. 
         public let defaultSubnetId: String?
         /// The configuration manager. When you create a stack we recommend that you use the configuration manager to specify the Chef version: 12, 11.10, or 11.4 for Linux stacks, or 12.2 for Windows stacks. The default value for Linux stacks is currently 11.4.
@@ -3043,7 +3136,7 @@ extension Opsworks {
         /// Whether to associate the AWS OpsWorks built-in security groups with the stack's layers. AWS OpsWorks provides a standard set of built-in security groups, one for each layer, which are associated with layers by default. With UseOpsworksSecurityGroups you can instead provide your own custom security groups. UseOpsworksSecurityGroups has the following settings:    True - AWS OpsWorks automatically associates the appropriate built-in security group with each layer (default setting). You can associate additional security groups with a layer after you create it, but you cannot delete the built-in security group.   False - AWS OpsWorks does not associate built-in security groups with layers. You must create appropriate EC2 security groups and associate a security group with each layer that you create. However, you can still manually associate a built-in security group with a layer on creation; custom security groups are required only for those layers that need custom settings.   For more information, see Create a New Stack.
         public let useOpsworksSecurityGroups: Bool?
 
-        public init(defaultOs: String? = nil, chefConfiguration: ChefConfiguration? = nil, serviceRoleArn: String, defaultRootDeviceType: String? = nil, defaultInstanceProfileArn: String, region: String, customCookbooksSource: Source? = nil, customJson: String? = nil, useCustomCookbooks: Bool? = nil, defaultSshKeyName: String? = nil, agentVersion: String? = nil, name: String, vpcId: String? = nil, attributes: [String: String]? = nil, defaultSubnetId: String? = nil, configurationManager: StackConfigurationManager? = nil, defaultAvailabilityZone: String? = nil, hostnameTheme: String? = nil, useOpsworksSecurityGroups: Bool? = nil) {
+        public init(defaultOs: String? = nil, chefConfiguration: ChefConfiguration? = nil, serviceRoleArn: String, defaultRootDeviceType: RootDeviceType? = nil, defaultInstanceProfileArn: String, region: String, customCookbooksSource: Source? = nil, customJson: String? = nil, useCustomCookbooks: Bool? = nil, defaultSshKeyName: String? = nil, agentVersion: String? = nil, name: String, vpcId: String? = nil, attributes: [StackAttributesKeys: String]? = nil, defaultSubnetId: String? = nil, configurationManager: StackConfigurationManager? = nil, defaultAvailabilityZone: String? = nil, hostnameTheme: String? = nil, useOpsworksSecurityGroups: Bool? = nil) {
             self.defaultOs = defaultOs
             self.chefConfiguration = chefConfiguration
             self.serviceRoleArn = serviceRoleArn
@@ -3070,7 +3163,7 @@ extension Opsworks {
             if let chefConfiguration = dictionary["ChefConfiguration"] as? [String: Any] { self.chefConfiguration = try Opsworks.ChefConfiguration(dictionary: chefConfiguration) } else { self.chefConfiguration = nil }
             guard let serviceRoleArn = dictionary["ServiceRoleArn"] as? String else { throw InitializableError.missingRequiredParam("ServiceRoleArn") }
             self.serviceRoleArn = serviceRoleArn
-            self.defaultRootDeviceType = dictionary["DefaultRootDeviceType"] as? String
+            if let defaultRootDeviceType = dictionary["DefaultRootDeviceType"] as? String { self.defaultRootDeviceType = RootDeviceType(rawValue: defaultRootDeviceType) } else { self.defaultRootDeviceType = nil }
             guard let defaultInstanceProfileArn = dictionary["DefaultInstanceProfileArn"] as? String else { throw InitializableError.missingRequiredParam("DefaultInstanceProfileArn") }
             self.defaultInstanceProfileArn = defaultInstanceProfileArn
             guard let region = dictionary["Region"] as? String else { throw InitializableError.missingRequiredParam("Region") }
@@ -3083,7 +3176,7 @@ extension Opsworks {
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
             self.vpcId = dictionary["VpcId"] as? String
-            if let attributes = dictionary["Attributes"] as? [String: String] {
+            if let attributes = dictionary["Attributes"] as? [StackAttributesKeys: String] {
                 self.attributes = attributes
             } else { 
                 self.attributes = nil
@@ -3252,6 +3345,13 @@ extension Opsworks {
             guard let layerIds = dictionary["LayerIds"] as? [String] else { throw InitializableError.missingRequiredParam("LayerIds") }
             self.layerIds = layerIds
         }
+    }
+
+    public enum VolumeType: String, CustomStringConvertible {
+        case gp2 = "gp2"
+        case io1 = "io1"
+        case standard = "standard"
+        public var description: String { return self.rawValue }
     }
 
     public struct RdsDbInstance: AWSShape {
@@ -3609,7 +3709,7 @@ extension Opsworks {
         /// The stack ID.
         public let stackId: String?
         /// The error type.
-        public let type: String?
+        public let `type`: String?
         /// The instance ID.
         public let instanceId: String?
         /// The error ID.
@@ -3619,7 +3719,7 @@ extension Opsworks {
             self.createdAt = createdAt
             self.message = message
             self.stackId = stackId
-            self.type = type
+            self.`type` = `type`
             self.instanceId = instanceId
             self.serviceErrorId = serviceErrorId
         }
@@ -3628,7 +3728,7 @@ extension Opsworks {
             self.createdAt = dictionary["CreatedAt"] as? String
             self.message = dictionary["Message"] as? String
             self.stackId = dictionary["StackId"] as? String
-            self.type = dictionary["Type"] as? String
+            self.`type` = dictionary["Type"] as? String
             self.instanceId = dictionary["InstanceId"] as? String
             self.serviceErrorId = dictionary["ServiceErrorId"] as? String
         }
@@ -3726,20 +3826,20 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The data source's type, AutoSelectOpsworksMysqlInstance, OpsworksMysqlInstance, or RdsDbInstance.
-        public let type: String?
+        public let `type`: String?
         /// The data source's ARN.
         public let arn: String?
         /// The database name.
         public let databaseName: String?
 
         public init(type: String? = nil, arn: String? = nil, databaseName: String? = nil) {
-            self.type = type
+            self.`type` = `type`
             self.arn = arn
             self.databaseName = databaseName
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.type = dictionary["Type"] as? String
+            self.`type` = dictionary["Type"] as? String
             self.arn = dictionary["Arn"] as? String
             self.databaseName = dictionary["DatabaseName"] as? String
         }
@@ -3783,6 +3883,14 @@ extension Opsworks {
         }
     }
 
+    public enum AppAttributesKeys: String, CustomStringConvertible {
+        case documentroot = "DocumentRoot"
+        case railsenv = "RailsEnv"
+        case autobundleondeploy = "AutoBundleOnDeploy"
+        case awsflowrubysettings = "AwsFlowRubySettings"
+        public var description: String { return self.rawValue }
+    }
+
     public struct GetHostnameSuggestionResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -3802,6 +3910,22 @@ extension Opsworks {
         }
     }
 
+    public enum DeploymentCommandName: String, CustomStringConvertible {
+        case install_dependencies = "install_dependencies"
+        case update_dependencies = "update_dependencies"
+        case update_custom_cookbooks = "update_custom_cookbooks"
+        case execute_recipes = "execute_recipes"
+        case configure = "configure"
+        case setup = "setup"
+        case deploy = "deploy"
+        case rollback = "rollback"
+        case start = "start"
+        case stop = "stop"
+        case restart = "restart"
+        case undeploy = "undeploy"
+        public var description: String { return self.rawValue }
+    }
+
     public struct EbsBlockDevice: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -3812,11 +3936,11 @@ extension Opsworks {
         /// Whether the volume is deleted on instance termination.
         public let deleteOnTermination: Bool?
         /// The volume type. gp2 for General Purpose (SSD) volumes, io1 for Provisioned IOPS (SSD) volumes, and standard for Magnetic volumes.
-        public let volumeType: String?
+        public let volumeType: VolumeType?
         /// The number of I/O operations per second (IOPS) that the volume supports. For more information, see EbsBlockDevice.
         public let iops: Int32?
 
-        public init(snapshotId: String? = nil, volumeSize: Int32? = nil, deleteOnTermination: Bool? = nil, volumeType: String? = nil, iops: Int32? = nil) {
+        public init(snapshotId: String? = nil, volumeSize: Int32? = nil, deleteOnTermination: Bool? = nil, volumeType: VolumeType? = nil, iops: Int32? = nil) {
             self.snapshotId = snapshotId
             self.volumeSize = volumeSize
             self.deleteOnTermination = deleteOnTermination
@@ -3828,7 +3952,7 @@ extension Opsworks {
             self.snapshotId = dictionary["SnapshotId"] as? String
             self.volumeSize = dictionary["VolumeSize"] as? Int32
             self.deleteOnTermination = dictionary["DeleteOnTermination"] as? Bool
-            self.volumeType = dictionary["VolumeType"] as? String
+            if let volumeType = dictionary["VolumeType"] as? String { self.volumeType = VolumeType(rawValue: volumeType) } else { self.volumeType = nil }
             self.iops = dictionary["Iops"] as? Int32
         }
     }
@@ -3886,7 +4010,7 @@ extension Opsworks {
         /// Do not use this parameter. You cannot update a stack's service role.
         public let serviceRoleArn: String?
         /// The default root device type. This value is used by default for all instances in the stack, but you can override it when you create an instance. For more information, see Storage for the Root Device.
-        public let defaultRootDeviceType: String?
+        public let defaultRootDeviceType: RootDeviceType?
         /// The ARN of an IAM profile that is the default profile for all of the stack's EC2 instances. For more information about IAM ARNs, see Using Identifiers.
         public let defaultInstanceProfileArn: String?
         public let customCookbooksSource: Source?
@@ -3905,7 +4029,7 @@ extension Opsworks {
         /// The configuration manager. When you update a stack, we recommend that you use the configuration manager to specify the Chef version: 12, 11.10, or 11.4 for Linux stacks, or 12.2 for Windows stacks. The default value for Linux stacks is currently 11.4.
         public let configurationManager: StackConfigurationManager?
         /// One or more user-defined key-value pairs to be added to the stack attributes.
-        public let attributes: [String: String]?
+        public let attributes: [StackAttributesKeys: String]?
         /// The stack's default VPC subnet ID. This parameter is required if you specify a value for the VpcId parameter. All instances are launched into this subnet unless you specify otherwise when you create the instance. If you also specify a value for DefaultAvailabilityZone, the subnet must be in that zone. For information on default values and when this parameter is required, see the VpcId parameter description. 
         public let defaultSubnetId: String?
         /// The stack's new host name theme, with spaces replaced by underscores. The theme is used to generate host names for the stack's instances. By default, HostnameTheme is set to Layer_Dependent, which creates host names by appending integers to the layer's short name. The other themes are:    Baked_Goods     Clouds     Europe_Cities     Fruits     Greek_Deities     Legendary_creatures_from_Japan     Planets_and_Moons     Roman_Deities     Scottish_Islands     US_Cities     Wild_Cats    To obtain a generated host name, call GetHostNameSuggestion, which returns a host name based on the current theme.
@@ -3915,7 +4039,7 @@ extension Opsworks {
         /// Whether to associate the AWS OpsWorks built-in security groups with the stack's layers. AWS OpsWorks provides a standard set of built-in security groups, one for each layer, which are associated with layers by default. UseOpsworksSecurityGroups allows you to provide your own custom security groups instead of using the built-in groups. UseOpsworksSecurityGroups has the following settings:    True - AWS OpsWorks automatically associates the appropriate built-in security group with each layer (default setting). You can associate additional security groups with a layer after you create it, but you cannot delete the built-in security group.   False - AWS OpsWorks does not associate built-in security groups with layers. You must create appropriate EC2 security groups and associate a security group with each layer that you create. However, you can still manually associate a built-in security group with a layer on. Custom security groups are required only for those layers that need custom settings.   For more information, see Create a New Stack.
         public let useOpsworksSecurityGroups: Bool?
 
-        public init(defaultOs: String? = nil, chefConfiguration: ChefConfiguration? = nil, serviceRoleArn: String? = nil, defaultRootDeviceType: String? = nil, defaultInstanceProfileArn: String? = nil, customCookbooksSource: Source? = nil, customJson: String? = nil, useCustomCookbooks: Bool? = nil, defaultSshKeyName: String? = nil, agentVersion: String? = nil, name: String? = nil, stackId: String, configurationManager: StackConfigurationManager? = nil, attributes: [String: String]? = nil, defaultSubnetId: String? = nil, hostnameTheme: String? = nil, defaultAvailabilityZone: String? = nil, useOpsworksSecurityGroups: Bool? = nil) {
+        public init(defaultOs: String? = nil, chefConfiguration: ChefConfiguration? = nil, serviceRoleArn: String? = nil, defaultRootDeviceType: RootDeviceType? = nil, defaultInstanceProfileArn: String? = nil, customCookbooksSource: Source? = nil, customJson: String? = nil, useCustomCookbooks: Bool? = nil, defaultSshKeyName: String? = nil, agentVersion: String? = nil, name: String? = nil, stackId: String, configurationManager: StackConfigurationManager? = nil, attributes: [StackAttributesKeys: String]? = nil, defaultSubnetId: String? = nil, hostnameTheme: String? = nil, defaultAvailabilityZone: String? = nil, useOpsworksSecurityGroups: Bool? = nil) {
             self.defaultOs = defaultOs
             self.chefConfiguration = chefConfiguration
             self.serviceRoleArn = serviceRoleArn
@@ -3940,7 +4064,7 @@ extension Opsworks {
             self.defaultOs = dictionary["DefaultOs"] as? String
             if let chefConfiguration = dictionary["ChefConfiguration"] as? [String: Any] { self.chefConfiguration = try Opsworks.ChefConfiguration(dictionary: chefConfiguration) } else { self.chefConfiguration = nil }
             self.serviceRoleArn = dictionary["ServiceRoleArn"] as? String
-            self.defaultRootDeviceType = dictionary["DefaultRootDeviceType"] as? String
+            if let defaultRootDeviceType = dictionary["DefaultRootDeviceType"] as? String { self.defaultRootDeviceType = RootDeviceType(rawValue: defaultRootDeviceType) } else { self.defaultRootDeviceType = nil }
             self.defaultInstanceProfileArn = dictionary["DefaultInstanceProfileArn"] as? String
             if let customCookbooksSource = dictionary["CustomCookbooksSource"] as? [String: Any] { self.customCookbooksSource = try Opsworks.Source(dictionary: customCookbooksSource) } else { self.customCookbooksSource = nil }
             self.customJson = dictionary["CustomJson"] as? String
@@ -3951,7 +4075,7 @@ extension Opsworks {
             guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
             self.stackId = stackId
             if let configurationManager = dictionary["ConfigurationManager"] as? [String: Any] { self.configurationManager = try Opsworks.StackConfigurationManager(dictionary: configurationManager) } else { self.configurationManager = nil }
-            if let attributes = dictionary["Attributes"] as? [String: String] {
+            if let attributes = dictionary["Attributes"] as? [StackAttributesKeys: String] {
                 self.attributes = attributes
             } else { 
                 self.attributes = nil

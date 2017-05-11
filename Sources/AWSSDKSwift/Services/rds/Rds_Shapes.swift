@@ -952,7 +952,7 @@ extension Rds {
         ///  An optional pagination token provided by a previous DescribeEvents request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         /// The event source to retrieve events for. If no value is specified, all events are returned.
-        public let sourceType: String?
+        public let sourceType: SourceType?
         /// A list of event categories that trigger notifications for a event notification subscription.
         public let eventCategories: EventCategoriesList?
         ///  The end of the time interval for which to retrieve events, specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2009-07-08T18:00Z
@@ -964,7 +964,7 @@ extension Rds {
         /// The number of minutes to retrieve events for. Default: 60
         public let duration: Int32?
 
-        public init(startTime: Date? = nil, maxRecords: Int32? = nil, marker: String? = nil, sourceType: String? = nil, eventCategories: EventCategoriesList? = nil, endTime: Date? = nil, filters: FilterList? = nil, sourceIdentifier: String? = nil, duration: Int32? = nil) {
+        public init(startTime: Date? = nil, maxRecords: Int32? = nil, marker: String? = nil, sourceType: SourceType? = nil, eventCategories: EventCategoriesList? = nil, endTime: Date? = nil, filters: FilterList? = nil, sourceIdentifier: String? = nil, duration: Int32? = nil) {
             self.startTime = startTime
             self.maxRecords = maxRecords
             self.marker = marker
@@ -980,7 +980,7 @@ extension Rds {
             self.startTime = dictionary["StartTime"] as? Date
             self.maxRecords = dictionary["MaxRecords"] as? Int32
             self.marker = dictionary["Marker"] as? String
-            self.sourceType = dictionary["SourceType"] as? String
+            if let sourceType = dictionary["SourceType"] as? String { self.sourceType = SourceType(rawValue: sourceType) } else { self.sourceType = nil }
             if let eventCategories = dictionary["EventCategories"] as? [String: Any] { self.eventCategories = try Rds.EventCategoriesList(dictionary: eventCategories) } else { self.eventCategories = nil }
             self.endTime = dictionary["EndTime"] as? Date
             if let filters = dictionary["Filters"] as? [String: Any] { self.filters = try Rds.FilterList(dictionary: filters) } else { self.filters = nil }
@@ -1686,11 +1686,11 @@ extension Rds {
         /// The earliest engine version to which the parameter can apply.
         public let minimumEngineVersion: String?
         /// Indicates when to apply parameter updates.
-        public let applyMethod: String?
+        public let applyMethod: ApplyMethod?
         /// Provides a description of the parameter.
         public let description: String?
 
-        public init(parameterValue: String? = nil, allowedValues: String? = nil, dataType: String? = nil, parameterName: String? = nil, applyType: String? = nil, source: String? = nil, isModifiable: Bool? = nil, minimumEngineVersion: String? = nil, applyMethod: String? = nil, description: String? = nil) {
+        public init(parameterValue: String? = nil, allowedValues: String? = nil, dataType: String? = nil, parameterName: String? = nil, applyType: String? = nil, source: String? = nil, isModifiable: Bool? = nil, minimumEngineVersion: String? = nil, applyMethod: ApplyMethod? = nil, description: String? = nil) {
             self.parameterValue = parameterValue
             self.allowedValues = allowedValues
             self.dataType = dataType
@@ -1712,7 +1712,7 @@ extension Rds {
             self.source = dictionary["Source"] as? String
             self.isModifiable = dictionary["IsModifiable"] as? Bool
             self.minimumEngineVersion = dictionary["MinimumEngineVersion"] as? String
-            self.applyMethod = dictionary["ApplyMethod"] as? String
+            if let applyMethod = dictionary["ApplyMethod"] as? String { self.applyMethod = ApplyMethod(rawValue: applyMethod) } else { self.applyMethod = nil }
             self.description = dictionary["Description"] as? String
         }
     }
@@ -2098,7 +2098,7 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the source type for this event.
-        public let sourceType: String?
+        public let sourceType: SourceType?
         /// Provides the text of this event.
         public let message: String?
         /// Provides the identifier for the source of the event.
@@ -2110,7 +2110,7 @@ extension Rds {
         /// The Amazon Resource Name (ARN) for the event.
         public let sourceArn: String?
 
-        public init(sourceType: String? = nil, message: String? = nil, sourceIdentifier: String? = nil, date: Date? = nil, eventCategories: EventCategoriesList? = nil, sourceArn: String? = nil) {
+        public init(sourceType: SourceType? = nil, message: String? = nil, sourceIdentifier: String? = nil, date: Date? = nil, eventCategories: EventCategoriesList? = nil, sourceArn: String? = nil) {
             self.sourceType = sourceType
             self.message = message
             self.sourceIdentifier = sourceIdentifier
@@ -2120,7 +2120,7 @@ extension Rds {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.sourceType = dictionary["SourceType"] as? String
+            if let sourceType = dictionary["SourceType"] as? String { self.sourceType = SourceType(rawValue: sourceType) } else { self.sourceType = nil }
             self.message = dictionary["Message"] as? String
             self.sourceIdentifier = dictionary["SourceIdentifier"] as? String
             self.date = dictionary["Date"] as? Date
@@ -4461,6 +4461,16 @@ extension Rds {
         }
     }
 
+    public enum SourceType: String, CustomStringConvertible {
+        case db_instance = "db-instance"
+        case db_parameter_group = "db-parameter-group"
+        case db_security_group = "db-security-group"
+        case db_snapshot = "db-snapshot"
+        case db_cluster = "db-cluster"
+        case db_cluster_snapshot = "db-cluster-snapshot"
+        public var description: String { return self.rawValue }
+    }
+
     public struct CreateDBSecurityGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -4518,6 +4528,12 @@ extension Rds {
             self.applyType = dictionary["ApplyType"] as? String
             self.settingDescription = dictionary["SettingDescription"] as? String
         }
+    }
+
+    public enum ApplyMethod: String, CustomStringConvertible {
+        case immediate = "immediate"
+        case pending_reboot = "pending-reboot"
+        public var description: String { return self.rawValue }
     }
 
     public struct DBSecurityGroupNameList: AWSShape {

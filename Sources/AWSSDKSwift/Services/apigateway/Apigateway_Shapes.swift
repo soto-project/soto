@@ -29,6 +29,18 @@ import Core
 
 extension Apigateway {
 
+    public enum CacheClusterSize: String, CustomStringConvertible {
+        case _0_5 = "0.5"
+        case _1_6 = "1.6"
+        case _6_1 = "6.1"
+        case _13_5 = "13.5"
+        case _28_4 = "28.4"
+        case _58_2 = "58.2"
+        case _118 = "118"
+        case _237 = "237"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DeleteApiKeyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -60,7 +72,7 @@ extension Apigateway {
         /// The identifier of the RestApi to be updated. 
         public let restApiId: String
         /// The mode query parameter to specify the update mode. Valid values are "merge" and "overwrite". By default, the update mode is "merge".
-        public let mode: String?
+        public let mode: PutMode?
         /// A query parameter to indicate whether to rollback the API update (true) or not (false) when a warning is encountered. The default value is false.
         public let failOnWarnings: Bool?
         /// The PUT request body containing external API definitions. Currently, only Swagger definition JSON files are supported.
@@ -68,7 +80,7 @@ extension Apigateway {
         /// Custom headers supplied as part of the request. 
         public let parameters: [String: String]?
 
-        public init(restApiId: String, mode: String? = nil, failOnWarnings: Bool? = nil, body: Data, parameters: [String: String]? = nil) {
+        public init(restApiId: String, mode: PutMode? = nil, failOnWarnings: Bool? = nil, body: Data, parameters: [String: String]? = nil) {
             self.restApiId = restApiId
             self.mode = mode
             self.failOnWarnings = failOnWarnings
@@ -79,7 +91,7 @@ extension Apigateway {
         public init(dictionary: [String: Any]) throws {
             guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
-            self.mode = dictionary["Mode"] as? String
+            if let mode = dictionary["Mode"] as? String { self.mode = PutMode(rawValue: mode) } else { self.mode = nil }
             self.failOnWarnings = dictionary["Failonwarnings"] as? Bool
             guard let body = dictionary["body"] as? Data else { throw InitializableError.missingRequiredParam("body") }
             self.body = body
@@ -89,6 +101,18 @@ extension Apigateway {
                 self.parameters = nil
             }
         }
+    }
+
+    public enum ApiKeysFormat: String, CustomStringConvertible {
+        case csv = "csv"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QuotaPeriodType: String, CustomStringConvertible {
+        case day = "DAY"
+        case week = "WEEK"
+        case month = "MONTH"
+        public var description: String { return self.rawValue }
     }
 
     public struct DeleteDomainNameRequest: AWSShape {
@@ -750,6 +774,15 @@ extension Apigateway {
         }
     }
 
+    public enum CacheClusterStatus: String, CustomStringConvertible {
+        case create_in_progress = "CREATE_IN_PROGRESS"
+        case available = "AVAILABLE"
+        case delete_in_progress = "DELETE_IN_PROGRESS"
+        case not_available = "NOT_AVAILABLE"
+        case flush_in_progress = "FLUSH_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
     public struct CreateDomainNameRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -811,9 +844,9 @@ extension Apigateway {
         /// The version of the associated API documentation.
         public let documentationVersion: String?
         /// The status of the cache cluster for the stage, if enabled.
-        public let cacheClusterStatus: String?
+        public let cacheClusterStatus: CacheClusterStatus?
         /// The size of the cache cluster for the stage, if enabled.
-        public let cacheClusterSize: String?
+        public let cacheClusterSize: CacheClusterSize?
         /// A map that defines the stage variables for a Stage resource. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+.
         public let variables: [String: String]?
         /// The timestamp when the stage was created.
@@ -833,7 +866,7 @@ extension Apigateway {
         /// Specifies whether a cache cluster is enabled for the stage.
         public let cacheClusterEnabled: Bool?
 
-        public init(documentationVersion: String? = nil, cacheClusterStatus: String? = nil, cacheClusterSize: String? = nil, variables: [String: String]? = nil, createdDate: Date? = nil, description: String? = nil, deploymentId: String? = nil, clientCertificateId: String? = nil, methodSettings: [String: MethodSetting]? = nil, lastUpdatedDate: Date? = nil, stageName: String? = nil, cacheClusterEnabled: Bool? = nil) {
+        public init(documentationVersion: String? = nil, cacheClusterStatus: CacheClusterStatus? = nil, cacheClusterSize: CacheClusterSize? = nil, variables: [String: String]? = nil, createdDate: Date? = nil, description: String? = nil, deploymentId: String? = nil, clientCertificateId: String? = nil, methodSettings: [String: MethodSetting]? = nil, lastUpdatedDate: Date? = nil, stageName: String? = nil, cacheClusterEnabled: Bool? = nil) {
             self.documentationVersion = documentationVersion
             self.cacheClusterStatus = cacheClusterStatus
             self.cacheClusterSize = cacheClusterSize
@@ -850,8 +883,8 @@ extension Apigateway {
 
         public init(dictionary: [String: Any]) throws {
             self.documentationVersion = dictionary["documentationVersion"] as? String
-            self.cacheClusterStatus = dictionary["cacheClusterStatus"] as? String
-            self.cacheClusterSize = dictionary["cacheClusterSize"] as? String
+            if let cacheClusterStatus = dictionary["cacheClusterStatus"] as? String { self.cacheClusterStatus = CacheClusterStatus(rawValue: cacheClusterStatus) } else { self.cacheClusterStatus = nil }
+            if let cacheClusterSize = dictionary["cacheClusterSize"] as? String { self.cacheClusterSize = CacheClusterSize(rawValue: cacheClusterSize) } else { self.cacheClusterSize = nil }
             if let variables = dictionary["variables"] as? [String: String] {
                 self.variables = variables
             } else { 
@@ -904,6 +937,13 @@ extension Apigateway {
             guard let resourceId = dictionary["Resource_id"] as? String else { throw InitializableError.missingRequiredParam("Resource_id") }
             self.resourceId = resourceId
         }
+    }
+
+    public enum UnauthorizedCacheControlHeaderStrategy: String, CustomStringConvertible {
+        case fail_with_403 = "FAIL_WITH_403"
+        case succeed_with_response_header = "SUCCEED_WITH_RESPONSE_HEADER"
+        case succeed_without_response_header = "SUCCEED_WITHOUT_RESPONSE_HEADER"
+        public var description: String { return self.rawValue }
     }
 
     public struct UsagePlans: AWSShape {
@@ -1134,9 +1174,9 @@ extension Apigateway {
         /// The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {"name":"value"}, the path for this property is /name. If the name property value is a JSON object (e.g., {"name": {"child/name": "child-value"}}), the path for the child/name property will be /name/child~1name. Any slash ("/") character appearing in path names must be escaped with "~1", as shown in the example above. Each op operation can have only one path associated with it.
         public let path: String?
         /// An update operation to be performed with this PATCH request. The valid value can be "add", "remove", or "replace". Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
-        public let op: String?
+        public let op: Op?
 
-        public init(from: String? = nil, value: String? = nil, path: String? = nil, op: String? = nil) {
+        public init(from: String? = nil, value: String? = nil, path: String? = nil, op: Op? = nil) {
             self.from = from
             self.value = value
             self.path = path
@@ -1147,7 +1187,7 @@ extension Apigateway {
             self.from = dictionary["from"] as? String
             self.value = dictionary["value"] as? String
             self.path = dictionary["path"] as? String
-            self.op = dictionary["op"] as? String
+            if let op = dictionary["op"] as? String { self.op = Op(rawValue: op) } else { self.op = nil }
         }
     }
 
@@ -1419,6 +1459,16 @@ extension Apigateway {
         }
     }
 
+    public enum Op: String, CustomStringConvertible {
+        case add = "add"
+        case remove = "remove"
+        case replace = "replace"
+        case move = "move"
+        case copy = "copy"
+        case test = "test"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ExportResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "body"
@@ -1564,7 +1614,7 @@ extension Apigateway {
         /// A map that defines the stage variables for the new Stage resource. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+.
         public let variables: [String: String]?
         /// The stage's cache cluster size.
-        public let cacheClusterSize: String?
+        public let cacheClusterSize: CacheClusterSize?
         /// The identifier of the Deployment resource for the Stage resource.
         public let deploymentId: String
         /// The identifier of the RestApi resource for the Stage resource to create.
@@ -1576,7 +1626,7 @@ extension Apigateway {
         /// Whether cache clustering is enabled for the stage.
         public let cacheClusterEnabled: Bool?
 
-        public init(documentationVersion: String? = nil, variables: [String: String]? = nil, cacheClusterSize: String? = nil, deploymentId: String, restApiId: String, stageName: String, description: String? = nil, cacheClusterEnabled: Bool? = nil) {
+        public init(documentationVersion: String? = nil, variables: [String: String]? = nil, cacheClusterSize: CacheClusterSize? = nil, deploymentId: String, restApiId: String, stageName: String, description: String? = nil, cacheClusterEnabled: Bool? = nil) {
             self.documentationVersion = documentationVersion
             self.variables = variables
             self.cacheClusterSize = cacheClusterSize
@@ -1594,7 +1644,7 @@ extension Apigateway {
             } else { 
                 self.variables = nil
             }
-            self.cacheClusterSize = dictionary["cacheClusterSize"] as? String
+            if let cacheClusterSize = dictionary["cacheClusterSize"] as? String { self.cacheClusterSize = CacheClusterSize(rawValue: cacheClusterSize) } else { self.cacheClusterSize = nil }
             guard let deploymentId = dictionary["deploymentId"] as? String else { throw InitializableError.missingRequiredParam("deploymentId") }
             self.deploymentId = deploymentId
             guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
@@ -1634,11 +1684,11 @@ extension Apigateway {
         /// The payload of the POST request to import API keys. For the payload format, see API Key File Format.
         public let body: Data
         /// A query parameter to specify the input format to imported API keys. Currently, only the csv format is supported.
-        public let format: String
+        public let format: ApiKeysFormat
         /// A query parameter to indicate whether to rollback ApiKey importation (true) or not (false) when error is encountered.
         public let failOnWarnings: Bool?
 
-        public init(body: Data, format: String, failOnWarnings: Bool? = nil) {
+        public init(body: Data, format: ApiKeysFormat, failOnWarnings: Bool? = nil) {
             self.body = body
             self.format = format
             self.failOnWarnings = failOnWarnings
@@ -1647,7 +1697,7 @@ extension Apigateway {
         public init(dictionary: [String: Any]) throws {
             guard let body = dictionary["body"] as? Data else { throw InitializableError.missingRequiredParam("body") }
             self.body = body
-            guard let format = dictionary["Format"] as? String else { throw InitializableError.missingRequiredParam("Format") }
+            guard let rawformat = dictionary["Format"] as? String, let format = ApiKeysFormat(rawValue: rawformat) else { throw InitializableError.missingRequiredParam("Format") }
             self.format = format
             self.failOnWarnings = dictionary["Failonwarnings"] as? Bool
         }
@@ -1673,11 +1723,11 @@ extension Apigateway {
         /// Specifies the logging level for this method, which effects the log entries pushed to Amazon CloudWatch Logs. The PATCH path for this setting is /{method_setting_key}/logging/loglevel, and the available levels are OFF, ERROR, and INFO.
         public let loggingLevel: String?
         /// Specifies how to handle unauthorized requests for cache invalidation. The PATCH path for this setting is /{method_setting_key}/caching/unauthorizedCacheControlHeaderStrategy, and the available values are FAIL_WITH_403, SUCCEED_WITH_RESPONSE_HEADER, SUCCEED_WITHOUT_RESPONSE_HEADER.
-        public let unauthorizedCacheControlHeaderStrategy: String?
+        public let unauthorizedCacheControlHeaderStrategy: UnauthorizedCacheControlHeaderStrategy?
         /// Specifies whether authorization is required for a cache invalidation request. The PATCH path for this setting is /{method_setting_key}/caching/requireAuthorizationForCacheControl, and the value is a Boolean.
         public let requireAuthorizationForCacheControl: Bool?
 
-        public init(dataTraceEnabled: Bool? = nil, metricsEnabled: Bool? = nil, cacheDataEncrypted: Bool? = nil, cachingEnabled: Bool? = nil, cacheTtlInSeconds: Int32? = nil, throttlingBurstLimit: Int32? = nil, throttlingRateLimit: Double? = nil, loggingLevel: String? = nil, unauthorizedCacheControlHeaderStrategy: String? = nil, requireAuthorizationForCacheControl: Bool? = nil) {
+        public init(dataTraceEnabled: Bool? = nil, metricsEnabled: Bool? = nil, cacheDataEncrypted: Bool? = nil, cachingEnabled: Bool? = nil, cacheTtlInSeconds: Int32? = nil, throttlingBurstLimit: Int32? = nil, throttlingRateLimit: Double? = nil, loggingLevel: String? = nil, unauthorizedCacheControlHeaderStrategy: UnauthorizedCacheControlHeaderStrategy? = nil, requireAuthorizationForCacheControl: Bool? = nil) {
             self.dataTraceEnabled = dataTraceEnabled
             self.metricsEnabled = metricsEnabled
             self.cacheDataEncrypted = cacheDataEncrypted
@@ -1699,7 +1749,7 @@ extension Apigateway {
             self.throttlingBurstLimit = dictionary["throttlingBurstLimit"] as? Int32
             self.throttlingRateLimit = dictionary["throttlingRateLimit"] as? Double
             self.loggingLevel = dictionary["loggingLevel"] as? String
-            self.unauthorizedCacheControlHeaderStrategy = dictionary["unauthorizedCacheControlHeaderStrategy"] as? String
+            if let unauthorizedCacheControlHeaderStrategy = dictionary["unauthorizedCacheControlHeaderStrategy"] as? String { self.unauthorizedCacheControlHeaderStrategy = UnauthorizedCacheControlHeaderStrategy(rawValue: unauthorizedCacheControlHeaderStrategy) } else { self.unauthorizedCacheControlHeaderStrategy = nil }
             self.requireAuthorizationForCacheControl = dictionary["requireAuthorizationForCacheControl"] as? Bool
         }
     }
@@ -1827,14 +1877,14 @@ extension Apigateway {
         /// The HTTP status code of a response. It is a valid field for the API entity types of RESPONSE, RESPONSE_HEADER, and RESPONSE_BODY. The default value is * for any status code. When an applicable child entity inherits the content of an entity of the same type with more general specifications of the other location attributes, the child entity's statusCode attribute must match that of the parent entity exactly.
         public let statusCode: String?
         /// The type of API entity to which the documentation content applies. It is a valid and required field for API entity types of API, AUTHORIZER, MODEL, RESOURCE, METHOD, PATH_PARAMETER, QUERY_PARAMETER, REQUEST_HEADER, REQUEST_BODY, RESPONSE, RESPONSE_HEADER, and RESPONSE_BODY. Content inheritance does not apply to any entity of the API, AUTHROZER, METHOD, MODEL, REQUEST_BODY, or RESOURCE type.
-        public let type: String
+        public let `type`: DocumentationPartType
 
-        public init(name: String? = nil, method: String? = nil, path: String? = nil, statusCode: String? = nil, type: String) {
+        public init(name: String? = nil, method: String? = nil, path: String? = nil, statusCode: String? = nil, type: DocumentationPartType) {
             self.name = name
             self.method = method
             self.path = path
             self.statusCode = statusCode
-            self.type = type
+            self.`type` = `type`
         }
 
         public init(dictionary: [String: Any]) throws {
@@ -1842,8 +1892,8 @@ extension Apigateway {
             self.method = dictionary["method"] as? String
             self.path = dictionary["path"] as? String
             self.statusCode = dictionary["statusCode"] as? String
-            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
-            self.type = type
+            guard let rawtype = dictionary["type"] as? String, let `type` = DocumentationPartType(rawValue: rawtype) else { throw InitializableError.missingRequiredParam("type") }
+            self.`type` = `type`
         }
     }
 
@@ -2046,13 +2096,13 @@ extension Apigateway {
         /// A key-value map specifying response parameters that are passed to the method response from the back end. The key is a method response header parameter name and the mapped value is an integration response header value, a static value enclosed within a pair of single quotes, or a JSON expression from the integration response body. The mapping key must match the pattern of method.response.header.{name}, where name is a valid and unique header name. The mapped non-static value must match the pattern of integration.response.header.{name} or integration.response.body.{JSON-expression}, where name must be a valid and unique response header name and JSON-expression a valid JSON expression without the $ prefix.
         public let responseParameters: [String: String]?
         /// Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  CONVERT_TO_BINARY: Converts a response payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a response payload from a binary blob to a Base64-encoded string.  If this property is not defined, the response payload will be passed through from the integration response to the method response without modification.
-        public let contentHandling: String?
+        public let contentHandling: ContentHandlingStrategy?
         /// Specifies a put integration response request's resource identifier.
         public let resourceId: String
         /// Specifies the selection pattern of a put integration response.
         public let selectionPattern: String?
 
-        public init(statusCode: String, httpMethod: String, restApiId: String, responseTemplates: [String: String]? = nil, responseParameters: [String: String]? = nil, contentHandling: String? = nil, resourceId: String, selectionPattern: String? = nil) {
+        public init(statusCode: String, httpMethod: String, restApiId: String, responseTemplates: [String: String]? = nil, responseParameters: [String: String]? = nil, contentHandling: ContentHandlingStrategy? = nil, resourceId: String, selectionPattern: String? = nil) {
             self.statusCode = statusCode
             self.httpMethod = httpMethod
             self.restApiId = restApiId
@@ -2080,7 +2130,7 @@ extension Apigateway {
             } else { 
                 self.responseParameters = nil
             }
-            self.contentHandling = dictionary["contentHandling"] as? String
+            if let contentHandling = dictionary["contentHandling"] as? String { self.contentHandling = ContentHandlingStrategy(rawValue: contentHandling) } else { self.contentHandling = nil }
             guard let resourceId = dictionary["Resource_id"] as? String else { throw InitializableError.missingRequiredParam("Resource_id") }
             self.resourceId = resourceId
             self.selectionPattern = dictionary["selectionPattern"] as? String
@@ -2417,15 +2467,15 @@ extension Apigateway {
         /// Represents a map of Velocity templates that are applied on the request payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value.
         public let requestTemplates: [String: String]?
         /// Specifies how to handle request payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  CONVERT_TO_BINARY: Converts a request payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a request payload from a binary blob to a Base64-encoded string.  If this property is not defined, the request payload will be passed through from the method request to integration request without modification, provided that the passthroughBehaviors is configured to support payload pass-through.
-        public let contentHandling: String?
+        public let contentHandling: ContentHandlingStrategy?
         /// Specifies the credentials required for the integration, if any. For AWS integrations, three options are available. To specify an IAM Role for Amazon API Gateway to assume, use the role's Amazon Resource Name (ARN). To require that the caller's identity be passed through from the request, specify the string arn:aws:iam::\*:user/\*. To use resource-based permissions on supported AWS services, specify null.
         public let credentials: String?
         /// Specifies the integration's type. The valid value is HTTP for integrating with an HTTP back end, AWS for any AWS service endpoints, MOCK for testing without actually invoking the back end, HTTP_PROXY for integrating with the HTTP proxy integration, or AWS_PROXY for integrating with the Lambda proxy integration type.
-        public let type: String?
+        public let `type`: IntegrationType?
         ///   Specifies how the method request body of an unmapped content type will be passed through the integration request to the back end without transformation. A content type is unmapped if no mapping template is defined in the integration or the content type does not match any of the mapped content types, as specified in requestTemplates. There are three valid values: WHEN_NO_MATCH, WHEN_NO_TEMPLATES, and NEVER.    WHEN_NO_MATCH passes the method request body through the integration request to the back end without transformation when the method request content type does not match any content type associated with the mapping templates defined in the integration request.   WHEN_NO_TEMPLATES passes the method request body through the integration request to the back end without transformation when no mapping template is defined in the integration request. If a template is defined when this option is selected, the method request of an unmapped content-type will be rejected with an HTTP 415 Unsupported Media Type response.   NEVER rejects the method request with an HTTP 415 Unsupported Media Type response when either the method request content type does not match any content type associated with the mapping templates defined in the integration request or no mapping template is defined in the integration request.   
         public let passthroughBehavior: String?
 
-        public init(integrationResponses: [String: IntegrationResponse]? = nil, cacheNamespace: String? = nil, uri: String? = nil, requestParameters: [String: String]? = nil, httpMethod: String? = nil, cacheKeyParameters: [String]? = nil, requestTemplates: [String: String]? = nil, contentHandling: String? = nil, credentials: String? = nil, type: String? = nil, passthroughBehavior: String? = nil) {
+        public init(integrationResponses: [String: IntegrationResponse]? = nil, cacheNamespace: String? = nil, uri: String? = nil, requestParameters: [String: String]? = nil, httpMethod: String? = nil, cacheKeyParameters: [String]? = nil, requestTemplates: [String: String]? = nil, contentHandling: ContentHandlingStrategy? = nil, credentials: String? = nil, type: IntegrationType? = nil, passthroughBehavior: String? = nil) {
             self.integrationResponses = integrationResponses
             self.cacheNamespace = cacheNamespace
             self.uri = uri
@@ -2435,7 +2485,7 @@ extension Apigateway {
             self.requestTemplates = requestTemplates
             self.contentHandling = contentHandling
             self.credentials = credentials
-            self.type = type
+            self.`type` = `type`
             self.passthroughBehavior = passthroughBehavior
         }
 
@@ -2464,9 +2514,9 @@ extension Apigateway {
             } else { 
                 self.requestTemplates = nil
             }
-            self.contentHandling = dictionary["contentHandling"] as? String
+            if let contentHandling = dictionary["contentHandling"] as? String { self.contentHandling = ContentHandlingStrategy(rawValue: contentHandling) } else { self.contentHandling = nil }
             self.credentials = dictionary["credentials"] as? String
-            self.type = dictionary["type"] as? String
+            if let `type` = dictionary["type"] as? String { self.`type` = IntegrationType(rawValue: `type`) } else { self.`type` = nil }
             self.passthroughBehavior = dictionary["passthroughBehavior"] as? String
         }
     }
@@ -2553,13 +2603,13 @@ extension Apigateway {
         /// [Required] The identifier of an API of the to-be-imported documentation parts.
         public let restApiId: String
         /// A query parameter to indicate whether to overwrite (OVERWRITE) any existing DocumentationParts definition or to merge (MERGE) the new definition into the existing one. The default value is MERGE.
-        public let mode: String?
+        public let mode: PutMode?
         /// A query parameter to specify whether to rollback the documentation importation (true) or not (false) when a warning is encountered. The default value is false.
         public let failOnWarnings: Bool?
         /// [Required] Raw byte array representing the to-be-imported documentation parts. To import from a Swagger file, this is a JSON object.
         public let body: Data
 
-        public init(restApiId: String, mode: String? = nil, failOnWarnings: Bool? = nil, body: Data) {
+        public init(restApiId: String, mode: PutMode? = nil, failOnWarnings: Bool? = nil, body: Data) {
             self.restApiId = restApiId
             self.mode = mode
             self.failOnWarnings = failOnWarnings
@@ -2569,7 +2619,7 @@ extension Apigateway {
         public init(dictionary: [String: Any]) throws {
             guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
-            self.mode = dictionary["Mode"] as? String
+            if let mode = dictionary["Mode"] as? String { self.mode = PutMode(rawValue: mode) } else { self.mode = nil }
             self.failOnWarnings = dictionary["Failonwarnings"] as? Bool
             guard let body = dictionary["body"] as? Data else { throw InitializableError.missingRequiredParam("body") }
             self.body = body
@@ -3018,6 +3068,15 @@ extension Apigateway {
         }
     }
 
+    public enum IntegrationType: String, CustomStringConvertible {
+        case http = "HTTP"
+        case aws = "AWS"
+        case mock = "MOCK"
+        case http_proxy = "HTTP_PROXY"
+        case aws_proxy = "AWS_PROXY"
+        public var description: String { return self.rawValue }
+    }
+
     public struct GetMethodResponseRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -3072,15 +3131,15 @@ extension Apigateway {
         /// The name of API entities of the to-be-retrieved documentation parts.
         public let nameQuery: String?
         /// The type of API entities of the to-be-retrieved documentation parts. 
-        public let type: String?
+        public let `type`: DocumentationPartType?
 
-        public init(position: String? = nil, restApiId: String, limit: Int32? = nil, path: String? = nil, nameQuery: String? = nil, type: String? = nil) {
+        public init(position: String? = nil, restApiId: String, limit: Int32? = nil, path: String? = nil, nameQuery: String? = nil, type: DocumentationPartType? = nil) {
             self.position = position
             self.restApiId = restApiId
             self.limit = limit
             self.path = path
             self.nameQuery = nameQuery
-            self.type = type
+            self.`type` = `type`
         }
 
         public init(dictionary: [String: Any]) throws {
@@ -3090,7 +3149,7 @@ extension Apigateway {
             self.limit = dictionary["Limit"] as? Int32
             self.path = dictionary["Path"] as? String
             self.nameQuery = dictionary["Name"] as? String
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = DocumentationPartType(rawValue: `type`) } else { self.`type` = nil }
         }
     }
 
@@ -3172,6 +3231,22 @@ extension Apigateway {
             }
             self.position = dictionary["position"] as? String
         }
+    }
+
+    public enum DocumentationPartType: String, CustomStringConvertible {
+        case api = "API"
+        case authorizer = "AUTHORIZER"
+        case model = "MODEL"
+        case resource = "RESOURCE"
+        case method = "METHOD"
+        case path_parameter = "PATH_PARAMETER"
+        case query_parameter = "QUERY_PARAMETER"
+        case request_header = "REQUEST_HEADER"
+        case request_body = "REQUEST_BODY"
+        case response = "RESPONSE"
+        case response_header = "RESPONSE_HEADER"
+        case response_body = "RESPONSE_BODY"
+        public var description: String { return self.rawValue }
     }
 
     public struct PutMethodResponseRequest: AWSShape {
@@ -3342,7 +3417,7 @@ extension Apigateway {
         /// Specifies the templates used to transform the integration response body. Response templates are represented as a key/value map, with a content-type as the key and a template as the value.
         public let responseTemplates: [String: String]?
         /// Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  CONVERT_TO_BINARY: Converts a response payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a response payload from a binary blob to a Base64-encoded string.  If this property is not defined, the response payload will be passed through from the integration response to the method response without modification.
-        public let contentHandling: String?
+        public let contentHandling: ContentHandlingStrategy?
         /// Specifies the status code that is used to map the integration response to an existing MethodResponse.
         public let statusCode: String?
         /// A key-value map specifying response parameters that are passed to the method response from the back end. The key is a method response header parameter name and the mapped value is an integration response header value, a static value enclosed within a pair of single quotes, or a JSON expression from the integration response body. The mapping key must match the pattern of method.response.header.{name}, where name is a valid and unique header name. The mapped non-static value must match the pattern of integration.response.header.{name} or integration.response.body.{JSON-expression}, where name is a valid and unique response header name and JSON-expression is a valid JSON expression without the $ prefix.
@@ -3350,7 +3425,7 @@ extension Apigateway {
         /// Specifies the regular expression (regex) pattern used to choose an integration response based on the response from the back end. For example, if the success response returns nothing and the error response returns some string, you could use the .+ regex to match error response. However, make sure that the error response does not contain any newline (\n) character in such cases. If the back end is an AWS Lambda function, the AWS Lambda function error header is matched. For all other HTTP and AWS back ends, the HTTP status code is matched.
         public let selectionPattern: String?
 
-        public init(responseTemplates: [String: String]? = nil, contentHandling: String? = nil, statusCode: String? = nil, responseParameters: [String: String]? = nil, selectionPattern: String? = nil) {
+        public init(responseTemplates: [String: String]? = nil, contentHandling: ContentHandlingStrategy? = nil, statusCode: String? = nil, responseParameters: [String: String]? = nil, selectionPattern: String? = nil) {
             self.responseTemplates = responseTemplates
             self.contentHandling = contentHandling
             self.statusCode = statusCode
@@ -3364,7 +3439,7 @@ extension Apigateway {
             } else { 
                 self.responseTemplates = nil
             }
-            self.contentHandling = dictionary["contentHandling"] as? String
+            if let contentHandling = dictionary["contentHandling"] as? String { self.contentHandling = ContentHandlingStrategy(rawValue: contentHandling) } else { self.contentHandling = nil }
             self.statusCode = dictionary["statusCode"] as? String
             if let responseParameters = dictionary["responseParameters"] as? [String: String] {
                 self.responseParameters = responseParameters
@@ -3427,9 +3502,9 @@ extension Apigateway {
         /// A list of the Cognito Your User Pool authorizer's provider ARNs.
         public let providerARNs: [String]?
         /// [Required] The type of the authorizer.
-        public let type: String
+        public let `type`: AuthorizerType
 
-        public init(name: String, identityValidationExpression: String? = nil, authorizerResultTtlInSeconds: Int32? = nil, authorizerUri: String? = nil, authorizerCredentials: String? = nil, restApiId: String, identitySource: String, authType: String? = nil, providerARNs: [String]? = nil, type: String) {
+        public init(name: String, identityValidationExpression: String? = nil, authorizerResultTtlInSeconds: Int32? = nil, authorizerUri: String? = nil, authorizerCredentials: String? = nil, restApiId: String, identitySource: String, authType: String? = nil, providerARNs: [String]? = nil, type: AuthorizerType) {
             self.name = name
             self.identityValidationExpression = identityValidationExpression
             self.authorizerResultTtlInSeconds = authorizerResultTtlInSeconds
@@ -3439,7 +3514,7 @@ extension Apigateway {
             self.identitySource = identitySource
             self.authType = authType
             self.providerARNs = providerARNs
-            self.type = type
+            self.`type` = `type`
         }
 
         public init(dictionary: [String: Any]) throws {
@@ -3455,8 +3530,8 @@ extension Apigateway {
             self.identitySource = identitySource
             self.authType = dictionary["authType"] as? String
             self.providerARNs = dictionary["providerARNs"] as? [String]
-            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
-            self.type = type
+            guard let rawtype = dictionary["type"] as? String, let `type` = AuthorizerType(rawValue: rawtype) else { throw InitializableError.missingRequiredParam("type") }
+            self.`type` = `type`
         }
     }
 
@@ -3686,9 +3761,9 @@ extension Apigateway {
         /// A list of the provider ARNs of the authorizer. For an TOKEN authorizer, this is not defined. For authorizers of the COGNITO_USER_POOLS type, each element corresponds to a user pool ARN of this format: arn:aws:cognito-idp:{region}:{account_id}:userpool/{user_pool_id}. 
         public let providerARNs: [String]?
         /// [Required] The type of the authorizer. Currently, the valid type is TOKEN for a Lambda function or COGNITO_USER_POOLS for an Amazon Cognito user pool.
-        public let type: String?
+        public let `type`: AuthorizerType?
 
-        public init(name: String? = nil, id: String? = nil, identityValidationExpression: String? = nil, authorizerResultTtlInSeconds: Int32? = nil, authorizerUri: String? = nil, authorizerCredentials: String? = nil, identitySource: String? = nil, authType: String? = nil, providerARNs: [String]? = nil, type: String? = nil) {
+        public init(name: String? = nil, id: String? = nil, identityValidationExpression: String? = nil, authorizerResultTtlInSeconds: Int32? = nil, authorizerUri: String? = nil, authorizerCredentials: String? = nil, identitySource: String? = nil, authType: String? = nil, providerARNs: [String]? = nil, type: AuthorizerType? = nil) {
             self.name = name
             self.id = id
             self.identityValidationExpression = identityValidationExpression
@@ -3698,7 +3773,7 @@ extension Apigateway {
             self.identitySource = identitySource
             self.authType = authType
             self.providerARNs = providerARNs
-            self.type = type
+            self.`type` = `type`
         }
 
         public init(dictionary: [String: Any]) throws {
@@ -3711,7 +3786,7 @@ extension Apigateway {
             self.identitySource = dictionary["identitySource"] as? String
             self.authType = dictionary["authType"] as? String
             self.providerARNs = dictionary["providerARNs"] as? [String]
-            self.type = dictionary["type"] as? String
+            if let `type` = dictionary["type"] as? String { self.`type` = AuthorizerType(rawValue: `type`) } else { self.`type` = nil }
         }
     }
 
@@ -3909,7 +3984,7 @@ extension Apigateway {
         /// Enables a cache cluster for the Stage resource specified in the input.
         public let cacheClusterEnabled: Bool?
         /// Specifies the cache cluster size for the Stage resource specified in the input, if a cache cluster is enabled.
-        public let cacheClusterSize: String?
+        public let cacheClusterSize: CacheClusterSize?
         /// A map that defines the stage variables for the Stage resource that is associated with the new deployment. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+.
         public let variables: [String: String]?
         /// The description for the Deployment resource to create.
@@ -3921,7 +3996,7 @@ extension Apigateway {
         /// The description of the Stage resource for the Deployment resource to create.
         public let stageDescription: String?
 
-        public init(cacheClusterEnabled: Bool? = nil, cacheClusterSize: String? = nil, variables: [String: String]? = nil, description: String? = nil, restApiId: String, stageName: String? = nil, stageDescription: String? = nil) {
+        public init(cacheClusterEnabled: Bool? = nil, cacheClusterSize: CacheClusterSize? = nil, variables: [String: String]? = nil, description: String? = nil, restApiId: String, stageName: String? = nil, stageDescription: String? = nil) {
             self.cacheClusterEnabled = cacheClusterEnabled
             self.cacheClusterSize = cacheClusterSize
             self.variables = variables
@@ -3933,7 +4008,7 @@ extension Apigateway {
 
         public init(dictionary: [String: Any]) throws {
             self.cacheClusterEnabled = dictionary["cacheClusterEnabled"] as? Bool
-            self.cacheClusterSize = dictionary["cacheClusterSize"] as? String
+            if let cacheClusterSize = dictionary["cacheClusterSize"] as? String { self.cacheClusterSize = CacheClusterSize(rawValue: cacheClusterSize) } else { self.cacheClusterSize = nil }
             if let variables = dictionary["variables"] as? [String: String] {
                 self.variables = variables
             } else { 
@@ -3971,6 +4046,12 @@ extension Apigateway {
         }
     }
 
+    public enum PutMode: String, CustomStringConvertible {
+        case merge = "merge"
+        case overwrite = "overwrite"
+        public var description: String { return self.rawValue }
+    }
+
     public struct UsagePlanKey: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -3981,20 +4062,20 @@ extension Apigateway {
         /// The Id of a usage plan key.
         public let id: String?
         /// The type of a usage plan key. Currently, the valid key type is API_KEY.
-        public let type: String?
+        public let `type`: String?
 
         public init(name: String? = nil, value: String? = nil, id: String? = nil, type: String? = nil) {
             self.name = name
             self.value = value
             self.id = id
-            self.type = type
+            self.`type` = `type`
         }
 
         public init(dictionary: [String: Any]) throws {
             self.name = dictionary["name"] as? String
             self.value = dictionary["value"] as? String
             self.id = dictionary["id"] as? String
-            self.type = dictionary["type"] as? String
+            self.`type` = dictionary["type"] as? String
         }
     }
 
@@ -4124,6 +4205,12 @@ extension Apigateway {
         }
     }
 
+    public enum ContentHandlingStrategy: String, CustomStringConvertible {
+        case convert_to_binary = "CONVERT_TO_BINARY"
+        case convert_to_text = "CONVERT_TO_TEXT"
+        public var description: String { return self.rawValue }
+    }
+
     public struct GetAuthorizerRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -4216,7 +4303,7 @@ extension Apigateway {
         /// Specifies a put integration request's API identifier.
         public let restApiId: String
         /// Specifies a put integration input's type.
-        public let type: String
+        public let `type`: IntegrationType
         /// Specifies a put integration request's resource ID.
         public let resourceId: String
         /// A key-value map specifying request parameters that are passed from the method request to the back end. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the back end. The method request parameter value must match the pattern of method.request.{location}.{name}, where location is querystring, path, or header and name must be a valid and unique method request parameter name.
@@ -4226,7 +4313,7 @@ extension Apigateway {
         /// Represents a map of Velocity templates that are applied on the request payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value.
         public let requestTemplates: [String: String]?
         /// Specifies how to handle request payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  CONVERT_TO_BINARY: Converts a request payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a request payload from a binary blob to a Base64-encoded string.  If this property is not defined, the request payload will be passed through from the method request to integration request without modification, provided that the passthroughBehaviors is configured to support payload pass-through.
-        public let contentHandling: String?
+        public let contentHandling: ContentHandlingStrategy?
         /// Specifies whether credentials are required for a put integration.
         public let credentials: String?
         /// Specifies a put integration HTTP method. When the integration type is HTTP or AWS, this field is required.
@@ -4234,12 +4321,12 @@ extension Apigateway {
         /// Specifies the pass-through behavior for incoming requests based on the Content-Type header in the request, and the available mapping templates specified as the requestTemplates property on the Integration resource. There are three valid values: WHEN_NO_MATCH, WHEN_NO_TEMPLATES, and NEVER.   WHEN_NO_MATCH passes the request body for unmapped content types through to the integration back end without transformation. NEVER rejects unmapped content types with an HTTP 415 'Unsupported Media Type' response. WHEN_NO_TEMPLATES allows pass-through when the integration has NO content types mapped to templates. However if there is at least one content type defined, unmapped content types will be rejected with the same 415 response. 
         public let passthroughBehavior: String?
 
-        public init(cacheNamespace: String? = nil, uri: String? = nil, cacheKeyParameters: [String]? = nil, restApiId: String, type: String, resourceId: String, requestParameters: [String: String]? = nil, httpMethod: String, requestTemplates: [String: String]? = nil, contentHandling: String? = nil, credentials: String? = nil, integrationHttpMethod: String? = nil, passthroughBehavior: String? = nil) {
+        public init(cacheNamespace: String? = nil, uri: String? = nil, cacheKeyParameters: [String]? = nil, restApiId: String, type: IntegrationType, resourceId: String, requestParameters: [String: String]? = nil, httpMethod: String, requestTemplates: [String: String]? = nil, contentHandling: ContentHandlingStrategy? = nil, credentials: String? = nil, integrationHttpMethod: String? = nil, passthroughBehavior: String? = nil) {
             self.cacheNamespace = cacheNamespace
             self.uri = uri
             self.cacheKeyParameters = cacheKeyParameters
             self.restApiId = restApiId
-            self.type = type
+            self.`type` = `type`
             self.resourceId = resourceId
             self.requestParameters = requestParameters
             self.httpMethod = httpMethod
@@ -4256,8 +4343,8 @@ extension Apigateway {
             self.cacheKeyParameters = dictionary["cacheKeyParameters"] as? [String]
             guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
-            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
-            self.type = type
+            guard let rawtype = dictionary["type"] as? String, let `type` = IntegrationType(rawValue: rawtype) else { throw InitializableError.missingRequiredParam("type") }
+            self.`type` = `type`
             guard let resourceId = dictionary["Resource_id"] as? String else { throw InitializableError.missingRequiredParam("Resource_id") }
             self.resourceId = resourceId
             if let requestParameters = dictionary["requestParameters"] as? [String: String] {
@@ -4272,11 +4359,17 @@ extension Apigateway {
             } else { 
                 self.requestTemplates = nil
             }
-            self.contentHandling = dictionary["contentHandling"] as? String
+            if let contentHandling = dictionary["contentHandling"] as? String { self.contentHandling = ContentHandlingStrategy(rawValue: contentHandling) } else { self.contentHandling = nil }
             self.credentials = dictionary["credentials"] as? String
             self.integrationHttpMethod = dictionary["HttpMethod"] as? String
             self.passthroughBehavior = dictionary["passthroughBehavior"] as? String
         }
+    }
+
+    public enum AuthorizerType: String, CustomStringConvertible {
+        case token = "TOKEN"
+        case cognito_user_pools = "COGNITO_USER_POOLS"
+        public var description: String { return self.rawValue }
     }
 
     public struct UpdateClientCertificateRequest: AWSShape {
@@ -4439,20 +4532,20 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// The time period in which the limit applies. Valid values are "DAY", "WEEK" or "MONTH".
-        public let period: String?
+        public let period: QuotaPeriodType?
         /// The number of requests subtracted from the given limit in the initial time period.
         public let offset: Int32?
         /// The maximum number of requests that can be made in a given time period.
         public let limit: Int32?
 
-        public init(period: String? = nil, offset: Int32? = nil, limit: Int32? = nil) {
+        public init(period: QuotaPeriodType? = nil, offset: Int32? = nil, limit: Int32? = nil) {
             self.period = period
             self.offset = offset
             self.limit = limit
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.period = dictionary["period"] as? String
+            if let period = dictionary["period"] as? String { self.period = QuotaPeriodType(rawValue: period) } else { self.period = nil }
             self.offset = dictionary["offset"] as? Int32
             self.limit = dictionary["limit"] as? Int32
         }

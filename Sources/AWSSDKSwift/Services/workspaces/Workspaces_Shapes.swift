@@ -66,6 +66,13 @@ extension Workspaces {
         }
     }
 
+    public enum Compute: String, CustomStringConvertible {
+        case value = "VALUE"
+        case standard = "STANDARD"
+        case performance = "PERFORMANCE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct FailedCreateWorkspaceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -299,6 +306,21 @@ extension Workspaces {
         }
     }
 
+    public enum WorkspaceDirectoryState: String, CustomStringConvertible {
+        case registering = "REGISTERING"
+        case registered = "REGISTERED"
+        case deregistering = "DEREGISTERING"
+        case deregistered = "DEREGISTERED"
+        case error = "ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RunningMode: String, CustomStringConvertible {
+        case auto_stop = "AUTO_STOP"
+        case always_on = "ALWAYS_ON"
+        public var description: String { return self.rawValue }
+    }
+
     public struct StartWorkspacesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -315,18 +337,36 @@ extension Workspaces {
         }
     }
 
+    public enum WorkspaceState: String, CustomStringConvertible {
+        case pending = "PENDING"
+        case available = "AVAILABLE"
+        case impaired = "IMPAIRED"
+        case unhealthy = "UNHEALTHY"
+        case rebooting = "REBOOTING"
+        case starting = "STARTING"
+        case rebuilding = "REBUILDING"
+        case maintenance = "MAINTENANCE"
+        case terminating = "TERMINATING"
+        case terminated = "TERMINATED"
+        case suspended = "SUSPENDED"
+        case stopping = "STOPPING"
+        case stopped = "STOPPED"
+        case error = "ERROR"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ComputeType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the compute type for the bundle.
-        public let name: String?
+        public let name: Compute?
 
-        public init(name: String? = nil) {
+        public init(name: Compute? = nil) {
             self.name = name
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["Name"] as? String
+            if let name = dictionary["Name"] as? String { self.name = Compute(rawValue: name) } else { self.name = nil }
         }
     }
 
@@ -525,13 +565,13 @@ extension Workspaces {
         /// The ID of the WorkSpace.
         public let workspaceId: String?
         /// The connection state of the WorkSpace. Returns UNKOWN if the WorkSpace is in a Stopped state.
-        public let connectionState: String?
+        public let connectionState: ConnectionState?
         /// The timestamp of the last known user connection.
         public let lastKnownUserConnectionTimestamp: Date?
         /// The timestamp of the connection state check.
         public let connectionStateCheckTimestamp: Date?
 
-        public init(workspaceId: String? = nil, connectionState: String? = nil, lastKnownUserConnectionTimestamp: Date? = nil, connectionStateCheckTimestamp: Date? = nil) {
+        public init(workspaceId: String? = nil, connectionState: ConnectionState? = nil, lastKnownUserConnectionTimestamp: Date? = nil, connectionStateCheckTimestamp: Date? = nil) {
             self.workspaceId = workspaceId
             self.connectionState = connectionState
             self.lastKnownUserConnectionTimestamp = lastKnownUserConnectionTimestamp
@@ -540,7 +580,7 @@ extension Workspaces {
 
         public init(dictionary: [String: Any]) throws {
             self.workspaceId = dictionary["WorkspaceId"] as? String
-            self.connectionState = dictionary["ConnectionState"] as? String
+            if let connectionState = dictionary["ConnectionState"] as? String { self.connectionState = ConnectionState(rawValue: connectionState) } else { self.connectionState = nil }
             self.lastKnownUserConnectionTimestamp = dictionary["LastKnownUserConnectionTimestamp"] as? Date
             self.connectionStateCheckTimestamp = dictionary["ConnectionStateCheckTimestamp"] as? Date
         }
@@ -563,6 +603,13 @@ extension Workspaces {
                 self.tagList = nil
             }
         }
+    }
+
+    public enum ConnectionState: String, CustomStringConvertible {
+        case connected = "CONNECTED"
+        case disconnected = "DISCONNECTED"
+        case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
     }
 
     public struct DescribeWorkspacesResult: AWSShape {
@@ -592,17 +639,17 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// The running mode of the WorkSpace. AlwaysOn WorkSpaces are billed monthly. AutoStop WorkSpaces are billed by the hour and stopped when no longer being used in order to save on costs.
-        public let runningMode: String?
+        public let runningMode: RunningMode?
         /// The time after a user logs off when WorkSpaces are automatically stopped. Configured in 60 minute intervals.
         public let runningModeAutoStopTimeoutInMinutes: Int32?
 
-        public init(runningMode: String? = nil, runningModeAutoStopTimeoutInMinutes: Int32? = nil) {
+        public init(runningMode: RunningMode? = nil, runningModeAutoStopTimeoutInMinutes: Int32? = nil) {
             self.runningMode = runningMode
             self.runningModeAutoStopTimeoutInMinutes = runningModeAutoStopTimeoutInMinutes
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.runningMode = dictionary["RunningMode"] as? String
+            if let runningMode = dictionary["RunningMode"] as? String { self.runningMode = RunningMode(rawValue: runningMode) } else { self.runningMode = nil }
             self.runningModeAutoStopTimeoutInMinutes = dictionary["RunningModeAutoStopTimeoutInMinutes"] as? Int32
         }
     }
@@ -680,7 +727,7 @@ extension Workspaces {
         /// The user that the WorkSpace is assigned to.
         public let userName: String?
         /// The operational state of the WorkSpace.
-        public let state: String?
+        public let state: WorkspaceState?
         /// Specifies whether the data stored on the root volume, or C: drive, is encrypted.
         public let rootVolumeEncryptionEnabled: Bool?
         /// The identifier of the AWS Directory Service directory that the WorkSpace belongs to.
@@ -703,7 +750,7 @@ extension Workspaces {
         /// The IP address of the WorkSpace.
         public let ipAddress: String?
 
-        public init(subnetId: String? = nil, userName: String? = nil, state: String? = nil, rootVolumeEncryptionEnabled: Bool? = nil, directoryId: String? = nil, workspaceProperties: WorkspaceProperties? = nil, computerName: String? = nil, errorMessage: String? = nil, errorCode: String? = nil, bundleId: String? = nil, userVolumeEncryptionEnabled: Bool? = nil, workspaceId: String? = nil, volumeEncryptionKey: String? = nil, ipAddress: String? = nil) {
+        public init(subnetId: String? = nil, userName: String? = nil, state: WorkspaceState? = nil, rootVolumeEncryptionEnabled: Bool? = nil, directoryId: String? = nil, workspaceProperties: WorkspaceProperties? = nil, computerName: String? = nil, errorMessage: String? = nil, errorCode: String? = nil, bundleId: String? = nil, userVolumeEncryptionEnabled: Bool? = nil, workspaceId: String? = nil, volumeEncryptionKey: String? = nil, ipAddress: String? = nil) {
             self.subnetId = subnetId
             self.userName = userName
             self.state = state
@@ -723,7 +770,7 @@ extension Workspaces {
         public init(dictionary: [String: Any]) throws {
             self.subnetId = dictionary["SubnetId"] as? String
             self.userName = dictionary["UserName"] as? String
-            self.state = dictionary["State"] as? String
+            if let state = dictionary["State"] as? String { self.state = WorkspaceState(rawValue: state) } else { self.state = nil }
             self.rootVolumeEncryptionEnabled = dictionary["RootVolumeEncryptionEnabled"] as? Bool
             self.directoryId = dictionary["DirectoryId"] as? String
             if let workspaceProperties = dictionary["WorkspaceProperties"] as? [String: Any] { self.workspaceProperties = try Workspaces.WorkspaceProperties(dictionary: workspaceProperties) } else { self.workspaceProperties = nil }
@@ -815,6 +862,12 @@ extension Workspaces {
         }
     }
 
+    public enum WorkspaceDirectoryType: String, CustomStringConvertible {
+        case simple_ad = "SIMPLE_AD"
+        case ad_connector = "AD_CONNECTOR"
+        public var description: String { return self.rawValue }
+    }
+
     public struct RebuildRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -859,7 +912,7 @@ extension Workspaces {
         /// The registration code for the directory. This is the code that users enter in their Amazon WorkSpaces client application to connect to the directory.
         public let registrationCode: String?
         /// The state of the directory's registration with Amazon WorkSpaces
-        public let state: String?
+        public let state: WorkspaceDirectoryState?
         /// The user name for the service account.
         public let customerUserName: String?
         /// The directory alias.
@@ -869,13 +922,13 @@ extension Workspaces {
         /// The identifier of the security group that is assigned to new WorkSpaces.
         public let workspaceSecurityGroupId: String?
         /// The directory type.
-        public let directoryType: String?
+        public let directoryType: WorkspaceDirectoryType?
         /// The identifier of the IAM role. This is the role that allows Amazon WorkSpaces to make calls to other services, such as Amazon EC2, on your behalf.
         public let iamRoleId: String?
         /// The name of the directory.
         public let directoryName: String?
 
-        public init(subnetIds: [String]? = nil, workspaceCreationProperties: DefaultWorkspaceCreationProperties? = nil, dnsIpAddresses: [String]? = nil, registrationCode: String? = nil, state: String? = nil, customerUserName: String? = nil, alias: String? = nil, directoryId: String? = nil, workspaceSecurityGroupId: String? = nil, directoryType: String? = nil, iamRoleId: String? = nil, directoryName: String? = nil) {
+        public init(subnetIds: [String]? = nil, workspaceCreationProperties: DefaultWorkspaceCreationProperties? = nil, dnsIpAddresses: [String]? = nil, registrationCode: String? = nil, state: WorkspaceDirectoryState? = nil, customerUserName: String? = nil, alias: String? = nil, directoryId: String? = nil, workspaceSecurityGroupId: String? = nil, directoryType: WorkspaceDirectoryType? = nil, iamRoleId: String? = nil, directoryName: String? = nil) {
             self.subnetIds = subnetIds
             self.workspaceCreationProperties = workspaceCreationProperties
             self.dnsIpAddresses = dnsIpAddresses
@@ -895,12 +948,12 @@ extension Workspaces {
             if let workspaceCreationProperties = dictionary["WorkspaceCreationProperties"] as? [String: Any] { self.workspaceCreationProperties = try Workspaces.DefaultWorkspaceCreationProperties(dictionary: workspaceCreationProperties) } else { self.workspaceCreationProperties = nil }
             self.dnsIpAddresses = dictionary["DnsIpAddresses"] as? [String]
             self.registrationCode = dictionary["RegistrationCode"] as? String
-            self.state = dictionary["State"] as? String
+            if let state = dictionary["State"] as? String { self.state = WorkspaceDirectoryState(rawValue: state) } else { self.state = nil }
             self.customerUserName = dictionary["CustomerUserName"] as? String
             self.alias = dictionary["Alias"] as? String
             self.directoryId = dictionary["DirectoryId"] as? String
             self.workspaceSecurityGroupId = dictionary["WorkspaceSecurityGroupId"] as? String
-            self.directoryType = dictionary["DirectoryType"] as? String
+            if let directoryType = dictionary["DirectoryType"] as? String { self.directoryType = WorkspaceDirectoryType(rawValue: directoryType) } else { self.directoryType = nil }
             self.iamRoleId = dictionary["IamRoleId"] as? String
             self.directoryName = dictionary["DirectoryName"] as? String
         }

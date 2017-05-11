@@ -35,19 +35,19 @@ extension Rekognition {
         /// x-coordinate from the top left of the landmark expressed as the ration of the width of the image. For example, if the images is 700x200 and the x-coordinate of the landmark is at 350 pixels, this value is 0.5. 
         public let x: Float?
         /// Type of the landmark.
-        public let type: String?
+        public let `type`: LandmarkType?
         /// y-coordinate from the top left of the landmark expressed as the ration of the height of the image. For example, if the images is 700x200 and the y-coordinate of the landmark is at 100 pixels, this value is 0.5.
         public let y: Float?
 
-        public init(x: Float? = nil, type: String? = nil, y: Float? = nil) {
+        public init(x: Float? = nil, type: LandmarkType? = nil, y: Float? = nil) {
             self.x = x
-            self.type = type
+            self.`type` = `type`
             self.y = y
         }
 
         public init(dictionary: [String: Any]) throws {
             self.x = dictionary["X"] as? Float
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = LandmarkType(rawValue: `type`) } else { self.`type` = nil }
             self.y = dictionary["Y"] as? Float
         }
     }
@@ -113,22 +113,30 @@ extension Rekognition {
         }
     }
 
+    public enum OrientationCorrection: String, CustomStringConvertible {
+        case rotate_0 = "ROTATE_0"
+        case rotate_90 = "ROTATE_90"
+        case rotate_180 = "ROTATE_180"
+        case rotate_270 = "ROTATE_270"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Emotion: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// Level of confidence in the determination.
         public let confidence: Float?
         /// Type of emotion detected.
-        public let type: String?
+        public let `type`: EmotionName?
 
-        public init(confidence: Float? = nil, type: String? = nil) {
+        public init(confidence: Float? = nil, type: EmotionName? = nil) {
             self.confidence = confidence
-            self.type = type
+            self.`type` = `type`
         }
 
         public init(dictionary: [String: Any]) throws {
             self.confidence = dictionary["Confidence"] as? Float
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = EmotionName(rawValue: `type`) } else { self.`type` = nil }
         }
     }
 
@@ -288,16 +296,16 @@ extension Rekognition {
         /// Level of confidence in the determination.
         public let confidence: Float?
         /// Gender of the face.
-        public let value: String?
+        public let value: GenderType?
 
-        public init(confidence: Float? = nil, value: String? = nil) {
+        public init(confidence: Float? = nil, value: GenderType? = nil) {
             self.confidence = confidence
             self.value = value
         }
 
         public init(dictionary: [String: Any]) throws {
             self.confidence = dictionary["Confidence"] as? Float
-            self.value = dictionary["Value"] as? String
+            if let value = dictionary["Value"] as? String { self.value = GenderType(rawValue: value) } else { self.value = nil }
         }
     }
 
@@ -347,17 +355,17 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// The algorithm detects the image orientation. If it detects that the image was rotated, it returns the degrees of rotation. If your application is displaying the image, you can use this value to adjust the orientation.  For example, if the service detects that the input image was rotated by 90 degrees, it corrects orientation, performs face detection, and then returns the faces. That is, the bounding box coordinates in the response are based on the corrected orientation.   If the source image Exif metadata populates the orientation field, Amazon Rekognition does not perform orientation correction and the value of OrientationCorrection will be nil. 
-        public let orientationCorrection: String?
+        public let orientationCorrection: OrientationCorrection?
         /// Details of each face found in the image. 
         public let faceDetails: [FaceDetail]?
 
-        public init(orientationCorrection: String? = nil, faceDetails: [FaceDetail]? = nil) {
+        public init(orientationCorrection: OrientationCorrection? = nil, faceDetails: [FaceDetail]? = nil) {
             self.orientationCorrection = orientationCorrection
             self.faceDetails = faceDetails
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.orientationCorrection = dictionary["OrientationCorrection"] as? String
+            if let orientationCorrection = dictionary["OrientationCorrection"] as? String { self.orientationCorrection = OrientationCorrection(rawValue: orientationCorrection) } else { self.orientationCorrection = nil }
             if let faceDetails = dictionary["FaceDetails"] as? [[String: Any]] {
                 self.faceDetails = try faceDetails.map({ try FaceDetail(dictionary: $0) })
             } else { 
@@ -370,17 +378,17 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// The algorithm detects the image orientation. If it detects that the image was rotated, it returns the degree of rotation. You can use this value to correct the orientation and also appropriately analyze the bounding box coordinates that are returned.   If the source image Exif metadata populates the orientation field, Amazon Rekognition does not perform orientation correction and the value of OrientationCorrection will be nil. 
-        public let orientationCorrection: String?
+        public let orientationCorrection: OrientationCorrection?
         /// An array of faces detected and added to the collection. For more information, see howitworks-index-faces. 
         public let faceRecords: [FaceRecord]?
 
-        public init(orientationCorrection: String? = nil, faceRecords: [FaceRecord]? = nil) {
+        public init(orientationCorrection: OrientationCorrection? = nil, faceRecords: [FaceRecord]? = nil) {
             self.orientationCorrection = orientationCorrection
             self.faceRecords = faceRecords
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.orientationCorrection = dictionary["OrientationCorrection"] as? String
+            if let orientationCorrection = dictionary["OrientationCorrection"] as? String { self.orientationCorrection = OrientationCorrection(rawValue: orientationCorrection) } else { self.orientationCorrection = nil }
             if let faceRecords = dictionary["FaceRecords"] as? [[String: Any]] {
                 self.faceRecords = try faceRecords.map({ try FaceRecord(dictionary: $0) })
             } else { 
@@ -658,15 +666,21 @@ extension Rekognition {
         }
     }
 
+    public enum Attribute: String, CustomStringConvertible {
+        case `default` = "DEFAULT"
+        case all = "ALL"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DetectFacesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// The image in which you want to detect faces. You can specify a blob or an S3 object. 
         public let image: Image
         /// A list of facial attributes you would like to be returned. By default, the API returns subset of facial attributes.  For example, you can specify the value as, ["ALL"] or ["DEFAULT"]. If you provide both, ["ALL", "DEFAULT"], the service uses a logical AND operator to determine which attributes to return (in this case, it is all attributes). If you specify all attributes, Amazon Rekognition performs additional detection. 
-        public let attributes: [String]?
+        public let attributes: [Attribute]?
 
-        public init(image: Image, attributes: [String]? = nil) {
+        public init(image: Image, attributes: [Attribute]? = nil) {
             self.image = image
             self.attributes = attributes
         }
@@ -674,7 +688,7 @@ extension Rekognition {
         public init(dictionary: [String: Any]) throws {
             guard let image = dictionary["Image"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Image") }
             self.image = try Rekognition.Image(dictionary: image)
-            self.attributes = dictionary["Attributes"] as? [String]
+            if let attributes = dictionary["Attributes"] as? [String] { self.attributes = attributes.flatMap({ Attribute(rawValue: $0)}) } else { self.attributes = nil }
         }
     }
 
@@ -742,6 +756,12 @@ extension Rekognition {
             self.faceId = dictionary["FaceId"] as? String
             self.imageId = dictionary["ImageId"] as? String
         }
+    }
+
+    public enum GenderType: String, CustomStringConvertible {
+        case male = "MALE"
+        case female = "FEMALE"
+        public var description: String { return self.rawValue }
     }
 
     public struct CompareFacesRequest: AWSShape {
@@ -903,6 +923,35 @@ extension Rekognition {
         }
     }
 
+    public enum LandmarkType: String, CustomStringConvertible {
+        case eye_left = "EYE_LEFT"
+        case eye_right = "EYE_RIGHT"
+        case nose = "NOSE"
+        case mouth_left = "MOUTH_LEFT"
+        case mouth_right = "MOUTH_RIGHT"
+        case left_eyebrow_left = "LEFT_EYEBROW_LEFT"
+        case left_eyebrow_right = "LEFT_EYEBROW_RIGHT"
+        case left_eyebrow_up = "LEFT_EYEBROW_UP"
+        case right_eyebrow_left = "RIGHT_EYEBROW_LEFT"
+        case right_eyebrow_right = "RIGHT_EYEBROW_RIGHT"
+        case right_eyebrow_up = "RIGHT_EYEBROW_UP"
+        case left_eye_left = "LEFT_EYE_LEFT"
+        case left_eye_right = "LEFT_EYE_RIGHT"
+        case left_eye_up = "LEFT_EYE_UP"
+        case left_eye_down = "LEFT_EYE_DOWN"
+        case right_eye_left = "RIGHT_EYE_LEFT"
+        case right_eye_right = "RIGHT_EYE_RIGHT"
+        case right_eye_up = "RIGHT_EYE_UP"
+        case right_eye_down = "RIGHT_EYE_DOWN"
+        case nose_left = "NOSE_LEFT"
+        case nose_right = "NOSE_RIGHT"
+        case mouth_up = "MOUTH_UP"
+        case mouth_down = "MOUTH_DOWN"
+        case left_pupil = "LEFT_PUPIL"
+        case right_pupil = "RIGHT_PUPIL"
+        public var description: String { return self.rawValue }
+    }
+
     public struct CreateCollectionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -966,17 +1015,17 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         ///  Amazon Rekognition returns the orientation of the input image that was detected (clockwise direction). If your application displays the image, you can use this value to correct the orientation. If Amazon Rekognition detects that the input image was rotated (for example, by 90 degrees), it first corrects the orientation before detecting the labels.   If the source image Exif metadata populates the orientation field, Amazon Rekognition does not perform orientation correction and the value of OrientationCorrection will be nil. 
-        public let orientationCorrection: String?
+        public let orientationCorrection: OrientationCorrection?
         /// An array of labels for the real-world objects detected. 
         public let labels: [Label]?
 
-        public init(orientationCorrection: String? = nil, labels: [Label]? = nil) {
+        public init(orientationCorrection: OrientationCorrection? = nil, labels: [Label]? = nil) {
             self.orientationCorrection = orientationCorrection
             self.labels = labels
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.orientationCorrection = dictionary["OrientationCorrection"] as? String
+            if let orientationCorrection = dictionary["OrientationCorrection"] as? String { self.orientationCorrection = OrientationCorrection(rawValue: orientationCorrection) } else { self.orientationCorrection = nil }
             if let labels = dictionary["Labels"] as? [[String: Any]] {
                 self.labels = try labels.map({ try Label(dictionary: $0) })
             } else { 
@@ -1017,9 +1066,9 @@ extension Rekognition {
         /// ID of an existing collection to which you want to add the faces that are detected in the input images.
         public let collectionId: String
         /// (Optional) Returns detailed attributes of indexed faces. By default, the operation returns a subset of the facial attributes.  For example, you can specify the value as, ["ALL"] or ["DEFAULT"]. If you provide both, ["ALL", "DEFAULT"], Amazon Rekognition uses the logical AND operator to determine which attributes to return (in this case, it is all attributes). If you specify all attributes, the service performs additional detection, in addition to the default. 
-        public let detectionAttributes: [String]?
+        public let detectionAttributes: [Attribute]?
 
-        public init(image: Image, externalImageId: String? = nil, collectionId: String, detectionAttributes: [String]? = nil) {
+        public init(image: Image, externalImageId: String? = nil, collectionId: String, detectionAttributes: [Attribute]? = nil) {
             self.image = image
             self.externalImageId = externalImageId
             self.collectionId = collectionId
@@ -1032,7 +1081,7 @@ extension Rekognition {
             self.externalImageId = dictionary["ExternalImageId"] as? String
             guard let collectionId = dictionary["CollectionId"] as? String else { throw InitializableError.missingRequiredParam("CollectionId") }
             self.collectionId = collectionId
-            self.detectionAttributes = dictionary["DetectionAttributes"] as? [String]
+            if let detectionAttributes = dictionary["DetectionAttributes"] as? [String] { self.detectionAttributes = detectionAttributes.flatMap({ Attribute(rawValue: $0)}) } else { self.detectionAttributes = nil }
         }
     }
 
@@ -1052,6 +1101,18 @@ extension Rekognition {
             self.confidence = dictionary["Confidence"] as? Float
             if let boundingBox = dictionary["BoundingBox"] as? [String: Any] { self.boundingBox = try Rekognition.BoundingBox(dictionary: boundingBox) } else { self.boundingBox = nil }
         }
+    }
+
+    public enum EmotionName: String, CustomStringConvertible {
+        case happy = "HAPPY"
+        case sad = "SAD"
+        case angry = "ANGRY"
+        case confused = "CONFUSED"
+        case disgusted = "DISGUSTED"
+        case surprised = "SURPRISED"
+        case calm = "CALM"
+        case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
     }
 
 }

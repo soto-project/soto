@@ -76,6 +76,17 @@ extension Batch {
         }
     }
 
+    public enum JobStatus: String, CustomStringConvertible {
+        case submitted = "SUBMITTED"
+        case pending = "PENDING"
+        case runnable = "RUNNABLE"
+        case starting = "STARTING"
+        case running = "RUNNING"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct JobSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -97,6 +108,12 @@ extension Batch {
         }
     }
 
+    public enum JQState: String, CustomStringConvertible {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DeregisterJobDefinitionResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -109,9 +126,9 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// Describes the ability of the queue to accept new jobs.
-        public let state: String
+        public let state: JQState
         /// The status of the job queue (for example, CREATING or VALID).
-        public let status: String?
+        public let status: JQStatus?
         /// The compute environments that are attached to the job queue and the order in which job placement is preferred. Compute environments are selected for job placement in ascending order.
         public let computeEnvironmentOrder: [ComputeEnvironmentOrder]
         /// The Amazon Resource Name (ARN) of the job queue.
@@ -123,7 +140,7 @@ extension Batch {
         /// The priority of the job queue. 
         public let priority: Int32
 
-        public init(state: String, status: String? = nil, computeEnvironmentOrder: [ComputeEnvironmentOrder], jobQueueArn: String, statusReason: String? = nil, jobQueueName: String, priority: Int32) {
+        public init(state: JQState, status: JQStatus? = nil, computeEnvironmentOrder: [ComputeEnvironmentOrder], jobQueueArn: String, statusReason: String? = nil, jobQueueName: String, priority: Int32) {
             self.state = state
             self.status = status
             self.computeEnvironmentOrder = computeEnvironmentOrder
@@ -134,9 +151,9 @@ extension Batch {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let state = dictionary["state"] as? String else { throw InitializableError.missingRequiredParam("state") }
+            guard let rawstate = dictionary["state"] as? String, let state = JQState(rawValue: rawstate) else { throw InitializableError.missingRequiredParam("state") }
             self.state = state
-            self.status = dictionary["status"] as? String
+            if let status = dictionary["status"] as? String { self.status = JQStatus(rawValue: status) } else { self.status = nil }
             guard let computeEnvironmentOrder = dictionary["computeEnvironmentOrder"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("computeEnvironmentOrder") }
             self.computeEnvironmentOrder = try computeEnvironmentOrder.map({ try ComputeEnvironmentOrder(dictionary: $0) })
             guard let jobQueueArn = dictionary["jobQueueArn"] as? String else { throw InitializableError.missingRequiredParam("jobQueueArn") }
@@ -248,6 +265,11 @@ extension Batch {
         }
     }
 
+    public enum JobDefinitionType: String, CustomStringConvertible {
+        case container = "container"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ComputeResource: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -272,11 +294,11 @@ extension Batch {
         /// The minimum number of EC2 vCPUs that an environment should maintain. 
         public let minvCpus: Int32
         /// The type of compute environment.
-        public let type: String
+        public let `type`: CRType
         /// The desired number of EC2 vCPUS in the compute environment. 
         public let desiredvCpus: Int32?
 
-        public init(ec2KeyPair: String? = nil, bidPercentage: Int32? = nil, subnets: [String], spotIamFleetRole: String? = nil, instanceTypes: [String], maxvCpus: Int32, securityGroupIds: [String], instanceRole: String, tags: [String: String]? = nil, minvCpus: Int32, type: String, desiredvCpus: Int32? = nil) {
+        public init(ec2KeyPair: String? = nil, bidPercentage: Int32? = nil, subnets: [String], spotIamFleetRole: String? = nil, instanceTypes: [String], maxvCpus: Int32, securityGroupIds: [String], instanceRole: String, tags: [String: String]? = nil, minvCpus: Int32, type: CRType, desiredvCpus: Int32? = nil) {
             self.ec2KeyPair = ec2KeyPair
             self.bidPercentage = bidPercentage
             self.subnets = subnets
@@ -287,7 +309,7 @@ extension Batch {
             self.instanceRole = instanceRole
             self.tags = tags
             self.minvCpus = minvCpus
-            self.type = type
+            self.`type` = `type`
             self.desiredvCpus = desiredvCpus
         }
 
@@ -312,8 +334,8 @@ extension Batch {
             }
             guard let minvCpus = dictionary["minvCpus"] as? Int32 else { throw InitializableError.missingRequiredParam("minvCpus") }
             self.minvCpus = minvCpus
-            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
-            self.type = type
+            guard let rawtype = dictionary["type"] as? String, let `type` = CRType(rawValue: rawtype) else { throw InitializableError.missingRequiredParam("type") }
+            self.`type` = `type`
             self.desiredvCpus = dictionary["desiredvCpus"] as? Int32
         }
     }
@@ -322,9 +344,9 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The state of the compute environment. The valid values are ENABLED or DISABLED. An ENABLED state indicates that you can register instances with the compute environment and that the associated instances can accept jobs. 
-        public let state: String?
+        public let state: CEState?
         /// The current status of the compute environment (for example, CREATING or VALID).
-        public let status: String?
+        public let status: CEStatus?
         /// The Amazon Resource Name (ARN) of the compute environment. 
         public let computeEnvironmentArn: String
         /// The name of the compute environment. 
@@ -336,11 +358,11 @@ extension Batch {
         /// The compute resources defined for the compute environment. 
         public let computeResources: ComputeResource?
         /// The type of the compute environment.
-        public let type: String?
+        public let `type`: CEType?
         /// The service role associated with the compute environment that allows AWS Batch to make calls to AWS API operations on your behalf.
         public let serviceRole: String?
 
-        public init(state: String? = nil, status: String? = nil, computeEnvironmentArn: String, computeEnvironmentName: String, statusReason: String? = nil, ecsClusterArn: String, computeResources: ComputeResource? = nil, type: String? = nil, serviceRole: String? = nil) {
+        public init(state: CEState? = nil, status: CEStatus? = nil, computeEnvironmentArn: String, computeEnvironmentName: String, statusReason: String? = nil, ecsClusterArn: String, computeResources: ComputeResource? = nil, type: CEType? = nil, serviceRole: String? = nil) {
             self.state = state
             self.status = status
             self.computeEnvironmentArn = computeEnvironmentArn
@@ -348,13 +370,13 @@ extension Batch {
             self.statusReason = statusReason
             self.ecsClusterArn = ecsClusterArn
             self.computeResources = computeResources
-            self.type = type
+            self.`type` = `type`
             self.serviceRole = serviceRole
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.state = dictionary["state"] as? String
-            self.status = dictionary["status"] as? String
+            if let state = dictionary["state"] as? String { self.state = CEState(rawValue: state) } else { self.state = nil }
+            if let status = dictionary["status"] as? String { self.status = CEStatus(rawValue: status) } else { self.status = nil }
             guard let computeEnvironmentArn = dictionary["computeEnvironmentArn"] as? String else { throw InitializableError.missingRequiredParam("computeEnvironmentArn") }
             self.computeEnvironmentArn = computeEnvironmentArn
             guard let computeEnvironmentName = dictionary["computeEnvironmentName"] as? String else { throw InitializableError.missingRequiredParam("computeEnvironmentName") }
@@ -363,9 +385,19 @@ extension Batch {
             guard let ecsClusterArn = dictionary["ecsClusterArn"] as? String else { throw InitializableError.missingRequiredParam("ecsClusterArn") }
             self.ecsClusterArn = ecsClusterArn
             if let computeResources = dictionary["computeResources"] as? [String: Any] { self.computeResources = try Batch.ComputeResource(dictionary: computeResources) } else { self.computeResources = nil }
-            self.type = dictionary["type"] as? String
+            if let `type` = dictionary["type"] as? String { self.`type` = CEType(rawValue: `type`) } else { self.`type` = nil }
             self.serviceRole = dictionary["serviceRole"] as? String
         }
+    }
+
+    public enum JQStatus: String, CustomStringConvertible {
+        case creating = "CREATING"
+        case updating = "UPDATING"
+        case deleting = "DELETING"
+        case deleted = "DELETED"
+        case valid = "VALID"
+        case invalid = "INVALID"
+        public var description: String { return self.rawValue }
     }
 
     public struct DeleteJobQueueResponse: AWSShape {
@@ -399,7 +431,7 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// Describes the queue's ability to accept new jobs.
-        public let state: String?
+        public let state: JQState?
         /// The name or the Amazon Resource Name (ARN) of the job queue.
         public let jobQueue: String
         /// Details the set of compute environments mapped to a job queue and their order relative to each other. This is one of the parameters used by the job scheduler to determine which compute environment should execute a given job. 
@@ -407,7 +439,7 @@ extension Batch {
         /// The priority of the job queue. Job queues with a higher priority (or a lower integer value for the priority parameter) are evaluated first when associated with same compute environment. Priority is determined in ascending order, for example, a job queue with a priority value of 1 is given scheduling preference over a job queue with a priority value of 10.
         public let priority: Int32?
 
-        public init(state: String? = nil, jobQueue: String, computeEnvironmentOrder: [ComputeEnvironmentOrder]? = nil, priority: Int32? = nil) {
+        public init(state: JQState? = nil, jobQueue: String, computeEnvironmentOrder: [ComputeEnvironmentOrder]? = nil, priority: Int32? = nil) {
             self.state = state
             self.jobQueue = jobQueue
             self.computeEnvironmentOrder = computeEnvironmentOrder
@@ -415,7 +447,7 @@ extension Batch {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.state = dictionary["state"] as? String
+            if let state = dictionary["state"] as? String { self.state = JQState(rawValue: state) } else { self.state = nil }
             guard let jobQueue = dictionary["jobQueue"] as? String else { throw InitializableError.missingRequiredParam("jobQueue") }
             self.jobQueue = jobQueue
             if let computeEnvironmentOrder = dictionary["computeEnvironmentOrder"] as? [[String: Any]] {
@@ -431,9 +463,9 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The state of the compute environment. If the state is ENABLED, then the compute environment accepts jobs from a queue and can scale out automatically based on queues.
-        public let state: String?
+        public let state: CEState?
         /// The type of the compute environment. 
-        public let type: String
+        public let `type`: CEType
         /// The full Amazon Resource Name (ARN) of the IAM role that allows AWS Batch to make calls to other AWS services on your behalf. 
         public let serviceRole: String
         /// The name for your compute environment. Up to 128 letters (uppercase and lowercase), numbers, and underscores are allowed.
@@ -441,18 +473,18 @@ extension Batch {
         /// Details of the compute resources managed by the compute environment. This parameter is required for managed compute environments.
         public let computeResources: ComputeResource?
 
-        public init(state: String? = nil, type: String, serviceRole: String, computeEnvironmentName: String, computeResources: ComputeResource? = nil) {
+        public init(state: CEState? = nil, type: CEType, serviceRole: String, computeEnvironmentName: String, computeResources: ComputeResource? = nil) {
             self.state = state
-            self.type = type
+            self.`type` = `type`
             self.serviceRole = serviceRole
             self.computeEnvironmentName = computeEnvironmentName
             self.computeResources = computeResources
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.state = dictionary["state"] as? String
-            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
-            self.type = type
+            if let state = dictionary["state"] as? String { self.state = CEState(rawValue: state) } else { self.state = nil }
+            guard let rawtype = dictionary["type"] as? String, let `type` = CEType(rawValue: rawtype) else { throw InitializableError.missingRequiredParam("type") }
+            self.`type` = `type`
             guard let serviceRole = dictionary["serviceRole"] as? String else { throw InitializableError.missingRequiredParam("serviceRole") }
             self.serviceRole = serviceRole
             guard let computeEnvironmentName = dictionary["computeEnvironmentName"] as? String else { throw InitializableError.missingRequiredParam("computeEnvironmentName") }
@@ -669,7 +701,7 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The state of the compute environment. Compute environments in the ENABLED state can accept jobs from a queue and scale in or out automatically based on the workload demand of its associated queues.
-        public let state: String?
+        public let state: CEState?
         /// The name or full Amazon Resource Name (ARN) of the compute environment to update.
         public let computeEnvironment: String
         /// Details of the compute resources managed by the compute environment. Required for a managed compute environment.
@@ -677,7 +709,7 @@ extension Batch {
         /// The name or full Amazon Resource Name (ARN) of the IAM role that allows AWS Batch to make calls to ECS, Auto Scaling, and EC2 on your behalf.
         public let serviceRole: String?
 
-        public init(state: String? = nil, computeEnvironment: String, computeResources: ComputeResourceUpdate? = nil, serviceRole: String? = nil) {
+        public init(state: CEState? = nil, computeEnvironment: String, computeResources: ComputeResourceUpdate? = nil, serviceRole: String? = nil) {
             self.state = state
             self.computeEnvironment = computeEnvironment
             self.computeResources = computeResources
@@ -685,7 +717,7 @@ extension Batch {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.state = dictionary["state"] as? String
+            if let state = dictionary["state"] as? String { self.state = CEState(rawValue: state) } else { self.state = nil }
             guard let computeEnvironment = dictionary["computeEnvironment"] as? String else { throw InitializableError.missingRequiredParam("computeEnvironment") }
             self.computeEnvironment = computeEnvironment
             if let computeResources = dictionary["computeResources"] as? [String: Any] { self.computeResources = try Batch.ComputeResourceUpdate(dictionary: computeResources) } else { self.computeResources = nil }
@@ -712,6 +744,12 @@ extension Batch {
             guard let jobQueueArn = dictionary["jobQueueArn"] as? String else { throw InitializableError.missingRequiredParam("jobQueueArn") }
             self.jobQueueArn = jobQueueArn
         }
+    }
+
+    public enum CEState: String, CustomStringConvertible {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
     }
 
     public struct Host: AWSShape {
@@ -782,7 +820,7 @@ extension Batch {
         /// The Amazon Resource Name (ARN) of the job queue with which the job is associated.
         public let jobQueue: String
         /// The current status for the job.
-        public let status: String
+        public let status: JobStatus
         /// The name of the job.
         public let jobName: String
         /// The Unix timestamp for when the job was created (when the task entered the PENDING state). 
@@ -804,7 +842,7 @@ extension Batch {
         /// The ID for the job.
         public let jobId: String
 
-        public init(jobQueue: String, status: String, jobName: String, createdAt: Int64? = nil, stoppedAt: Int64? = nil, parameters: [String: String]? = nil, startedAt: Int64, container: ContainerDetail? = nil, statusReason: String? = nil, jobDefinition: String, dependsOn: [JobDependency]? = nil, jobId: String) {
+        public init(jobQueue: String, status: JobStatus, jobName: String, createdAt: Int64? = nil, stoppedAt: Int64? = nil, parameters: [String: String]? = nil, startedAt: Int64, container: ContainerDetail? = nil, statusReason: String? = nil, jobDefinition: String, dependsOn: [JobDependency]? = nil, jobId: String) {
             self.jobQueue = jobQueue
             self.status = status
             self.jobName = jobName
@@ -822,7 +860,7 @@ extension Batch {
         public init(dictionary: [String: Any]) throws {
             guard let jobQueue = dictionary["jobQueue"] as? String else { throw InitializableError.missingRequiredParam("jobQueue") }
             self.jobQueue = jobQueue
-            guard let status = dictionary["status"] as? String else { throw InitializableError.missingRequiredParam("status") }
+            guard let rawstatus = dictionary["status"] as? String, let status = JobStatus(rawValue: rawstatus) else { throw InitializableError.missingRequiredParam("status") }
             self.status = status
             guard let jobName = dictionary["jobName"] as? String else { throw InitializableError.missingRequiredParam("jobName") }
             self.jobName = jobName
@@ -914,6 +952,12 @@ extension Batch {
         }
     }
 
+    public enum CEType: String, CustomStringConvertible {
+        case managed = "MANAGED"
+        case unmanaged = "UNMANAGED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DeleteComputeEnvironmentResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -979,15 +1023,15 @@ extension Batch {
         /// The name of the job definition to register. 
         public let jobDefinitionName: String
         /// The type of job definition.
-        public let type: String
+        public let `type`: JobDefinitionType
         /// An object with various properties specific for container-based jobs. This parameter is required if the type parameter is container.
         public let containerProperties: ContainerProperties?
         /// Default parameter substitution placeholders to set in the job definition. Parameters are specified as a key-value pair mapping. Parameters in a SubmitJob request override any corresponding parameter defaults from the job definition.
         public let parameters: [String: String]?
 
-        public init(jobDefinitionName: String, type: String, containerProperties: ContainerProperties? = nil, parameters: [String: String]? = nil) {
+        public init(jobDefinitionName: String, type: JobDefinitionType, containerProperties: ContainerProperties? = nil, parameters: [String: String]? = nil) {
             self.jobDefinitionName = jobDefinitionName
-            self.type = type
+            self.`type` = `type`
             self.containerProperties = containerProperties
             self.parameters = parameters
         }
@@ -995,8 +1039,8 @@ extension Batch {
         public init(dictionary: [String: Any]) throws {
             guard let jobDefinitionName = dictionary["jobDefinitionName"] as? String else { throw InitializableError.missingRequiredParam("jobDefinitionName") }
             self.jobDefinitionName = jobDefinitionName
-            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
-            self.type = type
+            guard let rawtype = dictionary["type"] as? String, let `type` = JobDefinitionType(rawValue: rawtype) else { throw InitializableError.missingRequiredParam("type") }
+            self.`type` = `type`
             if let containerProperties = dictionary["containerProperties"] as? [String: Any] { self.containerProperties = try Batch.ContainerProperties(dictionary: containerProperties) } else { self.containerProperties = nil }
             if let parameters = dictionary["parameters"] as? [String: String] {
                 self.parameters = parameters
@@ -1016,9 +1060,9 @@ extension Batch {
         /// The maximum number of results returned by ListJobs in paginated output. When this parameter is used, ListJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListJobs request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListJobs returns up to 100 results and a nextToken value if applicable.
         public let maxResults: Int32?
         /// The job status with which to filter jobs in the specified queue.
-        public let jobStatus: String?
+        public let jobStatus: JobStatus?
 
-        public init(jobQueue: String, nextToken: String? = nil, maxResults: Int32? = nil, jobStatus: String? = nil) {
+        public init(jobQueue: String, nextToken: String? = nil, maxResults: Int32? = nil, jobStatus: JobStatus? = nil) {
             self.jobQueue = jobQueue
             self.nextToken = nextToken
             self.maxResults = maxResults
@@ -1030,7 +1074,7 @@ extension Batch {
             self.jobQueue = jobQueue
             self.nextToken = dictionary["nextToken"] as? String
             self.maxResults = dictionary["maxResults"] as? Int32
-            self.jobStatus = dictionary["jobStatus"] as? String
+            if let jobStatus = dictionary["jobStatus"] as? String { self.jobStatus = JobStatus(rawValue: jobStatus) } else { self.jobStatus = nil }
         }
     }
 
@@ -1133,7 +1177,7 @@ extension Batch {
         /// The Amazon Resource Name (ARN) for the job definition. 
         public let jobDefinitionArn: String
         /// The type of job definition.
-        public let type: String
+        public let `type`: String
         /// An object with various properties specific to container-based jobs. 
         public let containerProperties: ContainerProperties?
 
@@ -1143,7 +1187,7 @@ extension Batch {
             self.jobDefinitionName = jobDefinitionName
             self.parameters = parameters
             self.jobDefinitionArn = jobDefinitionArn
-            self.type = type
+            self.`type` = `type`
             self.containerProperties = containerProperties
         }
 
@@ -1160,8 +1204,8 @@ extension Batch {
             }
             guard let jobDefinitionArn = dictionary["jobDefinitionArn"] as? String else { throw InitializableError.missingRequiredParam("jobDefinitionArn") }
             self.jobDefinitionArn = jobDefinitionArn
-            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
-            self.type = type
+            guard let `type` = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
+            self.`type` = `type`
             if let containerProperties = dictionary["containerProperties"] as? [String: Any] { self.containerProperties = try Batch.ContainerProperties(dictionary: containerProperties) } else { self.containerProperties = nil }
         }
     }
@@ -1189,7 +1233,7 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The state of the job queue. If the job queue state is ENABLED, it is able to accept jobs.
-        public let state: String?
+        public let state: JQState?
         /// The set of compute environments mapped to a job queue and their order relative to each other. The job scheduler uses this parameter to determine which compute environment should execute a given job. Compute environments must be in the VALID state before you can associate them with a job queue. You can associate up to 3 compute environments with a job queue.
         public let computeEnvironmentOrder: [ComputeEnvironmentOrder]
         /// The priority of the job queue. Job queues with a higher priority (or a lower integer value for the priority parameter) are evaluated first when associated with same compute environment. Priority is determined in ascending order, for example, a job queue with a priority value of 1 is given scheduling preference over a job queue with a priority value of 10.
@@ -1197,7 +1241,7 @@ extension Batch {
         /// The name of the job queue.
         public let jobQueueName: String
 
-        public init(state: String? = nil, computeEnvironmentOrder: [ComputeEnvironmentOrder], priority: Int32, jobQueueName: String) {
+        public init(state: JQState? = nil, computeEnvironmentOrder: [ComputeEnvironmentOrder], priority: Int32, jobQueueName: String) {
             self.state = state
             self.computeEnvironmentOrder = computeEnvironmentOrder
             self.priority = priority
@@ -1205,7 +1249,7 @@ extension Batch {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.state = dictionary["state"] as? String
+            if let state = dictionary["state"] as? String { self.state = JQState(rawValue: state) } else { self.state = nil }
             guard let computeEnvironmentOrder = dictionary["computeEnvironmentOrder"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("computeEnvironmentOrder") }
             self.computeEnvironmentOrder = try computeEnvironmentOrder.map({ try ComputeEnvironmentOrder(dictionary: $0) })
             guard let priority = dictionary["priority"] as? Int32 else { throw InitializableError.missingRequiredParam("priority") }
@@ -1253,6 +1297,22 @@ extension Batch {
             self.computeEnvironmentName = dictionary["computeEnvironmentName"] as? String
             self.computeEnvironmentArn = dictionary["computeEnvironmentArn"] as? String
         }
+    }
+
+    public enum CEStatus: String, CustomStringConvertible {
+        case creating = "CREATING"
+        case updating = "UPDATING"
+        case deleting = "DELETING"
+        case deleted = "DELETED"
+        case valid = "VALID"
+        case invalid = "INVALID"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CRType: String, CustomStringConvertible {
+        case ec2 = "EC2"
+        case spot = "SPOT"
+        public var description: String { return self.rawValue }
     }
 
     public struct UpdateJobQueueResponse: AWSShape {

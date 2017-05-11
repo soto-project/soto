@@ -29,6 +29,12 @@ import Core
 
 extension Waf {
 
+    public enum ChangeAction: String, CustomStringConvertible {
+        case insert = "INSERT"
+        case delete = "DELETE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ListXssMatchSetsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -56,17 +62,17 @@ extension Waf {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies whether to insert a Rule into or delete a Rule from a WebACL.
-        public let action: String
+        public let action: ChangeAction
         /// The ActivatedRule object in an UpdateWebACL request specifies a Rule that you want to insert or delete, the priority of the Rule in the WebACL, and the action that you want AWS WAF to take when a web request matches the Rule (ALLOW, BLOCK, or COUNT).
         public let activatedRule: ActivatedRule
 
-        public init(action: String, activatedRule: ActivatedRule) {
+        public init(action: ChangeAction, activatedRule: ActivatedRule) {
             self.action = action
             self.activatedRule = activatedRule
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let action = dictionary["Action"] as? String else { throw InitializableError.missingRequiredParam("Action") }
+            guard let rawAction = dictionary["Action"] as? String, let action = ChangeAction(rawValue: rawAction) else { throw InitializableError.missingRequiredParam("Action") }
             self.action = action
             guard let activatedRule = dictionary["ActivatedRule"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ActivatedRule") }
             self.activatedRule = try Waf.ActivatedRule(dictionary: activatedRule)
@@ -132,17 +138,17 @@ extension Waf {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies whether to insert or delete an IP address with UpdateIPSet.
-        public let action: String
+        public let action: ChangeAction
         /// The IP address type (IPV4 or IPV6) and the IP address range (in CIDR notation) that web requests originate from.
         public let iPSetDescriptor: IPSetDescriptor
 
-        public init(action: String, iPSetDescriptor: IPSetDescriptor) {
+        public init(action: ChangeAction, iPSetDescriptor: IPSetDescriptor) {
             self.action = action
             self.iPSetDescriptor = iPSetDescriptor
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let action = dictionary["Action"] as? String else { throw InitializableError.missingRequiredParam("Action") }
+            guard let rawAction = dictionary["Action"] as? String, let action = ChangeAction(rawValue: rawAction) else { throw InitializableError.missingRequiredParam("Action") }
             self.action = action
             guard let iPSetDescriptor = dictionary["IPSetDescriptor"] as? [String: Any] else { throw InitializableError.missingRequiredParam("IPSetDescriptor") }
             self.iPSetDescriptor = try Waf.IPSetDescriptor(dictionary: iPSetDescriptor)
@@ -240,17 +246,17 @@ extension Waf {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies whether to insert or delete a ByteMatchTuple.
-        public let action: String
+        public let action: ChangeAction
         /// Information about the part of a web request that you want AWS WAF to inspect and the value that you want AWS WAF to search for. If you specify DELETE for the value of Action, the ByteMatchTuple values must exactly match the values in the ByteMatchTuple that you want to delete from the ByteMatchSet.
         public let byteMatchTuple: ByteMatchTuple
 
-        public init(action: String, byteMatchTuple: ByteMatchTuple) {
+        public init(action: ChangeAction, byteMatchTuple: ByteMatchTuple) {
             self.action = action
             self.byteMatchTuple = byteMatchTuple
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let action = dictionary["Action"] as? String else { throw InitializableError.missingRequiredParam("Action") }
+            guard let rawAction = dictionary["Action"] as? String, let action = ChangeAction(rawValue: rawAction) else { throw InitializableError.missingRequiredParam("Action") }
             self.action = action
             guard let byteMatchTuple = dictionary["ByteMatchTuple"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ByteMatchTuple") }
             self.byteMatchTuple = try Waf.ByteMatchTuple(dictionary: byteMatchTuple)
@@ -274,6 +280,19 @@ extension Waf {
             self.limit = dictionary["Limit"] as? Int32
             self.nextMarker = dictionary["NextMarker"] as? String
         }
+    }
+
+    public enum ParameterExceptionField: String, CustomStringConvertible {
+        case change_action = "CHANGE_ACTION"
+        case waf_action = "WAF_ACTION"
+        case predicate_type = "PREDICATE_TYPE"
+        case ipset_type = "IPSET_TYPE"
+        case byte_match_field_type = "BYTE_MATCH_FIELD_TYPE"
+        case sql_injection_match_field_type = "SQL_INJECTION_MATCH_FIELD_TYPE"
+        case byte_match_text_transformation = "BYTE_MATCH_TEXT_TRANSFORMATION"
+        case byte_match_positional_constraint = "BYTE_MATCH_POSITIONAL_CONSTRAINT"
+        case size_constraint_comparison_operator = "SIZE_CONSTRAINT_COMPARISON_OPERATOR"
+        public var description: String { return self.rawValue }
     }
 
     public struct CreateRuleRequest: AWSShape {
@@ -308,9 +327,9 @@ extension Waf {
         /// Specifies where in a web request to look for snippets of malicious SQL code.
         public let fieldToMatch: FieldToMatch
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass AWS WAF. If you specify a transformation, AWS WAF performs the transformation on FieldToMatch before inspecting a request for a match.  CMD_LINE  When you're concerned that attackers are injecting an operating system commandline command and using unusual formatting to disguise some or all of the command, use this option to perform the following transformations:   Delete the following characters: \ " ' ^   Delete spaces before the following characters: / (   Replace the following characters with a space: , ;   Replace multiple spaces with one space   Convert uppercase letters (A-Z) to lowercase (a-z)    COMPRESS_WHITE_SPACE  Use this option to replace the following characters with a space character (decimal 32):   \f, formfeed, decimal 12   \t, tab, decimal 9   \n, newline, decimal 10   \r, carriage return, decimal 13   \v, vertical tab, decimal 11   non-breaking space, decimal 160    COMPRESS_WHITE_SPACE also replaces multiple spaces with one space.  HTML_ENTITY_DECODE  Use this option to replace HTML-encoded characters with unencoded characters. HTML_ENTITY_DECODE performs the following operations:   Replaces (ampersand)quot; with "    Replaces (ampersand)nbsp; with a non-breaking space, decimal 160   Replaces (ampersand)lt; with a "less than" symbol   Replaces (ampersand)gt; with &gt;    Replaces characters that are represented in hexadecimal format, (ampersand)#xhhhh;, with the corresponding characters   Replaces characters that are represented in decimal format, (ampersand)#nnnn;, with the corresponding characters    LOWERCASE  Use this option to convert uppercase letters (A-Z) to lowercase (a-z).  URL_DECODE  Use this option to decode a URL-encoded value.  NONE  Specify NONE if you don't want to perform any text transformations.
-        public let textTransformation: String
+        public let textTransformation: TextTransformation
 
-        public init(fieldToMatch: FieldToMatch, textTransformation: String) {
+        public init(fieldToMatch: FieldToMatch, textTransformation: TextTransformation) {
             self.fieldToMatch = fieldToMatch
             self.textTransformation = textTransformation
         }
@@ -318,7 +337,7 @@ extension Waf {
         public init(dictionary: [String: Any]) throws {
             guard let fieldToMatch = dictionary["FieldToMatch"] as? [String: Any] else { throw InitializableError.missingRequiredParam("FieldToMatch") }
             self.fieldToMatch = try Waf.FieldToMatch(dictionary: fieldToMatch)
-            guard let textTransformation = dictionary["TextTransformation"] as? String else { throw InitializableError.missingRequiredParam("TextTransformation") }
+            guard let rawTextTransformation = dictionary["TextTransformation"] as? String, let textTransformation = TextTransformation(rawValue: rawTextTransformation) else { throw InitializableError.missingRequiredParam("TextTransformation") }
             self.textTransformation = textTransformation
         }
     }
@@ -549,6 +568,12 @@ extension Waf {
         }
     }
 
+    public enum IPSetDescriptorType: String, CustomStringConvertible {
+        case ipv4 = "IPV4"
+        case ipv6 = "IPV6"
+        public var description: String { return self.rawValue }
+    }
+
     public struct UpdateWebACLResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -652,13 +677,13 @@ extension Waf {
         /// Specifies where in a web request to look for the size constraint.
         public let fieldToMatch: FieldToMatch
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass AWS WAF. If you specify a transformation, AWS WAF performs the transformation on FieldToMatch before inspecting a request for a match. Note that if you choose BODY for the value of Type, you must choose NONE for TextTransformation because CloudFront forwards only the first 8192 bytes for inspection.   NONE  Specify NONE if you don't want to perform any text transformations.  CMD_LINE  When you're concerned that attackers are injecting an operating system command line command and using unusual formatting to disguise some or all of the command, use this option to perform the following transformations:   Delete the following characters: \ " ' ^   Delete spaces before the following characters: / (   Replace the following characters with a space: , ;   Replace multiple spaces with one space   Convert uppercase letters (A-Z) to lowercase (a-z)    COMPRESS_WHITE_SPACE  Use this option to replace the following characters with a space character (decimal 32):   \f, formfeed, decimal 12   \t, tab, decimal 9   \n, newline, decimal 10   \r, carriage return, decimal 13   \v, vertical tab, decimal 11   non-breaking space, decimal 160    COMPRESS_WHITE_SPACE also replaces multiple spaces with one space.  HTML_ENTITY_DECODE  Use this option to replace HTML-encoded characters with unencoded characters. HTML_ENTITY_DECODE performs the following operations:   Replaces (ampersand)quot; with "    Replaces (ampersand)nbsp; with a non-breaking space, decimal 160   Replaces (ampersand)lt; with a "less than" symbol   Replaces (ampersand)gt; with &gt;    Replaces characters that are represented in hexadecimal format, (ampersand)#xhhhh;, with the corresponding characters   Replaces characters that are represented in decimal format, (ampersand)#nnnn;, with the corresponding characters    LOWERCASE  Use this option to convert uppercase letters (A-Z) to lowercase (a-z).  URL_DECODE  Use this option to decode a URL-encoded value.
-        public let textTransformation: String
+        public let textTransformation: TextTransformation
         /// The type of comparison you want AWS WAF to perform. AWS WAF uses this in combination with the provided Size and FieldToMatch to build an expression in the form of "Size ComparisonOperator size in bytes of FieldToMatch". If that expression is true, the SizeConstraint is considered to match.  EQ: Used to test if the Size is equal to the size of the FieldToMatch   NE: Used to test if the Size is not equal to the size of the FieldToMatch   LE: Used to test if the Size is less than or equal to the size of the FieldToMatch   LT: Used to test if the Size is strictly less than the size of the FieldToMatch   GE: Used to test if the Size is greater than or equal to the size of the FieldToMatch   GT: Used to test if the Size is strictly greater than the size of the FieldToMatch 
-        public let comparisonOperator: String
+        public let comparisonOperator: ComparisonOperator
         /// The size in bytes that you want AWS WAF to compare against the size of the specified FieldToMatch. AWS WAF uses this in combination with ComparisonOperator and FieldToMatch to build an expression in the form of "Size ComparisonOperator size in bytes of FieldToMatch". If that expression is true, the SizeConstraint is considered to match. Valid values for size are 0 - 21474836480 bytes (0 - 20 GB). If you specify URI for the value of Type, the / in the URI counts as one character. For example, the URI /logo.jpg is nine characters long.
         public let size: Int64
 
-        public init(fieldToMatch: FieldToMatch, textTransformation: String, comparisonOperator: String, size: Int64) {
+        public init(fieldToMatch: FieldToMatch, textTransformation: TextTransformation, comparisonOperator: ComparisonOperator, size: Int64) {
             self.fieldToMatch = fieldToMatch
             self.textTransformation = textTransformation
             self.comparisonOperator = comparisonOperator
@@ -668,9 +693,9 @@ extension Waf {
         public init(dictionary: [String: Any]) throws {
             guard let fieldToMatch = dictionary["FieldToMatch"] as? [String: Any] else { throw InitializableError.missingRequiredParam("FieldToMatch") }
             self.fieldToMatch = try Waf.FieldToMatch(dictionary: fieldToMatch)
-            guard let textTransformation = dictionary["TextTransformation"] as? String else { throw InitializableError.missingRequiredParam("TextTransformation") }
+            guard let rawTextTransformation = dictionary["TextTransformation"] as? String, let textTransformation = TextTransformation(rawValue: rawTextTransformation) else { throw InitializableError.missingRequiredParam("TextTransformation") }
             self.textTransformation = textTransformation
-            guard let comparisonOperator = dictionary["ComparisonOperator"] as? String else { throw InitializableError.missingRequiredParam("ComparisonOperator") }
+            guard let rawComparisonOperator = dictionary["ComparisonOperator"] as? String, let comparisonOperator = ComparisonOperator(rawValue: rawComparisonOperator) else { throw InitializableError.missingRequiredParam("ComparisonOperator") }
             self.comparisonOperator = comparisonOperator
             guard let size = dictionary["Size"] as? Int64 else { throw InitializableError.missingRequiredParam("Size") }
             self.size = size
@@ -681,18 +706,18 @@ extension Waf {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specify IPV4 or IPV6.
-        public let type: String
+        public let `type`: IPSetDescriptorType
         /// Specify an IPv4 address by using CIDR notation. For example:   To configure AWS WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing. Specify an IPv6 address by using CIDR notation. For example:   To configure AWS WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.  
         public let value: String
 
-        public init(type: String, value: String) {
-            self.type = type
+        public init(type: IPSetDescriptorType, value: String) {
+            self.`type` = `type`
             self.value = value
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
-            self.type = type
+            guard let rawType = dictionary["Type"] as? String, let `type` = IPSetDescriptorType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
+            self.`type` = `type`
             guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
             self.value = value
         }
@@ -719,9 +744,9 @@ extension Waf {
         /// Specifies a constraint on the size of a part of the web request. AWS WAF uses the Size, ComparisonOperator, and FieldToMatch to build an expression in the form of "Size ComparisonOperator size in bytes of FieldToMatch". If that expression is true, the SizeConstraint is considered to match.
         public let sizeConstraint: SizeConstraint
         /// Specify INSERT to add a SizeConstraintSetUpdate to a SizeConstraintSet. Use DELETE to remove a SizeConstraintSetUpdate from a SizeConstraintSet.
-        public let action: String
+        public let action: ChangeAction
 
-        public init(sizeConstraint: SizeConstraint, action: String) {
+        public init(sizeConstraint: SizeConstraint, action: ChangeAction) {
             self.sizeConstraint = sizeConstraint
             self.action = action
         }
@@ -729,7 +754,7 @@ extension Waf {
         public init(dictionary: [String: Any]) throws {
             guard let sizeConstraint = dictionary["SizeConstraint"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SizeConstraint") }
             self.sizeConstraint = try Waf.SizeConstraint(dictionary: sizeConstraint)
-            guard let action = dictionary["Action"] as? String else { throw InitializableError.missingRequiredParam("Action") }
+            guard let rawAction = dictionary["Action"] as? String, let action = ChangeAction(rawValue: rawAction) else { throw InitializableError.missingRequiredParam("Action") }
             self.action = action
         }
     }
@@ -1000,15 +1025,15 @@ extension Waf {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies how you want AWS WAF to respond to requests that match the settings in a Rule. Valid settings include the following:    ALLOW: AWS WAF allows requests    BLOCK: AWS WAF blocks requests    COUNT: AWS WAF increments a counter of the requests that match all of the conditions in the rule. AWS WAF then continues to inspect the web request based on the remaining rules in the web ACL. You can't specify COUNT for the default action for a WebACL.  
-        public let type: String
+        public let `type`: WafActionType
 
-        public init(type: String) {
-            self.type = type
+        public init(type: WafActionType) {
+            self.`type` = `type`
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
-            self.type = type
+            guard let rawType = dictionary["Type"] as? String, let `type` = WafActionType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
+            self.`type` = `type`
         }
     }
 
@@ -1048,6 +1073,15 @@ extension Waf {
             self.changeToken = dictionary["ChangeToken"] as? String
             if let sqlInjectionMatchSet = dictionary["SqlInjectionMatchSet"] as? [String: Any] { self.sqlInjectionMatchSet = try Waf.SqlInjectionMatchSet(dictionary: sqlInjectionMatchSet) } else { self.sqlInjectionMatchSet = nil }
         }
+    }
+
+    public enum MatchFieldType: String, CustomStringConvertible {
+        case uri = "URI"
+        case query_string = "QUERY_STRING"
+        case header = "HEADER"
+        case method = "METHOD"
+        case body = "BODY"
+        public var description: String { return self.rawValue }
     }
 
     public struct GetChangeTokenResponse: AWSShape {
@@ -1115,11 +1149,11 @@ extension Waf {
         /// The value that you want AWS WAF to search for. AWS WAF searches for the specified string in the part of web requests that you specified in FieldToMatch. The maximum length of the value is 50 bytes. Valid values depend on the values that you specified for FieldToMatch:    HEADER: The value that you want AWS WAF to search for in the request header that you specified in FieldToMatch, for example, the value of the User-Agent or Referer header.    METHOD: The HTTP method, which indicates the type of operation specified in the request. CloudFront supports the following methods: DELETE, GET, HEAD, OPTIONS, PATCH, POST, and PUT.    QUERY_STRING: The value that you want AWS WAF to search for in the query string, which is the part of a URL that appears after a ? character.    URI: The value that you want AWS WAF to search for in the part of a URL that identifies a resource, for example, /images/daily-ad.jpg.    BODY: The part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form. The request body immediately follows the request headers. Note that only the first 8192 bytes of the request body are forwarded to AWS WAF for inspection. To allow or block requests based on the length of the body, you can create a size constraint set. For more information, see CreateSizeConstraintSet.    If TargetString includes alphabetic characters A-Z and a-z, note that the value is case sensitive.  If you're using the AWS WAF API  Specify a base64-encoded version of the value. The maximum length of the value before you base64-encode it is 50 bytes. For example, suppose the value of Type is HEADER and the value of Data is User-Agent. If you want to search the User-Agent header for the value BadBot, you base64-encode BadBot using MIME base64 encoding and include the resulting value, QmFkQm90, in the value of TargetString.  If you're using the AWS CLI or one of the AWS SDKs  The value that you want AWS WAF to search for. The SDK automatically base64 encodes the value.
         public let targetString: Data
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass AWS WAF. If you specify a transformation, AWS WAF performs the transformation on TargetString before inspecting a request for a match.  CMD_LINE  When you're concerned that attackers are injecting an operating system commandline command and using unusual formatting to disguise some or all of the command, use this option to perform the following transformations:   Delete the following characters: \ " ' ^   Delete spaces before the following characters: / (   Replace the following characters with a space: , ;   Replace multiple spaces with one space   Convert uppercase letters (A-Z) to lowercase (a-z)    COMPRESS_WHITE_SPACE  Use this option to replace the following characters with a space character (decimal 32):   \f, formfeed, decimal 12   \t, tab, decimal 9   \n, newline, decimal 10   \r, carriage return, decimal 13   \v, vertical tab, decimal 11   non-breaking space, decimal 160    COMPRESS_WHITE_SPACE also replaces multiple spaces with one space.  HTML_ENTITY_DECODE  Use this option to replace HTML-encoded characters with unencoded characters. HTML_ENTITY_DECODE performs the following operations:   Replaces (ampersand)quot; with "    Replaces (ampersand)nbsp; with a non-breaking space, decimal 160   Replaces (ampersand)lt; with a "less than" symbol   Replaces (ampersand)gt; with &gt;    Replaces characters that are represented in hexadecimal format, (ampersand)#xhhhh;, with the corresponding characters   Replaces characters that are represented in decimal format, (ampersand)#nnnn;, with the corresponding characters    LOWERCASE  Use this option to convert uppercase letters (A-Z) to lowercase (a-z).  URL_DECODE  Use this option to decode a URL-encoded value.  NONE  Specify NONE if you don't want to perform any text transformations.
-        public let textTransformation: String
+        public let textTransformation: TextTransformation
         /// Within the portion of a web request that you want to search (for example, in the query string, if any), specify where you want AWS WAF to search. Valid values include the following:  CONTAINS  The specified part of the web request must include the value of TargetString, but the location doesn't matter.  CONTAINS_WORD  The specified part of the web request must include the value of TargetString, and TargetString must contain only alphanumeric characters or underscore (A-Z, a-z, 0-9, or _). In addition, TargetString must be a word, which means one of the following:    TargetString exactly matches the value of the specified part of the web request, such as the value of a header.    TargetString is at the beginning of the specified part of the web request and is followed by a character other than an alphanumeric character or underscore (_), for example, BadBot;.    TargetString is at the end of the specified part of the web request and is preceded by a character other than an alphanumeric character or underscore (_), for example, ;BadBot.    TargetString is in the middle of the specified part of the web request and is preceded and followed by characters other than alphanumeric characters or underscore (_), for example, -BadBot;.    EXACTLY  The value of the specified part of the web request must exactly match the value of TargetString.  STARTS_WITH  The value of TargetString must appear at the beginning of the specified part of the web request.  ENDS_WITH  The value of TargetString must appear at the end of the specified part of the web request.
-        public let positionalConstraint: String
+        public let positionalConstraint: PositionalConstraint
 
-        public init(fieldToMatch: FieldToMatch, targetString: Data, textTransformation: String, positionalConstraint: String) {
+        public init(fieldToMatch: FieldToMatch, targetString: Data, textTransformation: TextTransformation, positionalConstraint: PositionalConstraint) {
             self.fieldToMatch = fieldToMatch
             self.targetString = targetString
             self.textTransformation = textTransformation
@@ -1131,9 +1165,9 @@ extension Waf {
             self.fieldToMatch = try Waf.FieldToMatch(dictionary: fieldToMatch)
             guard let targetString = dictionary["TargetString"] as? Data else { throw InitializableError.missingRequiredParam("TargetString") }
             self.targetString = targetString
-            guard let textTransformation = dictionary["TextTransformation"] as? String else { throw InitializableError.missingRequiredParam("TextTransformation") }
+            guard let rawTextTransformation = dictionary["TextTransformation"] as? String, let textTransformation = TextTransformation(rawValue: rawTextTransformation) else { throw InitializableError.missingRequiredParam("TextTransformation") }
             self.textTransformation = textTransformation
-            guard let positionalConstraint = dictionary["PositionalConstraint"] as? String else { throw InitializableError.missingRequiredParam("PositionalConstraint") }
+            guard let rawPositionalConstraint = dictionary["PositionalConstraint"] as? String, let positionalConstraint = PositionalConstraint(rawValue: rawPositionalConstraint) else { throw InitializableError.missingRequiredParam("PositionalConstraint") }
             self.positionalConstraint = positionalConstraint
         }
     }
@@ -1180,9 +1214,9 @@ extension Waf {
         /// Specifies the part of a web request that you want AWS WAF to inspect for cross-site scripting attacks and, if you want AWS WAF to inspect a header, the name of the header.
         public let xssMatchTuple: XssMatchTuple
         /// Specify INSERT to add a XssMatchSetUpdate to an XssMatchSet. Use DELETE to remove a XssMatchSetUpdate from an XssMatchSet.
-        public let action: String
+        public let action: ChangeAction
 
-        public init(xssMatchTuple: XssMatchTuple, action: String) {
+        public init(xssMatchTuple: XssMatchTuple, action: ChangeAction) {
             self.xssMatchTuple = xssMatchTuple
             self.action = action
         }
@@ -1190,7 +1224,7 @@ extension Waf {
         public init(dictionary: [String: Any]) throws {
             guard let xssMatchTuple = dictionary["XssMatchTuple"] as? [String: Any] else { throw InitializableError.missingRequiredParam("XssMatchTuple") }
             self.xssMatchTuple = try Waf.XssMatchTuple(dictionary: xssMatchTuple)
-            guard let action = dictionary["Action"] as? String else { throw InitializableError.missingRequiredParam("Action") }
+            guard let rawAction = dictionary["Action"] as? String, let action = ChangeAction(rawValue: rawAction) else { throw InitializableError.missingRequiredParam("Action") }
             self.action = action
         }
     }
@@ -1256,17 +1290,17 @@ extension Waf {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specify INSERT to add a SqlInjectionMatchSetUpdate to a SqlInjectionMatchSet. Use DELETE to remove a SqlInjectionMatchSetUpdate from a SqlInjectionMatchSet.
-        public let action: String
+        public let action: ChangeAction
         /// Specifies the part of a web request that you want AWS WAF to inspect for snippets of malicious SQL code and, if you want AWS WAF to inspect a header, the name of the header.
         public let sqlInjectionMatchTuple: SqlInjectionMatchTuple
 
-        public init(action: String, sqlInjectionMatchTuple: SqlInjectionMatchTuple) {
+        public init(action: ChangeAction, sqlInjectionMatchTuple: SqlInjectionMatchTuple) {
             self.action = action
             self.sqlInjectionMatchTuple = sqlInjectionMatchTuple
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let action = dictionary["Action"] as? String else { throw InitializableError.missingRequiredParam("Action") }
+            guard let rawAction = dictionary["Action"] as? String, let action = ChangeAction(rawValue: rawAction) else { throw InitializableError.missingRequiredParam("Action") }
             self.action = action
             guard let sqlInjectionMatchTuple = dictionary["SqlInjectionMatchTuple"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SqlInjectionMatchTuple") }
             self.sqlInjectionMatchTuple = try Waf.SqlInjectionMatchTuple(dictionary: sqlInjectionMatchTuple)
@@ -1528,20 +1562,27 @@ extension Waf {
         /// The key for the payload
         public static let payload: String? = nil
         /// The part of the web request that you want AWS WAF to search for a specified string. Parts of a request that you can search include the following:    HEADER: A specified request header, for example, the value of the User-Agent or Referer header. If you choose HEADER for the type, specify the name of the header in Data.    METHOD: The HTTP method, which indicated the type of operation that the request is asking the origin to perform. Amazon CloudFront supports the following methods: DELETE, GET, HEAD, OPTIONS, PATCH, POST, and PUT.    QUERY_STRING: A query string, which is the part of a URL that appears after a ? character, if any.    URI: The part of a web request that identifies a resource, for example, /images/daily-ad.jpg.    BODY: The part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form. The request body immediately follows the request headers. Note that only the first 8192 bytes of the request body are forwarded to AWS WAF for inspection. To allow or block requests based on the length of the body, you can create a size constraint set. For more information, see CreateSizeConstraintSet.   
-        public let type: String
+        public let `type`: MatchFieldType
         /// When the value of Type is HEADER, enter the name of the header that you want AWS WAF to search, for example, User-Agent or Referer. If the value of Type is any other value, omit Data. The name of the header is not case sensitive.
         public let data: String?
 
-        public init(type: String, data: String? = nil) {
-            self.type = type
+        public init(type: MatchFieldType, data: String? = nil) {
+            self.`type` = `type`
             self.data = data
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
-            self.type = type
+            guard let rawType = dictionary["Type"] as? String, let `type` = MatchFieldType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
+            self.`type` = `type`
             self.data = dictionary["Data"] as? String
         }
+    }
+
+    public enum ChangeTokenStatus: String, CustomStringConvertible {
+        case provisioned = "PROVISIONED"
+        case pending = "PENDING"
+        case insync = "INSYNC"
+        public var description: String { return self.rawValue }
     }
 
     public struct UpdateByteMatchSetResponse: AWSShape {
@@ -1628,6 +1669,15 @@ extension Waf {
         }
     }
 
+    public enum PositionalConstraint: String, CustomStringConvertible {
+        case exactly = "EXACTLY"
+        case starts_with = "STARTS_WITH"
+        case ends_with = "ENDS_WITH"
+        case contains = "CONTAINS"
+        case contains_word = "CONTAINS_WORD"
+        public var description: String { return self.rawValue }
+    }
+
     public struct GetIPSetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1668,9 +1718,9 @@ extension Waf {
         /// Specifies where in a web request to look for cross-site scripting attacks.
         public let fieldToMatch: FieldToMatch
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass AWS WAF. If you specify a transformation, AWS WAF performs the transformation on FieldToMatch before inspecting a request for a match.  CMD_LINE  When you're concerned that attackers are injecting an operating system commandline command and using unusual formatting to disguise some or all of the command, use this option to perform the following transformations:   Delete the following characters: \ " ' ^   Delete spaces before the following characters: / (   Replace the following characters with a space: , ;   Replace multiple spaces with one space   Convert uppercase letters (A-Z) to lowercase (a-z)    COMPRESS_WHITE_SPACE  Use this option to replace the following characters with a space character (decimal 32):   \f, formfeed, decimal 12   \t, tab, decimal 9   \n, newline, decimal 10   \r, carriage return, decimal 13   \v, vertical tab, decimal 11   non-breaking space, decimal 160    COMPRESS_WHITE_SPACE also replaces multiple spaces with one space.  HTML_ENTITY_DECODE  Use this option to replace HTML-encoded characters with unencoded characters. HTML_ENTITY_DECODE performs the following operations:   Replaces (ampersand)quot; with "    Replaces (ampersand)nbsp; with a non-breaking space, decimal 160   Replaces (ampersand)lt; with a "less than" symbol   Replaces (ampersand)gt; with &gt;    Replaces characters that are represented in hexadecimal format, (ampersand)#xhhhh;, with the corresponding characters   Replaces characters that are represented in decimal format, (ampersand)#nnnn;, with the corresponding characters    LOWERCASE  Use this option to convert uppercase letters (A-Z) to lowercase (a-z).  URL_DECODE  Use this option to decode a URL-encoded value.  NONE  Specify NONE if you don't want to perform any text transformations.
-        public let textTransformation: String
+        public let textTransformation: TextTransformation
 
-        public init(fieldToMatch: FieldToMatch, textTransformation: String) {
+        public init(fieldToMatch: FieldToMatch, textTransformation: TextTransformation) {
             self.fieldToMatch = fieldToMatch
             self.textTransformation = textTransformation
         }
@@ -1678,9 +1728,16 @@ extension Waf {
         public init(dictionary: [String: Any]) throws {
             guard let fieldToMatch = dictionary["FieldToMatch"] as? [String: Any] else { throw InitializableError.missingRequiredParam("FieldToMatch") }
             self.fieldToMatch = try Waf.FieldToMatch(dictionary: fieldToMatch)
-            guard let textTransformation = dictionary["TextTransformation"] as? String else { throw InitializableError.missingRequiredParam("TextTransformation") }
+            guard let rawTextTransformation = dictionary["TextTransformation"] as? String, let textTransformation = TextTransformation(rawValue: rawTextTransformation) else { throw InitializableError.missingRequiredParam("TextTransformation") }
             self.textTransformation = textTransformation
         }
+    }
+
+    public enum WafActionType: String, CustomStringConvertible {
+        case block = "BLOCK"
+        case allow = "ALLOW"
+        case count = "COUNT"
+        public var description: String { return self.rawValue }
     }
 
     public struct DeleteByteMatchSetResponse: AWSShape {
@@ -1712,6 +1769,15 @@ extension Waf {
             guard let sqlInjectionMatchSetId = dictionary["SqlInjectionMatchSetId"] as? String else { throw InitializableError.missingRequiredParam("SqlInjectionMatchSetId") }
             self.sqlInjectionMatchSetId = sqlInjectionMatchSetId
         }
+    }
+
+    public enum PredicateType: String, CustomStringConvertible {
+        case ipmatch = "IPMatch"
+        case bytematch = "ByteMatch"
+        case sqlinjectionmatch = "SqlInjectionMatch"
+        case sizeconstraint = "SizeConstraint"
+        case xssmatch = "XssMatch"
+        public var description: String { return self.rawValue }
     }
 
     public struct DeleteSizeConstraintSetRequest: AWSShape {
@@ -1750,18 +1816,28 @@ extension Waf {
         }
     }
 
+    public enum TextTransformation: String, CustomStringConvertible {
+        case none = "NONE"
+        case compress_white_space = "COMPRESS_WHITE_SPACE"
+        case html_entity_decode = "HTML_ENTITY_DECODE"
+        case lowercase = "LOWERCASE"
+        case cmd_line = "CMD_LINE"
+        case url_decode = "URL_DECODE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct GetChangeTokenStatusResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the change token.
-        public let changeTokenStatus: String?
+        public let changeTokenStatus: ChangeTokenStatus?
 
-        public init(changeTokenStatus: String? = nil) {
+        public init(changeTokenStatus: ChangeTokenStatus? = nil) {
             self.changeTokenStatus = changeTokenStatus
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.changeTokenStatus = dictionary["ChangeTokenStatus"] as? String
+            if let changeTokenStatus = dictionary["ChangeTokenStatus"] as? String { self.changeTokenStatus = ChangeTokenStatus(rawValue: changeTokenStatus) } else { self.changeTokenStatus = nil }
         }
     }
 
@@ -1789,6 +1865,12 @@ extension Waf {
             guard let updates = dictionary["Updates"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Updates") }
             self.updates = try updates.map({ try ByteMatchSetUpdate(dictionary: $0) })
         }
+    }
+
+    public enum ParameterExceptionReason: String, CustomStringConvertible {
+        case invalid_option = "INVALID_OPTION"
+        case illegal_combination = "ILLEGAL_COMBINATION"
+        public var description: String { return self.rawValue }
     }
 
     public struct SizeConstraintSet: AWSShape {
@@ -2054,21 +2136,21 @@ extension Waf {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of predicate in a Rule, such as ByteMatchSet or IPSet.
-        public let type: String
+        public let `type`: PredicateType
         /// Set Negated to False if you want AWS WAF to allow, block, or count requests based on the settings in the specified ByteMatchSet, IPSet, SqlInjectionMatchSet, XssMatchSet, or SizeConstraintSet. For example, if an IPSet includes the IP address 192.0.2.44, AWS WAF will allow or block requests based on that IP address. Set Negated to True if you want AWS WAF to allow or block a request based on the negation of the settings in the ByteMatchSet, IPSet, SqlInjectionMatchSet, XssMatchSet, or SizeConstraintSet. For example, if an IPSet includes the IP address 192.0.2.44, AWS WAF will allow, block, or count requests based on all IP addresses except 192.0.2.44.
         public let negated: Bool
         /// A unique identifier for a predicate in a Rule, such as ByteMatchSetId or IPSetId. The ID is returned by the corresponding Create or List command.
         public let dataId: String
 
-        public init(type: String, negated: Bool, dataId: String) {
-            self.type = type
+        public init(type: PredicateType, negated: Bool, dataId: String) {
+            self.`type` = `type`
             self.negated = negated
             self.dataId = dataId
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
-            self.type = type
+            guard let rawType = dictionary["Type"] as? String, let `type` = PredicateType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
+            self.`type` = `type`
             guard let negated = dictionary["Negated"] as? Bool else { throw InitializableError.missingRequiredParam("Negated") }
             self.negated = negated
             guard let dataId = dictionary["DataId"] as? String else { throw InitializableError.missingRequiredParam("DataId") }
@@ -2080,17 +2162,17 @@ extension Waf {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specify INSERT to add a Predicate to a Rule. Use DELETE to remove a Predicate from a Rule.
-        public let action: String
+        public let action: ChangeAction
         /// The ID of the Predicate (such as an IPSet) that you want to add to a Rule.
         public let predicate: Predicate
 
-        public init(action: String, predicate: Predicate) {
+        public init(action: ChangeAction, predicate: Predicate) {
             self.action = action
             self.predicate = predicate
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let action = dictionary["Action"] as? String else { throw InitializableError.missingRequiredParam("Action") }
+            guard let rawAction = dictionary["Action"] as? String, let action = ChangeAction(rawValue: rawAction) else { throw InitializableError.missingRequiredParam("Action") }
             self.action = action
             guard let predicate = dictionary["Predicate"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Predicate") }
             self.predicate = try Waf.Predicate(dictionary: predicate)
@@ -2137,6 +2219,16 @@ extension Waf {
             }
             if let timeWindow = dictionary["TimeWindow"] as? [String: Any] { self.timeWindow = try Waf.TimeWindow(dictionary: timeWindow) } else { self.timeWindow = nil }
         }
+    }
+
+    public enum ComparisonOperator: String, CustomStringConvertible {
+        case eq = "EQ"
+        case ne = "NE"
+        case le = "LE"
+        case lt = "LT"
+        case ge = "GE"
+        case gt = "GT"
+        public var description: String { return self.rawValue }
     }
 
     public struct ListIPSetsResponse: AWSShape {

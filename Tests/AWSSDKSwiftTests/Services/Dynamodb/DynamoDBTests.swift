@@ -35,12 +35,12 @@ class DynamoDBTests: XCTestCase {
         do {
             let input = Dynamodb.CreateTableInput(
                 attributeDefinitions: [
-                    Dynamodb.AttributeDefinition(attributeType: "S", attributeName: "hashKey"),
-                    Dynamodb.AttributeDefinition(attributeType: "S", attributeName: "rangeKey")
+                    Dynamodb.AttributeDefinition(attributeType: .s, attributeName: "hashKey"),
+                    Dynamodb.AttributeDefinition(attributeType: .s, attributeName: "rangeKey")
                 ],
                 keySchema: [
-                    Dynamodb.KeySchemaElement(attributeName: "hashKey", keyType: "HASH"),
-                    Dynamodb.KeySchemaElement(attributeName: "rangeKey", keyType: "RANGE")
+                    Dynamodb.KeySchemaElement(attributeName: "hashKey", keyType: .hash),
+                    Dynamodb.KeySchemaElement(attributeName: "rangeKey", keyType: .range)
                 ],
                 provisionedThroughput: Dynamodb.ProvisionedThroughput(writeCapacityUnits: 10, readCapacityUnits: 10),
                 tableName: tableName

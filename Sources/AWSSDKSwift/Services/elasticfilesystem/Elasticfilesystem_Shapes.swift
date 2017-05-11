@@ -180,6 +180,14 @@ extension Elasticfilesystem {
         }
     }
 
+    public enum LifeCycleState: String, CustomStringConvertible {
+        case creating = "creating"
+        case available = "available"
+        case deleting = "deleting"
+        case deleted = "deleted"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DeleteTagsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -347,17 +355,17 @@ extension Elasticfilesystem {
         /// The key for the payload
         public static let payload: String? = nil
         /// The PerformanceMode of the file system. We recommend generalPurpose performance mode for most file systems. File systems using the maxIO performance mode can scale to higher levels of aggregate throughput and operations per second with a tradeoff of slightly higher latencies for most file operations. This can't be changed after the file system has been created.
-        public let performanceMode: String?
+        public let performanceMode: PerformanceMode?
         /// String of up to 64 ASCII characters. Amazon EFS uses this to ensure idempotent creation.
         public let creationToken: String
 
-        public init(performanceMode: String? = nil, creationToken: String) {
+        public init(performanceMode: PerformanceMode? = nil, creationToken: String) {
             self.performanceMode = performanceMode
             self.creationToken = creationToken
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.performanceMode = dictionary["PerformanceMode"] as? String
+            if let performanceMode = dictionary["PerformanceMode"] as? String { self.performanceMode = PerformanceMode(rawValue: performanceMode) } else { self.performanceMode = nil }
             guard let creationToken = dictionary["CreationToken"] as? String else { throw InitializableError.missingRequiredParam("CreationToken") }
             self.creationToken = creationToken
         }
@@ -402,6 +410,12 @@ extension Elasticfilesystem {
         }
     }
 
+    public enum PerformanceMode: String, CustomStringConvertible {
+        case generalpurpose = "generalPurpose"
+        case maxio = "maxIO"
+        public var description: String { return self.rawValue }
+    }
+
     public struct CreateMountTargetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -443,17 +457,17 @@ extension Elasticfilesystem {
         /// ID of the file system, assigned by Amazon EFS.
         public let fileSystemId: String
         /// Lifecycle phase of the file system.
-        public let lifeCycleState: String
+        public let lifeCycleState: LifeCycleState
         /// Time that the file system was created, in seconds (since 1970-01-01T00:00:00Z).
         public let creationTime: Date
         /// The PerformanceMode of the file system.
-        public let performanceMode: String
+        public let performanceMode: PerformanceMode
         /// Current number of mount targets that the file system has. For more information, see CreateMountTarget.
         public let numberOfMountTargets: Int32
         /// AWS account that created the file system. If the file system was created by an IAM user, the parent account to which the user belongs is the owner.
         public let ownerId: String
 
-        public init(name: String? = nil, creationToken: String, sizeInBytes: FileSystemSize, fileSystemId: String, lifeCycleState: String, creationTime: Date, performanceMode: String, numberOfMountTargets: Int32, ownerId: String) {
+        public init(name: String? = nil, creationToken: String, sizeInBytes: FileSystemSize, fileSystemId: String, lifeCycleState: LifeCycleState, creationTime: Date, performanceMode: PerformanceMode, numberOfMountTargets: Int32, ownerId: String) {
             self.name = name
             self.creationToken = creationToken
             self.sizeInBytes = sizeInBytes
@@ -473,11 +487,11 @@ extension Elasticfilesystem {
             self.sizeInBytes = try Elasticfilesystem.FileSystemSize(dictionary: sizeInBytes)
             guard let fileSystemId = dictionary["FileSystemId"] as? String else { throw InitializableError.missingRequiredParam("FileSystemId") }
             self.fileSystemId = fileSystemId
-            guard let lifeCycleState = dictionary["LifeCycleState"] as? String else { throw InitializableError.missingRequiredParam("LifeCycleState") }
+            guard let rawLifeCycleState = dictionary["LifeCycleState"] as? String, let lifeCycleState = LifeCycleState(rawValue: rawLifeCycleState) else { throw InitializableError.missingRequiredParam("LifeCycleState") }
             self.lifeCycleState = lifeCycleState
             guard let creationTime = dictionary["CreationTime"] as? Date else { throw InitializableError.missingRequiredParam("CreationTime") }
             self.creationTime = creationTime
-            guard let performanceMode = dictionary["PerformanceMode"] as? String else { throw InitializableError.missingRequiredParam("PerformanceMode") }
+            guard let rawPerformanceMode = dictionary["PerformanceMode"] as? String, let performanceMode = PerformanceMode(rawValue: rawPerformanceMode) else { throw InitializableError.missingRequiredParam("PerformanceMode") }
             self.performanceMode = performanceMode
             guard let numberOfMountTargets = dictionary["NumberOfMountTargets"] as? Int32 else { throw InitializableError.missingRequiredParam("NumberOfMountTargets") }
             self.numberOfMountTargets = numberOfMountTargets
@@ -500,11 +514,11 @@ extension Elasticfilesystem {
         /// ID of the file system for which the mount target is intended.
         public let fileSystemId: String
         /// Lifecycle state of the mount target.
-        public let lifeCycleState: String
+        public let lifeCycleState: LifeCycleState
         /// AWS account ID that owns the resource.
         public let ownerId: String?
 
-        public init(subnetId: String, networkInterfaceId: String? = nil, mountTargetId: String, ipAddress: String? = nil, fileSystemId: String, lifeCycleState: String, ownerId: String? = nil) {
+        public init(subnetId: String, networkInterfaceId: String? = nil, mountTargetId: String, ipAddress: String? = nil, fileSystemId: String, lifeCycleState: LifeCycleState, ownerId: String? = nil) {
             self.subnetId = subnetId
             self.networkInterfaceId = networkInterfaceId
             self.mountTargetId = mountTargetId
@@ -523,7 +537,7 @@ extension Elasticfilesystem {
             self.ipAddress = dictionary["IpAddress"] as? String
             guard let fileSystemId = dictionary["FileSystemId"] as? String else { throw InitializableError.missingRequiredParam("FileSystemId") }
             self.fileSystemId = fileSystemId
-            guard let lifeCycleState = dictionary["LifeCycleState"] as? String else { throw InitializableError.missingRequiredParam("LifeCycleState") }
+            guard let rawLifeCycleState = dictionary["LifeCycleState"] as? String, let lifeCycleState = LifeCycleState(rawValue: rawLifeCycleState) else { throw InitializableError.missingRequiredParam("LifeCycleState") }
             self.lifeCycleState = lifeCycleState
             self.ownerId = dictionary["OwnerId"] as? String
         }

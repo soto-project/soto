@@ -163,7 +163,7 @@ extension Elastictranscoder {
         /// A section of the response body that provides information about the video preset values.
         public let video: VideoParameters?
         /// Whether the preset is a default preset provided by Elastic Transcoder (System) or a preset that you have defined (Custom).
-        public let type: String?
+        public let `type`: String?
         /// The container type for the output file. Valid values include flac, flv, fmp4, gif, mp3, mp4, mpg, mxf, oga, ogg, ts, and webm.
         public let container: String?
         /// A description of the preset.
@@ -176,7 +176,7 @@ extension Elastictranscoder {
             self.name = name
             self.audio = audio
             self.video = video
-            self.type = type
+            self.`type` = `type`
             self.container = container
             self.description = description
         }
@@ -188,7 +188,7 @@ extension Elastictranscoder {
             self.name = dictionary["Name"] as? String
             if let audio = dictionary["Audio"] as? [String: Any] { self.audio = try Elastictranscoder.AudioParameters(dictionary: audio) } else { self.audio = nil }
             if let video = dictionary["Video"] as? [String: Any] { self.video = try Elastictranscoder.VideoParameters(dictionary: video) } else { self.video = nil }
-            self.type = dictionary["Type"] as? String
+            self.`type` = dictionary["Type"] as? String
             self.container = dictionary["Container"] as? String
             self.description = dictionary["Description"] as? String
         }

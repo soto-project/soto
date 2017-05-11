@@ -29,6 +29,13 @@ import Core
 
 extension Cloudformation {
 
+    public enum ChangeAction: String, CustomStringConvertible {
+        case add = "Add"
+        case modify = "Modify"
+        case remove = "Remove"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DescribeStacksInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -46,6 +53,11 @@ extension Cloudformation {
             self.stackName = dictionary["StackName"] as? String
             self.nextToken = dictionary["NextToken"] as? String
         }
+    }
+
+    public enum ChangeType: String, CustomStringConvertible {
+        case resource = "Resource"
+        public var description: String { return self.rawValue }
     }
 
     public struct DeleteStackInput: AWSShape {
@@ -72,6 +84,22 @@ extension Cloudformation {
         }
     }
 
+    public enum ChangeSource: String, CustomStringConvertible {
+        case resourcereference = "ResourceReference"
+        case parameterreference = "ParameterReference"
+        case resourceattribute = "ResourceAttribute"
+        case directmodification = "DirectModification"
+        case automatic = "Automatic"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OnFailure: String, CustomStringConvertible {
+        case do_nothing = "DO_NOTHING"
+        case rollback = "ROLLBACK"
+        case delete = "DELETE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct GetStackPolicyOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -93,19 +121,19 @@ extension Cloudformation {
         /// For the Modify action, a list of ResourceChangeDetail structures that describes the changes that AWS CloudFormation will make to the resource. 
         public let details: [ResourceChangeDetail]?
         /// The action that AWS CloudFormation takes on the resource, such as Add (adds a new resource), Modify (changes a resource), or Remove (deletes a resource).
-        public let action: String?
+        public let action: ChangeAction?
         /// The resource's logical ID, which is defined in the stack's template.
         public let logicalResourceId: String?
         /// The type of AWS CloudFormation resource, such as AWS::S3::Bucket.
         public let resourceType: String?
         /// For the Modify action, indicates whether AWS CloudFormation will replace the resource by creating a new one and deleting the old one. This value depends on the value of the RequiresRecreation property in the ResourceTargetDefinition structure. For example, if the RequiresRecreation field is Always and the Evaluation field is Static, Replacement is True. If the RequiresRecreation field is Always and the Evaluation field is Dynamic, Replacement is Conditionally. If you have multiple changes with different RequiresRecreation values, the Replacement value depends on the change with the most impact. A RequiresRecreation value of Always has the most impact, followed by Conditionally, and then Never.
-        public let replacement: String?
+        public let replacement: Replacement?
         /// The resource's physical ID (resource name). Resources that you are adding don't have physical IDs because they haven't been created.
         public let physicalResourceId: String?
         /// For the Modify action, indicates which resource attribute is triggering this update, such as a change in the resource attribute's Metadata, Properties, or Tags.
-        public let scope: [String]?
+        public let scope: [ResourceAttribute]?
 
-        public init(details: [ResourceChangeDetail]? = nil, action: String? = nil, logicalResourceId: String? = nil, resourceType: String? = nil, replacement: String? = nil, physicalResourceId: String? = nil, scope: [String]? = nil) {
+        public init(details: [ResourceChangeDetail]? = nil, action: ChangeAction? = nil, logicalResourceId: String? = nil, resourceType: String? = nil, replacement: Replacement? = nil, physicalResourceId: String? = nil, scope: [ResourceAttribute]? = nil) {
             self.details = details
             self.action = action
             self.logicalResourceId = logicalResourceId
@@ -121,12 +149,12 @@ extension Cloudformation {
             } else { 
                 self.details = nil
             }
-            self.action = dictionary["Action"] as? String
+            if let action = dictionary["Action"] as? String { self.action = ChangeAction(rawValue: action) } else { self.action = nil }
             self.logicalResourceId = dictionary["LogicalResourceId"] as? String
             self.resourceType = dictionary["ResourceType"] as? String
-            self.replacement = dictionary["Replacement"] as? String
+            if let replacement = dictionary["Replacement"] as? String { self.replacement = Replacement(rawValue: replacement) } else { self.replacement = nil }
             self.physicalResourceId = dictionary["PhysicalResourceId"] as? String
-            self.scope = dictionary["Scope"] as? [String]
+            if let scope = dictionary["Scope"] as? [String] { self.scope = scope.flatMap({ ResourceAttribute(rawValue: $0)}) } else { self.scope = nil }
         }
     }
 
@@ -140,7 +168,7 @@ extension Cloudformation {
         /// Unique stack identifier.
         public let stackId: String?
         /// The current status of the stack.
-        public let stackStatus: String
+        public let stackStatus: StackStatus
         /// The time the stack was created.
         public let creationTime: Date
         /// Success/Failure message associated with the stack status.
@@ -150,7 +178,7 @@ extension Cloudformation {
         /// The template description of the template used to create the stack.
         public let templateDescription: String?
 
-        public init(lastUpdatedTime: Date? = nil, deletionTime: Date? = nil, stackId: String? = nil, stackStatus: String, creationTime: Date, stackStatusReason: String? = nil, stackName: String, templateDescription: String? = nil) {
+        public init(lastUpdatedTime: Date? = nil, deletionTime: Date? = nil, stackId: String? = nil, stackStatus: StackStatus, creationTime: Date, stackStatusReason: String? = nil, stackName: String, templateDescription: String? = nil) {
             self.lastUpdatedTime = lastUpdatedTime
             self.deletionTime = deletionTime
             self.stackId = stackId
@@ -165,7 +193,7 @@ extension Cloudformation {
             self.lastUpdatedTime = dictionary["LastUpdatedTime"] as? Date
             self.deletionTime = dictionary["DeletionTime"] as? Date
             self.stackId = dictionary["StackId"] as? String
-            guard let stackStatus = dictionary["StackStatus"] as? String else { throw InitializableError.missingRequiredParam("StackStatus") }
+            guard let rawStackStatus = dictionary["StackStatus"] as? String, let stackStatus = StackStatus(rawValue: rawStackStatus) else { throw InitializableError.missingRequiredParam("StackStatus") }
             self.stackStatus = stackStatus
             guard let creationTime = dictionary["CreationTime"] as? Date else { throw InitializableError.missingRequiredParam("CreationTime") }
             self.creationTime = creationTime
@@ -199,7 +227,7 @@ extension Cloudformation {
         /// The key for the payload
         public static let payload: String? = nil
         /// Current status of the stack.
-        public let stackStatus: String
+        public let stackStatus: StackStatus
         /// A list of Tags that specify information about the stack.
         public let tags: [Tag]?
         /// The Amazon Resource Name (ARN) of an AWS Identity and Access Management (IAM) role that is associated with the stack. During a stack operation, AWS CloudFormation uses this role's credentials to make calls on your behalf.
@@ -229,9 +257,9 @@ extension Cloudformation {
         /// The name associated with the stack.
         public let stackName: String
         /// The capabilities allowed in the stack.
-        public let capabilities: [String]?
+        public let capabilities: [Capability]?
 
-        public init(stackStatus: String, tags: [Tag]? = nil, roleARN: String? = nil, disableRollback: Bool? = nil, creationTime: Date, outputs: [Output]? = nil, stackStatusReason: String? = nil, notificationARNs: [String]? = nil, lastUpdatedTime: Date? = nil, description: String? = nil, parameters: [Parameter]? = nil, stackId: String? = nil, changeSetId: String? = nil, timeoutInMinutes: Int32? = nil, stackName: String, capabilities: [String]? = nil) {
+        public init(stackStatus: StackStatus, tags: [Tag]? = nil, roleARN: String? = nil, disableRollback: Bool? = nil, creationTime: Date, outputs: [Output]? = nil, stackStatusReason: String? = nil, notificationARNs: [String]? = nil, lastUpdatedTime: Date? = nil, description: String? = nil, parameters: [Parameter]? = nil, stackId: String? = nil, changeSetId: String? = nil, timeoutInMinutes: Int32? = nil, stackName: String, capabilities: [Capability]? = nil) {
             self.stackStatus = stackStatus
             self.tags = tags
             self.roleARN = roleARN
@@ -251,7 +279,7 @@ extension Cloudformation {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let stackStatus = dictionary["StackStatus"] as? String else { throw InitializableError.missingRequiredParam("StackStatus") }
+            guard let rawStackStatus = dictionary["StackStatus"] as? String, let stackStatus = StackStatus(rawValue: rawStackStatus) else { throw InitializableError.missingRequiredParam("StackStatus") }
             self.stackStatus = stackStatus
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
@@ -281,7 +309,7 @@ extension Cloudformation {
             self.timeoutInMinutes = dictionary["TimeoutInMinutes"] as? Int32
             guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
             self.stackName = stackName
-            self.capabilities = dictionary["Capabilities"] as? [String]
+            if let capabilities = dictionary["Capabilities"] as? [String] { self.capabilities = capabilities.flatMap({ Capability(rawValue: $0)}) } else { self.capabilities = nil }
         }
     }
 
@@ -315,9 +343,9 @@ extension Cloudformation {
         /// The name or unique stack ID of the stack to update.
         public let stackName: String
         /// A list of values that you must specify before AWS CloudFormation can update certain stacks. Some stack templates might include resources that can affect permissions in your AWS account, for example, by creating new AWS Identity and Access Management (IAM) users. For those stacks, you must explicitly acknowledge their capabilities by specifying this parameter. The only valid values are CAPABILITY_IAM and CAPABILITY_NAMED_IAM. The following resources require you to specify this parameter:  AWS::IAM::AccessKey,  AWS::IAM::Group,  AWS::IAM::InstanceProfile,  AWS::IAM::Policy,  AWS::IAM::Role,  AWS::IAM::User, and  AWS::IAM::UserToGroupAddition. If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary. If you have IAM resources, you can specify either capability. If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM. If you don't specify this parameter, this action returns an InsufficientCapabilities error. For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.
-        public let capabilities: [String]?
+        public let capabilities: [Capability]?
 
-        public init(stackPolicyBody: String? = nil, tags: [Tag]? = nil, roleARN: String? = nil, stackPolicyDuringUpdateBody: String? = nil, usePreviousTemplate: Bool? = nil, stackPolicyDuringUpdateURL: String? = nil, stackPolicyURL: String? = nil, notificationARNs: [String]? = nil, parameters: [Parameter]? = nil, resourceTypes: [String]? = nil, templateURL: String? = nil, templateBody: String? = nil, stackName: String, capabilities: [String]? = nil) {
+        public init(stackPolicyBody: String? = nil, tags: [Tag]? = nil, roleARN: String? = nil, stackPolicyDuringUpdateBody: String? = nil, usePreviousTemplate: Bool? = nil, stackPolicyDuringUpdateURL: String? = nil, stackPolicyURL: String? = nil, notificationARNs: [String]? = nil, parameters: [Parameter]? = nil, resourceTypes: [String]? = nil, templateURL: String? = nil, templateBody: String? = nil, stackName: String, capabilities: [Capability]? = nil) {
             self.stackPolicyBody = stackPolicyBody
             self.tags = tags
             self.roleARN = roleARN
@@ -357,7 +385,7 @@ extension Cloudformation {
             self.templateBody = dictionary["TemplateBody"] as? String
             guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
             self.stackName = stackName
-            self.capabilities = dictionary["Capabilities"] as? [String]
+            if let capabilities = dictionary["Capabilities"] as? [String] { self.capabilities = capabilities.flatMap({ Capability(rawValue: $0)}) } else { self.capabilities = nil }
         }
     }
 
@@ -417,7 +445,7 @@ extension Cloudformation {
         /// The content of the Metadata attribute declared for the resource. For more information, see Metadata Attribute in the AWS CloudFormation User Guide.
         public let metadata: String?
         /// Current status of the resource.
-        public let resourceStatus: String
+        public let resourceStatus: ResourceStatus
         /// Unique identifier of the stack.
         public let stackId: String?
         /// Type of resource. ((For more information, go to  AWS Resource Types Reference in the AWS CloudFormation User Guide.)
@@ -435,7 +463,7 @@ extension Cloudformation {
         /// User defined description associated with the resource.
         public let description: String?
 
-        public init(metadata: String? = nil, resourceStatus: String, stackId: String? = nil, resourceType: String, physicalResourceId: String? = nil, logicalResourceId: String, lastUpdatedTimestamp: Date, resourceStatusReason: String? = nil, stackName: String? = nil, description: String? = nil) {
+        public init(metadata: String? = nil, resourceStatus: ResourceStatus, stackId: String? = nil, resourceType: String, physicalResourceId: String? = nil, logicalResourceId: String, lastUpdatedTimestamp: Date, resourceStatusReason: String? = nil, stackName: String? = nil, description: String? = nil) {
             self.metadata = metadata
             self.resourceStatus = resourceStatus
             self.stackId = stackId
@@ -450,7 +478,7 @@ extension Cloudformation {
 
         public init(dictionary: [String: Any]) throws {
             self.metadata = dictionary["Metadata"] as? String
-            guard let resourceStatus = dictionary["ResourceStatus"] as? String else { throw InitializableError.missingRequiredParam("ResourceStatus") }
+            guard let rawResourceStatus = dictionary["ResourceStatus"] as? String, let resourceStatus = ResourceStatus(rawValue: rawResourceStatus) else { throw InitializableError.missingRequiredParam("ResourceStatus") }
             self.resourceStatus = resourceStatus
             self.stackId = dictionary["StackId"] as? String
             guard let resourceType = dictionary["ResourceType"] as? String else { throw InitializableError.missingRequiredParam("ResourceType") }
@@ -464,6 +492,19 @@ extension Cloudformation {
             self.stackName = dictionary["StackName"] as? String
             self.description = dictionary["Description"] as? String
         }
+    }
+
+    public enum Capability: String, CustomStringConvertible {
+        case capability_iam = "CAPABILITY_IAM"
+        case capability_named_iam = "CAPABILITY_NAMED_IAM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RequiresRecreation: String, CustomStringConvertible {
+        case never = "Never"
+        case conditionally = "Conditionally"
+        case always = "Always"
+        public var description: String { return self.rawValue }
     }
 
     public struct ListImportsInput: AWSShape {
@@ -646,11 +687,11 @@ extension Cloudformation {
         /// A list of TemplateParameter structures.
         public let parameters: [TemplateParameter]?
         /// The capabilities found within the template. If your template contains IAM resources, you must specify the CAPABILITY_IAM or CAPABILITY_NAMED_IAM value for this parameter when you use the CreateStack or UpdateStack actions with your template; otherwise, those actions return an InsufficientCapabilities error. For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.
-        public let capabilities: [String]?
+        public let capabilities: [Capability]?
         /// The description found within the template.
         public let description: String?
 
-        public init(capabilitiesReason: String? = nil, declaredTransforms: [String]? = nil, parameters: [TemplateParameter]? = nil, capabilities: [String]? = nil, description: String? = nil) {
+        public init(capabilitiesReason: String? = nil, declaredTransforms: [String]? = nil, parameters: [TemplateParameter]? = nil, capabilities: [Capability]? = nil, description: String? = nil) {
             self.capabilitiesReason = capabilitiesReason
             self.declaredTransforms = declaredTransforms
             self.parameters = parameters
@@ -666,7 +707,7 @@ extension Cloudformation {
             } else { 
                 self.parameters = nil
             }
-            self.capabilities = dictionary["Capabilities"] as? [String]
+            if let capabilities = dictionary["Capabilities"] as? [String] { self.capabilities = capabilities.flatMap({ Capability(rawValue: $0)}) } else { self.capabilities = nil }
             self.description = dictionary["Description"] as? String
         }
     }
@@ -679,11 +720,11 @@ extension Cloudformation {
         /// The identity of the entity that triggered this change. This entity is a member of the group that is specified by the ChangeSource field. For example, if you modified the value of the KeyPairName parameter, the CausingEntity is the name of the parameter (KeyPairName). If the ChangeSource value is DirectModification, no value is given for CausingEntity.
         public let causingEntity: String?
         /// The group to which the CausingEntity value belongs. There are five entity groups:    ResourceReference entities are Ref intrinsic functions that refer to resources in the template, such as { "Ref" : "MyEC2InstanceResource" }.    ParameterReference entities are Ref intrinsic functions that get template parameter values, such as { "Ref" : "MyPasswordParameter" }.    ResourceAttribute entities are Fn::GetAtt intrinsic functions that get resource attribute values, such as { "Fn::GetAtt" : [ "MyEC2InstanceResource", "PublicDnsName" ] }.    DirectModification entities are changes that are made directly to the template.    Automatic entities are AWS::CloudFormation::Stack resource types, which are also known as nested stacks. If you made no changes to the AWS::CloudFormation::Stack resource, AWS CloudFormation sets the ChangeSource to Automatic because the nested stack's template might have changed. Changes to a nested stack's template aren't visible to AWS CloudFormation until you run an update on the parent stack.  
-        public let changeSource: String?
+        public let changeSource: ChangeSource?
         /// Indicates whether AWS CloudFormation can determine the target value, and whether the target value will change before you execute a change set. For Static evaluations, AWS CloudFormation can determine that the target value will change, and its value. For example, if you directly modify the InstanceType property of an EC2 instance, AWS CloudFormation knows that this property value will change, and its value, so this is a Static evaluation. For Dynamic evaluations, cannot determine the target value because it depends on the result of an intrinsic function, such as a Ref or Fn::GetAtt intrinsic function, when the stack is updated. For example, if your template includes a reference to a resource that is conditionally recreated, the value of the reference (the physical ID of the resource) might change, depending on if the resource is recreated. If the resource is recreated, it will have a new physical ID, so all references to that resource will also be updated.
-        public let evaluation: String?
+        public let evaluation: EvaluationType?
 
-        public init(target: ResourceTargetDefinition? = nil, causingEntity: String? = nil, changeSource: String? = nil, evaluation: String? = nil) {
+        public init(target: ResourceTargetDefinition? = nil, causingEntity: String? = nil, changeSource: ChangeSource? = nil, evaluation: EvaluationType? = nil) {
             self.target = target
             self.causingEntity = causingEntity
             self.changeSource = changeSource
@@ -693,9 +734,18 @@ extension Cloudformation {
         public init(dictionary: [String: Any]) throws {
             if let target = dictionary["Target"] as? [String: Any] { self.target = try Cloudformation.ResourceTargetDefinition(dictionary: target) } else { self.target = nil }
             self.causingEntity = dictionary["CausingEntity"] as? String
-            self.changeSource = dictionary["ChangeSource"] as? String
-            self.evaluation = dictionary["Evaluation"] as? String
+            if let changeSource = dictionary["ChangeSource"] as? String { self.changeSource = ChangeSource(rawValue: changeSource) } else { self.changeSource = nil }
+            if let evaluation = dictionary["Evaluation"] as? String { self.evaluation = EvaluationType(rawValue: evaluation) } else { self.evaluation = nil }
         }
+    }
+
+    public enum ChangeSetStatus: String, CustomStringConvertible {
+        case create_pending = "CREATE_PENDING"
+        case create_in_progress = "CREATE_IN_PROGRESS"
+        case create_complete = "CREATE_COMPLETE"
+        case delete_complete = "DELETE_COMPLETE"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
     }
 
     public struct ListStacksInput: AWSShape {
@@ -704,17 +754,23 @@ extension Cloudformation {
         /// A string that identifies the next page of stacks that you want to retrieve.
         public let nextToken: String?
         /// Stack status to use as a filter. Specify one or more stack status codes to list only stacks with the specified status codes. For a complete list of stack status codes, see the StackStatus parameter of the Stack data type.
-        public let stackStatusFilter: [String]?
+        public let stackStatusFilter: [StackStatus]?
 
-        public init(nextToken: String? = nil, stackStatusFilter: [String]? = nil) {
+        public init(nextToken: String? = nil, stackStatusFilter: [StackStatus]? = nil) {
             self.nextToken = nextToken
             self.stackStatusFilter = stackStatusFilter
         }
 
         public init(dictionary: [String: Any]) throws {
             self.nextToken = dictionary["NextToken"] as? String
-            self.stackStatusFilter = dictionary["StackStatusFilter"] as? [String]
+            if let stackStatusFilter = dictionary["StackStatusFilter"] as? [String] { self.stackStatusFilter = stackStatusFilter.flatMap({ StackStatus(rawValue: $0)}) } else { self.stackStatusFilter = nil }
         }
+    }
+
+    public enum ChangeSetType: String, CustomStringConvertible {
+        case create = "CREATE"
+        case update = "UPDATE"
+        public var description: String { return self.rawValue }
     }
 
     public struct ExecuteChangeSetOutput: AWSShape {
@@ -731,13 +787,13 @@ extension Cloudformation {
         /// A unique ID of the signal. When you signal Amazon EC2 instances or Auto Scaling groups, specify the instance ID that you are signaling as the unique ID. If you send multiple signals to a single resource (such as signaling a wait condition), each signal requires a different unique ID.
         public let uniqueId: String
         /// The status of the signal, which is either success or failure. A failure signal causes AWS CloudFormation to immediately fail the stack creation or update.
-        public let status: String
+        public let status: ResourceSignalStatus
         /// The stack name or unique stack ID that includes the resource that you want to signal.
         public let stackName: String
         /// The logical ID of the resource that you want to signal. The logical ID is the name of the resource that given in the template.
         public let logicalResourceId: String
 
-        public init(uniqueId: String, status: String, stackName: String, logicalResourceId: String) {
+        public init(uniqueId: String, status: ResourceSignalStatus, stackName: String, logicalResourceId: String) {
             self.uniqueId = uniqueId
             self.status = status
             self.stackName = stackName
@@ -747,7 +803,7 @@ extension Cloudformation {
         public init(dictionary: [String: Any]) throws {
             guard let uniqueId = dictionary["UniqueId"] as? String else { throw InitializableError.missingRequiredParam("UniqueId") }
             self.uniqueId = uniqueId
-            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            guard let rawStatus = dictionary["Status"] as? String, let status = ResourceSignalStatus(rawValue: rawStatus) else { throw InitializableError.missingRequiredParam("Status") }
             self.status = status
             guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
             self.stackName = stackName
@@ -762,6 +818,12 @@ extension Cloudformation {
 
         public init(dictionary: [String: Any]) throws {
         }
+    }
+
+    public enum EvaluationType: String, CustomStringConvertible {
+        case `static` = "Static"
+        case dynamic = "Dynamic"
+        public var description: String { return self.rawValue }
     }
 
     public struct DescribeStackResourceInput: AWSShape {
@@ -897,6 +959,12 @@ extension Cloudformation {
         }
     }
 
+    public enum TemplateStage: String, CustomStringConvertible {
+        case original = "Original"
+        case processed = "Processed"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Parameter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -989,17 +1057,17 @@ extension Cloudformation {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of entity that AWS CloudFormation changes. Currently, the only entity type is Resource.
-        public let type: String?
+        public let `type`: ChangeType?
         /// A ResourceChange structure that describes the resource and action that AWS CloudFormation will perform.
         public let resourceChange: ResourceChange?
 
-        public init(type: String? = nil, resourceChange: ResourceChange? = nil) {
-            self.type = type
+        public init(type: ChangeType? = nil, resourceChange: ResourceChange? = nil) {
+            self.`type` = `type`
             self.resourceChange = resourceChange
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = ChangeType(rawValue: `type`) } else { self.`type` = nil }
             if let resourceChange = dictionary["ResourceChange"] as? [String: Any] { self.resourceChange = try Cloudformation.ResourceChange(dictionary: resourceChange) } else { self.resourceChange = nil }
         }
     }
@@ -1036,7 +1104,7 @@ extension Cloudformation {
         /// Key-value pairs to associate with this stack. AWS CloudFormation also propagates these tags to the resources created in the stack. A maximum number of 10 tags can be specified.
         public let tags: [Tag]?
         /// Determines what action will be taken if stack creation fails. This must be one of: DO_NOTHING, ROLLBACK, or DELETE. You can specify either OnFailure or DisableRollback, but not both. Default: ROLLBACK 
-        public let onFailure: String?
+        public let onFailure: OnFailure?
         /// The Amazon Resource Name (ARN) of an AWS Identity and Access Management (IAM) role that AWS CloudFormation assumes to create the stack. AWS CloudFormation uses the role's credentials to make calls on your behalf. AWS CloudFormation always uses this role for all future operations on the stack. As long as users have permission to operate on the stack, AWS CloudFormation uses this role even if the users don't have permission to pass it. Ensure that the role grants least privilege. If you don't specify a value, AWS CloudFormation uses the role that was previously associated with the stack. If no role is available, AWS CloudFormation uses a temporary session that is generated from your user credentials.
         public let roleARN: String?
         /// Set to true to disable rollback of the stack if stack creation failed. You can specify either DisableRollback or OnFailure, but not both. Default: false 
@@ -1058,9 +1126,9 @@ extension Cloudformation {
         /// The name that is associated with the stack. The name must be unique in the region in which you are creating the stack.  A stack name can contain only alphanumeric characters (case sensitive) and hyphens. It must start with an alphabetic character and cannot be longer than 128 characters. 
         public let stackName: String
         /// A list of values that you must specify before AWS CloudFormation can create certain stacks. Some stack templates might include resources that can affect permissions in your AWS account, for example, by creating new AWS Identity and Access Management (IAM) users. For those stacks, you must explicitly acknowledge their capabilities by specifying this parameter. The only valid values are CAPABILITY_IAM and CAPABILITY_NAMED_IAM. The following resources require you to specify this parameter:  AWS::IAM::AccessKey,  AWS::IAM::Group,  AWS::IAM::InstanceProfile,  AWS::IAM::Policy,  AWS::IAM::Role,  AWS::IAM::User, and  AWS::IAM::UserToGroupAddition. If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary. If you have IAM resources, you can specify either capability. If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM. If you don't specify this parameter, this action returns an InsufficientCapabilities error. For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.
-        public let capabilities: [String]?
+        public let capabilities: [Capability]?
 
-        public init(stackPolicyBody: String? = nil, tags: [Tag]? = nil, onFailure: String? = nil, roleARN: String? = nil, disableRollback: Bool? = nil, stackPolicyURL: String? = nil, notificationARNs: [String]? = nil, parameters: [Parameter]? = nil, resourceTypes: [String]? = nil, timeoutInMinutes: Int32? = nil, templateURL: String? = nil, templateBody: String? = nil, stackName: String, capabilities: [String]? = nil) {
+        public init(stackPolicyBody: String? = nil, tags: [Tag]? = nil, onFailure: OnFailure? = nil, roleARN: String? = nil, disableRollback: Bool? = nil, stackPolicyURL: String? = nil, notificationARNs: [String]? = nil, parameters: [Parameter]? = nil, resourceTypes: [String]? = nil, timeoutInMinutes: Int32? = nil, templateURL: String? = nil, templateBody: String? = nil, stackName: String, capabilities: [Capability]? = nil) {
             self.stackPolicyBody = stackPolicyBody
             self.tags = tags
             self.onFailure = onFailure
@@ -1084,7 +1152,7 @@ extension Cloudformation {
             } else { 
                 self.tags = nil
             }
-            self.onFailure = dictionary["OnFailure"] as? String
+            if let onFailure = dictionary["OnFailure"] as? String { self.onFailure = OnFailure(rawValue: onFailure) } else { self.onFailure = nil }
             self.roleARN = dictionary["RoleARN"] as? String
             self.disableRollback = dictionary["DisableRollback"] as? Bool
             self.stackPolicyURL = dictionary["StackPolicyURL"] as? String
@@ -1100,8 +1168,18 @@ extension Cloudformation {
             self.templateBody = dictionary["TemplateBody"] as? String
             guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
             self.stackName = stackName
-            self.capabilities = dictionary["Capabilities"] as? [String]
+            if let capabilities = dictionary["Capabilities"] as? [String] { self.capabilities = capabilities.flatMap({ Capability(rawValue: $0)}) } else { self.capabilities = nil }
         }
+    }
+
+    public enum ExecutionStatus: String, CustomStringConvertible {
+        case unavailable = "UNAVAILABLE"
+        case available = "AVAILABLE"
+        case execute_in_progress = "EXECUTE_IN_PROGRESS"
+        case execute_complete = "EXECUTE_COMPLETE"
+        case execute_failed = "EXECUTE_FAILED"
+        case obsolete = "OBSOLETE"
+        public var description: String { return self.rawValue }
     }
 
     public struct SetStackPolicyInput: AWSShape {
@@ -1186,11 +1264,11 @@ extension Cloudformation {
         /// A list of the transforms that are declared in the template.
         public let declaredTransforms: [String]?
         /// The capabilities found within the template. If your template contains IAM resources, you must specify the CAPABILITY_IAM or CAPABILITY_NAMED_IAM value for this parameter when you use the CreateStack or UpdateStack actions with your template; otherwise, those actions return an InsufficientCapabilities error. For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.
-        public let capabilities: [String]?
+        public let capabilities: [Capability]?
         /// The value that is defined in the Description property of the template.
         public let description: String?
 
-        public init(metadata: String? = nil, capabilitiesReason: String? = nil, parameters: [ParameterDeclaration]? = nil, resourceTypes: [String]? = nil, version: String? = nil, declaredTransforms: [String]? = nil, capabilities: [String]? = nil, description: String? = nil) {
+        public init(metadata: String? = nil, capabilitiesReason: String? = nil, parameters: [ParameterDeclaration]? = nil, resourceTypes: [String]? = nil, version: String? = nil, declaredTransforms: [String]? = nil, capabilities: [Capability]? = nil, description: String? = nil) {
             self.metadata = metadata
             self.capabilitiesReason = capabilitiesReason
             self.parameters = parameters
@@ -1212,7 +1290,7 @@ extension Cloudformation {
             self.resourceTypes = dictionary["ResourceTypes"] as? [String]
             self.version = dictionary["Version"] as? String
             self.declaredTransforms = dictionary["DeclaredTransforms"] as? [String]
-            self.capabilities = dictionary["Capabilities"] as? [String]
+            if let capabilities = dictionary["Capabilities"] as? [String] { self.capabilities = capabilities.flatMap({ Capability(rawValue: $0)}) } else { self.capabilities = nil }
             self.description = dictionary["Description"] as? String
         }
     }
@@ -1259,6 +1337,27 @@ extension Cloudformation {
         }
     }
 
+    public enum Replacement: String, CustomStringConvertible {
+        case `true` = "True"
+        case `false` = "False"
+        case conditional = "Conditional"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceStatus: String, CustomStringConvertible {
+        case create_in_progress = "CREATE_IN_PROGRESS"
+        case create_failed = "CREATE_FAILED"
+        case create_complete = "CREATE_COMPLETE"
+        case delete_in_progress = "DELETE_IN_PROGRESS"
+        case delete_failed = "DELETE_FAILED"
+        case delete_complete = "DELETE_COMPLETE"
+        case delete_skipped = "DELETE_SKIPPED"
+        case update_in_progress = "UPDATE_IN_PROGRESS"
+        case update_failed = "UPDATE_FAILED"
+        case update_complete = "UPDATE_COMPLETE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DescribeStackResourcesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1286,7 +1385,7 @@ extension Cloudformation {
         /// The key for the payload
         public static let payload: String? = nil
         /// If the change set execution status is AVAILABLE, you can execute the change set. If you can’t execute the change set, the status indicates why. For example, a change set might be in an UNAVAILABLE state because AWS CloudFormation is still creating it or in an OBSOLETE state because the stack was already updated.
-        public let executionStatus: String?
+        public let executionStatus: ExecutionStatus?
         /// A list of Change structures that describes the resources AWS CloudFormation changes if you execute the change set.
         public let changes: [Change]?
         /// If you execute the change set, the tags that will be associated with the stack.
@@ -1300,7 +1399,7 @@ extension Cloudformation {
         /// A description of the change set's status. For example, if your attempt to create a change set failed, AWS CloudFormation shows the error message.
         public let statusReason: String?
         /// The current status of the change set, such as CREATE_IN_PROGRESS, CREATE_COMPLETE, or FAILED.
-        public let status: String?
+        public let status: ChangeSetStatus?
         /// A list of Parameter structures that describes the input parameters and their values used to create the change set. For more information, see the Parameter data type.
         public let parameters: [Parameter]?
         /// The ARN of the stack that is associated with the change set.
@@ -1314,9 +1413,9 @@ extension Cloudformation {
         /// If the output exceeds 1 MB, a string that identifies the next page of changes. If there is no additional page, this value is null.
         public let nextToken: String?
         /// If you execute the change set, the list of capabilities that were explicitly acknowledged when the change set was created.
-        public let capabilities: [String]?
+        public let capabilities: [Capability]?
 
-        public init(executionStatus: String? = nil, changes: [Change]? = nil, tags: [Tag]? = nil, creationTime: Date? = nil, notificationARNs: [String]? = nil, description: String? = nil, statusReason: String? = nil, status: String? = nil, parameters: [Parameter]? = nil, stackId: String? = nil, changeSetName: String? = nil, changeSetId: String? = nil, stackName: String? = nil, nextToken: String? = nil, capabilities: [String]? = nil) {
+        public init(executionStatus: ExecutionStatus? = nil, changes: [Change]? = nil, tags: [Tag]? = nil, creationTime: Date? = nil, notificationARNs: [String]? = nil, description: String? = nil, statusReason: String? = nil, status: ChangeSetStatus? = nil, parameters: [Parameter]? = nil, stackId: String? = nil, changeSetName: String? = nil, changeSetId: String? = nil, stackName: String? = nil, nextToken: String? = nil, capabilities: [Capability]? = nil) {
             self.executionStatus = executionStatus
             self.changes = changes
             self.tags = tags
@@ -1335,7 +1434,7 @@ extension Cloudformation {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.executionStatus = dictionary["ExecutionStatus"] as? String
+            if let executionStatus = dictionary["ExecutionStatus"] as? String { self.executionStatus = ExecutionStatus(rawValue: executionStatus) } else { self.executionStatus = nil }
             if let changes = dictionary["Changes"] as? [[String: Any]] {
                 self.changes = try changes.map({ try Change(dictionary: $0) })
             } else { 
@@ -1350,7 +1449,7 @@ extension Cloudformation {
             self.notificationARNs = dictionary["NotificationARNs"] as? [String]
             self.description = dictionary["Description"] as? String
             self.statusReason = dictionary["StatusReason"] as? String
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = ChangeSetStatus(rawValue: status) } else { self.status = nil }
             if let parameters = dictionary["Parameters"] as? [[String: Any]] {
                 self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
             } else { 
@@ -1361,7 +1460,7 @@ extension Cloudformation {
             self.changeSetId = dictionary["ChangeSetId"] as? String
             self.stackName = dictionary["StackName"] as? String
             self.nextToken = dictionary["NextToken"] as? String
-            self.capabilities = dictionary["Capabilities"] as? [String]
+            if let capabilities = dictionary["Capabilities"] as? [String] { self.capabilities = capabilities.flatMap({ Capability(rawValue: $0)}) } else { self.capabilities = nil }
         }
     }
 
@@ -1421,7 +1520,7 @@ extension Cloudformation {
         /// A unique identifier for this CreateChangeSet request. Specify this token if you plan to retry requests so that AWS CloudFormation knows that you're not attempting to create another change set with the same name. You might retry CreateChangeSet requests to ensure that AWS CloudFormation successfully received them.
         public let clientToken: String?
         /// The type of change set operation. To create a change set for a new stack, specify CREATE. To create a change set for an existing stack, specify UPDATE. If you create a change set for a new stack, AWS Cloudformation creates a stack with a unique stack ID, but no template or resources. The stack will be in the  REVIEW_IN_PROGRESS  state until you execute the change set. By default, AWS CloudFormation specifies UPDATE. You can't use the UPDATE type to create a change set for a new stack or the CREATE type to create a change set for an existing stack.
-        public let changeSetType: String?
+        public let changeSetType: ChangeSetType?
         /// Key-value pairs to associate with this stack. AWS CloudFormation also propagates these tags to resources in the stack. You can specify a maximum of 10 tags.
         public let tags: [Tag]?
         /// The Amazon Resource Name (ARN) of an AWS Identity and Access Management (IAM) role that AWS CloudFormation assumes when executing the change set. AWS CloudFormation uses the role's credentials to make calls on your behalf. AWS CloudFormation uses this role for all future operations on the stack. As long as users have permission to operate on the stack, AWS CloudFormation uses this role even if the users don't have permission to pass it. Ensure that the role grants least privilege. If you don't specify a value, AWS CloudFormation uses the role that was previously associated with the stack. If no role is available, AWS CloudFormation uses a temporary session that is generated from your user credentials.
@@ -1445,9 +1544,9 @@ extension Cloudformation {
         /// The name or the unique ID of the stack for which you are creating a change set. AWS CloudFormation generates the change set by comparing this stack's information with the information that you submit, such as a modified template or different parameter input values.
         public let stackName: String
         /// A list of values that you must specify before AWS CloudFormation can update certain stacks. Some stack templates might include resources that can affect permissions in your AWS account, for example, by creating new AWS Identity and Access Management (IAM) users. For those stacks, you must explicitly acknowledge their capabilities by specifying this parameter. The only valid values are CAPABILITY_IAM and CAPABILITY_NAMED_IAM. The following resources require you to specify this parameter:  AWS::IAM::AccessKey,  AWS::IAM::Group,  AWS::IAM::InstanceProfile,  AWS::IAM::Policy,  AWS::IAM::Role,  AWS::IAM::User, and  AWS::IAM::UserToGroupAddition. If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary. If you have IAM resources, you can specify either capability. If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM. If you don't specify this parameter, this action returns an InsufficientCapabilities error. For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.
-        public let capabilities: [String]?
+        public let capabilities: [Capability]?
 
-        public init(clientToken: String? = nil, changeSetType: String? = nil, tags: [Tag]? = nil, roleARN: String? = nil, usePreviousTemplate: Bool? = nil, description: String? = nil, notificationARNs: [String]? = nil, parameters: [Parameter]? = nil, changeSetName: String, resourceTypes: [String]? = nil, templateURL: String? = nil, templateBody: String? = nil, stackName: String, capabilities: [String]? = nil) {
+        public init(clientToken: String? = nil, changeSetType: ChangeSetType? = nil, tags: [Tag]? = nil, roleARN: String? = nil, usePreviousTemplate: Bool? = nil, description: String? = nil, notificationARNs: [String]? = nil, parameters: [Parameter]? = nil, changeSetName: String, resourceTypes: [String]? = nil, templateURL: String? = nil, templateBody: String? = nil, stackName: String, capabilities: [Capability]? = nil) {
             self.clientToken = clientToken
             self.changeSetType = changeSetType
             self.tags = tags
@@ -1466,7 +1565,7 @@ extension Cloudformation {
 
         public init(dictionary: [String: Any]) throws {
             self.clientToken = dictionary["ClientToken"] as? String
-            self.changeSetType = dictionary["ChangeSetType"] as? String
+            if let changeSetType = dictionary["ChangeSetType"] as? String { self.changeSetType = ChangeSetType(rawValue: changeSetType) } else { self.changeSetType = nil }
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
             } else { 
@@ -1488,7 +1587,7 @@ extension Cloudformation {
             self.templateBody = dictionary["TemplateBody"] as? String
             guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
             self.stackName = stackName
-            self.capabilities = dictionary["Capabilities"] as? [String]
+            if let capabilities = dictionary["Capabilities"] as? [String] { self.capabilities = capabilities.flatMap({ Capability(rawValue: $0)}) } else { self.capabilities = nil }
         }
     }
 
@@ -1512,6 +1611,27 @@ extension Cloudformation {
         }
     }
 
+    public enum StackStatus: String, CustomStringConvertible {
+        case create_in_progress = "CREATE_IN_PROGRESS"
+        case create_failed = "CREATE_FAILED"
+        case create_complete = "CREATE_COMPLETE"
+        case rollback_in_progress = "ROLLBACK_IN_PROGRESS"
+        case rollback_failed = "ROLLBACK_FAILED"
+        case rollback_complete = "ROLLBACK_COMPLETE"
+        case delete_in_progress = "DELETE_IN_PROGRESS"
+        case delete_failed = "DELETE_FAILED"
+        case delete_complete = "DELETE_COMPLETE"
+        case update_in_progress = "UPDATE_IN_PROGRESS"
+        case update_complete_cleanup_in_progress = "UPDATE_COMPLETE_CLEANUP_IN_PROGRESS"
+        case update_complete = "UPDATE_COMPLETE"
+        case update_rollback_in_progress = "UPDATE_ROLLBACK_IN_PROGRESS"
+        case update_rollback_failed = "UPDATE_ROLLBACK_FAILED"
+        case update_rollback_complete_cleanup_in_progress = "UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS"
+        case update_rollback_complete = "UPDATE_ROLLBACK_COMPLETE"
+        case review_in_progress = "REVIEW_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
     public struct GetTemplateInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1520,9 +1640,9 @@ extension Cloudformation {
         /// The name or Amazon Resource Name (ARN) of a change set for which AWS CloudFormation returns the associated template. If you specify a name, you must also specify the StackName.
         public let changeSetName: String?
         /// For templates that include transforms, the stage of the template that AWS CloudFormation returns. To get the user-submitted template, specify Original. To get the template after AWS CloudFormation has processed all transforms, specify Processed.  If the template doesn't include transforms, Original and Processed return the same template. By default, AWS CloudFormation specifies Original. 
-        public let templateStage: String?
+        public let templateStage: TemplateStage?
 
-        public init(stackName: String? = nil, changeSetName: String? = nil, templateStage: String? = nil) {
+        public init(stackName: String? = nil, changeSetName: String? = nil, templateStage: TemplateStage? = nil) {
             self.stackName = stackName
             self.changeSetName = changeSetName
             self.templateStage = templateStage
@@ -1531,8 +1651,18 @@ extension Cloudformation {
         public init(dictionary: [String: Any]) throws {
             self.stackName = dictionary["StackName"] as? String
             self.changeSetName = dictionary["ChangeSetName"] as? String
-            self.templateStage = dictionary["TemplateStage"] as? String
+            if let templateStage = dictionary["TemplateStage"] as? String { self.templateStage = TemplateStage(rawValue: templateStage) } else { self.templateStage = nil }
         }
+    }
+
+    public enum ResourceAttribute: String, CustomStringConvertible {
+        case properties = "Properties"
+        case metadata = "Metadata"
+        case creationpolicy = "CreationPolicy"
+        case updatepolicy = "UpdatePolicy"
+        case deletionpolicy = "DeletionPolicy"
+        case tags = "Tags"
+        public var description: String { return self.rawValue }
     }
 
     public struct DescribeStackEventsOutput: AWSShape {
@@ -1564,7 +1694,7 @@ extension Cloudformation {
         /// Time the status was updated.
         public let timestamp: Date
         /// Current status of the resource.
-        public let resourceStatus: String?
+        public let resourceStatus: ResourceStatus?
         /// The unique ID name of the instance of the stack.
         public let stackId: String
         /// The unique ID of this event.
@@ -1582,7 +1712,7 @@ extension Cloudformation {
         /// The name associated with a stack.
         public let stackName: String
 
-        public init(timestamp: Date, resourceStatus: String? = nil, stackId: String, eventId: String, resourceType: String? = nil, logicalResourceId: String? = nil, physicalResourceId: String? = nil, resourceProperties: String? = nil, resourceStatusReason: String? = nil, stackName: String) {
+        public init(timestamp: Date, resourceStatus: ResourceStatus? = nil, stackId: String, eventId: String, resourceType: String? = nil, logicalResourceId: String? = nil, physicalResourceId: String? = nil, resourceProperties: String? = nil, resourceStatusReason: String? = nil, stackName: String) {
             self.timestamp = timestamp
             self.resourceStatus = resourceStatus
             self.stackId = stackId
@@ -1598,7 +1728,7 @@ extension Cloudformation {
         public init(dictionary: [String: Any]) throws {
             guard let timestamp = dictionary["Timestamp"] as? Date else { throw InitializableError.missingRequiredParam("Timestamp") }
             self.timestamp = timestamp
-            self.resourceStatus = dictionary["ResourceStatus"] as? String
+            if let resourceStatus = dictionary["ResourceStatus"] as? String { self.resourceStatus = ResourceStatus(rawValue: resourceStatus) } else { self.resourceStatus = nil }
             guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
             self.stackId = stackId
             guard let eventId = dictionary["EventId"] as? String else { throw InitializableError.missingRequiredParam("EventId") }
@@ -1617,11 +1747,11 @@ extension Cloudformation {
         /// The key for the payload
         public static let payload: String? = nil
         /// The state of the change set, such as CREATE_IN_PROGRESS, CREATE_COMPLETE, or FAILED.
-        public let status: String?
+        public let status: ChangeSetStatus?
         /// A description of the change set's status. For example, if your change set is in the FAILED state, AWS CloudFormation shows the error message.
         public let statusReason: String?
         /// If the change set execution status is AVAILABLE, you can execute the change set. If you can’t execute the change set, the status indicates why. For example, a change set might be in an UNAVAILABLE state because AWS CloudFormation is still creating it or in an OBSOLETE state because the stack was already updated.
-        public let executionStatus: String?
+        public let executionStatus: ExecutionStatus?
         /// The ID of the stack with which the change set is associated.
         public let stackId: String?
         /// The name of the change set.
@@ -1635,7 +1765,7 @@ extension Cloudformation {
         /// Descriptive information about the change set.
         public let description: String?
 
-        public init(status: String? = nil, statusReason: String? = nil, executionStatus: String? = nil, stackId: String? = nil, changeSetName: String? = nil, changeSetId: String? = nil, creationTime: Date? = nil, stackName: String? = nil, description: String? = nil) {
+        public init(status: ChangeSetStatus? = nil, statusReason: String? = nil, executionStatus: ExecutionStatus? = nil, stackId: String? = nil, changeSetName: String? = nil, changeSetId: String? = nil, creationTime: Date? = nil, stackName: String? = nil, description: String? = nil) {
             self.status = status
             self.statusReason = statusReason
             self.executionStatus = executionStatus
@@ -1648,9 +1778,9 @@ extension Cloudformation {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = ChangeSetStatus(rawValue: status) } else { self.status = nil }
             self.statusReason = dictionary["StatusReason"] as? String
-            self.executionStatus = dictionary["ExecutionStatus"] as? String
+            if let executionStatus = dictionary["ExecutionStatus"] as? String { self.executionStatus = ExecutionStatus(rawValue: executionStatus) } else { self.executionStatus = nil }
             self.stackId = dictionary["StackId"] as? String
             self.changeSetName = dictionary["ChangeSetName"] as? String
             self.changeSetId = dictionary["ChangeSetId"] as? String
@@ -1658,6 +1788,12 @@ extension Cloudformation {
             self.stackName = dictionary["StackName"] as? String
             self.description = dictionary["Description"] as? String
         }
+    }
+
+    public enum ResourceSignalStatus: String, CustomStringConvertible {
+        case success = "SUCCESS"
+        case failure = "FAILURE"
+        public var description: String { return self.rawValue }
     }
 
     public struct Output: AWSShape {
@@ -1702,22 +1838,22 @@ extension Cloudformation {
         /// The key for the payload
         public static let payload: String? = nil
         /// If the Attribute value is Properties, indicates whether a change to this property causes the resource to be recreated. The value can be Never, Always, or Conditionally. To determine the conditions for a Conditionally recreation, see the update behavior for that property in the AWS CloudFormation User Guide.
-        public let requiresRecreation: String?
+        public let requiresRecreation: RequiresRecreation?
         /// If the Attribute value is Properties, the name of the property. For all other attributes, the value is null.
         public let name: String?
         /// Indicates which resource attribute is triggering this update, such as a change in the resource attribute's Metadata, Properties, or Tags.
-        public let attribute: String?
+        public let attribute: ResourceAttribute?
 
-        public init(requiresRecreation: String? = nil, name: String? = nil, attribute: String? = nil) {
+        public init(requiresRecreation: RequiresRecreation? = nil, name: String? = nil, attribute: ResourceAttribute? = nil) {
             self.requiresRecreation = requiresRecreation
             self.name = name
             self.attribute = attribute
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.requiresRecreation = dictionary["RequiresRecreation"] as? String
+            if let requiresRecreation = dictionary["RequiresRecreation"] as? String { self.requiresRecreation = RequiresRecreation(rawValue: requiresRecreation) } else { self.requiresRecreation = nil }
             self.name = dictionary["Name"] as? String
-            self.attribute = dictionary["Attribute"] as? String
+            if let attribute = dictionary["Attribute"] as? String { self.attribute = ResourceAttribute(rawValue: attribute) } else { self.attribute = nil }
         }
     }
 
@@ -1731,13 +1867,13 @@ extension Cloudformation {
         /// Success/failure message associated with the resource.
         public let resourceStatusReason: String?
         /// Current status of the resource.
-        public let resourceStatus: String
+        public let resourceStatus: ResourceStatus
         /// The logical name of the resource specified in the template.
         public let logicalResourceId: String
         /// Time the status was updated.
         public let lastUpdatedTimestamp: Date
 
-        public init(resourceType: String, physicalResourceId: String? = nil, resourceStatusReason: String? = nil, resourceStatus: String, logicalResourceId: String, lastUpdatedTimestamp: Date) {
+        public init(resourceType: String, physicalResourceId: String? = nil, resourceStatusReason: String? = nil, resourceStatus: ResourceStatus, logicalResourceId: String, lastUpdatedTimestamp: Date) {
             self.resourceType = resourceType
             self.physicalResourceId = physicalResourceId
             self.resourceStatusReason = resourceStatusReason
@@ -1751,7 +1887,7 @@ extension Cloudformation {
             self.resourceType = resourceType
             self.physicalResourceId = dictionary["PhysicalResourceId"] as? String
             self.resourceStatusReason = dictionary["ResourceStatusReason"] as? String
-            guard let resourceStatus = dictionary["ResourceStatus"] as? String else { throw InitializableError.missingRequiredParam("ResourceStatus") }
+            guard let rawResourceStatus = dictionary["ResourceStatus"] as? String, let resourceStatus = ResourceStatus(rawValue: rawResourceStatus) else { throw InitializableError.missingRequiredParam("ResourceStatus") }
             self.resourceStatus = resourceStatus
             guard let logicalResourceId = dictionary["LogicalResourceId"] as? String else { throw InitializableError.missingRequiredParam("LogicalResourceId") }
             self.logicalResourceId = logicalResourceId
@@ -1798,7 +1934,7 @@ extension Cloudformation {
         /// Time the status was updated.
         public let timestamp: Date
         /// Current status of the resource.
-        public let resourceStatus: String
+        public let resourceStatus: ResourceStatus
         /// Unique identifier of the stack.
         public let stackId: String?
         /// Type of resource. (For more information, go to  AWS Resource Types Reference in the AWS CloudFormation User Guide.)
@@ -1814,7 +1950,7 @@ extension Cloudformation {
         /// User defined description associated with the resource.
         public let description: String?
 
-        public init(timestamp: Date, resourceStatus: String, stackId: String? = nil, resourceType: String, physicalResourceId: String? = nil, logicalResourceId: String, resourceStatusReason: String? = nil, stackName: String? = nil, description: String? = nil) {
+        public init(timestamp: Date, resourceStatus: ResourceStatus, stackId: String? = nil, resourceType: String, physicalResourceId: String? = nil, logicalResourceId: String, resourceStatusReason: String? = nil, stackName: String? = nil, description: String? = nil) {
             self.timestamp = timestamp
             self.resourceStatus = resourceStatus
             self.stackId = stackId
@@ -1829,7 +1965,7 @@ extension Cloudformation {
         public init(dictionary: [String: Any]) throws {
             guard let timestamp = dictionary["Timestamp"] as? Date else { throw InitializableError.missingRequiredParam("Timestamp") }
             self.timestamp = timestamp
-            guard let resourceStatus = dictionary["ResourceStatus"] as? String else { throw InitializableError.missingRequiredParam("ResourceStatus") }
+            guard let rawResourceStatus = dictionary["ResourceStatus"] as? String, let resourceStatus = ResourceStatus(rawValue: rawResourceStatus) else { throw InitializableError.missingRequiredParam("ResourceStatus") }
             self.resourceStatus = resourceStatus
             self.stackId = dictionary["StackId"] as? String
             guard let resourceType = dictionary["ResourceType"] as? String else { throw InitializableError.missingRequiredParam("ResourceType") }
@@ -1890,17 +2026,17 @@ extension Cloudformation {
         /// The key for the payload
         public static let payload: String? = nil
         /// The stage of the template that you can retrieve. For stacks, the Original and Processed templates are always available. For change sets, the Original template is always available. After AWS CloudFormation finishes creating the change set, the Processed template becomes available.
-        public let stagesAvailable: [String]?
+        public let stagesAvailable: [TemplateStage]?
         /// Structure containing the template body. (For more information, go to Template Anatomy in the AWS CloudFormation User Guide.) AWS CloudFormation returns the same template that was used when the stack was created.
         public let templateBody: String?
 
-        public init(stagesAvailable: [String]? = nil, templateBody: String? = nil) {
+        public init(stagesAvailable: [TemplateStage]? = nil, templateBody: String? = nil) {
             self.stagesAvailable = stagesAvailable
             self.templateBody = templateBody
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.stagesAvailable = dictionary["StagesAvailable"] as? [String]
+            if let stagesAvailable = dictionary["StagesAvailable"] as? [String] { self.stagesAvailable = stagesAvailable.flatMap({ TemplateStage(rawValue: $0)}) } else { self.stagesAvailable = nil }
             self.templateBody = dictionary["TemplateBody"] as? String
         }
     }

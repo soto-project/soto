@@ -52,6 +52,13 @@ extension Ds {
         }
     }
 
+    public enum SnapshotStatus: String, CustomStringConvertible {
+        case creating = "Creating"
+        case completed = "Completed"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DeleteTrustRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -189,6 +196,19 @@ extension Ds {
                 self.computerAttributes = nil
             }
         }
+    }
+
+    public enum SchemaExtensionStatus: String, CustomStringConvertible {
+        case initializing = "Initializing"
+        case creatingsnapshot = "CreatingSnapshot"
+        case updatingschema = "UpdatingSchema"
+        case replicating = "Replicating"
+        case cancelinprogress = "CancelInProgress"
+        case rollbackinprogress = "RollbackInProgress"
+        case cancelled = "Cancelled"
+        case failed = "Failed"
+        case completed = "Completed"
+        public var description: String { return self.rawValue }
     }
 
     public struct Attribute: AWSShape {
@@ -355,7 +375,7 @@ extension Ds {
         /// The directory identifier.
         public let directoryId: String?
         /// The current stage of the directory.
-        public let stage: String?
+        public let stage: DirectoryStage?
         /// The textual description for the directory.
         public let description: String?
         /// The date and time that the stage was last updated.
@@ -373,19 +393,19 @@ extension Ds {
         /// The access URL for the directory, such as http://&lt;alias&gt;.awsapps.com. If no alias has been created for the directory, &lt;alias&gt; is the directory identifier, such as d-XXXXXXXXXX.
         public let accessUrl: String?
         /// The directory size.
-        public let size: String?
+        public let size: DirectorySize?
         /// The alias for the directory. If no alias has been created for the directory, the alias is the directory identifier, such as d-XXXXXXXXXX.
         public let alias: String?
         /// The status of the RADIUS MFA server connection.
-        public let radiusStatus: String?
+        public let radiusStatus: RadiusStatus?
         /// The directory size.
-        public let type: String?
+        public let `type`: DirectoryType?
         /// A DirectoryConnectSettingsDescription object that contains additional information about an AD Connector directory. This member is only present if the directory is an AD Connector directory.
         public let connectSettings: DirectoryConnectSettingsDescription?
         /// The IP addresses of the DNS servers for the directory. For a Simple AD or Microsoft AD directory, these are the IP addresses of the Simple AD or Microsoft AD directory servers. For an AD Connector directory, these are the IP addresses of the DNS servers or domain controllers in the on-premises directory to which the AD Connector is connected.
         public let dnsIpAddrs: [String]?
 
-        public init(shortName: String? = nil, launchTime: Date? = nil, directoryId: String? = nil, stage: String? = nil, description: String? = nil, stageLastUpdatedDateTime: Date? = nil, vpcSettings: DirectoryVpcSettingsDescription? = nil, ssoEnabled: Bool? = nil, radiusSettings: RadiusSettings? = nil, stageReason: String? = nil, name: String? = nil, accessUrl: String? = nil, size: String? = nil, alias: String? = nil, radiusStatus: String? = nil, type: String? = nil, connectSettings: DirectoryConnectSettingsDescription? = nil, dnsIpAddrs: [String]? = nil) {
+        public init(shortName: String? = nil, launchTime: Date? = nil, directoryId: String? = nil, stage: DirectoryStage? = nil, description: String? = nil, stageLastUpdatedDateTime: Date? = nil, vpcSettings: DirectoryVpcSettingsDescription? = nil, ssoEnabled: Bool? = nil, radiusSettings: RadiusSettings? = nil, stageReason: String? = nil, name: String? = nil, accessUrl: String? = nil, size: DirectorySize? = nil, alias: String? = nil, radiusStatus: RadiusStatus? = nil, type: DirectoryType? = nil, connectSettings: DirectoryConnectSettingsDescription? = nil, dnsIpAddrs: [String]? = nil) {
             self.shortName = shortName
             self.launchTime = launchTime
             self.directoryId = directoryId
@@ -401,7 +421,7 @@ extension Ds {
             self.size = size
             self.alias = alias
             self.radiusStatus = radiusStatus
-            self.type = type
+            self.`type` = `type`
             self.connectSettings = connectSettings
             self.dnsIpAddrs = dnsIpAddrs
         }
@@ -410,7 +430,7 @@ extension Ds {
             self.shortName = dictionary["ShortName"] as? String
             self.launchTime = dictionary["LaunchTime"] as? Date
             self.directoryId = dictionary["DirectoryId"] as? String
-            self.stage = dictionary["Stage"] as? String
+            if let stage = dictionary["Stage"] as? String { self.stage = DirectoryStage(rawValue: stage) } else { self.stage = nil }
             self.description = dictionary["Description"] as? String
             self.stageLastUpdatedDateTime = dictionary["StageLastUpdatedDateTime"] as? Date
             if let vpcSettings = dictionary["VpcSettings"] as? [String: Any] { self.vpcSettings = try Ds.DirectoryVpcSettingsDescription(dictionary: vpcSettings) } else { self.vpcSettings = nil }
@@ -419,10 +439,10 @@ extension Ds {
             self.stageReason = dictionary["StageReason"] as? String
             self.name = dictionary["Name"] as? String
             self.accessUrl = dictionary["AccessUrl"] as? String
-            self.size = dictionary["Size"] as? String
+            if let size = dictionary["Size"] as? String { self.size = DirectorySize(rawValue: size) } else { self.size = nil }
             self.alias = dictionary["Alias"] as? String
-            self.radiusStatus = dictionary["RadiusStatus"] as? String
-            self.type = dictionary["Type"] as? String
+            if let radiusStatus = dictionary["RadiusStatus"] as? String { self.radiusStatus = RadiusStatus(rawValue: radiusStatus) } else { self.radiusStatus = nil }
+            if let `type` = dictionary["Type"] as? String { self.`type` = DirectoryType(rawValue: `type`) } else { self.`type` = nil }
             if let connectSettings = dictionary["ConnectSettings"] as? [String: Any] { self.connectSettings = try Ds.DirectoryConnectSettingsDescription(dictionary: connectSettings) } else { self.connectSettings = nil }
             self.dnsIpAddrs = dictionary["DnsIpAddrs"] as? [String]
         }
@@ -462,13 +482,13 @@ extension Ds {
         /// The date and time that the trust relationship was last updated.
         public let lastUpdatedDateTime: Date?
         /// The trust relationship type.
-        public let trustType: String?
+        public let trustType: TrustType?
         /// The reason for the TrustState.
         public let trustStateReason: String?
         /// The Directory ID of the AWS directory involved in the trust relationship.
         public let directoryId: String?
         /// The trust relationship state.
-        public let trustState: String?
+        public let trustState: TrustState?
         /// The date and time that the trust relationship was created.
         public let createdDateTime: Date?
         /// The unique ID of the trust relationship.
@@ -476,9 +496,9 @@ extension Ds {
         /// The date and time that the TrustState was last updated.
         public let stateLastUpdatedDateTime: Date?
         /// The trust relationship direction.
-        public let trustDirection: String?
+        public let trustDirection: TrustDirection?
 
-        public init(remoteDomainName: String? = nil, lastUpdatedDateTime: Date? = nil, trustType: String? = nil, trustStateReason: String? = nil, directoryId: String? = nil, trustState: String? = nil, createdDateTime: Date? = nil, trustId: String? = nil, stateLastUpdatedDateTime: Date? = nil, trustDirection: String? = nil) {
+        public init(remoteDomainName: String? = nil, lastUpdatedDateTime: Date? = nil, trustType: TrustType? = nil, trustStateReason: String? = nil, directoryId: String? = nil, trustState: TrustState? = nil, createdDateTime: Date? = nil, trustId: String? = nil, stateLastUpdatedDateTime: Date? = nil, trustDirection: TrustDirection? = nil) {
             self.remoteDomainName = remoteDomainName
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.trustType = trustType
@@ -494,14 +514,14 @@ extension Ds {
         public init(dictionary: [String: Any]) throws {
             self.remoteDomainName = dictionary["RemoteDomainName"] as? String
             self.lastUpdatedDateTime = dictionary["LastUpdatedDateTime"] as? Date
-            self.trustType = dictionary["TrustType"] as? String
+            if let trustType = dictionary["TrustType"] as? String { self.trustType = TrustType(rawValue: trustType) } else { self.trustType = nil }
             self.trustStateReason = dictionary["TrustStateReason"] as? String
             self.directoryId = dictionary["DirectoryId"] as? String
-            self.trustState = dictionary["TrustState"] as? String
+            if let trustState = dictionary["TrustState"] as? String { self.trustState = TrustState(rawValue: trustState) } else { self.trustState = nil }
             self.createdDateTime = dictionary["CreatedDateTime"] as? Date
             self.trustId = dictionary["TrustId"] as? String
             self.stateLastUpdatedDateTime = dictionary["StateLastUpdatedDateTime"] as? Date
-            self.trustDirection = dictionary["TrustDirection"] as? String
+            if let trustDirection = dictionary["TrustDirection"] as? String { self.trustDirection = TrustDirection(rawValue: trustDirection) } else { self.trustDirection = nil }
         }
     }
 
@@ -537,6 +557,13 @@ extension Ds {
         }
     }
 
+    public enum RadiusStatus: String, CustomStringConvertible {
+        case creating = "Creating"
+        case completed = "Completed"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
     public struct EventTopic: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -547,11 +574,11 @@ extension Ds {
         /// The date and time of when you associated your directory with the SNS topic.
         public let createdDateTime: Date?
         /// The topic registration status.
-        public let status: String?
+        public let status: TopicStatus?
         /// The Directory ID of an AWS Directory Service directory that will publish status messages to an SNS topic.
         public let directoryId: String?
 
-        public init(topicArn: String? = nil, topicName: String? = nil, createdDateTime: Date? = nil, status: String? = nil, directoryId: String? = nil) {
+        public init(topicArn: String? = nil, topicName: String? = nil, createdDateTime: Date? = nil, status: TopicStatus? = nil, directoryId: String? = nil) {
             self.topicArn = topicArn
             self.topicName = topicName
             self.createdDateTime = createdDateTime
@@ -563,7 +590,7 @@ extension Ds {
             self.topicArn = dictionary["TopicArn"] as? String
             self.topicName = dictionary["TopicName"] as? String
             self.createdDateTime = dictionary["CreatedDateTime"] as? Date
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = TopicStatus(rawValue: status) } else { self.status = nil }
             self.directoryId = dictionary["DirectoryId"] as? String
         }
     }
@@ -807,6 +834,12 @@ extension Ds {
         }
     }
 
+    public enum SnapshotType: String, CustomStringConvertible {
+        case auto = "Auto"
+        case manual = "Manual"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DescribeConditionalForwardersRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -833,6 +866,18 @@ extension Ds {
 
         public init(dictionary: [String: Any]) throws {
         }
+    }
+
+    public enum TrustState: String, CustomStringConvertible {
+        case creating = "Creating"
+        case created = "Created"
+        case verifying = "Verifying"
+        case verifyfailed = "VerifyFailed"
+        case verified = "Verified"
+        case deleting = "Deleting"
+        case deleted = "Deleted"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
     }
 
     public struct EnableSsoRequest: AWSShape {
@@ -920,11 +965,11 @@ extension Ds {
         /// The IP addresses of the remote DNS server associated with RemoteDomainName. This is the IP address of the DNS server that your conditional forwarder points to.
         public let dnsIpAddrs: [String]?
         /// The replication scope of the conditional forwarder. The only allowed value is Domain, which will replicate the conditional forwarder to all of the domain controllers for your AWS directory.
-        public let replicationScope: String?
+        public let replicationScope: ReplicationScope?
         /// The fully qualified domain name (FQDN) of the remote domains pointed to by the conditional forwarder.
         public let remoteDomainName: String?
 
-        public init(dnsIpAddrs: [String]? = nil, replicationScope: String? = nil, remoteDomainName: String? = nil) {
+        public init(dnsIpAddrs: [String]? = nil, replicationScope: ReplicationScope? = nil, remoteDomainName: String? = nil) {
             self.dnsIpAddrs = dnsIpAddrs
             self.replicationScope = replicationScope
             self.remoteDomainName = remoteDomainName
@@ -932,7 +977,7 @@ extension Ds {
 
         public init(dictionary: [String: Any]) throws {
             self.dnsIpAddrs = dictionary["DnsIpAddrs"] as? [String]
-            self.replicationScope = dictionary["ReplicationScope"] as? String
+            if let replicationScope = dictionary["ReplicationScope"] as? String { self.replicationScope = ReplicationScope(rawValue: replicationScope) } else { self.replicationScope = nil }
             self.remoteDomainName = dictionary["RemoteDomainName"] as? String
         }
     }
@@ -1030,11 +1075,11 @@ extension Ds {
         /// The date and time that the schema extension started being applied to the directory.
         public let startDateTime: Date?
         /// The current status of the schema extension.
-        public let schemaExtensionStatus: String?
+        public let schemaExtensionStatus: SchemaExtensionStatus?
         /// A description of the schema extension.
         public let description: String?
 
-        public init(schemaExtensionId: String? = nil, schemaExtensionStatusReason: String? = nil, endDateTime: Date? = nil, directoryId: String? = nil, startDateTime: Date? = nil, schemaExtensionStatus: String? = nil, description: String? = nil) {
+        public init(schemaExtensionId: String? = nil, schemaExtensionStatusReason: String? = nil, endDateTime: Date? = nil, directoryId: String? = nil, startDateTime: Date? = nil, schemaExtensionStatus: SchemaExtensionStatus? = nil, description: String? = nil) {
             self.schemaExtensionId = schemaExtensionId
             self.schemaExtensionStatusReason = schemaExtensionStatusReason
             self.endDateTime = endDateTime
@@ -1050,7 +1095,7 @@ extension Ds {
             self.endDateTime = dictionary["EndDateTime"] as? Date
             self.directoryId = dictionary["DirectoryId"] as? String
             self.startDateTime = dictionary["StartDateTime"] as? Date
-            self.schemaExtensionStatus = dictionary["SchemaExtensionStatus"] as? String
+            if let schemaExtensionStatus = dictionary["SchemaExtensionStatus"] as? String { self.schemaExtensionStatus = SchemaExtensionStatus(rawValue: schemaExtensionStatus) } else { self.schemaExtensionStatus = nil }
             self.description = dictionary["Description"] as? String
         }
     }
@@ -1076,6 +1121,11 @@ extension Ds {
             self.nextToken = dictionary["NextToken"] as? String
             self.directoryIds = dictionary["DirectoryIds"] as? [String]
         }
+    }
+
+    public enum ReplicationScope: String, CustomStringConvertible {
+        case domain = "Domain"
+        public var description: String { return self.rawValue }
     }
 
     public struct CreateComputerResult: AWSShape {
@@ -1217,6 +1267,16 @@ extension Ds {
         }
     }
 
+    public enum IpRouteStatusMsg: String, CustomStringConvertible {
+        case adding = "Adding"
+        case added = "Added"
+        case removing = "Removing"
+        case removed = "Removed"
+        case addfailed = "AddFailed"
+        case removefailed = "RemoveFailed"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DescribeSnapshotsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1330,7 +1390,7 @@ extension Ds {
         /// The port that your RADIUS server is using for communications. Your on-premises network must allow inbound traffic over this port from the AWS Directory Service servers.
         public let radiusPort: Int32?
         /// The protocol specified for your RADIUS endpoints.
-        public let authenticationProtocol: String?
+        public let authenticationProtocol: RadiusAuthenticationProtocol?
         /// The maximum number of times that communication with the RADIUS server is attempted.
         public let radiusRetries: Int32?
         /// The amount of time, in seconds, to wait for the RADIUS server to respond.
@@ -1344,7 +1404,7 @@ extension Ds {
         /// An array of strings that contains the IP addresses of the RADIUS server endpoints, or the IP addresses of your RADIUS server load balancer.
         public let radiusServers: [String]?
 
-        public init(radiusPort: Int32? = nil, authenticationProtocol: String? = nil, radiusRetries: Int32? = nil, radiusTimeout: Int32? = nil, useSameUsername: Bool? = nil, sharedSecret: String? = nil, displayLabel: String? = nil, radiusServers: [String]? = nil) {
+        public init(radiusPort: Int32? = nil, authenticationProtocol: RadiusAuthenticationProtocol? = nil, radiusRetries: Int32? = nil, radiusTimeout: Int32? = nil, useSameUsername: Bool? = nil, sharedSecret: String? = nil, displayLabel: String? = nil, radiusServers: [String]? = nil) {
             self.radiusPort = radiusPort
             self.authenticationProtocol = authenticationProtocol
             self.radiusRetries = radiusRetries
@@ -1357,7 +1417,7 @@ extension Ds {
 
         public init(dictionary: [String: Any]) throws {
             self.radiusPort = dictionary["RadiusPort"] as? Int32
-            self.authenticationProtocol = dictionary["AuthenticationProtocol"] as? String
+            if let authenticationProtocol = dictionary["AuthenticationProtocol"] as? String { self.authenticationProtocol = RadiusAuthenticationProtocol(rawValue: authenticationProtocol) } else { self.authenticationProtocol = nil }
             self.radiusRetries = dictionary["RadiusRetries"] as? Int32
             self.radiusTimeout = dictionary["RadiusTimeout"] as? Int32
             self.useSameUsername = dictionary["UseSameUsername"] as? Bool
@@ -1381,33 +1441,41 @@ extension Ds {
         /// The snapshot identifier.
         public let snapshotId: String?
         /// The snapshot status.
-        public let status: String?
+        public let status: SnapshotStatus?
         /// The date and time that the snapshot was taken.
         public let startTime: Date?
         /// The snapshot type.
-        public let type: String?
+        public let `type`: SnapshotType?
         /// The descriptive name of the snapshot.
         public let name: String?
         /// The directory identifier.
         public let directoryId: String?
 
-        public init(snapshotId: String? = nil, status: String? = nil, startTime: Date? = nil, type: String? = nil, name: String? = nil, directoryId: String? = nil) {
+        public init(snapshotId: String? = nil, status: SnapshotStatus? = nil, startTime: Date? = nil, type: SnapshotType? = nil, name: String? = nil, directoryId: String? = nil) {
             self.snapshotId = snapshotId
             self.status = status
             self.startTime = startTime
-            self.type = type
+            self.`type` = `type`
             self.name = name
             self.directoryId = directoryId
         }
 
         public init(dictionary: [String: Any]) throws {
             self.snapshotId = dictionary["SnapshotId"] as? String
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = SnapshotStatus(rawValue: status) } else { self.status = nil }
             self.startTime = dictionary["StartTime"] as? Date
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = SnapshotType(rawValue: `type`) } else { self.`type` = nil }
             self.name = dictionary["Name"] as? String
             self.directoryId = dictionary["DirectoryId"] as? String
         }
+    }
+
+    public enum TopicStatus: String, CustomStringConvertible {
+        case registered = "Registered"
+        case topic_not_found = "Topic not found"
+        case failed = "Failed"
+        case deleted = "Deleted"
+        public var description: String { return self.rawValue }
     }
 
     public struct RestoreFromSnapshotRequest: AWSShape {
@@ -1424,6 +1492,21 @@ extension Ds {
             guard let snapshotId = dictionary["SnapshotId"] as? String else { throw InitializableError.missingRequiredParam("SnapshotId") }
             self.snapshotId = snapshotId
         }
+    }
+
+    public enum DirectoryStage: String, CustomStringConvertible {
+        case requested = "Requested"
+        case creating = "Creating"
+        case created = "Created"
+        case active = "Active"
+        case inoperable = "Inoperable"
+        case impaired = "Impaired"
+        case restoring = "Restoring"
+        case restorefailed = "RestoreFailed"
+        case deleting = "Deleting"
+        case deleted = "Deleted"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
     }
 
     public struct DeleteSnapshotResult: AWSShape {
@@ -1453,11 +1536,11 @@ extension Ds {
         /// The fully qualified name for the directory, such as corp.example.com.
         public let name: String
         /// The size of the directory.
-        public let size: String
+        public let size: DirectorySize
         /// The password for the directory administrator. The directory creation process creates a directory administrator account with the username Administrator and this password.
         public let password: String
 
-        public init(description: String? = nil, vpcSettings: DirectoryVpcSettings? = nil, shortName: String? = nil, name: String, size: String, password: String) {
+        public init(description: String? = nil, vpcSettings: DirectoryVpcSettings? = nil, shortName: String? = nil, name: String, size: DirectorySize, password: String) {
             self.description = description
             self.vpcSettings = vpcSettings
             self.shortName = shortName
@@ -1472,7 +1555,7 @@ extension Ds {
             self.shortName = dictionary["ShortName"] as? String
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
-            guard let size = dictionary["Size"] as? String else { throw InitializableError.missingRequiredParam("Size") }
+            guard let rawSize = dictionary["Size"] as? String, let size = DirectorySize(rawValue: rawSize) else { throw InitializableError.missingRequiredParam("Size") }
             self.size = size
             guard let password = dictionary["Password"] as? String else { throw InitializableError.missingRequiredParam("Password") }
             self.password = password
@@ -1546,17 +1629,17 @@ extension Ds {
         /// The Fully Qualified Domain Name (FQDN) of the external domain for which to create the trust relationship.
         public let remoteDomainName: String
         /// The direction of the trust relationship.
-        public let trustDirection: String
+        public let trustDirection: TrustDirection
         /// The IP addresses of the remote DNS server associated with RemoteDomainName.
         public let conditionalForwarderIpAddrs: [String]?
         /// The trust relationship type.
-        public let trustType: String?
+        public let trustType: TrustType?
         /// The trust password. The must be the same password that was used when creating the trust relationship on the external domain.
         public let trustPassword: String
         /// The Directory ID of the Microsoft AD in the AWS cloud for which to establish the trust relationship.
         public let directoryId: String
 
-        public init(remoteDomainName: String, trustDirection: String, conditionalForwarderIpAddrs: [String]? = nil, trustType: String? = nil, trustPassword: String, directoryId: String) {
+        public init(remoteDomainName: String, trustDirection: TrustDirection, conditionalForwarderIpAddrs: [String]? = nil, trustType: TrustType? = nil, trustPassword: String, directoryId: String) {
             self.remoteDomainName = remoteDomainName
             self.trustDirection = trustDirection
             self.conditionalForwarderIpAddrs = conditionalForwarderIpAddrs
@@ -1568,10 +1651,10 @@ extension Ds {
         public init(dictionary: [String: Any]) throws {
             guard let remoteDomainName = dictionary["RemoteDomainName"] as? String else { throw InitializableError.missingRequiredParam("RemoteDomainName") }
             self.remoteDomainName = remoteDomainName
-            guard let trustDirection = dictionary["TrustDirection"] as? String else { throw InitializableError.missingRequiredParam("TrustDirection") }
+            guard let rawTrustDirection = dictionary["TrustDirection"] as? String, let trustDirection = TrustDirection(rawValue: rawTrustDirection) else { throw InitializableError.missingRequiredParam("TrustDirection") }
             self.trustDirection = trustDirection
             self.conditionalForwarderIpAddrs = dictionary["ConditionalForwarderIpAddrs"] as? [String]
-            self.trustType = dictionary["TrustType"] as? String
+            if let trustType = dictionary["TrustType"] as? String { self.trustType = TrustType(rawValue: trustType) } else { self.trustType = nil }
             guard let trustPassword = dictionary["TrustPassword"] as? String else { throw InitializableError.missingRequiredParam("TrustPassword") }
             self.trustPassword = trustPassword
             guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
@@ -1631,6 +1714,14 @@ extension Ds {
         }
     }
 
+    public enum RadiusAuthenticationProtocol: String, CustomStringConvertible {
+        case pap = "PAP"
+        case chap = "CHAP"
+        case ms_chapv1 = "MS-CHAPv1"
+        case ms_chapv2 = "MS-CHAPv2"
+        public var description: String { return self.rawValue }
+    }
+
     public struct AddIpRoutesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1654,6 +1745,11 @@ extension Ds {
             guard let ipRoutes = dictionary["IpRoutes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("IpRoutes") }
             self.ipRoutes = try ipRoutes.map({ try IpRoute(dictionary: $0) })
         }
+    }
+
+    public enum TrustType: String, CustomStringConvertible {
+        case forest = "Forest"
+        public var description: String { return self.rawValue }
     }
 
     public struct RemoveTagsFromResourceRequest: AWSShape {
@@ -1683,6 +1779,13 @@ extension Ds {
 
         public init(dictionary: [String: Any]) throws {
         }
+    }
+
+    public enum TrustDirection: String, CustomStringConvertible {
+        case one_way__outgoing = "One-Way: Outgoing"
+        case one_way__incoming = "One-Way: Incoming"
+        case two_way = "Two-Way"
+        public var description: String { return self.rawValue }
     }
 
     public struct CancelSchemaExtensionRequest: AWSShape {
@@ -1824,7 +1927,7 @@ extension Ds {
         /// Description of the IpRouteInfo.
         public let description: String?
         /// The status of the IP address block.
-        public let ipRouteStatusMsg: String?
+        public let ipRouteStatusMsg: IpRouteStatusMsg?
         /// The date and time the address block was added to the directory.
         public let addedDateTime: Date?
         /// IP address block in the IpRoute.
@@ -1834,7 +1937,7 @@ extension Ds {
         /// Identifier (ID) of the directory associated with the IP addresses.
         public let directoryId: String?
 
-        public init(description: String? = nil, ipRouteStatusMsg: String? = nil, addedDateTime: Date? = nil, cidrIp: String? = nil, ipRouteStatusReason: String? = nil, directoryId: String? = nil) {
+        public init(description: String? = nil, ipRouteStatusMsg: IpRouteStatusMsg? = nil, addedDateTime: Date? = nil, cidrIp: String? = nil, ipRouteStatusReason: String? = nil, directoryId: String? = nil) {
             self.description = description
             self.ipRouteStatusMsg = ipRouteStatusMsg
             self.addedDateTime = addedDateTime
@@ -1845,7 +1948,7 @@ extension Ds {
 
         public init(dictionary: [String: Any]) throws {
             self.description = dictionary["Description"] as? String
-            self.ipRouteStatusMsg = dictionary["IpRouteStatusMsg"] as? String
+            if let ipRouteStatusMsg = dictionary["IpRouteStatusMsg"] as? String { self.ipRouteStatusMsg = IpRouteStatusMsg(rawValue: ipRouteStatusMsg) } else { self.ipRouteStatusMsg = nil }
             self.addedDateTime = dictionary["AddedDateTime"] as? Date
             self.cidrIp = dictionary["CidrIp"] as? String
             self.ipRouteStatusReason = dictionary["IpRouteStatusReason"] as? String
@@ -1865,11 +1968,11 @@ extension Ds {
         /// A DirectoryConnectSettings object that contains additional information for the operation.
         public let connectSettings: DirectoryConnectSettings
         /// The size of the directory.
-        public let size: String
+        public let size: DirectorySize
         /// The fully-qualified name of the on-premises directory, such as corp.example.com.
         public let name: String
 
-        public init(password: String, description: String? = nil, shortName: String? = nil, connectSettings: DirectoryConnectSettings, size: String, name: String) {
+        public init(password: String, description: String? = nil, shortName: String? = nil, connectSettings: DirectoryConnectSettings, size: DirectorySize, name: String) {
             self.password = password
             self.description = description
             self.shortName = shortName
@@ -1885,7 +1988,7 @@ extension Ds {
             self.shortName = dictionary["ShortName"] as? String
             guard let connectSettings = dictionary["ConnectSettings"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ConnectSettings") }
             self.connectSettings = try Ds.DirectoryConnectSettings(dictionary: connectSettings)
-            guard let size = dictionary["Size"] as? String else { throw InitializableError.missingRequiredParam("Size") }
+            guard let rawSize = dictionary["Size"] as? String, let size = DirectorySize(rawValue: rawSize) else { throw InitializableError.missingRequiredParam("Size") }
             self.size = size
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
@@ -1971,6 +2074,19 @@ extension Ds {
             guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
             self.directoryId = directoryId
         }
+    }
+
+    public enum DirectoryType: String, CustomStringConvertible {
+        case simplead = "SimpleAD"
+        case adconnector = "ADConnector"
+        case microsoftad = "MicrosoftAD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DirectorySize: String, CustomStringConvertible {
+        case small = "Small"
+        case large = "Large"
+        public var description: String { return self.rawValue }
     }
 
     public struct CreateDirectoryResult: AWSShape {

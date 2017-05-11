@@ -48,6 +48,18 @@ extension Codebuild {
         }
     }
 
+    public enum LanguageType: String, CustomStringConvertible {
+        case java = "JAVA"
+        case python = "PYTHON"
+        case node_js = "NODE_JS"
+        case ruby = "RUBY"
+        case golang = "GOLANG"
+        case docker = "DOCKER"
+        case android = "ANDROID"
+        case base = "BASE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct StopBuildOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -200,11 +212,11 @@ extension Codebuild {
         /// Additional information about a build phase, especially to help troubleshoot a failed build.
         public let contexts: [PhaseContext]?
         /// The current status of the build phase. Valid values include:    FAILED: The build phase failed.    FAULT: The build phase faulted.    IN_PROGRESS: The build phase is still in progress.    STOPPED: The build phase stopped.    SUCCEEDED: The build phase succeeded.    TIMED_OUT: The build phase timed out.  
-        public let phaseStatus: String?
+        public let phaseStatus: StatusType?
         /// The name of the build phase. Valid values include:    BUILD: Core build activities typically occur in this build phase.    COMPLETED: The build has been completed.    DOWNLOAD_SOURCE: Source code is being downloaded in this build phase.    FINALIZING: The build process is completing in this build phase.    INSTALL: Installation activities typically occur in this build phase.    POST_BUILD: Post-build activities typically occur in this build phase.    PRE_BUILD: Pre-build activities typically occur in this build phase.    PROVISIONING: The build environment is being set up.    SUBMITTED: The build has been submitted.    UPLOAD_ARTIFACTS: Build output artifacts are being uploaded to the output location.  
-        public let phaseType: String?
+        public let phaseType: BuildPhaseType?
 
-        public init(durationInSeconds: Int64? = nil, endTime: Date? = nil, startTime: Date? = nil, contexts: [PhaseContext]? = nil, phaseStatus: String? = nil, phaseType: String? = nil) {
+        public init(durationInSeconds: Int64? = nil, endTime: Date? = nil, startTime: Date? = nil, contexts: [PhaseContext]? = nil, phaseStatus: StatusType? = nil, phaseType: BuildPhaseType? = nil) {
             self.durationInSeconds = durationInSeconds
             self.endTime = endTime
             self.startTime = startTime
@@ -222,8 +234,8 @@ extension Codebuild {
             } else { 
                 self.contexts = nil
             }
-            self.phaseStatus = dictionary["phaseStatus"] as? String
-            self.phaseType = dictionary["phaseType"] as? String
+            if let phaseStatus = dictionary["phaseStatus"] as? String { self.phaseStatus = StatusType(rawValue: phaseStatus) } else { self.phaseStatus = nil }
+            if let phaseType = dictionary["phaseType"] as? String { self.phaseType = BuildPhaseType(rawValue: phaseType) } else { self.phaseType = nil }
         }
     }
 
@@ -254,18 +266,18 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// The authorization type to use. The only valid value is OAUTH, which represents the OAuth authorization type.
-        public let type: String
+        public let `type`: SourceAuthType
         /// The resource value that applies to the specified authorization type.
         public let resource: String?
 
-        public init(type: String, resource: String? = nil) {
-            self.type = type
+        public init(type: SourceAuthType, resource: String? = nil) {
+            self.`type` = `type`
             self.resource = resource
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
-            self.type = type
+            guard let rawtype = dictionary["type"] as? String, let `type` = SourceAuthType(rawValue: rawtype) else { throw InitializableError.missingRequiredParam("type") }
+            self.`type` = `type`
             self.resource = dictionary["resource"] as? String
         }
     }
@@ -276,9 +288,9 @@ extension Codebuild {
         /// The list of programming languages that are available for the specified platform.
         public let languages: [EnvironmentLanguage]?
         /// The platform's name.
-        public let platform: String?
+        public let platform: PlatformType?
 
-        public init(languages: [EnvironmentLanguage]? = nil, platform: String? = nil) {
+        public init(languages: [EnvironmentLanguage]? = nil, platform: PlatformType? = nil) {
             self.languages = languages
             self.platform = platform
         }
@@ -289,8 +301,21 @@ extension Codebuild {
             } else { 
                 self.languages = nil
             }
-            self.platform = dictionary["platform"] as? String
+            if let platform = dictionary["platform"] as? String { self.platform = PlatformType(rawValue: platform) } else { self.platform = nil }
         }
+    }
+
+    public enum PlatformType: String, CustomStringConvertible {
+        case debian = "DEBIAN"
+        case amazon_linux = "AMAZON_LINUX"
+        case ubuntu = "UBUNTU"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ArtifactPackaging: String, CustomStringConvertible {
+        case none = "NONE"
+        case zip = "ZIP"
+        public var description: String { return self.rawValue }
     }
 
     public struct Build: AWSShape {
@@ -309,7 +334,7 @@ extension Codebuild {
         /// Information about the output artifacts for the build.
         public let artifacts: BuildArtifacts?
         /// The current status of the build. Valid values include:    FAILED: The build failed.    FAULT: The build faulted.    IN_PROGRESS: The build is still in progress.    STOPPED: The build stopped.    SUCCEEDED: The build succeeded.    TIMED_OUT: The build timed out.  
-        public let buildStatus: String?
+        public let buildStatus: StatusType?
         /// The Amazon Resource Name (ARN) of the build.
         public let arn: String?
         /// The entity that started the build. Valid values include:   If AWS CodePipeline started the build, the pipeline's name (for example, codepipeline/my-demo-pipeline).   If an AWS Identity and Access Management (IAM) user started the build, the user's name (for example MyUserName).   If the Jenkins plugin for AWS CodeBuild started the build, the string CodeBuild-Jenkins-Plugin.  
@@ -329,7 +354,7 @@ extension Codebuild {
         /// When the build process started, expressed in Unix time format.
         public let startTime: Date?
 
-        public init(phases: [BuildPhase]? = nil, source: ProjectSource? = nil, timeoutInMinutes: Int32? = nil, sourceVersion: String? = nil, currentPhase: String? = nil, artifacts: BuildArtifacts? = nil, buildStatus: String? = nil, arn: String? = nil, initiator: String? = nil, environment: ProjectEnvironment? = nil, id: String? = nil, projectName: String? = nil, buildComplete: Bool? = nil, endTime: Date? = nil, logs: LogsLocation? = nil, startTime: Date? = nil) {
+        public init(phases: [BuildPhase]? = nil, source: ProjectSource? = nil, timeoutInMinutes: Int32? = nil, sourceVersion: String? = nil, currentPhase: String? = nil, artifacts: BuildArtifacts? = nil, buildStatus: StatusType? = nil, arn: String? = nil, initiator: String? = nil, environment: ProjectEnvironment? = nil, id: String? = nil, projectName: String? = nil, buildComplete: Bool? = nil, endTime: Date? = nil, logs: LogsLocation? = nil, startTime: Date? = nil) {
             self.phases = phases
             self.source = source
             self.timeoutInMinutes = timeoutInMinutes
@@ -359,7 +384,7 @@ extension Codebuild {
             self.sourceVersion = dictionary["sourceVersion"] as? String
             self.currentPhase = dictionary["currentPhase"] as? String
             if let artifacts = dictionary["artifacts"] as? [String: Any] { self.artifacts = try Codebuild.BuildArtifacts(dictionary: artifacts) } else { self.artifacts = nil }
-            self.buildStatus = dictionary["buildStatus"] as? String
+            if let buildStatus = dictionary["buildStatus"] as? String { self.buildStatus = StatusType(rawValue: buildStatus) } else { self.buildStatus = nil }
             self.arn = dictionary["arn"] as? String
             self.initiator = dictionary["initiator"] as? String
             if let environment = dictionary["environment"] as? [String: Any] { self.environment = try Codebuild.ProjectEnvironment(dictionary: environment) } else { self.environment = nil }
@@ -396,6 +421,18 @@ extension Codebuild {
         }
     }
 
+    public enum SourceAuthType: String, CustomStringConvertible {
+        case oauth = "OAUTH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProjectSortByType: String, CustomStringConvertible {
+        case name = "NAME"
+        case created_time = "CREATED_TIME"
+        case last_modified_time = "LAST_MODIFIED_TIME"
+        public var description: String { return self.rawValue }
+    }
+
     public struct UpdateProjectOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -411,6 +448,12 @@ extension Codebuild {
         }
     }
 
+    public enum ArtifactNamespace: String, CustomStringConvertible {
+        case none = "NONE"
+        case build_id = "BUILD_ID"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ProjectArtifacts: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -421,29 +464,29 @@ extension Codebuild {
         /// Along with namespaceType and name, the pattern that AWS CodeBuild will use to name and store the output artifact, as follows:   If type is set to CODEPIPELINE, then AWS CodePipeline will ignore this value if specified. This is because AWS CodePipeline manages its build output names instead of AWS CodeBuild.   If type is set to NO_ARTIFACTS, then this value will be ignored if specified, because no build output will be produced.   If type is set to S3, this is the path to the output artifact. If path is not specified, then path will not be used.   For example, if path is set to MyArtifacts, namespaceType is set to NONE, and name is set to MyArtifact.zip, then the output artifact would be stored in the output bucket at MyArtifacts/MyArtifact.zip.
         public let path: String?
         /// Along with path and name, the pattern that AWS CodeBuild will use to determine the name and location to store the output artifact, as follows:   If type is set to CODEPIPELINE, then AWS CodePipeline will ignore this value if specified. This is because AWS CodePipeline manages its build output names instead of AWS CodeBuild.   If type is set to NO_ARTIFACTS, then this value will be ignored if specified, because no build output will be produced.   If type is set to S3, then valid values include:    BUILD_ID: Include the build ID in the location of the build output artifact.    NONE: Do not include the build ID. This is the default if namespaceType is not specified.     For example, if path is set to MyArtifacts, namespaceType is set to BUILD_ID, and name is set to MyArtifact.zip, then the output artifact would be stored in MyArtifacts/build-ID/MyArtifact.zip.
-        public let namespaceType: String?
+        public let namespaceType: ArtifactNamespace?
         /// The type of build output artifact to create, as follows:   If type is set to CODEPIPELINE, then AWS CodePipeline will ignore this value if specified. This is because AWS CodePipeline manages its build output artifacts instead of AWS CodeBuild.   If type is set to NO_ARTIFACTS, then this value will be ignored if specified, because no build output will be produced.   If type is set to S3, valid values include:    NONE: AWS CodeBuild will create in the output bucket a folder containing the build output. This is the default if packaging is not specified.    ZIP: AWS CodeBuild will create in the output bucket a ZIP file containing the build output.    
-        public let packaging: String?
+        public let packaging: ArtifactPackaging?
         /// The type of build output artifact. Valid values include:    CODEPIPELINE: The build project will have build output generated through AWS CodePipeline.    NO_ARTIFACTS: The build project will not produce any build output.    S3: The build project will store build output in Amazon Simple Storage Service (Amazon S3).  
-        public let type: String
+        public let `type`: ArtifactsType
 
-        public init(name: String? = nil, location: String? = nil, path: String? = nil, namespaceType: String? = nil, packaging: String? = nil, type: String) {
+        public init(name: String? = nil, location: String? = nil, path: String? = nil, namespaceType: ArtifactNamespace? = nil, packaging: ArtifactPackaging? = nil, type: ArtifactsType) {
             self.name = name
             self.location = location
             self.path = path
             self.namespaceType = namespaceType
             self.packaging = packaging
-            self.type = type
+            self.`type` = `type`
         }
 
         public init(dictionary: [String: Any]) throws {
             self.name = dictionary["name"] as? String
             self.location = dictionary["location"] as? String
             self.path = dictionary["path"] as? String
-            self.namespaceType = dictionary["namespaceType"] as? String
-            self.packaging = dictionary["packaging"] as? String
-            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
-            self.type = type
+            if let namespaceType = dictionary["namespaceType"] as? String { self.namespaceType = ArtifactNamespace(rawValue: namespaceType) } else { self.namespaceType = nil }
+            if let packaging = dictionary["packaging"] as? String { self.packaging = ArtifactPackaging(rawValue: packaging) } else { self.packaging = nil }
+            guard let rawtype = dictionary["type"] as? String, let `type` = ArtifactsType(rawValue: rawtype) else { throw InitializableError.missingRequiredParam("type") }
+            self.`type` = `type`
         }
     }
 
@@ -482,17 +525,17 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// The programming language for the Docker images.
-        public let language: String?
+        public let language: LanguageType?
         /// The list of Docker images that are related by the specified programming language.
         public let images: [EnvironmentImage]?
 
-        public init(language: String? = nil, images: [EnvironmentImage]? = nil) {
+        public init(language: LanguageType? = nil, images: [EnvironmentImage]? = nil) {
             self.language = language
             self.images = images
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.language = dictionary["language"] as? String
+            if let language = dictionary["language"] as? String { self.language = LanguageType(rawValue: language) } else { self.language = nil }
             if let images = dictionary["images"] as? [[String: Any]] {
                 self.images = try images.map({ try EnvironmentImage(dictionary: $0) })
             } else { 
@@ -554,6 +597,11 @@ extension Codebuild {
         }
     }
 
+    public enum EnvironmentType: String, CustomStringConvertible {
+        case linux_container = "LINUX_CONTAINER"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ListBuildsForProjectOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -577,31 +625,31 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the compute resources the build project will use. Available values include:    BUILD_GENERAL1_SMALL: Use up to 3 GB memory and 2 vCPUs for builds.    BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds.    BUILD_GENERAL1_LARGE: Use up to 15 GB memory and 8 vCPUs for builds.  
-        public let computeType: String
+        public let computeType: ComputeType
         /// A set of environment variables to make available to builds for this build project.
         public let environmentVariables: [EnvironmentVariable]?
         /// The type of build environment to use for related builds.
-        public let type: String
+        public let `type`: EnvironmentType
         /// The ID of the Docker image to use for this build project.
         public let image: String
 
-        public init(computeType: String, environmentVariables: [EnvironmentVariable]? = nil, type: String, image: String) {
+        public init(computeType: ComputeType, environmentVariables: [EnvironmentVariable]? = nil, type: EnvironmentType, image: String) {
             self.computeType = computeType
             self.environmentVariables = environmentVariables
-            self.type = type
+            self.`type` = `type`
             self.image = image
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let computeType = dictionary["computeType"] as? String else { throw InitializableError.missingRequiredParam("computeType") }
+            guard let rawcomputeType = dictionary["computeType"] as? String, let computeType = ComputeType(rawValue: rawcomputeType) else { throw InitializableError.missingRequiredParam("computeType") }
             self.computeType = computeType
             if let environmentVariables = dictionary["environmentVariables"] as? [[String: Any]] {
                 self.environmentVariables = try environmentVariables.map({ try EnvironmentVariable(dictionary: $0) })
             } else { 
                 self.environmentVariables = nil
             }
-            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
-            self.type = type
+            guard let rawtype = dictionary["type"] as? String, let `type` = EnvironmentType(rawValue: rawtype) else { throw InitializableError.missingRequiredParam("type") }
+            self.`type` = `type`
             guard let image = dictionary["image"] as? String else { throw InitializableError.missingRequiredParam("image") }
             self.image = image
         }
@@ -613,16 +661,16 @@ extension Codebuild {
         /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
         public let nextToken: String?
         /// The order to list build IDs. Valid values include:    ASCENDING: List the build IDs in ascending order by build ID.    DESCENDING: List the build IDs in descending order by build ID.  
-        public let sortOrder: String?
+        public let sortOrder: SortOrderType?
 
-        public init(nextToken: String? = nil, sortOrder: String? = nil) {
+        public init(nextToken: String? = nil, sortOrder: SortOrderType? = nil) {
             self.nextToken = nextToken
             self.sortOrder = sortOrder
         }
 
         public init(dictionary: [String: Any]) throws {
             self.nextToken = dictionary["nextToken"] as? String
-            self.sortOrder = dictionary["sortOrder"] as? String
+            if let sortOrder = dictionary["sortOrder"] as? String { self.sortOrder = SortOrderType(rawValue: sortOrder) } else { self.sortOrder = nil }
         }
     }
 
@@ -650,9 +698,9 @@ extension Codebuild {
         /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
         public let nextToken: String?
         /// The order to list build IDs. Valid values include:    ASCENDING: List the build IDs in ascending order by build ID.    DESCENDING: List the build IDs in descending order by build ID.  
-        public let sortOrder: String?
+        public let sortOrder: SortOrderType?
 
-        public init(projectName: String, nextToken: String? = nil, sortOrder: String? = nil) {
+        public init(projectName: String, nextToken: String? = nil, sortOrder: SortOrderType? = nil) {
             self.projectName = projectName
             self.nextToken = nextToken
             self.sortOrder = sortOrder
@@ -662,8 +710,23 @@ extension Codebuild {
             guard let projectName = dictionary["projectName"] as? String else { throw InitializableError.missingRequiredParam("projectName") }
             self.projectName = projectName
             self.nextToken = dictionary["nextToken"] as? String
-            self.sortOrder = dictionary["sortOrder"] as? String
+            if let sortOrder = dictionary["sortOrder"] as? String { self.sortOrder = SortOrderType(rawValue: sortOrder) } else { self.sortOrder = nil }
         }
+    }
+
+    public enum ComputeType: String, CustomStringConvertible {
+        case build_general1_small = "BUILD_GENERAL1_SMALL"
+        case build_general1_medium = "BUILD_GENERAL1_MEDIUM"
+        case build_general1_large = "BUILD_GENERAL1_LARGE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SourceType: String, CustomStringConvertible {
+        case codecommit = "CODECOMMIT"
+        case codepipeline = "CODEPIPELINE"
+        case github = "GITHUB"
+        case s3 = "S3"
+        public var description: String { return self.rawValue }
     }
 
     public struct UpdateProjectInput: AWSShape {
@@ -758,6 +821,20 @@ extension Codebuild {
         }
     }
 
+    public enum BuildPhaseType: String, CustomStringConvertible {
+        case submitted = "SUBMITTED"
+        case provisioning = "PROVISIONING"
+        case download_source = "DOWNLOAD_SOURCE"
+        case install = "INSTALL"
+        case pre_build = "PRE_BUILD"
+        case build = "BUILD"
+        case post_build = "POST_BUILD"
+        case upload_artifacts = "UPLOAD_ARTIFACTS"
+        case finalizing = "FINALIZING"
+        case completed = "COMPLETED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct EnvironmentImage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -775,6 +852,16 @@ extension Codebuild {
             self.description = dictionary["description"] as? String
             self.name = dictionary["name"] as? String
         }
+    }
+
+    public enum StatusType: String, CustomStringConvertible {
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        case fault = "FAULT"
+        case timed_out = "TIMED_OUT"
+        case in_progress = "IN_PROGRESS"
+        case stopped = "STOPPED"
+        public var description: String { return self.rawValue }
     }
 
     public struct EnvironmentVariable: AWSShape {
@@ -903,6 +990,19 @@ extension Codebuild {
         }
     }
 
+    public enum SortOrderType: String, CustomStringConvertible {
+        case ascending = "ASCENDING"
+        case descending = "DESCENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ArtifactsType: String, CustomStringConvertible {
+        case codepipeline = "CODEPIPELINE"
+        case s3 = "S3"
+        case no_artifacts = "NO_ARTIFACTS"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ProjectSource: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -911,22 +1011,22 @@ extension Codebuild {
         /// Information about the location of the source code to be built. Valid values include:   For source code settings that are specified in the source action of a pipeline in AWS CodePipeline, location should not be specified. If it is specified, AWS CodePipeline will ignore it. This is because AWS CodePipeline uses the settings in a pipeline's source action instead of this value.   For source code in an AWS CodeCommit repository, the HTTPS clone URL to the repository that contains the source code and the build spec (for example, https://git-codecommit.region-ID.amazonaws.com/v1/repos/repo-name ).   For source code in an Amazon Simple Storage Service (Amazon S3) input bucket, the path to the ZIP file that contains the source code (for example,  bucket-name/path/to/object-name.zip)   For source code in a GitHub repository, instead of specifying a value here, you connect your AWS account to your GitHub account. To do this, use the AWS CodeBuild console to begin creating a build project, and follow the on-screen instructions to complete the connection. (After you have connected to your GitHub account, you do not need to finish creating the build project, and you may then leave the AWS CodeBuild console.) To instruct AWS CodeBuild to then use this connection, in the source object, set the auth object's type value to OAUTH.  
         public let location: String?
         /// The type of repository that contains the source code to be built. Valid values include:    CODECOMMIT: The source code is in an AWS CodeCommit repository.    CODEPIPELINE: The source code settings are specified in the source action of a pipeline in AWS CodePipeline.    GITHUB: The source code is in a GitHub repository.    S3: The source code is in an Amazon Simple Storage Service (Amazon S3) input bucket.  
-        public let type: String
+        public let `type`: SourceType
         /// Information about the authorization settings for AWS CodeBuild to access the source code to be built. This information is for the AWS CodeBuild console's use only. Your code should not get or set this information directly (unless the build project's source type value is GITHUB).
         public let auth: SourceAuth?
 
-        public init(buildspec: String? = nil, location: String? = nil, type: String, auth: SourceAuth? = nil) {
+        public init(buildspec: String? = nil, location: String? = nil, type: SourceType, auth: SourceAuth? = nil) {
             self.buildspec = buildspec
             self.location = location
-            self.type = type
+            self.`type` = `type`
             self.auth = auth
         }
 
         public init(dictionary: [String: Any]) throws {
             self.buildspec = dictionary["buildspec"] as? String
             self.location = dictionary["location"] as? String
-            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
-            self.type = type
+            guard let rawtype = dictionary["type"] as? String, let `type` = SourceType(rawValue: rawtype) else { throw InitializableError.missingRequiredParam("type") }
+            self.`type` = `type`
             if let auth = dictionary["auth"] as? [String: Any] { self.auth = try Codebuild.SourceAuth(dictionary: auth) } else { self.auth = nil }
         }
     }
@@ -935,22 +1035,22 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// The criterion to be used to list build project names. Valid values include:    CREATED_TIME: List the build project names based on when each build project was created.    LAST_MODIFIED_TIME: List the build project names based on when information about each build project was last changed.    NAME: List the build project names based on each build project's name.   Use sortOrder to specify in what order to list the build project names based on the preceding criteria.
-        public let sortBy: String?
+        public let sortBy: ProjectSortByType?
         /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
         public let nextToken: String?
         /// The order in which to list build projects. Valid values include:    ASCENDING: List the build project names in ascending order.    DESCENDING: List the build project names in descending order.   Use sortBy to specify the criterion to be used to list build project names.
-        public let sortOrder: String?
+        public let sortOrder: SortOrderType?
 
-        public init(sortBy: String? = nil, nextToken: String? = nil, sortOrder: String? = nil) {
+        public init(sortBy: ProjectSortByType? = nil, nextToken: String? = nil, sortOrder: SortOrderType? = nil) {
             self.sortBy = sortBy
             self.nextToken = nextToken
             self.sortOrder = sortOrder
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.sortBy = dictionary["sortBy"] as? String
+            if let sortBy = dictionary["sortBy"] as? String { self.sortBy = ProjectSortByType(rawValue: sortBy) } else { self.sortBy = nil }
             self.nextToken = dictionary["nextToken"] as? String
-            self.sortOrder = dictionary["sortOrder"] as? String
+            if let sortOrder = dictionary["sortOrder"] as? String { self.sortOrder = SortOrderType(rawValue: sortOrder) } else { self.sortOrder = nil }
         }
     }
 
