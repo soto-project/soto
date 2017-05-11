@@ -117,18 +117,18 @@ extension Cloudsearch {
     public struct AnalysisScheme: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let analysisSchemeLanguage: String
+        public let analysisSchemeLanguage: AnalysisSchemeLanguage
         public let analysisSchemeName: String
         public let analysisOptions: AnalysisOptions?
 
-        public init(analysisSchemeLanguage: String, analysisSchemeName: String, analysisOptions: AnalysisOptions? = nil) {
+        public init(analysisSchemeLanguage: AnalysisSchemeLanguage, analysisSchemeName: String, analysisOptions: AnalysisOptions? = nil) {
             self.analysisSchemeLanguage = analysisSchemeLanguage
             self.analysisSchemeName = analysisSchemeName
             self.analysisOptions = analysisOptions
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let analysisSchemeLanguage = dictionary["AnalysisSchemeLanguage"] as? String else { throw InitializableError.missingRequiredParam("AnalysisSchemeLanguage") }
+            guard let rawAnalysisSchemeLanguage = dictionary["AnalysisSchemeLanguage"] as? String, let analysisSchemeLanguage = AnalysisSchemeLanguage(rawValue: rawAnalysisSchemeLanguage) else { throw InitializableError.missingRequiredParam("AnalysisSchemeLanguage") }
             self.analysisSchemeLanguage = analysisSchemeLanguage
             guard let analysisSchemeName = dictionary["AnalysisSchemeName"] as? String else { throw InitializableError.missingRequiredParam("AnalysisSchemeName") }
             self.analysisSchemeName = analysisSchemeName
@@ -240,11 +240,11 @@ extension Cloudsearch {
         /// A timestamp for when this option was created.
         public let creationDate: Date
         /// The state of processing a change to an option. Possible values:   RequiresIndexDocuments: the option's latest value will not be deployed until IndexDocuments has been called and indexing is complete.  Processing: the option's latest value is in the process of being activated.   Active: the option's latest value is completely deployed.  FailedToValidate: the option value is not compatible with the domain's data and cannot be used to index the data. You must either modify the option value or update or remove the incompatible documents. 
-        public let state: String
+        public let state: OptionState
         /// A timestamp for when this option was last updated.
         public let updateDate: Date
 
-        public init(updateVersion: Int32? = nil, pendingDeletion: Bool? = nil, creationDate: Date, state: String, updateDate: Date) {
+        public init(updateVersion: Int32? = nil, pendingDeletion: Bool? = nil, creationDate: Date, state: OptionState, updateDate: Date) {
             self.updateVersion = updateVersion
             self.pendingDeletion = pendingDeletion
             self.creationDate = creationDate
@@ -257,7 +257,7 @@ extension Cloudsearch {
             self.pendingDeletion = dictionary["PendingDeletion"] as? Bool
             guard let creationDate = dictionary["CreationDate"] as? Date else { throw InitializableError.missingRequiredParam("CreationDate") }
             self.creationDate = creationDate
-            guard let state = dictionary["State"] as? String else { throw InitializableError.missingRequiredParam("State") }
+            guard let rawState = dictionary["State"] as? String, let state = OptionState(rawValue: rawState) else { throw InitializableError.missingRequiredParam("State") }
             self.state = state
             guard let updateDate = dictionary["UpdateDate"] as? Date else { throw InitializableError.missingRequiredParam("UpdateDate") }
             self.updateDate = updateDate
@@ -388,6 +388,14 @@ extension Cloudsearch {
         }
     }
 
+    public enum AlgorithmicStemming: String, CustomStringConvertible {
+        case none = "none"
+        case minimal = "minimal"
+        case light = "light"
+        case full = "full"
+        public var description: String { return self.rawValue }
+    }
+
     public struct UpdateScalingParametersResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -501,6 +509,18 @@ extension Cloudsearch {
         }
     }
 
+    public enum PartitionInstanceType: String, CustomStringConvertible {
+        case search_m1_small = "search.m1.small"
+        case search_m1_large = "search.m1.large"
+        case search_m2_xlarge = "search.m2.xlarge"
+        case search_m2_2xlarge = "search.m2.2xlarge"
+        case search_m3_medium = "search.m3.medium"
+        case search_m3_large = "search.m3.large"
+        case search_m3_xlarge = "search.m3.xlarge"
+        case search_m3_2xlarge = "search.m3.2xlarge"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DeleteDomainResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -513,6 +533,13 @@ extension Cloudsearch {
         public init(dictionary: [String: Any]) throws {
             if let domainStatus = dictionary["DomainStatus"] as? [String: Any] { self.domainStatus = try Cloudsearch.DomainStatus(dictionary: domainStatus) } else { self.domainStatus = nil }
         }
+    }
+
+    public enum SuggesterFuzzyMatching: String, CustomStringConvertible {
+        case none = "none"
+        case low = "low"
+        case high = "high"
+        public var description: String { return self.rawValue }
     }
 
     public struct Suggester: AWSShape {
@@ -540,11 +567,11 @@ extension Cloudsearch {
         /// The number of replicas you want to preconfigure for each index partition.
         public let desiredReplicationCount: Int32?
         /// The instance type that you want to preconfigure for your domain. For example, search.m1.small.
-        public let desiredInstanceType: String?
+        public let desiredInstanceType: PartitionInstanceType?
         /// The number of partitions you want to preconfigure for your domain. Only valid when you select m2.2xlarge as the desired instance type.
         public let desiredPartitionCount: Int32?
 
-        public init(desiredReplicationCount: Int32? = nil, desiredInstanceType: String? = nil, desiredPartitionCount: Int32? = nil) {
+        public init(desiredReplicationCount: Int32? = nil, desiredInstanceType: PartitionInstanceType? = nil, desiredPartitionCount: Int32? = nil) {
             self.desiredReplicationCount = desiredReplicationCount
             self.desiredInstanceType = desiredInstanceType
             self.desiredPartitionCount = desiredPartitionCount
@@ -552,7 +579,7 @@ extension Cloudsearch {
 
         public init(dictionary: [String: Any]) throws {
             self.desiredReplicationCount = dictionary["DesiredReplicationCount"] as? Int32
-            self.desiredInstanceType = dictionary["DesiredInstanceType"] as? String
+            if let desiredInstanceType = dictionary["DesiredInstanceType"] as? String { self.desiredInstanceType = PartitionInstanceType(rawValue: desiredInstanceType) } else { self.desiredInstanceType = nil }
             self.desiredPartitionCount = dictionary["DesiredPartitionCount"] as? Int32
         }
     }
@@ -597,11 +624,11 @@ extension Cloudsearch {
         /// An expression that computes a score for each suggestion to control how they are sorted. The scores are rounded to the nearest integer, with a floor of 0 and a ceiling of 2^31-1. A document's relevance score is not computed for suggestions, so sort expressions cannot reference the _score value. To sort suggestions using a numeric field or existing expression, simply specify the name of the field or expression. If no expression is configured for the suggester, the suggestions are sorted with the closest matches listed first.
         public let sortExpression: String?
         /// The level of fuzziness allowed when suggesting matches for a string: none, low, or high. With none, the specified string is treated as an exact prefix. With low, suggestions must differ from the specified string by no more than one character. With high, suggestions can differ by up to two characters. The default is none. 
-        public let fuzzyMatching: String?
+        public let fuzzyMatching: SuggesterFuzzyMatching?
         /// The name of the index field you want to use for suggestions. 
         public let sourceField: String
 
-        public init(sortExpression: String? = nil, fuzzyMatching: String? = nil, sourceField: String) {
+        public init(sortExpression: String? = nil, fuzzyMatching: SuggesterFuzzyMatching? = nil, sourceField: String) {
             self.sortExpression = sortExpression
             self.fuzzyMatching = fuzzyMatching
             self.sourceField = sourceField
@@ -609,7 +636,7 @@ extension Cloudsearch {
 
         public init(dictionary: [String: Any]) throws {
             self.sortExpression = dictionary["SortExpression"] as? String
-            self.fuzzyMatching = dictionary["FuzzyMatching"] as? String
+            if let fuzzyMatching = dictionary["FuzzyMatching"] as? String { self.fuzzyMatching = SuggesterFuzzyMatching(rawValue: fuzzyMatching) } else { self.fuzzyMatching = nil }
             guard let sourceField = dictionary["SourceField"] as? String else { throw InitializableError.missingRequiredParam("SourceField") }
             self.sourceField = sourceField
         }
@@ -714,6 +741,21 @@ extension Cloudsearch {
             guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
             self.domainName = domainName
         }
+    }
+
+    public enum IndexFieldType: String, CustomStringConvertible {
+        case int = "int"
+        case double = "double"
+        case literal = "literal"
+        case text = "text"
+        case date = "date"
+        case latlon = "latlon"
+        case int_array = "int-array"
+        case double_array = "double-array"
+        case literal_array = "literal-array"
+        case text_array = "text-array"
+        case date_array = "date-array"
+        public var description: String { return self.rawValue }
     }
 
     public struct DefineAnalysisSchemeRequest: AWSShape {
@@ -854,11 +896,11 @@ extension Cloudsearch {
         /// A JSON array of terms to ignore during indexing and searching. For example, ["a", "an", "the", "of"]. The stopwords dictionary must explicitly list each word you want to ignore. Wildcards and regular expressions are not supported. 
         public let stopwords: String?
         /// The level of algorithmic stemming to perform: none, minimal, light, or full. The available levels vary depending on the language. For more information, see Language Specific Text Processing Settings in the Amazon CloudSearch Developer Guide 
-        public let algorithmicStemming: String?
+        public let algorithmicStemming: AlgorithmicStemming?
         /// A JSON object that defines synonym groups and aliases. A synonym group is an array of arrays, where each sub-array is a group of terms where each term in the group is considered a synonym of every other term in the group. The aliases value is an object that contains a collection of string:value pairs where the string specifies a term and the array of values specifies each of the aliases for that term. An alias is considered a synonym of the specified term, but the term is not considered a synonym of the alias. For more information about specifying synonyms, see Synonyms in the Amazon CloudSearch Developer Guide.
         public let synonyms: String?
 
-        public init(stemmingDictionary: String? = nil, japaneseTokenizationDictionary: String? = nil, stopwords: String? = nil, algorithmicStemming: String? = nil, synonyms: String? = nil) {
+        public init(stemmingDictionary: String? = nil, japaneseTokenizationDictionary: String? = nil, stopwords: String? = nil, algorithmicStemming: AlgorithmicStemming? = nil, synonyms: String? = nil) {
             self.stemmingDictionary = stemmingDictionary
             self.japaneseTokenizationDictionary = japaneseTokenizationDictionary
             self.stopwords = stopwords
@@ -870,7 +912,7 @@ extension Cloudsearch {
             self.stemmingDictionary = dictionary["StemmingDictionary"] as? String
             self.japaneseTokenizationDictionary = dictionary["JapaneseTokenizationDictionary"] as? String
             self.stopwords = dictionary["Stopwords"] as? String
-            self.algorithmicStemming = dictionary["AlgorithmicStemming"] as? String
+            if let algorithmicStemming = dictionary["AlgorithmicStemming"] as? String { self.algorithmicStemming = AlgorithmicStemming(rawValue: algorithmicStemming) } else { self.algorithmicStemming = nil }
             self.synonyms = dictionary["Synonyms"] as? String
         }
     }
@@ -1238,7 +1280,7 @@ extension Cloudsearch {
         public let doubleOptions: DoubleOptions?
         public let literalArrayOptions: LiteralArrayOptions?
         public let intArrayOptions: IntArrayOptions?
-        public let indexFieldType: String
+        public let indexFieldType: IndexFieldType
         /// A string that represents the name of an index field. CloudSearch supports regular index fields as well as dynamic fields. A dynamic field's name defines a pattern that begins or ends with a wildcard. Any document fields that don't map to a regular index field but do match a dynamic field's pattern are configured with the dynamic field's indexing options.  Regular field names begin with a letter and can contain the following characters: a-z (lowercase), 0-9, and _ (underscore). Dynamic field names must begin or end with a wildcard (*). The wildcard can also be the only character in a dynamic field name. Multiple wildcards, and wildcards embedded within a string are not supported.  The name score is reserved and cannot be used as a field name. To reference a document's ID, you can use the name _id. 
         public let indexFieldName: String
         public let dateArrayOptions: DateArrayOptions?
@@ -1247,7 +1289,7 @@ extension Cloudsearch {
         public let textOptions: TextOptions?
         public let doubleArrayOptions: DoubleArrayOptions?
 
-        public init(intOptions: IntOptions? = nil, dateOptions: DateOptions? = nil, textArrayOptions: TextArrayOptions? = nil, doubleOptions: DoubleOptions? = nil, literalArrayOptions: LiteralArrayOptions? = nil, intArrayOptions: IntArrayOptions? = nil, indexFieldType: String, indexFieldName: String, dateArrayOptions: DateArrayOptions? = nil, literalOptions: LiteralOptions? = nil, latLonOptions: LatLonOptions? = nil, textOptions: TextOptions? = nil, doubleArrayOptions: DoubleArrayOptions? = nil) {
+        public init(intOptions: IntOptions? = nil, dateOptions: DateOptions? = nil, textArrayOptions: TextArrayOptions? = nil, doubleOptions: DoubleOptions? = nil, literalArrayOptions: LiteralArrayOptions? = nil, intArrayOptions: IntArrayOptions? = nil, indexFieldType: IndexFieldType, indexFieldName: String, dateArrayOptions: DateArrayOptions? = nil, literalOptions: LiteralOptions? = nil, latLonOptions: LatLonOptions? = nil, textOptions: TextOptions? = nil, doubleArrayOptions: DoubleArrayOptions? = nil) {
             self.intOptions = intOptions
             self.dateOptions = dateOptions
             self.textArrayOptions = textArrayOptions
@@ -1270,7 +1312,7 @@ extension Cloudsearch {
             if let doubleOptions = dictionary["DoubleOptions"] as? [String: Any] { self.doubleOptions = try Cloudsearch.DoubleOptions(dictionary: doubleOptions) } else { self.doubleOptions = nil }
             if let literalArrayOptions = dictionary["LiteralArrayOptions"] as? [String: Any] { self.literalArrayOptions = try Cloudsearch.LiteralArrayOptions(dictionary: literalArrayOptions) } else { self.literalArrayOptions = nil }
             if let intArrayOptions = dictionary["IntArrayOptions"] as? [String: Any] { self.intArrayOptions = try Cloudsearch.IntArrayOptions(dictionary: intArrayOptions) } else { self.intArrayOptions = nil }
-            guard let indexFieldType = dictionary["IndexFieldType"] as? String else { throw InitializableError.missingRequiredParam("IndexFieldType") }
+            guard let rawIndexFieldType = dictionary["IndexFieldType"] as? String, let indexFieldType = IndexFieldType(rawValue: rawIndexFieldType) else { throw InitializableError.missingRequiredParam("IndexFieldType") }
             self.indexFieldType = indexFieldType
             guard let indexFieldName = dictionary["IndexFieldName"] as? String else { throw InitializableError.missingRequiredParam("IndexFieldName") }
             self.indexFieldName = indexFieldName
@@ -1314,6 +1356,45 @@ extension Cloudsearch {
             self.sortEnabled = dictionary["SortEnabled"] as? Bool
             self.defaultValue = dictionary["DefaultValue"] as? String
         }
+    }
+
+    public enum AnalysisSchemeLanguage: String, CustomStringConvertible {
+        case ar = "ar"
+        case bg = "bg"
+        case ca = "ca"
+        case cs = "cs"
+        case da = "da"
+        case de = "de"
+        case el = "el"
+        case en = "en"
+        case es = "es"
+        case eu = "eu"
+        case fa = "fa"
+        case fi = "fi"
+        case fr = "fr"
+        case ga = "ga"
+        case gl = "gl"
+        case he = "he"
+        case hi = "hi"
+        case hu = "hu"
+        case hy = "hy"
+        case id = "id"
+        case it = "it"
+        case ja = "ja"
+        case ko = "ko"
+        case lv = "lv"
+        case mul = "mul"
+        case nl = "nl"
+        case no = "no"
+        case pt = "pt"
+        case ro = "ro"
+        case ru = "ru"
+        case sv = "sv"
+        case th = "th"
+        case tr = "tr"
+        case zh_hans = "zh-Hans"
+        case zh_hant = "zh-Hant"
+        public var description: String { return self.rawValue }
     }
 
     public struct DescribeExpressionsRequest: AWSShape {
@@ -1627,6 +1708,14 @@ extension Cloudsearch {
             guard let suggesters = dictionary["Suggesters"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Suggesters") }
             self.suggesters = try suggesters.map({ try SuggesterStatus(dictionary: $0) })
         }
+    }
+
+    public enum OptionState: String, CustomStringConvertible {
+        case requiresindexdocuments = "RequiresIndexDocuments"
+        case processing = "Processing"
+        case active = "Active"
+        case failedtovalidate = "FailedToValidate"
+        public var description: String { return self.rawValue }
     }
 
     public struct DescribeAvailabilityOptionsResponse: AWSShape {

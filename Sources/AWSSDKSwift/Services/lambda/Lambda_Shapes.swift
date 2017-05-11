@@ -94,6 +94,16 @@ extension Lambda {
         }
     }
 
+    public enum Runtime: String, CustomStringConvertible {
+        case nodejs = "nodejs"
+        case nodejs4_3 = "nodejs4.3"
+        case java8 = "java8"
+        case python2_7 = "python2.7"
+        case dotnetcore1_0 = "dotnetcore1.0"
+        case nodejs4_3_edge = "nodejs4.3-edge"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DeleteFunctionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -167,17 +177,17 @@ extension Lambda {
         /// The Lambda function name.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
         public let functionName: String
         /// By default, the Invoke API assumes RequestResponse invocation type. You can optionally request asynchronous execution by specifying Event as the InvocationType. You can also use this parameter to request AWS Lambda to not execute the function but do some verification, such as if the caller is authorized to invoke the function and if the inputs are valid. You request this by specifying DryRun as the InvocationType. This is useful in a cross-account scenario when you want to verify access to a function without running it. 
-        public let invocationType: String?
+        public let invocationType: InvocationType?
         /// JSON that you want to provide to your Lambda function as input.
         public let payload: Data?
         /// Using the ClientContext you can pass client-specific information to the Lambda function you are invoking. You can then process the client information in your Lambda function as you choose through the context variable. For an example of a ClientContext JSON, see PutEvents in the Amazon Mobile Analytics API Reference and User Guide. The ClientContext JSON must be base64-encoded.
         public let clientContext: String?
         /// You can set this optional parameter to Tail in the request only if you specify the InvocationType parameter with value RequestResponse. In this case, AWS Lambda returns the base64-encoded last 4 KB of log data produced by your Lambda function in the x-amz-log-result header. 
-        public let logType: String?
+        public let logType: LogType?
         /// You can use this optional parameter to specify a Lambda function version or alias name. If you specify a function version, the API uses the qualified function ARN to invoke a specific Lambda function. If you specify an alias name, the API uses the alias ARN to invoke the Lambda function version to which the alias points. If you don't provide this parameter, then the API uses unqualified function ARN which results in invocation of the $LATEST version.
         public let qualifier: String?
 
-        public init(functionName: String, invocationType: String? = nil, payload: Data? = nil, clientContext: String? = nil, logType: String? = nil, qualifier: String? = nil) {
+        public init(functionName: String, invocationType: InvocationType? = nil, payload: Data? = nil, clientContext: String? = nil, logType: LogType? = nil, qualifier: String? = nil) {
             self.functionName = functionName
             self.invocationType = invocationType
             self.payload = payload
@@ -189,10 +199,10 @@ extension Lambda {
         public init(dictionary: [String: Any]) throws {
             guard let functionName = dictionary["FunctionName"] as? String else { throw InitializableError.missingRequiredParam("FunctionName") }
             self.functionName = functionName
-            self.invocationType = dictionary["X-Amz-Invocation-Type"] as? String
+            if let invocationType = dictionary["X-Amz-Invocation-Type"] as? String { self.invocationType = InvocationType(rawValue: invocationType) } else { self.invocationType = nil }
             self.payload = dictionary["Payload"] as? Data
             self.clientContext = dictionary["X-Amz-Client-Context"] as? String
-            self.logType = dictionary["X-Amz-Log-Type"] as? String
+            if let logType = dictionary["X-Amz-Log-Type"] as? String { self.logType = LogType(rawValue: logType) } else { self.logType = nil }
             self.qualifier = dictionary["Qualifier"] as? String
         }
     }
@@ -277,11 +287,11 @@ extension Lambda {
         /// The Amazon Resource Name (ARN) of the Amazon Kinesis or the Amazon DynamoDB stream that is the event source. Any record added to this stream could cause AWS Lambda to invoke your Lambda function, it depends on the BatchSize. AWS Lambda POSTs the Amazon Kinesis event, containing records, to your Lambda function as JSON.
         public let eventSourceArn: String
         /// The position in the stream where AWS Lambda should start reading. Valid only for Kinesis streams. For more information, see ShardIteratorType in the Amazon Kinesis API Reference. 
-        public let startingPosition: String
+        public let startingPosition: EventSourcePosition
         /// Indicates whether AWS Lambda should begin polling the event source. By default, Enabled is true. 
         public let enabled: Bool?
 
-        public init(functionName: String, batchSize: Int32? = nil, startingPositionTimestamp: Date? = nil, eventSourceArn: String, startingPosition: String, enabled: Bool? = nil) {
+        public init(functionName: String, batchSize: Int32? = nil, startingPositionTimestamp: Date? = nil, eventSourceArn: String, startingPosition: EventSourcePosition, enabled: Bool? = nil) {
             self.functionName = functionName
             self.batchSize = batchSize
             self.startingPositionTimestamp = startingPositionTimestamp
@@ -297,7 +307,7 @@ extension Lambda {
             self.startingPositionTimestamp = dictionary["StartingPositionTimestamp"] as? Date
             guard let eventSourceArn = dictionary["EventSourceArn"] as? String else { throw InitializableError.missingRequiredParam("EventSourceArn") }
             self.eventSourceArn = eventSourceArn
-            guard let startingPosition = dictionary["StartingPosition"] as? String else { throw InitializableError.missingRequiredParam("StartingPosition") }
+            guard let rawStartingPosition = dictionary["StartingPosition"] as? String, let startingPosition = EventSourcePosition(rawValue: rawStartingPosition) else { throw InitializableError.missingRequiredParam("StartingPosition") }
             self.startingPosition = startingPosition
             self.enabled = dictionary["Enabled"] as? Bool
         }
@@ -464,6 +474,13 @@ extension Lambda {
         }
     }
 
+    public enum InvocationType: String, CustomStringConvertible {
+        case event = "Event"
+        case requestresponse = "RequestResponse"
+        case dryrun = "DryRun"
+        public var description: String { return self.rawValue }
+    }
+
     public struct UpdateFunctionCodeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -532,6 +549,19 @@ extension Lambda {
             guard let statementId = dictionary["StatementId"] as? String else { throw InitializableError.missingRequiredParam("StatementId") }
             self.statementId = statementId
         }
+    }
+
+    public enum ThrottleReason: String, CustomStringConvertible {
+        case concurrentinvocationlimitexceeded = "ConcurrentInvocationLimitExceeded"
+        case functioninvocationratelimitexceeded = "FunctionInvocationRateLimitExceeded"
+        case callerratelimitexceeded = "CallerRateLimitExceeded"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LogType: String, CustomStringConvertible {
+        case none = "None"
+        case tail = "Tail"
+        public var description: String { return self.rawValue }
     }
 
     public struct ListEventSourceMappingsRequest: AWSShape {
@@ -766,7 +796,7 @@ extension Lambda {
         /// The parent object that contains your environment's configuration settings.
         public let environment: Environment?
         /// The runtime environment for the Lambda function. To use the Node.js runtime v4.3, set the value to "nodejs4.3". To use earlier runtime (v0.10.42), set the value to "nodejs".  You can no longer downgrade to the v0.10.42 runtime version. This version will no longer be supported as of early 2017. 
-        public let runtime: String?
+        public let runtime: Runtime?
         /// The parent object that contains the target Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic.
         public let deadLetterConfig: DeadLetterConfig?
         /// The function execution time at which AWS Lambda should terminate the function. Because the execution time has cost implications, we recommend you set this value based on your expected execution time. The default is 3 seconds.
@@ -774,7 +804,7 @@ extension Lambda {
         /// A short user-defined function description. AWS Lambda does not use this value. Assign a meaningful description as you see fit.
         public let description: String?
 
-        public init(kMSKeyArn: String? = nil, handler: String? = nil, functionName: String, vpcConfig: VpcConfig? = nil, memorySize: Int32? = nil, role: String? = nil, environment: Environment? = nil, runtime: String? = nil, deadLetterConfig: DeadLetterConfig? = nil, timeout: Int32? = nil, description: String? = nil) {
+        public init(kMSKeyArn: String? = nil, handler: String? = nil, functionName: String, vpcConfig: VpcConfig? = nil, memorySize: Int32? = nil, role: String? = nil, environment: Environment? = nil, runtime: Runtime? = nil, deadLetterConfig: DeadLetterConfig? = nil, timeout: Int32? = nil, description: String? = nil) {
             self.kMSKeyArn = kMSKeyArn
             self.handler = handler
             self.functionName = functionName
@@ -797,7 +827,7 @@ extension Lambda {
             self.memorySize = dictionary["MemorySize"] as? Int32
             self.role = dictionary["Role"] as? String
             if let environment = dictionary["Environment"] as? [String: Any] { self.environment = try Lambda.Environment(dictionary: environment) } else { self.environment = nil }
-            self.runtime = dictionary["Runtime"] as? String
+            if let runtime = dictionary["Runtime"] as? String { self.runtime = Runtime(rawValue: runtime) } else { self.runtime = nil }
             if let deadLetterConfig = dictionary["DeadLetterConfig"] as? [String: Any] { self.deadLetterConfig = try Lambda.DeadLetterConfig(dictionary: deadLetterConfig) } else { self.deadLetterConfig = nil }
             self.timeout = dictionary["Timeout"] as? Int32
             self.description = dictionary["Description"] as? String
@@ -837,7 +867,7 @@ extension Lambda {
         /// The function execution time at which Lambda should terminate the function. Because the execution time has cost implications, we recommend you set this value based on your expected execution time. The default is 3 seconds.
         public let timeout: Int32?
         /// The runtime environment for the Lambda function you are uploading. To use the Node.js runtime v4.3, set the value to "nodejs4.3". To use earlier runtime (v0.10.42), set the value to "nodejs".  You can no longer create functions using the v0.10.42 runtime version as of November, 2016. Existing functions will be supported until early 2017, but we recommend you migrate them to nodejs4.3 runtime version as soon as possible. 
-        public let runtime: String
+        public let runtime: Runtime
         /// This boolean parameter can be used to request AWS Lambda to create the Lambda function and publish a version as an atomic operation.
         public let publish: Bool?
         /// A short, user-defined function description. Lambda does not use this value. Assign a meaningful description as you see fit.
@@ -856,7 +886,7 @@ extension Lambda {
         /// The function within your code that Lambda calls to begin execution. For Node.js, it is the module-name.export value in your function. For Java, it can be package.class-name::handler or package.class-name. For more information, see Lambda Function Handler (Java). 
         public let handler: String
 
-        public init(vpcConfig: VpcConfig? = nil, deadLetterConfig: DeadLetterConfig? = nil, timeout: Int32? = nil, runtime: String, publish: Bool? = nil, description: String? = nil, kMSKeyArn: String? = nil, functionName: String, code: FunctionCode, memorySize: Int32? = nil, role: String, environment: Environment? = nil, handler: String) {
+        public init(vpcConfig: VpcConfig? = nil, deadLetterConfig: DeadLetterConfig? = nil, timeout: Int32? = nil, runtime: Runtime, publish: Bool? = nil, description: String? = nil, kMSKeyArn: String? = nil, functionName: String, code: FunctionCode, memorySize: Int32? = nil, role: String, environment: Environment? = nil, handler: String) {
             self.vpcConfig = vpcConfig
             self.deadLetterConfig = deadLetterConfig
             self.timeout = timeout
@@ -876,7 +906,7 @@ extension Lambda {
             if let vpcConfig = dictionary["VpcConfig"] as? [String: Any] { self.vpcConfig = try Lambda.VpcConfig(dictionary: vpcConfig) } else { self.vpcConfig = nil }
             if let deadLetterConfig = dictionary["DeadLetterConfig"] as? [String: Any] { self.deadLetterConfig = try Lambda.DeadLetterConfig(dictionary: deadLetterConfig) } else { self.deadLetterConfig = nil }
             self.timeout = dictionary["Timeout"] as? Int32
-            guard let runtime = dictionary["Runtime"] as? String else { throw InitializableError.missingRequiredParam("Runtime") }
+            guard let rawRuntime = dictionary["Runtime"] as? String, let runtime = Runtime(rawValue: rawRuntime) else { throw InitializableError.missingRequiredParam("Runtime") }
             self.runtime = runtime
             self.publish = dictionary["Publish"] as? Bool
             self.description = dictionary["Description"] as? String
@@ -892,6 +922,13 @@ extension Lambda {
             guard let handler = dictionary["Handler"] as? String else { throw InitializableError.missingRequiredParam("Handler") }
             self.handler = handler
         }
+    }
+
+    public enum EventSourcePosition: String, CustomStringConvertible {
+        case trim_horizon = "TRIM_HORIZON"
+        case latest = "LATEST"
+        case at_timestamp = "AT_TIMESTAMP"
+        public var description: String { return self.rawValue }
     }
 
     public struct VpcConfigResponse: AWSShape {
@@ -953,7 +990,7 @@ extension Lambda {
         /// The function execution time at which Lambda should terminate the function. Because the execution time has cost implications, we recommend you set this value based on your expected execution time. The default is 3 seconds.
         public let timeout: Int32?
         /// The runtime environment for the Lambda function. To use the Node.js runtime v4.3, set the value to "nodejs4.3". To use earlier runtime (v0.10.42), set the value to "nodejs".
-        public let runtime: String?
+        public let runtime: Runtime?
         /// It is the SHA256 hash of your function deployment package.
         public let codeSha256: String?
         /// The user-provided description.
@@ -979,7 +1016,7 @@ extension Lambda {
         /// The function Lambda calls to begin executing your function.
         public let handler: String?
 
-        public init(vpcConfig: VpcConfigResponse? = nil, deadLetterConfig: DeadLetterConfig? = nil, timeout: Int32? = nil, runtime: String? = nil, codeSha256: String? = nil, description: String? = nil, lastModified: String? = nil, kMSKeyArn: String? = nil, functionName: String? = nil, memorySize: Int32? = nil, functionArn: String? = nil, version: String? = nil, role: String? = nil, codeSize: Int64? = nil, environment: EnvironmentResponse? = nil, handler: String? = nil) {
+        public init(vpcConfig: VpcConfigResponse? = nil, deadLetterConfig: DeadLetterConfig? = nil, timeout: Int32? = nil, runtime: Runtime? = nil, codeSha256: String? = nil, description: String? = nil, lastModified: String? = nil, kMSKeyArn: String? = nil, functionName: String? = nil, memorySize: Int32? = nil, functionArn: String? = nil, version: String? = nil, role: String? = nil, codeSize: Int64? = nil, environment: EnvironmentResponse? = nil, handler: String? = nil) {
             self.vpcConfig = vpcConfig
             self.deadLetterConfig = deadLetterConfig
             self.timeout = timeout
@@ -1002,7 +1039,7 @@ extension Lambda {
             if let vpcConfig = dictionary["VpcConfig"] as? [String: Any] { self.vpcConfig = try Lambda.VpcConfigResponse(dictionary: vpcConfig) } else { self.vpcConfig = nil }
             if let deadLetterConfig = dictionary["DeadLetterConfig"] as? [String: Any] { self.deadLetterConfig = try Lambda.DeadLetterConfig(dictionary: deadLetterConfig) } else { self.deadLetterConfig = nil }
             self.timeout = dictionary["Timeout"] as? Int32
-            self.runtime = dictionary["Runtime"] as? String
+            if let runtime = dictionary["Runtime"] as? String { self.runtime = Runtime(rawValue: runtime) } else { self.runtime = nil }
             self.codeSha256 = dictionary["CodeSha256"] as? String
             self.description = dictionary["Description"] as? String
             self.lastModified = dictionary["LastModified"] as? String

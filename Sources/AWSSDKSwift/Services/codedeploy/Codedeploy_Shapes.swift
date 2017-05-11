@@ -37,9 +37,9 @@ extension Codedeploy {
         /// Information about the location of application artifacts stored in GitHub.
         public let gitHubLocation: GitHubLocation?
         /// The type of application revision:   S3: An application revision stored in Amazon S3.   GitHub: An application revision stored in GitHub.  
-        public let revisionType: String?
+        public let revisionType: RevisionLocationType?
 
-        public init(s3Location: S3Location? = nil, gitHubLocation: GitHubLocation? = nil, revisionType: String? = nil) {
+        public init(s3Location: S3Location? = nil, gitHubLocation: GitHubLocation? = nil, revisionType: RevisionLocationType? = nil) {
             self.s3Location = s3Location
             self.gitHubLocation = gitHubLocation
             self.revisionType = revisionType
@@ -48,7 +48,7 @@ extension Codedeploy {
         public init(dictionary: [String: Any]) throws {
             if let s3Location = dictionary["s3Location"] as? [String: Any] { self.s3Location = try Codedeploy.S3Location(dictionary: s3Location) } else { self.s3Location = nil }
             if let gitHubLocation = dictionary["gitHubLocation"] as? [String: Any] { self.gitHubLocation = try Codedeploy.GitHubLocation(dictionary: gitHubLocation) } else { self.gitHubLocation = nil }
-            self.revisionType = dictionary["revisionType"] as? String
+            if let revisionType = dictionary["revisionType"] as? String { self.revisionType = RevisionLocationType(rawValue: revisionType) } else { self.revisionType = nil }
         }
     }
 
@@ -65,6 +65,12 @@ extension Codedeploy {
         public init(dictionary: [String: Any]) throws {
             if let deploymentConfigInfo = dictionary["deploymentConfigInfo"] as? [String: Any] { self.deploymentConfigInfo = try Codedeploy.DeploymentConfigInfo(dictionary: deploymentConfigInfo) } else { self.deploymentConfigInfo = nil }
         }
+    }
+
+    public enum RegistrationStatus: String, CustomStringConvertible {
+        case registered = "Registered"
+        case deregistered = "Deregistered"
+        public var description: String { return self.rawValue }
     }
 
     public struct CreateDeploymentOutput: AWSShape {
@@ -155,18 +161,18 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates whether to run a standard deployment or a blue/green deployment.
-        public let deploymentType: String?
+        public let deploymentType: DeploymentType?
         /// Indicates whether to route deployment traffic behind a load balancer.
-        public let deploymentOption: String?
+        public let deploymentOption: DeploymentOption?
 
-        public init(deploymentType: String? = nil, deploymentOption: String? = nil) {
+        public init(deploymentType: DeploymentType? = nil, deploymentOption: DeploymentOption? = nil) {
             self.deploymentType = deploymentType
             self.deploymentOption = deploymentOption
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.deploymentType = dictionary["deploymentType"] as? String
-            self.deploymentOption = dictionary["deploymentOption"] as? String
+            if let deploymentType = dictionary["deploymentType"] as? String { self.deploymentType = DeploymentType(rawValue: deploymentType) } else { self.deploymentType = nil }
+            if let deploymentOption = dictionary["deploymentOption"] as? String { self.deploymentOption = DeploymentOption(rawValue: deploymentOption) } else { self.deploymentOption = nil }
         }
     }
 
@@ -190,7 +196,7 @@ extension Codedeploy {
         /// Provides information about the results of a deployment, such as whether instances in the original environment in a blue/green deployment were not terminated.
         public let additionalDeploymentStatusInfo: String?
         /// The means by which the deployment was created:   user: A user created the deployment.   autoscaling: Auto Scaling created the deployment.   codeDeployRollback: A rollback process created the deployment.  
-        public let creator: String?
+        public let creator: DeploymentCreator?
         /// Information about the load balancer used in this blue/green deployment.
         public let loadBalancerInfo: LoadBalancerInfo?
         /// Information about blue/green deployment options for this deployment.
@@ -202,7 +208,7 @@ extension Codedeploy {
         /// Information about the location of stored application artifacts and the service from which to retrieve them.
         public let revision: RevisionLocation?
         /// The current state of the deployment as a whole.
-        public let status: String?
+        public let status: DeploymentStatus?
         /// The deployment configuration name.
         public let deploymentConfigName: String?
         /// Information about the type of deployment, either standard or blue/green, you want to run and whether to route deployment traffic behind a load balancer.
@@ -220,7 +226,7 @@ extension Codedeploy {
         /// A timestamp indicating when the deployment was deployed to the deployment group. In some cases, the reported value of the start time may be later than the complete time. This is due to differences in the clock settings of back-end servers that participate in the deployment process.
         public let startTime: Date?
 
-        public init(targetInstances: TargetInstances? = nil, completeTime: Date? = nil, deploymentGroupName: String? = nil, instanceTerminationWaitTimeStarted: Bool? = nil, rollbackInfo: RollbackInfo? = nil, description: String? = nil, ignoreApplicationStopFailures: Bool? = nil, additionalDeploymentStatusInfo: String? = nil, creator: String? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, applicationName: String? = nil, updateOutdatedInstancesOnly: Bool? = nil, revision: RevisionLocation? = nil, status: String? = nil, deploymentConfigName: String? = nil, deploymentStyle: DeploymentStyle? = nil, deploymentId: String? = nil, errorInformation: ErrorInformation? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, deploymentOverview: DeploymentOverview? = nil, createTime: Date? = nil, startTime: Date? = nil) {
+        public init(targetInstances: TargetInstances? = nil, completeTime: Date? = nil, deploymentGroupName: String? = nil, instanceTerminationWaitTimeStarted: Bool? = nil, rollbackInfo: RollbackInfo? = nil, description: String? = nil, ignoreApplicationStopFailures: Bool? = nil, additionalDeploymentStatusInfo: String? = nil, creator: DeploymentCreator? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, applicationName: String? = nil, updateOutdatedInstancesOnly: Bool? = nil, revision: RevisionLocation? = nil, status: DeploymentStatus? = nil, deploymentConfigName: String? = nil, deploymentStyle: DeploymentStyle? = nil, deploymentId: String? = nil, errorInformation: ErrorInformation? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, deploymentOverview: DeploymentOverview? = nil, createTime: Date? = nil, startTime: Date? = nil) {
             self.targetInstances = targetInstances
             self.completeTime = completeTime
             self.deploymentGroupName = deploymentGroupName
@@ -255,13 +261,13 @@ extension Codedeploy {
             self.description = dictionary["description"] as? String
             self.ignoreApplicationStopFailures = dictionary["ignoreApplicationStopFailures"] as? Bool
             self.additionalDeploymentStatusInfo = dictionary["additionalDeploymentStatusInfo"] as? String
-            self.creator = dictionary["creator"] as? String
+            if let creator = dictionary["creator"] as? String { self.creator = DeploymentCreator(rawValue: creator) } else { self.creator = nil }
             if let loadBalancerInfo = dictionary["loadBalancerInfo"] as? [String: Any] { self.loadBalancerInfo = try Codedeploy.LoadBalancerInfo(dictionary: loadBalancerInfo) } else { self.loadBalancerInfo = nil }
             if let blueGreenDeploymentConfiguration = dictionary["blueGreenDeploymentConfiguration"] as? [String: Any] { self.blueGreenDeploymentConfiguration = try Codedeploy.BlueGreenDeploymentConfiguration(dictionary: blueGreenDeploymentConfiguration) } else { self.blueGreenDeploymentConfiguration = nil }
             self.applicationName = dictionary["applicationName"] as? String
             self.updateOutdatedInstancesOnly = dictionary["updateOutdatedInstancesOnly"] as? Bool
             if let revision = dictionary["revision"] as? [String: Any] { self.revision = try Codedeploy.RevisionLocation(dictionary: revision) } else { self.revision = nil }
-            self.status = dictionary["status"] as? String
+            if let status = dictionary["status"] as? String { self.status = DeploymentStatus(rawValue: status) } else { self.status = nil }
             self.deploymentConfigName = dictionary["deploymentConfigName"] as? String
             if let deploymentStyle = dictionary["deploymentStyle"] as? [String: Any] { self.deploymentStyle = try Codedeploy.DeploymentStyle(dictionary: deploymentStyle) } else { self.deploymentStyle = nil }
             self.deploymentId = dictionary["deploymentId"] as? String
@@ -271,6 +277,19 @@ extension Codedeploy {
             self.createTime = dictionary["createTime"] as? Date
             self.startTime = dictionary["startTime"] as? Date
         }
+    }
+
+    public enum GreenFleetProvisioningAction: String, CustomStringConvertible {
+        case discover_existing = "DISCOVER_EXISTING"
+        case copy_auto_scaling_group = "COPY_AUTO_SCALING_GROUP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutoRollbackEvent: String, CustomStringConvertible {
+        case deployment_failure = "DEPLOYMENT_FAILURE"
+        case deployment_stop_on_alarm = "DEPLOYMENT_STOP_ON_ALARM"
+        case deployment_stop_on_request = "DEPLOYMENT_STOP_ON_REQUEST"
+        public var description: String { return self.rawValue }
     }
 
     public struct BatchGetApplicationRevisionsInput: AWSShape {
@@ -347,44 +366,57 @@ extension Codedeploy {
         }
     }
 
+    public enum DeploymentType: String, CustomStringConvertible {
+        case in_place = "IN_PLACE"
+        case blue_green = "BLUE_GREEN"
+        public var description: String { return self.rawValue }
+    }
+
     public struct TagFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// The on-premises instance tag filter type:   KEY_ONLY: Key only.   VALUE_ONLY: Value only.   KEY_AND_VALUE: Key and value.  
-        public let type: String?
+        public let `type`: TagFilterType?
         /// The on-premises instance tag filter value.
         public let value: String?
         /// The on-premises instance tag filter key.
         public let key: String?
 
-        public init(type: String? = nil, value: String? = nil, key: String? = nil) {
-            self.type = type
+        public init(type: TagFilterType? = nil, value: String? = nil, key: String? = nil) {
+            self.`type` = `type`
             self.value = value
             self.key = key
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = TagFilterType(rawValue: `type`) } else { self.`type` = nil }
             self.value = dictionary["Value"] as? String
             self.key = dictionary["Key"] as? String
         }
+    }
+
+    public enum DeploymentCreator: String, CustomStringConvertible {
+        case user = "user"
+        case autoscaling = "autoscaling"
+        case codedeployrollback = "codeDeployRollback"
+        public var description: String { return self.rawValue }
     }
 
     public struct ErrorInformation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// For information about additional error codes, see Error Codes for AWS CodeDeploy in the AWS CodeDeploy User Guide. The error code:   APPLICATION_MISSING: The application was missing. This error code will most likely be raised if the application is deleted after the deployment is created but before it is started.   DEPLOYMENT_GROUP_MISSING: The deployment group was missing. This error code will most likely be raised if the deployment group is deleted after the deployment is created but before it is started.   HEALTH_CONSTRAINTS: The deployment failed on too many instances to be successfully deployed within the instance health constraints specified.   HEALTH_CONSTRAINTS_INVALID: The revision cannot be successfully deployed within the instance health constraints specified.   IAM_ROLE_MISSING: The service role cannot be accessed.   IAM_ROLE_PERMISSIONS: The service role does not have the correct permissions.   INTERNAL_ERROR: There was an internal error.   NO_EC2_SUBSCRIPTION: The calling account is not subscribed to the Amazon EC2 service.   NO_INSTANCES: No instance were specified, or no instance can be found.   OVER_MAX_INSTANCES: The maximum number of instance was exceeded.   THROTTLED: The operation was throttled because the calling account exceeded the throttling limits of one or more AWS services.   TIMEOUT: The deployment has timed out.   REVISION_MISSING: The revision ID was missing. This error code will most likely be raised if the revision is deleted after the deployment is created but before it is started.  
-        public let code: String?
+        public let code: ErrorCode?
         /// An accompanying error message.
         public let message: String?
 
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: ErrorCode? = nil, message: String? = nil) {
             self.code = code
             self.message = message
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.code = dictionary["code"] as? String
+            if let code = dictionary["code"] as? String { self.code = ErrorCode(rawValue: code) } else { self.code = nil }
             self.message = dictionary["message"] as? String
         }
     }
@@ -395,19 +427,19 @@ extension Codedeploy {
         /// An identifier returned from the previous list application revisions call. It can be used to return the next set of applications in the list.
         public let nextToken: String?
         /// The order in which to sort the list results:   ascending: ascending order.   descending: descending order.   If not specified, the results will be sorted in ascending order. If set to null, the results will be sorted in an arbitrary order.
-        public let sortOrder: String?
+        public let sortOrder: SortOrder?
         /// A key prefix for the set of Amazon S3 objects to limit the search for revisions.
         public let s3KeyPrefix: String?
         /// An Amazon S3 bucket name to limit the search for revisions. If set to null, all of the user's buckets will be searched.
         public let s3Bucket: String?
         /// The column name to use to sort the list results:   registerTime: Sort by the time the revisions were registered with AWS CodeDeploy.   firstUsedTime: Sort by the time the revisions were first used in a deployment.   lastUsedTime: Sort by the time the revisions were last used in a deployment.   If not specified or set to null, the results will be returned in an arbitrary order.
-        public let sortBy: String?
+        public let sortBy: ApplicationRevisionSortBy?
         /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
         public let applicationName: String
         /// Whether to list revisions based on whether the revision is the target revision of an deployment group:   include: List revisions that are target revisions of a deployment group.   exclude: Do not list revisions that are target revisions of a deployment group.   ignore: List all revisions.  
-        public let deployed: String?
+        public let deployed: ListStateFilterAction?
 
-        public init(nextToken: String? = nil, sortOrder: String? = nil, s3KeyPrefix: String? = nil, s3Bucket: String? = nil, sortBy: String? = nil, applicationName: String, deployed: String? = nil) {
+        public init(nextToken: String? = nil, sortOrder: SortOrder? = nil, s3KeyPrefix: String? = nil, s3Bucket: String? = nil, sortBy: ApplicationRevisionSortBy? = nil, applicationName: String, deployed: ListStateFilterAction? = nil) {
             self.nextToken = nextToken
             self.sortOrder = sortOrder
             self.s3KeyPrefix = s3KeyPrefix
@@ -419,13 +451,13 @@ extension Codedeploy {
 
         public init(dictionary: [String: Any]) throws {
             self.nextToken = dictionary["nextToken"] as? String
-            self.sortOrder = dictionary["sortOrder"] as? String
+            if let sortOrder = dictionary["sortOrder"] as? String { self.sortOrder = SortOrder(rawValue: sortOrder) } else { self.sortOrder = nil }
             self.s3KeyPrefix = dictionary["s3KeyPrefix"] as? String
             self.s3Bucket = dictionary["s3Bucket"] as? String
-            self.sortBy = dictionary["sortBy"] as? String
+            if let sortBy = dictionary["sortBy"] as? String { self.sortBy = ApplicationRevisionSortBy(rawValue: sortBy) } else { self.sortBy = nil }
             guard let applicationName = dictionary["applicationName"] as? String else { throw InitializableError.missingRequiredParam("applicationName") }
             self.applicationName = applicationName
-            self.deployed = dictionary["deployed"] as? String
+            if let deployed = dictionary["deployed"] as? String { self.deployed = ListStateFilterAction(rawValue: deployed) } else { self.deployed = nil }
         }
     }
 
@@ -547,17 +579,17 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about when to reroute traffic from an original environment to a replacement environment in a blue/green deployment.   CONTINUE_DEPLOYMENT: Register new instances with the load balancer immediately after the new application revision is installed on the instances in the replacement environment.   STOP_DEPLOYMENT: Do not register new instances with load balancer unless traffic is rerouted manually. If traffic is not rerouted manually before the end of the specified wait period, the deployment status is changed to Stopped.  
-        public let actionOnTimeout: String?
+        public let actionOnTimeout: DeploymentReadyAction?
         /// The number of minutes to wait before the status of a blue/green deployment changed to Stopped if rerouting is not started manually. Applies only to the STOP_DEPLOYMENT option for actionOnTimeout
         public let waitTimeInMinutes: Int32?
 
-        public init(actionOnTimeout: String? = nil, waitTimeInMinutes: Int32? = nil) {
+        public init(actionOnTimeout: DeploymentReadyAction? = nil, waitTimeInMinutes: Int32? = nil) {
             self.actionOnTimeout = actionOnTimeout
             self.waitTimeInMinutes = waitTimeInMinutes
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.actionOnTimeout = dictionary["actionOnTimeout"] as? String
+            if let actionOnTimeout = dictionary["actionOnTimeout"] as? String { self.actionOnTimeout = DeploymentReadyAction(rawValue: actionOnTimeout) } else { self.actionOnTimeout = nil }
             self.waitTimeInMinutes = dictionary["waitTimeInMinutes"] as? Int32
         }
     }
@@ -595,11 +627,11 @@ extension Codedeploy {
         /// The name of an existing deployment group for the specified application.
         public let deploymentGroupName: String?
         /// A subset of deployments to list by status:   Created: Include created deployments in the resulting list.   Queued: Include queued deployments in the resulting list.   In Progress: Include in-progress deployments in the resulting list.   Succeeded: Include successful deployments in the resulting list.   Failed: Include failed deployments in the resulting list.   Stopped: Include stopped deployments in the resulting list.  
-        public let includeOnlyStatuses: [String]?
+        public let includeOnlyStatuses: [DeploymentStatus]?
         /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
         public let applicationName: String?
 
-        public init(nextToken: String? = nil, createTimeRange: TimeRange? = nil, deploymentGroupName: String? = nil, includeOnlyStatuses: [String]? = nil, applicationName: String? = nil) {
+        public init(nextToken: String? = nil, createTimeRange: TimeRange? = nil, deploymentGroupName: String? = nil, includeOnlyStatuses: [DeploymentStatus]? = nil, applicationName: String? = nil) {
             self.nextToken = nextToken
             self.createTimeRange = createTimeRange
             self.deploymentGroupName = deploymentGroupName
@@ -611,7 +643,7 @@ extension Codedeploy {
             self.nextToken = dictionary["nextToken"] as? String
             if let createTimeRange = dictionary["createTimeRange"] as? [String: Any] { self.createTimeRange = try Codedeploy.TimeRange(dictionary: createTimeRange) } else { self.createTimeRange = nil }
             self.deploymentGroupName = dictionary["deploymentGroupName"] as? String
-            self.includeOnlyStatuses = dictionary["includeOnlyStatuses"] as? [String]
+            if let includeOnlyStatuses = dictionary["includeOnlyStatuses"] as? [String] { self.includeOnlyStatuses = includeOnlyStatuses.flatMap({ DeploymentStatus(rawValue: $0)}) } else { self.includeOnlyStatuses = nil }
             self.applicationName = dictionary["applicationName"] as? String
         }
     }
@@ -629,6 +661,12 @@ extension Codedeploy {
         public init(dictionary: [String: Any]) throws {
             self.deploymentIds = dictionary["deploymentIds"] as? [String]
         }
+    }
+
+    public enum InstanceType: String, CustomStringConvertible {
+        case blue = "Blue"
+        case green = "Green"
+        public var description: String { return self.rawValue }
     }
 
     public struct DeleteDeploymentGroupOutput: AWSShape {
@@ -673,6 +711,13 @@ extension Codedeploy {
         }
     }
 
+    public enum EC2TagFilterType: String, CustomStringConvertible {
+        case key_only = "KEY_ONLY"
+        case value_only = "VALUE_ONLY"
+        case key_and_value = "KEY_AND_VALUE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ListOnPremisesInstancesOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -707,6 +752,12 @@ extension Codedeploy {
         }
     }
 
+    public enum InstanceAction: String, CustomStringConvertible {
+        case terminate = "TERMINATE"
+        case keep_alive = "KEEP_ALIVE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct BatchGetApplicationsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -724,6 +775,16 @@ extension Codedeploy {
                 self.applicationsInfo = nil
             }
         }
+    }
+
+    public enum LifecycleErrorCode: String, CustomStringConvertible {
+        case success = "Success"
+        case scriptmissing = "ScriptMissing"
+        case scriptnotexecutable = "ScriptNotExecutable"
+        case scripttimedout = "ScriptTimedOut"
+        case scriptfailed = "ScriptFailed"
+        case unknownerror = "UnknownError"
+        public var description: String { return self.rawValue }
     }
 
     public struct BlueGreenDeploymentConfiguration: AWSShape {
@@ -846,15 +907,15 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         /// A subset of instances to list by status:   Pending: Include those instance with pending deployments.   InProgress: Include those instance where deployments are still in progress.   Succeeded: Include those instances with successful deployments.   Failed: Include those instance with failed deployments.   Skipped: Include those instance with skipped deployments.   Unknown: Include those instance with deployments in an unknown state.  
-        public let instanceStatusFilter: [String]?
+        public let instanceStatusFilter: [InstanceStatus]?
         /// The set of instances in a blue/green deployment, either those in the original environment ("BLUE") or those in the replacement environment ("GREEN"), for which you want to view instance information.
-        public let instanceTypeFilter: [String]?
+        public let instanceTypeFilter: [InstanceType]?
         /// An identifier returned from the previous list deployment instances call. It can be used to return the next set of deployment instances in the list.
         public let nextToken: String?
         /// The unique ID of a deployment.
         public let deploymentId: String
 
-        public init(instanceStatusFilter: [String]? = nil, instanceTypeFilter: [String]? = nil, nextToken: String? = nil, deploymentId: String) {
+        public init(instanceStatusFilter: [InstanceStatus]? = nil, instanceTypeFilter: [InstanceType]? = nil, nextToken: String? = nil, deploymentId: String) {
             self.instanceStatusFilter = instanceStatusFilter
             self.instanceTypeFilter = instanceTypeFilter
             self.nextToken = nextToken
@@ -862,12 +923,45 @@ extension Codedeploy {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.instanceStatusFilter = dictionary["instanceStatusFilter"] as? [String]
-            self.instanceTypeFilter = dictionary["instanceTypeFilter"] as? [String]
+            if let instanceStatusFilter = dictionary["instanceStatusFilter"] as? [String] { self.instanceStatusFilter = instanceStatusFilter.flatMap({ InstanceStatus(rawValue: $0)}) } else { self.instanceStatusFilter = nil }
+            if let instanceTypeFilter = dictionary["instanceTypeFilter"] as? [String] { self.instanceTypeFilter = instanceTypeFilter.flatMap({ InstanceType(rawValue: $0)}) } else { self.instanceTypeFilter = nil }
             self.nextToken = dictionary["nextToken"] as? String
             guard let deploymentId = dictionary["deploymentId"] as? String else { throw InitializableError.missingRequiredParam("deploymentId") }
             self.deploymentId = deploymentId
         }
+    }
+
+    public enum StopStatus: String, CustomStringConvertible {
+        case pending = "Pending"
+        case succeeded = "Succeeded"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RevisionLocationType: String, CustomStringConvertible {
+        case s3 = "S3"
+        case github = "GitHub"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TriggerEventType: String, CustomStringConvertible {
+        case deploymentstart = "DeploymentStart"
+        case deploymentsuccess = "DeploymentSuccess"
+        case deploymentfailure = "DeploymentFailure"
+        case deploymentstop = "DeploymentStop"
+        case deploymentrollback = "DeploymentRollback"
+        case deploymentready = "DeploymentReady"
+        case instancestart = "InstanceStart"
+        case instancesuccess = "InstanceSuccess"
+        case instancefailure = "InstanceFailure"
+        case instanceready = "InstanceReady"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ListStateFilterAction: String, CustomStringConvertible {
+        case include = "include"
+        case exclude = "exclude"
+        case ignore = "ignore"
+        public var description: String { return self.rawValue }
     }
 
     public struct DeleteApplicationInput: AWSShape {
@@ -1023,21 +1117,31 @@ extension Codedeploy {
         }
     }
 
+    public enum LifecycleEventStatus: String, CustomStringConvertible {
+        case pending = "Pending"
+        case inprogress = "InProgress"
+        case succeeded = "Succeeded"
+        case failed = "Failed"
+        case skipped = "Skipped"
+        case unknown = "Unknown"
+        public var description: String { return self.rawValue }
+    }
+
     public struct StopDeploymentOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the stop deployment operation:   Pending: The stop operation is pending.   Succeeded: The stop operation was successful.  
-        public let status: String?
+        public let status: StopStatus?
         /// An accompanying status message.
         public let statusMessage: String?
 
-        public init(status: String? = nil, statusMessage: String? = nil) {
+        public init(status: StopStatus? = nil, statusMessage: String? = nil) {
             self.status = status
             self.statusMessage = statusMessage
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["status"] as? String
+            if let status = dictionary["status"] as? String { self.status = StopStatus(rawValue: status) } else { self.status = nil }
             self.statusMessage = dictionary["statusMessage"] as? String
         }
     }
@@ -1046,17 +1150,17 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         /// The event type or types that trigger a rollback.
-        public let events: [String]?
+        public let events: [AutoRollbackEvent]?
         /// Indicates whether a defined automatic rollback configuration is currently enabled.
         public let enabled: Bool?
 
-        public init(events: [String]? = nil, enabled: Bool? = nil) {
+        public init(events: [AutoRollbackEvent]? = nil, enabled: Bool? = nil) {
             self.events = events
             self.enabled = enabled
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.events = dictionary["events"] as? [String]
+            if let events = dictionary["events"] as? [String] { self.events = events.flatMap({ AutoRollbackEvent(rawValue: $0)}) } else { self.events = nil }
             self.enabled = dictionary["enabled"] as? Bool
         }
     }
@@ -1124,6 +1228,17 @@ extension Codedeploy {
         }
     }
 
+    public enum InstanceStatus: String, CustomStringConvertible {
+        case pending = "Pending"
+        case inprogress = "InProgress"
+        case succeeded = "Succeeded"
+        case failed = "Failed"
+        case skipped = "Skipped"
+        case unknown = "Unknown"
+        case ready = "Ready"
+        public var description: String { return self.rawValue }
+    }
+
     public struct GitHubLocation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1171,9 +1286,9 @@ extension Codedeploy {
         /// An identifier returned from the previous list on-premises instances call. It can be used to return the next set of on-premises instances in the list.
         public let nextToken: String?
         /// The registration status of the on-premises instances:   Deregistered: Include deregistered on-premises instances in the resulting list.   Registered: Include registered on-premises instances in the resulting list.  
-        public let registrationStatus: String?
+        public let registrationStatus: RegistrationStatus?
 
-        public init(tagFilters: [TagFilter]? = nil, nextToken: String? = nil, registrationStatus: String? = nil) {
+        public init(tagFilters: [TagFilter]? = nil, nextToken: String? = nil, registrationStatus: RegistrationStatus? = nil) {
             self.tagFilters = tagFilters
             self.nextToken = nextToken
             self.registrationStatus = registrationStatus
@@ -1186,7 +1301,7 @@ extension Codedeploy {
                 self.tagFilters = nil
             }
             self.nextToken = dictionary["nextToken"] as? String
-            self.registrationStatus = dictionary["registrationStatus"] as? String
+            if let registrationStatus = dictionary["registrationStatus"] as? String { self.registrationStatus = RegistrationStatus(rawValue: registrationStatus) } else { self.registrationStatus = nil }
         }
     }
 
@@ -1274,20 +1389,20 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         /// The tag filter type:   KEY_ONLY: Key only.   VALUE_ONLY: Value only.   KEY_AND_VALUE: Key and value.  
-        public let type: String?
+        public let `type`: EC2TagFilterType?
         /// The tag filter value.
         public let value: String?
         /// The tag filter key.
         public let key: String?
 
-        public init(type: String? = nil, value: String? = nil, key: String? = nil) {
-            self.type = type
+        public init(type: EC2TagFilterType? = nil, value: String? = nil, key: String? = nil) {
+            self.`type` = `type`
             self.value = value
             self.key = key
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = EC2TagFilterType(rawValue: `type`) } else { self.`type` = nil }
             self.value = dictionary["Value"] as? String
             self.key = dictionary["Key"] as? String
         }
@@ -1415,6 +1530,13 @@ extension Codedeploy {
         }
     }
 
+    public enum ApplicationRevisionSortBy: String, CustomStringConvertible {
+        case registertime = "registerTime"
+        case firstusedtime = "firstUsedTime"
+        case lastusedtime = "lastUsedTime"
+        public var description: String { return self.rawValue }
+    }
+
     public struct InstanceInfo: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1485,11 +1607,11 @@ extension Codedeploy {
         /// The message associated with the error.
         public let message: String?
         /// The associated error code:   Success: The specified script ran.   ScriptMissing: The specified script was not found in the specified location.   ScriptNotExecutable: The specified script is not a recognized executable file type.   ScriptTimedOut: The specified script did not finish running in the specified time period.   ScriptFailed: The specified script failed to run as expected.   UnknownError: The specified script did not run for an unknown reason.  
-        public let errorCode: String?
+        public let errorCode: LifecycleErrorCode?
         /// The last portion of the diagnostic log. If available, AWS CodeDeploy returns up to the last 4 KB of the diagnostic log.
         public let logTail: String?
 
-        public init(scriptName: String? = nil, message: String? = nil, errorCode: String? = nil, logTail: String? = nil) {
+        public init(scriptName: String? = nil, message: String? = nil, errorCode: LifecycleErrorCode? = nil, logTail: String? = nil) {
             self.scriptName = scriptName
             self.message = message
             self.errorCode = errorCode
@@ -1499,7 +1621,7 @@ extension Codedeploy {
         public init(dictionary: [String: Any]) throws {
             self.scriptName = dictionary["scriptName"] as? String
             self.message = dictionary["message"] as? String
-            self.errorCode = dictionary["errorCode"] as? String
+            if let errorCode = dictionary["errorCode"] as? String { self.errorCode = LifecycleErrorCode(rawValue: errorCode) } else { self.errorCode = nil }
             self.logTail = dictionary["logTail"] as? String
         }
     }
@@ -1533,6 +1655,12 @@ extension Codedeploy {
             self.registerTime = dictionary["registerTime"] as? Date
             self.deploymentGroups = dictionary["deploymentGroups"] as? [String]
         }
+    }
+
+    public enum SortOrder: String, CustomStringConvertible {
+        case ascending = "ascending"
+        case descending = "descending"
+        public var description: String { return self.rawValue }
     }
 
     public struct BatchGetApplicationsInput: AWSShape {
@@ -1571,6 +1699,28 @@ extension Codedeploy {
         }
     }
 
+    public enum ErrorCode: String, CustomStringConvertible {
+        case deployment_group_missing = "DEPLOYMENT_GROUP_MISSING"
+        case application_missing = "APPLICATION_MISSING"
+        case revision_missing = "REVISION_MISSING"
+        case iam_role_missing = "IAM_ROLE_MISSING"
+        case iam_role_permissions = "IAM_ROLE_PERMISSIONS"
+        case no_ec2_subscription = "NO_EC2_SUBSCRIPTION"
+        case over_max_instances = "OVER_MAX_INSTANCES"
+        case no_instances = "NO_INSTANCES"
+        case timeout = "TIMEOUT"
+        case health_constraints_invalid = "HEALTH_CONSTRAINTS_INVALID"
+        case health_constraints = "HEALTH_CONSTRAINTS"
+        case internal_error = "INTERNAL_ERROR"
+        case throttled = "THROTTLED"
+        case alarm_active = "ALARM_ACTIVE"
+        case agent_issue = "AGENT_ISSUE"
+        case auto_scaling_iam_role_permissions = "AUTO_SCALING_IAM_ROLE_PERMISSIONS"
+        case auto_scaling_configuration = "AUTO_SCALING_CONFIGURATION"
+        case manual_stop = "MANUAL_STOP"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ApplicationInfo: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1598,6 +1748,12 @@ extension Codedeploy {
         }
     }
 
+    public enum MinimumHealthyHostsType: String, CustomStringConvertible {
+        case host_count = "HOST_COUNT"
+        case fleet_percent = "FLEET_PERCENT"
+        public var description: String { return self.rawValue }
+    }
+
     public struct GetDeploymentGroupOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1617,17 +1773,17 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         /// The action to take on instances in the original environment after a successful blue/green deployment.   TERMINATE: Instances are terminated after a specified wait time.   KEEP_ALIVE: Instances are left running after they are deregistered from the load balancer and removed from the deployment group.  
-        public let action: String?
+        public let action: InstanceAction?
         /// The number of minutes to wait after a successful blue/green deployment before terminating instances from the original environment.
         public let terminationWaitTimeInMinutes: Int32?
 
-        public init(action: String? = nil, terminationWaitTimeInMinutes: Int32? = nil) {
+        public init(action: InstanceAction? = nil, terminationWaitTimeInMinutes: Int32? = nil) {
             self.action = action
             self.terminationWaitTimeInMinutes = terminationWaitTimeInMinutes
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.action = dictionary["action"] as? String
+            if let action = dictionary["action"] as? String { self.action = InstanceAction(rawValue: action) } else { self.action = nil }
             self.terminationWaitTimeInMinutes = dictionary["terminationWaitTimeInMinutes"] as? Int32
         }
     }
@@ -1636,23 +1792,41 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         /// The event type or types for which notifications are triggered.
-        public let triggerEvents: [String]?
+        public let triggerEvents: [TriggerEventType]?
         /// The name of the notification trigger.
         public let triggerName: String?
         /// The ARN of the Amazon Simple Notification Service topic through which notifications about deployment or instance events are sent.
         public let triggerTargetArn: String?
 
-        public init(triggerEvents: [String]? = nil, triggerName: String? = nil, triggerTargetArn: String? = nil) {
+        public init(triggerEvents: [TriggerEventType]? = nil, triggerName: String? = nil, triggerTargetArn: String? = nil) {
             self.triggerEvents = triggerEvents
             self.triggerName = triggerName
             self.triggerTargetArn = triggerTargetArn
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.triggerEvents = dictionary["triggerEvents"] as? [String]
+            if let triggerEvents = dictionary["triggerEvents"] as? [String] { self.triggerEvents = triggerEvents.flatMap({ TriggerEventType(rawValue: $0)}) } else { self.triggerEvents = nil }
             self.triggerName = dictionary["triggerName"] as? String
             self.triggerTargetArn = dictionary["triggerTargetArn"] as? String
         }
+    }
+
+    public enum BundleType: String, CustomStringConvertible {
+        case tar = "tar"
+        case tgz = "tgz"
+        case zip = "zip"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeploymentStatus: String, CustomStringConvertible {
+        case created = "Created"
+        case queued = "Queued"
+        case inprogress = "InProgress"
+        case succeeded = "Succeeded"
+        case failed = "Failed"
+        case stopped = "Stopped"
+        case ready = "Ready"
+        public var description: String { return self.rawValue }
     }
 
     public struct GetDeploymentGroupInput: AWSShape {
@@ -1776,7 +1950,7 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         /// The file type of the application revision. Must be one of the following:   tar: A tar archive file.   tgz: A compressed tar archive file.   zip: A zip archive file.  
-        public let bundleType: String?
+        public let bundleType: BundleType?
         /// A specific version of the Amazon S3 object that represents the bundled artifacts for the application revision. If the version is not specified, the system will use the most recent version by default.
         public let version: String?
         /// The name of the Amazon S3 bucket where the application revision is stored.
@@ -1786,7 +1960,7 @@ extension Codedeploy {
         /// The ETag of the Amazon S3 object that represents the bundled artifacts for the application revision. If the ETag is not specified as an input parameter, ETag validation of the object will be skipped.
         public let eTag: String?
 
-        public init(bundleType: String? = nil, version: String? = nil, bucket: String? = nil, key: String? = nil, eTag: String? = nil) {
+        public init(bundleType: BundleType? = nil, version: String? = nil, bucket: String? = nil, key: String? = nil, eTag: String? = nil) {
             self.bundleType = bundleType
             self.version = version
             self.bucket = bucket
@@ -1795,7 +1969,7 @@ extension Codedeploy {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.bundleType = dictionary["bundleType"] as? String
+            if let bundleType = dictionary["bundleType"] as? String { self.bundleType = BundleType(rawValue: bundleType) } else { self.bundleType = nil }
             self.version = dictionary["version"] as? String
             self.bucket = dictionary["bucket"] as? String
             self.key = dictionary["key"] as? String
@@ -1847,6 +2021,13 @@ extension Codedeploy {
             guard let deploymentConfigName = dictionary["deploymentConfigName"] as? String else { throw InitializableError.missingRequiredParam("deploymentConfigName") }
             self.deploymentConfigName = deploymentConfigName
         }
+    }
+
+    public enum TagFilterType: String, CustomStringConvertible {
+        case key_only = "KEY_ONLY"
+        case value_only = "VALUE_ONLY"
+        case key_and_value = "KEY_AND_VALUE"
+        public var description: String { return self.rawValue }
     }
 
     public struct ListDeploymentsOutput: AWSShape {
@@ -2010,14 +2191,14 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         /// The method used to add instances to a replacement environment.   DISCOVER_EXISTING: Use instances that already exist or will be created manually.   COPY_AUTO_SCALING_GROUP: Use settings from a specified Auto Scaling group to define and create instances in a new Auto Scaling group.  
-        public let action: String?
+        public let action: GreenFleetProvisioningAction?
 
-        public init(action: String? = nil) {
+        public init(action: GreenFleetProvisioningAction? = nil) {
             self.action = action
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.action = dictionary["action"] as? String
+            if let action = dictionary["action"] as? String { self.action = GreenFleetProvisioningAction(rawValue: action) } else { self.action = nil }
         }
     }
 
@@ -2177,9 +2358,9 @@ extension Codedeploy {
         /// The instance ID.
         public let instanceId: String?
         /// The deployment status for this instance:   Pending: The deployment is pending for this instance.   In Progress: The deployment is in progress for this instance.   Succeeded: The deployment has succeeded for this instance.   Failed: The deployment has failed for this instance.   Skipped: The deployment has been skipped for this instance.   Unknown: The deployment status is unknown for this instance.  
-        public let status: String?
+        public let status: InstanceStatus?
         /// Information about which environment an instance belongs to in a blue/green deployment.   BLUE: The instance is part of the original environment.   GREEN: The instance is part of the replacement environment.  
-        public let instanceType: String?
+        public let instanceType: InstanceType?
         /// A timestamp indicating when the instance information was last updated.
         public let lastUpdatedAt: Date?
         /// The deployment ID.
@@ -2187,7 +2368,7 @@ extension Codedeploy {
         /// A list of lifecycle events for this instance.
         public let lifecycleEvents: [LifecycleEvent]?
 
-        public init(instanceId: String? = nil, status: String? = nil, instanceType: String? = nil, lastUpdatedAt: Date? = nil, deploymentId: String? = nil, lifecycleEvents: [LifecycleEvent]? = nil) {
+        public init(instanceId: String? = nil, status: InstanceStatus? = nil, instanceType: InstanceType? = nil, lastUpdatedAt: Date? = nil, deploymentId: String? = nil, lifecycleEvents: [LifecycleEvent]? = nil) {
             self.instanceId = instanceId
             self.status = status
             self.instanceType = instanceType
@@ -2198,8 +2379,8 @@ extension Codedeploy {
 
         public init(dictionary: [String: Any]) throws {
             self.instanceId = dictionary["instanceId"] as? String
-            self.status = dictionary["status"] as? String
-            self.instanceType = dictionary["instanceType"] as? String
+            if let status = dictionary["status"] as? String { self.status = InstanceStatus(rawValue: status) } else { self.status = nil }
+            if let instanceType = dictionary["instanceType"] as? String { self.instanceType = InstanceType(rawValue: instanceType) } else { self.instanceType = nil }
             self.lastUpdatedAt = dictionary["lastUpdatedAt"] as? Date
             self.deploymentId = dictionary["deploymentId"] as? String
             if let lifecycleEvents = dictionary["lifecycleEvents"] as? [[String: Any]] {
@@ -2232,6 +2413,18 @@ extension Codedeploy {
             guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
             self.instanceName = instanceName
         }
+    }
+
+    public enum DeploymentOption: String, CustomStringConvertible {
+        case with_traffic_control = "WITH_TRAFFIC_CONTROL"
+        case without_traffic_control = "WITHOUT_TRAFFIC_CONTROL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeploymentReadyAction: String, CustomStringConvertible {
+        case continue_deployment = "CONTINUE_DEPLOYMENT"
+        case stop_deployment = "STOP_DEPLOYMENT"
+        public var description: String { return self.rawValue }
     }
 
     public struct DeploymentConfigInfo: AWSShape {
@@ -2267,7 +2460,7 @@ extension Codedeploy {
         /// Diagnostic information about the deployment lifecycle event.
         public let diagnostics: Diagnostics?
         /// The deployment lifecycle event status:   Pending: The deployment lifecycle event is pending.   InProgress: The deployment lifecycle event is in progress.   Succeeded: The deployment lifecycle event ran successfully.   Failed: The deployment lifecycle event has failed.   Skipped: The deployment lifecycle event has been skipped.   Unknown: The deployment lifecycle event is unknown.  
-        public let status: String?
+        public let status: LifecycleEventStatus?
         /// A timestamp indicating when the deployment lifecycle event ended.
         public let endTime: Date?
         /// A timestamp indicating when the deployment lifecycle event started.
@@ -2275,7 +2468,7 @@ extension Codedeploy {
         /// The deployment lifecycle event name, such as ApplicationStop, BeforeInstall, AfterInstall, ApplicationStart, or ValidateService.
         public let lifecycleEventName: String?
 
-        public init(diagnostics: Diagnostics? = nil, status: String? = nil, endTime: Date? = nil, startTime: Date? = nil, lifecycleEventName: String? = nil) {
+        public init(diagnostics: Diagnostics? = nil, status: LifecycleEventStatus? = nil, endTime: Date? = nil, startTime: Date? = nil, lifecycleEventName: String? = nil) {
             self.diagnostics = diagnostics
             self.status = status
             self.endTime = endTime
@@ -2285,7 +2478,7 @@ extension Codedeploy {
 
         public init(dictionary: [String: Any]) throws {
             if let diagnostics = dictionary["diagnostics"] as? [String: Any] { self.diagnostics = try Codedeploy.Diagnostics(dictionary: diagnostics) } else { self.diagnostics = nil }
-            self.status = dictionary["status"] as? String
+            if let status = dictionary["status"] as? String { self.status = LifecycleEventStatus(rawValue: status) } else { self.status = nil }
             self.endTime = dictionary["endTime"] as? Date
             self.startTime = dictionary["startTime"] as? Date
             self.lifecycleEventName = dictionary["lifecycleEventName"] as? String
@@ -2340,17 +2533,17 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         /// The minimum healthy instance type:   HOST_COUNT: The minimum number of healthy instance as an absolute value.   FLEET_PERCENT: The minimum number of healthy instance as a percentage of the total number of instance in the deployment.   In an example of nine instance, if a HOST_COUNT of six is specified, deploy to up to three instances at a time. The deployment will be successful if six or more instances are deployed to successfully; otherwise, the deployment fails. If a FLEET_PERCENT of 40 is specified, deploy to up to five instance at a time. The deployment will be successful if four or more instance are deployed to successfully; otherwise, the deployment fails.  In a call to the get deployment configuration operation, CodeDeployDefault.OneAtATime will return a minimum healthy instance type of MOST_CONCURRENCY and a value of 1. This means a deployment to only one instance at a time. (You cannot set the type to MOST_CONCURRENCY, only to HOST_COUNT or FLEET_PERCENT.) In addition, with CodeDeployDefault.OneAtATime, AWS CodeDeploy will try to ensure that all instances but one are kept in a healthy state during the deployment. Although this allows one instance at a time to be taken offline for a new deployment, it also means that if the deployment to the last instance fails, the overall deployment still succeeds. 
-        public let type: String?
+        public let `type`: MinimumHealthyHostsType?
         /// The minimum healthy instance value.
         public let value: Int32?
 
-        public init(type: String? = nil, value: Int32? = nil) {
-            self.type = type
+        public init(type: MinimumHealthyHostsType? = nil, value: Int32? = nil) {
+            self.`type` = `type`
             self.value = value
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.type = dictionary["type"] as? String
+            if let `type` = dictionary["type"] as? String { self.`type` = MinimumHealthyHostsType(rawValue: `type`) } else { self.`type` = nil }
             self.value = dictionary["value"] as? Int32
         }
     }

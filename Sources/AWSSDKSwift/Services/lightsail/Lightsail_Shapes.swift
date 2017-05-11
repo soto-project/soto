@@ -88,9 +88,9 @@ extension Lightsail {
         /// An array of key-value pairs containing information about the results of your get instance metric data request.
         public let metricData: [MetricDatapoint]?
         /// The metric name to return data for. 
-        public let metricName: String?
+        public let metricName: InstanceMetricName?
 
-        public init(metricData: [MetricDatapoint]? = nil, metricName: String? = nil) {
+        public init(metricData: [MetricDatapoint]? = nil, metricName: InstanceMetricName? = nil) {
             self.metricData = metricData
             self.metricName = metricName
         }
@@ -101,7 +101,7 @@ extension Lightsail {
             } else { 
                 self.metricData = nil
             }
-            self.metricName = dictionary["metricName"] as? String
+            if let metricName = dictionary["metricName"] as? String { self.metricName = InstanceMetricName(rawValue: metricName) } else { self.metricName = nil }
         }
     }
 
@@ -118,6 +118,14 @@ extension Lightsail {
         public init(dictionary: [String: Any]) throws {
             if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) } else { self.operation = nil }
         }
+    }
+
+    public enum OperationStatus: String, CustomStringConvertible {
+        case notstarted = "NotStarted"
+        case started = "Started"
+        case failed = "Failed"
+        case completed = "Completed"
+        public var description: String { return self.rawValue }
     }
 
     public struct UnpeerVpcRequest: AWSShape {
@@ -215,11 +223,11 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The state the snapshot is in.
-        public let state: String?
+        public let state: InstanceSnapshotState?
         /// The name of the snapshot.
         public let name: String?
         /// The type of resource (usually InstanceSnapshot).
-        public let resourceType: String?
+        public let resourceType: ResourceType?
         /// The timestamp when the snapshot was created (e.g., 1479907467.024).
         public let createdAt: Date?
         /// The bundle ID from which you created the snapshot (e.g., micro_1_0).
@@ -241,7 +249,7 @@ extension Lightsail {
         /// The progress of the snapshot.
         public let progress: String?
 
-        public init(state: String? = nil, name: String? = nil, resourceType: String? = nil, createdAt: Date? = nil, fromBundleId: String? = nil, supportCode: String? = nil, fromInstanceArn: String? = nil, arn: String? = nil, fromBlueprintId: String? = nil, sizeInGb: Int32? = nil, location: ResourceLocation? = nil, fromInstanceName: String? = nil, progress: String? = nil) {
+        public init(state: InstanceSnapshotState? = nil, name: String? = nil, resourceType: ResourceType? = nil, createdAt: Date? = nil, fromBundleId: String? = nil, supportCode: String? = nil, fromInstanceArn: String? = nil, arn: String? = nil, fromBlueprintId: String? = nil, sizeInGb: Int32? = nil, location: ResourceLocation? = nil, fromInstanceName: String? = nil, progress: String? = nil) {
             self.state = state
             self.name = name
             self.resourceType = resourceType
@@ -258,9 +266,9 @@ extension Lightsail {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.state = dictionary["state"] as? String
+            if let state = dictionary["state"] as? String { self.state = InstanceSnapshotState(rawValue: state) } else { self.state = nil }
             self.name = dictionary["name"] as? String
-            self.resourceType = dictionary["resourceType"] as? String
+            if let resourceType = dictionary["resourceType"] as? String { self.resourceType = ResourceType(rawValue: resourceType) } else { self.resourceType = nil }
             self.createdAt = dictionary["createdAt"] as? Date
             self.fromBundleId = dictionary["fromBundleId"] as? String
             self.supportCode = dictionary["supportCode"] as? String
@@ -284,7 +292,7 @@ extension Lightsail {
         /// The name of this Amazon Lightsail instance.
         public let instanceName: String?
         /// The protocol for these Amazon Lightsail instance access details.
-        public let `protocol`: String?
+        public let `protocol`: InstanceAccessProtocol?
         /// For RDP access, the temporary password of the Amazon EC2 instance.
         public let password: String?
         /// For SSH access, the public key to use when accessing your instance For OpenSSH clients (e.g., command line SSH), you should save this value to tempkey-cert.pub.
@@ -294,7 +302,7 @@ extension Lightsail {
         /// The user name to use when logging in to the Amazon Lightsail instance.
         public let username: String?
 
-        public init(privateKey: String? = nil, ipAddress: String? = nil, instanceName: String? = nil, protocol: String? = nil, password: String? = nil, certKey: String? = nil, expiresAt: Date? = nil, username: String? = nil) {
+        public init(privateKey: String? = nil, ipAddress: String? = nil, instanceName: String? = nil, protocol: InstanceAccessProtocol? = nil, password: String? = nil, certKey: String? = nil, expiresAt: Date? = nil, username: String? = nil) {
             self.privateKey = privateKey
             self.ipAddress = ipAddress
             self.instanceName = instanceName
@@ -309,7 +317,7 @@ extension Lightsail {
             self.privateKey = dictionary["privateKey"] as? String
             self.ipAddress = dictionary["ipAddress"] as? String
             self.instanceName = dictionary["instanceName"] as? String
-            self.`protocol` = dictionary["protocol"] as? String
+            if let `protocol` = dictionary["protocol"] as? String { self.`protocol` = InstanceAccessProtocol(rawValue: `protocol`) } else { self.`protocol` = nil }
             self.password = dictionary["password"] as? String
             self.certKey = dictionary["certKey"] as? String
             self.expiresAt = dictionary["expiresAt"] as? Date
@@ -370,6 +378,12 @@ extension Lightsail {
         }
     }
 
+    public enum BlueprintType: String, CustomStringConvertible {
+        case os = "os"
+        case app = "app"
+        public var description: String { return self.rawValue }
+    }
+
     public struct GetInstanceResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -404,21 +418,35 @@ extension Lightsail {
         }
     }
 
+    public enum RegionName: String, CustomStringConvertible {
+        case us_east_1 = "us-east-1"
+        case us_west_1 = "us-west-1"
+        case us_west_2 = "us-west-2"
+        case eu_west_1 = "eu-west-1"
+        case eu_central_1 = "eu-central-1"
+        case ap_south_1 = "ap-south-1"
+        case ap_southeast_1 = "ap-southeast-1"
+        case ap_southeast_2 = "ap-southeast-2"
+        case ap_northeast_1 = "ap-northeast-1"
+        case ap_northeast_2 = "ap-northeast-2"
+        public var description: String { return self.rawValue }
+    }
+
     public struct GetInstanceAccessDetailsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// The protocol to use to connect to your instance. Defaults to ssh.
-        public let `protocol`: String?
+        public let `protocol`: InstanceAccessProtocol?
         /// The name of the instance to access.
         public let instanceName: String
 
-        public init(protocol: String? = nil, instanceName: String) {
+        public init(protocol: InstanceAccessProtocol? = nil, instanceName: String) {
             self.`protocol` = `protocol`
             self.instanceName = instanceName
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.`protocol` = dictionary["protocol"] as? String
+            if let `protocol` = dictionary["protocol"] as? String { self.`protocol` = InstanceAccessProtocol(rawValue: `protocol`) } else { self.`protocol` = nil }
             guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
             self.instanceName = instanceName
         }
@@ -457,7 +485,7 @@ extension Lightsail {
         /// The region and Availability Zone where the static IP was created.
         public let location: ResourceLocation?
         /// The resource type (usually StaticIp).
-        public let resourceType: String?
+        public let resourceType: ResourceType?
         /// The static IP address.
         public let ipAddress: String?
         /// The name of the static IP (e.g., StaticIP-Virginia-EXAMPLE).
@@ -469,7 +497,7 @@ extension Lightsail {
         /// The Amazon Resource Name (ARN) of the static IP (e.g., arn:aws:lightsail:us-east-1:123456789101:StaticIp/9cbb4a9e-f8e3-4dfe-b57e-12345EXAMPLE).
         public let arn: String?
 
-        public init(attachedTo: String? = nil, isAttached: Bool? = nil, location: ResourceLocation? = nil, resourceType: String? = nil, ipAddress: String? = nil, name: String? = nil, createdAt: Date? = nil, supportCode: String? = nil, arn: String? = nil) {
+        public init(attachedTo: String? = nil, isAttached: Bool? = nil, location: ResourceLocation? = nil, resourceType: ResourceType? = nil, ipAddress: String? = nil, name: String? = nil, createdAt: Date? = nil, supportCode: String? = nil, arn: String? = nil) {
             self.attachedTo = attachedTo
             self.isAttached = isAttached
             self.location = location
@@ -485,7 +513,7 @@ extension Lightsail {
             self.attachedTo = dictionary["attachedTo"] as? String
             self.isAttached = dictionary["isAttached"] as? Bool
             if let location = dictionary["location"] as? [String: Any] { self.location = try Lightsail.ResourceLocation(dictionary: location) } else { self.location = nil }
-            self.resourceType = dictionary["resourceType"] as? String
+            if let resourceType = dictionary["resourceType"] as? String { self.resourceType = ResourceType(rawValue: resourceType) } else { self.resourceType = nil }
             self.ipAddress = dictionary["ipAddress"] as? String
             self.name = dictionary["name"] as? String
             self.createdAt = dictionary["createdAt"] as? Date
@@ -498,14 +526,14 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the port states resulting from your request.
-        public let portStates: [String]?
+        public let portStates: [PortState]?
 
-        public init(portStates: [String]? = nil) {
+        public init(portStates: [PortState]? = nil) {
             self.portStates = portStates
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.portStates = dictionary["portStates"] as? [String]
+            if let portStates = dictionary["portStates"] as? [String] { self.portStates = portStates.flatMap({ PortState(rawValue: $0)}) } else { self.portStates = nil }
         }
     }
 
@@ -517,7 +545,7 @@ extension Lightsail {
         /// The region name and Availability Zone where the key pair was created.
         public let location: ResourceLocation?
         /// The resource type (usually KeyPair).
-        public let resourceType: String?
+        public let resourceType: ResourceType?
         /// The timestamp when the key pair was created (e.g., 1479816991.349).
         public let createdAt: Date?
         /// The RSA fingerprint of the key pair.
@@ -527,7 +555,7 @@ extension Lightsail {
         /// The Amazon Resource Name (ARN) of the key pair (e.g., arn:aws:lightsail:us-east-1:123456789101:KeyPair/05859e3d-331d-48ba-9034-12345EXAMPLE).
         public let arn: String?
 
-        public init(name: String? = nil, location: ResourceLocation? = nil, resourceType: String? = nil, createdAt: Date? = nil, fingerprint: String? = nil, supportCode: String? = nil, arn: String? = nil) {
+        public init(name: String? = nil, location: ResourceLocation? = nil, resourceType: ResourceType? = nil, createdAt: Date? = nil, fingerprint: String? = nil, supportCode: String? = nil, arn: String? = nil) {
             self.name = name
             self.location = location
             self.resourceType = resourceType
@@ -540,7 +568,7 @@ extension Lightsail {
         public init(dictionary: [String: Any]) throws {
             self.name = dictionary["name"] as? String
             if let location = dictionary["location"] as? [String: Any] { self.location = try Lightsail.ResourceLocation(dictionary: location) } else { self.location = nil }
-            self.resourceType = dictionary["resourceType"] as? String
+            if let resourceType = dictionary["resourceType"] as? String { self.resourceType = ResourceType(rawValue: resourceType) } else { self.resourceType = nil }
             self.createdAt = dictionary["createdAt"] as? Date
             self.fingerprint = dictionary["fingerprint"] as? String
             self.supportCode = dictionary["supportCode"] as? String
@@ -735,6 +763,16 @@ extension Lightsail {
         }
     }
 
+    public enum ResourceType: String, CustomStringConvertible {
+        case instance = "Instance"
+        case staticip = "StaticIp"
+        case keypair = "KeyPair"
+        case instancesnapshot = "InstanceSnapshot"
+        case domain = "Domain"
+        case peeredvpc = "PeeredVpc"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DeleteDomainRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -883,7 +921,7 @@ extension Lightsail {
         /// The name the user gave the instance (e.g., Amazon_Linux-1GB-Virginia-1).
         public let name: String?
         /// The type of resource (usually Instance).
-        public let resourceType: String?
+        public let resourceType: ResourceType?
         /// The public IP address of the instance.
         public let publicIpAddress: String?
         /// The private IP address of the instance.
@@ -915,7 +953,7 @@ extension Lightsail {
         /// Information about the public ports and monthly data transfer rates for the instance.
         public let networking: InstanceNetworking?
 
-        public init(state: InstanceState? = nil, name: String? = nil, resourceType: String? = nil, publicIpAddress: String? = nil, privateIpAddress: String? = nil, createdAt: Date? = nil, sshKeyName: String? = nil, supportCode: String? = nil, bundleId: String? = nil, isStaticIp: Bool? = nil, blueprintName: String? = nil, username: String? = nil, ipv6Address: String? = nil, hardware: InstanceHardware? = nil, blueprintId: String? = nil, location: ResourceLocation? = nil, arn: String? = nil, networking: InstanceNetworking? = nil) {
+        public init(state: InstanceState? = nil, name: String? = nil, resourceType: ResourceType? = nil, publicIpAddress: String? = nil, privateIpAddress: String? = nil, createdAt: Date? = nil, sshKeyName: String? = nil, supportCode: String? = nil, bundleId: String? = nil, isStaticIp: Bool? = nil, blueprintName: String? = nil, username: String? = nil, ipv6Address: String? = nil, hardware: InstanceHardware? = nil, blueprintId: String? = nil, location: ResourceLocation? = nil, arn: String? = nil, networking: InstanceNetworking? = nil) {
             self.state = state
             self.name = name
             self.resourceType = resourceType
@@ -939,7 +977,7 @@ extension Lightsail {
         public init(dictionary: [String: Any]) throws {
             if let state = dictionary["state"] as? [String: Any] { self.state = try Lightsail.InstanceState(dictionary: state) } else { self.state = nil }
             self.name = dictionary["name"] as? String
-            self.resourceType = dictionary["resourceType"] as? String
+            if let resourceType = dictionary["resourceType"] as? String { self.resourceType = ResourceType(rawValue: resourceType) } else { self.resourceType = nil }
             self.publicIpAddress = dictionary["publicIpAddress"] as? String
             self.privateIpAddress = dictionary["privateIpAddress"] as? String
             self.createdAt = dictionary["createdAt"] as? Date
@@ -966,7 +1004,7 @@ extension Lightsail {
         /// The AWS Region and Availability Zones where the domain recordset was created.
         public let location: ResourceLocation?
         /// The resource type. 
-        public let resourceType: String?
+        public let resourceType: ResourceType?
         /// An array of key-value pairs containing information about the domain entries.
         public let domainEntries: [DomainEntry]?
         /// The date when the domain recordset was created.
@@ -976,7 +1014,7 @@ extension Lightsail {
         /// The Amazon Resource Name (ARN) of the domain recordset (e.g., arn:aws:lightsail:global:123456789101:Domain/824cede0-abc7-4f84-8dbc-12345EXAMPLE).
         public let arn: String?
 
-        public init(name: String? = nil, location: ResourceLocation? = nil, resourceType: String? = nil, domainEntries: [DomainEntry]? = nil, createdAt: Date? = nil, supportCode: String? = nil, arn: String? = nil) {
+        public init(name: String? = nil, location: ResourceLocation? = nil, resourceType: ResourceType? = nil, domainEntries: [DomainEntry]? = nil, createdAt: Date? = nil, supportCode: String? = nil, arn: String? = nil) {
             self.name = name
             self.location = location
             self.resourceType = resourceType
@@ -989,7 +1027,7 @@ extension Lightsail {
         public init(dictionary: [String: Any]) throws {
             self.name = dictionary["name"] as? String
             if let location = dictionary["location"] as? [String: Any] { self.location = try Lightsail.ResourceLocation(dictionary: location) } else { self.location = nil }
-            self.resourceType = dictionary["resourceType"] as? String
+            if let resourceType = dictionary["resourceType"] as? String { self.resourceType = ResourceType(rawValue: resourceType) } else { self.resourceType = nil }
             if let domainEntries = dictionary["domainEntries"] as? [[String: Any]] {
                 self.domainEntries = try domainEntries.map({ try DomainEntry(dictionary: $0) })
             } else { 
@@ -1090,6 +1128,22 @@ extension Lightsail {
         }
     }
 
+    public enum InstanceMetricName: String, CustomStringConvertible {
+        case cpuutilization = "CPUUtilization"
+        case networkin = "NetworkIn"
+        case networkout = "NetworkOut"
+        case statuscheckfailed = "StatusCheckFailed"
+        case statuscheckfailed_instance = "StatusCheckFailed_Instance"
+        case statuscheckfailed_system = "StatusCheckFailed_System"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PortAccessType: String, CustomStringConvertible {
+        case `public` = "Public"
+        case `private` = "Private"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Disk: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1098,7 +1152,7 @@ extension Lightsail {
         /// The name of the disk.
         public let name: String?
         /// The resource type of the disk. 
-        public let resourceType: String?
+        public let resourceType: ResourceType?
         /// The date when the disk was created.
         public let createdAt: Date?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
@@ -1122,7 +1176,7 @@ extension Lightsail {
         /// The input/output operations per second (IOPS) of the disk.
         public let iops: Int32?
 
-        public init(isAttached: Bool? = nil, name: String? = nil, resourceType: String? = nil, createdAt: Date? = nil, supportCode: String? = nil, isSystemDisk: Bool? = nil, attachmentState: String? = nil, arn: String? = nil, attachedTo: String? = nil, sizeInGb: Int32? = nil, location: ResourceLocation? = nil, path: String? = nil, gbInUse: Int32? = nil, iops: Int32? = nil) {
+        public init(isAttached: Bool? = nil, name: String? = nil, resourceType: ResourceType? = nil, createdAt: Date? = nil, supportCode: String? = nil, isSystemDisk: Bool? = nil, attachmentState: String? = nil, arn: String? = nil, attachedTo: String? = nil, sizeInGb: Int32? = nil, location: ResourceLocation? = nil, path: String? = nil, gbInUse: Int32? = nil, iops: Int32? = nil) {
             self.isAttached = isAttached
             self.name = name
             self.resourceType = resourceType
@@ -1142,7 +1196,7 @@ extension Lightsail {
         public init(dictionary: [String: Any]) throws {
             self.isAttached = dictionary["isAttached"] as? Bool
             self.name = dictionary["name"] as? String
-            self.resourceType = dictionary["resourceType"] as? String
+            if let resourceType = dictionary["resourceType"] as? String { self.resourceType = ResourceType(rawValue: resourceType) } else { self.resourceType = nil }
             self.createdAt = dictionary["createdAt"] as? Date
             self.supportCode = dictionary["supportCode"] as? String
             self.isSystemDisk = dictionary["isSystemDisk"] as? Bool
@@ -1218,14 +1272,14 @@ extension Lightsail {
         /// The ID of the domain recordset entry.
         public let id: String?
         /// The type of domain entry (e.g., SOA or NS).
-        public let type: String?
+        public let `type`: String?
 
         public init(options: [String: String]? = nil, name: String? = nil, target: String? = nil, id: String? = nil, type: String? = nil) {
             self.options = options
             self.name = name
             self.target = target
             self.id = id
-            self.type = type
+            self.`type` = `type`
         }
 
         public init(dictionary: [String: Any]) throws {
@@ -1237,7 +1291,7 @@ extension Lightsail {
             self.name = dictionary["name"] as? String
             self.target = dictionary["target"] as? String
             self.id = dictionary["id"] as? String
-            self.type = dictionary["type"] as? String
+            self.`type` = dictionary["type"] as? String
         }
     }
 
@@ -1304,6 +1358,37 @@ extension Lightsail {
 
         public init(dictionary: [String: Any]) throws {
         }
+    }
+
+    public enum MetricUnit: String, CustomStringConvertible {
+        case seconds = "Seconds"
+        case microseconds = "Microseconds"
+        case milliseconds = "Milliseconds"
+        case bytes = "Bytes"
+        case kilobytes = "Kilobytes"
+        case megabytes = "Megabytes"
+        case gigabytes = "Gigabytes"
+        case terabytes = "Terabytes"
+        case bits = "Bits"
+        case kilobits = "Kilobits"
+        case megabits = "Megabits"
+        case gigabits = "Gigabits"
+        case terabits = "Terabits"
+        case percent = "Percent"
+        case count = "Count"
+        case bytes_second = "Bytes/Second"
+        case kilobytes_second = "Kilobytes/Second"
+        case megabytes_second = "Megabytes/Second"
+        case gigabytes_second = "Gigabytes/Second"
+        case terabytes_second = "Terabytes/Second"
+        case bits_second = "Bits/Second"
+        case kilobits_second = "Kilobits/Second"
+        case megabits_second = "Megabits/Second"
+        case gigabits_second = "Gigabits/Second"
+        case terabits_second = "Terabits/Second"
+        case count_second = "Count/Second"
+        case none = "None"
+        public var description: String { return self.rawValue }
     }
 
     public struct CreateDomainEntryRequest: AWSShape {
@@ -1388,6 +1473,15 @@ extension Lightsail {
                 self.instances = nil
             }
         }
+    }
+
+    public enum MetricStatistic: String, CustomStringConvertible {
+        case minimum = "Minimum"
+        case maximum = "Maximum"
+        case sum = "Sum"
+        case average = "Average"
+        case samplecount = "SampleCount"
+        public var description: String { return self.rawValue }
     }
 
     public struct InstanceState: AWSShape {
@@ -1542,17 +1636,17 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The AWS Region name.
-        public let regionName: String?
+        public let regionName: RegionName?
         /// The Availability Zone.
         public let availabilityZone: String?
 
-        public init(regionName: String? = nil, availabilityZone: String? = nil) {
+        public init(regionName: RegionName? = nil, availabilityZone: String? = nil) {
             self.regionName = regionName
             self.availabilityZone = availabilityZone
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.regionName = dictionary["regionName"] as? String
+            if let regionName = dictionary["regionName"] as? String { self.regionName = RegionName(rawValue: regionName) } else { self.regionName = nil }
             self.availabilityZone = dictionary["availabilityZone"] as? String
         }
     }
@@ -1561,20 +1655,20 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The protocol. 
-        public let `protocol`: String?
+        public let `protocol`: NetworkProtocol?
         /// The first port in the range.
         public let fromPort: Int32?
         /// The last port in the range.
         public let toPort: Int32?
 
-        public init(protocol: String? = nil, fromPort: Int32? = nil, toPort: Int32? = nil) {
+        public init(protocol: NetworkProtocol? = nil, fromPort: Int32? = nil, toPort: Int32? = nil) {
             self.`protocol` = `protocol`
             self.fromPort = fromPort
             self.toPort = toPort
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.`protocol` = dictionary["protocol"] as? String
+            if let `protocol` = dictionary["protocol"] as? String { self.`protocol` = NetworkProtocol(rawValue: `protocol`) } else { self.`protocol` = nil }
             self.fromPort = dictionary["fromPort"] as? Int32
             self.toPort = dictionary["toPort"] as? Int32
         }
@@ -1617,7 +1711,7 @@ extension Lightsail {
         /// The sample count.
         public let sampleCount: Double?
         /// The unit. 
-        public let unit: String?
+        public let unit: MetricUnit?
         /// The average.
         public let average: Double?
         /// The maximum.
@@ -1629,7 +1723,7 @@ extension Lightsail {
         /// The timestamp (e.g., 1479816991.349).
         public let timestamp: Date?
 
-        public init(sampleCount: Double? = nil, unit: String? = nil, average: Double? = nil, maximum: Double? = nil, minimum: Double? = nil, sum: Double? = nil, timestamp: Date? = nil) {
+        public init(sampleCount: Double? = nil, unit: MetricUnit? = nil, average: Double? = nil, maximum: Double? = nil, minimum: Double? = nil, sum: Double? = nil, timestamp: Date? = nil) {
             self.sampleCount = sampleCount
             self.unit = unit
             self.average = average
@@ -1641,7 +1735,7 @@ extension Lightsail {
 
         public init(dictionary: [String: Any]) throws {
             self.sampleCount = dictionary["sampleCount"] as? Double
-            self.unit = dictionary["unit"] as? String
+            if let unit = dictionary["unit"] as? String { self.unit = MetricUnit(rawValue: unit) } else { self.unit = nil }
             self.average = dictionary["average"] as? Double
             self.maximum = dictionary["maximum"] as? Double
             self.minimum = dictionary["minimum"] as? Double
@@ -1688,6 +1782,13 @@ extension Lightsail {
         }
     }
 
+    public enum InstanceSnapshotState: String, CustomStringConvertible {
+        case pending = "pending"
+        case error = "error"
+        case available = "available"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DownloadDefaultKeyPairRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1726,6 +1827,12 @@ extension Lightsail {
         }
     }
 
+    public enum InstanceAccessProtocol: String, CustomStringConvertible {
+        case ssh = "ssh"
+        case rdp = "rdp"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DeleteDomainEntryRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1751,13 +1858,13 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of operation. 
-        public let operationType: String?
+        public let operationType: OperationType?
         /// A Boolean value indicating whether the operation is terminal.
         public let isTerminal: Bool?
         /// The region and Availability Zone.
         public let location: ResourceLocation?
         /// The resource type. 
-        public let resourceType: String?
+        public let resourceType: ResourceType?
         /// The ID of the operation.
         public let id: String?
         /// The error code.
@@ -1769,13 +1876,13 @@ extension Lightsail {
         /// The timestamp when the operation was initialized (e.g., 1479816991.349).
         public let createdAt: Date?
         /// The status of the operation. 
-        public let status: String?
+        public let status: OperationStatus?
         /// The timestamp when the status was changed (e.g., 1479816991.349).
         public let statusChangedAt: Date?
         /// Details about the operation (e.g., Debian-1GB-Virginia-1).
         public let operationDetails: String?
 
-        public init(operationType: String? = nil, isTerminal: Bool? = nil, location: ResourceLocation? = nil, resourceType: String? = nil, id: String? = nil, errorCode: String? = nil, resourceName: String? = nil, errorDetails: String? = nil, createdAt: Date? = nil, status: String? = nil, statusChangedAt: Date? = nil, operationDetails: String? = nil) {
+        public init(operationType: OperationType? = nil, isTerminal: Bool? = nil, location: ResourceLocation? = nil, resourceType: ResourceType? = nil, id: String? = nil, errorCode: String? = nil, resourceName: String? = nil, errorDetails: String? = nil, createdAt: Date? = nil, status: OperationStatus? = nil, statusChangedAt: Date? = nil, operationDetails: String? = nil) {
             self.operationType = operationType
             self.isTerminal = isTerminal
             self.location = location
@@ -1791,16 +1898,16 @@ extension Lightsail {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.operationType = dictionary["operationType"] as? String
+            if let operationType = dictionary["operationType"] as? String { self.operationType = OperationType(rawValue: operationType) } else { self.operationType = nil }
             self.isTerminal = dictionary["isTerminal"] as? Bool
             if let location = dictionary["location"] as? [String: Any] { self.location = try Lightsail.ResourceLocation(dictionary: location) } else { self.location = nil }
-            self.resourceType = dictionary["resourceType"] as? String
+            if let resourceType = dictionary["resourceType"] as? String { self.resourceType = ResourceType(rawValue: resourceType) } else { self.resourceType = nil }
             self.id = dictionary["id"] as? String
             self.errorCode = dictionary["errorCode"] as? String
             self.resourceName = dictionary["resourceName"] as? String
             self.errorDetails = dictionary["errorDetails"] as? String
             self.createdAt = dictionary["createdAt"] as? Date
-            self.status = dictionary["status"] as? String
+            if let status = dictionary["status"] as? String { self.status = OperationStatus(rawValue: status) } else { self.status = nil }
             self.statusChangedAt = dictionary["statusChangedAt"] as? Date
             self.operationDetails = dictionary["operationDetails"] as? String
         }
@@ -1906,6 +2013,28 @@ extension Lightsail {
         }
     }
 
+    public enum OperationType: String, CustomStringConvertible {
+        case deleteinstance = "DeleteInstance"
+        case createinstance = "CreateInstance"
+        case stopinstance = "StopInstance"
+        case startinstance = "StartInstance"
+        case rebootinstance = "RebootInstance"
+        case openinstancepublicports = "OpenInstancePublicPorts"
+        case closeinstancepublicports = "CloseInstancePublicPorts"
+        case allocatestaticip = "AllocateStaticIp"
+        case releasestaticip = "ReleaseStaticIp"
+        case attachstaticip = "AttachStaticIp"
+        case detachstaticip = "DetachStaticIp"
+        case updatedomainentry = "UpdateDomainEntry"
+        case deletedomainentry = "DeleteDomainEntry"
+        case createdomain = "CreateDomain"
+        case deletedomain = "DeleteDomain"
+        case createinstancesnapshot = "CreateInstanceSnapshot"
+        case deleteinstancesnapshot = "DeleteInstanceSnapshot"
+        case createinstancesfromsnapshot = "CreateInstancesFromSnapshot"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ImportKeyPairRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1972,15 +2101,15 @@ extension Lightsail {
         /// The common name.
         public let commonName: String?
         /// The protocol. 
-        public let `protocol`: String?
+        public let `protocol`: NetworkProtocol?
         /// The access direction (inbound or outbound).
-        public let accessDirection: String?
+        public let accessDirection: AccessDirection?
         /// The type of access (Public or Private).
-        public let accessType: String?
+        public let accessType: PortAccessType?
         /// The last port in the range.
         public let toPort: Int32?
 
-        public init(accessFrom: String? = nil, fromPort: Int32? = nil, commonName: String? = nil, protocol: String? = nil, accessDirection: String? = nil, accessType: String? = nil, toPort: Int32? = nil) {
+        public init(accessFrom: String? = nil, fromPort: Int32? = nil, commonName: String? = nil, protocol: NetworkProtocol? = nil, accessDirection: AccessDirection? = nil, accessType: PortAccessType? = nil, toPort: Int32? = nil) {
             self.accessFrom = accessFrom
             self.fromPort = fromPort
             self.commonName = commonName
@@ -1994,9 +2123,9 @@ extension Lightsail {
             self.accessFrom = dictionary["accessFrom"] as? String
             self.fromPort = dictionary["fromPort"] as? Int32
             self.commonName = dictionary["commonName"] as? String
-            self.`protocol` = dictionary["protocol"] as? String
-            self.accessDirection = dictionary["accessDirection"] as? String
-            self.accessType = dictionary["accessType"] as? String
+            if let `protocol` = dictionary["protocol"] as? String { self.`protocol` = NetworkProtocol(rawValue: `protocol`) } else { self.`protocol` = nil }
+            if let accessDirection = dictionary["accessDirection"] as? String { self.accessDirection = AccessDirection(rawValue: accessDirection) } else { self.accessDirection = nil }
+            if let accessType = dictionary["accessType"] as? String { self.accessType = PortAccessType(rawValue: accessType) } else { self.accessType = nil }
             self.toPort = dictionary["toPort"] as? Int32
         }
     }
@@ -2115,7 +2244,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of the blueprint (e.g., os or app).
-        public let type: String?
+        public let `type`: BlueprintType?
         /// A Boolean value indicating whether the blueprint is active. When you update your blueprints, you will inactivate old blueprints and keep the most recent versions active.
         public let isActive: Bool?
         /// The product URL to learn more about the image or blueprint.
@@ -2137,8 +2266,8 @@ extension Lightsail {
         /// The ID for the virtual private server image (e.g., app_wordpress_4_4 or app_lamp_7_0).
         public let blueprintId: String?
 
-        public init(type: String? = nil, isActive: Bool? = nil, productUrl: String? = nil, name: String? = nil, description: String? = nil, version: String? = nil, licenseUrl: String? = nil, versionCode: String? = nil, group: String? = nil, minPower: Int32? = nil, blueprintId: String? = nil) {
-            self.type = type
+        public init(type: BlueprintType? = nil, isActive: Bool? = nil, productUrl: String? = nil, name: String? = nil, description: String? = nil, version: String? = nil, licenseUrl: String? = nil, versionCode: String? = nil, group: String? = nil, minPower: Int32? = nil, blueprintId: String? = nil) {
+            self.`type` = `type`
             self.isActive = isActive
             self.productUrl = productUrl
             self.name = name
@@ -2152,7 +2281,7 @@ extension Lightsail {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.type = dictionary["type"] as? String
+            if let `type` = dictionary["type"] as? String { self.`type` = BlueprintType(rawValue: `type`) } else { self.`type` = nil }
             self.isActive = dictionary["isActive"] as? Bool
             self.productUrl = dictionary["productUrl"] as? String
             self.name = dictionary["name"] as? String
@@ -2213,13 +2342,13 @@ extension Lightsail {
         /// The display name (e.g., Virginia).
         public let displayName: String?
         /// The region name (e.g., us-east-1).
-        public let name: String?
+        public let name: RegionName?
         /// The continent code (e.g., NA, meaning North America).
         public let continentCode: String?
         /// The Availability Zones.
         public let availabilityZones: [AvailabilityZone]?
 
-        public init(description: String? = nil, displayName: String? = nil, name: String? = nil, continentCode: String? = nil, availabilityZones: [AvailabilityZone]? = nil) {
+        public init(description: String? = nil, displayName: String? = nil, name: RegionName? = nil, continentCode: String? = nil, availabilityZones: [AvailabilityZone]? = nil) {
             self.description = description
             self.displayName = displayName
             self.name = name
@@ -2230,7 +2359,7 @@ extension Lightsail {
         public init(dictionary: [String: Any]) throws {
             self.description = dictionary["description"] as? String
             self.displayName = dictionary["displayName"] as? String
-            self.name = dictionary["name"] as? String
+            if let name = dictionary["name"] as? String { self.name = RegionName(rawValue: name) } else { self.name = nil }
             self.continentCode = dictionary["continentCode"] as? String
             if let availabilityZones = dictionary["availabilityZones"] as? [[String: Any]] {
                 self.availabilityZones = try availabilityZones.map({ try AvailabilityZone(dictionary: $0) })
@@ -2253,6 +2382,13 @@ extension Lightsail {
         public init(dictionary: [String: Any]) throws {
             if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) } else { self.operation = nil }
         }
+    }
+
+    public enum NetworkProtocol: String, CustomStringConvertible {
+        case tcp = "tcp"
+        case all = "all"
+        case udp = "udp"
+        public var description: String { return self.rawValue }
     }
 
     public struct UpdateDomainEntryRequest: AWSShape {
@@ -2367,6 +2503,12 @@ extension Lightsail {
         }
     }
 
+    public enum PortState: String, CustomStringConvertible {
+        case open = "open"
+        case closed = "closed"
+        public var description: String { return self.rawValue }
+    }
+
     public struct StartInstanceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2459,15 +2601,21 @@ extension Lightsail {
         }
     }
 
+    public enum AccessDirection: String, CustomStringConvertible {
+        case inbound = "inbound"
+        case outbound = "outbound"
+        public var description: String { return self.rawValue }
+    }
+
     public struct GetInstanceMetricDataRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the instance for which you want to get metrics data.
         public let instanceName: String
         /// The unit. The list of valid values is below.
-        public let unit: String
+        public let unit: MetricUnit
         /// The instance statistics. 
-        public let statistics: [String]
+        public let statistics: [MetricStatistic]
         /// The end time of the time period.
         public let endTime: Date
         /// The time period for which you are requesting data.
@@ -2475,9 +2623,9 @@ extension Lightsail {
         /// The start time of the time period.
         public let startTime: Date
         /// The metric name to get data about. 
-        public let metricName: String
+        public let metricName: InstanceMetricName
 
-        public init(instanceName: String, unit: String, statistics: [String], endTime: Date, period: Int32, startTime: Date, metricName: String) {
+        public init(instanceName: String, unit: MetricUnit, statistics: [MetricStatistic], endTime: Date, period: Int32, startTime: Date, metricName: InstanceMetricName) {
             self.instanceName = instanceName
             self.unit = unit
             self.statistics = statistics
@@ -2490,17 +2638,17 @@ extension Lightsail {
         public init(dictionary: [String: Any]) throws {
             guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
             self.instanceName = instanceName
-            guard let unit = dictionary["unit"] as? String else { throw InitializableError.missingRequiredParam("unit") }
+            guard let rawunit = dictionary["unit"] as? String, let unit = MetricUnit(rawValue: rawunit) else { throw InitializableError.missingRequiredParam("unit") }
             self.unit = unit
             guard let statistics = dictionary["statistics"] as? [String] else { throw InitializableError.missingRequiredParam("statistics") }
-            self.statistics = statistics
+            self.statistics = statistics.flatMap({ MetricStatistic(rawValue: $0)})
             guard let endTime = dictionary["endTime"] as? Date else { throw InitializableError.missingRequiredParam("endTime") }
             self.endTime = endTime
             guard let period = dictionary["period"] as? Int32 else { throw InitializableError.missingRequiredParam("period") }
             self.period = period
             guard let startTime = dictionary["startTime"] as? Date else { throw InitializableError.missingRequiredParam("startTime") }
             self.startTime = startTime
-            guard let metricName = dictionary["metricName"] as? String else { throw InitializableError.missingRequiredParam("metricName") }
+            guard let rawmetricName = dictionary["metricName"] as? String, let metricName = InstanceMetricName(rawValue: rawmetricName) else { throw InitializableError.missingRequiredParam("metricName") }
             self.metricName = metricName
         }
     }

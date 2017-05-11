@@ -52,9 +52,9 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         /// The updated shipping option value of this job's ShippingDetails object.
-        public let shippingOption: String?
+        public let shippingOption: ShippingOption?
         /// The updated SnowballCapacityPreference of this job's JobMetadata object. The 50 TB Snowballs are only available in the US regions.
-        public let snowballCapacityPreference: String?
+        public let snowballCapacityPreference: SnowballCapacity?
         /// The ID of the updated Address object.
         public let addressId: String?
         /// The new role Amazon Resource Name (ARN) that you want to associate with this job. To create a role ARN, use the CreateRole AWS Identity and Access Management (IAM) API action.
@@ -68,7 +68,7 @@ extension Snowball {
         /// The updated description of this job's JobMetadata object.
         public let description: String?
 
-        public init(shippingOption: String? = nil, snowballCapacityPreference: String? = nil, addressId: String? = nil, roleARN: String? = nil, notification: Notification? = nil, resources: JobResource? = nil, jobId: String, description: String? = nil) {
+        public init(shippingOption: ShippingOption? = nil, snowballCapacityPreference: SnowballCapacity? = nil, addressId: String? = nil, roleARN: String? = nil, notification: Notification? = nil, resources: JobResource? = nil, jobId: String, description: String? = nil) {
             self.shippingOption = shippingOption
             self.snowballCapacityPreference = snowballCapacityPreference
             self.addressId = addressId
@@ -80,8 +80,8 @@ extension Snowball {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.shippingOption = dictionary["ShippingOption"] as? String
-            self.snowballCapacityPreference = dictionary["SnowballCapacityPreference"] as? String
+            if let shippingOption = dictionary["ShippingOption"] as? String { self.shippingOption = ShippingOption(rawValue: shippingOption) } else { self.shippingOption = nil }
+            if let snowballCapacityPreference = dictionary["SnowballCapacityPreference"] as? String { self.snowballCapacityPreference = SnowballCapacity(rawValue: snowballCapacityPreference) } else { self.snowballCapacityPreference = nil }
             self.addressId = dictionary["AddressId"] as? String
             self.roleARN = dictionary["RoleARN"] as? String
             if let notification = dictionary["Notification"] as? [String: Any] { self.notification = try Snowball.Notification(dictionary: notification) } else { self.notification = nil }
@@ -90,6 +90,14 @@ extension Snowball {
             self.jobId = jobId
             self.description = dictionary["Description"] as? String
         }
+    }
+
+    public enum SnowballCapacity: String, CustomStringConvertible {
+        case t50 = "T50"
+        case t80 = "T80"
+        case t100 = "T100"
+        case nopreference = "NoPreference"
+        public var description: String { return self.rawValue }
     }
 
     public struct JobResource: AWSShape {
@@ -139,20 +147,20 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         /// The shipping speed for a particular job. This speed doesn't dictate how soon you'll get the Snowball from the job's creation date. This speed represents how quickly it moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, Snowballs shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snowballs shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snowballs are delivered in one to seven days.   In the United States of America (US), you have access to one-day shipping and two-day shipping.  
-        public let shippingOption: String?
+        public let shippingOption: ShippingOption?
         /// The Status and TrackingNumber values for a Snowball being delivered to the address that you specified for a particular job.
         public let inboundShipment: Shipment?
         /// The Status and TrackingNumber values for a Snowball being returned to AWS for a particular job.
         public let outboundShipment: Shipment?
 
-        public init(shippingOption: String? = nil, inboundShipment: Shipment? = nil, outboundShipment: Shipment? = nil) {
+        public init(shippingOption: ShippingOption? = nil, inboundShipment: Shipment? = nil, outboundShipment: Shipment? = nil) {
             self.shippingOption = shippingOption
             self.inboundShipment = inboundShipment
             self.outboundShipment = outboundShipment
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.shippingOption = dictionary["ShippingOption"] as? String
+            if let shippingOption = dictionary["ShippingOption"] as? String { self.shippingOption = ShippingOption(rawValue: shippingOption) } else { self.shippingOption = nil }
             if let inboundShipment = dictionary["InboundShipment"] as? [String: Any] { self.inboundShipment = try Snowball.Shipment(dictionary: inboundShipment) } else { self.inboundShipment = nil }
             if let outboundShipment = dictionary["OutboundShipment"] as? [String: Any] { self.outboundShipment = try Snowball.Shipment(dictionary: outboundShipment) } else { self.outboundShipment = nil }
         }
@@ -240,6 +248,12 @@ extension Snowball {
         }
     }
 
+    public enum SnowballType: String, CustomStringConvertible {
+        case standard = "STANDARD"
+        case edge = "EDGE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DescribeClusterResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -318,6 +332,15 @@ extension Snowball {
         }
     }
 
+    public enum ClusterState: String, CustomStringConvertible {
+        case awaitingquorum = "AwaitingQuorum"
+        case pending = "Pending"
+        case inuse = "InUse"
+        case complete = "Complete"
+        case cancelled = "Cancelled"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ListClustersResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -357,6 +380,22 @@ extension Snowball {
         }
     }
 
+    public enum JobState: String, CustomStringConvertible {
+        case new = "New"
+        case preparingappliance = "PreparingAppliance"
+        case preparingshipment = "PreparingShipment"
+        case intransittocustomer = "InTransitToCustomer"
+        case withcustomer = "WithCustomer"
+        case intransittoaws = "InTransitToAWS"
+        case withaws = "WithAWS"
+        case inprogress = "InProgress"
+        case complete = "Complete"
+        case cancelled = "Cancelled"
+        case listing = "Listing"
+        case pending = "Pending"
+        public var description: String { return self.rawValue }
+    }
+
     public struct CreateClusterResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -376,25 +415,25 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         /// The shipping speed for each node in this cluster. This speed doesn't dictate how soon you'll get each Snowball Edge appliance, rather it represents how quickly each appliance moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, appliances shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snowball Edges shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snowball Edges are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.  
-        public let shippingOption: String
+        public let shippingOption: ShippingOption
         /// The ID for the address that you want the cluster shipped to.&gt;
         public let addressId: String
         /// The KmsKeyARN value that you want to associate with this cluster. KmsKeyARN values are created by using the CreateKey API action in AWS Key Management Service (AWS KMS). 
         public let kmsKeyARN: String?
         /// The type of job for this cluster. Currently, the only job type supported for clusters is LOCAL_USE.
-        public let jobType: String
+        public let jobType: JobType
         /// The Amazon Simple Notification Service (Amazon SNS) notification settings for this cluster.
         public let notification: Notification?
         /// The RoleARN that you want to associate with this cluster. RoleArn values are created by using the CreateRole API action in AWS Identity and Access Management (IAM).
         public let roleARN: String
         /// The type of AWS Snowball appliance to use for this cluster. Currently, the only supported appliance type for cluster jobs is EDGE.
-        public let snowballType: String?
+        public let snowballType: SnowballType?
         /// The resources associated with the cluster job. These resources include Amazon S3 buckets and optional AWS Lambda functions written in the Python language. 
         public let resources: JobResource
         /// An optional description of this specific cluster, for example Environmental Data Cluster-01.
         public let description: String?
 
-        public init(shippingOption: String, addressId: String, kmsKeyARN: String? = nil, jobType: String, notification: Notification? = nil, roleARN: String, snowballType: String? = nil, resources: JobResource, description: String? = nil) {
+        public init(shippingOption: ShippingOption, addressId: String, kmsKeyARN: String? = nil, jobType: JobType, notification: Notification? = nil, roleARN: String, snowballType: SnowballType? = nil, resources: JobResource, description: String? = nil) {
             self.shippingOption = shippingOption
             self.addressId = addressId
             self.kmsKeyARN = kmsKeyARN
@@ -407,17 +446,17 @@ extension Snowball {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let shippingOption = dictionary["ShippingOption"] as? String else { throw InitializableError.missingRequiredParam("ShippingOption") }
+            guard let rawShippingOption = dictionary["ShippingOption"] as? String, let shippingOption = ShippingOption(rawValue: rawShippingOption) else { throw InitializableError.missingRequiredParam("ShippingOption") }
             self.shippingOption = shippingOption
             guard let addressId = dictionary["AddressId"] as? String else { throw InitializableError.missingRequiredParam("AddressId") }
             self.addressId = addressId
             self.kmsKeyARN = dictionary["KmsKeyARN"] as? String
-            guard let jobType = dictionary["JobType"] as? String else { throw InitializableError.missingRequiredParam("JobType") }
+            guard let rawJobType = dictionary["JobType"] as? String, let jobType = JobType(rawValue: rawJobType) else { throw InitializableError.missingRequiredParam("JobType") }
             self.jobType = jobType
             if let notification = dictionary["Notification"] as? [String: Any] { self.notification = try Snowball.Notification(dictionary: notification) } else { self.notification = nil }
             guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
             self.roleARN = roleARN
-            self.snowballType = dictionary["SnowballType"] as? String
+            if let snowballType = dictionary["SnowballType"] as? String { self.snowballType = SnowballType(rawValue: snowballType) } else { self.snowballType = nil }
             guard let resources = dictionary["Resources"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Resources") }
             self.resources = try Snowball.JobResource(dictionary: resources)
             self.description = dictionary["Description"] as? String
@@ -546,6 +585,14 @@ extension Snowball {
             self.totalBytes = dictionary["TotalBytes"] as? Int64
             self.totalObjects = dictionary["TotalObjects"] as? Int64
         }
+    }
+
+    public enum ShippingOption: String, CustomStringConvertible {
+        case second_day = "SECOND_DAY"
+        case next_day = "NEXT_DAY"
+        case express = "EXPRESS"
+        case standard = "STANDARD"
+        public var description: String { return self.rawValue }
     }
 
     public struct GetJobManifestRequest: AWSShape {
@@ -684,21 +731,21 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         /// The current status of the cluster.
-        public let clusterState: String?
+        public let clusterState: ClusterState?
         /// The shipping speed for each node in this cluster. This speed doesn't dictate how soon you'll get each Snowball Edge appliance, rather it represents how quickly each appliance moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, appliances shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snowball Edges shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snowball Edges are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.  
-        public let shippingOption: String?
+        public let shippingOption: ShippingOption?
         /// The automatically generated ID for a specific address.
         public let addressId: String?
         /// The role ARN associated with this cluster. This ARN was created using the CreateRole API action in AWS Identity and Access Management (IAM).
         public let roleARN: String?
         /// The type of job for this cluster. Currently, the only job type supported for clusters is LOCAL_USE.
-        public let jobType: String?
+        public let jobType: JobType?
         /// The KmsKeyARN Amazon Resource Name (ARN) associated with this cluster. This ARN was created using the CreateKey API action in AWS Key Management Service (AWS KMS).
         public let kmsKeyARN: String?
         /// The creation date for this cluster.
         public let creationDate: Date?
         /// The type of AWS Snowball appliance to use for this cluster. Currently, the only supported appliance type for cluster jobs is EDGE.
-        public let snowballType: String?
+        public let snowballType: SnowballType?
         /// The Amazon Simple Notification Service (Amazon SNS) notification settings for this cluster.
         public let notification: Notification?
         /// The automatically generated ID for a cluster.
@@ -708,7 +755,7 @@ extension Snowball {
         /// The optional description of the cluster.
         public let description: String?
 
-        public init(clusterState: String? = nil, shippingOption: String? = nil, addressId: String? = nil, roleARN: String? = nil, jobType: String? = nil, kmsKeyARN: String? = nil, creationDate: Date? = nil, snowballType: String? = nil, notification: Notification? = nil, clusterId: String? = nil, resources: JobResource? = nil, description: String? = nil) {
+        public init(clusterState: ClusterState? = nil, shippingOption: ShippingOption? = nil, addressId: String? = nil, roleARN: String? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, creationDate: Date? = nil, snowballType: SnowballType? = nil, notification: Notification? = nil, clusterId: String? = nil, resources: JobResource? = nil, description: String? = nil) {
             self.clusterState = clusterState
             self.shippingOption = shippingOption
             self.addressId = addressId
@@ -724,14 +771,14 @@ extension Snowball {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.clusterState = dictionary["ClusterState"] as? String
-            self.shippingOption = dictionary["ShippingOption"] as? String
+            if let clusterState = dictionary["ClusterState"] as? String { self.clusterState = ClusterState(rawValue: clusterState) } else { self.clusterState = nil }
+            if let shippingOption = dictionary["ShippingOption"] as? String { self.shippingOption = ShippingOption(rawValue: shippingOption) } else { self.shippingOption = nil }
             self.addressId = dictionary["AddressId"] as? String
             self.roleARN = dictionary["RoleARN"] as? String
-            self.jobType = dictionary["JobType"] as? String
+            if let jobType = dictionary["JobType"] as? String { self.jobType = JobType(rawValue: jobType) } else { self.jobType = nil }
             self.kmsKeyARN = dictionary["KmsKeyARN"] as? String
             self.creationDate = dictionary["CreationDate"] as? Date
-            self.snowballType = dictionary["SnowballType"] as? String
+            if let snowballType = dictionary["SnowballType"] as? String { self.snowballType = SnowballType(rawValue: snowballType) } else { self.snowballType = nil }
             if let notification = dictionary["Notification"] as? [String: Any] { self.notification = try Snowball.Notification(dictionary: notification) } else { self.notification = nil }
             self.clusterId = dictionary["ClusterId"] as? String
             if let resources = dictionary["Resources"] as? [String: Any] { self.resources = try Snowball.JobResource(dictionary: resources) } else { self.resources = nil }
@@ -745,11 +792,11 @@ extension Snowball {
         /// Any change in job state will trigger a notification for this job.
         public let notifyAll: Bool?
         /// The list of job states that will trigger a notification for this job.
-        public let jobStatesToNotify: [String]?
+        public let jobStatesToNotify: [JobState]?
         /// The new SNS TopicArn that you want to associate with this job. You can create Amazon Resource Names (ARNs) for topics by using the CreateTopic Amazon SNS API action. You can subscribe email addresses to an Amazon SNS topic through the AWS Management Console, or by using the Subscribe AWS Simple Notification Service (SNS) API action.
         public let snsTopicARN: String?
 
-        public init(notifyAll: Bool? = nil, jobStatesToNotify: [String]? = nil, snsTopicARN: String? = nil) {
+        public init(notifyAll: Bool? = nil, jobStatesToNotify: [JobState]? = nil, snsTopicARN: String? = nil) {
             self.notifyAll = notifyAll
             self.jobStatesToNotify = jobStatesToNotify
             self.snsTopicARN = snsTopicARN
@@ -757,9 +804,16 @@ extension Snowball {
 
         public init(dictionary: [String: Any]) throws {
             self.notifyAll = dictionary["NotifyAll"] as? Bool
-            self.jobStatesToNotify = dictionary["JobStatesToNotify"] as? [String]
+            if let jobStatesToNotify = dictionary["JobStatesToNotify"] as? [String] { self.jobStatesToNotify = jobStatesToNotify.flatMap({ JobState(rawValue: $0)}) } else { self.jobStatesToNotify = nil }
             self.snsTopicARN = dictionary["SnsTopicARN"] as? String
         }
+    }
+
+    public enum JobType: String, CustomStringConvertible {
+        case `import` = "IMPORT"
+        case export = "EXPORT"
+        case local_use = "LOCAL_USE"
+        public var description: String { return self.rawValue }
     }
 
     public struct ListJobsRequest: AWSShape {
@@ -823,7 +877,7 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         /// The updated shipping option value of this cluster's ShippingDetails object.
-        public let shippingOption: String?
+        public let shippingOption: ShippingOption?
         /// The ID of the updated Address object.
         public let addressId: String?
         /// The new role Amazon Resource Name (ARN) that you want to associate with this cluster. To create a role ARN, use the CreateRole API action in AWS Identity and Access Management (IAM).
@@ -837,7 +891,7 @@ extension Snowball {
         /// The updated description of this cluster.
         public let description: String?
 
-        public init(shippingOption: String? = nil, addressId: String? = nil, roleARN: String? = nil, notification: Notification? = nil, resources: JobResource? = nil, clusterId: String, description: String? = nil) {
+        public init(shippingOption: ShippingOption? = nil, addressId: String? = nil, roleARN: String? = nil, notification: Notification? = nil, resources: JobResource? = nil, clusterId: String, description: String? = nil) {
             self.shippingOption = shippingOption
             self.addressId = addressId
             self.roleARN = roleARN
@@ -848,7 +902,7 @@ extension Snowball {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.shippingOption = dictionary["ShippingOption"] as? String
+            if let shippingOption = dictionary["ShippingOption"] as? String { self.shippingOption = ShippingOption(rawValue: shippingOption) } else { self.shippingOption = nil }
             self.addressId = dictionary["AddressId"] as? String
             self.roleARN = dictionary["RoleARN"] as? String
             if let notification = dictionary["Notification"] as? [String: Any] { self.notification = try Snowball.Notification(dictionary: notification) } else { self.notification = nil }
@@ -888,19 +942,19 @@ extension Snowball {
         /// A value that indicates that this job is a master job. A master job represents a successful request to create an export job. Master jobs aren't associated with any Snowballs. Instead, each master job will have at least one job part, and each job part is associated with a Snowball. It might take some time before the job parts associated with a particular master job are listed, because they are created after the master job is created.
         public let isMaster: Bool?
         /// The type of job.
-        public let jobType: String?
+        public let jobType: JobType?
         /// The current state of this job.
-        public let jobState: String?
+        public let jobState: JobState?
         /// The creation date for this job.
         public let creationDate: Date?
         /// The type of appliance used with this job.
-        public let snowballType: String?
+        public let snowballType: SnowballType?
         /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
         public let jobId: String?
         /// The optional description of this specific job, for example Important Photos 2016-08-11.
         public let description: String?
 
-        public init(isMaster: Bool? = nil, jobType: String? = nil, jobState: String? = nil, creationDate: Date? = nil, snowballType: String? = nil, jobId: String? = nil, description: String? = nil) {
+        public init(isMaster: Bool? = nil, jobType: JobType? = nil, jobState: JobState? = nil, creationDate: Date? = nil, snowballType: SnowballType? = nil, jobId: String? = nil, description: String? = nil) {
             self.isMaster = isMaster
             self.jobType = jobType
             self.jobState = jobState
@@ -912,10 +966,10 @@ extension Snowball {
 
         public init(dictionary: [String: Any]) throws {
             self.isMaster = dictionary["IsMaster"] as? Bool
-            self.jobType = dictionary["JobType"] as? String
-            self.jobState = dictionary["JobState"] as? String
+            if let jobType = dictionary["JobType"] as? String { self.jobType = JobType(rawValue: jobType) } else { self.jobType = nil }
+            if let jobState = dictionary["JobState"] as? String { self.jobState = JobState(rawValue: jobState) } else { self.jobState = nil }
             self.creationDate = dictionary["CreationDate"] as? Date
-            self.snowballType = dictionary["SnowballType"] as? String
+            if let snowballType = dictionary["SnowballType"] as? String { self.snowballType = SnowballType(rawValue: snowballType) } else { self.snowballType = nil }
             self.jobId = dictionary["JobId"] as? String
             self.description = dictionary["Description"] as? String
         }
@@ -979,7 +1033,7 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         /// The current state of this cluster. For information about the state of a specific node, see JobListEntry$JobState.
-        public let clusterState: String?
+        public let clusterState: ClusterState?
         /// The creation date for this cluster.
         public let creationDate: Date?
         /// The 39-character ID for the cluster that you want to list, for example CID123e4567-e89b-12d3-a456-426655440000.
@@ -987,7 +1041,7 @@ extension Snowball {
         /// Defines an optional description of the cluster, for example Environmental Data Cluster-01.
         public let description: String?
 
-        public init(clusterState: String? = nil, creationDate: Date? = nil, clusterId: String? = nil, description: String? = nil) {
+        public init(clusterState: ClusterState? = nil, creationDate: Date? = nil, clusterId: String? = nil, description: String? = nil) {
             self.clusterState = clusterState
             self.creationDate = creationDate
             self.clusterId = clusterId
@@ -995,7 +1049,7 @@ extension Snowball {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.clusterState = dictionary["ClusterState"] as? String
+            if let clusterState = dictionary["ClusterState"] as? String { self.clusterState = ClusterState(rawValue: clusterState) } else { self.clusterState = nil }
             self.creationDate = dictionary["CreationDate"] as? Date
             self.clusterId = dictionary["ClusterId"] as? String
             self.description = dictionary["Description"] as? String
@@ -1008,11 +1062,11 @@ extension Snowball {
         /// A value that defines the real-time status of a Snowball's data transfer while the appliance is at AWS. This data is only available while a job has a JobState value of InProgress, for both import and export jobs.
         public let dataTransferProgress: DataTransfer?
         /// The Snowball capacity preference for this job, specified at job creation. In US regions, you can choose between 50 TB and 80 TB Snowballs. All other regions use 80 TB capacity Snowballs.
-        public let snowballCapacityPreference: String?
+        public let snowballCapacityPreference: SnowballCapacity?
         /// The role ARN associated with this job. This ARN was created using the CreateRole API action in AWS Identity and Access Management (IAM).
         public let roleARN: String?
         /// The current status of the jobs.
-        public let jobState: String?
+        public let jobState: JobState?
         /// The Amazon Resource Name (ARN) for the AWS Key Management Service (AWS KMS) key associated with this job. This ARN was created using the CreateKey API action in AWS KMS.
         public let kmsKeyARN: String?
         /// The creation date for this job.
@@ -1028,9 +1082,9 @@ extension Snowball {
         /// The Amazon Simple Notification Service (Amazon SNS) notification settings associated with a specific job. The Notification object is returned as a part of the response syntax of the DescribeJob action in the JobMetadata data type.
         public let notification: Notification?
         /// The type of job.
-        public let jobType: String?
+        public let jobType: JobType?
         /// The type of appliance used with this job.
-        public let snowballType: String?
+        public let snowballType: SnowballType?
         /// Links to Amazon S3 presigned URLs for the job report and logs. For import jobs, the PDF job report becomes available at the end of the import process. For export jobs, your job report typically becomes available while the Snowball for your job part is being delivered to you.
         public let jobLogInfo: JobLogs?
         /// The 39-character ID for the cluster, for example CID123e4567-e89b-12d3-a456-426655440000.
@@ -1038,7 +1092,7 @@ extension Snowball {
         /// An array of S3Resource objects. Each S3Resource object represents an Amazon S3 bucket that your transferred data will be exported from or imported into.
         public let resources: JobResource?
 
-        public init(dataTransferProgress: DataTransfer? = nil, snowballCapacityPreference: String? = nil, roleARN: String? = nil, jobState: String? = nil, kmsKeyARN: String? = nil, creationDate: Date? = nil, jobId: String? = nil, description: String? = nil, shippingDetails: ShippingDetails? = nil, addressId: String? = nil, notification: Notification? = nil, jobType: String? = nil, snowballType: String? = nil, jobLogInfo: JobLogs? = nil, clusterId: String? = nil, resources: JobResource? = nil) {
+        public init(dataTransferProgress: DataTransfer? = nil, snowballCapacityPreference: SnowballCapacity? = nil, roleARN: String? = nil, jobState: JobState? = nil, kmsKeyARN: String? = nil, creationDate: Date? = nil, jobId: String? = nil, description: String? = nil, shippingDetails: ShippingDetails? = nil, addressId: String? = nil, notification: Notification? = nil, jobType: JobType? = nil, snowballType: SnowballType? = nil, jobLogInfo: JobLogs? = nil, clusterId: String? = nil, resources: JobResource? = nil) {
             self.dataTransferProgress = dataTransferProgress
             self.snowballCapacityPreference = snowballCapacityPreference
             self.roleARN = roleARN
@@ -1059,9 +1113,9 @@ extension Snowball {
 
         public init(dictionary: [String: Any]) throws {
             if let dataTransferProgress = dictionary["DataTransferProgress"] as? [String: Any] { self.dataTransferProgress = try Snowball.DataTransfer(dictionary: dataTransferProgress) } else { self.dataTransferProgress = nil }
-            self.snowballCapacityPreference = dictionary["SnowballCapacityPreference"] as? String
+            if let snowballCapacityPreference = dictionary["SnowballCapacityPreference"] as? String { self.snowballCapacityPreference = SnowballCapacity(rawValue: snowballCapacityPreference) } else { self.snowballCapacityPreference = nil }
             self.roleARN = dictionary["RoleARN"] as? String
-            self.jobState = dictionary["JobState"] as? String
+            if let jobState = dictionary["JobState"] as? String { self.jobState = JobState(rawValue: jobState) } else { self.jobState = nil }
             self.kmsKeyARN = dictionary["KmsKeyARN"] as? String
             self.creationDate = dictionary["CreationDate"] as? Date
             self.jobId = dictionary["JobId"] as? String
@@ -1069,8 +1123,8 @@ extension Snowball {
             if let shippingDetails = dictionary["ShippingDetails"] as? [String: Any] { self.shippingDetails = try Snowball.ShippingDetails(dictionary: shippingDetails) } else { self.shippingDetails = nil }
             self.addressId = dictionary["AddressId"] as? String
             if let notification = dictionary["Notification"] as? [String: Any] { self.notification = try Snowball.Notification(dictionary: notification) } else { self.notification = nil }
-            self.jobType = dictionary["JobType"] as? String
-            self.snowballType = dictionary["SnowballType"] as? String
+            if let jobType = dictionary["JobType"] as? String { self.jobType = JobType(rawValue: jobType) } else { self.jobType = nil }
+            if let snowballType = dictionary["SnowballType"] as? String { self.snowballType = SnowballType(rawValue: snowballType) } else { self.snowballType = nil }
             if let jobLogInfo = dictionary["JobLogInfo"] as? [String: Any] { self.jobLogInfo = try Snowball.JobLogs(dictionary: jobLogInfo) } else { self.jobLogInfo = nil }
             self.clusterId = dictionary["ClusterId"] as? String
             if let resources = dictionary["Resources"] as? [String: Any] { self.resources = try Snowball.JobResource(dictionary: resources) } else { self.resources = nil }
@@ -1123,21 +1177,21 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         /// The shipping speed for this job. This speed doesn't dictate how soon you'll get the Snowball, rather it represents how quickly the Snowball moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, Snowballs shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snowballs shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snowballs are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.  
-        public let shippingOption: String?
+        public let shippingOption: ShippingOption?
         /// If your job is being created in one of the US regions, you have the option of specifying what size Snowball you'd like for this job. In all other regions, Snowballs come with 80 TB in storage capacity.
-        public let snowballCapacityPreference: String?
+        public let snowballCapacityPreference: SnowballCapacity?
         /// The ID for the address that you want the Snowball shipped to.
         public let addressId: String?
         /// The RoleARN that you want to associate with this job. RoleArns are created using the CreateRole AWS Identity and Access Management (IAM) API action.
         public let roleARN: String?
         /// Defines the type of job that you're creating. 
-        public let jobType: String?
+        public let jobType: JobType?
         /// Defines the Amazon Simple Notification Service (Amazon SNS) notification settings for this job.
         public let notification: Notification?
         /// The KmsKeyARN that you want to associate with this job. KmsKeyARNs are created using the CreateKey AWS Key Management Service (KMS) API action.
         public let kmsKeyARN: String?
         /// The type of AWS Snowball appliance to use for this job. Currently, the only supported appliance type for cluster jobs is EDGE.
-        public let snowballType: String?
+        public let snowballType: SnowballType?
         /// Defines the Amazon S3 buckets associated with this job. With IMPORT jobs, you specify the bucket or buckets that your transferred data will be imported into. With EXPORT jobs, you specify the bucket or buckets that your transferred data will be exported from. Optionally, you can also specify a KeyRange value. If you choose to export a range, you define the length of the range by providing either an inclusive BeginMarker value, an inclusive EndMarker value, or both. Ranges are UTF-8 binary sorted.
         public let resources: JobResource?
         /// The ID of a cluster. If you're creating a job for a node in a cluster, you need to provide only this clusterId value. The other job attributes are inherited from the cluster.
@@ -1145,7 +1199,7 @@ extension Snowball {
         /// Defines an optional description of this specific job, for example Important Photos 2016-08-11.
         public let description: String?
 
-        public init(shippingOption: String? = nil, snowballCapacityPreference: String? = nil, addressId: String? = nil, roleARN: String? = nil, jobType: String? = nil, notification: Notification? = nil, kmsKeyARN: String? = nil, snowballType: String? = nil, resources: JobResource? = nil, clusterId: String? = nil, description: String? = nil) {
+        public init(shippingOption: ShippingOption? = nil, snowballCapacityPreference: SnowballCapacity? = nil, addressId: String? = nil, roleARN: String? = nil, jobType: JobType? = nil, notification: Notification? = nil, kmsKeyARN: String? = nil, snowballType: SnowballType? = nil, resources: JobResource? = nil, clusterId: String? = nil, description: String? = nil) {
             self.shippingOption = shippingOption
             self.snowballCapacityPreference = snowballCapacityPreference
             self.addressId = addressId
@@ -1160,14 +1214,14 @@ extension Snowball {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.shippingOption = dictionary["ShippingOption"] as? String
-            self.snowballCapacityPreference = dictionary["SnowballCapacityPreference"] as? String
+            if let shippingOption = dictionary["ShippingOption"] as? String { self.shippingOption = ShippingOption(rawValue: shippingOption) } else { self.shippingOption = nil }
+            if let snowballCapacityPreference = dictionary["SnowballCapacityPreference"] as? String { self.snowballCapacityPreference = SnowballCapacity(rawValue: snowballCapacityPreference) } else { self.snowballCapacityPreference = nil }
             self.addressId = dictionary["AddressId"] as? String
             self.roleARN = dictionary["RoleARN"] as? String
-            self.jobType = dictionary["JobType"] as? String
+            if let jobType = dictionary["JobType"] as? String { self.jobType = JobType(rawValue: jobType) } else { self.jobType = nil }
             if let notification = dictionary["Notification"] as? [String: Any] { self.notification = try Snowball.Notification(dictionary: notification) } else { self.notification = nil }
             self.kmsKeyARN = dictionary["KmsKeyARN"] as? String
-            self.snowballType = dictionary["SnowballType"] as? String
+            if let snowballType = dictionary["SnowballType"] as? String { self.snowballType = SnowballType(rawValue: snowballType) } else { self.snowballType = nil }
             if let resources = dictionary["Resources"] as? [String: Any] { self.resources = try Snowball.JobResource(dictionary: resources) } else { self.resources = nil }
             self.clusterId = dictionary["ClusterId"] as? String
             self.description = dictionary["Description"] as? String

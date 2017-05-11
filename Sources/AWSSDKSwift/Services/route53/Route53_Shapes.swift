@@ -63,6 +63,13 @@ extension Route53 {
         }
     }
 
+    public enum ChangeAction: String, CustomStringConvertible {
+        case create = "CREATE"
+        case delete = "DELETE"
+        case upsert = "UPSERT"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DelegationSetNameServers: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -75,6 +82,17 @@ extension Route53 {
         public init(dictionary: [String: Any]) throws {
             self.nameServer = dictionary["NameServer"] as? [String]
         }
+    }
+
+    public enum HealthCheckType: String, CustomStringConvertible {
+        case http = "HTTP"
+        case https = "HTTPS"
+        case http_str_match = "HTTP_STR_MATCH"
+        case https_str_match = "HTTPS_STR_MATCH"
+        case tcp = "TCP"
+        case calculated = "CALCULATED"
+        case cloudwatch_metric = "CLOUDWATCH_METRIC"
+        public var description: String { return self.rawValue }
     }
 
     public struct ListHostedZonesRequest: AWSShape {
@@ -254,7 +272,7 @@ extension Route53 {
             return ["resolverip": "ResolverIP", "edns0clientsubnetip": "EDNS0ClientSubnetIP", "recordname": "RecordName", "hostedzoneid": "HostedZoneId", "edns0clientsubnetmask": "EDNS0ClientSubnetMask", "recordtype": "RecordType"]
         }
         /// The type of the resource record set.
-        public let recordType: String
+        public let recordType: RRType
         /// If the resolver that you specified for resolverip supports EDNS0, specify the IP address of a client in the applicable location.
         public let eDNS0ClientSubnetIP: String?
         /// If you specify an IP address for edns0clientsubnetip, you can optionally specify the number of bits of the IP address that you want the checking tool to include in the DNS query. For example, if you specify 192.0.2.44 for edns0clientsubnetip and 24 for edns0clientsubnetmask, the checking tool will simulate a request from 192.0.2.0/24. The default value is 24 bits.
@@ -266,7 +284,7 @@ extension Route53 {
         /// If you want to simulate a request from a specific DNS resolver, specify the IP address for that resolver. If you omit this value, TestDnsAnswer uses the IP address of a DNS resolver in the AWS US East region.
         public let resolverIP: String?
 
-        public init(recordType: String, eDNS0ClientSubnetIP: String? = nil, eDNS0ClientSubnetMask: String? = nil, recordName: String, hostedZoneId: String, resolverIP: String? = nil) {
+        public init(recordType: RRType, eDNS0ClientSubnetIP: String? = nil, eDNS0ClientSubnetMask: String? = nil, recordName: String, hostedZoneId: String, resolverIP: String? = nil) {
             self.recordType = recordType
             self.eDNS0ClientSubnetIP = eDNS0ClientSubnetIP
             self.eDNS0ClientSubnetMask = eDNS0ClientSubnetMask
@@ -276,7 +294,7 @@ extension Route53 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let recordType = dictionary["Recordtype"] as? String else { throw InitializableError.missingRequiredParam("Recordtype") }
+            guard let rawRecordType = dictionary["Recordtype"] as? String, let recordType = RRType(rawValue: rawRecordType) else { throw InitializableError.missingRequiredParam("Recordtype") }
             self.recordType = recordType
             self.eDNS0ClientSubnetIP = dictionary["Edns0clientsubnetip"] as? String
             self.eDNS0ClientSubnetMask = dictionary["Edns0clientsubnetmask"] as? String
@@ -360,7 +378,7 @@ extension Route53 {
         /// The version number of the latest version of the traffic policy.
         public let latestVersion: Int32
         /// The DNS type of the resource record sets that Amazon Route 53 creates when you use a traffic policy to create a traffic policy instance.
-        public let type: String
+        public let `type`: RRType
         /// The name that you specified for the traffic policy when you created it.
         public let name: String
         /// The number of traffic policies that are associated with the current AWS account.
@@ -368,9 +386,9 @@ extension Route53 {
         /// The ID that Amazon Route 53 assigned to the traffic policy when you created it.
         public let id: String
 
-        public init(latestVersion: Int32, type: String, name: String, trafficPolicyCount: Int32, id: String) {
+        public init(latestVersion: Int32, type: RRType, name: String, trafficPolicyCount: Int32, id: String) {
             self.latestVersion = latestVersion
-            self.type = type
+            self.`type` = `type`
             self.name = name
             self.trafficPolicyCount = trafficPolicyCount
             self.id = id
@@ -379,8 +397,8 @@ extension Route53 {
         public init(dictionary: [String: Any]) throws {
             guard let latestVersion = dictionary["LatestVersion"] as? Int32 else { throw InitializableError.missingRequiredParam("LatestVersion") }
             self.latestVersion = latestVersion
-            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
-            self.type = type
+            guard let rawType = dictionary["Type"] as? String, let `type` = RRType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
+            self.`type` = `type`
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
             guard let trafficPolicyCount = dictionary["TrafficPolicyCount"] as? Int32 else { throw InitializableError.missingRequiredParam("TrafficPolicyCount") }
@@ -488,6 +506,46 @@ extension Route53 {
         }
     }
 
+    public enum ChangeStatus: String, CustomStringConvertible {
+        case pending = "PENDING"
+        case insync = "INSYNC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VPCRegion: String, CustomStringConvertible {
+        case us_east_1 = "us-east-1"
+        case us_east_2 = "us-east-2"
+        case us_west_1 = "us-west-1"
+        case us_west_2 = "us-west-2"
+        case eu_west_1 = "eu-west-1"
+        case eu_west_2 = "eu-west-2"
+        case eu_central_1 = "eu-central-1"
+        case ap_southeast_1 = "ap-southeast-1"
+        case ap_southeast_2 = "ap-southeast-2"
+        case ap_south_1 = "ap-south-1"
+        case ap_northeast_1 = "ap-northeast-1"
+        case ap_northeast_2 = "ap-northeast-2"
+        case sa_east_1 = "sa-east-1"
+        case ca_central_1 = "ca-central-1"
+        case cn_north_1 = "cn-north-1"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RRType: String, CustomStringConvertible {
+        case soa = "SOA"
+        case a = "A"
+        case txt = "TXT"
+        case ns = "NS"
+        case cname = "CNAME"
+        case mx = "MX"
+        case naptr = "NAPTR"
+        case ptr = "PTR"
+        case srv = "SRV"
+        case spf = "SPF"
+        case aaaa = "AAAA"
+        public var description: String { return self.rawValue }
+    }
+
     public struct UpdateHealthCheckResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -513,11 +571,11 @@ extension Route53 {
         /// A list that contains one TrafficPolicyInstance element for each traffic policy instance that matches the elements in the request. 
         public let trafficPolicyInstances: TrafficPolicyInstances
         /// If IsTruncated is true, TrafficPolicyInstanceTypeMarker is the DNS type of the resource record sets that are associated with the first traffic policy instance in the next group of MaxItems traffic policy instances.
-        public let trafficPolicyInstanceTypeMarker: String?
+        public let trafficPolicyInstanceTypeMarker: RRType?
         /// If IsTruncated is true, TrafficPolicyInstanceNameMarker is the name of the first traffic policy instance in the next group of MaxItems traffic policy instances.
         public let trafficPolicyInstanceNameMarker: String?
 
-        public init(isTruncated: Bool, maxItems: String, trafficPolicyInstances: TrafficPolicyInstances, trafficPolicyInstanceTypeMarker: String? = nil, trafficPolicyInstanceNameMarker: String? = nil) {
+        public init(isTruncated: Bool, maxItems: String, trafficPolicyInstances: TrafficPolicyInstances, trafficPolicyInstanceTypeMarker: RRType? = nil, trafficPolicyInstanceNameMarker: String? = nil) {
             self.isTruncated = isTruncated
             self.maxItems = maxItems
             self.trafficPolicyInstances = trafficPolicyInstances
@@ -532,7 +590,7 @@ extension Route53 {
             self.maxItems = maxItems
             guard let trafficPolicyInstances = dictionary["TrafficPolicyInstances"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TrafficPolicyInstances") }
             self.trafficPolicyInstances = try Route53.TrafficPolicyInstances(dictionary: trafficPolicyInstances)
-            self.trafficPolicyInstanceTypeMarker = dictionary["TrafficPolicyInstanceTypeMarker"] as? String
+            if let trafficPolicyInstanceTypeMarker = dictionary["TrafficPolicyInstanceTypeMarker"] as? String { self.trafficPolicyInstanceTypeMarker = RRType(rawValue: trafficPolicyInstanceTypeMarker) } else { self.trafficPolicyInstanceTypeMarker = nil }
             self.trafficPolicyInstanceNameMarker = dictionary["TrafficPolicyInstanceNameMarker"] as? String
         }
     }
@@ -750,9 +808,9 @@ extension Route53 {
         /// If IsTruncated is true, TrafficPolicyInstanceNameMarker is the name of the first traffic policy instance in the next group of MaxItems traffic policy instances.
         public let trafficPolicyInstanceNameMarker: String?
         /// If IsTruncated is true, TrafficPolicyInstanceTypeMarker is the DNS type of the resource record sets that are associated with the first traffic policy instance in the next group of MaxItems traffic policy instances.
-        public let trafficPolicyInstanceTypeMarker: String?
+        public let trafficPolicyInstanceTypeMarker: RRType?
 
-        public init(isTruncated: Bool, hostedZoneIdMarker: String? = nil, trafficPolicyInstances: TrafficPolicyInstances, maxItems: String, trafficPolicyInstanceNameMarker: String? = nil, trafficPolicyInstanceTypeMarker: String? = nil) {
+        public init(isTruncated: Bool, hostedZoneIdMarker: String? = nil, trafficPolicyInstances: TrafficPolicyInstances, maxItems: String, trafficPolicyInstanceNameMarker: String? = nil, trafficPolicyInstanceTypeMarker: RRType? = nil) {
             self.isTruncated = isTruncated
             self.hostedZoneIdMarker = hostedZoneIdMarker
             self.trafficPolicyInstances = trafficPolicyInstances
@@ -770,7 +828,7 @@ extension Route53 {
             guard let maxItems = dictionary["MaxItems"] as? String else { throw InitializableError.missingRequiredParam("MaxItems") }
             self.maxItems = maxItems
             self.trafficPolicyInstanceNameMarker = dictionary["TrafficPolicyInstanceNameMarker"] as? String
-            self.trafficPolicyInstanceTypeMarker = dictionary["TrafficPolicyInstanceTypeMarker"] as? String
+            if let trafficPolicyInstanceTypeMarker = dictionary["TrafficPolicyInstanceTypeMarker"] as? String { self.trafficPolicyInstanceTypeMarker = RRType(rawValue: trafficPolicyInstanceTypeMarker) } else { self.trafficPolicyInstanceTypeMarker = nil }
         }
     }
 
@@ -924,15 +982,15 @@ extension Route53 {
         /// For the metric that the CloudWatch alarm is associated with, the number of periods that the metric is compared to the threshold.
         public let evaluationPeriods: Int32
         /// For the metric that the CloudWatch alarm is associated with, the arithmetic operation that is used for the comparison.
-        public let comparisonOperator: String
+        public let comparisonOperator: ComparisonOperator
         /// For the metric that the CloudWatch alarm is associated with, the statistic that is applied to the metric.
-        public let statistic: String
+        public let statistic: Statistic
         /// The namespace of the metric that the alarm is associated with. For more information, see Amazon CloudWatch Namespaces, Dimensions, and Metrics Reference in the Amazon CloudWatch User Guide.
         public let namespace: String
         /// For the metric that the CloudWatch alarm is associated with, a complex type that contains information about the dimensions for the metric.For information, see Amazon CloudWatch Namespaces, Dimensions, and Metrics Reference in the Amazon CloudWatch User Guide.
         public let dimensions: DimensionList?
 
-        public init(threshold: Double, metricName: String, period: Int32, evaluationPeriods: Int32, comparisonOperator: String, statistic: String, namespace: String, dimensions: DimensionList? = nil) {
+        public init(threshold: Double, metricName: String, period: Int32, evaluationPeriods: Int32, comparisonOperator: ComparisonOperator, statistic: Statistic, namespace: String, dimensions: DimensionList? = nil) {
             self.threshold = threshold
             self.metricName = metricName
             self.period = period
@@ -952,9 +1010,9 @@ extension Route53 {
             self.period = period
             guard let evaluationPeriods = dictionary["EvaluationPeriods"] as? Int32 else { throw InitializableError.missingRequiredParam("EvaluationPeriods") }
             self.evaluationPeriods = evaluationPeriods
-            guard let comparisonOperator = dictionary["ComparisonOperator"] as? String else { throw InitializableError.missingRequiredParam("ComparisonOperator") }
+            guard let rawComparisonOperator = dictionary["ComparisonOperator"] as? String, let comparisonOperator = ComparisonOperator(rawValue: rawComparisonOperator) else { throw InitializableError.missingRequiredParam("ComparisonOperator") }
             self.comparisonOperator = comparisonOperator
-            guard let statistic = dictionary["Statistic"] as? String else { throw InitializableError.missingRequiredParam("Statistic") }
+            guard let rawStatistic = dictionary["Statistic"] as? String, let statistic = Statistic(rawValue: rawStatistic) else { throw InitializableError.missingRequiredParam("Statistic") }
             self.statistic = statistic
             guard let namespace = dictionary["Namespace"] as? String else { throw InitializableError.missingRequiredParam("Namespace") }
             self.namespace = namespace
@@ -1009,7 +1067,7 @@ extension Route53 {
         /// The path that you want Amazon Route 53 to request when performing health checks. The path can be any value for which your endpoint will return an HTTP status code of 2xx or 3xx when the endpoint is healthy, for example the file /docs/route53-health-check.html.  Specify this value only if you want to change it.
         public let resourcePath: String?
         /// When CloudWatch has insufficient data about the metric to determine the alarm state, the status that you want Amazon Route 53 to assign to the health check:    Healthy: Amazon Route 53 considers the health check to be healthy.    Unhealthy: Amazon Route 53 considers the health check to be unhealthy.    LastKnownStatus: Amazon Route 53 uses the status of the health check from the last time CloudWatch had sufficient data to determine the alarm state. For new health checks that have no last known status, the default status for the health check is healthy.  
-        public let insufficientDataHealthStatus: String?
+        public let insufficientDataHealthStatus: InsufficientDataHealthStatus?
         /// Specify whether you want Amazon Route 53 to invert the status of a health check, for example, to consider a health check unhealthy when it otherwise would be considered healthy.
         public let inverted: Bool?
         public let alarmIdentifier: AlarmIdentifier?
@@ -1030,7 +1088,7 @@ extension Route53 {
         /// The port on the endpoint on which you want Amazon Route 53 to perform health checks.
         public let port: Int32?
 
-        public init(healthCheckVersion: Int64? = nil, iPAddress: String? = nil, childHealthChecks: ChildHealthCheckList? = nil, resourcePath: String? = nil, insufficientDataHealthStatus: String? = nil, inverted: Bool? = nil, alarmIdentifier: AlarmIdentifier? = nil, healthCheckId: String, regions: HealthCheckRegionList? = nil, healthThreshold: Int32? = nil, searchString: String? = nil, fullyQualifiedDomainName: String? = nil, failureThreshold: Int32? = nil, enableSNI: Bool? = nil, port: Int32? = nil) {
+        public init(healthCheckVersion: Int64? = nil, iPAddress: String? = nil, childHealthChecks: ChildHealthCheckList? = nil, resourcePath: String? = nil, insufficientDataHealthStatus: InsufficientDataHealthStatus? = nil, inverted: Bool? = nil, alarmIdentifier: AlarmIdentifier? = nil, healthCheckId: String, regions: HealthCheckRegionList? = nil, healthThreshold: Int32? = nil, searchString: String? = nil, fullyQualifiedDomainName: String? = nil, failureThreshold: Int32? = nil, enableSNI: Bool? = nil, port: Int32? = nil) {
             self.healthCheckVersion = healthCheckVersion
             self.iPAddress = iPAddress
             self.childHealthChecks = childHealthChecks
@@ -1053,7 +1111,7 @@ extension Route53 {
             self.iPAddress = dictionary["IPAddress"] as? String
             if let childHealthChecks = dictionary["ChildHealthChecks"] as? [String: Any] { self.childHealthChecks = try Route53.ChildHealthCheckList(dictionary: childHealthChecks) } else { self.childHealthChecks = nil }
             self.resourcePath = dictionary["ResourcePath"] as? String
-            self.insufficientDataHealthStatus = dictionary["InsufficientDataHealthStatus"] as? String
+            if let insufficientDataHealthStatus = dictionary["InsufficientDataHealthStatus"] as? String { self.insufficientDataHealthStatus = InsufficientDataHealthStatus(rawValue: insufficientDataHealthStatus) } else { self.insufficientDataHealthStatus = nil }
             self.inverted = dictionary["Inverted"] as? Bool
             if let alarmIdentifier = dictionary["AlarmIdentifier"] as? [String: Any] { self.alarmIdentifier = try Route53.AlarmIdentifier(dictionary: alarmIdentifier) } else { self.alarmIdentifier = nil }
             guard let healthCheckId = dictionary["HealthCheckId"] as? String else { throw InitializableError.missingRequiredParam("HealthCheckId") }
@@ -1117,9 +1175,9 @@ extension Route53 {
         /// The ID of the resource for which you want to retrieve tags.
         public let resourceId: String
         /// The type of the resource.   The resource type for health checks is healthcheck.   The resource type for hosted zones is hostedzone.  
-        public let resourceType: String
+        public let resourceType: TagResourceType
 
-        public init(resourceId: String, resourceType: String) {
+        public init(resourceId: String, resourceType: TagResourceType) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
@@ -1127,7 +1185,7 @@ extension Route53 {
         public init(dictionary: [String: Any]) throws {
             guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
             self.resourceId = resourceId
-            guard let resourceType = dictionary["ResourceType"] as? String else { throw InitializableError.missingRequiredParam("ResourceType") }
+            guard let rawResourceType = dictionary["ResourceType"] as? String, let resourceType = TagResourceType(rawValue: rawResourceType) else { throw InitializableError.missingRequiredParam("ResourceType") }
             self.resourceType = resourceType
         }
     }
@@ -1172,6 +1230,12 @@ extension Route53 {
         }
     }
 
+    public enum TagResourceType: String, CustomStringConvertible {
+        case healthcheck = "healthcheck"
+        case hostedzone = "hostedzone"
+        public var description: String { return self.rawValue }
+    }
+
     public struct AliasTarget: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1204,7 +1268,7 @@ extension Route53 {
         /// The ID that Amazon Route 53 assigned to the new traffic policy instance.
         public let id: String
         /// The DNS type that Amazon Route 53 assigned to all of the resource record sets that it created for this traffic policy instance. 
-        public let trafficPolicyType: String
+        public let trafficPolicyType: RRType
         /// If State is Failed, an explanation of the reason for the failure. If State is another value, Message is empty.
         public let message: String
         /// The value of State is one of the following values:  Applied  Amazon Route 53 has finished creating resource record sets, and changes have propagated to all Amazon Route 53 edge locations.  Creating  Amazon Route 53 is creating the resource record sets. Use GetTrafficPolicyInstance to confirm that the CreateTrafficPolicyInstance request completed successfully.  Failed  Amazon Route 53 wasn't able to create or update the resource record sets. When the value of State is Failed, see Message for an explanation of what caused the request to fail.  
@@ -1220,7 +1284,7 @@ extension Route53 {
         /// The ID of the hosted zone that Amazon Route 53 created resource record sets in.
         public let hostedZoneId: String
 
-        public init(id: String, trafficPolicyType: String, message: String, state: String, name: String, trafficPolicyVersion: Int32, trafficPolicyId: String, tTL: Int64, hostedZoneId: String) {
+        public init(id: String, trafficPolicyType: RRType, message: String, state: String, name: String, trafficPolicyVersion: Int32, trafficPolicyId: String, tTL: Int64, hostedZoneId: String) {
             self.id = id
             self.trafficPolicyType = trafficPolicyType
             self.message = message
@@ -1235,7 +1299,7 @@ extension Route53 {
         public init(dictionary: [String: Any]) throws {
             guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
             self.id = id
-            guard let trafficPolicyType = dictionary["TrafficPolicyType"] as? String else { throw InitializableError.missingRequiredParam("TrafficPolicyType") }
+            guard let rawTrafficPolicyType = dictionary["TrafficPolicyType"] as? String, let trafficPolicyType = RRType(rawValue: rawTrafficPolicyType) else { throw InitializableError.missingRequiredParam("TrafficPolicyType") }
             self.trafficPolicyType = trafficPolicyType
             guard let message = dictionary["Message"] as? String else { throw InitializableError.missingRequiredParam("Message") }
             self.message = message
@@ -1386,14 +1450,14 @@ extension Route53 {
     public struct HealthCheckRegionList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let region: [String]?
+        public let region: [HealthCheckRegion]?
 
-        public init(region: [String]? = nil) {
+        public init(region: [HealthCheckRegion]? = nil) {
             self.region = region
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.region = dictionary["Region"] as? [String]
+            if let region = dictionary["Region"] as? [String] { self.region = region.flatMap({ HealthCheckRegion(rawValue: $0)}) } else { self.region = nil }
         }
     }
 
@@ -1496,7 +1560,7 @@ extension Route53 {
         /// The version number that Amazon Route 53 assigns to a traffic policy. For a new traffic policy, the value of Version is always 1.
         public let version: Int32
         /// The DNS type of the resource record sets that Amazon Route 53 creates when you use a traffic policy to create a traffic policy instance.
-        public let type: String
+        public let `type`: RRType
         /// The name that you specified when you created the traffic policy.
         public let name: String
         /// The definition of a traffic policy in JSON format. You specify the JSON document to use for a new traffic policy in the CreateTrafficPolicy request. For more information about the JSON format, see Traffic Policy Document Format.
@@ -1504,10 +1568,10 @@ extension Route53 {
         /// The ID that Amazon Route 53 assigned to a traffic policy when you created it.
         public let id: String
 
-        public init(comment: String? = nil, version: Int32, type: String, name: String, document: String, id: String) {
+        public init(comment: String? = nil, version: Int32, type: RRType, name: String, document: String, id: String) {
             self.comment = comment
             self.version = version
-            self.type = type
+            self.`type` = `type`
             self.name = name
             self.document = document
             self.id = id
@@ -1517,8 +1581,8 @@ extension Route53 {
             self.comment = dictionary["Comment"] as? String
             guard let version = dictionary["Version"] as? Int32 else { throw InitializableError.missingRequiredParam("Version") }
             self.version = version
-            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
-            self.type = type
+            guard let rawType = dictionary["Type"] as? String, let `type` = RRType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
+            self.`type` = `type`
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
             guard let document = dictionary["Document"] as? String else { throw InitializableError.missingRequiredParam("Document") }
@@ -1598,9 +1662,9 @@ extension Route53 {
         /// The IP address of the Amazon Route 53 health checker that provided the failure reason in StatusReport.
         public let iPAddress: String?
         /// The region of the Amazon Route 53 health checker that provided the status in StatusReport.
-        public let region: String?
+        public let region: HealthCheckRegion?
 
-        public init(statusReport: StatusReport? = nil, iPAddress: String? = nil, region: String? = nil) {
+        public init(statusReport: StatusReport? = nil, iPAddress: String? = nil, region: HealthCheckRegion? = nil) {
             self.statusReport = statusReport
             self.iPAddress = iPAddress
             self.region = region
@@ -1609,7 +1673,7 @@ extension Route53 {
         public init(dictionary: [String: Any]) throws {
             if let statusReport = dictionary["StatusReport"] as? [String: Any] { self.statusReport = try Route53.StatusReport(dictionary: statusReport) } else { self.statusReport = nil }
             self.iPAddress = dictionary["IPAddress"] as? String
-            self.region = dictionary["Region"] as? String
+            if let region = dictionary["Region"] as? String { self.region = HealthCheckRegion(rawValue: region) } else { self.region = nil }
         }
     }
 
@@ -1735,6 +1799,14 @@ extension Route53 {
         }
     }
 
+    public enum ComparisonOperator: String, CustomStringConvertible {
+        case greaterthanorequaltothreshold = "GreaterThanOrEqualToThreshold"
+        case greaterthanthreshold = "GreaterThanThreshold"
+        case lessthanthreshold = "LessThanThreshold"
+        case lessthanorequaltothreshold = "LessThanOrEqualToThreshold"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ListResourceRecordSetsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1745,13 +1817,13 @@ extension Route53 {
         /// A flag that indicates whether more resource record sets remain to be listed. If your results were truncated, you can make a follow-up pagination request by using the NextRecordName element.
         public let isTruncated: Bool
         /// If the results were truncated, the type of the next record in the list. This element is present only if IsTruncated is true. 
-        public let nextRecordType: String?
+        public let nextRecordType: RRType?
         ///  Weighted, latency, geolocation, and failover resource record sets only: If results were truncated for a given DNS name and type, the value of SetIdentifier for the next resource record set that has the current DNS name and type.
         public let nextRecordIdentifier: String?
         /// The maximum number of records you requested.
         public let maxItems: String
 
-        public init(nextRecordName: String? = nil, resourceRecordSets: ResourceRecordSets, isTruncated: Bool, nextRecordType: String? = nil, nextRecordIdentifier: String? = nil, maxItems: String) {
+        public init(nextRecordName: String? = nil, resourceRecordSets: ResourceRecordSets, isTruncated: Bool, nextRecordType: RRType? = nil, nextRecordIdentifier: String? = nil, maxItems: String) {
             self.nextRecordName = nextRecordName
             self.resourceRecordSets = resourceRecordSets
             self.isTruncated = isTruncated
@@ -1766,7 +1838,7 @@ extension Route53 {
             self.resourceRecordSets = try Route53.ResourceRecordSets(dictionary: resourceRecordSets)
             guard let isTruncated = dictionary["IsTruncated"] as? Bool else { throw InitializableError.missingRequiredParam("IsTruncated") }
             self.isTruncated = isTruncated
-            self.nextRecordType = dictionary["NextRecordType"] as? String
+            if let nextRecordType = dictionary["NextRecordType"] as? String { self.nextRecordType = RRType(rawValue: nextRecordType) } else { self.nextRecordType = nil }
             self.nextRecordIdentifier = dictionary["NextRecordIdentifier"] as? String
             guard let maxItems = dictionary["MaxItems"] as? String else { throw InitializableError.missingRequiredParam("MaxItems") }
             self.maxItems = maxItems
@@ -1832,6 +1904,18 @@ extension Route53 {
         }
     }
 
+    public enum HealthCheckRegion: String, CustomStringConvertible {
+        case us_east_1 = "us-east-1"
+        case us_west_1 = "us-west-1"
+        case us_west_2 = "us-west-2"
+        case eu_west_1 = "eu-west-1"
+        case ap_southeast_1 = "ap-southeast-1"
+        case ap_southeast_2 = "ap-southeast-2"
+        case ap_northeast_1 = "ap-northeast-1"
+        case sa_east_1 = "sa-east-1"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ListTrafficPolicyInstancesByPolicyResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1846,9 +1930,9 @@ extension Route53 {
         /// If IsTruncated is true, TrafficPolicyInstanceNameMarker is the name of the first traffic policy instance in the next group of MaxItems traffic policy instances.
         public let trafficPolicyInstanceNameMarker: String?
         /// If IsTruncated is true, TrafficPolicyInstanceTypeMarker is the DNS type of the resource record sets that are associated with the first traffic policy instance in the next group of MaxItems traffic policy instances.
-        public let trafficPolicyInstanceTypeMarker: String?
+        public let trafficPolicyInstanceTypeMarker: RRType?
 
-        public init(isTruncated: Bool, hostedZoneIdMarker: String? = nil, trafficPolicyInstances: TrafficPolicyInstances, maxItems: String, trafficPolicyInstanceNameMarker: String? = nil, trafficPolicyInstanceTypeMarker: String? = nil) {
+        public init(isTruncated: Bool, hostedZoneIdMarker: String? = nil, trafficPolicyInstances: TrafficPolicyInstances, maxItems: String, trafficPolicyInstanceNameMarker: String? = nil, trafficPolicyInstanceTypeMarker: RRType? = nil) {
             self.isTruncated = isTruncated
             self.hostedZoneIdMarker = hostedZoneIdMarker
             self.trafficPolicyInstances = trafficPolicyInstances
@@ -1866,7 +1950,7 @@ extension Route53 {
             guard let maxItems = dictionary["MaxItems"] as? String else { throw InitializableError.missingRequiredParam("MaxItems") }
             self.maxItems = maxItems
             self.trafficPolicyInstanceNameMarker = dictionary["TrafficPolicyInstanceNameMarker"] as? String
-            self.trafficPolicyInstanceTypeMarker = dictionary["TrafficPolicyInstanceTypeMarker"] as? String
+            if let trafficPolicyInstanceTypeMarker = dictionary["TrafficPolicyInstanceTypeMarker"] as? String { self.trafficPolicyInstanceTypeMarker = RRType(rawValue: trafficPolicyInstanceTypeMarker) } else { self.trafficPolicyInstanceTypeMarker = nil }
         }
     }
 
@@ -1876,13 +1960,13 @@ extension Route53 {
         /// A complex type that describes change information about changes made to your hosted zone. This element contains an ID that you use when performing a GetChange action to get detailed information about the change.
         public let comment: String?
         /// The current state of the request. PENDING indicates that this request has not yet been applied to all Amazon Route 53 DNS servers.
-        public let status: String
+        public let status: ChangeStatus
         /// The date and time the change request was submitted, in Coordinated Universal Time (UTC) format: YYYY-MM-DDThh:mm:ssZ. For more information, see the Wikipedia entry ISO 8601.
         public let submittedAt: Date
         /// The ID of the request.
         public let id: String
 
-        public init(comment: String? = nil, status: String, submittedAt: Date, id: String) {
+        public init(comment: String? = nil, status: ChangeStatus, submittedAt: Date, id: String) {
             self.comment = comment
             self.status = status
             self.submittedAt = submittedAt
@@ -1891,13 +1975,20 @@ extension Route53 {
 
         public init(dictionary: [String: Any]) throws {
             self.comment = dictionary["Comment"] as? String
-            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            guard let rawStatus = dictionary["Status"] as? String, let status = ChangeStatus(rawValue: rawStatus) else { throw InitializableError.missingRequiredParam("Status") }
             self.status = status
             guard let submittedAt = dictionary["SubmittedAt"] as? Date else { throw InitializableError.missingRequiredParam("SubmittedAt") }
             self.submittedAt = submittedAt
             guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
             self.id = id
         }
+    }
+
+    public enum InsufficientDataHealthStatus: String, CustomStringConvertible {
+        case healthy = "Healthy"
+        case unhealthy = "Unhealthy"
+        case lastknownstatus = "LastKnownStatus"
+        public var description: String { return self.rawValue }
     }
 
     public struct DeleteHealthCheckResponse: AWSShape {
@@ -1947,11 +2038,11 @@ extension Route53 {
         /// The first name in the lexicographic ordering of domain names that you want the ListResourceRecordSets request to list.
         public let startRecordName: String?
         /// The type of resource record set to begin the record listing from. Valid values for basic resource record sets: A | AAAA | CNAME | MX | NAPTR | NS | PTR | SOA | SPF | SRV | TXT  Values for weighted, latency, geo, and failover resource record sets: A | AAAA | CNAME | MX | NAPTR | PTR | SPF | SRV | TXT  Values for alias resource record sets:     CloudFront distribution: A or AAAA    Elastic Beanstalk environment that has a regionalized subdomain: A    ELB load balancer: A | AAAA    Amazon S3 bucket: A   Constraint: Specifying type without specifying name returns an InvalidInput error.
-        public let startRecordType: String?
+        public let startRecordType: RRType?
         /// The ID of the hosted zone that contains the resource record sets that you want to get.
         public let hostedZoneId: String
 
-        public init(startRecordIdentifier: String? = nil, maxItems: String? = nil, startRecordName: String? = nil, startRecordType: String? = nil, hostedZoneId: String) {
+        public init(startRecordIdentifier: String? = nil, maxItems: String? = nil, startRecordName: String? = nil, startRecordType: RRType? = nil, hostedZoneId: String) {
             self.startRecordIdentifier = startRecordIdentifier
             self.maxItems = maxItems
             self.startRecordName = startRecordName
@@ -1963,7 +2054,7 @@ extension Route53 {
             self.startRecordIdentifier = dictionary["Identifier"] as? String
             self.maxItems = dictionary["Maxitems"] as? String
             self.startRecordName = dictionary["Name"] as? String
-            self.startRecordType = dictionary["Type"] as? String
+            if let startRecordType = dictionary["Type"] as? String { self.startRecordType = RRType(rawValue: startRecordType) } else { self.startRecordType = nil }
             guard let hostedZoneId = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
             self.hostedZoneId = hostedZoneId
         }
@@ -2243,9 +2334,9 @@ extension Route53 {
         /// The name of the CloudWatch alarm that you want Amazon Route 53 health checkers to use to determine whether this health check is healthy.
         public let name: String
         /// A complex type that identifies the CloudWatch alarm that you want Amazon Route 53 health checkers to use to determine whether this health check is healthy. For the current list of CloudWatch regions, see Amazon CloudWatch in the AWS Regions and Endpoints chapter of the Amazon Web Services General Reference.
-        public let region: String
+        public let region: CloudWatchRegion
 
-        public init(name: String, region: String) {
+        public init(name: String, region: CloudWatchRegion) {
             self.name = name
             self.region = region
         }
@@ -2253,7 +2344,7 @@ extension Route53 {
         public init(dictionary: [String: Any]) throws {
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
-            guard let region = dictionary["Region"] as? String else { throw InitializableError.missingRequiredParam("Region") }
+            guard let rawRegion = dictionary["Region"] as? String, let region = CloudWatchRegion(rawValue: rawRegion) else { throw InitializableError.missingRequiredParam("Region") }
             self.region = region
         }
     }
@@ -2269,7 +2360,7 @@ extension Route53 {
         /// For the first request to ListTrafficPolicyInstancesByPolicy, omit this value. If the value of IsTruncated in the previous response was true, HostedZoneIdMarker is the ID of the hosted zone for the first traffic policy instance in the next group of MaxItems traffic policy instances. If the value of IsTruncated in the previous response was false, there are no more traffic policy instances to get for this hosted zone. If the value of IsTruncated in the previous response was false, omit this value.
         public let hostedZoneIdMarker: String?
         /// For the first request to ListTrafficPolicyInstancesByPolicy, omit this value. If the value of IsTruncated in the previous response was true, TrafficPolicyInstanceTypeMarker is the DNS type of the first traffic policy instance in the next group of MaxItems traffic policy instances. If the value of IsTruncated in the previous response was false, there are no more traffic policy instances to get for this hosted zone.
-        public let trafficPolicyInstanceTypeMarker: String?
+        public let trafficPolicyInstanceTypeMarker: RRType?
         /// The version of the traffic policy for which you want to list traffic policy instances. The version must be associated with the traffic policy that is specified by TrafficPolicyId.
         public let trafficPolicyVersion: Int32
         /// For the first request to ListTrafficPolicyInstancesByPolicy, omit this value. If the value of IsTruncated in the previous response was true, TrafficPolicyInstanceNameMarker is the name of the first traffic policy instance in the next group of MaxItems traffic policy instances. If the value of IsTruncated in the previous response was false, there are no more traffic policy instances to get for this hosted zone. If the value of IsTruncated in the previous response was false, omit this value.
@@ -2277,7 +2368,7 @@ extension Route53 {
         /// The ID of the traffic policy for which you want to list traffic policy instances.
         public let trafficPolicyId: String
 
-        public init(maxItems: String? = nil, hostedZoneIdMarker: String? = nil, trafficPolicyInstanceTypeMarker: String? = nil, trafficPolicyVersion: Int32, trafficPolicyInstanceNameMarker: String? = nil, trafficPolicyId: String) {
+        public init(maxItems: String? = nil, hostedZoneIdMarker: String? = nil, trafficPolicyInstanceTypeMarker: RRType? = nil, trafficPolicyVersion: Int32, trafficPolicyInstanceNameMarker: String? = nil, trafficPolicyId: String) {
             self.maxItems = maxItems
             self.hostedZoneIdMarker = hostedZoneIdMarker
             self.trafficPolicyInstanceTypeMarker = trafficPolicyInstanceTypeMarker
@@ -2289,7 +2380,7 @@ extension Route53 {
         public init(dictionary: [String: Any]) throws {
             self.maxItems = dictionary["Maxitems"] as? String
             self.hostedZoneIdMarker = dictionary["Hostedzoneid"] as? String
-            self.trafficPolicyInstanceTypeMarker = dictionary["Trafficpolicyinstancetype"] as? String
+            if let trafficPolicyInstanceTypeMarker = dictionary["Trafficpolicyinstancetype"] as? String { self.trafficPolicyInstanceTypeMarker = RRType(rawValue: trafficPolicyInstanceTypeMarker) } else { self.trafficPolicyInstanceTypeMarker = nil }
             guard let trafficPolicyVersion = dictionary["Version"] as? Int32 else { throw InitializableError.missingRequiredParam("Version") }
             self.trafficPolicyVersion = trafficPolicyVersion
             self.trafficPolicyInstanceNameMarker = dictionary["Trafficpolicyinstancename"] as? String
@@ -2302,7 +2393,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         ///  Failover resource record sets only: To configure failover, you add the Failover element to two resource record sets. For one resource record set, you specify PRIMARY as the value for Failover; for the other resource record set, you specify SECONDARY. In addition, you include the HealthCheckId element and specify the health check that you want Amazon Route 53 to perform for each resource record set. Except where noted, the following failover behaviors assume that you have included the HealthCheckId element in both resource record sets:   When the primary resource record set is healthy, Amazon Route 53 responds to DNS queries with the applicable value from the primary resource record set regardless of the health of the secondary resource record set.   When the primary resource record set is unhealthy and the secondary resource record set is healthy, Amazon Route 53 responds to DNS queries with the applicable value from the secondary resource record set.   When the secondary resource record set is unhealthy, Amazon Route 53 responds to DNS queries with the applicable value from the primary resource record set regardless of the health of the primary resource record set.   If you omit the HealthCheckId element for the secondary resource record set, and if the primary resource record set is unhealthy, Amazon Route 53 always responds to DNS queries with the applicable value from the secondary resource record set. This is true regardless of the health of the associated endpoint.   You can't create non-failover resource record sets that have the same values for the Name and Type elements as failover resource record sets. For failover alias resource record sets, you must also include the EvaluateTargetHealth element and set the value to true. For more information about configuring failover for Amazon Route 53, see the following topics in the Amazon Route 53 Developer Guide:     Amazon Route 53 Health Checks and DNS Failover     Configuring Failover in a Private Hosted Zone    Valid values: PRIMARY | SECONDARY 
-        public let failover: String?
+        public let failover: ResourceRecordSetFailover?
         ///  Geo location resource record sets only: A complex type that lets you control how Amazon Route 53 responds to DNS queries based on the geographic origin of the query. For example, if you want all queries from Africa to be routed to a web server with an IP address of 192.0.2.111, create a resource record set with a Type of A and a ContinentCode of AF.  Creating geolocation and geolocation alias resource record sets in private hosted zones is not supported.  If you create separate resource record sets for overlapping geographic regions (for example, one resource record set for a continent and one for a country on the same continent), priority goes to the smallest geographic region. This allows you to route most queries for a continent to one resource and to route queries for a country on that continent to a different resource. You can't create two geolocation resource record sets that specify the same geographic location. The value * in the CountryCode element matches all geographic locations that aren't specified in other geolocation resource record sets that have the same values for the Name and Type elements.  Geolocation works by mapping IP addresses to locations. However, some IP addresses aren't mapped to geographic locations, so even if you create geolocation resource record sets that cover all seven continents, Amazon Route 53 will receive some DNS queries from locations that it can't identify. We recommend that you create a resource record set for which the value of CountryCode is *, which handles both queries that come from locations for which you haven't created geolocation resource record sets and queries from IP addresses that aren't mapped to a location. If you don't create a * resource record set, Amazon Route 53 returns a "no answer" response for queries from those locations.  You can't create non-geolocation resource record sets that have the same values for the Name and Type elements as geolocation resource record sets.
         public let geoLocation: GeoLocation?
         /// When you create a traffic policy instance, Amazon Route 53 automatically creates a resource record set. TrafficPolicyInstanceId is the ID of the traffic policy instance that Amazon Route 53 created this resource record set for.  To delete the resource record set that is associated with a traffic policy instance, use DeleteTrafficPolicyInstance. Amazon Route 53 will delete the resource record set automatically. If you delete the resource record set by using ChangeResourceRecordSets, Amazon Route 53 doesn't automatically delete the traffic policy instance, and you'll continue to be charged for it even though it's no longer in use.  
@@ -2312,7 +2403,7 @@ extension Route53 {
         ///  Weighted resource record sets only: Among resource record sets that have the same combination of DNS name and type, a value that determines the proportion of DNS queries that Amazon Route 53 responds to using the current resource record set. Amazon Route 53 calculates the sum of the weights for the resource record sets that have the same combination of DNS name and type. Amazon Route 53 then responds to queries based on the ratio of a resource's weight to the total. Note the following:   You must specify a value for the Weight element for every weighted resource record set.   You can only specify one ResourceRecord per weighted resource record set.   You can't create latency, failover, or geolocation resource record sets that have the same values for the Name and Type elements as weighted resource record sets.   You can create a maximum of 100 weighted resource record sets that have the same values for the Name and Type elements.   For weighted (but not weighted alias) resource record sets, if you set Weight to 0 for a resource record set, Amazon Route 53 never responds to queries with the applicable value for that resource record set. However, if you set Weight to 0 for all resource record sets that have the same combination of DNS name and type, traffic is routed to all resources with equal probability. The effect of setting Weight to 0 is different when you associate health checks with weighted resource record sets. For more information, see Options for Configuring Amazon Route 53 Active-Active and Active-Passive Failover in the Amazon Route 53 Developer Guide.  
         public let weight: Int64?
         ///  Latency-based resource record sets only: The Amazon EC2 Region where the resource that is specified in this resource record set resides. The resource typically is an AWS resource, such as an EC2 instance or an ELB load balancer, and is referred to by an IP address or a DNS domain name, depending on the record type.  Creating latency and latency alias resource record sets in private hosted zones is not supported.  When Amazon Route 53 receives a DNS query for a domain name and type for which you have created latency resource record sets, Amazon Route 53 selects the latency resource record set that has the lowest latency between the end user and the associated Amazon EC2 Region. Amazon Route 53 then returns the value that is associated with the selected resource record set. Note the following:   You can only specify one ResourceRecord per latency resource record set.   You can only create one latency resource record set for each Amazon EC2 Region.   You aren't required to create latency resource record sets for all Amazon EC2 Regions. Amazon Route 53 will choose the region with the best latency from among the regions for which you create latency resource record sets.   You can't create non-latency resource record sets that have the same values for the Name and Type elements as latency resource record sets.  
-        public let region: String?
+        public let region: ResourceRecordSetRegion?
         ///  Alias resource record sets only: Information about the CloudFront distribution, AWS Elastic Beanstalk environment, ELB load balancer, Amazon S3 bucket, or Amazon Route 53 resource record set to which you're redirecting queries. The AWS Elastic Beanstalk environment must have a regionalized subdomain. If you're creating resource records sets for a private hosted zone, note the following:   You can't create alias resource record sets for CloudFront distributions in a private hosted zone.   Creating geolocation alias resource record sets or latency alias resource record sets in a private hosted zone is unsupported.   For information about creating failover resource record sets in a private hosted zone, see Configuring Failover in a Private Hosted Zone in the Amazon Route 53 Developer Guide.  
         public let aliasTarget: AliasTarget?
         /// If you want Amazon Route 53 to return this resource record set in response to a DNS query only when a health check is passing, include the HealthCheckId element and specify the ID of the applicable health check. Amazon Route 53 determines whether a resource record set is healthy based on one of the following:   By periodically sending a request to the endpoint that is specified in the health check   By aggregating the status of a specified group of health checks (calculated health checks)   By determining the current state of a CloudWatch alarm (CloudWatch metric health checks)   For more information, see How Amazon Route 53 Determines Whether an Endpoint Is Healthy. The HealthCheckId element is only useful when Amazon Route 53 is choosing between two or more resource record sets to respond to a DNS query, and you want Amazon Route 53 to base the choice in part on the status of a health check. Configuring health checks only makes sense in the following configurations:   You're checking the health of the resource record sets in a group of weighted, latency, geolocation, or failover resource record sets, and you specify health check IDs for all of the resource record sets. If the health check for one resource record set specifies an endpoint that is not healthy, Amazon Route 53 stops responding to queries using the value for that resource record set.   You set EvaluateTargetHealth to true for the resource record sets in a group of alias, weighted alias, latency alias, geolocation alias, or failover alias resource record sets, and you specify health check IDs for all of the resource record sets that are referenced by the alias resource record sets.    Amazon Route 53 doesn't check the health of the endpoint specified in the resource record set, for example, the endpoint specified by the IP address in the Value element. When you add a HealthCheckId element to a resource record set, Amazon Route 53 checks the health of the endpoint that you specified in the health check.   For geolocation resource record sets, if an endpoint is unhealthy, Amazon Route 53 looks for a resource record set for the larger, associated geographic region. For example, suppose you have resource record sets for a state in the United States, for the United States, for North America, and for all locations. If the endpoint for the state resource record set is unhealthy, Amazon Route 53 checks the resource record sets for the United States, for North America, and for all locations (a resource record set for which the value of CountryCode is *), in that order, until it finds a resource record set for which the endpoint is healthy.  If your health checks specify the endpoint only by domain name, we recommend that you create a separate health check for each endpoint. For example, create a health check for each HTTP server that is serving content for www.example.com. For the value of FullyQualifiedDomainName, specify the domain name of the server (such as us-east-2-www.example.com), not the name of the resource record sets (example.com).  n this configuration, if you create a health check for which the value of FullyQualifiedDomainName matches the name of the resource record sets and then associate the health check with those resource record sets, health check results will be unpredictable.  For more information, see the following topics in the Amazon Route 53 Developer Guide:    Amazon Route 53 Health Checks and DNS Failover     Configuring Failover in a Private Hosted Zone   
@@ -2320,13 +2411,13 @@ extension Route53 {
         ///  Weighted, Latency, Geo, and Failover resource record sets only: An identifier that differentiates among multiple resource record sets that have the same combination of DNS name and type. The value of SetIdentifier must be unique for each resource record set that has the same combination of DNS name and type. Omit SetIdentifier for any other types of record sets.
         public let setIdentifier: String?
         /// The DNS record type. For information about different record types and how data is encoded for them, see Supported DNS Resource Record Types in the Amazon Route 53 Developer Guide. Valid values for basic resource record sets: A | AAAA | CNAME | MX | NAPTR | NS | PTR | SOA | SPF | SRV | TXT  Values for weighted, latency, geolocation, and failover resource record sets: A | AAAA | CNAME | MX | NAPTR | PTR | SPF | SRV | TXT. When creating a group of weighted, latency, geolocation, or failover resource record sets, specify the same value for all of the resource record sets in the group.  SPF records were formerly used to verify the identity of the sender of email messages. However, we no longer recommend that you create resource record sets for which the value of Type is SPF. RFC 7208, Sender Policy Framework (SPF) for Authorizing Use of Domains in Email, Version 1, has been updated to say, "...[I]ts existence and mechanism defined in [RFC4408] have led to some interoperability issues. Accordingly, its use is no longer appropriate for SPF version 1; implementations are not to use it." In RFC 7208, see section 14.1, The SPF DNS Record Type.  Values for alias resource record sets:    CloudFront distributions: A  If IPv6 is enabled for the distribution, create two resource record sets to route traffic to your distribution, one with a value of A and one with a value of AAAA.     AWS Elastic Beanstalk environment that has a regionalized subdomain: A     ELB load balancers: A | AAAA     Amazon S3 buckets: A     Another resource record set in this hosted zone: Specify the type of the resource record set for which you're creating the alias. Specify any value except NS or SOA.  
-        public let type: String
+        public let `type`: RRType
         /// Information about the resource records to act upon.  If you're creating an alias resource record set, omit ResourceRecords. 
         public let resourceRecords: ResourceRecords?
         /// The resource record cache time to live (TTL), in seconds. Note the following:   If you're creating an alias resource record set, omit TTL. Amazon Route 53 uses the value of TTL for the alias target.    If you're associating this resource record set with a health check (if you're adding a HealthCheckId element), we recommend that you specify a TTL of 60 seconds or less so clients respond quickly to changes in health status.   All of the resource record sets in a group of weighted, latency, geolocation, or failover resource record sets must have the same value for TTL.   If a group of weighted resource record sets includes one or more weighted alias resource record sets for which the alias target is an ELB load balancer, we recommend that you specify a TTL of 60 seconds for all of the non-alias weighted resource record sets that have the same name and type. Values other than 60 seconds (the TTL for load balancers) will change the effect of the values that you specify for Weight.  
         public let tTL: Int64?
 
-        public init(failover: String? = nil, geoLocation: GeoLocation? = nil, trafficPolicyInstanceId: String? = nil, name: String, weight: Int64? = nil, region: String? = nil, aliasTarget: AliasTarget? = nil, healthCheckId: String? = nil, setIdentifier: String? = nil, type: String, resourceRecords: ResourceRecords? = nil, tTL: Int64? = nil) {
+        public init(failover: ResourceRecordSetFailover? = nil, geoLocation: GeoLocation? = nil, trafficPolicyInstanceId: String? = nil, name: String, weight: Int64? = nil, region: ResourceRecordSetRegion? = nil, aliasTarget: AliasTarget? = nil, healthCheckId: String? = nil, setIdentifier: String? = nil, type: RRType, resourceRecords: ResourceRecords? = nil, tTL: Int64? = nil) {
             self.failover = failover
             self.geoLocation = geoLocation
             self.trafficPolicyInstanceId = trafficPolicyInstanceId
@@ -2336,24 +2427,24 @@ extension Route53 {
             self.aliasTarget = aliasTarget
             self.healthCheckId = healthCheckId
             self.setIdentifier = setIdentifier
-            self.type = type
+            self.`type` = `type`
             self.resourceRecords = resourceRecords
             self.tTL = tTL
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.failover = dictionary["Failover"] as? String
+            if let failover = dictionary["Failover"] as? String { self.failover = ResourceRecordSetFailover(rawValue: failover) } else { self.failover = nil }
             if let geoLocation = dictionary["GeoLocation"] as? [String: Any] { self.geoLocation = try Route53.GeoLocation(dictionary: geoLocation) } else { self.geoLocation = nil }
             self.trafficPolicyInstanceId = dictionary["TrafficPolicyInstanceId"] as? String
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
             self.weight = dictionary["Weight"] as? Int64
-            self.region = dictionary["Region"] as? String
+            if let region = dictionary["Region"] as? String { self.region = ResourceRecordSetRegion(rawValue: region) } else { self.region = nil }
             if let aliasTarget = dictionary["AliasTarget"] as? [String: Any] { self.aliasTarget = try Route53.AliasTarget(dictionary: aliasTarget) } else { self.aliasTarget = nil }
             self.healthCheckId = dictionary["HealthCheckId"] as? String
             self.setIdentifier = dictionary["SetIdentifier"] as? String
-            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
-            self.type = type
+            guard let rawType = dictionary["Type"] as? String, let `type` = RRType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
+            self.`type` = `type`
             if let resourceRecords = dictionary["ResourceRecords"] as? [String: Any] { self.resourceRecords = try Route53.ResourceRecords(dictionary: resourceRecords) } else { self.resourceRecords = nil }
             self.tTL = dictionary["TTL"] as? Int64
         }
@@ -2399,9 +2490,9 @@ extension Route53 {
         /// The tags associated with the specified resource.
         public let tags: TagList?
         /// The type of the resource.   The resource type for health checks is healthcheck.   The resource type for hosted zones is hostedzone.  
-        public let resourceType: String?
+        public let resourceType: TagResourceType?
 
-        public init(resourceId: String? = nil, tags: TagList? = nil, resourceType: String? = nil) {
+        public init(resourceId: String? = nil, tags: TagList? = nil, resourceType: TagResourceType? = nil) {
             self.resourceId = resourceId
             self.tags = tags
             self.resourceType = resourceType
@@ -2410,7 +2501,7 @@ extension Route53 {
         public init(dictionary: [String: Any]) throws {
             self.resourceId = dictionary["ResourceId"] as? String
             if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Route53.TagList(dictionary: tags) } else { self.tags = nil }
-            self.resourceType = dictionary["ResourceType"] as? String
+            if let resourceType = dictionary["ResourceType"] as? String { self.resourceType = TagResourceType(rawValue: resourceType) } else { self.resourceType = nil }
         }
     }
 
@@ -2451,7 +2542,7 @@ extension Route53 {
         /// The path, if any, that you want Amazon Route 53 to request when performing health checks. The path can be any value for which your endpoint will return an HTTP status code of 2xx or 3xx when the endpoint is healthy, for example, the file /docs/route53-health-check.html. 
         public let resourcePath: String?
         /// When CloudWatch has insufficient data about the metric to determine the alarm state, the status that you want Amazon Route 53 to assign to the health check:    Healthy: Amazon Route 53 considers the health check to be healthy.    Unhealthy: Amazon Route 53 considers the health check to be unhealthy.    LastKnownStatus: Amazon Route 53uses the status of the health check from the last time CloudWatch had sufficient data to determine the alarm state. For new health checks that have no last known status, the default status for the health check is healthy.  
-        public let insufficientDataHealthStatus: String?
+        public let insufficientDataHealthStatus: InsufficientDataHealthStatus?
         /// Specify whether you want Amazon Route 53 to invert the status of a health check, for example, to consider a health check unhealthy when it otherwise would be considered healthy.
         public let inverted: Bool?
         /// A complex type that identifies the CloudWatch alarm that you want Amazon Route 53 health checkers to use to determine whether this health check is healthy.
@@ -2467,7 +2558,7 @@ extension Route53 {
         /// The number of seconds between the time that Amazon Route 53 gets a response from your endpoint and the time that it sends the next health check request. Each Amazon Route 53 health checker makes requests at this interval.  You can't change the value of RequestInterval after you create a health check.  If you don't specify a value for RequestInterval, the default value is 30 seconds.
         public let requestInterval: Int32?
         /// The type of health check that you want to create, which indicates how Amazon Route 53 determines whether an endpoint is healthy.  You can't change the value of Type after you create a health check.  You can create the following types of health checks:    HTTP: Amazon Route 53 tries to establish a TCP connection. If successful, Amazon Route 53 submits an HTTP request and waits for an HTTP status code of 200 or greater and less than 400.    HTTPS: Amazon Route 53 tries to establish a TCP connection. If successful, Amazon Route 53 submits an HTTPS request and waits for an HTTP status code of 200 or greater and less than 400.  If you specify HTTPS for the value of Type, the endpoint must support TLS v1.0 or later.     HTTP_STR_MATCH: Amazon Route 53 tries to establish a TCP connection. If successful, Amazon Route 53 submits an HTTP request and searches the first 5,120 bytes of the response body for the string that you specify in SearchString.    HTTPS_STR_MATCH: Amazon Route 53 tries to establish a TCP connection. If successful, Amazon Route 53 submits an HTTPS request and searches the first 5,120 bytes of the response body for the string that you specify in SearchString.    TCP: Amazon Route 53 tries to establish a TCP connection.    CLOUDWATCH_METRIC: The health check is associated with a CloudWatch alarm. If the state of the alarm is OK, the health check is considered healthy. If the state is ALARM, the health check is considered unhealthy. If CloudWatch doesn't have sufficient data to determine whether the state is OK or ALARM, the health check status depends on the setting for InsufficientDataHealthStatus: Healthy, Unhealthy, or LastKnownStatus.     CALCULATED: For health checks that monitor the status of other health checks, Amazon Route 53 adds up the number of health checks that Amazon Route 53 health checkers consider to be healthy and compares that number with the value of HealthThreshold.    For more information about how Amazon Route 53 determines whether an endpoint is healthy, see the introduction to this topic.
-        public let type: String
+        public let `type`: HealthCheckType
         /// Specify whether you want Amazon Route 53 to send the value of FullyQualifiedDomainName to the endpoint in the client_hello message during TLS negotiation. This allows the endpoint to respond to HTTPS health check requests with the applicable SSL/TLS certificate. Some endpoints require that HTTPS requests include the host name in the client_hello message. If you don't enable SNI, the status of the health check will be SSL alert handshake_failure. A health check can also have that status for other reasons. If SNI is enabled and you're still getting the error, check the SSL/TLS configuration on your endpoint and confirm that your certificate is valid. The SSL/TLS certificate on your endpoint includes a domain name in the Common Name field and possibly several more in the Subject Alternative Names field. One of the domain names in the certificate should match the value that you specify for FullyQualifiedDomainName. If the endpoint responds to the client_hello message with a certificate that does not include the domain name that you specified in FullyQualifiedDomainName, a health checker will retry the handshake. In the second attempt, the health checker will omit FullyQualifiedDomainName from the client_hello message.
         public let enableSNI: Bool?
         /// The port on the endpoint on which you want Amazon Route 53 to perform health checks. Specify a value for Port only when you specify a value for IPAddress.
@@ -2475,7 +2566,7 @@ extension Route53 {
         /// The number of consecutive health checks that an endpoint must pass or fail for Amazon Route 53 to change the current status of the endpoint from unhealthy to healthy or vice versa. For more information, see How Amazon Route 53 Determines Whether an Endpoint Is Healthy in the Amazon Route 53 Developer Guide. If you don't specify a value for FailureThreshold, the default value is three health checks.
         public let failureThreshold: Int32?
 
-        public init(iPAddress: String? = nil, childHealthChecks: ChildHealthCheckList? = nil, measureLatency: Bool? = nil, resourcePath: String? = nil, insufficientDataHealthStatus: String? = nil, inverted: Bool? = nil, alarmIdentifier: AlarmIdentifier? = nil, regions: HealthCheckRegionList? = nil, healthThreshold: Int32? = nil, searchString: String? = nil, fullyQualifiedDomainName: String? = nil, requestInterval: Int32? = nil, type: String, enableSNI: Bool? = nil, port: Int32? = nil, failureThreshold: Int32? = nil) {
+        public init(iPAddress: String? = nil, childHealthChecks: ChildHealthCheckList? = nil, measureLatency: Bool? = nil, resourcePath: String? = nil, insufficientDataHealthStatus: InsufficientDataHealthStatus? = nil, inverted: Bool? = nil, alarmIdentifier: AlarmIdentifier? = nil, regions: HealthCheckRegionList? = nil, healthThreshold: Int32? = nil, searchString: String? = nil, fullyQualifiedDomainName: String? = nil, requestInterval: Int32? = nil, type: HealthCheckType, enableSNI: Bool? = nil, port: Int32? = nil, failureThreshold: Int32? = nil) {
             self.iPAddress = iPAddress
             self.childHealthChecks = childHealthChecks
             self.measureLatency = measureLatency
@@ -2488,7 +2579,7 @@ extension Route53 {
             self.searchString = searchString
             self.fullyQualifiedDomainName = fullyQualifiedDomainName
             self.requestInterval = requestInterval
-            self.type = type
+            self.`type` = `type`
             self.enableSNI = enableSNI
             self.port = port
             self.failureThreshold = failureThreshold
@@ -2499,7 +2590,7 @@ extension Route53 {
             if let childHealthChecks = dictionary["ChildHealthChecks"] as? [String: Any] { self.childHealthChecks = try Route53.ChildHealthCheckList(dictionary: childHealthChecks) } else { self.childHealthChecks = nil }
             self.measureLatency = dictionary["MeasureLatency"] as? Bool
             self.resourcePath = dictionary["ResourcePath"] as? String
-            self.insufficientDataHealthStatus = dictionary["InsufficientDataHealthStatus"] as? String
+            if let insufficientDataHealthStatus = dictionary["InsufficientDataHealthStatus"] as? String { self.insufficientDataHealthStatus = InsufficientDataHealthStatus(rawValue: insufficientDataHealthStatus) } else { self.insufficientDataHealthStatus = nil }
             self.inverted = dictionary["Inverted"] as? Bool
             if let alarmIdentifier = dictionary["AlarmIdentifier"] as? [String: Any] { self.alarmIdentifier = try Route53.AlarmIdentifier(dictionary: alarmIdentifier) } else { self.alarmIdentifier = nil }
             if let regions = dictionary["Regions"] as? [String: Any] { self.regions = try Route53.HealthCheckRegionList(dictionary: regions) } else { self.regions = nil }
@@ -2507,12 +2598,21 @@ extension Route53 {
             self.searchString = dictionary["SearchString"] as? String
             self.fullyQualifiedDomainName = dictionary["FullyQualifiedDomainName"] as? String
             self.requestInterval = dictionary["RequestInterval"] as? Int32
-            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
-            self.type = type
+            guard let rawType = dictionary["Type"] as? String, let `type` = HealthCheckType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
+            self.`type` = `type`
             self.enableSNI = dictionary["EnableSNI"] as? Bool
             self.port = dictionary["Port"] as? Int32
             self.failureThreshold = dictionary["FailureThreshold"] as? Int32
         }
+    }
+
+    public enum Statistic: String, CustomStringConvertible {
+        case average = "Average"
+        case sum = "Sum"
+        case samplecount = "SampleCount"
+        case maximum = "Maximum"
+        case minimum = "Minimum"
+        public var description: String { return self.rawValue }
     }
 
     public struct ListTrafficPolicyVersionsRequest: AWSShape {
@@ -2554,13 +2654,13 @@ extension Route53 {
         /// The maximum number of traffic policy instances to be included in the response body for this request. If you have more than MaxItems traffic policy instances, the value of the IsTruncated element in the response is true, and the values of HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker represent the first traffic policy instance in the next group of MaxItems traffic policy instances.
         public let maxItems: String?
         /// For the first request to ListTrafficPolicyInstancesByHostedZone, omit this value. If the value of IsTruncated in the previous response was true, TrafficPolicyInstanceTypeMarker is the DNS type of the first traffic policy instance in the next group of MaxItems traffic policy instances. If the value of IsTruncated in the previous response was false, there are no more traffic policy instances to get for this hosted zone.
-        public let trafficPolicyInstanceTypeMarker: String?
+        public let trafficPolicyInstanceTypeMarker: RRType?
         /// For the first request to ListTrafficPolicyInstancesByHostedZone, omit this value. If the value of IsTruncated in the previous response was true, TrafficPolicyInstanceNameMarker is the name of the first traffic policy instance in the next group of MaxItems traffic policy instances. If the value of IsTruncated in the previous response was false, there are no more traffic policy instances to get for this hosted zone. If the value of IsTruncated in the previous response was false, omit this value.
         public let trafficPolicyInstanceNameMarker: String?
         /// The ID of the hosted zone for which you want to list traffic policy instances.
         public let hostedZoneId: String
 
-        public init(maxItems: String? = nil, trafficPolicyInstanceTypeMarker: String? = nil, trafficPolicyInstanceNameMarker: String? = nil, hostedZoneId: String) {
+        public init(maxItems: String? = nil, trafficPolicyInstanceTypeMarker: RRType? = nil, trafficPolicyInstanceNameMarker: String? = nil, hostedZoneId: String) {
             self.maxItems = maxItems
             self.trafficPolicyInstanceTypeMarker = trafficPolicyInstanceTypeMarker
             self.trafficPolicyInstanceNameMarker = trafficPolicyInstanceNameMarker
@@ -2569,7 +2669,7 @@ extension Route53 {
 
         public init(dictionary: [String: Any]) throws {
             self.maxItems = dictionary["Maxitems"] as? String
-            self.trafficPolicyInstanceTypeMarker = dictionary["Trafficpolicyinstancetype"] as? String
+            if let trafficPolicyInstanceTypeMarker = dictionary["Trafficpolicyinstancetype"] as? String { self.trafficPolicyInstanceTypeMarker = RRType(rawValue: trafficPolicyInstanceTypeMarker) } else { self.trafficPolicyInstanceTypeMarker = nil }
             self.trafficPolicyInstanceNameMarker = dictionary["Trafficpolicyinstancename"] as? String
             guard let hostedZoneId = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
             self.hostedZoneId = hostedZoneId
@@ -2666,9 +2766,9 @@ extension Route53 {
         /// A complex type that contains a list of the tags that you want to delete from the specified health check or hosted zone. You can specify up to 10 keys.
         public let removeTagKeys: TagKeyList?
         /// The type of the resource.   The resource type for health checks is healthcheck.   The resource type for hosted zones is hostedzone.  
-        public let resourceType: String
+        public let resourceType: TagResourceType
 
-        public init(addTags: TagList? = nil, resourceId: String, removeTagKeys: TagKeyList? = nil, resourceType: String) {
+        public init(addTags: TagList? = nil, resourceId: String, removeTagKeys: TagKeyList? = nil, resourceType: TagResourceType) {
             self.addTags = addTags
             self.resourceId = resourceId
             self.removeTagKeys = removeTagKeys
@@ -2680,7 +2780,7 @@ extension Route53 {
             guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
             self.resourceId = resourceId
             if let removeTagKeys = dictionary["RemoveTagKeys"] as? [String: Any] { self.removeTagKeys = try Route53.TagKeyList(dictionary: removeTagKeys) } else { self.removeTagKeys = nil }
-            guard let resourceType = dictionary["ResourceType"] as? String else { throw InitializableError.missingRequiredParam("ResourceType") }
+            guard let rawResourceType = dictionary["ResourceType"] as? String, let resourceType = TagResourceType(rawValue: rawResourceType) else { throw InitializableError.missingRequiredParam("ResourceType") }
             self.resourceType = resourceType
         }
     }
@@ -2906,9 +3006,9 @@ extension Route53 {
         /// Information about the resource record set to create, delete, or update.
         public let resourceRecordSet: ResourceRecordSet
         /// The action to perform:    CREATE: Creates a resource record set that has the specified values.    DELETE: Deletes a existing resource record set.  To delete the resource record set that is associated with a traffic policy instance, use  DeleteTrafficPolicyInstance . Amazon Route 53 will delete the resource record set automatically. If you delete the resource record set by using ChangeResourceRecordSets, Amazon Route 53 doesn't automatically delete the traffic policy instance, and you'll continue to be charged for it even though it's no longer in use.      UPSERT: If a resource record set doesn't already exist, Amazon Route 53 creates it. If a resource record set does exist, Amazon Route 53 updates it with the values in the request.   The values that you need to include in the request depend on the type of resource record set that you're creating, deleting, or updating:  Basic resource record sets (excluding alias, failover, geolocation, latency, and weighted resource record sets)     Name     Type     TTL     Failover, geolocation, latency, or weighted resource record sets (excluding alias resource record sets)     Name     Type     TTL     SetIdentifier     Alias resource record sets (including failover alias, geolocation alias, latency alias, and weighted alias resource record sets)     Name     Type     AliasTarget (includes DNSName, EvaluateTargetHealth, and HostedZoneId)    SetIdentifier (for failover, geolocation, latency, and weighted resource record sets)  
-        public let action: String
+        public let action: ChangeAction
 
-        public init(resourceRecordSet: ResourceRecordSet, action: String) {
+        public init(resourceRecordSet: ResourceRecordSet, action: ChangeAction) {
             self.resourceRecordSet = resourceRecordSet
             self.action = action
         }
@@ -2916,7 +3016,7 @@ extension Route53 {
         public init(dictionary: [String: Any]) throws {
             guard let resourceRecordSet = dictionary["ResourceRecordSet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ResourceRecordSet") }
             self.resourceRecordSet = try Route53.ResourceRecordSet(dictionary: resourceRecordSet)
-            guard let action = dictionary["Action"] as? String else { throw InitializableError.missingRequiredParam("Action") }
+            guard let rawAction = dictionary["Action"] as? String, let action = ChangeAction(rawValue: rawAction) else { throw InitializableError.missingRequiredParam("Action") }
             self.action = action
         }
     }
@@ -3118,11 +3218,11 @@ extension Route53 {
         /// The name of the resource record set that you submitted a request for.
         public let recordName: String
         /// The type of the resource record set that you submitted a request for.
-        public let recordType: String
+        public let recordType: RRType
         /// The Amazon Route 53 name server used to respond to the request.
         public let nameserver: String
 
-        public init(protocol: String, responseCode: String, recordData: RecordData, recordName: String, recordType: String, nameserver: String) {
+        public init(protocol: String, responseCode: String, recordData: RecordData, recordName: String, recordType: RRType, nameserver: String) {
             self.`protocol` = `protocol`
             self.responseCode = responseCode
             self.recordData = recordData
@@ -3140,7 +3240,7 @@ extension Route53 {
             self.recordData = try Route53.RecordData(dictionary: recordData)
             guard let recordName = dictionary["RecordName"] as? String else { throw InitializableError.missingRequiredParam("RecordName") }
             self.recordName = recordName
-            guard let recordType = dictionary["RecordType"] as? String else { throw InitializableError.missingRequiredParam("RecordType") }
+            guard let rawRecordType = dictionary["RecordType"] as? String, let recordType = RRType(rawValue: rawRecordType) else { throw InitializableError.missingRequiredParam("RecordType") }
             self.recordType = recordType
             guard let nameserver = dictionary["Nameserver"] as? String else { throw InitializableError.missingRequiredParam("Nameserver") }
             self.nameserver = nameserver
@@ -3182,11 +3282,11 @@ extension Route53 {
         /// For the first request to ListTrafficPolicyInstances, omit this value. If the value of IsTruncated in the previous response was true, you have more traffic policy instances. To get the next group of MaxItems traffic policy instances, submit another ListTrafficPolicyInstances request. For the value of HostedZoneIdMarker, specify the value of HostedZoneIdMarker from the previous response, which is the hosted zone ID of the first traffic policy instance in the next group of MaxItems traffic policy instances. If the value of IsTruncated in the previous response was false, there are no more traffic policy instances to get.
         public let hostedZoneIdMarker: String?
         /// For the first request to ListTrafficPolicyInstances, omit this value. If the value of IsTruncated in the previous response was true, TrafficPolicyInstanceTypeMarker is the DNS type of the first traffic policy instance in the next group of MaxItems traffic policy instances. If the value of IsTruncated in the previous response was false, there are no more traffic policy instances to get.
-        public let trafficPolicyInstanceTypeMarker: String?
+        public let trafficPolicyInstanceTypeMarker: RRType?
         /// For the first request to ListTrafficPolicyInstances, omit this value. If the value of IsTruncated in the previous response was true, TrafficPolicyInstanceNameMarker is the name of the first traffic policy instance in the next group of MaxItems traffic policy instances. If the value of IsTruncated in the previous response was false, there are no more traffic policy instances to get.
         public let trafficPolicyInstanceNameMarker: String?
 
-        public init(maxItems: String? = nil, hostedZoneIdMarker: String? = nil, trafficPolicyInstanceTypeMarker: String? = nil, trafficPolicyInstanceNameMarker: String? = nil) {
+        public init(maxItems: String? = nil, hostedZoneIdMarker: String? = nil, trafficPolicyInstanceTypeMarker: RRType? = nil, trafficPolicyInstanceNameMarker: String? = nil) {
             self.maxItems = maxItems
             self.hostedZoneIdMarker = hostedZoneIdMarker
             self.trafficPolicyInstanceTypeMarker = trafficPolicyInstanceTypeMarker
@@ -3196,7 +3296,7 @@ extension Route53 {
         public init(dictionary: [String: Any]) throws {
             self.maxItems = dictionary["Maxitems"] as? String
             self.hostedZoneIdMarker = dictionary["Hostedzoneid"] as? String
-            self.trafficPolicyInstanceTypeMarker = dictionary["Trafficpolicyinstancetype"] as? String
+            if let trafficPolicyInstanceTypeMarker = dictionary["Trafficpolicyinstancetype"] as? String { self.trafficPolicyInstanceTypeMarker = RRType(rawValue: trafficPolicyInstanceTypeMarker) } else { self.trafficPolicyInstanceTypeMarker = nil }
             self.trafficPolicyInstanceNameMarker = dictionary["Trafficpolicyinstancename"] as? String
         }
     }
@@ -3206,16 +3306,16 @@ extension Route53 {
         public static let payload: String? = nil
         public let vPCId: String?
         /// The region in which you created the VPC that you want to associate with the specified Amazon Route 53 hosted zone.
-        public let vPCRegion: String?
+        public let vPCRegion: VPCRegion?
 
-        public init(vPCId: String? = nil, vPCRegion: String? = nil) {
+        public init(vPCId: String? = nil, vPCRegion: VPCRegion? = nil) {
             self.vPCId = vPCId
             self.vPCRegion = vPCRegion
         }
 
         public init(dictionary: [String: Any]) throws {
             self.vPCId = dictionary["VPCId"] as? String
-            self.vPCRegion = dictionary["VPCRegion"] as? String
+            if let vPCRegion = dictionary["VPCRegion"] as? String { self.vPCRegion = VPCRegion(rawValue: vPCRegion) } else { self.vPCRegion = nil }
         }
     }
 
@@ -3288,9 +3388,9 @@ extension Route53 {
         /// A complex type that contains the ResourceId element for each resource for which you want to get a list of tags.
         public let resourceIds: TagResourceIdList
         /// The type of the resources.   The resource type for health checks is healthcheck.   The resource type for hosted zones is hostedzone.  
-        public let resourceType: String
+        public let resourceType: TagResourceType
 
-        public init(resourceIds: TagResourceIdList, resourceType: String) {
+        public init(resourceIds: TagResourceIdList, resourceType: TagResourceType) {
             self.resourceIds = resourceIds
             self.resourceType = resourceType
         }
@@ -3298,9 +3398,28 @@ extension Route53 {
         public init(dictionary: [String: Any]) throws {
             guard let resourceIds = dictionary["ResourceIds"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ResourceIds") }
             self.resourceIds = try Route53.TagResourceIdList(dictionary: resourceIds)
-            guard let resourceType = dictionary["ResourceType"] as? String else { throw InitializableError.missingRequiredParam("ResourceType") }
+            guard let rawResourceType = dictionary["ResourceType"] as? String, let resourceType = TagResourceType(rawValue: rawResourceType) else { throw InitializableError.missingRequiredParam("ResourceType") }
             self.resourceType = resourceType
         }
+    }
+
+    public enum ResourceRecordSetRegion: String, CustomStringConvertible {
+        case us_east_1 = "us-east-1"
+        case us_east_2 = "us-east-2"
+        case us_west_1 = "us-west-1"
+        case us_west_2 = "us-west-2"
+        case ca_central_1 = "ca-central-1"
+        case eu_west_1 = "eu-west-1"
+        case eu_west_2 = "eu-west-2"
+        case eu_central_1 = "eu-central-1"
+        case ap_southeast_1 = "ap-southeast-1"
+        case ap_southeast_2 = "ap-southeast-2"
+        case ap_northeast_1 = "ap-northeast-1"
+        case ap_northeast_2 = "ap-northeast-2"
+        case sa_east_1 = "sa-east-1"
+        case cn_north_1 = "cn-north-1"
+        case ap_south_1 = "ap-south-1"
+        public var description: String { return self.rawValue }
     }
 
     public struct CreateTrafficPolicyInstanceRequest: AWSShape {
@@ -3436,6 +3555,30 @@ extension Route53 {
             guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
             self.id = id
         }
+    }
+
+    public enum ResourceRecordSetFailover: String, CustomStringConvertible {
+        case primary = "PRIMARY"
+        case secondary = "SECONDARY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CloudWatchRegion: String, CustomStringConvertible {
+        case us_east_1 = "us-east-1"
+        case us_east_2 = "us-east-2"
+        case us_west_1 = "us-west-1"
+        case us_west_2 = "us-west-2"
+        case ca_central_1 = "ca-central-1"
+        case eu_central_1 = "eu-central-1"
+        case eu_west_1 = "eu-west-1"
+        case eu_west_2 = "eu-west-2"
+        case ap_south_1 = "ap-south-1"
+        case ap_southeast_1 = "ap-southeast-1"
+        case ap_southeast_2 = "ap-southeast-2"
+        case ap_northeast_1 = "ap-northeast-1"
+        case ap_northeast_2 = "ap-northeast-2"
+        case sa_east_1 = "sa-east-1"
+        public var description: String { return self.rawValue }
     }
 
 }

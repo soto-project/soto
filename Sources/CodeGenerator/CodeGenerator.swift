@@ -229,19 +229,52 @@ extension AWSService {
                     code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(member.pathForLocation)\"] as? [String: Any] { \(substituting) } else { self.\(member.variableName) = nil }"
                 }
                 code += "\n"
-            case .map(_, let valueShape):
+            case .enum:
+                if member.required {
+                    code += "\(indt(3))guard let raw\(member.name) = dictionary[\"\(member.pathForLocation)\"] as? String, let \(member.variableName) = \(member.shape.swiftTypeName.toSwiftClassCase())(rawValue: raw\(member.name)) else { throw InitializableError.missingRequiredParam(\"\(member.pathForLocation)\") }\n"
+                    code += indt(3)+"self.\(member.variableName) = \(member.variableName)"
+                } else {
+                    code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(member.pathForLocation)\"] as? String { self.\(member.variableName) = \(member.shape.swiftTypeName.toSwiftClassCase())(rawValue: \(member.variableName)) } else { self.\(member.variableName) = nil }"
+                }
+                code += "\n"
+                
+            case .map(let keyShape, let valueShape):
                 let dictName = "\(member.variableName)Dict"
                 var decodingCode: ((_ defaultIndentLevel: Int) -> String)?
                 var firstElementType = "[String: Any]"
                 
+                func getKey() -> String {
+                    switch keyShape.type {
+                    case .enum:
+                        return "\(keyShape.swiftTypeName)(rawValue: key)!"
+                    default:
+                        return "key"
+                    }
+                }
+                
                 switch valueShape.type {
-                case .structure(_): // [String: AWSShape]
+                case .enum:
+                    decodingCode = { defaultIndentLevel in
+                        var code = ""
+                        code += "\(indt(defaultIndentLevel))var \(dictName): \(member.shape.swiftTypeName) = [:]\n"
+                        code += "\(indt(defaultIndentLevel))for (key, value) in \(member.variableName) {\n"
+                        code += "\(indt(defaultIndentLevel+1))guard var \(valueShape.name.toSwiftVariableCase())Dict = value as? [String: String] else { throw InitializableError.convertingError }\n"
+                        code += "\(indt(defaultIndentLevel+1))for (key, value) in \(valueShape.name.toSwiftVariableCase())Dict {\n"
+                        code += "\(indt(defaultIndentLevel+2))guard let \(valueShape.name.toSwiftVariableCase()) = \(valueShape.swiftTypeName.toSwiftClassCase())(rawValue: value) else { continue }\n"
+                        code += "\(indt(defaultIndentLevel+2))\(dictName)[\(getKey())] = \(valueShape.name.toSwiftVariableCase())\n"
+                        code += "\(indt(defaultIndentLevel+1))}\n"
+                        code += "\(indt(defaultIndentLevel))}\n"
+                        code += "\(indt(defaultIndentLevel))self.\(member.variableName) = \(dictName)\n"
+                        return code
+                    }
+                    
+                case .structure: // [String: AWSShape]
                     decodingCode = { defaultIndentLevel in
                         var code = ""
                         code += "\(indt(defaultIndentLevel))var \(dictName): \(member.shape.swiftTypeName) = [:]\n"
                         code += "\(indt(defaultIndentLevel))for (key, value) in \(member.variableName) {\n"
                         code += "\(indt(defaultIndentLevel+1))guard let \(valueShape.name.toSwiftVariableCase())Dict = value as? [String: Any] else { throw InitializableError.convertingError }\n"
-                        code += "\(indt(defaultIndentLevel+1))\(dictName)[key] = try \(valueShape.swiftTypeName)(dictionary: \(valueShape.name.toSwiftVariableCase())Dict)\n"
+                        code += "\(indt(defaultIndentLevel+1))\(dictName)[\(getKey())] = try \(valueShape.swiftTypeName)(dictionary: \(valueShape.name.toSwiftVariableCase())Dict)\n"
                         code += "\(indt(defaultIndentLevel))}\n"
                         code += "\(indt(defaultIndentLevel))self.\(member.variableName) = \(dictName)\n"
                         return code
@@ -249,6 +282,9 @@ extension AWSService {
                     
                 case .list(let repeatedShape):
                     switch repeatedShape.type {
+                    case .enum(_):
+                        fatalError("Unimplemented \(#file):\(#line)")
+                    
                     case .structure(_): // [String: [Shape]]
                         decodingCode = { defaultIndentLevel in
                             var code = ""
@@ -257,7 +293,7 @@ extension AWSService {
                             code += "\(indt(defaultIndentLevel+1))guard let \(repeatedShape.name.toSwiftVariableCase()) = value as? [[String: Any]] else { throw InitializableError.convertingError }\n"
                             let listName = "\(repeatedShape.name.toSwiftVariableCase())List"
                             code += "\(indt(defaultIndentLevel+1))let \(listName): \(valueShape.swiftTypeName) = try \(repeatedShape.name.toSwiftVariableCase()).map { try \(repeatedShape.swiftTypeName)(dictionary: $0) }\n"
-                            code += "\(indt(defaultIndentLevel+1))\(dictName)[key] = \(listName)\n"
+                            code += "\(indt(defaultIndentLevel+1))\(dictName)[\(getKey())] = \(listName)\n"
                             code += "\(indt(defaultIndentLevel))}\n"
                             code += "\(indt(defaultIndentLevel))self.\(member.variableName) = \(dictName)\n"
                             return code
@@ -279,7 +315,7 @@ extension AWSService {
                                     code += "\(indt(defaultIndentLevel+2))}\n"
                                     code += "\(indt(defaultIndentLevel+2))\(valueShape.name.toSwiftVariableCase())List.append(\(childValueShape.name.toSwiftVariableCase())Dict)\n"
                                 code += "\(indt(defaultIndentLevel+1))}\n"
-                                code += "\(indt(defaultIndentLevel+1))\(dictName)[key] = \(valueShape.name.toSwiftVariableCase())List\n"
+                                code += "\(indt(defaultIndentLevel+1))\(dictName)[\(getKey())] = \(valueShape.name.toSwiftVariableCase())List\n"
                                 code += "\(indt(defaultIndentLevel))}\n"
                                 code += "\(indt(defaultIndentLevel))self.\(member.variableName) = \(dictName)\n"
                                 return code
@@ -289,7 +325,7 @@ extension AWSService {
                             fatalError("Unimplemented \(#file):\(#line)")
                         }
                         
-                    case .list(_):
+                    case .list:
                         // TODO implement here
                         code += "\(indt(3))self.\(member.variableName) = [:]\n"
                         break
@@ -300,7 +336,7 @@ extension AWSService {
                             code += "\(indt(defaultIndentLevel))var \(dictName): \(member.shape.swiftTypeName) = [:]\n"
                             code += "\(indt(defaultIndentLevel))for (key, value) in \(member.name.toSwiftVariableCase()) {\n"
                                 code += "\(indt(defaultIndentLevel+1))guard let \(valueShape.name.toSwiftVariableCase()) = value as? \(valueShape.swiftTypeName) else { throw InitializableError.convertingError }\n"
-                                code += "\(indt(defaultIndentLevel+1))\(dictName)[key] = \(valueShape.name.toSwiftVariableCase())\n"
+                                code += "\(indt(defaultIndentLevel+1))\(dictName)[\(getKey())] = \(valueShape.name.toSwiftVariableCase())\n"
                             code += "\(indt(defaultIndentLevel))}\n"
                             code += "\(indt(defaultIndentLevel))self.\(member.variableName) = \(dictName)\n"
                             return code
@@ -350,8 +386,18 @@ extension AWSService {
                     }
                 }
                 
-            case .list(let shape):
+            case .list(let shape): // [Foo]
                 switch shape.type {
+                case .enum(_):
+                    let substituting = "self.\(member.variableName) = \(member.variableName).flatMap({ \(shape.swiftTypeName.toSwiftClassCase())(rawValue: $0)})"
+                    if member.required {
+                        code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(member.pathForLocation)\"] as? [String] else { throw InitializableError.missingRequiredParam(\"\(member.pathForLocation)\") }\n"
+                        code += indt(3)+substituting
+                    } else {
+                        code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(member.pathForLocation)\"] as? [String] { \(substituting) } else { self.\(member.variableName) = nil }"
+                    }
+                    code += "\n"
+                    
                 case .structure:
                     if member.required {
                         code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(member.pathForLocation)\"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam(\"\(member.pathForLocation)\") }\n"
@@ -366,6 +412,9 @@ extension AWSService {
                     
                 case .map(_, let valueShape):
                     switch valueShape.type {
+                    case .enum:
+                        fatalError("Unimplemented \(#file):\(#line)")
+                        
                     case .structure: // [[String: AWSShape]]
                         func decodingCode(_ defaultIndentLevel: Int) -> String {
                             var code = ""
@@ -404,7 +453,7 @@ extension AWSService {
                     }
                 case .list(let childShape):
                     switch childShape.type {
-                    case .structure, .map, .list:
+                    case .structure, .map, .list, .enum:
                         fatalError("Unimplemented \(#file):\(#line)")
                         
                     default:
@@ -449,6 +498,26 @@ extension AWSService {
         for shape in shapes {
             if errorShapeNames.contains(shape.name) { continue }
             switch shape.type {
+            case .enum(let values):
+                code += "\(indt(1))public enum \(shape.name.toSwiftClassCase().reservedwordEscaped()): String, CustomStringConvertible {\n"
+                for value in values {
+                    var key = value.lowercased()
+                        .replacingOccurrences(of: ".", with: "_")
+                        .replacingOccurrences(of: ":", with: "_")
+                        .replacingOccurrences(of: "-", with: "_")
+                        .replacingOccurrences(of: " ", with: "_")
+                        .replacingOccurrences(of: "/", with: "_")
+                        .replacingOccurrences(of: "(", with: "_")
+                        .replacingOccurrences(of: ")", with: "_")
+                        .replacingOccurrences(of: "*", with: "all")
+                    
+                    if Int(String(key[key.startIndex])) != nil { key = "_"+key }
+                    code += "\(indt(2))case \(key.reservedwordEscaped()) = \"\(value)\"\n"
+                }
+                code += "\(indt(2))public var description: String { return self.rawValue }\n"
+                code += "\(indt(1))}"
+                code += "\n\n"
+                
             case .structure(let type):
                 code += "\(indt(1))public struct \(shape.name): AWSShape {\n"
                 code += "\(indt(2))/// The key for the payload\n"
@@ -521,9 +590,9 @@ extension Collection where Iterator.Element == Member {
 }
 
 
-extension ShapeType {
+extension Shape {
     public func toSwiftType() -> String {
-        switch self {
+        switch self.type {
         case .string(_):
             return "String"
             
@@ -531,7 +600,7 @@ extension ShapeType {
             return "Int32"
             
         case .structure(_):
-            return "Any" // TODO shouldn't be matched here
+            return name.toSwiftClassCase()
             
         case .boolean:
             return "Bool"
@@ -557,6 +626,9 @@ extension ShapeType {
         case .timestamp:
             return "Date"
             
+        case .enum(_):
+            return name.toSwiftClassCase()
+            
         case .unhandledType:
             return "Any"
         }
@@ -569,7 +641,7 @@ extension Shape {
             return name.toSwiftClassCase()
         }
         
-        return type.toSwiftType()
+        return toSwiftType()
     }
 }
 

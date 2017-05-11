@@ -91,6 +91,12 @@ extension Logs {
         }
     }
 
+    public enum OrderBy: String, CustomStringConvertible {
+        case logstreamname = "LogStreamName"
+        case lasteventtime = "LastEventTime"
+        public var description: String { return self.rawValue }
+    }
+
     public struct LogStream: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -247,11 +253,11 @@ extension Logs {
         /// The prefix to match. You cannot specify this parameter if orderBy is LastEventTime.
         public let logStreamNamePrefix: String?
         /// If the value is LogStreamName, the results are ordered by log stream name. If the value is LastEventTime, the results are ordered by the event time. The default value is LogStreamName. If you order the results by event time, you cannot specify the logStreamNamePrefix parameter.
-        public let orderBy: String?
+        public let orderBy: OrderBy?
         /// The name of the log group.
         public let logGroupName: String
 
-        public init(nextToken: String? = nil, limit: Int32? = nil, descending: Bool? = nil, logStreamNamePrefix: String? = nil, orderBy: String? = nil, logGroupName: String) {
+        public init(nextToken: String? = nil, limit: Int32? = nil, descending: Bool? = nil, logStreamNamePrefix: String? = nil, orderBy: OrderBy? = nil, logGroupName: String) {
             self.nextToken = nextToken
             self.limit = limit
             self.descending = descending
@@ -265,7 +271,7 @@ extension Logs {
             self.limit = dictionary["limit"] as? Int32
             self.descending = dictionary["descending"] as? Bool
             self.logStreamNamePrefix = dictionary["logStreamNamePrefix"] as? String
-            self.orderBy = dictionary["orderBy"] as? String
+            if let orderBy = dictionary["orderBy"] as? String { self.orderBy = OrderBy(rawValue: orderBy) } else { self.orderBy = nil }
             guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
             self.logGroupName = logGroupName
         }
@@ -349,13 +355,13 @@ extension Logs {
         /// The ARN of an IAM role that grants CloudWatch Logs permissions to deliver ingested log events to the destination stream. You don't need to provide the ARN when you are working with a logical destination for cross-account delivery.
         public let roleArn: String?
         /// The method used to distribute log data to the destination, when the destination is an Amazon Kinesis stream. By default, log data is grouped by log stream. For a more even distribution, you can group log data randomly.
-        public let distribution: String?
+        public let distribution: Distribution?
         /// The name of the log group.
         public let logGroupName: String
         /// A filter pattern for subscribing to a filtered stream of log events.
         public let filterPattern: String
 
-        public init(filterName: String, destinationArn: String, roleArn: String? = nil, distribution: String? = nil, logGroupName: String, filterPattern: String) {
+        public init(filterName: String, destinationArn: String, roleArn: String? = nil, distribution: Distribution? = nil, logGroupName: String, filterPattern: String) {
             self.filterName = filterName
             self.destinationArn = destinationArn
             self.roleArn = roleArn
@@ -370,12 +376,22 @@ extension Logs {
             guard let destinationArn = dictionary["destinationArn"] as? String else { throw InitializableError.missingRequiredParam("destinationArn") }
             self.destinationArn = destinationArn
             self.roleArn = dictionary["roleArn"] as? String
-            self.distribution = dictionary["distribution"] as? String
+            if let distribution = dictionary["distribution"] as? String { self.distribution = Distribution(rawValue: distribution) } else { self.distribution = nil }
             guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
             self.logGroupName = logGroupName
             guard let filterPattern = dictionary["filterPattern"] as? String else { throw InitializableError.missingRequiredParam("filterPattern") }
             self.filterPattern = filterPattern
         }
+    }
+
+    public enum ExportTaskStatusCode: String, CustomStringConvertible {
+        case cancelled = "CANCELLED"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case pending = "PENDING"
+        case pending_cancel = "PENDING_CANCEL"
+        case running = "RUNNING"
+        public var description: String { return self.rawValue }
     }
 
     public struct RejectedLogEventsInfo: AWSShape {
@@ -653,13 +669,13 @@ extension Logs {
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
         /// The status code of the export task. Specifying a status code filters the results to zero or more export tasks.
-        public let statusCode: String?
+        public let statusCode: ExportTaskStatusCode?
         /// The ID of the export task. Specifying a task ID filters the results to zero or one export tasks.
         public let taskId: String?
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
         public let limit: Int32?
 
-        public init(nextToken: String? = nil, statusCode: String? = nil, taskId: String? = nil, limit: Int32? = nil) {
+        public init(nextToken: String? = nil, statusCode: ExportTaskStatusCode? = nil, taskId: String? = nil, limit: Int32? = nil) {
             self.nextToken = nextToken
             self.statusCode = statusCode
             self.taskId = taskId
@@ -668,7 +684,7 @@ extension Logs {
 
         public init(dictionary: [String: Any]) throws {
             self.nextToken = dictionary["nextToken"] as? String
-            self.statusCode = dictionary["statusCode"] as? String
+            if let statusCode = dictionary["statusCode"] as? String { self.statusCode = ExportTaskStatusCode(rawValue: statusCode) } else { self.statusCode = nil }
             self.taskId = dictionary["taskId"] as? String
             self.limit = dictionary["limit"] as? Int32
         }
@@ -818,17 +834,17 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status code of the export task.
-        public let code: String?
+        public let code: ExportTaskStatusCode?
         /// The status message related to the status code.
         public let message: String?
 
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: ExportTaskStatusCode? = nil, message: String? = nil) {
             self.code = code
             self.message = message
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.code = dictionary["code"] as? String
+            if let code = dictionary["code"] as? String { self.code = ExportTaskStatusCode(rawValue: code) } else { self.code = nil }
             self.message = dictionary["message"] as? String
         }
     }
@@ -1066,6 +1082,12 @@ extension Logs {
             }
             self.nextToken = dictionary["nextToken"] as? String
         }
+    }
+
+    public enum Distribution: String, CustomStringConvertible {
+        case random = "Random"
+        case bylogstream = "ByLogStream"
+        public var description: String { return self.rawValue }
     }
 
     public struct GetLogEventsRequest: AWSShape {
@@ -1321,7 +1343,7 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The method used to distribute log data to the destination, when the destination is an Amazon Kinesis stream.
-        public let distribution: String?
+        public let distribution: Distribution?
         public let roleArn: String?
         /// The Amazon Resource Name (ARN) of the destination.
         public let destinationArn: String?
@@ -1333,7 +1355,7 @@ extension Logs {
         /// The name of the log group.
         public let logGroupName: String?
 
-        public init(distribution: String? = nil, roleArn: String? = nil, destinationArn: String? = nil, creationTime: Int64? = nil, filterPattern: String? = nil, filterName: String? = nil, logGroupName: String? = nil) {
+        public init(distribution: Distribution? = nil, roleArn: String? = nil, destinationArn: String? = nil, creationTime: Int64? = nil, filterPattern: String? = nil, filterName: String? = nil, logGroupName: String? = nil) {
             self.distribution = distribution
             self.roleArn = roleArn
             self.destinationArn = destinationArn
@@ -1344,7 +1366,7 @@ extension Logs {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.distribution = dictionary["distribution"] as? String
+            if let distribution = dictionary["distribution"] as? String { self.distribution = Distribution(rawValue: distribution) } else { self.distribution = nil }
             self.roleArn = dictionary["roleArn"] as? String
             self.destinationArn = dictionary["destinationArn"] as? String
             self.creationTime = dictionary["creationTime"] as? Int64

@@ -417,17 +417,17 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The logical operation to be performed: equal (EQ), equal reference (REF_EQ), less than or equal (LE), greater than or equal (GE), or between (BETWEEN). Equal reference (REF_EQ) can be used only with reference fields. The other comparison types can be used only with String fields. The comparison types you can use apply only to certain object fields, as detailed below.   The comparison operators EQ and REF_EQ act on the following fields:   name @sphere parent @componentParent @instanceParent @status @scheduledStartTime @scheduledEndTime @actualStartTime @actualEndTime   The comparison operators GE, LE, and BETWEEN act on the following fields:   @scheduledStartTime @scheduledEndTime @actualStartTime @actualEndTime  Note that fields beginning with the at sign (@) are read-only and set by the web service. When you name fields, you should choose names containing only alpha-numeric values, as symbols may be reserved by AWS Data Pipeline. User-defined fields that you add to a pipeline should prefix their name with the string "my".
-        public let type: String?
+        public let `type`: OperatorType?
         /// The value that the actual field value will be compared with.
         public let values: [String]?
 
-        public init(type: String? = nil, values: [String]? = nil) {
-            self.type = type
+        public init(type: OperatorType? = nil, values: [String]? = nil) {
+            self.`type` = `type`
             self.values = values
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.type = dictionary["type"] as? String
+            if let `type` = dictionary["type"] as? String { self.`type` = OperatorType(rawValue: `type`) } else { self.`type` = nil }
             self.values = dictionary["values"] as? [String]
         }
     }
@@ -462,6 +462,15 @@ extension Datapipeline {
 
         public init(dictionary: [String: Any]) throws {
         }
+    }
+
+    public enum OperatorType: String, CustomStringConvertible {
+        case eq = "EQ"
+        case ref_eq = "REF_EQ"
+        case le = "LE"
+        case ge = "GE"
+        case between = "BETWEEN"
+        public var description: String { return self.rawValue }
     }
 
     public struct CreatePipelineOutput: AWSShape {
@@ -756,6 +765,13 @@ extension Datapipeline {
         }
     }
 
+    public enum TaskStatus: String, CustomStringConvertible {
+        case finished = "FINISHED"
+        case failed = "FAILED"
+        case `false` = "FALSE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DeactivatePipelineInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -993,9 +1009,9 @@ extension Datapipeline {
         /// If an error occurred during the task, this value specifies the error code. This value is set on the physical attempt object. It is used to display error information to the user. It should not start with string "Service_" which is reserved by the system.
         public let errorId: String?
         /// If FINISHED, the task successfully completed. If FAILED, the task ended unsuccessfully. Preconditions use false.
-        public let taskStatus: String
+        public let taskStatus: TaskStatus
 
-        public init(errorMessage: String? = nil, taskId: String, errorStackTrace: String? = nil, errorId: String? = nil, taskStatus: String) {
+        public init(errorMessage: String? = nil, taskId: String, errorStackTrace: String? = nil, errorId: String? = nil, taskStatus: TaskStatus) {
             self.errorMessage = errorMessage
             self.taskId = taskId
             self.errorStackTrace = errorStackTrace
@@ -1009,7 +1025,7 @@ extension Datapipeline {
             self.taskId = taskId
             self.errorStackTrace = dictionary["errorStackTrace"] as? String
             self.errorId = dictionary["errorId"] as? String
-            guard let taskStatus = dictionary["taskStatus"] as? String else { throw InitializableError.missingRequiredParam("taskStatus") }
+            guard let rawtaskStatus = dictionary["taskStatus"] as? String, let taskStatus = TaskStatus(rawValue: rawtaskStatus) else { throw InitializableError.missingRequiredParam("taskStatus") }
             self.taskStatus = taskStatus
         }
     }

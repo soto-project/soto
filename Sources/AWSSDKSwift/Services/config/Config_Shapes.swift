@@ -37,11 +37,11 @@ extension Config {
         /// The error code from the last attempted delivery.
         public let lastErrorCode: String?
         /// Status of the last attempted delivery.  Note Providing an SNS topic on a DeliveryChannel for AWS Config is optional. If the SNS delivery is turned off, the last status will be Not_Applicable.
-        public let lastStatus: String?
+        public let lastStatus: DeliveryStatus?
         /// The time from the last status change.
         public let lastStatusChangeTime: Date?
 
-        public init(lastErrorMessage: String? = nil, lastErrorCode: String? = nil, lastStatus: String? = nil, lastStatusChangeTime: Date? = nil) {
+        public init(lastErrorMessage: String? = nil, lastErrorCode: String? = nil, lastStatus: DeliveryStatus? = nil, lastStatusChangeTime: Date? = nil) {
             self.lastErrorMessage = lastErrorMessage
             self.lastErrorCode = lastErrorCode
             self.lastStatus = lastStatus
@@ -51,7 +51,7 @@ extension Config {
         public init(dictionary: [String: Any]) throws {
             self.lastErrorMessage = dictionary["lastErrorMessage"] as? String
             self.lastErrorCode = dictionary["lastErrorCode"] as? String
-            self.lastStatus = dictionary["lastStatus"] as? String
+            if let lastStatus = dictionary["lastStatus"] as? String { self.lastStatus = DeliveryStatus(rawValue: lastStatus) } else { self.lastStatus = nil }
             self.lastStatusChangeTime = dictionary["lastStatusChangeTime"] as? Date
         }
     }
@@ -106,20 +106,20 @@ extension Config {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates whether AWS or the customer owns and manages the AWS Config rule.
-        public let owner: String
+        public let owner: Owner
         /// Provides the source and type of the event that causes AWS Config to evaluate your AWS resources.
         public let sourceDetails: [SourceDetail]?
         /// For AWS Config managed rules, a predefined identifier from a list. For example, IAM_PASSWORD_POLICY is a managed rule. To reference a managed rule, see Using AWS Managed Config Rules. For custom rules, the identifier is the Amazon Resource Name (ARN) of the rule's AWS Lambda function, such as arn:aws:lambda:us-east-1:123456789012:function:custom_rule_name.
         public let sourceIdentifier: String
 
-        public init(owner: String, sourceDetails: [SourceDetail]? = nil, sourceIdentifier: String) {
+        public init(owner: Owner, sourceDetails: [SourceDetail]? = nil, sourceIdentifier: String) {
             self.owner = owner
             self.sourceDetails = sourceDetails
             self.sourceIdentifier = sourceIdentifier
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let owner = dictionary["Owner"] as? String else { throw InitializableError.missingRequiredParam("Owner") }
+            guard let rawOwner = dictionary["Owner"] as? String, let owner = Owner(rawValue: rawOwner) else { throw InitializableError.missingRequiredParam("Owner") }
             self.owner = owner
             if let sourceDetails = dictionary["SourceDetails"] as? [[String: Any]] {
                 self.sourceDetails = try sourceDetails.map({ try SourceDetail(dictionary: $0) })
@@ -159,11 +159,11 @@ extension Config {
         /// The error code from the last attempted delivery.
         public let lastErrorCode: String?
         /// Status of the last attempted delivery.
-        public let lastStatus: String?
+        public let lastStatus: DeliveryStatus?
         /// The time that the next delivery occurs.
         public let nextDeliveryTime: Date?
 
-        public init(lastErrorMessage: String? = nil, lastAttemptTime: Date? = nil, lastSuccessfulTime: Date? = nil, lastErrorCode: String? = nil, lastStatus: String? = nil, nextDeliveryTime: Date? = nil) {
+        public init(lastErrorMessage: String? = nil, lastAttemptTime: Date? = nil, lastSuccessfulTime: Date? = nil, lastErrorCode: String? = nil, lastStatus: DeliveryStatus? = nil, nextDeliveryTime: Date? = nil) {
             self.lastErrorMessage = lastErrorMessage
             self.lastAttemptTime = lastAttemptTime
             self.lastSuccessfulTime = lastSuccessfulTime
@@ -177,7 +177,7 @@ extension Config {
             self.lastAttemptTime = dictionary["lastAttemptTime"] as? Date
             self.lastSuccessfulTime = dictionary["lastSuccessfulTime"] as? Date
             self.lastErrorCode = dictionary["lastErrorCode"] as? String
-            self.lastStatus = dictionary["lastStatus"] as? String
+            if let lastStatus = dictionary["lastStatus"] as? String { self.lastStatus = DeliveryStatus(rawValue: lastStatus) } else { self.lastStatus = nil }
             self.nextDeliveryTime = dictionary["nextDeliveryTime"] as? Date
         }
     }
@@ -186,23 +186,31 @@ extension Config {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of notification that triggers AWS Config to run an evaluation for a rule. You can specify the following notification types:    ConfigurationItemChangeNotification - Triggers an evaluation when AWS Config delivers a configuration item as a result of a resource change.    OversizedConfigurationItemChangeNotification - Triggers an evaluation when AWS Config delivers an oversized configuration item. AWS Config may generate this notification type when a resource changes and the notification exceeds the maximum size allowed by Amazon SNS.    ScheduledNotification - Triggers a periodic evaluation at the frequency specified for MaximumExecutionFrequency.    ConfigurationSnapshotDeliveryCompleted - Triggers a periodic evaluation when AWS Config delivers a configuration snapshot.   If you want your custom rule to be triggered by configuration changes, specify both ConfigurationItemChangeNotification and OversizedConfigurationItemChangeNotification. 
-        public let messageType: String?
+        public let messageType: MessageType?
         /// The source of the event, such as an AWS service, that triggers AWS Config to evaluate your AWS resources.
-        public let eventSource: String?
+        public let eventSource: EventSource?
         /// The frequency that you want AWS Config to run evaluations for a rule that is triggered periodically. If you specify a value for MaximumExecutionFrequency, then MessageType must use the ScheduledNotification value.
-        public let maximumExecutionFrequency: String?
+        public let maximumExecutionFrequency: MaximumExecutionFrequency?
 
-        public init(messageType: String? = nil, eventSource: String? = nil, maximumExecutionFrequency: String? = nil) {
+        public init(messageType: MessageType? = nil, eventSource: EventSource? = nil, maximumExecutionFrequency: MaximumExecutionFrequency? = nil) {
             self.messageType = messageType
             self.eventSource = eventSource
             self.maximumExecutionFrequency = maximumExecutionFrequency
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.messageType = dictionary["MessageType"] as? String
-            self.eventSource = dictionary["EventSource"] as? String
-            self.maximumExecutionFrequency = dictionary["MaximumExecutionFrequency"] as? String
+            if let messageType = dictionary["MessageType"] as? String { self.messageType = MessageType(rawValue: messageType) } else { self.messageType = nil }
+            if let eventSource = dictionary["EventSource"] as? String { self.eventSource = EventSource(rawValue: eventSource) } else { self.eventSource = nil }
+            if let maximumExecutionFrequency = dictionary["MaximumExecutionFrequency"] as? String { self.maximumExecutionFrequency = MaximumExecutionFrequency(rawValue: maximumExecutionFrequency) } else { self.maximumExecutionFrequency = nil }
         }
+    }
+
+    public enum ComplianceType: String, CustomStringConvertible {
+        case compliant = "COMPLIANT"
+        case non_compliant = "NON_COMPLIANT"
+        case not_applicable = "NOT_APPLICABLE"
+        case insufficient_data = "INSUFFICIENT_DATA"
+        public var description: String { return self.rawValue }
     }
 
     public struct DescribeConfigurationRecordersResponse: AWSShape {
@@ -243,7 +251,7 @@ extension Config {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of resource.
-        public let resourceType: String?
+        public let resourceType: ResourceType?
         /// The ID of the resource (for example., sg-xxxxxx).
         public let resourceId: String?
         /// The custom name of the resource (if available).
@@ -251,7 +259,7 @@ extension Config {
         /// The time that the resource was deleted.
         public let resourceDeletionTime: Date?
 
-        public init(resourceType: String? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceDeletionTime: Date? = nil) {
+        public init(resourceType: ResourceType? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceDeletionTime: Date? = nil) {
             self.resourceType = resourceType
             self.resourceId = resourceId
             self.resourceName = resourceName
@@ -259,7 +267,7 @@ extension Config {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.resourceType = dictionary["resourceType"] as? String
+            if let resourceType = dictionary["resourceType"] as? String { self.resourceType = ResourceType(rawValue: resourceType) } else { self.resourceType = nil }
             self.resourceId = dictionary["resourceId"] as? String
             self.resourceName = dictionary["resourceName"] as? String
             self.resourceDeletionTime = dictionary["resourceDeletionTime"] as? Date
@@ -353,6 +361,11 @@ extension Config {
         }
     }
 
+    public enum EventSource: String, CustomStringConvertible {
+        case aws_config = "aws.config"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DescribeComplianceByResourceResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -418,7 +431,7 @@ extension Config {
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// The type of resources that you want AWS Config to list in the response.
-        public let resourceType: String
+        public let resourceType: ResourceType
         /// The IDs of only those resources that you want AWS Config to list in the response. If you do not specify this parameter, AWS Config lists all resources of the specified type that it has discovered.
         public let resourceIds: [String]?
         /// The maximum number of resource identifiers returned on each page. The default is 100. You cannot specify a limit greater than 100. If you specify 0, AWS Config uses the default.
@@ -426,7 +439,7 @@ extension Config {
         /// The custom name of only those resources that you want AWS Config to list in the response. If you do not specify this parameter, AWS Config lists all resources of the specified type that it has discovered.
         public let resourceName: String?
 
-        public init(includeDeletedResources: Bool? = nil, nextToken: String? = nil, resourceType: String, resourceIds: [String]? = nil, limit: Int32? = nil, resourceName: String? = nil) {
+        public init(includeDeletedResources: Bool? = nil, nextToken: String? = nil, resourceType: ResourceType, resourceIds: [String]? = nil, limit: Int32? = nil, resourceName: String? = nil) {
             self.includeDeletedResources = includeDeletedResources
             self.nextToken = nextToken
             self.resourceType = resourceType
@@ -438,7 +451,7 @@ extension Config {
         public init(dictionary: [String: Any]) throws {
             self.includeDeletedResources = dictionary["includeDeletedResources"] as? Bool
             self.nextToken = dictionary["nextToken"] as? String
-            guard let resourceType = dictionary["resourceType"] as? String else { throw InitializableError.missingRequiredParam("resourceType") }
+            guard let rawresourceType = dictionary["resourceType"] as? String, let resourceType = ResourceType(rawValue: rawresourceType) else { throw InitializableError.missingRequiredParam("resourceType") }
             self.resourceType = resourceType
             self.resourceIds = dictionary["resourceIds"] as? [String]
             self.limit = dictionary["limit"] as? Int32
@@ -475,6 +488,58 @@ extension Config {
         public init(dictionary: [String: Any]) throws {
             self.deliveryChannelNames = dictionary["DeliveryChannelNames"] as? [String]
         }
+    }
+
+    public enum ConfigRuleState: String, CustomStringConvertible {
+        case active = "ACTIVE"
+        case deleting = "DELETING"
+        case deleting_results = "DELETING_RESULTS"
+        case evaluating = "EVALUATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceType: String, CustomStringConvertible {
+        case aws__ec2__customergateway = "AWS::EC2::CustomerGateway"
+        case aws__ec2__eip = "AWS::EC2::EIP"
+        case aws__ec2__host = "AWS::EC2::Host"
+        case aws__ec2__instance = "AWS::EC2::Instance"
+        case aws__ec2__internetgateway = "AWS::EC2::InternetGateway"
+        case aws__ec2__networkacl = "AWS::EC2::NetworkAcl"
+        case aws__ec2__networkinterface = "AWS::EC2::NetworkInterface"
+        case aws__ec2__routetable = "AWS::EC2::RouteTable"
+        case aws__ec2__securitygroup = "AWS::EC2::SecurityGroup"
+        case aws__ec2__subnet = "AWS::EC2::Subnet"
+        case aws__cloudtrail__trail = "AWS::CloudTrail::Trail"
+        case aws__ec2__volume = "AWS::EC2::Volume"
+        case aws__ec2__vpc = "AWS::EC2::VPC"
+        case aws__ec2__vpnconnection = "AWS::EC2::VPNConnection"
+        case aws__ec2__vpngateway = "AWS::EC2::VPNGateway"
+        case aws__iam__group = "AWS::IAM::Group"
+        case aws__iam__policy = "AWS::IAM::Policy"
+        case aws__iam__role = "AWS::IAM::Role"
+        case aws__iam__user = "AWS::IAM::User"
+        case aws__acm__certificate = "AWS::ACM::Certificate"
+        case aws__rds__dbinstance = "AWS::RDS::DBInstance"
+        case aws__rds__dbsubnetgroup = "AWS::RDS::DBSubnetGroup"
+        case aws__rds__dbsecuritygroup = "AWS::RDS::DBSecurityGroup"
+        case aws__rds__dbsnapshot = "AWS::RDS::DBSnapshot"
+        case aws__rds__eventsubscription = "AWS::RDS::EventSubscription"
+        case aws__elasticloadbalancingv2__loadbalancer = "AWS::ElasticLoadBalancingV2::LoadBalancer"
+        case aws__s3__bucket = "AWS::S3::Bucket"
+        case aws__ssm__managedinstanceinventory = "AWS::SSM::ManagedInstanceInventory"
+        case aws__redshift__cluster = "AWS::Redshift::Cluster"
+        case aws__redshift__clustersnapshot = "AWS::Redshift::ClusterSnapshot"
+        case aws__redshift__clusterparametergroup = "AWS::Redshift::ClusterParameterGroup"
+        case aws__redshift__clustersecuritygroup = "AWS::Redshift::ClusterSecurityGroup"
+        case aws__redshift__clustersubnetgroup = "AWS::Redshift::ClusterSubnetGroup"
+        case aws__redshift__eventsubscription = "AWS::Redshift::EventSubscription"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Owner: String, CustomStringConvertible {
+        case custom_lambda = "CUSTOM_LAMBDA"
+        case aws = "AWS"
+        public var description: String { return self.rawValue }
     }
 
     public struct GetComplianceSummaryByResourceTypeResponse: AWSShape {
@@ -518,7 +583,7 @@ extension Config {
         /// An identifier that indicates the ordering of the configuration items of a resource.
         public let configurationStateId: String?
         /// The type of AWS resource.
-        public let resourceType: String?
+        public let resourceType: ResourceType?
         /// The custom name of the resource, if available.
         public let resourceName: String?
         /// A list of CloudTrail event IDs. A populated field indicates that the current configuration was initiated by the events recorded in the CloudTrail log. For more information about CloudTrail, see What is AWS CloudTrail?. An empty field indicates that the current configuration was not initiated by any event.
@@ -536,7 +601,7 @@ extension Config {
         /// The Amazon Resource Name (ARN) of the resource.
         public let arn: String?
         /// The configuration item status.
-        public let configurationItemStatus: String?
+        public let configurationItemStatus: ConfigurationItemStatus?
         /// The time when the configuration recording was initiated.
         public let configurationItemCaptureTime: Date?
         /// The version number of the resource configuration.
@@ -552,7 +617,7 @@ extension Config {
         /// Unique MD5 hash that represents the configuration item's state. You can use MD5 hash to compare the states of two or more configuration items that are associated with the same resource.
         public let configurationItemMD5Hash: String?
 
-        public init(configurationStateId: String? = nil, resourceType: String? = nil, resourceName: String? = nil, relatedEvents: [String]? = nil, tags: [String: String]? = nil, resourceId: String? = nil, configuration: String? = nil, relationships: [Relationship]? = nil, availabilityZone: String? = nil, arn: String? = nil, configurationItemStatus: String? = nil, configurationItemCaptureTime: Date? = nil, version: String? = nil, accountId: String? = nil, resourceCreationTime: Date? = nil, supplementaryConfiguration: [String: String]? = nil, awsRegion: String? = nil, configurationItemMD5Hash: String? = nil) {
+        public init(configurationStateId: String? = nil, resourceType: ResourceType? = nil, resourceName: String? = nil, relatedEvents: [String]? = nil, tags: [String: String]? = nil, resourceId: String? = nil, configuration: String? = nil, relationships: [Relationship]? = nil, availabilityZone: String? = nil, arn: String? = nil, configurationItemStatus: ConfigurationItemStatus? = nil, configurationItemCaptureTime: Date? = nil, version: String? = nil, accountId: String? = nil, resourceCreationTime: Date? = nil, supplementaryConfiguration: [String: String]? = nil, awsRegion: String? = nil, configurationItemMD5Hash: String? = nil) {
             self.configurationStateId = configurationStateId
             self.resourceType = resourceType
             self.resourceName = resourceName
@@ -575,7 +640,7 @@ extension Config {
 
         public init(dictionary: [String: Any]) throws {
             self.configurationStateId = dictionary["configurationStateId"] as? String
-            self.resourceType = dictionary["resourceType"] as? String
+            if let resourceType = dictionary["resourceType"] as? String { self.resourceType = ResourceType(rawValue: resourceType) } else { self.resourceType = nil }
             self.resourceName = dictionary["resourceName"] as? String
             self.relatedEvents = dictionary["relatedEvents"] as? [String]
             if let tags = dictionary["tags"] as? [String: String] {
@@ -592,7 +657,7 @@ extension Config {
             }
             self.availabilityZone = dictionary["availabilityZone"] as? String
             self.arn = dictionary["arn"] as? String
-            self.configurationItemStatus = dictionary["configurationItemStatus"] as? String
+            if let configurationItemStatus = dictionary["configurationItemStatus"] as? String { self.configurationItemStatus = ConfigurationItemStatus(rawValue: configurationItemStatus) } else { self.configurationItemStatus = nil }
             self.configurationItemCaptureTime = dictionary["configurationItemCaptureTime"] as? Date
             self.version = dictionary["version"] as? String
             self.accountId = dictionary["accountId"] as? String
@@ -650,9 +715,9 @@ extension Config {
         /// Specifies whether AWS Config includes all supported types of global resources (for example, IAM resources) with the resources that it records. Before you can set this option to true, you must set the allSupported option to true. If you set this option to true, when AWS Config adds support for a new type of global resource, it automatically starts recording resources of that type. The configuration details for any global resource are the same in all regions. To prevent duplicate configuration items, you should consider customizing AWS Config in only one region to record global resources.
         public let includeGlobalResourceTypes: Bool?
         /// A comma-separated list that specifies the types of AWS resources for which AWS Config records configuration changes (for example, AWS::EC2::Instance or AWS::CloudTrail::Trail). Before you can set this option to true, you must set the allSupported option to false. If you set this option to true, when AWS Config adds support for a new type of resource, it will not record resources of that type unless you manually add that type to your recording group. For a list of valid resourceTypes values, see the resourceType Value column in Supported AWS Resource Types.
-        public let resourceTypes: [String]?
+        public let resourceTypes: [ResourceType]?
 
-        public init(allSupported: Bool? = nil, includeGlobalResourceTypes: Bool? = nil, resourceTypes: [String]? = nil) {
+        public init(allSupported: Bool? = nil, includeGlobalResourceTypes: Bool? = nil, resourceTypes: [ResourceType]? = nil) {
             self.allSupported = allSupported
             self.includeGlobalResourceTypes = includeGlobalResourceTypes
             self.resourceTypes = resourceTypes
@@ -661,7 +726,7 @@ extension Config {
         public init(dictionary: [String: Any]) throws {
             self.allSupported = dictionary["allSupported"] as? Bool
             self.includeGlobalResourceTypes = dictionary["includeGlobalResourceTypes"] as? Bool
-            self.resourceTypes = dictionary["resourceTypes"] as? [String]
+            if let resourceTypes = dictionary["resourceTypes"] as? [String] { self.resourceTypes = resourceTypes.flatMap({ ResourceType(rawValue: $0)}) } else { self.resourceTypes = nil }
         }
     }
 
@@ -675,9 +740,9 @@ extension Config {
         /// The NextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// Filters the results by compliance. The allowed values are COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE.
-        public let complianceTypes: [String]?
+        public let complianceTypes: [ComplianceType]?
 
-        public init(configRuleName: String, limit: Int32? = nil, nextToken: String? = nil, complianceTypes: [String]? = nil) {
+        public init(configRuleName: String, limit: Int32? = nil, nextToken: String? = nil, complianceTypes: [ComplianceType]? = nil) {
             self.configRuleName = configRuleName
             self.limit = limit
             self.nextToken = nextToken
@@ -689,7 +754,7 @@ extension Config {
             self.configRuleName = configRuleName
             self.limit = dictionary["Limit"] as? Int32
             self.nextToken = dictionary["NextToken"] as? String
-            self.complianceTypes = dictionary["ComplianceTypes"] as? [String]
+            if let complianceTypes = dictionary["ComplianceTypes"] as? [String] { self.complianceTypes = complianceTypes.flatMap({ ComplianceType(rawValue: $0)}) } else { self.complianceTypes = nil }
         }
     }
 
@@ -732,7 +797,7 @@ extension Config {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates whether the AWS resource complies with the AWS Config rule that it was evaluated against. For the Evaluation data type, AWS Config supports only the COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE values. AWS Config does not support the INSUFFICIENT_DATA value for this data type. Similarly, AWS Config does not accept INSUFFICIENT_DATA as the value for ComplianceType from a PutEvaluations request. For example, an AWS Lambda function for a custom Config rule cannot pass an INSUFFICIENT_DATA value to AWS Config.
-        public let complianceType: String
+        public let complianceType: ComplianceType
         /// The type of AWS resource that was evaluated.
         public let complianceResourceType: String
         /// The ID of the AWS resource that was evaluated.
@@ -742,7 +807,7 @@ extension Config {
         /// Supplementary information about how the evaluation determined the compliance.
         public let annotation: String?
 
-        public init(complianceType: String, complianceResourceType: String, complianceResourceId: String, orderingTimestamp: Date, annotation: String? = nil) {
+        public init(complianceType: ComplianceType, complianceResourceType: String, complianceResourceId: String, orderingTimestamp: Date, annotation: String? = nil) {
             self.complianceType = complianceType
             self.complianceResourceType = complianceResourceType
             self.complianceResourceId = complianceResourceId
@@ -751,7 +816,7 @@ extension Config {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let complianceType = dictionary["ComplianceType"] as? String else { throw InitializableError.missingRequiredParam("ComplianceType") }
+            guard let rawComplianceType = dictionary["ComplianceType"] as? String, let complianceType = ComplianceType(rawValue: rawComplianceType) else { throw InitializableError.missingRequiredParam("ComplianceType") }
             self.complianceType = complianceType
             guard let complianceResourceType = dictionary["ComplianceResourceType"] as? String else { throw InitializableError.missingRequiredParam("ComplianceResourceType") }
             self.complianceResourceType = complianceResourceType
@@ -783,7 +848,7 @@ extension Config {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates whether the AWS Config rule is active or is currently being deleted by AWS Config. It can also indicate the evaluation status for the Config rule. AWS Config sets the state of the rule to EVALUATING temporarily after you use the StartConfigRulesEvaluation request to evaluate your resources against the Config rule. AWS Config sets the state of the rule to DELETING_RESULTS temporarily after you use the DeleteEvaluationResults request to delete the current evaluation results for the Config rule. AWS Config sets the state of a rule to DELETING temporarily after you use the DeleteConfigRule request to delete the rule. After AWS Config deletes the rule, the rule and all of its evaluations are erased and are no longer available.
-        public let configRuleState: String?
+        public let configRuleState: ConfigRuleState?
         /// The name that you assign to the AWS Config rule. The name is required if you are adding a new rule.
         public let configRuleName: String?
         /// A string in JSON format that is passed to the AWS Config rule Lambda function.
@@ -797,11 +862,11 @@ extension Config {
         /// Defines which resources can trigger an evaluation for the rule. The scope can include one or more resource types, a combination of one resource type and one resource ID, or a combination of a tag key and value. Specify a scope to constrain the resources that can trigger an evaluation for the rule. If you do not specify a scope, evaluations are triggered when any resource in the recording group changes.
         public let scope: Scope?
         /// The maximum frequency with which AWS Config runs evaluations for a rule. You can specify a value for MaximumExecutionFrequency when:   You are using an AWS managed rule that is triggered at a periodic frequency.   Your custom rule is triggered when AWS Config delivers the configuration snapshot.   For more information, see ConfigSnapshotDeliveryProperties.
-        public let maximumExecutionFrequency: String?
+        public let maximumExecutionFrequency: MaximumExecutionFrequency?
         /// The description that you provide for the AWS Config rule.
         public let description: String?
 
-        public init(configRuleState: String? = nil, configRuleName: String? = nil, inputParameters: String? = nil, configRuleId: String? = nil, configRuleArn: String? = nil, source: Source, scope: Scope? = nil, maximumExecutionFrequency: String? = nil, description: String? = nil) {
+        public init(configRuleState: ConfigRuleState? = nil, configRuleName: String? = nil, inputParameters: String? = nil, configRuleId: String? = nil, configRuleArn: String? = nil, source: Source, scope: Scope? = nil, maximumExecutionFrequency: MaximumExecutionFrequency? = nil, description: String? = nil) {
             self.configRuleState = configRuleState
             self.configRuleName = configRuleName
             self.inputParameters = inputParameters
@@ -814,7 +879,7 @@ extension Config {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.configRuleState = dictionary["ConfigRuleState"] as? String
+            if let configRuleState = dictionary["ConfigRuleState"] as? String { self.configRuleState = ConfigRuleState(rawValue: configRuleState) } else { self.configRuleState = nil }
             self.configRuleName = dictionary["ConfigRuleName"] as? String
             self.inputParameters = dictionary["InputParameters"] as? String
             self.configRuleId = dictionary["ConfigRuleId"] as? String
@@ -822,7 +887,7 @@ extension Config {
             guard let source = dictionary["Source"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Source") }
             self.source = try Config.Source(dictionary: source)
             if let scope = dictionary["Scope"] as? [String: Any] { self.scope = try Config.Scope(dictionary: scope) } else { self.scope = nil }
-            self.maximumExecutionFrequency = dictionary["MaximumExecutionFrequency"] as? String
+            if let maximumExecutionFrequency = dictionary["MaximumExecutionFrequency"] as? String { self.maximumExecutionFrequency = MaximumExecutionFrequency(rawValue: maximumExecutionFrequency) } else { self.maximumExecutionFrequency = nil }
             self.description = dictionary["Description"] as? String
         }
     }
@@ -890,6 +955,13 @@ extension Config {
             if let nonCompliantResourceCount = dictionary["NonCompliantResourceCount"] as? [String: Any] { self.nonCompliantResourceCount = try Config.ComplianceContributorCount(dictionary: nonCompliantResourceCount) } else { self.nonCompliantResourceCount = nil }
             if let compliantResourceCount = dictionary["CompliantResourceCount"] as? [String: Any] { self.compliantResourceCount = try Config.ComplianceContributorCount(dictionary: compliantResourceCount) } else { self.compliantResourceCount = nil }
         }
+    }
+
+    public enum DeliveryStatus: String, CustomStringConvertible {
+        case success = "Success"
+        case failure = "Failure"
+        case not_applicable = "Not_Applicable"
+        public var description: String { return self.rawValue }
     }
 
     public struct Scope: AWSShape {
@@ -1012,9 +1084,9 @@ extension Config {
         /// The NextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// Filters the results by compliance. The allowed values are COMPLIANT, NON_COMPLIANT, and INSUFFICIENT_DATA.
-        public let complianceTypes: [String]?
+        public let complianceTypes: [ComplianceType]?
 
-        public init(configRuleNames: [String]? = nil, nextToken: String? = nil, complianceTypes: [String]? = nil) {
+        public init(configRuleNames: [String]? = nil, nextToken: String? = nil, complianceTypes: [ComplianceType]? = nil) {
             self.configRuleNames = configRuleNames
             self.nextToken = nextToken
             self.complianceTypes = complianceTypes
@@ -1023,7 +1095,7 @@ extension Config {
         public init(dictionary: [String: Any]) throws {
             self.configRuleNames = dictionary["ConfigRuleNames"] as? [String]
             self.nextToken = dictionary["NextToken"] as? String
-            self.complianceTypes = dictionary["ComplianceTypes"] as? [String]
+            if let complianceTypes = dictionary["ComplianceTypes"] as? [String] { self.complianceTypes = complianceTypes.flatMap({ ComplianceType(rawValue: $0)}) } else { self.complianceTypes = nil }
         }
     }
 
@@ -1037,9 +1109,9 @@ extension Config {
         /// The type of the AWS resource for which you want compliance information.
         public let resourceType: String
         /// Filters the results by compliance. The allowed values are COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE.
-        public let complianceTypes: [String]?
+        public let complianceTypes: [ComplianceType]?
 
-        public init(resourceId: String, nextToken: String? = nil, resourceType: String, complianceTypes: [String]? = nil) {
+        public init(resourceId: String, nextToken: String? = nil, resourceType: String, complianceTypes: [ComplianceType]? = nil) {
             self.resourceId = resourceId
             self.nextToken = nextToken
             self.resourceType = resourceType
@@ -1052,7 +1124,7 @@ extension Config {
             self.nextToken = dictionary["NextToken"] as? String
             guard let resourceType = dictionary["ResourceType"] as? String else { throw InitializableError.missingRequiredParam("ResourceType") }
             self.resourceType = resourceType
-            self.complianceTypes = dictionary["ComplianceTypes"] as? [String]
+            if let complianceTypes = dictionary["ComplianceTypes"] as? [String] { self.complianceTypes = complianceTypes.flatMap({ ComplianceType(rawValue: $0)}) } else { self.complianceTypes = nil }
         }
     }
 
@@ -1247,15 +1319,15 @@ extension Config {
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// The resource type.
-        public let resourceType: String
+        public let resourceType: ResourceType
         /// The chronological order for configuration items listed. By default the results are listed in reverse chronological order.
-        public let chronologicalOrder: String?
+        public let chronologicalOrder: ChronologicalOrder?
         /// The time stamp that indicates an earlier time. If not specified, the action returns paginated results that contain configuration items that start from when the first configuration item was recorded.
         public let earlierTime: Date?
         /// The ID of the resource (for example., sg-xxxxxx).
         public let resourceId: String
 
-        public init(laterTime: Date? = nil, limit: Int32? = nil, nextToken: String? = nil, resourceType: String, chronologicalOrder: String? = nil, earlierTime: Date? = nil, resourceId: String) {
+        public init(laterTime: Date? = nil, limit: Int32? = nil, nextToken: String? = nil, resourceType: ResourceType, chronologicalOrder: ChronologicalOrder? = nil, earlierTime: Date? = nil, resourceId: String) {
             self.laterTime = laterTime
             self.limit = limit
             self.nextToken = nextToken
@@ -1269,9 +1341,9 @@ extension Config {
             self.laterTime = dictionary["laterTime"] as? Date
             self.limit = dictionary["limit"] as? Int32
             self.nextToken = dictionary["nextToken"] as? String
-            guard let resourceType = dictionary["resourceType"] as? String else { throw InitializableError.missingRequiredParam("resourceType") }
+            guard let rawresourceType = dictionary["resourceType"] as? String, let resourceType = ResourceType(rawValue: rawresourceType) else { throw InitializableError.missingRequiredParam("resourceType") }
             self.resourceType = resourceType
-            self.chronologicalOrder = dictionary["chronologicalOrder"] as? String
+            if let chronologicalOrder = dictionary["chronologicalOrder"] as? String { self.chronologicalOrder = ChronologicalOrder(rawValue: chronologicalOrder) } else { self.chronologicalOrder = nil }
             self.earlierTime = dictionary["earlierTime"] as? Date
             guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
             self.resourceId = resourceId
@@ -1282,7 +1354,7 @@ extension Config {
         /// The key for the payload
         public static let payload: String? = nil
         /// The resource type of the related resource.
-        public let resourceType: String?
+        public let resourceType: ResourceType?
         /// The ID of the related resource (for example, sg-xxxxxx).
         public let resourceId: String?
         /// The custom name of the related resource, if available.
@@ -1290,7 +1362,7 @@ extension Config {
         /// The type of relationship with the related resource.
         public let relationshipName: String?
 
-        public init(resourceType: String? = nil, resourceId: String? = nil, resourceName: String? = nil, relationshipName: String? = nil) {
+        public init(resourceType: ResourceType? = nil, resourceId: String? = nil, resourceName: String? = nil, relationshipName: String? = nil) {
             self.resourceType = resourceType
             self.resourceId = resourceId
             self.resourceName = resourceName
@@ -1298,7 +1370,7 @@ extension Config {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.resourceType = dictionary["resourceType"] as? String
+            if let resourceType = dictionary["resourceType"] as? String { self.resourceType = ResourceType(rawValue: resourceType) } else { self.resourceType = nil }
             self.resourceId = dictionary["resourceId"] as? String
             self.resourceName = dictionary["resourceName"] as? String
             self.relationshipName = dictionary["relationshipName"] as? String
@@ -1311,16 +1383,16 @@ extension Config {
         /// The number of AWS resources or AWS Config rules that cause a result of NON_COMPLIANT, up to a maximum number.
         public let complianceContributorCount: ComplianceContributorCount?
         /// Indicates whether an AWS resource or AWS Config rule is compliant. A resource is compliant if it complies with all of the AWS Config rules that evaluate it, and it is noncompliant if it does not comply with one or more of these rules. A rule is compliant if all of the resources that the rule evaluates comply with it, and it is noncompliant if any of these resources do not comply. AWS Config returns the INSUFFICIENT_DATA value when no evaluation results are available for the AWS resource or Config rule. For the Compliance data type, AWS Config supports only COMPLIANT, NON_COMPLIANT, and INSUFFICIENT_DATA values. AWS Config does not support the NOT_APPLICABLE value for the Compliance data type.
-        public let complianceType: String?
+        public let complianceType: ComplianceType?
 
-        public init(complianceContributorCount: ComplianceContributorCount? = nil, complianceType: String? = nil) {
+        public init(complianceContributorCount: ComplianceContributorCount? = nil, complianceType: ComplianceType? = nil) {
             self.complianceContributorCount = complianceContributorCount
             self.complianceType = complianceType
         }
 
         public init(dictionary: [String: Any]) throws {
             if let complianceContributorCount = dictionary["ComplianceContributorCount"] as? [String: Any] { self.complianceContributorCount = try Config.ComplianceContributorCount(dictionary: complianceContributorCount) } else { self.complianceContributorCount = nil }
-            self.complianceType = dictionary["ComplianceType"] as? String
+            if let complianceType = dictionary["ComplianceType"] as? String { self.complianceType = ComplianceType(rawValue: complianceType) } else { self.complianceType = nil }
         }
     }
 
@@ -1343,15 +1415,22 @@ extension Config {
         /// The key for the payload
         public static let payload: String? = nil
         /// The frequency with which AWS Config delivers configuration snapshots.
-        public let deliveryFrequency: String?
+        public let deliveryFrequency: MaximumExecutionFrequency?
 
-        public init(deliveryFrequency: String? = nil) {
+        public init(deliveryFrequency: MaximumExecutionFrequency? = nil) {
             self.deliveryFrequency = deliveryFrequency
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.deliveryFrequency = dictionary["deliveryFrequency"] as? String
+            if let deliveryFrequency = dictionary["deliveryFrequency"] as? String { self.deliveryFrequency = MaximumExecutionFrequency(rawValue: deliveryFrequency) } else { self.deliveryFrequency = nil }
         }
+    }
+
+    public enum RecorderStatus: String, CustomStringConvertible {
+        case pending = "Pending"
+        case success = "Success"
+        case failure = "Failure"
+        public var description: String { return self.rawValue }
     }
 
     public struct ListDiscoveredResourcesResponse: AWSShape {
@@ -1375,6 +1454,14 @@ extension Config {
             }
             self.nextToken = dictionary["nextToken"] as? String
         }
+    }
+
+    public enum MessageType: String, CustomStringConvertible {
+        case configurationitemchangenotification = "ConfigurationItemChangeNotification"
+        case configurationsnapshotdeliverycompleted = "ConfigurationSnapshotDeliveryCompleted"
+        case schedulednotification = "ScheduledNotification"
+        case oversizedconfigurationitemchangenotification = "OversizedConfigurationItemChangeNotification"
+        public var description: String { return self.rawValue }
     }
 
     public struct DeleteEvaluationResultsResponse: AWSShape {
@@ -1408,6 +1495,15 @@ extension Config {
         }
     }
 
+    public enum MaximumExecutionFrequency: String, CustomStringConvertible {
+        case one_hour = "One_Hour"
+        case three_hours = "Three_Hours"
+        case six_hours = "Six_Hours"
+        case twelve_hours = "Twelve_Hours"
+        case twentyfour_hours = "TwentyFour_Hours"
+        public var description: String { return self.rawValue }
+    }
+
     public struct EvaluationResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1418,13 +1514,13 @@ extension Config {
         /// The time when AWS Config recorded the evaluation result.
         public let resultRecordedTime: Date?
         /// Indicates whether the AWS resource complies with the AWS Config rule that evaluated it. For the EvaluationResult data type, AWS Config supports only the COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE values. AWS Config does not support the INSUFFICIENT_DATA value for the EvaluationResult data type.
-        public let complianceType: String?
+        public let complianceType: ComplianceType?
         /// An encrypted token that associates an evaluation with an AWS Config rule. The token identifies the rule, the AWS resource being evaluated, and the event that triggered the evaluation.
         public let resultToken: String?
         /// Supplementary information about how the evaluation determined the compliance.
         public let annotation: String?
 
-        public init(evaluationResultIdentifier: EvaluationResultIdentifier? = nil, configRuleInvokedTime: Date? = nil, resultRecordedTime: Date? = nil, complianceType: String? = nil, resultToken: String? = nil, annotation: String? = nil) {
+        public init(evaluationResultIdentifier: EvaluationResultIdentifier? = nil, configRuleInvokedTime: Date? = nil, resultRecordedTime: Date? = nil, complianceType: ComplianceType? = nil, resultToken: String? = nil, annotation: String? = nil) {
             self.evaluationResultIdentifier = evaluationResultIdentifier
             self.configRuleInvokedTime = configRuleInvokedTime
             self.resultRecordedTime = resultRecordedTime
@@ -1437,10 +1533,18 @@ extension Config {
             if let evaluationResultIdentifier = dictionary["EvaluationResultIdentifier"] as? [String: Any] { self.evaluationResultIdentifier = try Config.EvaluationResultIdentifier(dictionary: evaluationResultIdentifier) } else { self.evaluationResultIdentifier = nil }
             self.configRuleInvokedTime = dictionary["ConfigRuleInvokedTime"] as? Date
             self.resultRecordedTime = dictionary["ResultRecordedTime"] as? Date
-            self.complianceType = dictionary["ComplianceType"] as? String
+            if let complianceType = dictionary["ComplianceType"] as? String { self.complianceType = ComplianceType(rawValue: complianceType) } else { self.complianceType = nil }
             self.resultToken = dictionary["ResultToken"] as? String
             self.annotation = dictionary["Annotation"] as? String
         }
+    }
+
+    public enum ConfigurationItemStatus: String, CustomStringConvertible {
+        case ok = "Ok"
+        case failed = "Failed"
+        case discovered = "Discovered"
+        case deleted = "Deleted"
+        public var description: String { return self.rawValue }
     }
 
     public struct DescribeComplianceByResourceRequest: AWSShape {
@@ -1455,9 +1559,9 @@ extension Config {
         /// The types of AWS resources for which you want compliance information; for example, AWS::EC2::Instance. For this action, you can specify that the resource type is an AWS account by specifying AWS::::Account.
         public let resourceType: String?
         /// Filters the results by compliance. The allowed values are COMPLIANT, NON_COMPLIANT, and INSUFFICIENT_DATA.
-        public let complianceTypes: [String]?
+        public let complianceTypes: [ComplianceType]?
 
-        public init(limit: Int32? = nil, resourceId: String? = nil, nextToken: String? = nil, resourceType: String? = nil, complianceTypes: [String]? = nil) {
+        public init(limit: Int32? = nil, resourceId: String? = nil, nextToken: String? = nil, resourceType: String? = nil, complianceTypes: [ComplianceType]? = nil) {
             self.limit = limit
             self.resourceId = resourceId
             self.nextToken = nextToken
@@ -1470,7 +1574,7 @@ extension Config {
             self.resourceId = dictionary["ResourceId"] as? String
             self.nextToken = dictionary["NextToken"] as? String
             self.resourceType = dictionary["ResourceType"] as? String
-            self.complianceTypes = dictionary["ComplianceTypes"] as? [String]
+            if let complianceTypes = dictionary["ComplianceTypes"] as? [String] { self.complianceTypes = complianceTypes.flatMap({ ComplianceType(rawValue: $0)}) } else { self.complianceTypes = nil }
         }
     }
 
@@ -1510,6 +1614,12 @@ extension Config {
                 self.failedEvaluations = nil
             }
         }
+    }
+
+    public enum ChronologicalOrder: String, CustomStringConvertible {
+        case reverse = "Reverse"
+        case forward = "Forward"
+        public var description: String { return self.rawValue }
     }
 
     public struct StartConfigRulesEvaluationRequest: AWSShape {
@@ -1588,13 +1698,13 @@ extension Config {
         /// The error code indicating that the recording failed.
         public let lastErrorCode: String?
         /// The last (previous) status of the recorder.
-        public let lastStatus: String?
+        public let lastStatus: RecorderStatus?
         /// The time the recorder was last started.
         public let lastStartTime: Date?
         /// The message indicating that the recording failed due to an error.
         public let lastErrorMessage: String?
 
-        public init(name: String? = nil, lastStatusChangeTime: Date? = nil, lastStopTime: Date? = nil, recording: Bool? = nil, lastErrorCode: String? = nil, lastStatus: String? = nil, lastStartTime: Date? = nil, lastErrorMessage: String? = nil) {
+        public init(name: String? = nil, lastStatusChangeTime: Date? = nil, lastStopTime: Date? = nil, recording: Bool? = nil, lastErrorCode: String? = nil, lastStatus: RecorderStatus? = nil, lastStartTime: Date? = nil, lastErrorMessage: String? = nil) {
             self.name = name
             self.lastStatusChangeTime = lastStatusChangeTime
             self.lastStopTime = lastStopTime
@@ -1611,7 +1721,7 @@ extension Config {
             self.lastStopTime = dictionary["lastStopTime"] as? Date
             self.recording = dictionary["recording"] as? Bool
             self.lastErrorCode = dictionary["lastErrorCode"] as? String
-            self.lastStatus = dictionary["lastStatus"] as? String
+            if let lastStatus = dictionary["lastStatus"] as? String { self.lastStatus = RecorderStatus(rawValue: lastStatus) } else { self.lastStatus = nil }
             self.lastStartTime = dictionary["lastStartTime"] as? Date
             self.lastErrorMessage = dictionary["lastErrorMessage"] as? String
         }

@@ -166,7 +166,7 @@ extension Directconnect {
         public let connections: [Connection]?
         public let location: String?
         public let lagId: String?
-        public let lagState: String?
+        public let lagState: LagState?
         /// The AWS Direct Connection endpoint that hosts the LAG.
         public let awsDevice: String?
         /// The number of physical connections bundled by the LAG, up to a maximum of 10.
@@ -183,7 +183,7 @@ extension Directconnect {
         /// The name of the LAG.
         public let lagName: String?
 
-        public init(connections: [Connection]? = nil, location: String? = nil, lagId: String? = nil, lagState: String? = nil, awsDevice: String? = nil, numberOfConnections: Int32? = nil, ownerAccount: String? = nil, region: String? = nil, minimumLinks: Int32? = nil, allowsHostedConnections: Bool? = nil, connectionsBandwidth: String? = nil, lagName: String? = nil) {
+        public init(connections: [Connection]? = nil, location: String? = nil, lagId: String? = nil, lagState: LagState? = nil, awsDevice: String? = nil, numberOfConnections: Int32? = nil, ownerAccount: String? = nil, region: String? = nil, minimumLinks: Int32? = nil, allowsHostedConnections: Bool? = nil, connectionsBandwidth: String? = nil, lagName: String? = nil) {
             self.connections = connections
             self.location = location
             self.lagId = lagId
@@ -206,7 +206,7 @@ extension Directconnect {
             }
             self.location = dictionary["location"] as? String
             self.lagId = dictionary["lagId"] as? String
-            self.lagState = dictionary["lagState"] as? String
+            if let lagState = dictionary["lagState"] as? String { self.lagState = LagState(rawValue: lagState) } else { self.lagState = nil }
             self.awsDevice = dictionary["awsDevice"] as? String
             self.numberOfConnections = dictionary["numberOfConnections"] as? Int32
             self.ownerAccount = dictionary["ownerAccount"] as? String
@@ -221,14 +221,14 @@ extension Directconnect {
     public struct DeleteVirtualInterfaceResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let virtualInterfaceState: String?
+        public let virtualInterfaceState: VirtualInterfaceState?
 
-        public init(virtualInterfaceState: String? = nil) {
+        public init(virtualInterfaceState: VirtualInterfaceState? = nil) {
             self.virtualInterfaceState = virtualInterfaceState
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.virtualInterfaceState = dictionary["virtualInterfaceState"] as? String
+            if let virtualInterfaceState = dictionary["virtualInterfaceState"] as? String { self.virtualInterfaceState = VirtualInterfaceState(rawValue: virtualInterfaceState) } else { self.virtualInterfaceState = nil }
         }
     }
 
@@ -251,6 +251,15 @@ extension Directconnect {
             guard let connectionId = dictionary["connectionId"] as? String else { throw InitializableError.missingRequiredParam("connectionId") }
             self.connectionId = connectionId
         }
+    }
+
+    public enum BGPPeerState: String, CustomStringConvertible {
+        case verifying = "verifying"
+        case pending = "pending"
+        case available = "available"
+        case deleting = "deleting"
+        case deleted = "deleted"
+        public var description: String { return self.rawValue }
     }
 
     public struct CreateBGPPeerResponse: AWSShape {
@@ -312,6 +321,16 @@ extension Directconnect {
         }
     }
 
+    public enum LagState: String, CustomStringConvertible {
+        case requested = "requested"
+        case pending = "pending"
+        case available = "available"
+        case down = "down"
+        case deleting = "deleting"
+        case deleted = "deleted"
+        public var description: String { return self.rawValue }
+    }
+
     public struct NewPublicVirtualInterfaceAllocation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -320,11 +339,11 @@ extension Directconnect {
         public let authKey: String?
         public let amazonAddress: String?
         public let asn: Int32
-        public let addressFamily: String?
+        public let addressFamily: AddressFamily?
         public let routeFilterPrefixes: [RouteFilterPrefix]?
         public let vlan: Int32
 
-        public init(customerAddress: String? = nil, virtualInterfaceName: String, authKey: String? = nil, amazonAddress: String? = nil, asn: Int32, addressFamily: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, vlan: Int32) {
+        public init(customerAddress: String? = nil, virtualInterfaceName: String, authKey: String? = nil, amazonAddress: String? = nil, asn: Int32, addressFamily: AddressFamily? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, vlan: Int32) {
             self.customerAddress = customerAddress
             self.virtualInterfaceName = virtualInterfaceName
             self.authKey = authKey
@@ -343,7 +362,7 @@ extension Directconnect {
             self.amazonAddress = dictionary["amazonAddress"] as? String
             guard let asn = dictionary["asn"] as? Int32 else { throw InitializableError.missingRequiredParam("asn") }
             self.asn = asn
-            self.addressFamily = dictionary["addressFamily"] as? String
+            if let addressFamily = dictionary["addressFamily"] as? String { self.addressFamily = AddressFamily(rawValue: addressFamily) } else { self.addressFamily = nil }
             if let routeFilterPrefixes = dictionary["routeFilterPrefixes"] as? [[String: Any]] {
                 self.routeFilterPrefixes = try routeFilterPrefixes.map({ try RouteFilterPrefix(dictionary: $0) })
             } else { 
@@ -352,6 +371,16 @@ extension Directconnect {
             guard let vlan = dictionary["vlan"] as? Int32 else { throw InitializableError.missingRequiredParam("vlan") }
             self.vlan = vlan
         }
+    }
+
+    public enum InterconnectState: String, CustomStringConvertible {
+        case requested = "requested"
+        case pending = "pending"
+        case available = "available"
+        case down = "down"
+        case deleting = "deleting"
+        case deleted = "deleted"
+        public var description: String { return self.rawValue }
     }
 
     public struct Tag: AWSShape {
@@ -435,10 +464,10 @@ extension Directconnect {
         public static let payload: String? = nil
         /// The name of the service provider who establishes connectivity on your behalf. If you supply this parameter, the LOA-CFA lists the provider name alongside your company name as the requester of the cross connect. Default: None
         public let providerName: String?
-        public let loaContentType: String?
+        public let loaContentType: LoaContentType?
         public let interconnectId: String
 
-        public init(providerName: String? = nil, loaContentType: String? = nil, interconnectId: String) {
+        public init(providerName: String? = nil, loaContentType: LoaContentType? = nil, interconnectId: String) {
             self.providerName = providerName
             self.loaContentType = loaContentType
             self.interconnectId = interconnectId
@@ -446,7 +475,7 @@ extension Directconnect {
 
         public init(dictionary: [String: Any]) throws {
             self.providerName = dictionary["providerName"] as? String
-            self.loaContentType = dictionary["loaContentType"] as? String
+            if let loaContentType = dictionary["loaContentType"] as? String { self.loaContentType = LoaContentType(rawValue: loaContentType) } else { self.loaContentType = nil }
             guard let interconnectId = dictionary["interconnectId"] as? String else { throw InitializableError.missingRequiredParam("interconnectId") }
             self.interconnectId = interconnectId
         }
@@ -460,11 +489,11 @@ extension Directconnect {
         public let authKey: String?
         public let amazonAddress: String?
         public let asn: Int32
-        public let addressFamily: String?
+        public let addressFamily: AddressFamily?
         public let routeFilterPrefixes: [RouteFilterPrefix]?
         public let vlan: Int32
 
-        public init(customerAddress: String? = nil, virtualInterfaceName: String, authKey: String? = nil, amazonAddress: String? = nil, asn: Int32, addressFamily: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, vlan: Int32) {
+        public init(customerAddress: String? = nil, virtualInterfaceName: String, authKey: String? = nil, amazonAddress: String? = nil, asn: Int32, addressFamily: AddressFamily? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, vlan: Int32) {
             self.customerAddress = customerAddress
             self.virtualInterfaceName = virtualInterfaceName
             self.authKey = authKey
@@ -483,7 +512,7 @@ extension Directconnect {
             self.amazonAddress = dictionary["amazonAddress"] as? String
             guard let asn = dictionary["asn"] as? Int32 else { throw InitializableError.missingRequiredParam("asn") }
             self.asn = asn
-            self.addressFamily = dictionary["addressFamily"] as? String
+            if let addressFamily = dictionary["addressFamily"] as? String { self.addressFamily = AddressFamily(rawValue: addressFamily) } else { self.addressFamily = nil }
             if let routeFilterPrefixes = dictionary["routeFilterPrefixes"] as? [[String: Any]] {
                 self.routeFilterPrefixes = try routeFilterPrefixes.map({ try RouteFilterPrefix(dictionary: $0) })
             } else { 
@@ -587,11 +616,11 @@ extension Directconnect {
         public let authKey: String?
         public let amazonAddress: String?
         public let asn: Int32
-        public let addressFamily: String?
+        public let addressFamily: AddressFamily?
         public let virtualGatewayId: String
         public let vlan: Int32
 
-        public init(customerAddress: String? = nil, virtualInterfaceName: String, authKey: String? = nil, amazonAddress: String? = nil, asn: Int32, addressFamily: String? = nil, virtualGatewayId: String, vlan: Int32) {
+        public init(customerAddress: String? = nil, virtualInterfaceName: String, authKey: String? = nil, amazonAddress: String? = nil, asn: Int32, addressFamily: AddressFamily? = nil, virtualGatewayId: String, vlan: Int32) {
             self.customerAddress = customerAddress
             self.virtualInterfaceName = virtualInterfaceName
             self.authKey = authKey
@@ -610,7 +639,7 @@ extension Directconnect {
             self.amazonAddress = dictionary["amazonAddress"] as? String
             guard let asn = dictionary["asn"] as? Int32 else { throw InitializableError.missingRequiredParam("asn") }
             self.asn = asn
-            self.addressFamily = dictionary["addressFamily"] as? String
+            if let addressFamily = dictionary["addressFamily"] as? String { self.addressFamily = AddressFamily(rawValue: addressFamily) } else { self.addressFamily = nil }
             guard let virtualGatewayId = dictionary["virtualGatewayId"] as? String else { throw InitializableError.missingRequiredParam("virtualGatewayId") }
             self.virtualGatewayId = virtualGatewayId
             guard let vlan = dictionary["vlan"] as? Int32 else { throw InitializableError.missingRequiredParam("vlan") }
@@ -657,10 +686,10 @@ extension Directconnect {
         public let authKey: String?
         public let amazonAddress: String?
         public let asn: Int32
-        public let addressFamily: String?
+        public let addressFamily: AddressFamily?
         public let vlan: Int32
 
-        public init(customerAddress: String? = nil, virtualInterfaceName: String, authKey: String? = nil, amazonAddress: String? = nil, asn: Int32, addressFamily: String? = nil, vlan: Int32) {
+        public init(customerAddress: String? = nil, virtualInterfaceName: String, authKey: String? = nil, amazonAddress: String? = nil, asn: Int32, addressFamily: AddressFamily? = nil, vlan: Int32) {
             self.customerAddress = customerAddress
             self.virtualInterfaceName = virtualInterfaceName
             self.authKey = authKey
@@ -678,7 +707,7 @@ extension Directconnect {
             self.amazonAddress = dictionary["amazonAddress"] as? String
             guard let asn = dictionary["asn"] as? Int32 else { throw InitializableError.missingRequiredParam("asn") }
             self.asn = asn
-            self.addressFamily = dictionary["addressFamily"] as? String
+            if let addressFamily = dictionary["addressFamily"] as? String { self.addressFamily = AddressFamily(rawValue: addressFamily) } else { self.addressFamily = nil }
             guard let vlan = dictionary["vlan"] as? Int32 else { throw InitializableError.missingRequiredParam("vlan") }
             self.vlan = vlan
         }
@@ -702,6 +731,18 @@ extension Directconnect {
             guard let newPublicVirtualInterface = dictionary["newPublicVirtualInterface"] as? [String: Any] else { throw InitializableError.missingRequiredParam("newPublicVirtualInterface") }
             self.newPublicVirtualInterface = try Directconnect.NewPublicVirtualInterface(dictionary: newPublicVirtualInterface)
         }
+    }
+
+    public enum VirtualInterfaceState: String, CustomStringConvertible {
+        case confirming = "confirming"
+        case verifying = "verifying"
+        case pending = "pending"
+        case available = "available"
+        case down = "down"
+        case deleting = "deleting"
+        case deleted = "deleted"
+        case rejected = "rejected"
+        public var description: String { return self.rawValue }
     }
 
     public struct DescribeInterconnectsRequest: AWSShape {
@@ -775,6 +816,12 @@ extension Directconnect {
             guard let lagId = dictionary["lagId"] as? String else { throw InitializableError.missingRequiredParam("lagId") }
             self.lagId = lagId
         }
+    }
+
+    public enum AddressFamily: String, CustomStringConvertible {
+        case ipv4 = "ipv4"
+        case ipv6 = "ipv6"
+        public var description: String { return self.rawValue }
     }
 
     public struct AllocatePublicVirtualInterfaceRequest: AWSShape {
@@ -895,13 +942,13 @@ extension Directconnect {
         public let region: String?
         /// The AWS account that will own the new connection.
         public let ownerAccount: String?
-        public let connectionState: String?
+        public let connectionState: ConnectionState?
         public let connectionName: String?
         public let vlan: Int32?
         /// The name of the AWS Direct Connect service provider associated with the connection.
         public let partnerName: String?
 
-        public init(loaIssueTime: Date? = nil, bandwidth: String? = nil, location: String? = nil, lagId: String? = nil, awsDevice: String? = nil, connectionId: String? = nil, region: String? = nil, ownerAccount: String? = nil, connectionState: String? = nil, connectionName: String? = nil, vlan: Int32? = nil, partnerName: String? = nil) {
+        public init(loaIssueTime: Date? = nil, bandwidth: String? = nil, location: String? = nil, lagId: String? = nil, awsDevice: String? = nil, connectionId: String? = nil, region: String? = nil, ownerAccount: String? = nil, connectionState: ConnectionState? = nil, connectionName: String? = nil, vlan: Int32? = nil, partnerName: String? = nil) {
             self.loaIssueTime = loaIssueTime
             self.bandwidth = bandwidth
             self.location = location
@@ -925,7 +972,7 @@ extension Directconnect {
             self.connectionId = dictionary["connectionId"] as? String
             self.region = dictionary["region"] as? String
             self.ownerAccount = dictionary["ownerAccount"] as? String
-            self.connectionState = dictionary["connectionState"] as? String
+            if let connectionState = dictionary["connectionState"] as? String { self.connectionState = ConnectionState(rawValue: connectionState) } else { self.connectionState = nil }
             self.connectionName = dictionary["connectionName"] as? String
             self.vlan = dictionary["vlan"] as? Int32
             self.partnerName = dictionary["partnerName"] as? String
@@ -968,14 +1015,14 @@ extension Directconnect {
     public struct DeleteInterconnectResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let interconnectState: String?
+        public let interconnectState: InterconnectState?
 
-        public init(interconnectState: String? = nil) {
+        public init(interconnectState: InterconnectState? = nil) {
             self.interconnectState = interconnectState
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.interconnectState = dictionary["interconnectState"] as? String
+            if let interconnectState = dictionary["interconnectState"] as? String { self.interconnectState = InterconnectState(rawValue: interconnectState) } else { self.interconnectState = nil }
         }
     }
 
@@ -990,15 +1037,15 @@ extension Directconnect {
     public struct BGPPeer: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let bgpPeerState: String?
+        public let bgpPeerState: BGPPeerState?
         public let customerAddress: String?
-        public let bgpStatus: String?
+        public let bgpStatus: BGPStatus?
         public let authKey: String?
         public let amazonAddress: String?
         public let asn: Int32?
-        public let addressFamily: String?
+        public let addressFamily: AddressFamily?
 
-        public init(bgpPeerState: String? = nil, customerAddress: String? = nil, bgpStatus: String? = nil, authKey: String? = nil, amazonAddress: String? = nil, asn: Int32? = nil, addressFamily: String? = nil) {
+        public init(bgpPeerState: BGPPeerState? = nil, customerAddress: String? = nil, bgpStatus: BGPStatus? = nil, authKey: String? = nil, amazonAddress: String? = nil, asn: Int32? = nil, addressFamily: AddressFamily? = nil) {
             self.bgpPeerState = bgpPeerState
             self.customerAddress = customerAddress
             self.bgpStatus = bgpStatus
@@ -1009,13 +1056,13 @@ extension Directconnect {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.bgpPeerState = dictionary["bgpPeerState"] as? String
+            if let bgpPeerState = dictionary["bgpPeerState"] as? String { self.bgpPeerState = BGPPeerState(rawValue: bgpPeerState) } else { self.bgpPeerState = nil }
             self.customerAddress = dictionary["customerAddress"] as? String
-            self.bgpStatus = dictionary["bgpStatus"] as? String
+            if let bgpStatus = dictionary["bgpStatus"] as? String { self.bgpStatus = BGPStatus(rawValue: bgpStatus) } else { self.bgpStatus = nil }
             self.authKey = dictionary["authKey"] as? String
             self.amazonAddress = dictionary["amazonAddress"] as? String
             self.asn = dictionary["asn"] as? Int32
-            self.addressFamily = dictionary["addressFamily"] as? String
+            if let addressFamily = dictionary["addressFamily"] as? String { self.addressFamily = AddressFamily(rawValue: addressFamily) } else { self.addressFamily = nil }
         }
     }
 
@@ -1059,17 +1106,29 @@ extension Directconnect {
         }
     }
 
+    public enum ConnectionState: String, CustomStringConvertible {
+        case ordering = "ordering"
+        case requested = "requested"
+        case pending = "pending"
+        case available = "available"
+        case down = "down"
+        case deleting = "deleting"
+        case deleted = "deleted"
+        case rejected = "rejected"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ConfirmPrivateVirtualInterfaceResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let virtualInterfaceState: String?
+        public let virtualInterfaceState: VirtualInterfaceState?
 
-        public init(virtualInterfaceState: String? = nil) {
+        public init(virtualInterfaceState: VirtualInterfaceState? = nil) {
             self.virtualInterfaceState = virtualInterfaceState
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.virtualInterfaceState = dictionary["virtualInterfaceState"] as? String
+            if let virtualInterfaceState = dictionary["virtualInterfaceState"] as? String { self.virtualInterfaceState = VirtualInterfaceState(rawValue: virtualInterfaceState) } else { self.virtualInterfaceState = nil }
         }
     }
 
@@ -1112,9 +1171,9 @@ extension Directconnect {
         /// The ID of a connection, LAG, or interconnect for which to get the LOA-CFA information. Example: dxcon-abc123 or dxlag-abc123 Default: None
         public let connectionId: String
         /// A standard media type indicating the content type of the LOA-CFA document. Currently, the only supported value is "application/pdf". Default: application/pdf
-        public let loaContentType: String?
+        public let loaContentType: LoaContentType?
 
-        public init(providerName: String? = nil, connectionId: String, loaContentType: String? = nil) {
+        public init(providerName: String? = nil, connectionId: String, loaContentType: LoaContentType? = nil) {
             self.providerName = providerName
             self.connectionId = connectionId
             self.loaContentType = loaContentType
@@ -1124,7 +1183,7 @@ extension Directconnect {
             self.providerName = dictionary["providerName"] as? String
             guard let connectionId = dictionary["connectionId"] as? String else { throw InitializableError.missingRequiredParam("connectionId") }
             self.connectionId = connectionId
-            self.loaContentType = dictionary["loaContentType"] as? String
+            if let loaContentType = dictionary["loaContentType"] as? String { self.loaContentType = LoaContentType(rawValue: loaContentType) } else { self.loaContentType = nil }
         }
     }
 
@@ -1154,7 +1213,7 @@ extension Directconnect {
         public static let payload: String? = nil
         /// The time of the most recent call to DescribeInterconnectLoa for this Interconnect.
         public let loaIssueTime: Date?
-        public let interconnectState: String?
+        public let interconnectState: InterconnectState?
         public let location: String?
         /// The Direct Connection endpoint which the physical connection terminates on.
         public let awsDevice: String?
@@ -1164,7 +1223,7 @@ extension Directconnect {
         public let interconnectId: String?
         public let bandwidth: String?
 
-        public init(loaIssueTime: Date? = nil, interconnectState: String? = nil, location: String? = nil, awsDevice: String? = nil, lagId: String? = nil, region: String? = nil, interconnectName: String? = nil, interconnectId: String? = nil, bandwidth: String? = nil) {
+        public init(loaIssueTime: Date? = nil, interconnectState: InterconnectState? = nil, location: String? = nil, awsDevice: String? = nil, lagId: String? = nil, region: String? = nil, interconnectName: String? = nil, interconnectId: String? = nil, bandwidth: String? = nil) {
             self.loaIssueTime = loaIssueTime
             self.interconnectState = interconnectState
             self.location = location
@@ -1178,7 +1237,7 @@ extension Directconnect {
 
         public init(dictionary: [String: Any]) throws {
             self.loaIssueTime = dictionary["loaIssueTime"] as? Date
-            self.interconnectState = dictionary["interconnectState"] as? String
+            if let interconnectState = dictionary["interconnectState"] as? String { self.interconnectState = InterconnectState(rawValue: interconnectState) } else { self.interconnectState = nil }
             self.location = dictionary["location"] as? String
             self.awsDevice = dictionary["awsDevice"] as? String
             self.lagId = dictionary["lagId"] as? String
@@ -1241,6 +1300,11 @@ extension Directconnect {
         }
     }
 
+    public enum LoaContentType: String, CustomStringConvertible {
+        case application_pdf = "application/pdf"
+        public var description: String { return self.rawValue }
+    }
+
     public struct VirtualInterfaces: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1258,6 +1322,12 @@ extension Directconnect {
                 self.virtualInterfaces = nil
             }
         }
+    }
+
+    public enum BGPStatus: String, CustomStringConvertible {
+        case up = "up"
+        case down = "down"
+        public var description: String { return self.rawValue }
     }
 
     public struct UntagResourceResponse: AWSShape {
@@ -1290,16 +1360,16 @@ extension Directconnect {
     public struct Loa: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let loaContentType: String?
+        public let loaContentType: LoaContentType?
         public let loaContent: Data?
 
-        public init(loaContentType: String? = nil, loaContent: Data? = nil) {
+        public init(loaContentType: LoaContentType? = nil, loaContent: Data? = nil) {
             self.loaContentType = loaContentType
             self.loaContent = loaContent
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.loaContentType = dictionary["loaContentType"] as? String
+            if let loaContentType = dictionary["loaContentType"] as? String { self.loaContentType = LoaContentType(rawValue: loaContentType) } else { self.loaContentType = nil }
             self.loaContent = dictionary["loaContent"] as? Data
         }
     }
@@ -1313,7 +1383,7 @@ extension Directconnect {
         /// The AWS account that will own the new virtual interface.
         public let ownerAccount: String?
         public let asn: Int32?
-        public let addressFamily: String?
+        public let addressFamily: AddressFamily?
         public let routeFilterPrefixes: [RouteFilterPrefix]?
         public let location: String?
         public let virtualInterfaceName: String?
@@ -1324,10 +1394,10 @@ extension Directconnect {
         public let bgpPeers: [BGPPeer]?
         public let virtualGatewayId: String?
         public let virtualInterfaceId: String?
-        public let virtualInterfaceState: String?
+        public let virtualInterfaceState: VirtualInterfaceState?
         public let vlan: Int32?
 
-        public init(customerAddress: String? = nil, virtualInterfaceType: String? = nil, connectionId: String? = nil, ownerAccount: String? = nil, asn: Int32? = nil, addressFamily: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, location: String? = nil, virtualInterfaceName: String? = nil, authKey: String? = nil, amazonAddress: String? = nil, customerRouterConfig: String? = nil, bgpPeers: [BGPPeer]? = nil, virtualGatewayId: String? = nil, virtualInterfaceId: String? = nil, virtualInterfaceState: String? = nil, vlan: Int32? = nil) {
+        public init(customerAddress: String? = nil, virtualInterfaceType: String? = nil, connectionId: String? = nil, ownerAccount: String? = nil, asn: Int32? = nil, addressFamily: AddressFamily? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, location: String? = nil, virtualInterfaceName: String? = nil, authKey: String? = nil, amazonAddress: String? = nil, customerRouterConfig: String? = nil, bgpPeers: [BGPPeer]? = nil, virtualGatewayId: String? = nil, virtualInterfaceId: String? = nil, virtualInterfaceState: VirtualInterfaceState? = nil, vlan: Int32? = nil) {
             self.customerAddress = customerAddress
             self.virtualInterfaceType = virtualInterfaceType
             self.connectionId = connectionId
@@ -1353,7 +1423,7 @@ extension Directconnect {
             self.connectionId = dictionary["connectionId"] as? String
             self.ownerAccount = dictionary["ownerAccount"] as? String
             self.asn = dictionary["asn"] as? Int32
-            self.addressFamily = dictionary["addressFamily"] as? String
+            if let addressFamily = dictionary["addressFamily"] as? String { self.addressFamily = AddressFamily(rawValue: addressFamily) } else { self.addressFamily = nil }
             if let routeFilterPrefixes = dictionary["routeFilterPrefixes"] as? [[String: Any]] {
                 self.routeFilterPrefixes = try routeFilterPrefixes.map({ try RouteFilterPrefix(dictionary: $0) })
             } else { 
@@ -1371,7 +1441,7 @@ extension Directconnect {
             }
             self.virtualGatewayId = dictionary["virtualGatewayId"] as? String
             self.virtualInterfaceId = dictionary["virtualInterfaceId"] as? String
-            self.virtualInterfaceState = dictionary["virtualInterfaceState"] as? String
+            if let virtualInterfaceState = dictionary["virtualInterfaceState"] as? String { self.virtualInterfaceState = VirtualInterfaceState(rawValue: virtualInterfaceState) } else { self.virtualInterfaceState = nil }
             self.vlan = dictionary["vlan"] as? Int32
         }
     }
@@ -1379,14 +1449,14 @@ extension Directconnect {
     public struct ConfirmPublicVirtualInterfaceResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let virtualInterfaceState: String?
+        public let virtualInterfaceState: VirtualInterfaceState?
 
-        public init(virtualInterfaceState: String? = nil) {
+        public init(virtualInterfaceState: VirtualInterfaceState? = nil) {
             self.virtualInterfaceState = virtualInterfaceState
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.virtualInterfaceState = dictionary["virtualInterfaceState"] as? String
+            if let virtualInterfaceState = dictionary["virtualInterfaceState"] as? String { self.virtualInterfaceState = VirtualInterfaceState(rawValue: virtualInterfaceState) } else { self.virtualInterfaceState = nil }
         }
     }
 
@@ -1441,9 +1511,9 @@ extension Directconnect {
         /// The name of the APN partner or service provider who establishes connectivity on your behalf. If you supply this parameter, the LOA-CFA lists the provider name alongside your company name as the requester of the cross connect. Default: None
         public let providerName: String?
         public let connectionId: String
-        public let loaContentType: String?
+        public let loaContentType: LoaContentType?
 
-        public init(providerName: String? = nil, connectionId: String, loaContentType: String? = nil) {
+        public init(providerName: String? = nil, connectionId: String, loaContentType: LoaContentType? = nil) {
             self.providerName = providerName
             self.connectionId = connectionId
             self.loaContentType = loaContentType
@@ -1453,7 +1523,7 @@ extension Directconnect {
             self.providerName = dictionary["providerName"] as? String
             guard let connectionId = dictionary["connectionId"] as? String else { throw InitializableError.missingRequiredParam("connectionId") }
             self.connectionId = connectionId
-            self.loaContentType = dictionary["loaContentType"] as? String
+            if let loaContentType = dictionary["loaContentType"] as? String { self.loaContentType = LoaContentType(rawValue: loaContentType) } else { self.loaContentType = nil }
         }
     }
 
@@ -1482,11 +1552,11 @@ extension Directconnect {
         public static let payload: String? = nil
         public let amazonAddress: String?
         public let customerAddress: String?
-        public let addressFamily: String?
+        public let addressFamily: AddressFamily?
         public let asn: Int32?
         public let authKey: String?
 
-        public init(amazonAddress: String? = nil, customerAddress: String? = nil, addressFamily: String? = nil, asn: Int32? = nil, authKey: String? = nil) {
+        public init(amazonAddress: String? = nil, customerAddress: String? = nil, addressFamily: AddressFamily? = nil, asn: Int32? = nil, authKey: String? = nil) {
             self.amazonAddress = amazonAddress
             self.customerAddress = customerAddress
             self.addressFamily = addressFamily
@@ -1497,7 +1567,7 @@ extension Directconnect {
         public init(dictionary: [String: Any]) throws {
             self.amazonAddress = dictionary["amazonAddress"] as? String
             self.customerAddress = dictionary["customerAddress"] as? String
-            self.addressFamily = dictionary["addressFamily"] as? String
+            if let addressFamily = dictionary["addressFamily"] as? String { self.addressFamily = AddressFamily(rawValue: addressFamily) } else { self.addressFamily = nil }
             self.asn = dictionary["asn"] as? Int32
             self.authKey = dictionary["authKey"] as? String
         }
@@ -1506,14 +1576,14 @@ extension Directconnect {
     public struct ConfirmConnectionResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let connectionState: String?
+        public let connectionState: ConnectionState?
 
-        public init(connectionState: String? = nil) {
+        public init(connectionState: ConnectionState? = nil) {
             self.connectionState = connectionState
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.connectionState = dictionary["connectionState"] as? String
+            if let connectionState = dictionary["connectionState"] as? String { self.connectionState = ConnectionState(rawValue: connectionState) } else { self.connectionState = nil }
         }
     }
 

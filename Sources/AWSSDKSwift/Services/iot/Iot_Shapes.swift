@@ -440,6 +440,12 @@ extension Iot {
         }
     }
 
+    public enum CACertificateStatus: String, CustomStringConvertible {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ListPrincipalThingsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -465,9 +471,9 @@ extension Iot {
         /// The ARN of the IAM role that grants access.
         public let roleArn: String
         /// The logging level.
-        public let logLevel: String?
+        public let logLevel: LogLevel?
 
-        public init(roleArn: String, logLevel: String? = nil) {
+        public init(roleArn: String, logLevel: LogLevel? = nil) {
             self.roleArn = roleArn
             self.logLevel = logLevel
         }
@@ -475,7 +481,7 @@ extension Iot {
         public init(dictionary: [String: Any]) throws {
             guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
             self.roleArn = roleArn
-            self.logLevel = dictionary["logLevel"] as? String
+            if let logLevel = dictionary["logLevel"] as? String { self.logLevel = LogLevel(rawValue: logLevel) } else { self.logLevel = nil }
         }
     }
 
@@ -934,11 +940,11 @@ extension Iot {
         /// The CA certificate identifier.
         public let certificateId: String
         /// The updated status of the CA certificate. Note: The status value REGISTER_INACTIVE is deprecated and should not be used.
-        public let newStatus: String?
+        public let newStatus: CACertificateStatus?
         /// The new value for the auto registration status. Valid values are: "ENABLE" or "DISABLE".
-        public let newAutoRegistrationStatus: String?
+        public let newAutoRegistrationStatus: AutoRegistrationStatus?
 
-        public init(certificateId: String, newStatus: String? = nil, newAutoRegistrationStatus: String? = nil) {
+        public init(certificateId: String, newStatus: CACertificateStatus? = nil, newAutoRegistrationStatus: AutoRegistrationStatus? = nil) {
             self.certificateId = certificateId
             self.newStatus = newStatus
             self.newAutoRegistrationStatus = newAutoRegistrationStatus
@@ -947,8 +953,8 @@ extension Iot {
         public init(dictionary: [String: Any]) throws {
             guard let certificateId = dictionary["CaCertificateId"] as? String else { throw InitializableError.missingRequiredParam("CaCertificateId") }
             self.certificateId = certificateId
-            self.newStatus = dictionary["NewStatus"] as? String
-            self.newAutoRegistrationStatus = dictionary["NewAutoRegistrationStatus"] as? String
+            if let newStatus = dictionary["NewStatus"] as? String { self.newStatus = CACertificateStatus(rawValue: newStatus) } else { self.newStatus = nil }
+            if let newAutoRegistrationStatus = dictionary["NewAutoRegistrationStatus"] as? String { self.newAutoRegistrationStatus = AutoRegistrationStatus(rawValue: newAutoRegistrationStatus) } else { self.newAutoRegistrationStatus = nil }
         }
     }
 
@@ -985,7 +991,7 @@ extension Iot {
         /// The unique identifier for the document you are storing.
         public let id: String
         /// The type of document you are storing.
-        public let type: String
+        public let `type`: String
         /// The Elasticsearch index where you want to store your data.
         public let index: String
 
@@ -993,7 +999,7 @@ extension Iot {
             self.roleArn = roleArn
             self.endpoint = endpoint
             self.id = id
-            self.type = type
+            self.`type` = `type`
             self.index = index
         }
 
@@ -1004,8 +1010,8 @@ extension Iot {
             self.endpoint = endpoint
             guard let id = dictionary["id"] as? String else { throw InitializableError.missingRequiredParam("id") }
             self.id = id
-            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
-            self.type = type
+            guard let `type` = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
+            self.`type` = `type`
             guard let index = dictionary["index"] as? String else { throw InitializableError.missingRequiredParam("index") }
             self.index = index
         }
@@ -1046,9 +1052,9 @@ extension Iot {
         /// The ID of the certificate.
         public let certificateId: String
         /// The new status. Note: Setting the status to PENDING_TRANSFER will result in an exception being thrown. PENDING_TRANSFER is a status used internally by AWS IoT. It is not intended for developer use. Note: The status value REGISTER_INACTIVE is deprecated and should not be used.
-        public let newStatus: String
+        public let newStatus: CertificateStatus
 
-        public init(certificateId: String, newStatus: String) {
+        public init(certificateId: String, newStatus: CertificateStatus) {
             self.certificateId = certificateId
             self.newStatus = newStatus
         }
@@ -1056,9 +1062,15 @@ extension Iot {
         public init(dictionary: [String: Any]) throws {
             guard let certificateId = dictionary["CertificateId"] as? String else { throw InitializableError.missingRequiredParam("CertificateId") }
             self.certificateId = certificateId
-            guard let newStatus = dictionary["NewStatus"] as? String else { throw InitializableError.missingRequiredParam("NewStatus") }
+            guard let rawnewStatus = dictionary["NewStatus"] as? String, let newStatus = CertificateStatus(rawValue: rawnewStatus) else { throw InitializableError.missingRequiredParam("NewStatus") }
             self.newStatus = newStatus
         }
+    }
+
+    public enum MessageFormat: String, CustomStringConvertible {
+        case raw = "RAW"
+        case json = "JSON"
+        public var description: String { return self.rawValue }
     }
 
     public struct TopicRuleListItem: AWSShape {
@@ -1333,7 +1345,7 @@ extension Iot {
         /// The certificate ID of the CA certificate used to sign this certificate.
         public let caCertificateId: String?
         /// The status of the certificate.
-        public let status: String?
+        public let status: CertificateStatus?
         /// The date and time the certificate was created.
         public let creationDate: Date?
         /// The ID of the certificate.
@@ -1351,7 +1363,7 @@ extension Iot {
         /// The date and time the certificate was last modified.
         public let lastModifiedDate: Date?
 
-        public init(caCertificateId: String? = nil, status: String? = nil, creationDate: Date? = nil, certificateId: String? = nil, certificatePem: String? = nil, previousOwnedBy: String? = nil, transferData: TransferData? = nil, ownedBy: String? = nil, certificateArn: String? = nil, lastModifiedDate: Date? = nil) {
+        public init(caCertificateId: String? = nil, status: CertificateStatus? = nil, creationDate: Date? = nil, certificateId: String? = nil, certificatePem: String? = nil, previousOwnedBy: String? = nil, transferData: TransferData? = nil, ownedBy: String? = nil, certificateArn: String? = nil, lastModifiedDate: Date? = nil) {
             self.caCertificateId = caCertificateId
             self.status = status
             self.creationDate = creationDate
@@ -1366,7 +1378,7 @@ extension Iot {
 
         public init(dictionary: [String: Any]) throws {
             self.caCertificateId = dictionary["caCertificateId"] as? String
-            self.status = dictionary["status"] as? String
+            if let status = dictionary["status"] as? String { self.status = CertificateStatus(rawValue: status) } else { self.status = nil }
             self.creationDate = dictionary["creationDate"] as? Date
             self.certificateId = dictionary["certificateId"] as? String
             self.certificatePem = dictionary["certificatePem"] as? String
@@ -1505,7 +1517,7 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the CA certificate.  The status value REGISTER_INACTIVE is deprecated and should not be used.
-        public let status: String?
+        public let status: CACertificateStatus?
         /// The date the CA certificate was created.
         public let creationDate: Date?
         /// The ID of the CA certificate.
@@ -1513,7 +1525,7 @@ extension Iot {
         /// The ARN of the CA certificate.
         public let certificateArn: String?
 
-        public init(status: String? = nil, creationDate: Date? = nil, certificateId: String? = nil, certificateArn: String? = nil) {
+        public init(status: CACertificateStatus? = nil, creationDate: Date? = nil, certificateId: String? = nil, certificateArn: String? = nil) {
             self.status = status
             self.creationDate = creationDate
             self.certificateId = certificateId
@@ -1521,7 +1533,7 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["status"] as? String
+            if let status = dictionary["status"] as? String { self.status = CACertificateStatus(rawValue: status) } else { self.status = nil }
             self.creationDate = dictionary["creationDate"] as? Date
             self.certificateId = dictionary["certificateId"] as? String
             self.certificateArn = dictionary["certificateArn"] as? String
@@ -1789,20 +1801,20 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The message format of the message to publish. Optional. Accepted values are "JSON" and "RAW". The default value of the attribute is "RAW". SNS uses this setting to determine if the payload should be parsed and relevant platform-specific bits of the payload should be extracted. To read more about SNS message formats, see  refer to their official documentation.
-        public let messageFormat: String?
+        public let messageFormat: MessageFormat?
         /// The ARN of the IAM role that grants access.
         public let roleArn: String
         /// The ARN of the SNS topic.
         public let targetArn: String
 
-        public init(messageFormat: String? = nil, roleArn: String, targetArn: String) {
+        public init(messageFormat: MessageFormat? = nil, roleArn: String, targetArn: String) {
             self.messageFormat = messageFormat
             self.roleArn = roleArn
             self.targetArn = targetArn
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.messageFormat = dictionary["messageFormat"] as? String
+            if let messageFormat = dictionary["messageFormat"] as? String { self.messageFormat = MessageFormat(rawValue: messageFormat) } else { self.messageFormat = nil }
             guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
             self.roleArn = roleArn
             guard let targetArn = dictionary["targetArn"] as? String else { throw InitializableError.missingRequiredParam("targetArn") }
@@ -2006,11 +2018,11 @@ extension Iot {
         /// The ARN of the IAM role that grants access.
         public let roleArn: String
         /// The Amazon S3 canned ACL that controls access to the object identified by the object key. For more information, see S3 canned ACLs.
-        public let cannedAcl: String?
+        public let cannedAcl: CannedAccessControlList?
         /// The object key.
         public let key: String
 
-        public init(bucketName: String, roleArn: String, cannedAcl: String? = nil, key: String) {
+        public init(bucketName: String, roleArn: String, cannedAcl: CannedAccessControlList? = nil, key: String) {
             self.bucketName = bucketName
             self.roleArn = roleArn
             self.cannedAcl = cannedAcl
@@ -2022,7 +2034,7 @@ extension Iot {
             self.bucketName = bucketName
             guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
             self.roleArn = roleArn
-            self.cannedAcl = dictionary["cannedAcl"] as? String
+            if let cannedAcl = dictionary["cannedAcl"] as? String { self.cannedAcl = CannedAccessControlList(rawValue: cannedAcl) } else { self.cannedAcl = nil }
             guard let key = dictionary["key"] as? String else { throw InitializableError.missingRequiredParam("key") }
             self.key = key
         }
@@ -2313,11 +2325,17 @@ extension Iot {
         }
     }
 
+    public enum AutoRegistrationStatus: String, CustomStringConvertible {
+        case enable = "ENABLE"
+        case disable = "DISABLE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Certificate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the certificate. The status value REGISTER_INACTIVE is deprecated and should not be used.
-        public let status: String?
+        public let status: CertificateStatus?
         /// The date and time the certificate was created.
         public let creationDate: Date?
         /// The ID of the certificate.
@@ -2325,7 +2343,7 @@ extension Iot {
         /// The ARN of the certificate.
         public let certificateArn: String?
 
-        public init(status: String? = nil, creationDate: Date? = nil, certificateId: String? = nil, certificateArn: String? = nil) {
+        public init(status: CertificateStatus? = nil, creationDate: Date? = nil, certificateId: String? = nil, certificateArn: String? = nil) {
             self.status = status
             self.creationDate = creationDate
             self.certificateId = certificateId
@@ -2333,7 +2351,7 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["status"] as? String
+            if let status = dictionary["status"] as? String { self.status = CertificateStatus(rawValue: status) } else { self.status = nil }
             self.creationDate = dictionary["creationDate"] as? Date
             self.certificateId = dictionary["certificateId"] as? String
             self.certificateArn = dictionary["certificateArn"] as? String
@@ -2348,13 +2366,13 @@ extension Iot {
         }
         /// The CA certificate used to sign the device certificate being registered.
         public let caCertificatePem: String?
-        public let status: String?
+        public let status: CertificateStatus?
         /// The certificate data, in PEM format.
         public let certificatePem: String
         /// A boolean value that specifies if the CA certificate is set to active.
         public let setAsActive: Bool?
 
-        public init(caCertificatePem: String? = nil, status: String? = nil, certificatePem: String, setAsActive: Bool? = nil) {
+        public init(caCertificatePem: String? = nil, status: CertificateStatus? = nil, certificatePem: String, setAsActive: Bool? = nil) {
             self.caCertificatePem = caCertificatePem
             self.status = status
             self.certificatePem = certificatePem
@@ -2363,7 +2381,7 @@ extension Iot {
 
         public init(dictionary: [String: Any]) throws {
             self.caCertificatePem = dictionary["caCertificatePem"] as? String
-            self.status = dictionary["status"] as? String
+            if let status = dictionary["status"] as? String { self.status = CertificateStatus(rawValue: status) } else { self.status = nil }
             guard let certificatePem = dictionary["certificatePem"] as? String else { throw InitializableError.missingRequiredParam("certificatePem") }
             self.certificatePem = certificatePem
             self.setAsActive = dictionary["SetAsActive"] as? Bool
@@ -2391,16 +2409,16 @@ extension Iot {
         /// The ARN of the IAM role that grants access.
         public let roleArn: String?
         /// The logging level.
-        public let logLevel: String?
+        public let logLevel: LogLevel?
 
-        public init(roleArn: String? = nil, logLevel: String? = nil) {
+        public init(roleArn: String? = nil, logLevel: LogLevel? = nil) {
             self.roleArn = roleArn
             self.logLevel = logLevel
         }
 
         public init(dictionary: [String: Any]) throws {
             self.roleArn = dictionary["roleArn"] as? String
-            self.logLevel = dictionary["logLevel"] as? String
+            if let logLevel = dictionary["logLevel"] as? String { self.logLevel = LogLevel(rawValue: logLevel) } else { self.logLevel = nil }
         }
     }
 
@@ -2556,6 +2574,15 @@ extension Iot {
         }
     }
 
+    public enum LogLevel: String, CustomStringConvertible {
+        case debug = "DEBUG"
+        case info = "INFO"
+        case error = "ERROR"
+        case warn = "WARN"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ThingAttribute: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2629,9 +2656,9 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of a CA certificate.
-        public let status: String?
+        public let status: CACertificateStatus?
         /// Whether the CA certificate configured for auto registration of device certificates. Valid values are "ENABLE" and "DISABLE"
-        public let autoRegistrationStatus: String?
+        public let autoRegistrationStatus: AutoRegistrationStatus?
         /// The date the CA certificate was created.
         public let creationDate: Date?
         /// The CA certificate ID.
@@ -2643,7 +2670,7 @@ extension Iot {
         /// The CA certificate ARN.
         public let certificateArn: String?
 
-        public init(status: String? = nil, autoRegistrationStatus: String? = nil, creationDate: Date? = nil, certificateId: String? = nil, certificatePem: String? = nil, ownedBy: String? = nil, certificateArn: String? = nil) {
+        public init(status: CACertificateStatus? = nil, autoRegistrationStatus: AutoRegistrationStatus? = nil, creationDate: Date? = nil, certificateId: String? = nil, certificatePem: String? = nil, ownedBy: String? = nil, certificateArn: String? = nil) {
             self.status = status
             self.autoRegistrationStatus = autoRegistrationStatus
             self.creationDate = creationDate
@@ -2654,8 +2681,8 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["status"] as? String
-            self.autoRegistrationStatus = dictionary["autoRegistrationStatus"] as? String
+            if let status = dictionary["status"] as? String { self.status = CACertificateStatus(rawValue: status) } else { self.status = nil }
+            if let autoRegistrationStatus = dictionary["autoRegistrationStatus"] as? String { self.autoRegistrationStatus = AutoRegistrationStatus(rawValue: autoRegistrationStatus) } else { self.autoRegistrationStatus = nil }
             self.creationDate = dictionary["creationDate"] as? Date
             self.certificateId = dictionary["certificateId"] as? String
             self.certificatePem = dictionary["certificatePem"] as? String
@@ -2692,6 +2719,16 @@ extension Iot {
             self.nextToken = dictionary["NextToken"] as? String
             self.topic = dictionary["Topic"] as? String
         }
+    }
+
+    public enum CertificateStatus: String, CustomStringConvertible {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
+        case revoked = "REVOKED"
+        case pending_transfer = "PENDING_TRANSFER"
+        case register_inactive = "REGISTER_INACTIVE"
+        case pending_activation = "PENDING_ACTIVATION"
+        public var description: String { return self.rawValue }
     }
 
     public struct DescribeThingResponse: AWSShape {
@@ -2818,6 +2855,12 @@ extension Iot {
         }
     }
 
+    public enum DynamoKeyType: String, CustomStringConvertible {
+        case string = "STRING"
+        case number = "NUMBER"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ListCertificatesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2842,6 +2885,18 @@ extension Iot {
             self.pageSize = dictionary["PageSize"] as? Int32
             self.ascendingOrder = dictionary["IsAscendingOrder"] as? Bool
         }
+    }
+
+    public enum CannedAccessControlList: String, CustomStringConvertible {
+        case `private` = "private"
+        case public_read = "public-read"
+        case public_read_write = "public-read-write"
+        case aws_exec_read = "aws-exec-read"
+        case authenticated_read = "authenticated-read"
+        case bucket_owner_read = "bucket-owner-read"
+        case bucket_owner_full_control = "bucket-owner-full-control"
+        case log_delivery_write = "log-delivery-write"
+        public var description: String { return self.rawValue }
     }
 
     public struct ReplaceTopicRuleRequest: AWSShape {
@@ -2955,7 +3010,7 @@ extension Iot {
         /// The ARN of the IAM role that grants access to the DynamoDB table.
         public let roleArn: String
         /// The range key type. Valid values are "STRING" or "NUMBER"
-        public let rangeKeyType: String?
+        public let rangeKeyType: DynamoKeyType?
         /// The range key value.
         public let rangeKeyValue: String?
         /// The hash key value.
@@ -2971,9 +3026,9 @@ extension Iot {
         /// The hash key name.
         public let hashKeyField: String
         /// The hash key type. Valid values are "STRING" or "NUMBER"
-        public let hashKeyType: String?
+        public let hashKeyType: DynamoKeyType?
 
-        public init(roleArn: String, rangeKeyType: String? = nil, rangeKeyValue: String? = nil, hashKeyValue: String, operation: String? = nil, payloadField: String? = nil, rangeKeyField: String? = nil, tableName: String, hashKeyField: String, hashKeyType: String? = nil) {
+        public init(roleArn: String, rangeKeyType: DynamoKeyType? = nil, rangeKeyValue: String? = nil, hashKeyValue: String, operation: String? = nil, payloadField: String? = nil, rangeKeyField: String? = nil, tableName: String, hashKeyField: String, hashKeyType: DynamoKeyType? = nil) {
             self.roleArn = roleArn
             self.rangeKeyType = rangeKeyType
             self.rangeKeyValue = rangeKeyValue
@@ -2989,7 +3044,7 @@ extension Iot {
         public init(dictionary: [String: Any]) throws {
             guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
             self.roleArn = roleArn
-            self.rangeKeyType = dictionary["rangeKeyType"] as? String
+            if let rangeKeyType = dictionary["rangeKeyType"] as? String { self.rangeKeyType = DynamoKeyType(rawValue: rangeKeyType) } else { self.rangeKeyType = nil }
             self.rangeKeyValue = dictionary["rangeKeyValue"] as? String
             guard let hashKeyValue = dictionary["hashKeyValue"] as? String else { throw InitializableError.missingRequiredParam("hashKeyValue") }
             self.hashKeyValue = hashKeyValue
@@ -3000,7 +3055,7 @@ extension Iot {
             self.tableName = tableName
             guard let hashKeyField = dictionary["hashKeyField"] as? String else { throw InitializableError.missingRequiredParam("hashKeyField") }
             self.hashKeyField = hashKeyField
-            self.hashKeyType = dictionary["hashKeyType"] as? String
+            if let hashKeyType = dictionary["hashKeyType"] as? String { self.hashKeyType = DynamoKeyType(rawValue: hashKeyType) } else { self.hashKeyType = nil }
         }
     }
 

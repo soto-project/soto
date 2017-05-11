@@ -52,17 +52,22 @@ extension Kms {
         }
     }
 
+    public enum WrappingKeySpec: String, CustomStringConvertible {
+        case rsa_2048 = "RSA_2048"
+        public var description: String { return self.rawValue }
+    }
+
     public struct GetParametersForImportRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the CMK into which you will import key material. The CMK's Origin must be EXTERNAL. A valid identifier is the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:   Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab   
         public let keyId: String
         /// The algorithm you will use to encrypt the key material before importing it with ImportKeyMaterial. For more information, see Encrypt the Key Material in the AWS Key Management Service Developer Guide.
-        public let wrappingAlgorithm: String
+        public let wrappingAlgorithm: AlgorithmSpec
         /// The type of wrapping key (public key) to return in the response. Only 2048-bit RSA public keys are supported.
-        public let wrappingKeySpec: String
+        public let wrappingKeySpec: WrappingKeySpec
 
-        public init(keyId: String, wrappingAlgorithm: String, wrappingKeySpec: String) {
+        public init(keyId: String, wrappingAlgorithm: AlgorithmSpec, wrappingKeySpec: WrappingKeySpec) {
             self.keyId = keyId
             self.wrappingAlgorithm = wrappingAlgorithm
             self.wrappingKeySpec = wrappingKeySpec
@@ -71,9 +76,9 @@ extension Kms {
         public init(dictionary: [String: Any]) throws {
             guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
             self.keyId = keyId
-            guard let wrappingAlgorithm = dictionary["WrappingAlgorithm"] as? String else { throw InitializableError.missingRequiredParam("WrappingAlgorithm") }
+            guard let rawWrappingAlgorithm = dictionary["WrappingAlgorithm"] as? String, let wrappingAlgorithm = AlgorithmSpec(rawValue: rawWrappingAlgorithm) else { throw InitializableError.missingRequiredParam("WrappingAlgorithm") }
             self.wrappingAlgorithm = wrappingAlgorithm
-            guard let wrappingKeySpec = dictionary["WrappingKeySpec"] as? String else { throw InitializableError.missingRequiredParam("WrappingKeySpec") }
+            guard let rawWrappingKeySpec = dictionary["WrappingKeySpec"] as? String, let wrappingKeySpec = WrappingKeySpec(rawValue: rawWrappingKeySpec) else { throw InitializableError.missingRequiredParam("WrappingKeySpec") }
             self.wrappingKeySpec = wrappingKeySpec
         }
     }
@@ -176,6 +181,12 @@ extension Kms {
         }
     }
 
+    public enum DataKeySpec: String, CustomStringConvertible {
+        case aes_256 = "AES_256"
+        case aes_128 = "AES_128"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ReEncryptResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -236,6 +247,13 @@ extension Kms {
             guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
             self.keyId = keyId
         }
+    }
+
+    public enum AlgorithmSpec: String, CustomStringConvertible {
+        case rsaes_pkcs1_v1_5 = "RSAES_PKCS1_V1_5"
+        case rsaes_oaep_sha_1 = "RSAES_OAEP_SHA_1"
+        case rsaes_oaep_sha_256 = "RSAES_OAEP_SHA_256"
+        public var description: String { return self.rawValue }
     }
 
     public struct GetKeyPolicyResponse: AWSShape {
@@ -382,19 +400,19 @@ extension Kms {
         /// The globally unique identifier for the CMK.
         public let keyId: String
         /// The source of the CMK's key material. When this value is AWS_KMS, AWS KMS created the key material. When this value is EXTERNAL, the key material was imported from your existing key management infrastructure or the CMK lacks key material.
-        public let origin: String?
+        public let origin: OriginType?
         /// Specifies whether the CMK's key material expires. This value is present only when Origin is EXTERNAL, otherwise this value is omitted.
-        public let expirationModel: String?
+        public let expirationModel: ExpirationModelType?
         /// The twelve-digit account ID of the AWS account that owns the CMK.
         public let aWSAccountId: String?
         /// Specifies whether the CMK is enabled. When KeyState is Enabled this value is true, otherwise it is false.
         public let enabled: Bool?
         /// The state of the CMK. For more information about how key state affects the use of a CMK, see How Key State Affects the Use of a Customer Master Key in the AWS Key Management Service Developer Guide.
-        public let keyState: String?
+        public let keyState: KeyState?
         /// The date and time when the CMK was created.
         public let creationDate: Date?
         /// The cryptographic operations for which you can use the CMK. Currently the only allowed value is ENCRYPT_DECRYPT, which means you can use the CMK for the Encrypt and Decrypt operations.
-        public let keyUsage: String?
+        public let keyUsage: KeyUsageType?
         /// The time at which the imported key material expires. When the key material expires, AWS KMS deletes the key material and the CMK becomes unusable. This value is present only for CMKs whose Origin is EXTERNAL and whose ExpirationModel is KEY_MATERIAL_EXPIRES, otherwise this value is omitted.
         public let validTo: Date?
         /// The date and time after which AWS KMS deletes the CMK. This value is present only when KeyState is PendingDeletion, otherwise this value is omitted.
@@ -402,7 +420,7 @@ extension Kms {
         /// The description of the CMK.
         public let description: String?
 
-        public init(arn: String? = nil, keyId: String, origin: String? = nil, expirationModel: String? = nil, aWSAccountId: String? = nil, enabled: Bool? = nil, keyState: String? = nil, creationDate: Date? = nil, keyUsage: String? = nil, validTo: Date? = nil, deletionDate: Date? = nil, description: String? = nil) {
+        public init(arn: String? = nil, keyId: String, origin: OriginType? = nil, expirationModel: ExpirationModelType? = nil, aWSAccountId: String? = nil, enabled: Bool? = nil, keyState: KeyState? = nil, creationDate: Date? = nil, keyUsage: KeyUsageType? = nil, validTo: Date? = nil, deletionDate: Date? = nil, description: String? = nil) {
             self.arn = arn
             self.keyId = keyId
             self.origin = origin
@@ -421,13 +439,13 @@ extension Kms {
             self.arn = dictionary["Arn"] as? String
             guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
             self.keyId = keyId
-            self.origin = dictionary["Origin"] as? String
-            self.expirationModel = dictionary["ExpirationModel"] as? String
+            if let origin = dictionary["Origin"] as? String { self.origin = OriginType(rawValue: origin) } else { self.origin = nil }
+            if let expirationModel = dictionary["ExpirationModel"] as? String { self.expirationModel = ExpirationModelType(rawValue: expirationModel) } else { self.expirationModel = nil }
             self.aWSAccountId = dictionary["AWSAccountId"] as? String
             self.enabled = dictionary["Enabled"] as? Bool
-            self.keyState = dictionary["KeyState"] as? String
+            if let keyState = dictionary["KeyState"] as? String { self.keyState = KeyState(rawValue: keyState) } else { self.keyState = nil }
             self.creationDate = dictionary["CreationDate"] as? Date
-            self.keyUsage = dictionary["KeyUsage"] as? String
+            if let keyUsage = dictionary["KeyUsage"] as? String { self.keyUsage = KeyUsageType(rawValue: keyUsage) } else { self.keyUsage = nil }
             self.validTo = dictionary["ValidTo"] as? Date
             self.deletionDate = dictionary["DeletionDate"] as? Date
             self.description = dictionary["Description"] as? String
@@ -493,6 +511,11 @@ extension Kms {
             guard let targetKeyId = dictionary["TargetKeyId"] as? String else { throw InitializableError.missingRequiredParam("TargetKeyId") }
             self.targetKeyId = targetKeyId
         }
+    }
+
+    public enum KeyUsageType: String, CustomStringConvertible {
+        case encrypt_decrypt = "ENCRYPT_DECRYPT"
+        public var description: String { return self.rawValue }
     }
 
     public struct ScheduleKeyDeletionRequest: AWSShape {
@@ -701,6 +724,12 @@ extension Kms {
         }
     }
 
+    public enum ExpirationModelType: String, CustomStringConvertible {
+        case key_material_expires = "KEY_MATERIAL_EXPIRES"
+        case key_material_does_not_expire = "KEY_MATERIAL_DOES_NOT_EXPIRE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct EnableKeyRotationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -801,7 +830,7 @@ extension Kms {
         /// A friendly name for identifying the grant. Use this value to prevent unintended creation of duplicate grants when retrying this request. When this value is absent, all CreateGrant requests result in a new grant with a unique GrantId even if all the supplied parameters are identical. This can result in unintended duplicates when you retry the CreateGrant request. When this value is present, you can retry a CreateGrant request with identical parameters; if the grant already exists, the original GrantId is returned without creating a new grant. Note that the returned grant token is unique with every CreateGrant request, even when a duplicate GrantId is returned. All grant tokens obtained in this way can be used interchangeably.
         public let name: String?
         /// A list of operations that the grant permits.
-        public let operations: [String]?
+        public let operations: [GrantOperation]?
         /// The principal that is given permission to perform the operations that the grant permits. To specify the principal, use the Amazon Resource Name (ARN) of an AWS principal. Valid AWS principals include AWS accounts (root), IAM users, federated users, and assumed role users. For examples of the ARN syntax to use for specifying a principal, see AWS Identity and Access Management (IAM) in the Example ARNs section of the AWS General Reference.
         public let granteePrincipal: String
         /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
@@ -809,7 +838,7 @@ extension Kms {
         /// The conditions under which the operations permitted by the grant are allowed. You can use this value to allow the operations permitted by the grant only when a specified encryption context is present. For more information, see Encryption Context in the AWS Key Management Service Developer Guide.
         public let constraints: GrantConstraints?
 
-        public init(keyId: String, retiringPrincipal: String? = nil, name: String? = nil, operations: [String]? = nil, granteePrincipal: String, grantTokens: [String]? = nil, constraints: GrantConstraints? = nil) {
+        public init(keyId: String, retiringPrincipal: String? = nil, name: String? = nil, operations: [GrantOperation]? = nil, granteePrincipal: String, grantTokens: [String]? = nil, constraints: GrantConstraints? = nil) {
             self.keyId = keyId
             self.retiringPrincipal = retiringPrincipal
             self.name = name
@@ -824,7 +853,7 @@ extension Kms {
             self.keyId = keyId
             self.retiringPrincipal = dictionary["RetiringPrincipal"] as? String
             self.name = dictionary["Name"] as? String
-            self.operations = dictionary["Operations"] as? [String]
+            if let operations = dictionary["Operations"] as? [String] { self.operations = operations.flatMap({ GrantOperation(rawValue: $0)}) } else { self.operations = nil }
             guard let granteePrincipal = dictionary["GranteePrincipal"] as? String else { throw InitializableError.missingRequiredParam("GranteePrincipal") }
             self.granteePrincipal = granteePrincipal
             self.grantTokens = dictionary["GrantTokens"] as? [String]
@@ -901,9 +930,9 @@ extension Kms {
         /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
         public let grantTokens: [String]?
         /// The length of the data encryption key. Use AES_128 to generate a 128-bit symmetric key, or AES_256 to generate a 256-bit symmetric key.
-        public let keySpec: String?
+        public let keySpec: DataKeySpec?
 
-        public init(encryptionContext: [String: String]? = nil, numberOfBytes: Int32? = nil, keyId: String, grantTokens: [String]? = nil, keySpec: String? = nil) {
+        public init(encryptionContext: [String: String]? = nil, numberOfBytes: Int32? = nil, keyId: String, grantTokens: [String]? = nil, keySpec: DataKeySpec? = nil) {
             self.encryptionContext = encryptionContext
             self.numberOfBytes = numberOfBytes
             self.keyId = keyId
@@ -921,8 +950,16 @@ extension Kms {
             guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
             self.keyId = keyId
             self.grantTokens = dictionary["GrantTokens"] as? [String]
-            self.keySpec = dictionary["KeySpec"] as? String
+            if let keySpec = dictionary["KeySpec"] as? String { self.keySpec = DataKeySpec(rawValue: keySpec) } else { self.keySpec = nil }
         }
+    }
+
+    public enum KeyState: String, CustomStringConvertible {
+        case enabled = "Enabled"
+        case disabled = "Disabled"
+        case pendingdeletion = "PendingDeletion"
+        case pendingimport = "PendingImport"
+        public var description: String { return self.rawValue }
     }
 
     public struct ListKeysResponse: AWSShape {
@@ -1056,6 +1093,19 @@ extension Kms {
         }
     }
 
+    public enum GrantOperation: String, CustomStringConvertible {
+        case decrypt = "Decrypt"
+        case encrypt = "Encrypt"
+        case generatedatakey = "GenerateDataKey"
+        case generatedatakeywithoutplaintext = "GenerateDataKeyWithoutPlaintext"
+        case reencryptfrom = "ReEncryptFrom"
+        case reencryptto = "ReEncryptTo"
+        case creategrant = "CreateGrant"
+        case retiregrant = "RetireGrant"
+        case describekey = "DescribeKey"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ScheduleKeyDeletionResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1103,9 +1153,9 @@ extension Kms {
         /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
         public let grantTokens: [String]?
         /// The length of the data encryption key. Use AES_128 to generate a 128-bit symmetric key, or AES_256 to generate a 256-bit symmetric key.
-        public let keySpec: String?
+        public let keySpec: DataKeySpec?
 
-        public init(encryptionContext: [String: String]? = nil, numberOfBytes: Int32? = nil, keyId: String, grantTokens: [String]? = nil, keySpec: String? = nil) {
+        public init(encryptionContext: [String: String]? = nil, numberOfBytes: Int32? = nil, keyId: String, grantTokens: [String]? = nil, keySpec: DataKeySpec? = nil) {
             self.encryptionContext = encryptionContext
             self.numberOfBytes = numberOfBytes
             self.keyId = keyId
@@ -1123,7 +1173,7 @@ extension Kms {
             guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
             self.keyId = keyId
             self.grantTokens = dictionary["GrantTokens"] as? [String]
-            self.keySpec = dictionary["KeySpec"] as? String
+            if let keySpec = dictionary["KeySpec"] as? String { self.keySpec = DataKeySpec(rawValue: keySpec) } else { self.keySpec = nil }
         }
     }
 
@@ -1152,7 +1202,7 @@ extension Kms {
         /// The friendly name that identifies the grant. If a name was provided in the CreateGrant request, that name is returned. Otherwise this value is null.
         public let name: String?
         /// The list of operations permitted by the grant.
-        public let operations: [String]?
+        public let operations: [GrantOperation]?
         /// The unique identifier for the grant.
         public let grantId: String?
         /// The AWS account under which the grant was issued.
@@ -1164,7 +1214,7 @@ extension Kms {
         /// The conditions under which the grant's operations are allowed.
         public let constraints: GrantConstraints?
 
-        public init(keyId: String? = nil, retiringPrincipal: String? = nil, name: String? = nil, operations: [String]? = nil, grantId: String? = nil, issuingAccount: String? = nil, creationDate: Date? = nil, granteePrincipal: String? = nil, constraints: GrantConstraints? = nil) {
+        public init(keyId: String? = nil, retiringPrincipal: String? = nil, name: String? = nil, operations: [GrantOperation]? = nil, grantId: String? = nil, issuingAccount: String? = nil, creationDate: Date? = nil, granteePrincipal: String? = nil, constraints: GrantConstraints? = nil) {
             self.keyId = keyId
             self.retiringPrincipal = retiringPrincipal
             self.name = name
@@ -1180,7 +1230,7 @@ extension Kms {
             self.keyId = dictionary["KeyId"] as? String
             self.retiringPrincipal = dictionary["RetiringPrincipal"] as? String
             self.name = dictionary["Name"] as? String
-            self.operations = dictionary["Operations"] as? [String]
+            if let operations = dictionary["Operations"] as? [String] { self.operations = operations.flatMap({ GrantOperation(rawValue: $0)}) } else { self.operations = nil }
             self.grantId = dictionary["GrantId"] as? String
             self.issuingAccount = dictionary["IssuingAccount"] as? String
             self.creationDate = dictionary["CreationDate"] as? Date
@@ -1272,6 +1322,12 @@ extension Kms {
         }
     }
 
+    public enum OriginType: String, CustomStringConvertible {
+        case aws_kms = "AWS_KMS"
+        case external = "EXTERNAL"
+        public var description: String { return self.rawValue }
+    }
+
     public struct AliasListEntry: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1303,13 +1359,13 @@ extension Kms {
         /// The encrypted key material to import. It must be encrypted with the public key that you received in the response to a previous GetParametersForImport request, using the wrapping algorithm that you specified in that request.
         public let encryptedKeyMaterial: Data
         /// Specifies whether the key material expires. The default is KEY_MATERIAL_EXPIRES, in which case you must include the ValidTo parameter. When this parameter is set to KEY_MATERIAL_DOES_NOT_EXPIRE, you must omit the ValidTo parameter.
-        public let expirationModel: String?
+        public let expirationModel: ExpirationModelType?
         /// The identifier of the CMK to import the key material into. The CMK's Origin must be EXTERNAL. A valid identifier is the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:   Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab   
         public let keyId: String
         /// The time at which the imported key material expires. When the key material expires, AWS KMS deletes the key material and the CMK becomes unusable. You must omit this parameter when the ExpirationModel parameter is set to KEY_MATERIAL_DOES_NOT_EXPIRE. Otherwise it is required.
         public let validTo: Date?
 
-        public init(importToken: Data, encryptedKeyMaterial: Data, expirationModel: String? = nil, keyId: String, validTo: Date? = nil) {
+        public init(importToken: Data, encryptedKeyMaterial: Data, expirationModel: ExpirationModelType? = nil, keyId: String, validTo: Date? = nil) {
             self.importToken = importToken
             self.encryptedKeyMaterial = encryptedKeyMaterial
             self.expirationModel = expirationModel
@@ -1322,7 +1378,7 @@ extension Kms {
             self.importToken = importToken
             guard let encryptedKeyMaterial = dictionary["EncryptedKeyMaterial"] as? Data else { throw InitializableError.missingRequiredParam("EncryptedKeyMaterial") }
             self.encryptedKeyMaterial = encryptedKeyMaterial
-            self.expirationModel = dictionary["ExpirationModel"] as? String
+            if let expirationModel = dictionary["ExpirationModel"] as? String { self.expirationModel = ExpirationModelType(rawValue: expirationModel) } else { self.expirationModel = nil }
             guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
             self.keyId = keyId
             self.validTo = dictionary["ValidTo"] as? Date
@@ -1354,9 +1410,9 @@ extension Kms {
         /// A flag to indicate whether to bypass the key policy lockout safety check.  Setting this value to true increases the likelihood that the CMK becomes unmanageable. Do not set this value to true indiscriminately. For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide.  Use this parameter only when you include a policy in the request and you intend to prevent the principal that is making the request from making a subsequent PutKeyPolicy request on the CMK. The default value is false.
         public let bypassPolicyLockoutSafetyCheck: Bool?
         /// The intended use of the CMK. You can use CMKs only for symmetric encryption and decryption.
-        public let keyUsage: String?
+        public let keyUsage: KeyUsageType?
         /// The source of the CMK's key material. The default is AWS_KMS, which means AWS KMS creates the key material. When this parameter is set to EXTERNAL, the request creates a CMK without key material so that you can import key material from your existing key management infrastructure. For more information about importing key material into AWS KMS, see Importing Key Material in the AWS Key Management Service Developer Guide. The CMK's Origin is immutable and is set when the CMK is created.
-        public let origin: String?
+        public let origin: OriginType?
         /// One or more tags. Each tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty (null) strings. Use this parameter to tag the CMK when it is created. Alternately, you can omit this parameter and instead tag the CMK after it is created using TagResource.
         public let tags: [Tag]?
         /// The key policy to attach to the CMK. If you specify a policy and do not set BypassPolicyLockoutSafetyCheck to true, the policy must meet the following criteria:   It must allow the principal that is making the CreateKey request to make a subsequent PutKeyPolicy request on the CMK. This reduces the likelihood that the CMK becomes unmanageable. For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide.   The principals that are specified in the key policy must exist and be visible to AWS KMS. When you create a new AWS principal (for example, an IAM user or role), you might need to enforce a delay before specifying the new principal in a key policy because the new principal might not immediately be visible to AWS KMS. For more information, see Changes that I make are not always immediately visible in the IAM User Guide.   If you do not specify a policy, AWS KMS attaches a default key policy to the CMK. For more information, see Default Key Policy in the AWS Key Management Service Developer Guide. The policy size limit is 32 KiB (32768 bytes).
@@ -1364,7 +1420,7 @@ extension Kms {
         /// A description of the CMK. Use a description that helps you decide whether the CMK is appropriate for a task.
         public let description: String?
 
-        public init(bypassPolicyLockoutSafetyCheck: Bool? = nil, keyUsage: String? = nil, origin: String? = nil, tags: [Tag]? = nil, policy: String? = nil, description: String? = nil) {
+        public init(bypassPolicyLockoutSafetyCheck: Bool? = nil, keyUsage: KeyUsageType? = nil, origin: OriginType? = nil, tags: [Tag]? = nil, policy: String? = nil, description: String? = nil) {
             self.bypassPolicyLockoutSafetyCheck = bypassPolicyLockoutSafetyCheck
             self.keyUsage = keyUsage
             self.origin = origin
@@ -1375,8 +1431,8 @@ extension Kms {
 
         public init(dictionary: [String: Any]) throws {
             self.bypassPolicyLockoutSafetyCheck = dictionary["BypassPolicyLockoutSafetyCheck"] as? Bool
-            self.keyUsage = dictionary["KeyUsage"] as? String
-            self.origin = dictionary["Origin"] as? String
+            if let keyUsage = dictionary["KeyUsage"] as? String { self.keyUsage = KeyUsageType(rawValue: keyUsage) } else { self.keyUsage = nil }
+            if let origin = dictionary["Origin"] as? String { self.origin = OriginType(rawValue: origin) } else { self.origin = nil }
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
             } else { 

@@ -158,15 +158,45 @@ extension Gamelift {
         }
     }
 
+    public enum EventCode: String, CustomStringConvertible {
+        case generic_event = "GENERIC_EVENT"
+        case fleet_created = "FLEET_CREATED"
+        case fleet_deleted = "FLEET_DELETED"
+        case fleet_scaling_event = "FLEET_SCALING_EVENT"
+        case fleet_state_downloading = "FLEET_STATE_DOWNLOADING"
+        case fleet_state_validating = "FLEET_STATE_VALIDATING"
+        case fleet_state_building = "FLEET_STATE_BUILDING"
+        case fleet_state_activating = "FLEET_STATE_ACTIVATING"
+        case fleet_state_active = "FLEET_STATE_ACTIVE"
+        case fleet_state_error = "FLEET_STATE_ERROR"
+        case fleet_initialization_failed = "FLEET_INITIALIZATION_FAILED"
+        case fleet_binary_download_failed = "FLEET_BINARY_DOWNLOAD_FAILED"
+        case fleet_validation_launch_path_not_found = "FLEET_VALIDATION_LAUNCH_PATH_NOT_FOUND"
+        case fleet_validation_executable_runtime_failure = "FLEET_VALIDATION_EXECUTABLE_RUNTIME_FAILURE"
+        case fleet_validation_timed_out = "FLEET_VALIDATION_TIMED_OUT"
+        case fleet_activation_failed = "FLEET_ACTIVATION_FAILED"
+        case fleet_activation_failed_no_instances = "FLEET_ACTIVATION_FAILED_NO_INSTANCES"
+        case fleet_new_game_session_protection_policy_updated = "FLEET_NEW_GAME_SESSION_PROTECTION_POLICY_UPDATED"
+        case server_process_invalid_path = "SERVER_PROCESS_INVALID_PATH"
+        case server_process_sdk_initialization_timeout = "SERVER_PROCESS_SDK_INITIALIZATION_TIMEOUT"
+        case server_process_process_ready_timeout = "SERVER_PROCESS_PROCESS_READY_TIMEOUT"
+        case server_process_crashed = "SERVER_PROCESS_CRASHED"
+        case server_process_terminated_unhealthy = "SERVER_PROCESS_TERMINATED_UNHEALTHY"
+        case server_process_force_terminated = "SERVER_PROCESS_FORCE_TERMINATED"
+        case server_process_process_exit_timeout = "SERVER_PROCESS_PROCESS_EXIT_TIMEOUT"
+        case game_session_activation_timeout = "GAME_SESSION_ACTIVATION_TIMEOUT"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ScalingPolicy: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// Metric value used to trigger a scaling event.
         public let threshold: Double?
         /// Current status of the scaling policy. The scaling policy is only in force when in an ACTIVE status.    ACTIVE – The scaling policy is currently in force.    UPDATE_REQUESTED – A request to update the scaling policy has been received.    UPDATING – A change is being made to the scaling policy.    DELETE_REQUESTED – A request to delete the scaling policy has been received.    DELETING – The scaling policy is being deleted.    DELETED – The scaling policy has been deleted.    ERROR – An error occurred in creating the policy. It should be removed and recreated.  
-        public let status: String?
+        public let status: ScalingStatusType?
         /// Name of the Amazon GameLift-defined metric that is used to trigger an adjustment.    ActivatingGameSessions – number of game sessions in the process of being created (game session status = ACTIVATING).    ActiveGameSessions – number of game sessions currently running (game session status = ACTIVE).    CurrentPlayerSessions – number of active or reserved player sessions (player session status = ACTIVE or RESERVED).     AvailablePlayerSessions – number of player session slots currently available in active game sessions across the fleet, calculated by subtracting a game session's current player session count from its maximum player session count. This number does include game sessions that are not currently accepting players (game session PlayerSessionCreationPolicy = DENY_ALL).    ActiveInstances – number of instances currently running a game session.    IdleInstances – number of instances not currently running a game session.  
-        public let metricName: String?
+        public let metricName: MetricName?
         /// Length of time (in minutes) the metric must be at or beyond the threshold before a scaling event is triggered.
         public let evaluationPeriods: Int32?
         /// Descriptive label that is associated with a scaling policy. Policy names do not need to be unique.
@@ -174,13 +204,13 @@ extension Gamelift {
         /// Amount of adjustment to make, based on the scaling adjustment type.
         public let scalingAdjustment: Int32?
         /// Comparison operator to use when measuring a metric against the threshold value.
-        public let comparisonOperator: String?
+        public let comparisonOperator: ComparisonOperatorType?
         /// Type of adjustment to make to a fleet's instance count (see FleetCapacity):    ChangeInCapacity – add (or subtract) the scaling adjustment value from the current instance count. Positive values scale up while negative values scale down.    ExactCapacity – set the instance count to the scaling adjustment value.    PercentChangeInCapacity – increase or reduce the current instance count by the scaling adjustment, read as a percentage. Positive values scale up while negative values scale down.  
-        public let scalingAdjustmentType: String?
+        public let scalingAdjustmentType: ScalingAdjustmentType?
         /// Unique identifier for a fleet that is associated with this scaling policy.
         public let fleetId: String?
 
-        public init(threshold: Double? = nil, status: String? = nil, metricName: String? = nil, evaluationPeriods: Int32? = nil, name: String? = nil, scalingAdjustment: Int32? = nil, comparisonOperator: String? = nil, scalingAdjustmentType: String? = nil, fleetId: String? = nil) {
+        public init(threshold: Double? = nil, status: ScalingStatusType? = nil, metricName: MetricName? = nil, evaluationPeriods: Int32? = nil, name: String? = nil, scalingAdjustment: Int32? = nil, comparisonOperator: ComparisonOperatorType? = nil, scalingAdjustmentType: ScalingAdjustmentType? = nil, fleetId: String? = nil) {
             self.threshold = threshold
             self.status = status
             self.metricName = metricName
@@ -194,13 +224,13 @@ extension Gamelift {
 
         public init(dictionary: [String: Any]) throws {
             self.threshold = dictionary["Threshold"] as? Double
-            self.status = dictionary["Status"] as? String
-            self.metricName = dictionary["MetricName"] as? String
+            if let status = dictionary["Status"] as? String { self.status = ScalingStatusType(rawValue: status) } else { self.status = nil }
+            if let metricName = dictionary["MetricName"] as? String { self.metricName = MetricName(rawValue: metricName) } else { self.metricName = nil }
             self.evaluationPeriods = dictionary["EvaluationPeriods"] as? Int32
             self.name = dictionary["Name"] as? String
             self.scalingAdjustment = dictionary["ScalingAdjustment"] as? Int32
-            self.comparisonOperator = dictionary["ComparisonOperator"] as? String
-            self.scalingAdjustmentType = dictionary["ScalingAdjustmentType"] as? String
+            if let comparisonOperator = dictionary["ComparisonOperator"] as? String { self.comparisonOperator = ComparisonOperatorType(rawValue: comparisonOperator) } else { self.comparisonOperator = nil }
+            if let scalingAdjustmentType = dictionary["ScalingAdjustmentType"] as? String { self.scalingAdjustmentType = ScalingAdjustmentType(rawValue: scalingAdjustmentType) } else { self.scalingAdjustmentType = nil }
             self.fleetId = dictionary["FleetId"] as? String
         }
     }
@@ -220,17 +250,28 @@ extension Gamelift {
         }
     }
 
+    public enum ScalingStatusType: String, CustomStringConvertible {
+        case active = "ACTIVE"
+        case update_requested = "UPDATE_REQUESTED"
+        case updating = "UPDATING"
+        case delete_requested = "DELETE_REQUESTED"
+        case deleting = "DELETING"
+        case deleted = "DELETED"
+        case error = "ERROR"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Build: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// Current status of the build. Possible build statuses include the following:    INITIALIZED – A new build has been defined, but no files have been uploaded. You cannot create fleets for builds that are in this status. When a build is successfully created, the build status is set to this value.     READY – The game build has been successfully uploaded. You can now create new fleets for this build.    FAILED – The game build upload failed. You cannot create new fleets for this build.   
-        public let status: String?
+        public let status: BuildStatus?
         /// Descriptive label that is associated with a build. Build names do not need to be unique. It can be set using CreateBuild or UpdateBuild.
         public let name: String?
         /// Version that is associated with this build. Version strings do not need to be unique. This value can be set using CreateBuild or UpdateBuild.
         public let version: String?
         /// Operating system that the game server binaries are built to run on. This value determines the type of fleet resources that you can use for this build.
-        public let operatingSystem: String?
+        public let operatingSystem: OperatingSystem?
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let creationTime: Date?
         /// File size of the uploaded game build, expressed in bytes. When the build status is INITIALIZED, this value is 0.
@@ -238,7 +279,7 @@ extension Gamelift {
         /// Unique identifier for a build.
         public let buildId: String?
 
-        public init(status: String? = nil, name: String? = nil, version: String? = nil, operatingSystem: String? = nil, creationTime: Date? = nil, sizeOnDisk: Int64? = nil, buildId: String? = nil) {
+        public init(status: BuildStatus? = nil, name: String? = nil, version: String? = nil, operatingSystem: OperatingSystem? = nil, creationTime: Date? = nil, sizeOnDisk: Int64? = nil, buildId: String? = nil) {
             self.status = status
             self.name = name
             self.version = version
@@ -249,10 +290,10 @@ extension Gamelift {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = BuildStatus(rawValue: status) } else { self.status = nil }
             self.name = dictionary["Name"] as? String
             self.version = dictionary["Version"] as? String
-            self.operatingSystem = dictionary["OperatingSystem"] as? String
+            if let operatingSystem = dictionary["OperatingSystem"] as? String { self.operatingSystem = OperatingSystem(rawValue: operatingSystem) } else { self.operatingSystem = nil }
             self.creationTime = dictionary["CreationTime"] as? Date
             self.sizeOnDisk = dictionary["SizeOnDisk"] as? Int64
             self.buildId = dictionary["BuildId"] as? String
@@ -329,6 +370,38 @@ extension Gamelift {
         }
     }
 
+    public enum EC2InstanceType: String, CustomStringConvertible {
+        case t2_micro = "t2.micro"
+        case t2_small = "t2.small"
+        case t2_medium = "t2.medium"
+        case t2_large = "t2.large"
+        case c3_large = "c3.large"
+        case c3_xlarge = "c3.xlarge"
+        case c3_2xlarge = "c3.2xlarge"
+        case c3_4xlarge = "c3.4xlarge"
+        case c3_8xlarge = "c3.8xlarge"
+        case c4_large = "c4.large"
+        case c4_xlarge = "c4.xlarge"
+        case c4_2xlarge = "c4.2xlarge"
+        case c4_4xlarge = "c4.4xlarge"
+        case c4_8xlarge = "c4.8xlarge"
+        case r3_large = "r3.large"
+        case r3_xlarge = "r3.xlarge"
+        case r3_2xlarge = "r3.2xlarge"
+        case r3_4xlarge = "r3.4xlarge"
+        case r3_8xlarge = "r3.8xlarge"
+        case m3_medium = "m3.medium"
+        case m3_large = "m3.large"
+        case m3_xlarge = "m3.xlarge"
+        case m3_2xlarge = "m3.2xlarge"
+        case m4_large = "m4.large"
+        case m4_xlarge = "m4.xlarge"
+        case m4_2xlarge = "m4.2xlarge"
+        case m4_4xlarge = "m4.4xlarge"
+        case m4_10xlarge = "m4.10xlarge"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ResolveAliasOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -388,6 +461,18 @@ extension Gamelift {
         }
     }
 
+    public enum MetricName: String, CustomStringConvertible {
+        case activatinggamesessions = "ActivatingGameSessions"
+        case activegamesessions = "ActiveGameSessions"
+        case activeinstances = "ActiveInstances"
+        case availableplayersessions = "AvailablePlayerSessions"
+        case currentplayersessions = "CurrentPlayerSessions"
+        case idleinstances = "IdleInstances"
+        case queuedepth = "QueueDepth"
+        case waittime = "WaitTime"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DescribeGameSessionPlacementOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -415,7 +500,7 @@ extension Gamelift {
         /// Maximum number of players that can be connected simultaneously to the game session.
         public let maximumPlayerSessionCount: Int32?
         /// Current status of the game session. A game session must have an ACTIVE status to have player sessions.
-        public let status: String?
+        public let status: GameSessionStatus?
         /// Descriptive label that is associated with a game session. Session names do not need to be unique.
         public let name: String?
         /// IP address of the game session. To connect to a Amazon GameLift server process, an app needs both the IP address and port number.
@@ -423,7 +508,7 @@ extension Gamelift {
         /// Unique identifier for a player. This ID is used to enforce a resource protection policy (if one exists), that limits the number of game sessions a player can create.
         public let creatorId: String?
         /// Indicates whether or not the game session is accepting new players.
-        public let playerSessionCreationPolicy: String?
+        public let playerSessionCreationPolicy: PlayerSessionCreationPolicy?
         /// Set of developer-defined properties for a game session. These properties are passed to the server process hosting the game session.
         public let gameProperties: [GameProperty]?
         /// Unique identifier for a fleet the game session is running on.
@@ -433,7 +518,7 @@ extension Gamelift {
         /// Port number for the game session. To connect to a Amazon GameLift server process, an app needs both the IP address and port number.
         public let port: Int32?
 
-        public init(terminationTime: Date? = nil, creationTime: Date? = nil, gameSessionId: String? = nil, maximumPlayerSessionCount: Int32? = nil, status: String? = nil, name: String? = nil, ipAddress: String? = nil, creatorId: String? = nil, playerSessionCreationPolicy: String? = nil, gameProperties: [GameProperty]? = nil, fleetId: String? = nil, currentPlayerSessionCount: Int32? = nil, port: Int32? = nil) {
+        public init(terminationTime: Date? = nil, creationTime: Date? = nil, gameSessionId: String? = nil, maximumPlayerSessionCount: Int32? = nil, status: GameSessionStatus? = nil, name: String? = nil, ipAddress: String? = nil, creatorId: String? = nil, playerSessionCreationPolicy: PlayerSessionCreationPolicy? = nil, gameProperties: [GameProperty]? = nil, fleetId: String? = nil, currentPlayerSessionCount: Int32? = nil, port: Int32? = nil) {
             self.terminationTime = terminationTime
             self.creationTime = creationTime
             self.gameSessionId = gameSessionId
@@ -454,11 +539,11 @@ extension Gamelift {
             self.creationTime = dictionary["CreationTime"] as? Date
             self.gameSessionId = dictionary["GameSessionId"] as? String
             self.maximumPlayerSessionCount = dictionary["MaximumPlayerSessionCount"] as? Int32
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = GameSessionStatus(rawValue: status) } else { self.status = nil }
             self.name = dictionary["Name"] as? String
             self.ipAddress = dictionary["IpAddress"] as? String
             self.creatorId = dictionary["CreatorId"] as? String
-            self.playerSessionCreationPolicy = dictionary["PlayerSessionCreationPolicy"] as? String
+            if let playerSessionCreationPolicy = dictionary["PlayerSessionCreationPolicy"] as? String { self.playerSessionCreationPolicy = PlayerSessionCreationPolicy(rawValue: playerSessionCreationPolicy) } else { self.playerSessionCreationPolicy = nil }
             if let gameProperties = dictionary["GameProperties"] as? [[String: Any]] {
                 self.gameProperties = try gameProperties.map({ try GameProperty(dictionary: $0) })
             } else { 
@@ -493,6 +578,14 @@ extension Gamelift {
         }
     }
 
+    public enum ComparisonOperatorType: String, CustomStringConvertible {
+        case greaterthanorequaltothreshold = "GreaterThanOrEqualToThreshold"
+        case greaterthanthreshold = "GreaterThanThreshold"
+        case lessthanthreshold = "LessThanThreshold"
+        case lessthanorequaltothreshold = "LessThanOrEqualToThreshold"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DescribeScalingPoliciesOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -522,7 +615,7 @@ extension Gamelift {
         /// Time stamp indicating when this request was placed in the queue. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let startTime: Date?
         /// Current status of the game session placement request.    PENDING – The placement request is currently in the queue waiting to be processed.    FULFILLED – A new game session and player sessions (if requested) have been successfully created. Values for GameSessionArn and GameSessionRegion are available.     CANCELLED – The placement request was cancelled with a call to StopGameSessionPlacement.    TIMED_OUT – A new game session was not successfully created before the time limit expired. You can resubmit the placement request as needed.  
-        public let status: String?
+        public let status: GameSessionPlacementState?
         /// Name of the region where the game session created by this placement request is running. This value exists only if the game session placement status is Completed.
         public let gameSessionRegion: String?
         /// Identifier for the game session created by this placement request. This value exists only if the game session placement status is Completed. This identifier is unique across all regions.
@@ -542,7 +635,7 @@ extension Gamelift {
         /// Descriptive label that is associated with a game session. Session names do not need to be unique.
         public let gameSessionName: String?
 
-        public init(startTime: Date? = nil, status: String? = nil, gameSessionRegion: String? = nil, gameSessionArn: String? = nil, placementId: String? = nil, playerLatencies: [PlayerLatency]? = nil, endTime: Date? = nil, gameSessionQueueName: String? = nil, gameProperties: [GameProperty]? = nil, maximumPlayerSessionCount: Int32? = nil, gameSessionName: String? = nil) {
+        public init(startTime: Date? = nil, status: GameSessionPlacementState? = nil, gameSessionRegion: String? = nil, gameSessionArn: String? = nil, placementId: String? = nil, playerLatencies: [PlayerLatency]? = nil, endTime: Date? = nil, gameSessionQueueName: String? = nil, gameProperties: [GameProperty]? = nil, maximumPlayerSessionCount: Int32? = nil, gameSessionName: String? = nil) {
             self.startTime = startTime
             self.status = status
             self.gameSessionRegion = gameSessionRegion
@@ -558,7 +651,7 @@ extension Gamelift {
 
         public init(dictionary: [String: Any]) throws {
             self.startTime = dictionary["StartTime"] as? Date
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = GameSessionPlacementState(rawValue: status) } else { self.status = nil }
             self.gameSessionRegion = dictionary["GameSessionRegion"] as? String
             self.gameSessionArn = dictionary["GameSessionArn"] as? String
             self.placementId = dictionary["PlacementId"] as? String
@@ -583,20 +676,20 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         /// Build status to filter results by. To retrieve all builds, leave this parameter empty. Possible build statuses include the following:    INITIALIZED – A new build has been defined, but no files have been uploaded. You cannot create fleets for builds that are in this status. When a build is successfully created, the build status is set to this value.     READY – The game build has been successfully uploaded. You can now create new fleets for this build.    FAILED – The game build upload failed. You cannot create new fleets for this build.   
-        public let status: String?
+        public let status: BuildStatus?
         /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value.
         public let nextToken: String?
         /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int32?
 
-        public init(status: String? = nil, nextToken: String? = nil, limit: Int32? = nil) {
+        public init(status: BuildStatus? = nil, nextToken: String? = nil, limit: Int32? = nil) {
             self.status = status
             self.nextToken = nextToken
             self.limit = limit
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = BuildStatus(rawValue: status) } else { self.status = nil }
             self.nextToken = dictionary["NextToken"] as? String
             self.limit = dictionary["Limit"] as? Int32
         }
@@ -625,37 +718,37 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         /// Current status of the instance. Possible statuses include the following:    PENDING – The instance is in the process of being created and launching server processes as defined in the fleet's runtime configuration.     ACTIVE – The instance has been successfully created and at least one server process has successfully launched and reported back to Amazon GameLift that it is ready to host a game session. The instance is now considered ready to host game sessions.     TERMINATING – The instance is in the process of shutting down. This may happen to reduce capacity during a scaling down event or to recycle resources in the event of a problem.  
-        public let status: String?
+        public let status: InstanceStatus?
         /// Unique identifier for an instance.
         public let instanceId: String?
         /// IP address assigned to the instance.
         public let ipAddress: String?
         /// Operating system that is running on this instance. 
-        public let operatingSystem: String?
+        public let operatingSystem: OperatingSystem?
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let creationTime: Date?
         /// EC2 instance type that defines the computing resources of this instance. 
-        public let type: String?
+        public let `type`: EC2InstanceType?
         /// Unique identifier for a fleet that the instance is in.
         public let fleetId: String?
 
-        public init(status: String? = nil, instanceId: String? = nil, ipAddress: String? = nil, operatingSystem: String? = nil, creationTime: Date? = nil, type: String? = nil, fleetId: String? = nil) {
+        public init(status: InstanceStatus? = nil, instanceId: String? = nil, ipAddress: String? = nil, operatingSystem: OperatingSystem? = nil, creationTime: Date? = nil, type: EC2InstanceType? = nil, fleetId: String? = nil) {
             self.status = status
             self.instanceId = instanceId
             self.ipAddress = ipAddress
             self.operatingSystem = operatingSystem
             self.creationTime = creationTime
-            self.type = type
+            self.`type` = `type`
             self.fleetId = fleetId
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = InstanceStatus(rawValue: status) } else { self.status = nil }
             self.instanceId = dictionary["InstanceId"] as? String
             self.ipAddress = dictionary["IpAddress"] as? String
-            self.operatingSystem = dictionary["OperatingSystem"] as? String
+            if let operatingSystem = dictionary["OperatingSystem"] as? String { self.operatingSystem = OperatingSystem(rawValue: operatingSystem) } else { self.operatingSystem = nil }
             self.creationTime = dictionary["CreationTime"] as? Date
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = EC2InstanceType(rawValue: `type`) } else { self.`type` = nil }
             self.fleetId = dictionary["FleetId"] as? String
         }
     }
@@ -666,11 +759,11 @@ extension Gamelift {
         /// Number of instances of the specified type that are currently in use by this AWS account.
         public let currentInstances: Int32?
         /// Name of an EC2 instance type that is supported in Amazon GameLift. A fleet instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. Amazon GameLift supports the following EC2 instance types. See Amazon EC2 Instance Types for detailed descriptions.
-        public let eC2InstanceType: String?
+        public let eC2InstanceType: EC2InstanceType?
         /// Number of instances allowed.
         public let instanceLimit: Int32?
 
-        public init(currentInstances: Int32? = nil, eC2InstanceType: String? = nil, instanceLimit: Int32? = nil) {
+        public init(currentInstances: Int32? = nil, eC2InstanceType: EC2InstanceType? = nil, instanceLimit: Int32? = nil) {
             self.currentInstances = currentInstances
             self.eC2InstanceType = eC2InstanceType
             self.instanceLimit = instanceLimit
@@ -678,7 +771,7 @@ extension Gamelift {
 
         public init(dictionary: [String: Any]) throws {
             self.currentInstances = dictionary["CurrentInstances"] as? Int32
-            self.eC2InstanceType = dictionary["EC2InstanceType"] as? String
+            if let eC2InstanceType = dictionary["EC2InstanceType"] as? String { self.eC2InstanceType = EC2InstanceType(rawValue: eC2InstanceType) } else { self.eC2InstanceType = nil }
             self.instanceLimit = dictionary["InstanceLimit"] as? Int32
         }
     }
@@ -763,7 +856,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         /// Type of routing to filter results on. Use this parameter to retrieve only aliases of a certain type. To retrieve all aliases, leave this parameter empty. Possible routing types include the following:    SIMPLE – The alias resolves to one specific fleet. Use this type when routing to active fleets.    TERMINAL – The alias does not resolve to a fleet but instead can be used to display a message to the user. A terminal alias throws a TerminalRoutingStrategyException with the RoutingStrategy message embedded.  
-        public let routingStrategyType: String?
+        public let routingStrategyType: RoutingStrategyType?
         /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int32?
         /// Descriptive label that is associated with an alias. Alias names do not need to be unique.
@@ -771,7 +864,7 @@ extension Gamelift {
         /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value.
         public let nextToken: String?
 
-        public init(routingStrategyType: String? = nil, limit: Int32? = nil, name: String? = nil, nextToken: String? = nil) {
+        public init(routingStrategyType: RoutingStrategyType? = nil, limit: Int32? = nil, name: String? = nil, nextToken: String? = nil) {
             self.routingStrategyType = routingStrategyType
             self.limit = limit
             self.name = name
@@ -779,7 +872,7 @@ extension Gamelift {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.routingStrategyType = dictionary["RoutingStrategyType"] as? String
+            if let routingStrategyType = dictionary["RoutingStrategyType"] as? String { self.routingStrategyType = RoutingStrategyType(rawValue: routingStrategyType) } else { self.routingStrategyType = nil }
             self.limit = dictionary["Limit"] as? Int32
             self.name = dictionary["Name"] as? String
             self.nextToken = dictionary["NextToken"] as? String
@@ -817,6 +910,14 @@ extension Gamelift {
         }
     }
 
+    public enum PlayerSessionStatus: String, CustomStringConvertible {
+        case reserved = "RESERVED"
+        case active = "ACTIVE"
+        case completed = "COMPLETED"
+        case timedout = "TIMEDOUT"
+        public var description: String { return self.rawValue }
+    }
+
     public struct StopGameSessionPlacementInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -839,7 +940,7 @@ extension Gamelift {
         /// Policy that limits the number of game sessions an individual player can create over a span of time for this fleet.
         public let resourceCreationLimitPolicy: ResourceCreationLimitPolicy?
         /// Name of an EC2 instance type that is supported in Amazon GameLift. A fleet instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. Amazon GameLift supports the following EC2 instance types. See Amazon EC2 Instance Types for detailed descriptions.
-        public let eC2InstanceType: String
+        public let eC2InstanceType: EC2InstanceType
         /// Unique identifier for a build to be deployed on the new fleet. The build must have been successfully uploaded to Amazon GameLift and be in a READY status. This fleet setting cannot be changed once the fleet is created.
         public let buildId: String
         /// This parameter is no longer used. Instead, specify server launch parameters in the RuntimeConfiguration parameter. (Requests that specify a server launch path and launch parameters instead of a runtime configuration will continue to work.)
@@ -847,7 +948,7 @@ extension Gamelift {
         /// Descriptive label that is associated with a fleet. Fleet names do not need to be unique.
         public let name: String
         /// Game session protection policy to apply to all instances in this fleet. If this parameter is not set, instances in this fleet default to no protection. You can change a fleet's protection policy using UpdateFleetAttributes, but this change will only affect sessions created after the policy change. You can also set protection for individual instances using UpdateGameSession.    NoProtection – The game session can be terminated during a scale-down event.    FullProtection – If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.  
-        public let newGameSessionProtectionPolicy: String?
+        public let newGameSessionProtectionPolicy: ProtectionPolicy?
         /// Range of IP addresses and port settings that permit inbound traffic to access server processes running on the fleet. If no inbound permissions are set, including both IP address range and port range, the server processes in the fleet cannot accept connections. You can specify one or more sets of permissions for a fleet.
         public let eC2InboundPermissions: [IpPermission]?
         /// Instructions for launching server processes on each instance in the fleet. The runtime configuration for a fleet has a collection of server process configurations, one for each type of server process to run on an instance. A server process configuration specifies the location of the server executable, launch parameters, and the number of concurrent processes with that configuration to maintain on each instance. A CreateFleet request must include a runtime configuration with at least one server process configuration; otherwise the request will fail with an invalid request exception. (This parameter replaces the parameters ServerLaunchPath and ServerLaunchParameters; requests that contain values for these parameters instead of a runtime configuration will continue to work.) 
@@ -859,7 +960,7 @@ extension Gamelift {
         /// Human-readable description of a fleet.
         public let description: String?
 
-        public init(resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, eC2InstanceType: String, buildId: String, serverLaunchParameters: String? = nil, name: String, newGameSessionProtectionPolicy: String? = nil, eC2InboundPermissions: [IpPermission]? = nil, runtimeConfiguration: RuntimeConfiguration? = nil, logPaths: [String]? = nil, serverLaunchPath: String? = nil, description: String? = nil) {
+        public init(resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, eC2InstanceType: EC2InstanceType, buildId: String, serverLaunchParameters: String? = nil, name: String, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, eC2InboundPermissions: [IpPermission]? = nil, runtimeConfiguration: RuntimeConfiguration? = nil, logPaths: [String]? = nil, serverLaunchPath: String? = nil, description: String? = nil) {
             self.resourceCreationLimitPolicy = resourceCreationLimitPolicy
             self.eC2InstanceType = eC2InstanceType
             self.buildId = buildId
@@ -875,14 +976,14 @@ extension Gamelift {
 
         public init(dictionary: [String: Any]) throws {
             if let resourceCreationLimitPolicy = dictionary["ResourceCreationLimitPolicy"] as? [String: Any] { self.resourceCreationLimitPolicy = try Gamelift.ResourceCreationLimitPolicy(dictionary: resourceCreationLimitPolicy) } else { self.resourceCreationLimitPolicy = nil }
-            guard let eC2InstanceType = dictionary["EC2InstanceType"] as? String else { throw InitializableError.missingRequiredParam("EC2InstanceType") }
+            guard let rawEC2InstanceType = dictionary["EC2InstanceType"] as? String, let eC2InstanceType = EC2InstanceType(rawValue: rawEC2InstanceType) else { throw InitializableError.missingRequiredParam("EC2InstanceType") }
             self.eC2InstanceType = eC2InstanceType
             guard let buildId = dictionary["BuildId"] as? String else { throw InitializableError.missingRequiredParam("BuildId") }
             self.buildId = buildId
             self.serverLaunchParameters = dictionary["ServerLaunchParameters"] as? String
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
-            self.newGameSessionProtectionPolicy = dictionary["NewGameSessionProtectionPolicy"] as? String
+            if let newGameSessionProtectionPolicy = dictionary["NewGameSessionProtectionPolicy"] as? String { self.newGameSessionProtectionPolicy = ProtectionPolicy(rawValue: newGameSessionProtectionPolicy) } else { self.newGameSessionProtectionPolicy = nil }
             if let eC2InboundPermissions = dictionary["EC2InboundPermissions"] as? [[String: Any]] {
                 self.eC2InboundPermissions = try eC2InboundPermissions.map({ try IpPermission(dictionary: $0) })
             } else { 
@@ -1117,13 +1218,13 @@ extension Gamelift {
         /// Unique identifier for an event resource, such as a fleet ID.
         public let resourceId: String?
         /// Type of event being logged. 
-        public let eventCode: String?
+        public let eventCode: EventCode?
         /// Time stamp indicating when this event occurred. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let eventTime: Date?
         /// Unique identifier for a fleet event.
         public let eventId: String?
 
-        public init(message: String? = nil, resourceId: String? = nil, eventCode: String? = nil, eventTime: Date? = nil, eventId: String? = nil) {
+        public init(message: String? = nil, resourceId: String? = nil, eventCode: EventCode? = nil, eventTime: Date? = nil, eventId: String? = nil) {
             self.message = message
             self.resourceId = resourceId
             self.eventCode = eventCode
@@ -1134,7 +1235,7 @@ extension Gamelift {
         public init(dictionary: [String: Any]) throws {
             self.message = dictionary["Message"] as? String
             self.resourceId = dictionary["ResourceId"] as? String
-            self.eventCode = dictionary["EventCode"] as? String
+            if let eventCode = dictionary["EventCode"] as? String { self.eventCode = EventCode(rawValue: eventCode) } else { self.eventCode = nil }
             self.eventTime = dictionary["EventTime"] as? Date
             self.eventId = dictionary["EventId"] as? String
         }
@@ -1153,6 +1254,12 @@ extension Gamelift {
         public init(dictionary: [String: Any]) throws {
             if let gameSessionQueue = dictionary["GameSessionQueue"] as? [String: Any] { self.gameSessionQueue = try Gamelift.GameSessionQueue(dictionary: gameSessionQueue) } else { self.gameSessionQueue = nil }
         }
+    }
+
+    public enum ProtectionPolicy: String, CustomStringConvertible {
+        case noprotection = "NoProtection"
+        case fullprotection = "FullProtection"
+        public var description: String { return self.rawValue }
     }
 
     public struct GameSessionQueueDestination: AWSShape {
@@ -1262,7 +1369,7 @@ extension Gamelift {
         /// Metric value used to trigger a scaling event.
         public let threshold: Double
         /// Name of the Amazon GameLift-defined metric that is used to trigger an adjustment.    ActivatingGameSessions – number of game sessions in the process of being created (game session status = ACTIVATING).    ActiveGameSessions – number of game sessions currently running (game session status = ACTIVE).    CurrentPlayerSessions – number of active or reserved player sessions (player session status = ACTIVE or RESERVED).     AvailablePlayerSessions – number of player session slots currently available in active game sessions across the fleet, calculated by subtracting a game session's current player session count from its maximum player session count. This number includes game sessions that are not currently accepting players (game session PlayerSessionCreationPolicy = DENY_ALL).    ActiveInstances – number of instances currently running a game session.    IdleInstances – number of instances not currently running a game session.  
-        public let metricName: String
+        public let metricName: MetricName
         /// Length of time (in minutes) the metric must be at or beyond the threshold before a scaling event is triggered.
         public let evaluationPeriods: Int32
         /// Descriptive label that is associated with a scaling policy. Policy names do not need to be unique. A fleet can have only one scaling policy with the same name.
@@ -1270,13 +1377,13 @@ extension Gamelift {
         /// Amount of adjustment to make, based on the scaling adjustment type.
         public let scalingAdjustment: Int32
         /// Comparison operator to use when measuring the metric against the threshold value.
-        public let comparisonOperator: String
+        public let comparisonOperator: ComparisonOperatorType
         /// Type of adjustment to make to a fleet's instance count (see FleetCapacity):    ChangeInCapacity – add (or subtract) the scaling adjustment value from the current instance count. Positive values scale up while negative values scale down.    ExactCapacity – set the instance count to the scaling adjustment value.    PercentChangeInCapacity – increase or reduce the current instance count by the scaling adjustment, read as a percentage. Positive values scale up while negative values scale down; for example, a value of "-10" scales the fleet down by 10%.  
-        public let scalingAdjustmentType: String
+        public let scalingAdjustmentType: ScalingAdjustmentType
         /// Unique identifier for a fleet to apply this policy to.
         public let fleetId: String
 
-        public init(threshold: Double, metricName: String, evaluationPeriods: Int32, name: String, scalingAdjustment: Int32, comparisonOperator: String, scalingAdjustmentType: String, fleetId: String) {
+        public init(threshold: Double, metricName: MetricName, evaluationPeriods: Int32, name: String, scalingAdjustment: Int32, comparisonOperator: ComparisonOperatorType, scalingAdjustmentType: ScalingAdjustmentType, fleetId: String) {
             self.threshold = threshold
             self.metricName = metricName
             self.evaluationPeriods = evaluationPeriods
@@ -1290,7 +1397,7 @@ extension Gamelift {
         public init(dictionary: [String: Any]) throws {
             guard let threshold = dictionary["Threshold"] as? Double else { throw InitializableError.missingRequiredParam("Threshold") }
             self.threshold = threshold
-            guard let metricName = dictionary["MetricName"] as? String else { throw InitializableError.missingRequiredParam("MetricName") }
+            guard let rawMetricName = dictionary["MetricName"] as? String, let metricName = MetricName(rawValue: rawMetricName) else { throw InitializableError.missingRequiredParam("MetricName") }
             self.metricName = metricName
             guard let evaluationPeriods = dictionary["EvaluationPeriods"] as? Int32 else { throw InitializableError.missingRequiredParam("EvaluationPeriods") }
             self.evaluationPeriods = evaluationPeriods
@@ -1298,9 +1405,9 @@ extension Gamelift {
             self.name = name
             guard let scalingAdjustment = dictionary["ScalingAdjustment"] as? Int32 else { throw InitializableError.missingRequiredParam("ScalingAdjustment") }
             self.scalingAdjustment = scalingAdjustment
-            guard let comparisonOperator = dictionary["ComparisonOperator"] as? String else { throw InitializableError.missingRequiredParam("ComparisonOperator") }
+            guard let rawComparisonOperator = dictionary["ComparisonOperator"] as? String, let comparisonOperator = ComparisonOperatorType(rawValue: rawComparisonOperator) else { throw InitializableError.missingRequiredParam("ComparisonOperator") }
             self.comparisonOperator = comparisonOperator
-            guard let scalingAdjustmentType = dictionary["ScalingAdjustmentType"] as? String else { throw InitializableError.missingRequiredParam("ScalingAdjustmentType") }
+            guard let rawScalingAdjustmentType = dictionary["ScalingAdjustmentType"] as? String, let scalingAdjustmentType = ScalingAdjustmentType(rawValue: rawScalingAdjustmentType) else { throw InitializableError.missingRequiredParam("ScalingAdjustmentType") }
             self.scalingAdjustmentType = scalingAdjustmentType
             guard let fleetId = dictionary["FleetId"] as? String else { throw InitializableError.missingRequiredParam("FleetId") }
             self.fleetId = fleetId
@@ -1321,6 +1428,12 @@ extension Gamelift {
             guard let buildId = dictionary["BuildId"] as? String else { throw InitializableError.missingRequiredParam("BuildId") }
             self.buildId = buildId
         }
+    }
+
+    public enum IpProtocol: String, CustomStringConvertible {
+        case tcp = "TCP"
+        case udp = "UDP"
+        public var description: String { return self.rawValue }
     }
 
     public struct UpdateFleetAttributesOutput: AWSShape {
@@ -1591,6 +1704,13 @@ extension Gamelift {
         }
     }
 
+    public enum InstanceStatus: String, CustomStringConvertible {
+        case pending = "PENDING"
+        case active = "ACTIVE"
+        case terminating = "TERMINATING"
+        public var description: String { return self.rawValue }
+    }
+
     public struct GameProperty: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1610,6 +1730,13 @@ extension Gamelift {
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
         }
+    }
+
+    public enum BuildStatus: String, CustomStringConvertible {
+        case initialized = "INITIALIZED"
+        case ready = "READY"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
     }
 
     public struct UpdateBuildOutput: AWSShape {
@@ -1654,14 +1781,14 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         /// Name of an EC2 instance type that is supported in Amazon GameLift. A fleet instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. Amazon GameLift supports the following EC2 instance types. See Amazon EC2 Instance Types for detailed descriptions. Leave this parameter blank to retrieve limits for all types.
-        public let eC2InstanceType: String?
+        public let eC2InstanceType: EC2InstanceType?
 
-        public init(eC2InstanceType: String? = nil) {
+        public init(eC2InstanceType: EC2InstanceType? = nil) {
             self.eC2InstanceType = eC2InstanceType
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.eC2InstanceType = dictionary["EC2InstanceType"] as? String
+            if let eC2InstanceType = dictionary["EC2InstanceType"] as? String { self.eC2InstanceType = EC2InstanceType(rawValue: eC2InstanceType) } else { self.eC2InstanceType = nil }
         }
     }
 
@@ -1785,20 +1912,20 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         /// Name of an EC2 instance type that is supported in Amazon GameLift. A fleet instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. Amazon GameLift supports the following EC2 instance types. See Amazon EC2 Instance Types for detailed descriptions.
-        public let instanceType: String?
+        public let instanceType: EC2InstanceType?
         /// Unique identifier for a fleet.
         public let fleetId: String?
         /// Current status of fleet capacity.
         public let instanceCounts: EC2InstanceCounts?
 
-        public init(instanceType: String? = nil, fleetId: String? = nil, instanceCounts: EC2InstanceCounts? = nil) {
+        public init(instanceType: EC2InstanceType? = nil, fleetId: String? = nil, instanceCounts: EC2InstanceCounts? = nil) {
             self.instanceType = instanceType
             self.fleetId = fleetId
             self.instanceCounts = instanceCounts
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.instanceType = dictionary["InstanceType"] as? String
+            if let instanceType = dictionary["InstanceType"] as? String { self.instanceType = EC2InstanceType(rawValue: instanceType) } else { self.instanceType = nil }
             self.fleetId = dictionary["FleetId"] as? String
             if let instanceCounts = dictionary["InstanceCounts"] as? [String: Any] { self.instanceCounts = try Gamelift.EC2InstanceCounts(dictionary: instanceCounts) } else { self.instanceCounts = nil }
         }
@@ -1808,17 +1935,17 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         /// Current status of protection for the game session.    NoProtection – The game session can be terminated during a scale-down event.    FullProtection – If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.  
-        public let protectionPolicy: String?
+        public let protectionPolicy: ProtectionPolicy?
         /// Object that describes a game session.
         public let gameSession: GameSession?
 
-        public init(protectionPolicy: String? = nil, gameSession: GameSession? = nil) {
+        public init(protectionPolicy: ProtectionPolicy? = nil, gameSession: GameSession? = nil) {
             self.protectionPolicy = protectionPolicy
             self.gameSession = gameSession
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.protectionPolicy = dictionary["ProtectionPolicy"] as? String
+            if let protectionPolicy = dictionary["ProtectionPolicy"] as? String { self.protectionPolicy = ProtectionPolicy(rawValue: protectionPolicy) } else { self.protectionPolicy = nil }
             if let gameSession = dictionary["GameSession"] as? [String: Any] { self.gameSession = try Gamelift.GameSession(dictionary: gameSession) } else { self.gameSession = nil }
         }
     }
@@ -1827,7 +1954,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         /// Operating system that the game server binaries are built to run on. This value determines the type of fleet resources that you can use for this build. If your game build contains multiple executables, they all must run on the same operating system.
-        public let operatingSystem: String?
+        public let operatingSystem: OperatingSystem?
         /// Amazon S3 location of the game build files to be uploaded. The S3 bucket must be owned by the same AWS account that you're using to manage Amazon GameLift. It also must in the same region that you want to create a new build in. Before calling CreateBuild with this location, you must allow Amazon GameLift to access your Amazon S3 bucket (see Create a Build with Files in Amazon S3).
         public let storageLocation: S3Location?
         /// Descriptive label that is associated with a build. Build names do not need to be unique. You can use UpdateBuild to change this value later. 
@@ -1835,7 +1962,7 @@ extension Gamelift {
         /// Version that is associated with this build. Version strings do not need to be unique. You can use UpdateBuild to change this value later. 
         public let version: String?
 
-        public init(operatingSystem: String? = nil, storageLocation: S3Location? = nil, name: String? = nil, version: String? = nil) {
+        public init(operatingSystem: OperatingSystem? = nil, storageLocation: S3Location? = nil, name: String? = nil, version: String? = nil) {
             self.operatingSystem = operatingSystem
             self.storageLocation = storageLocation
             self.name = name
@@ -1843,7 +1970,7 @@ extension Gamelift {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.operatingSystem = dictionary["OperatingSystem"] as? String
+            if let operatingSystem = dictionary["OperatingSystem"] as? String { self.operatingSystem = OperatingSystem(rawValue: operatingSystem) } else { self.operatingSystem = nil }
             if let storageLocation = dictionary["StorageLocation"] as? [String: Any] { self.storageLocation = try Gamelift.S3Location(dictionary: storageLocation) } else { self.storageLocation = nil }
             self.name = dictionary["Name"] as? String
             self.version = dictionary["Version"] as? String
@@ -1968,11 +2095,20 @@ extension Gamelift {
         }
     }
 
+    public enum GameSessionStatus: String, CustomStringConvertible {
+        case active = "ACTIVE"
+        case activating = "ACTIVATING"
+        case terminated = "TERMINATED"
+        case terminating = "TERMINATING"
+        case error = "ERROR"
+        public var description: String { return self.rawValue }
+    }
+
     public struct PlayerSession: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// Current status of the player session. Possible player session statuses include the following:    RESERVED – The player session request has been received, but the player has not yet connected to the server process and/or been validated.     ACTIVE – The player has been validated by the server process and is currently connected.    COMPLETED – The player connection has been dropped.    TIMEDOUT – A player session request was received, but the player did not connect and/or was not validated within the time-out limit (60 seconds).  
-        public let status: String?
+        public let status: PlayerSessionStatus?
         /// Unique identifier for a player session.
         public let playerSessionId: String?
         /// Game session IP address. All player sessions reference the game session location.
@@ -1992,7 +2128,7 @@ extension Gamelift {
         /// Port number for the game session. To connect to a Amazon GameLift server process, an app needs both the IP address and port number.
         public let port: Int32?
 
-        public init(status: String? = nil, playerSessionId: String? = nil, ipAddress: String? = nil, playerData: String? = nil, creationTime: Date? = nil, terminationTime: Date? = nil, playerId: String? = nil, gameSessionId: String? = nil, fleetId: String? = nil, port: Int32? = nil) {
+        public init(status: PlayerSessionStatus? = nil, playerSessionId: String? = nil, ipAddress: String? = nil, playerData: String? = nil, creationTime: Date? = nil, terminationTime: Date? = nil, playerId: String? = nil, gameSessionId: String? = nil, fleetId: String? = nil, port: Int32? = nil) {
             self.status = status
             self.playerSessionId = playerSessionId
             self.ipAddress = ipAddress
@@ -2006,7 +2142,7 @@ extension Gamelift {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = PlayerSessionStatus(rawValue: status) } else { self.status = nil }
             self.playerSessionId = dictionary["PlayerSessionId"] as? String
             self.ipAddress = dictionary["IpAddress"] as? String
             self.playerData = dictionary["PlayerData"] as? String
@@ -2096,6 +2232,12 @@ extension Gamelift {
         }
     }
 
+    public enum OperatingSystem: String, CustomStringConvertible {
+        case windows_2012 = "WINDOWS_2012"
+        case amazon_linux = "AMAZON_LINUX"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DescribeFleetEventsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2126,6 +2268,27 @@ extension Gamelift {
             self.fleetId = fleetId
             self.nextToken = dictionary["NextToken"] as? String
         }
+    }
+
+    public enum FleetStatus: String, CustomStringConvertible {
+        case new = "NEW"
+        case downloading = "DOWNLOADING"
+        case validating = "VALIDATING"
+        case building = "BUILDING"
+        case activating = "ACTIVATING"
+        case active = "ACTIVE"
+        case deleting = "DELETING"
+        case error = "ERROR"
+        case terminated = "TERMINATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GameSessionPlacementState: String, CustomStringConvertible {
+        case pending = "PENDING"
+        case fulfilled = "FULFILLED"
+        case cancelled = "CANCELLED"
+        case timed_out = "TIMED_OUT"
+        public var description: String { return self.rawValue }
     }
 
     public struct S3Location: AWSShape {
@@ -2199,9 +2362,9 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         /// Policy determining whether or not the game session accepts new players.
-        public let playerSessionCreationPolicy: String?
+        public let playerSessionCreationPolicy: PlayerSessionCreationPolicy?
         /// Game session protection policy to apply to this game session only.    NoProtection – The game session can be terminated during a scale-down event.    FullProtection – If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.  
-        public let protectionPolicy: String?
+        public let protectionPolicy: ProtectionPolicy?
         /// Unique identifier for the game session to update.
         public let gameSessionId: String
         /// Descriptive label that is associated with a game session. Session names do not need to be unique.
@@ -2209,7 +2372,7 @@ extension Gamelift {
         /// Maximum number of players that can be connected simultaneously to the game session.
         public let maximumPlayerSessionCount: Int32?
 
-        public init(playerSessionCreationPolicy: String? = nil, protectionPolicy: String? = nil, gameSessionId: String, name: String? = nil, maximumPlayerSessionCount: Int32? = nil) {
+        public init(playerSessionCreationPolicy: PlayerSessionCreationPolicy? = nil, protectionPolicy: ProtectionPolicy? = nil, gameSessionId: String, name: String? = nil, maximumPlayerSessionCount: Int32? = nil) {
             self.playerSessionCreationPolicy = playerSessionCreationPolicy
             self.protectionPolicy = protectionPolicy
             self.gameSessionId = gameSessionId
@@ -2218,8 +2381,8 @@ extension Gamelift {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.playerSessionCreationPolicy = dictionary["PlayerSessionCreationPolicy"] as? String
-            self.protectionPolicy = dictionary["ProtectionPolicy"] as? String
+            if let playerSessionCreationPolicy = dictionary["PlayerSessionCreationPolicy"] as? String { self.playerSessionCreationPolicy = PlayerSessionCreationPolicy(rawValue: playerSessionCreationPolicy) } else { self.playerSessionCreationPolicy = nil }
+            if let protectionPolicy = dictionary["ProtectionPolicy"] as? String { self.protectionPolicy = ProtectionPolicy(rawValue: protectionPolicy) } else { self.protectionPolicy = nil }
             guard let gameSessionId = dictionary["GameSessionId"] as? String else { throw InitializableError.missingRequiredParam("GameSessionId") }
             self.gameSessionId = gameSessionId
             self.name = dictionary["Name"] as? String
@@ -2260,7 +2423,7 @@ extension Gamelift {
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let creationTime: Date?
         /// Type of game session protection to set for all new instances started in the fleet.    NoProtection – The game session can be terminated during a scale-down event.    FullProtection – If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.  
-        public let newGameSessionProtectionPolicy: String?
+        public let newGameSessionProtectionPolicy: ProtectionPolicy?
         /// Location of default log files. When a server process is shut down, Amazon GameLift captures and stores any log files in this location. These logs are in addition to game session logs; see more on game session logs in the Amazon GameLift Developer Guide. If no default log path for a fleet is specified, Amazon GameLift will automatically upload logs that are stored on each instance at C:\game\logs (for Windows) or /local/game/logs (for Linux). Use the Amazon GameLift console to access stored logs. 
         public let logPaths: [String]?
         /// Path to a game server executable in the fleet's build, specified for fleets created prior to 2016-08-04 (or AWS SDK v. 0.12.16). Server launch paths for fleets created after this date are specified in the fleet's RuntimeConfiguration.
@@ -2270,7 +2433,7 @@ extension Gamelift {
         /// Fleet policy to limit the number of game sessions an individual player can create over a span of time.
         public let resourceCreationLimitPolicy: ResourceCreationLimitPolicy?
         /// Current status of the fleet. Possible fleet statuses include the following:    NEW – A new fleet has been defined and desired instances is set to 1.     DOWNLOADING/VALIDATING/BUILDING/ACTIVATING – Amazon GameLift is setting up the new fleet, creating new instances with the game build and starting server processes.    ACTIVE – Hosts can now accept game sessions.    ERROR – An error occurred when downloading, validating, building, or activating the fleet.    DELETING – Hosts are responding to a delete fleet request.    TERMINATED – The fleet no longer exists.  
-        public let status: String?
+        public let status: FleetStatus?
         /// Unique identifier for a build.
         public let buildId: String?
         /// Game server launch parameters specified for fleets created prior to 2016-08-04 (or AWS SDK v. 0.12.16). Server launch parameters for fleets created after this date are specified in the fleet's RuntimeConfiguration.
@@ -2278,11 +2441,11 @@ extension Gamelift {
         /// Descriptive label that is associated with a fleet. Fleet names do not need to be unique.
         public let name: String?
         /// Operating system of the fleet's computing resources. A fleet's operating system depends on the OS specified for the build that is deployed on this fleet.
-        public let operatingSystem: String?
+        public let operatingSystem: OperatingSystem?
         /// Unique identifier for a fleet.
         public let fleetId: String?
 
-        public init(terminationTime: Date? = nil, fleetArn: String? = nil, creationTime: Date? = nil, newGameSessionProtectionPolicy: String? = nil, logPaths: [String]? = nil, serverLaunchPath: String? = nil, description: String? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, status: String? = nil, buildId: String? = nil, serverLaunchParameters: String? = nil, name: String? = nil, operatingSystem: String? = nil, fleetId: String? = nil) {
+        public init(terminationTime: Date? = nil, fleetArn: String? = nil, creationTime: Date? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, logPaths: [String]? = nil, serverLaunchPath: String? = nil, description: String? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, status: FleetStatus? = nil, buildId: String? = nil, serverLaunchParameters: String? = nil, name: String? = nil, operatingSystem: OperatingSystem? = nil, fleetId: String? = nil) {
             self.terminationTime = terminationTime
             self.fleetArn = fleetArn
             self.creationTime = creationTime
@@ -2303,16 +2466,16 @@ extension Gamelift {
             self.terminationTime = dictionary["TerminationTime"] as? Date
             self.fleetArn = dictionary["FleetArn"] as? String
             self.creationTime = dictionary["CreationTime"] as? Date
-            self.newGameSessionProtectionPolicy = dictionary["NewGameSessionProtectionPolicy"] as? String
+            if let newGameSessionProtectionPolicy = dictionary["NewGameSessionProtectionPolicy"] as? String { self.newGameSessionProtectionPolicy = ProtectionPolicy(rawValue: newGameSessionProtectionPolicy) } else { self.newGameSessionProtectionPolicy = nil }
             self.logPaths = dictionary["LogPaths"] as? [String]
             self.serverLaunchPath = dictionary["ServerLaunchPath"] as? String
             self.description = dictionary["Description"] as? String
             if let resourceCreationLimitPolicy = dictionary["ResourceCreationLimitPolicy"] as? [String: Any] { self.resourceCreationLimitPolicy = try Gamelift.ResourceCreationLimitPolicy(dictionary: resourceCreationLimitPolicy) } else { self.resourceCreationLimitPolicy = nil }
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = FleetStatus(rawValue: status) } else { self.status = nil }
             self.buildId = dictionary["BuildId"] as? String
             self.serverLaunchParameters = dictionary["ServerLaunchParameters"] as? String
             self.name = dictionary["Name"] as? String
-            self.operatingSystem = dictionary["OperatingSystem"] as? String
+            if let operatingSystem = dictionary["OperatingSystem"] as? String { self.operatingSystem = OperatingSystem(rawValue: operatingSystem) } else { self.operatingSystem = nil }
             self.fleetId = dictionary["FleetId"] as? String
         }
     }
@@ -2321,7 +2484,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         /// Operating system that is running on the instance.
-        public let operatingSystem: String?
+        public let operatingSystem: OperatingSystem?
         /// Credentials required to access the instance.
         public let credentials: InstanceCredentials?
         /// Unique identifier for a fleet containing the instance being accessed.
@@ -2331,7 +2494,7 @@ extension Gamelift {
         /// IP address assigned to the instance.
         public let ipAddress: String?
 
-        public init(operatingSystem: String? = nil, credentials: InstanceCredentials? = nil, fleetId: String? = nil, instanceId: String? = nil, ipAddress: String? = nil) {
+        public init(operatingSystem: OperatingSystem? = nil, credentials: InstanceCredentials? = nil, fleetId: String? = nil, instanceId: String? = nil, ipAddress: String? = nil) {
             self.operatingSystem = operatingSystem
             self.credentials = credentials
             self.fleetId = fleetId
@@ -2340,7 +2503,7 @@ extension Gamelift {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.operatingSystem = dictionary["OperatingSystem"] as? String
+            if let operatingSystem = dictionary["OperatingSystem"] as? String { self.operatingSystem = OperatingSystem(rawValue: operatingSystem) } else { self.operatingSystem = nil }
             if let credentials = dictionary["Credentials"] as? [String: Any] { self.credentials = try Gamelift.InstanceCredentials(dictionary: credentials) } else { self.credentials = nil }
             self.fleetId = dictionary["FleetId"] as? String
             self.instanceId = dictionary["InstanceId"] as? String
@@ -2361,6 +2524,12 @@ extension Gamelift {
         public init(dictionary: [String: Any]) throws {
             if let gameSessionPlacement = dictionary["GameSessionPlacement"] as? [String: Any] { self.gameSessionPlacement = try Gamelift.GameSessionPlacement(dictionary: gameSessionPlacement) } else { self.gameSessionPlacement = nil }
         }
+    }
+
+    public enum RoutingStrategyType: String, CustomStringConvertible {
+        case simple = "SIMPLE"
+        case terminal = "TERMINAL"
+        public var description: String { return self.rawValue }
     }
 
     public struct CreateGameSessionQueueOutput: AWSShape {
@@ -2489,7 +2658,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         /// Scaling policy status to filter results on. A scaling policy is only in force when in an ACTIVE status.    ACTIVE – The scaling policy is currently in force.    UPDATEREQUESTED – A request to update the scaling policy has been received.    UPDATING – A change is being made to the scaling policy.    DELETEREQUESTED – A request to delete the scaling policy has been received.    DELETING – The scaling policy is being deleted.    DELETED – The scaling policy has been deleted.    ERROR – An error occurred in creating the policy. It should be removed and recreated.  
-        public let statusFilter: String?
+        public let statusFilter: ScalingStatusType?
         /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int32?
         /// Unique identifier for a fleet to retrieve scaling policies for.
@@ -2497,7 +2666,7 @@ extension Gamelift {
         /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value.
         public let nextToken: String?
 
-        public init(statusFilter: String? = nil, limit: Int32? = nil, fleetId: String, nextToken: String? = nil) {
+        public init(statusFilter: ScalingStatusType? = nil, limit: Int32? = nil, fleetId: String, nextToken: String? = nil) {
             self.statusFilter = statusFilter
             self.limit = limit
             self.fleetId = fleetId
@@ -2505,7 +2674,7 @@ extension Gamelift {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.statusFilter = dictionary["StatusFilter"] as? String
+            if let statusFilter = dictionary["StatusFilter"] as? String { self.statusFilter = ScalingStatusType(rawValue: statusFilter) } else { self.statusFilter = nil }
             self.limit = dictionary["Limit"] as? Int32
             guard let fleetId = dictionary["FleetId"] as? String else { throw InitializableError.missingRequiredParam("FleetId") }
             self.fleetId = fleetId
@@ -2555,9 +2724,9 @@ extension Gamelift {
         /// Descriptive label that is associated with a fleet. Fleet names do not need to be unique.
         public let name: String?
         /// Game session protection policy to apply to all new instances created in this fleet. Instances that already exist are not affected. You can set protection for individual instances using UpdateGameSession.    NoProtection – The game session can be terminated during a scale-down event.    FullProtection – If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.  
-        public let newGameSessionProtectionPolicy: String?
+        public let newGameSessionProtectionPolicy: ProtectionPolicy?
 
-        public init(resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, description: String? = nil, fleetId: String, name: String? = nil, newGameSessionProtectionPolicy: String? = nil) {
+        public init(resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, description: String? = nil, fleetId: String, name: String? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil) {
             self.resourceCreationLimitPolicy = resourceCreationLimitPolicy
             self.description = description
             self.fleetId = fleetId
@@ -2571,7 +2740,7 @@ extension Gamelift {
             guard let fleetId = dictionary["FleetId"] as? String else { throw InitializableError.missingRequiredParam("FleetId") }
             self.fleetId = fleetId
             self.name = dictionary["Name"] as? String
-            self.newGameSessionProtectionPolicy = dictionary["NewGameSessionProtectionPolicy"] as? String
+            if let newGameSessionProtectionPolicy = dictionary["NewGameSessionProtectionPolicy"] as? String { self.newGameSessionProtectionPolicy = ProtectionPolicy(rawValue: newGameSessionProtectionPolicy) } else { self.newGameSessionProtectionPolicy = nil }
         }
     }
 
@@ -2622,11 +2791,11 @@ extension Gamelift {
         /// Ending value for a range of allowed port numbers. Port numbers are end-inclusive. This value must be higher than FromPort.
         public let toPort: Int32
         /// Network communication protocol used by the fleet.
-        public let `protocol`: String
+        public let `protocol`: IpProtocol
         /// Range of allowed IP addresses. This value must be expressed in CIDR notation. Example: "000.000.000.000/[subnet mask]" or optionally the shortened version "0.0.0.0/[subnet mask]".
         public let ipRange: String
 
-        public init(fromPort: Int32, toPort: Int32, protocol: String, ipRange: String) {
+        public init(fromPort: Int32, toPort: Int32, protocol: IpProtocol, ipRange: String) {
             self.fromPort = fromPort
             self.toPort = toPort
             self.`protocol` = `protocol`
@@ -2638,7 +2807,7 @@ extension Gamelift {
             self.fromPort = fromPort
             guard let toPort = dictionary["ToPort"] as? Int32 else { throw InitializableError.missingRequiredParam("ToPort") }
             self.toPort = toPort
-            guard let `protocol` = dictionary["Protocol"] as? String else { throw InitializableError.missingRequiredParam("Protocol") }
+            guard let rawProtocol = dictionary["Protocol"] as? String, let `protocol` = IpProtocol(rawValue: rawProtocol) else { throw InitializableError.missingRequiredParam("Protocol") }
             self.`protocol` = `protocol`
             guard let ipRange = dictionary["IpRange"] as? String else { throw InitializableError.missingRequiredParam("IpRange") }
             self.ipRange = ipRange
@@ -2704,6 +2873,13 @@ extension Gamelift {
         }
     }
 
+    public enum ScalingAdjustmentType: String, CustomStringConvertible {
+        case changeincapacity = "ChangeInCapacity"
+        case exactcapacity = "ExactCapacity"
+        case percentchangeincapacity = "PercentChangeInCapacity"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DescribeRuntimeConfigurationInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2718,6 +2894,12 @@ extension Gamelift {
             guard let fleetId = dictionary["FleetId"] as? String else { throw InitializableError.missingRequiredParam("FleetId") }
             self.fleetId = fleetId
         }
+    }
+
+    public enum PlayerSessionCreationPolicy: String, CustomStringConvertible {
+        case accept_all = "ACCEPT_ALL"
+        case deny_all = "DENY_ALL"
+        public var description: String { return self.rawValue }
     }
 
     public struct DescribeGameSessionPlacementInput: AWSShape {
@@ -2740,20 +2922,20 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         /// Type of routing strategy. Possible routing types include the following:    SIMPLE – The alias resolves to one specific fleet. Use this type when routing to active fleets.    TERMINAL – The alias does not resolve to a fleet but instead can be used to display a message to the user. A terminal alias throws a TerminalRoutingStrategyException with the RoutingStrategy message embedded.  
-        public let type: String?
+        public let `type`: RoutingStrategyType?
         /// Unique identifier for a fleet that the alias points to.
         public let fleetId: String?
         /// Message text to be used with a terminal routing strategy.
         public let message: String?
 
-        public init(type: String? = nil, fleetId: String? = nil, message: String? = nil) {
-            self.type = type
+        public init(type: RoutingStrategyType? = nil, fleetId: String? = nil, message: String? = nil) {
+            self.`type` = `type`
             self.fleetId = fleetId
             self.message = message
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = RoutingStrategyType(rawValue: `type`) } else { self.`type` = nil }
             self.fleetId = dictionary["FleetId"] as? String
             self.message = dictionary["Message"] as? String
         }

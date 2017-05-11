@@ -75,21 +75,21 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of the failure.
-        public let type: String
+        public let `type`: FailureType
         /// The message about the failure.
         public let message: String
         /// The external ID of the run of the action that failed.
         public let externalExecutionId: String?
 
-        public init(type: String, message: String, externalExecutionId: String? = nil) {
-            self.type = type
+        public init(type: FailureType, message: String, externalExecutionId: String? = nil) {
+            self.`type` = `type`
             self.message = message
             self.externalExecutionId = externalExecutionId
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
-            self.type = type
+            guard let rawtype = dictionary["type"] as? String, let `type` = FailureType(rawValue: rawtype) else { throw InitializableError.missingRequiredParam("type") }
+            self.`type` = `type`
             guard let message = dictionary["message"] as? String else { throw InitializableError.missingRequiredParam("message") }
             self.message = message
             self.externalExecutionId = dictionary["externalExecutionId"] as? String
@@ -249,17 +249,17 @@ extension Codepipeline {
         /// Whether the configuration property is a required value.
         public let required: Bool
         /// The type of the configuration property.
-        public let type: String?
+        public let `type`: ActionConfigurationPropertyType?
         /// Indicates that the proprety will be used in conjunction with PollForJobs. When creating a custom action, an action can have up to one queryable property. If it has one, that property must be both required and not secret. If you create a pipeline with a custom action type, and that custom action contains a queryable property, the value for that configuration property is subject to additional restrictions. The value must be less than or equal to twenty (20) characters. The value can contain only alphanumeric characters, underscores, and hyphens.
         public let queryable: Bool?
 
-        public init(name: String, key: Bool, secret: Bool, description: String? = nil, required: Bool, type: String? = nil, queryable: Bool? = nil) {
+        public init(name: String, key: Bool, secret: Bool, description: String? = nil, required: Bool, type: ActionConfigurationPropertyType? = nil, queryable: Bool? = nil) {
             self.name = name
             self.key = key
             self.secret = secret
             self.description = description
             self.required = required
-            self.type = type
+            self.`type` = `type`
             self.queryable = queryable
         }
 
@@ -273,7 +273,7 @@ extension Codepipeline {
             self.description = dictionary["description"] as? String
             guard let required = dictionary["required"] as? Bool else { throw InitializableError.missingRequiredParam("required") }
             self.required = required
-            self.type = dictionary["type"] as? String
+            if let `type` = dictionary["type"] as? String { self.`type` = ActionConfigurationPropertyType(rawValue: `type`) } else { self.`type` = nil }
             self.queryable = dictionary["queryable"] as? Bool
         }
     }
@@ -297,17 +297,17 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the stage, or for a completed stage, the last status of the stage.
-        public let status: String
+        public let status: StageExecutionStatus
         /// The ID of the pipeline execution associated with the stage.
         public let pipelineExecutionId: String
 
-        public init(status: String, pipelineExecutionId: String) {
+        public init(status: StageExecutionStatus, pipelineExecutionId: String) {
             self.status = status
             self.pipelineExecutionId = pipelineExecutionId
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let status = dictionary["status"] as? String else { throw InitializableError.missingRequiredParam("status") }
+            guard let rawstatus = dictionary["status"] as? String, let status = StageExecutionStatus(rawValue: rawstatus) else { throw InitializableError.missingRequiredParam("status") }
             self.status = status
             guard let pipelineExecutionId = dictionary["pipelineExecutionId"] as? String else { throw InitializableError.missingRequiredParam("pipelineExecutionId") }
             self.pipelineExecutionId = pipelineExecutionId
@@ -320,7 +320,7 @@ extension Codepipeline {
         /// A summary of the run of the action.
         public let summary: String?
         /// The status of the action, or for a completed action, the last status of the action.
-        public let status: String?
+        public let status: ActionExecutionStatus?
         /// The ARN of the user who last changed the pipeline.
         public let lastUpdatedBy: String?
         /// The external ID of the run of the action.
@@ -336,7 +336,7 @@ extension Codepipeline {
         /// The last status change of the action.
         public let lastStatusChange: Date?
 
-        public init(summary: String? = nil, status: String? = nil, lastUpdatedBy: String? = nil, externalExecutionId: String? = nil, externalExecutionUrl: String? = nil, token: String? = nil, errorDetails: ErrorDetails? = nil, percentComplete: Int32? = nil, lastStatusChange: Date? = nil) {
+        public init(summary: String? = nil, status: ActionExecutionStatus? = nil, lastUpdatedBy: String? = nil, externalExecutionId: String? = nil, externalExecutionUrl: String? = nil, token: String? = nil, errorDetails: ErrorDetails? = nil, percentComplete: Int32? = nil, lastStatusChange: Date? = nil) {
             self.summary = summary
             self.status = status
             self.lastUpdatedBy = lastUpdatedBy
@@ -350,7 +350,7 @@ extension Codepipeline {
 
         public init(dictionary: [String: Any]) throws {
             self.summary = dictionary["summary"] as? String
-            self.status = dictionary["status"] as? String
+            if let status = dictionary["status"] as? String { self.status = ActionExecutionStatus(rawValue: status) } else { self.status = nil }
             self.lastUpdatedBy = dictionary["lastUpdatedBy"] as? String
             self.externalExecutionId = dictionary["externalExecutionId"] as? String
             self.externalExecutionUrl = dictionary["externalExecutionUrl"] as? String
@@ -572,17 +572,17 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of artifact in the location.
-        public let type: String?
+        public let `type`: ArtifactLocationType?
         /// The Amazon S3 bucket that contains the artifact.
         public let s3Location: S3ArtifactLocation?
 
-        public init(type: String? = nil, s3Location: S3ArtifactLocation? = nil) {
-            self.type = type
+        public init(type: ArtifactLocationType? = nil, s3Location: S3ArtifactLocation? = nil) {
+            self.`type` = `type`
             self.s3Location = s3Location
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.type = dictionary["type"] as? String
+            if let `type` = dictionary["type"] as? String { self.`type` = ArtifactLocationType(rawValue: `type`) } else { self.`type` = nil }
             if let s3Location = dictionary["s3Location"] as? [String: Any] { self.s3Location = try Codepipeline.S3ArtifactLocation(dictionary: s3Location) } else { self.s3Location = nil }
         }
     }
@@ -608,11 +608,27 @@ extension Codepipeline {
         }
     }
 
+    public enum EncryptionKeyType: String, CustomStringConvertible {
+        case kms = "KMS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobStatus: String, CustomStringConvertible {
+        case created = "Created"
+        case queued = "Queued"
+        case dispatched = "Dispatched"
+        case inprogress = "InProgress"
+        case timedout = "TimedOut"
+        case succeeded = "Succeeded"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DisableStageTransitionInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies whether artifacts will be prevented from transitioning into the stage and being processed by the actions in that stage (inbound), or prevented from transitioning from the stage after they have been processed by the actions in that stage (outbound).
-        public let transitionType: String
+        public let transitionType: StageTransitionType
         /// The name of the stage where you want to disable the inbound or outbound transition of artifacts.
         public let stageName: String
         /// The reason given to the user why a stage is disabled, such as waiting for manual approval or manual tests. This message is displayed in the pipeline console UI.
@@ -620,7 +636,7 @@ extension Codepipeline {
         /// The name of the pipeline in which you want to disable the flow of artifacts from one stage to another.
         public let pipelineName: String
 
-        public init(transitionType: String, stageName: String, reason: String, pipelineName: String) {
+        public init(transitionType: StageTransitionType, stageName: String, reason: String, pipelineName: String) {
             self.transitionType = transitionType
             self.stageName = stageName
             self.reason = reason
@@ -628,7 +644,7 @@ extension Codepipeline {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let transitionType = dictionary["transitionType"] as? String else { throw InitializableError.missingRequiredParam("transitionType") }
+            guard let rawtransitionType = dictionary["transitionType"] as? String, let transitionType = StageTransitionType(rawValue: rawtransitionType) else { throw InitializableError.missingRequiredParam("transitionType") }
             self.transitionType = transitionType
             guard let stageName = dictionary["stageName"] as? String else { throw InitializableError.missingRequiredParam("stageName") }
             self.stageName = stageName
@@ -637,6 +653,21 @@ extension Codepipeline {
             guard let pipelineName = dictionary["pipelineName"] as? String else { throw InitializableError.missingRequiredParam("pipelineName") }
             self.pipelineName = pipelineName
         }
+    }
+
+    public enum ActionCategory: String, CustomStringConvertible {
+        case source = "Source"
+        case build = "Build"
+        case deploy = "Deploy"
+        case test = "Test"
+        case invoke = "Invoke"
+        case approval = "Approval"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StageRetryMode: String, CustomStringConvertible {
+        case failed_actions = "FAILED_ACTIONS"
+        public var description: String { return self.rawValue }
     }
 
     public struct GetJobDetailsOutput: AWSShape {
@@ -658,14 +689,14 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// Whether the job worker has received the specified job.
-        public let status: String?
+        public let status: JobStatus?
 
-        public init(status: String? = nil) {
+        public init(status: JobStatus? = nil) {
             self.status = status
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["status"] as? String
+            if let status = dictionary["status"] as? String { self.status = JobStatus(rawValue: status) } else { self.status = nil }
         }
     }
 
@@ -673,7 +704,7 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the pipeline execution.   InProgress: The pipeline execution is currently running.   Succeeded: The pipeline execution completed successfully.    Superseded: While this pipeline execution was waiting for the next stage to be completed, a newer pipeline execution caught up and continued through the pipeline instead.    Failed: The pipeline did not complete successfully.  
-        public let status: String?
+        public let status: PipelineExecutionStatus?
         /// The version number of the pipeline that was executed.
         public let pipelineVersion: Int32?
         /// The ID of the pipeline execution.
@@ -683,7 +714,7 @@ extension Codepipeline {
         /// A list of ArtifactRevision objects included in a pipeline execution.
         public let artifactRevisions: [ArtifactRevision]?
 
-        public init(status: String? = nil, pipelineVersion: Int32? = nil, pipelineExecutionId: String? = nil, pipelineName: String? = nil, artifactRevisions: [ArtifactRevision]? = nil) {
+        public init(status: PipelineExecutionStatus? = nil, pipelineVersion: Int32? = nil, pipelineExecutionId: String? = nil, pipelineName: String? = nil, artifactRevisions: [ArtifactRevision]? = nil) {
             self.status = status
             self.pipelineVersion = pipelineVersion
             self.pipelineExecutionId = pipelineExecutionId
@@ -692,7 +723,7 @@ extension Codepipeline {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["status"] as? String
+            if let status = dictionary["status"] as? String { self.status = PipelineExecutionStatus(rawValue: status) } else { self.status = nil }
             self.pipelineVersion = dictionary["pipelineVersion"] as? Int32
             self.pipelineExecutionId = dictionary["pipelineExecutionId"] as? String
             self.pipelineName = dictionary["pipelineName"] as? String
@@ -787,15 +818,15 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The creator of the action being called.
-        public let owner: String
+        public let owner: ActionOwner
         /// A string that identifies the action type.
         public let version: String
         /// The provider of the service being called by the action. Valid providers are determined by the action category. For example, an action in the Deploy category type might have a provider of AWS CodeDeploy, which would be specified as CodeDeploy.
         public let provider: String
         /// A category defines what kind of action can be taken in the stage, and constrains the provider type for the action. Valid categories are limited to one of the values below.
-        public let category: String
+        public let category: ActionCategory
 
-        public init(owner: String, version: String, provider: String, category: String) {
+        public init(owner: ActionOwner, version: String, provider: String, category: ActionCategory) {
             self.owner = owner
             self.version = version
             self.provider = provider
@@ -803,15 +834,22 @@ extension Codepipeline {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let owner = dictionary["owner"] as? String else { throw InitializableError.missingRequiredParam("owner") }
+            guard let rawowner = dictionary["owner"] as? String, let owner = ActionOwner(rawValue: rawowner) else { throw InitializableError.missingRequiredParam("owner") }
             self.owner = owner
             guard let version = dictionary["version"] as? String else { throw InitializableError.missingRequiredParam("version") }
             self.version = version
             guard let provider = dictionary["provider"] as? String else { throw InitializableError.missingRequiredParam("provider") }
             self.provider = provider
-            guard let category = dictionary["category"] as? String else { throw InitializableError.missingRequiredParam("category") }
+            guard let rawcategory = dictionary["category"] as? String, let category = ActionCategory(rawValue: rawcategory) else { throw InitializableError.missingRequiredParam("category") }
             self.category = category
         }
+    }
+
+    public enum StageExecutionStatus: String, CustomStringConvertible {
+        case inprogress = "InProgress"
+        case failed = "Failed"
+        case succeeded = "Succeeded"
+        public var description: String { return self.rawValue }
     }
 
     public struct GetThirdPartyJobDetailsInput: AWSShape {
@@ -874,9 +912,9 @@ extension Codepipeline {
         /// The version of the custom action to delete.
         public let version: String
         /// The category of the custom action that you want to delete, such as source or deploy.
-        public let category: String
+        public let category: ActionCategory
 
-        public init(provider: String, version: String, category: String) {
+        public init(provider: String, version: String, category: ActionCategory) {
             self.provider = provider
             self.version = version
             self.category = category
@@ -887,7 +925,7 @@ extension Codepipeline {
             self.provider = provider
             guard let version = dictionary["version"] as? String else { throw InitializableError.missingRequiredParam("version") }
             self.version = version
-            guard let category = dictionary["category"] as? String else { throw InitializableError.missingRequiredParam("category") }
+            guard let rawcategory = dictionary["category"] as? String, let category = ActionCategory(rawValue: rawcategory) else { throw InitializableError.missingRequiredParam("category") }
             self.category = category
         }
     }
@@ -953,18 +991,18 @@ extension Codepipeline {
         /// The ID used to identify the key. For an AWS KMS key, this is the key ID or key ARN.
         public let id: String
         /// The type of encryption key, such as an AWS Key Management Service (AWS KMS) key. When creating or updating a pipeline, the value must be set to 'KMS'.
-        public let type: String
+        public let `type`: EncryptionKeyType
 
-        public init(id: String, type: String) {
+        public init(id: String, type: EncryptionKeyType) {
             self.id = id
-            self.type = type
+            self.`type` = `type`
         }
 
         public init(dictionary: [String: Any]) throws {
             guard let id = dictionary["id"] as? String else { throw InitializableError.missingRequiredParam("id") }
             self.id = id
-            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
-            self.type = type
+            guard let rawtype = dictionary["type"] as? String, let `type` = EncryptionKeyType(rawValue: rawtype) else { throw InitializableError.missingRequiredParam("type") }
+            self.`type` = `type`
         }
     }
 
@@ -974,11 +1012,11 @@ extension Codepipeline {
         /// The name of the pipeline in which you want to enable the flow of artifacts from one stage to another.
         public let pipelineName: String
         /// Specifies whether artifacts will be allowed to enter the stage and be processed by the actions in that stage (inbound) or whether already-processed artifacts will be allowed to transition to the next stage (outbound).
-        public let transitionType: String
+        public let transitionType: StageTransitionType
         /// The name of the stage where you want to enable the transition of artifacts, either into the stage (inbound) or from that stage to the next stage (outbound).
         public let stageName: String
 
-        public init(pipelineName: String, transitionType: String, stageName: String) {
+        public init(pipelineName: String, transitionType: StageTransitionType, stageName: String) {
             self.pipelineName = pipelineName
             self.transitionType = transitionType
             self.stageName = stageName
@@ -987,7 +1025,7 @@ extension Codepipeline {
         public init(dictionary: [String: Any]) throws {
             guard let pipelineName = dictionary["pipelineName"] as? String else { throw InitializableError.missingRequiredParam("pipelineName") }
             self.pipelineName = pipelineName
-            guard let transitionType = dictionary["transitionType"] as? String else { throw InitializableError.missingRequiredParam("transitionType") }
+            guard let rawtransitionType = dictionary["transitionType"] as? String, let transitionType = StageTransitionType(rawValue: rawtransitionType) else { throw InitializableError.missingRequiredParam("transitionType") }
             self.transitionType = transitionType
             guard let stageName = dictionary["stageName"] as? String else { throw InitializableError.missingRequiredParam("stageName") }
             self.stageName = stageName
@@ -1010,6 +1048,12 @@ extension Codepipeline {
         }
     }
 
+    public enum StageTransitionType: String, CustomStringConvertible {
+        case inbound = "Inbound"
+        case outbound = "Outbound"
+        public var description: String { return self.rawValue }
+    }
+
     public struct PollForJobsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1027,6 +1071,11 @@ extension Codepipeline {
                 self.jobs = nil
             }
         }
+    }
+
+    public enum BlockerType: String, CustomStringConvertible {
+        case schedule = "Schedule"
+        public var description: String { return self.rawValue }
     }
 
     public struct ActionDeclaration: AWSShape {
@@ -1385,11 +1434,19 @@ extension Codepipeline {
         }
     }
 
+    public enum PipelineExecutionStatus: String, CustomStringConvertible {
+        case inprogress = "InProgress"
+        case succeeded = "Succeeded"
+        case superseded = "Superseded"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
     public struct RetryStageExecutionInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// The scope of the retry attempt. Currently, the only supported value is FAILED_ACTIONS.
-        public let retryMode: String
+        public let retryMode: StageRetryMode
         /// The ID of the pipeline execution in the failed stage to be retried. Use the GetPipelineState action to retrieve the current pipelineExecutionId of the failed stage
         public let pipelineExecutionId: String
         /// The name of the failed stage to be retried.
@@ -1397,7 +1454,7 @@ extension Codepipeline {
         /// The name of the pipeline that contains the failed stage.
         public let pipelineName: String
 
-        public init(retryMode: String, pipelineExecutionId: String, stageName: String, pipelineName: String) {
+        public init(retryMode: StageRetryMode, pipelineExecutionId: String, stageName: String, pipelineName: String) {
             self.retryMode = retryMode
             self.pipelineExecutionId = pipelineExecutionId
             self.stageName = stageName
@@ -1405,7 +1462,7 @@ extension Codepipeline {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let retryMode = dictionary["retryMode"] as? String else { throw InitializableError.missingRequiredParam("retryMode") }
+            guard let rawretryMode = dictionary["retryMode"] as? String, let retryMode = StageRetryMode(rawValue: rawretryMode) else { throw InitializableError.missingRequiredParam("retryMode") }
             self.retryMode = retryMode
             guard let pipelineExecutionId = dictionary["pipelineExecutionId"] as? String else { throw InitializableError.missingRequiredParam("pipelineExecutionId") }
             self.pipelineExecutionId = pipelineExecutionId
@@ -1441,6 +1498,12 @@ extension Codepipeline {
             self.lastChangedAt = dictionary["lastChangedAt"] as? Date
             self.lastChangedBy = dictionary["lastChangedBy"] as? String
         }
+    }
+
+    public enum ApprovalStatus: String, CustomStringConvertible {
+        case approved = "Approved"
+        case rejected = "Rejected"
+        public var description: String { return self.rawValue }
     }
 
     public struct PipelineContext: AWSShape {
@@ -1528,21 +1591,21 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of the artifact store, such as S3.
-        public let type: String
+        public let `type`: ArtifactStoreType
         /// The location for storing the artifacts for a pipeline, such as an S3 bucket or folder.
         public let location: String
         /// The encryption key used to encrypt the data in the artifact store, such as an AWS Key Management Service (AWS KMS) key. If this is undefined, the default key for Amazon S3 is used.
         public let encryptionKey: EncryptionKey?
 
-        public init(type: String, location: String, encryptionKey: EncryptionKey? = nil) {
-            self.type = type
+        public init(type: ArtifactStoreType, location: String, encryptionKey: EncryptionKey? = nil) {
+            self.`type` = `type`
             self.location = location
             self.encryptionKey = encryptionKey
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
-            self.type = type
+            guard let rawtype = dictionary["type"] as? String, let `type` = ArtifactStoreType(rawValue: rawtype) else { throw InitializableError.missingRequiredParam("type") }
+            self.`type` = `type`
             guard let location = dictionary["location"] as? String else { throw InitializableError.missingRequiredParam("location") }
             self.location = location
             if let encryptionKey = dictionary["encryptionKey"] as? [String: Any] { self.encryptionKey = try Codepipeline.EncryptionKey(dictionary: encryptionKey) } else { self.encryptionKey = nil }
@@ -1562,6 +1625,23 @@ extension Codepipeline {
         public init(dictionary: [String: Any]) throws {
             self.approvedAt = dictionary["approvedAt"] as? Date
         }
+    }
+
+    public enum ActionOwner: String, CustomStringConvertible {
+        case aws = "AWS"
+        case thirdparty = "ThirdParty"
+        case custom = "Custom"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FailureType: String, CustomStringConvertible {
+        case jobfailed = "JobFailed"
+        case configurationerror = "ConfigurationError"
+        case permissionerror = "PermissionError"
+        case revisionoutofsync = "RevisionOutOfSync"
+        case revisionunavailable = "RevisionUnavailable"
+        case systemunavailable = "SystemUnavailable"
+        public var description: String { return self.rawValue }
     }
 
     public struct GetPipelineInput: AWSShape {
@@ -1619,6 +1699,11 @@ extension Codepipeline {
             guard let outputArtifactDetails = dictionary["outputArtifactDetails"] as? [String: Any] else { throw InitializableError.missingRequiredParam("outputArtifactDetails") }
             self.outputArtifactDetails = try Codepipeline.ArtifactDetails(dictionary: outputArtifactDetails)
         }
+    }
+
+    public enum ArtifactLocationType: String, CustomStringConvertible {
+        case s3 = "S3"
+        public var description: String { return self.rawValue }
     }
 
     public struct GetPipelineExecutionOutput: AWSShape {
@@ -1745,6 +1830,13 @@ extension Codepipeline {
         }
     }
 
+    public enum ActionConfigurationPropertyType: String, CustomStringConvertible {
+        case string = "String"
+        case number = "Number"
+        case boolean = "Boolean"
+        public var description: String { return self.rawValue }
+    }
+
     public struct GetPipelineStateInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1792,14 +1884,14 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status information for the third party job, if any.
-        public let status: String?
+        public let status: JobStatus?
 
-        public init(status: String? = nil) {
+        public init(status: JobStatus? = nil) {
             self.status = status
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["status"] as? String
+            if let status = dictionary["status"] as? String { self.status = JobStatus(rawValue: status) } else { self.status = nil }
         }
     }
 
@@ -1816,9 +1908,9 @@ extension Codepipeline {
         /// The provider of the service used in the custom action, such as AWS CodeDeploy.
         public let provider: String
         /// The category of the custom action, such as a build action or a test action.  Although Source and Approval are listed as valid values, they are not currently functional. These values are reserved for future use. 
-        public let category: String
+        public let category: ActionCategory
 
-        public init(inputArtifactDetails: ArtifactDetails, settings: ActionTypeSettings? = nil, outputArtifactDetails: ArtifactDetails, configurationProperties: [ActionConfigurationProperty]? = nil, version: String, provider: String, category: String) {
+        public init(inputArtifactDetails: ArtifactDetails, settings: ActionTypeSettings? = nil, outputArtifactDetails: ArtifactDetails, configurationProperties: [ActionConfigurationProperty]? = nil, version: String, provider: String, category: ActionCategory) {
             self.inputArtifactDetails = inputArtifactDetails
             self.settings = settings
             self.outputArtifactDetails = outputArtifactDetails
@@ -1843,7 +1935,7 @@ extension Codepipeline {
             self.version = version
             guard let provider = dictionary["provider"] as? String else { throw InitializableError.missingRequiredParam("provider") }
             self.provider = provider
-            guard let category = dictionary["category"] as? String else { throw InitializableError.missingRequiredParam("category") }
+            guard let rawcategory = dictionary["category"] as? String, let category = ActionCategory(rawValue: rawcategory) else { throw InitializableError.missingRequiredParam("category") }
             self.category = category
         }
     }
@@ -1854,9 +1946,9 @@ extension Codepipeline {
         /// The summary of the current status of the approval request.
         public let summary: String
         /// The response submitted by a reviewer assigned to an approval action request.
-        public let status: String
+        public let status: ApprovalStatus
 
-        public init(summary: String, status: String) {
+        public init(summary: String, status: ApprovalStatus) {
             self.summary = summary
             self.status = status
         }
@@ -1864,7 +1956,7 @@ extension Codepipeline {
         public init(dictionary: [String: Any]) throws {
             guard let summary = dictionary["summary"] as? String else { throw InitializableError.missingRequiredParam("summary") }
             self.summary = summary
-            guard let status = dictionary["status"] as? String else { throw InitializableError.missingRequiredParam("status") }
+            guard let rawstatus = dictionary["status"] as? String, let status = ApprovalStatus(rawValue: rawstatus) else { throw InitializableError.missingRequiredParam("status") }
             self.status = status
         }
     }
@@ -1873,21 +1965,28 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// Reserved for future use.
-        public let type: String
+        public let `type`: BlockerType
         /// Reserved for future use.
         public let name: String
 
-        public init(type: String, name: String) {
-            self.type = type
+        public init(type: BlockerType, name: String) {
+            self.`type` = `type`
             self.name = name
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
-            self.type = type
+            guard let rawtype = dictionary["type"] as? String, let `type` = BlockerType(rawValue: rawtype) else { throw InitializableError.missingRequiredParam("type") }
+            self.`type` = `type`
             guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
             self.name = name
         }
+    }
+
+    public enum ActionExecutionStatus: String, CustomStringConvertible {
+        case inprogress = "InProgress"
+        case succeeded = "Succeeded"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
     }
 
     public struct ListActionTypesInput: AWSShape {
@@ -1896,16 +1995,16 @@ extension Codepipeline {
         /// An identifier that was returned from the previous list action types call, which can be used to return the next set of action types in the list.
         public let nextToken: String?
         /// Filters the list of action types to those created by a specified entity.
-        public let actionOwnerFilter: String?
+        public let actionOwnerFilter: ActionOwner?
 
-        public init(nextToken: String? = nil, actionOwnerFilter: String? = nil) {
+        public init(nextToken: String? = nil, actionOwnerFilter: ActionOwner? = nil) {
             self.nextToken = nextToken
             self.actionOwnerFilter = actionOwnerFilter
         }
 
         public init(dictionary: [String: Any]) throws {
             self.nextToken = dictionary["nextToken"] as? String
-            self.actionOwnerFilter = dictionary["actionOwnerFilter"] as? String
+            if let actionOwnerFilter = dictionary["actionOwnerFilter"] as? String { self.actionOwnerFilter = ActionOwner(rawValue: actionOwnerFilter) } else { self.actionOwnerFilter = nil }
         }
     }
 
@@ -2067,6 +2166,11 @@ extension Codepipeline {
                 self.pipelines = nil
             }
         }
+    }
+
+    public enum ArtifactStoreType: String, CustomStringConvertible {
+        case s3 = "S3"
+        public var description: String { return self.rawValue }
     }
 
 }

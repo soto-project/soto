@@ -55,19 +55,104 @@ extension Polly {
             return ["LanguageCode": "LanguageCode", "NextToken": "NextToken"]
         }
         ///  The language identification tag (ISO 639 code for the language name-ISO 3166 country code) for filtering the list of voices returned. If you don't specify this optional parameter, all available voices are returned. 
-        public let languageCode: String?
+        public let languageCode: LanguageCode?
         /// An opaque pagination token returned from the previous DescribeVoices operation. If present, this indicates where to continue the listing.
         public let nextToken: String?
 
-        public init(languageCode: String? = nil, nextToken: String? = nil) {
+        public init(languageCode: LanguageCode? = nil, nextToken: String? = nil) {
             self.languageCode = languageCode
             self.nextToken = nextToken
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.languageCode = dictionary["LanguageCode"] as? String
+            if let languageCode = dictionary["LanguageCode"] as? String { self.languageCode = LanguageCode(rawValue: languageCode) } else { self.languageCode = nil }
             self.nextToken = dictionary["NextToken"] as? String
         }
+    }
+
+    public enum VoiceId: String, CustomStringConvertible {
+        case geraint = "Geraint"
+        case gwyneth = "Gwyneth"
+        case mads = "Mads"
+        case naja = "Naja"
+        case hans = "Hans"
+        case marlene = "Marlene"
+        case nicole = "Nicole"
+        case russell = "Russell"
+        case amy = "Amy"
+        case brian = "Brian"
+        case emma = "Emma"
+        case raveena = "Raveena"
+        case ivy = "Ivy"
+        case joanna = "Joanna"
+        case joey = "Joey"
+        case justin = "Justin"
+        case kendra = "Kendra"
+        case kimberly = "Kimberly"
+        case salli = "Salli"
+        case conchita = "Conchita"
+        case enrique = "Enrique"
+        case miguel = "Miguel"
+        case penelope = "Penelope"
+        case chantal = "Chantal"
+        case celine = "Celine"
+        case mathieu = "Mathieu"
+        case dora = "Dora"
+        case karl = "Karl"
+        case carla = "Carla"
+        case giorgio = "Giorgio"
+        case mizuki = "Mizuki"
+        case liv = "Liv"
+        case lotte = "Lotte"
+        case ruben = "Ruben"
+        case ewa = "Ewa"
+        case jacek = "Jacek"
+        case jan = "Jan"
+        case maja = "Maja"
+        case ricardo = "Ricardo"
+        case vitoria = "Vitoria"
+        case cristiano = "Cristiano"
+        case ines = "Ines"
+        case carmen = "Carmen"
+        case maxim = "Maxim"
+        case tatyana = "Tatyana"
+        case astrid = "Astrid"
+        case filiz = "Filiz"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LanguageCode: String, CustomStringConvertible {
+        case cy_gb = "cy-GB"
+        case da_dk = "da-DK"
+        case de_de = "de-DE"
+        case en_au = "en-AU"
+        case en_gb = "en-GB"
+        case en_gb_wls = "en-GB-WLS"
+        case en_in = "en-IN"
+        case en_us = "en-US"
+        case es_es = "es-ES"
+        case es_us = "es-US"
+        case fr_ca = "fr-CA"
+        case fr_fr = "fr-FR"
+        case is_is = "is-IS"
+        case it_it = "it-IT"
+        case ja_jp = "ja-JP"
+        case nb_no = "nb-NO"
+        case nl_nl = "nl-NL"
+        case pl_pl = "pl-PL"
+        case pt_br = "pt-BR"
+        case pt_pt = "pt-PT"
+        case ro_ro = "ro-RO"
+        case ru_ru = "ru-RU"
+        case sv_se = "sv-SE"
+        case tr_tr = "tr-TR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Gender: String, CustomStringConvertible {
+        case female = "Female"
+        case male = "Male"
+        public var description: String { return self.rawValue }
     }
 
     public struct SynthesizeSpeechOutput: AWSShape {
@@ -139,6 +224,13 @@ extension Polly {
         }
     }
 
+    public enum OutputFormat: String, CustomStringConvertible {
+        case mp3 = "mp3"
+        case ogg_vorbis = "ogg_vorbis"
+        case pcm = "pcm"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ListLexiconsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -193,19 +285,19 @@ extension Polly {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The audio format in which the resulting stream will be encoded. 
-        public let outputFormat: String
+        public let outputFormat: OutputFormat
         ///  Voice ID to use for the synthesis. You can get a list of available voice IDs by calling the DescribeVoices operation. 
-        public let voiceId: String
+        public let voiceId: VoiceId
         /// List of one or more pronunciation lexicon names you want the service to apply during synthesis. Lexicons are applied only if the language of the lexicon is the same as the language of the voice. For information about storing lexicons, see PutLexicon.
         public let lexiconNames: [String]?
         ///  Specifies whether the input text is plain text or SSML. The default value is plain text. For more information, see Using SSML.
-        public let textType: String?
+        public let textType: TextType?
         ///  Input text to synthesize. If you specify ssml as the TextType, follow the SSML format for the input text. 
         public let text: String
         ///  The audio frequency specified in Hz.  The valid values for mp3 and ogg_vorbis are "8000", "16000", and "22050". The default value is "22050".   Valid values for pcm are "8000" and "16000" The default value is "16000". 
         public let sampleRate: String?
 
-        public init(outputFormat: String, voiceId: String, lexiconNames: [String]? = nil, textType: String? = nil, text: String, sampleRate: String? = nil) {
+        public init(outputFormat: OutputFormat, voiceId: VoiceId, lexiconNames: [String]? = nil, textType: TextType? = nil, text: String, sampleRate: String? = nil) {
             self.outputFormat = outputFormat
             self.voiceId = voiceId
             self.lexiconNames = lexiconNames
@@ -215,12 +307,12 @@ extension Polly {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let outputFormat = dictionary["OutputFormat"] as? String else { throw InitializableError.missingRequiredParam("OutputFormat") }
+            guard let rawOutputFormat = dictionary["OutputFormat"] as? String, let outputFormat = OutputFormat(rawValue: rawOutputFormat) else { throw InitializableError.missingRequiredParam("OutputFormat") }
             self.outputFormat = outputFormat
-            guard let voiceId = dictionary["VoiceId"] as? String else { throw InitializableError.missingRequiredParam("VoiceId") }
+            guard let rawVoiceId = dictionary["VoiceId"] as? String, let voiceId = VoiceId(rawValue: rawVoiceId) else { throw InitializableError.missingRequiredParam("VoiceId") }
             self.voiceId = voiceId
             self.lexiconNames = dictionary["LexiconNames"] as? [String]
-            self.textType = dictionary["TextType"] as? String
+            if let textType = dictionary["TextType"] as? String { self.textType = TextType(rawValue: textType) } else { self.textType = nil }
             guard let text = dictionary["Text"] as? String else { throw InitializableError.missingRequiredParam("Text") }
             self.text = text
             self.sampleRate = dictionary["SampleRate"] as? String
@@ -278,13 +370,13 @@ extension Polly {
         /// Number of lexemes in the lexicon.
         public let lexemesCount: Int32?
         /// Language code that the lexicon applies to. A lexicon with a language code such as "en" would be applied to all English languages (en-GB, en-US, en-AUS, en-WLS, and so on.
-        public let languageCode: String?
+        public let languageCode: LanguageCode?
         /// Phonetic alphabet used in the lexicon. Valid values are ipa and x-sampa.
         public let alphabet: String?
         /// Total size of the lexicon, in characters.
         public let size: Int32?
 
-        public init(lexiconArn: String? = nil, lastModified: Date? = nil, lexemesCount: Int32? = nil, languageCode: String? = nil, alphabet: String? = nil, size: Int32? = nil) {
+        public init(lexiconArn: String? = nil, lastModified: Date? = nil, lexemesCount: Int32? = nil, languageCode: LanguageCode? = nil, alphabet: String? = nil, size: Int32? = nil) {
             self.lexiconArn = lexiconArn
             self.lastModified = lastModified
             self.lexemesCount = lexemesCount
@@ -297,7 +389,7 @@ extension Polly {
             self.lexiconArn = dictionary["LexiconArn"] as? String
             self.lastModified = dictionary["LastModified"] as? Date
             self.lexemesCount = dictionary["LexemesCount"] as? Int32
-            self.languageCode = dictionary["LanguageCode"] as? String
+            if let languageCode = dictionary["LanguageCode"] as? String { self.languageCode = LanguageCode(rawValue: languageCode) } else { self.languageCode = nil }
             self.alphabet = dictionary["Alphabet"] as? String
             self.size = dictionary["Size"] as? Int32
         }
@@ -320,6 +412,12 @@ extension Polly {
             self.name = dictionary["Name"] as? String
             if let attributes = dictionary["Attributes"] as? [String: Any] { self.attributes = try Polly.LexiconAttributes(dictionary: attributes) } else { self.attributes = nil }
         }
+    }
+
+    public enum TextType: String, CustomStringConvertible {
+        case ssml = "ssml"
+        case text = "text"
+        public var description: String { return self.rawValue }
     }
 
     public struct PutLexiconOutput: AWSShape {
@@ -355,15 +453,15 @@ extension Polly {
         /// Human readable name of the language in English.
         public let languageName: String?
         /// Language code of the voice.
-        public let languageCode: String?
+        public let languageCode: LanguageCode?
         /// Name of the voice (for example, Salli, Kendra, etc.). This provides a human readable voice name that you might display in your application.
         public let name: String?
         /// Gender of the voice.
-        public let gender: String?
+        public let gender: Gender?
         /// Amazon Polly assigned voice ID. This is the ID that you specify when calling the SynthesizeSpeech operation.
-        public let id: String?
+        public let id: VoiceId?
 
-        public init(languageName: String? = nil, languageCode: String? = nil, name: String? = nil, gender: String? = nil, id: String? = nil) {
+        public init(languageName: String? = nil, languageCode: LanguageCode? = nil, name: String? = nil, gender: Gender? = nil, id: VoiceId? = nil) {
             self.languageName = languageName
             self.languageCode = languageCode
             self.name = name
@@ -373,10 +471,10 @@ extension Polly {
 
         public init(dictionary: [String: Any]) throws {
             self.languageName = dictionary["LanguageName"] as? String
-            self.languageCode = dictionary["LanguageCode"] as? String
+            if let languageCode = dictionary["LanguageCode"] as? String { self.languageCode = LanguageCode(rawValue: languageCode) } else { self.languageCode = nil }
             self.name = dictionary["Name"] as? String
-            self.gender = dictionary["Gender"] as? String
-            self.id = dictionary["Id"] as? String
+            if let gender = dictionary["Gender"] as? String { self.gender = Gender(rawValue: gender) } else { self.gender = nil }
+            if let id = dictionary["Id"] as? String { self.id = VoiceId(rawValue: id) } else { self.id = nil }
         }
     }
 

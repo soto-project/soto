@@ -112,6 +112,13 @@ extension Meteringmarketplace {
         }
     }
 
+    public enum UsageRecordResultStatus: String, CustomStringConvertible {
+        case success = "Success"
+        case customernotsubscribed = "CustomerNotSubscribed"
+        case duplicaterecord = "DuplicateRecord"
+        public var description: String { return self.rawValue }
+    }
+
     public struct BatchMeterUsageResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -199,11 +206,11 @@ extension Meteringmarketplace {
         /// The MeteringRecordId is a unique identifier for this metering event.
         public let meteringRecordId: String?
         /// The UsageRecordResult Status indicates the status of an individual UsageRecord processed by BatchMeterUsage.    Success- The UsageRecord was accepted and honored by BatchMeterUsage.    CustomerNotSubscribed- The CustomerIdentifier specified is not subscribed to your product. The UsageRecord was not honored. Future UsageRecords for this customer will fail until the customer subscribes to your product.    DuplicateRecord- Indicates that the UsageRecord was invalid and not honored. A previously metered UsageRecord had the same customer, dimension, and time, but a different quantity.  
-        public let status: String?
+        public let status: UsageRecordResultStatus?
         /// The UsageRecord that was part of the BatchMeterUsage request.
         public let usageRecord: UsageRecord?
 
-        public init(meteringRecordId: String? = nil, status: String? = nil, usageRecord: UsageRecord? = nil) {
+        public init(meteringRecordId: String? = nil, status: UsageRecordResultStatus? = nil, usageRecord: UsageRecord? = nil) {
             self.meteringRecordId = meteringRecordId
             self.status = status
             self.usageRecord = usageRecord
@@ -211,7 +218,7 @@ extension Meteringmarketplace {
 
         public init(dictionary: [String: Any]) throws {
             self.meteringRecordId = dictionary["MeteringRecordId"] as? String
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = UsageRecordResultStatus(rawValue: status) } else { self.status = nil }
             if let usageRecord = dictionary["UsageRecord"] as? [String: Any] { self.usageRecord = try Meteringmarketplace.UsageRecord(dictionary: usageRecord) } else { self.usageRecord = nil }
         }
     }

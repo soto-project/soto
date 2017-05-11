@@ -79,6 +79,13 @@ extension Servicecatalog {
         }
     }
 
+    public enum ProductViewFilterBy: String, CustomStringConvertible {
+        case fulltextsearch = "FullTextSearch"
+        case owner = "Owner"
+        case producttype = "ProductType"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DeletePortfolioInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -140,22 +147,22 @@ extension Servicecatalog {
         /// The text description of the provisioning artifact properties.
         public let description: String?
         /// The type of the provisioning artifact properties.
-        public let type: String?
+        public let `type`: ProvisioningArtifactType?
         /// The name assigned to the provisioning artifact properties.
         public let name: String?
         /// Additional information about the provisioning artifact properties.
         public let info: [String: String]
 
-        public init(description: String? = nil, type: String? = nil, name: String? = nil, info: [String: String]) {
+        public init(description: String? = nil, type: ProvisioningArtifactType? = nil, name: String? = nil, info: [String: String]) {
             self.description = description
-            self.type = type
+            self.`type` = `type`
             self.name = name
             self.info = info
         }
 
         public init(dictionary: [String: Any]) throws {
             self.description = dictionary["Description"] as? String
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = ProvisioningArtifactType(rawValue: `type`) } else { self.`type` = nil }
             self.name = dictionary["Name"] as? String
             guard let info = dictionary["Info"] as? [String: String] else { throw InitializableError.missingRequiredParam("Info") }
             self.info = info
@@ -231,21 +238,26 @@ extension Servicecatalog {
         }
     }
 
+    public enum PrincipalType: String, CustomStringConvertible {
+        case iam = "IAM"
+        public var description: String { return self.rawValue }
+    }
+
     public struct UsageInstruction: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// The usage instruction type for the value.
-        public let type: String?
+        public let `type`: String?
         /// The usage instruction value for this type.
         public let value: String?
 
         public init(type: String? = nil, value: String? = nil) {
-            self.type = type
+            self.`type` = `type`
             self.value = value
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.type = dictionary["Type"] as? String
+            self.`type` = dictionary["Type"] as? String
             self.value = dictionary["Value"] as? String
         }
     }
@@ -347,7 +359,7 @@ extension Servicecatalog {
         /// The identifier of the constraint.
         public let constraintId: String?
         /// The type of the constraint.
-        public let type: String?
+        public let `type`: String?
         /// The owner of the constraint.
         public let owner: String?
         /// The text description of the constraint.
@@ -355,14 +367,14 @@ extension Servicecatalog {
 
         public init(constraintId: String? = nil, type: String? = nil, owner: String? = nil, description: String? = nil) {
             self.constraintId = constraintId
-            self.type = type
+            self.`type` = `type`
             self.owner = owner
             self.description = description
         }
 
         public init(dictionary: [String: Any]) throws {
             self.constraintId = dictionary["ConstraintId"] as? String
-            self.type = dictionary["Type"] as? String
+            self.`type` = dictionary["Type"] as? String
             self.owner = dictionary["Owner"] as? String
             self.description = dictionary["Description"] as? String
         }
@@ -647,23 +659,23 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The sort field specifier. If no value is specified, results are not sorted.
-        public let sortBy: String?
+        public let sortBy: ProductViewSortBy?
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
         public let pageSize: Int32?
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
         public let acceptLanguage: String?
         /// Access level of the source of the product.
-        public let productSource: String?
+        public let productSource: ProductSource?
         /// The portfolio identifier.
         public let portfolioId: String?
         /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
         public let pageToken: String?
         /// The sort order specifier. If no value is specified, results are not sorted.
-        public let sortOrder: String?
+        public let sortOrder: SortOrder?
         /// The list of filters with which to limit search results. If no search filters are specified, the output is all the products to which the administrator has access.
-        public let filters: [String: [String]]?
+        public let filters: [ProductViewFilterBy: [String]]?
 
-        public init(sortBy: String? = nil, pageSize: Int32? = nil, acceptLanguage: String? = nil, productSource: String? = nil, portfolioId: String? = nil, pageToken: String? = nil, sortOrder: String? = nil, filters: [String: [String]]? = nil) {
+        public init(sortBy: ProductViewSortBy? = nil, pageSize: Int32? = nil, acceptLanguage: String? = nil, productSource: ProductSource? = nil, portfolioId: String? = nil, pageToken: String? = nil, sortOrder: SortOrder? = nil, filters: [ProductViewFilterBy: [String]]? = nil) {
             self.sortBy = sortBy
             self.pageSize = pageSize
             self.acceptLanguage = acceptLanguage
@@ -675,18 +687,18 @@ extension Servicecatalog {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.sortBy = dictionary["SortBy"] as? String
+            if let sortBy = dictionary["SortBy"] as? String { self.sortBy = ProductViewSortBy(rawValue: sortBy) } else { self.sortBy = nil }
             self.pageSize = dictionary["PageSize"] as? Int32
             self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            self.productSource = dictionary["ProductSource"] as? String
+            if let productSource = dictionary["ProductSource"] as? String { self.productSource = ProductSource(rawValue: productSource) } else { self.productSource = nil }
             self.portfolioId = dictionary["PortfolioId"] as? String
             self.pageToken = dictionary["PageToken"] as? String
-            self.sortOrder = dictionary["SortOrder"] as? String
+            if let sortOrder = dictionary["SortOrder"] as? String { self.sortOrder = SortOrder(rawValue: sortOrder) } else { self.sortOrder = nil }
             if let filters = dictionary["Filters"] as? [String: Any] {
-                var filtersDict: [String: [String]] = [:]
+                var filtersDict: [ProductViewFilterBy: [String]] = [:]
                 for (key, value) in filters {
                     guard let productViewFilterValues = value as? [String] else { throw InitializableError.convertingError }
-                    filtersDict[key] = productViewFilterValues
+                    filtersDict[ProductViewFilterBy(rawValue: key)!] = productViewFilterValues
                 }
                 self.filters = filtersDict
             } else { 
@@ -789,7 +801,7 @@ extension Servicecatalog {
         /// A token to disambiguate duplicate requests. You can create multiple resources using the same input in multiple requests, provided that you also specify a different idempotency token for each request.
         public let idempotencyToken: String
         /// The type of the constraint.
-        public let type: String
+        public let `type`: String
         /// The product identifier.
         public let productId: String
         /// The text description of the constraint.
@@ -800,7 +812,7 @@ extension Servicecatalog {
             self.portfolioId = portfolioId
             self.parameters = parameters
             self.idempotencyToken = idempotencyToken
-            self.type = type
+            self.`type` = `type`
             self.productId = productId
             self.description = description
         }
@@ -813,12 +825,17 @@ extension Servicecatalog {
             self.parameters = parameters
             guard let idempotencyToken = dictionary["IdempotencyToken"] as? String else { throw InitializableError.missingRequiredParam("IdempotencyToken") }
             self.idempotencyToken = idempotencyToken
-            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
-            self.type = type
+            guard let `type` = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
+            self.`type` = `type`
             guard let productId = dictionary["ProductId"] as? String else { throw InitializableError.missingRequiredParam("ProductId") }
             self.productId = productId
             self.description = dictionary["Description"] as? String
         }
+    }
+
+    public enum ProductType: String, CustomStringConvertible {
+        case cloud_formation_template = "CLOUD_FORMATION_TEMPLATE"
+        public var description: String { return self.rawValue }
     }
 
     public struct LaunchPathSummary: AWSShape {
@@ -1043,11 +1060,11 @@ extension Servicecatalog {
         /// The resulting detailed constraint information.
         public let constraintDetail: ConstraintDetail?
         /// The status of the current request.
-        public let status: String?
+        public let status: Status?
         /// The resulting constraint parameters.
         public let constraintParameters: String?
 
-        public init(constraintDetail: ConstraintDetail? = nil, status: String? = nil, constraintParameters: String? = nil) {
+        public init(constraintDetail: ConstraintDetail? = nil, status: Status? = nil, constraintParameters: String? = nil) {
             self.constraintDetail = constraintDetail
             self.status = status
             self.constraintParameters = constraintParameters
@@ -1055,7 +1072,7 @@ extension Servicecatalog {
 
         public init(dictionary: [String: Any]) throws {
             if let constraintDetail = dictionary["ConstraintDetail"] as? [String: Any] { self.constraintDetail = try Servicecatalog.ConstraintDetail(dictionary: constraintDetail) } else { self.constraintDetail = nil }
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = Status(rawValue: status) } else { self.status = nil }
             self.constraintParameters = dictionary["ConstraintParameters"] as? String
         }
     }
@@ -1064,7 +1081,7 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// Current status of the product.
-        public let status: String?
+        public let status: Status?
         /// The ARN associated with the product.
         public let productARN: String?
         /// The summary metadata about the specified product view.
@@ -1072,7 +1089,7 @@ extension Servicecatalog {
         /// The UTC timestamp of the creation time.
         public let createdTime: Date?
 
-        public init(status: String? = nil, productARN: String? = nil, productViewSummary: ProductViewSummary? = nil, createdTime: Date? = nil) {
+        public init(status: Status? = nil, productARN: String? = nil, productViewSummary: ProductViewSummary? = nil, createdTime: Date? = nil) {
             self.status = status
             self.productARN = productARN
             self.productViewSummary = productViewSummary
@@ -1080,7 +1097,7 @@ extension Servicecatalog {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = Status(rawValue: status) } else { self.status = nil }
             self.productARN = dictionary["ProductARN"] as? String
             if let productViewSummary = dictionary["ProductViewSummary"] as? [String: Any] { self.productViewSummary = try Servicecatalog.ProductViewSummary(dictionary: productViewSummary) } else { self.productViewSummary = nil }
             self.createdTime = dictionary["CreatedTime"] as? Date
@@ -1148,11 +1165,11 @@ extension Servicecatalog {
         /// The resulting detailed constraint information.
         public let constraintDetail: ConstraintDetail?
         /// The status of the current request.
-        public let status: String?
+        public let status: Status?
         /// The resulting updated constraint parameters.
         public let constraintParameters: String?
 
-        public init(constraintDetail: ConstraintDetail? = nil, status: String? = nil, constraintParameters: String? = nil) {
+        public init(constraintDetail: ConstraintDetail? = nil, status: Status? = nil, constraintParameters: String? = nil) {
             self.constraintDetail = constraintDetail
             self.status = status
             self.constraintParameters = constraintParameters
@@ -1160,9 +1177,14 @@ extension Servicecatalog {
 
         public init(dictionary: [String: Any]) throws {
             if let constraintDetail = dictionary["ConstraintDetail"] as? [String: Any] { self.constraintDetail = try Servicecatalog.ConstraintDetail(dictionary: constraintDetail) } else { self.constraintDetail = nil }
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = Status(rawValue: status) } else { self.status = nil }
             self.constraintParameters = dictionary["ConstraintParameters"] as? String
         }
+    }
+
+    public enum ProvisioningArtifactType: String, CustomStringConvertible {
+        case cloud_formation_template = "CLOUD_FORMATION_TEMPLATE"
+        public var description: String { return self.rawValue }
     }
 
     public struct DescribeRecordOutput: AWSShape {
@@ -1483,6 +1505,11 @@ extension Servicecatalog {
         }
     }
 
+    public enum ProductSource: String, CustomStringConvertible {
+        case account = "ACCOUNT"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ListPortfoliosForProductInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1646,17 +1673,17 @@ extension Servicecatalog {
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
         public let pageSize: Int32?
         /// The sort field specifier. If no value is specified, results are not sorted.
-        public let sortBy: String?
+        public let sortBy: ProductViewSortBy?
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
         public let acceptLanguage: String?
         /// The list of filters with which to limit search results. If no search filters are specified, the output is all the products to which the calling user has access. 
-        public let filters: [String: [String]]?
+        public let filters: [ProductViewFilterBy: [String]]?
         /// The sort order specifier. If no value is specified, results are not sorted.
-        public let sortOrder: String?
+        public let sortOrder: SortOrder?
         /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
         public let pageToken: String?
 
-        public init(pageSize: Int32? = nil, sortBy: String? = nil, acceptLanguage: String? = nil, filters: [String: [String]]? = nil, sortOrder: String? = nil, pageToken: String? = nil) {
+        public init(pageSize: Int32? = nil, sortBy: ProductViewSortBy? = nil, acceptLanguage: String? = nil, filters: [ProductViewFilterBy: [String]]? = nil, sortOrder: SortOrder? = nil, pageToken: String? = nil) {
             self.pageSize = pageSize
             self.sortBy = sortBy
             self.acceptLanguage = acceptLanguage
@@ -1667,19 +1694,19 @@ extension Servicecatalog {
 
         public init(dictionary: [String: Any]) throws {
             self.pageSize = dictionary["PageSize"] as? Int32
-            self.sortBy = dictionary["SortBy"] as? String
+            if let sortBy = dictionary["SortBy"] as? String { self.sortBy = ProductViewSortBy(rawValue: sortBy) } else { self.sortBy = nil }
             self.acceptLanguage = dictionary["AcceptLanguage"] as? String
             if let filters = dictionary["Filters"] as? [String: Any] {
-                var filtersDict: [String: [String]] = [:]
+                var filtersDict: [ProductViewFilterBy: [String]] = [:]
                 for (key, value) in filters {
                     guard let productViewFilterValues = value as? [String] else { throw InitializableError.convertingError }
-                    filtersDict[key] = productViewFilterValues
+                    filtersDict[ProductViewFilterBy(rawValue: key)!] = productViewFilterValues
                 }
                 self.filters = filtersDict
             } else { 
                 self.filters = nil
             }
-            self.sortOrder = dictionary["SortOrder"] as? String
+            if let sortOrder = dictionary["SortOrder"] as? String { self.sortOrder = SortOrder(rawValue: sortOrder) } else { self.sortOrder = nil }
             self.pageToken = dictionary["PageToken"] as? String
         }
     }
@@ -1731,7 +1758,7 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The current status of the ProvisionedProduct.
-        public let status: String?
+        public let status: RecordStatus?
         /// The ARN associated with the ProvisionedProduct object.
         public let arn: String?
         /// The record identifier of the last request performed on this ProvisionedProduct object.
@@ -1741,7 +1768,7 @@ extension Servicecatalog {
         /// A token to disambiguate duplicate requests. You can create multiple resources using the same input in multiple requests, provided that you also specify a different idempotency token for each request.
         public let idempotencyToken: String?
         /// The type of the ProvisionedProduct object.
-        public let type: String?
+        public let `type`: String?
         /// The current status message of the ProvisionedProduct.
         public let statusMessage: String?
         /// The UTC timestamp of the creation time.
@@ -1749,25 +1776,25 @@ extension Servicecatalog {
         /// The identifier of the ProvisionedProduct object.
         public let id: String?
 
-        public init(status: String? = nil, arn: String? = nil, lastRecordId: String? = nil, name: String? = nil, idempotencyToken: String? = nil, type: String? = nil, statusMessage: String? = nil, createdTime: Date? = nil, id: String? = nil) {
+        public init(status: RecordStatus? = nil, arn: String? = nil, lastRecordId: String? = nil, name: String? = nil, idempotencyToken: String? = nil, type: String? = nil, statusMessage: String? = nil, createdTime: Date? = nil, id: String? = nil) {
             self.status = status
             self.arn = arn
             self.lastRecordId = lastRecordId
             self.name = name
             self.idempotencyToken = idempotencyToken
-            self.type = type
+            self.`type` = `type`
             self.statusMessage = statusMessage
             self.createdTime = createdTime
             self.id = id
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = RecordStatus(rawValue: status) } else { self.status = nil }
             self.arn = dictionary["Arn"] as? String
             self.lastRecordId = dictionary["LastRecordId"] as? String
             self.name = dictionary["Name"] as? String
             self.idempotencyToken = dictionary["IdempotencyToken"] as? String
-            self.type = dictionary["Type"] as? String
+            self.`type` = dictionary["Type"] as? String
             self.statusMessage = dictionary["StatusMessage"] as? String
             self.createdTime = dictionary["CreatedTime"] as? Date
             self.id = dictionary["Id"] as? String
@@ -1949,6 +1976,13 @@ extension Servicecatalog {
         }
     }
 
+    public enum ProductViewSortBy: String, CustomStringConvertible {
+        case title = "Title"
+        case versioncount = "VersionCount"
+        case creationdate = "CreationDate"
+        public var description: String { return self.rawValue }
+    }
+
     public struct TerminateProvisionedProductInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1979,6 +2013,12 @@ extension Servicecatalog {
             self.provisionedProductId = dictionary["ProvisionedProductId"] as? String
             self.provisionedProductName = dictionary["ProvisionedProductName"] as? String
         }
+    }
+
+    public enum SortOrder: String, CustomStringConvertible {
+        case ascending = "ASCENDING"
+        case descending = "DESCENDING"
+        public var description: String { return self.rawValue }
     }
 
     public struct RejectPortfolioShareOutput: AWSShape {
@@ -2020,6 +2060,13 @@ extension Servicecatalog {
             self.name = dictionary["Name"] as? String
             self.description = dictionary["Description"] as? String
         }
+    }
+
+    public enum AccessLevelFilterKey: String, CustomStringConvertible {
+        case account = "Account"
+        case role = "Role"
+        case user = "User"
+        public var description: String { return self.rawValue }
     }
 
     public struct DescribePortfolioOutput: AWSShape {
@@ -2074,16 +2121,16 @@ extension Servicecatalog {
         /// Specifies the user to which the access level applies. A value of Self is currently supported.
         public let value: String?
         /// Specifies the access level.  Account allows results at the account level.   Role allows results based on the federated role of the specified user.  User allows results limited to the specified user. 
-        public let key: String?
+        public let key: AccessLevelFilterKey?
 
-        public init(value: String? = nil, key: String? = nil) {
+        public init(value: String? = nil, key: AccessLevelFilterKey? = nil) {
             self.value = value
             self.key = key
         }
 
         public init(dictionary: [String: Any]) throws {
             self.value = dictionary["Value"] as? String
-            self.key = dictionary["Key"] as? String
+            if let key = dictionary["Key"] as? String { self.key = AccessLevelFilterKey(rawValue: key) } else { self.key = nil }
         }
     }
 
@@ -2091,17 +2138,17 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of the constraint. 
-        public let type: String?
+        public let `type`: String?
         /// The text description of the constraint.
         public let description: String?
 
         public init(type: String? = nil, description: String? = nil) {
-            self.type = type
+            self.`type` = `type`
             self.description = description
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.type = dictionary["Type"] as? String
+            self.`type` = dictionary["Type"] as? String
             self.description = dictionary["Description"] as? String
         }
     }
@@ -2130,9 +2177,9 @@ extension Servicecatalog {
         /// The description of the support for this Product.
         public let supportDescription: String?
         /// The product type. Contact the product administrator for the significance of this value.
-        public let type: String?
+        public let `type`: ProductType?
 
-        public init(hasDefaultPath: Bool? = nil, shortDescription: String? = nil, id: String? = nil, supportEmail: String? = nil, name: String? = nil, distributor: String? = nil, supportUrl: String? = nil, owner: String? = nil, productId: String? = nil, supportDescription: String? = nil, type: String? = nil) {
+        public init(hasDefaultPath: Bool? = nil, shortDescription: String? = nil, id: String? = nil, supportEmail: String? = nil, name: String? = nil, distributor: String? = nil, supportUrl: String? = nil, owner: String? = nil, productId: String? = nil, supportDescription: String? = nil, type: ProductType? = nil) {
             self.hasDefaultPath = hasDefaultPath
             self.shortDescription = shortDescription
             self.id = id
@@ -2143,7 +2190,7 @@ extension Servicecatalog {
             self.owner = owner
             self.productId = productId
             self.supportDescription = supportDescription
-            self.type = type
+            self.`type` = `type`
         }
 
         public init(dictionary: [String: Any]) throws {
@@ -2157,8 +2204,15 @@ extension Servicecatalog {
             self.owner = dictionary["Owner"] as? String
             self.productId = dictionary["ProductId"] as? String
             self.supportDescription = dictionary["SupportDescription"] as? String
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = ProductType(rawValue: `type`) } else { self.`type` = nil }
         }
+    }
+
+    public enum RecordStatus: String, CustomStringConvertible {
+        case in_progress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
+        case error = "ERROR"
+        public var description: String { return self.rawValue }
     }
 
     public struct RejectPortfolioShareInput: AWSShape {
@@ -2185,20 +2239,20 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the current request.
-        public let status: String?
+        public let status: Status?
         /// The resulting detailed provisioning artifact information.
         public let provisioningArtifactDetail: ProvisioningArtifactDetail?
         /// Additional information about the provisioning artifact update request.
         public let info: [String: String]?
 
-        public init(status: String? = nil, provisioningArtifactDetail: ProvisioningArtifactDetail? = nil, info: [String: String]? = nil) {
+        public init(status: Status? = nil, provisioningArtifactDetail: ProvisioningArtifactDetail? = nil, info: [String: String]? = nil) {
             self.status = status
             self.provisioningArtifactDetail = provisioningArtifactDetail
             self.info = info
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = Status(rawValue: status) } else { self.status = nil }
             if let provisioningArtifactDetail = dictionary["ProvisioningArtifactDetail"] as? [String: Any] { self.provisioningArtifactDetail = try Servicecatalog.ProvisioningArtifactDetail(dictionary: provisioningArtifactDetail) } else { self.provisioningArtifactDetail = nil }
             if let info = dictionary["Info"] as? [String: String] {
                 self.info = info
@@ -2214,11 +2268,11 @@ extension Servicecatalog {
         /// Detailed constraint information.
         public let constraintDetail: ConstraintDetail?
         /// The status of the current request.
-        public let status: String?
+        public let status: Status?
         /// The current parameters associated with the specified constraint.
         public let constraintParameters: String?
 
-        public init(constraintDetail: ConstraintDetail? = nil, status: String? = nil, constraintParameters: String? = nil) {
+        public init(constraintDetail: ConstraintDetail? = nil, status: Status? = nil, constraintParameters: String? = nil) {
             self.constraintDetail = constraintDetail
             self.status = status
             self.constraintParameters = constraintParameters
@@ -2226,9 +2280,16 @@ extension Servicecatalog {
 
         public init(dictionary: [String: Any]) throws {
             if let constraintDetail = dictionary["ConstraintDetail"] as? [String: Any] { self.constraintDetail = try Servicecatalog.ConstraintDetail(dictionary: constraintDetail) } else { self.constraintDetail = nil }
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = Status(rawValue: status) } else { self.status = nil }
             self.constraintParameters = dictionary["ConstraintParameters"] as? String
         }
+    }
+
+    public enum Status: String, CustomStringConvertible {
+        case available = "AVAILABLE"
+        case creating = "CREATING"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
     }
 
     public struct Principal: AWSShape {
@@ -2237,16 +2298,16 @@ extension Servicecatalog {
         /// The ARN representing the principal (IAM user, role, or group).
         public let principalARN: String?
         /// The principal type. Must be IAM 
-        public let principalType: String?
+        public let principalType: PrincipalType?
 
-        public init(principalARN: String? = nil, principalType: String? = nil) {
+        public init(principalARN: String? = nil, principalType: PrincipalType? = nil) {
             self.principalARN = principalARN
             self.principalType = principalType
         }
 
         public init(dictionary: [String: Any]) throws {
             self.principalARN = dictionary["PrincipalARN"] as? String
-            self.principalType = dictionary["PrincipalType"] as? String
+            if let principalType = dictionary["PrincipalType"] as? String { self.principalType = PrincipalType(rawValue: principalType) } else { self.principalType = nil }
         }
     }
 
@@ -2256,7 +2317,7 @@ extension Servicecatalog {
         /// The text description of the provisioning artifact.
         public let description: String?
         /// The type of the provisioning artifact.
-        public let type: String?
+        public let `type`: ProvisioningArtifactType?
         /// The name assigned to the provisioning artifact.
         public let name: String?
         /// The UTC timestamp of the creation time.
@@ -2264,9 +2325,9 @@ extension Servicecatalog {
         /// The identifier of the provisioning artifact.
         public let id: String?
 
-        public init(description: String? = nil, type: String? = nil, name: String? = nil, createdTime: Date? = nil, id: String? = nil) {
+        public init(description: String? = nil, type: ProvisioningArtifactType? = nil, name: String? = nil, createdTime: Date? = nil, id: String? = nil) {
             self.description = description
-            self.type = type
+            self.`type` = `type`
             self.name = name
             self.createdTime = createdTime
             self.id = id
@@ -2274,7 +2335,7 @@ extension Servicecatalog {
 
         public init(dictionary: [String: Any]) throws {
             self.description = dictionary["Description"] as? String
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = ProvisioningArtifactType(rawValue: `type`) } else { self.`type` = nil }
             self.name = dictionary["Name"] as? String
             self.createdTime = dictionary["CreatedTime"] as? Date
             self.id = dictionary["Id"] as? String
@@ -2454,7 +2515,7 @@ extension Servicecatalog {
         /// A list of errors that occurred while processing the request.
         public let recordErrors: [RecordError]?
         /// The status of the ProvisionedProduct object.
-        public let status: String?
+        public let status: RecordStatus?
         /// The identifier of the ProvisionedProduct object.
         public let provisionedProductId: String?
         /// The record type for this record.
@@ -2466,7 +2527,7 @@ extension Servicecatalog {
         /// List of tags associated with this record.
         public let recordTags: [RecordTag]?
 
-        public init(provisioningArtifactId: String? = nil, updatedTime: Date? = nil, provisionedProductName: String? = nil, pathId: String? = nil, productId: String? = nil, createdTime: Date? = nil, recordErrors: [RecordError]? = nil, status: String? = nil, provisionedProductId: String? = nil, recordType: String? = nil, recordId: String? = nil, provisionedProductType: String? = nil, recordTags: [RecordTag]? = nil) {
+        public init(provisioningArtifactId: String? = nil, updatedTime: Date? = nil, provisionedProductName: String? = nil, pathId: String? = nil, productId: String? = nil, createdTime: Date? = nil, recordErrors: [RecordError]? = nil, status: RecordStatus? = nil, provisionedProductId: String? = nil, recordType: String? = nil, recordId: String? = nil, provisionedProductType: String? = nil, recordTags: [RecordTag]? = nil) {
             self.provisioningArtifactId = provisioningArtifactId
             self.updatedTime = updatedTime
             self.provisionedProductName = provisionedProductName
@@ -2494,7 +2555,7 @@ extension Servicecatalog {
             } else { 
                 self.recordErrors = nil
             }
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = RecordStatus(rawValue: status) } else { self.status = nil }
             self.provisionedProductId = dictionary["ProvisionedProductId"] as? String
             self.recordType = dictionary["RecordType"] as? String
             self.recordId = dictionary["RecordId"] as? String
@@ -2511,20 +2572,20 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the current request.
-        public let status: String?
+        public let status: Status?
         /// Detailed provisioning artifact information.
         public let provisioningArtifactDetail: ProvisioningArtifactDetail?
         /// Additional information about the provisioning artifact.
         public let info: [String: String]?
 
-        public init(status: String? = nil, provisioningArtifactDetail: ProvisioningArtifactDetail? = nil, info: [String: String]? = nil) {
+        public init(status: Status? = nil, provisioningArtifactDetail: ProvisioningArtifactDetail? = nil, info: [String: String]? = nil) {
             self.status = status
             self.provisioningArtifactDetail = provisioningArtifactDetail
             self.info = info
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = Status(rawValue: status) } else { self.status = nil }
             if let provisioningArtifactDetail = dictionary["ProvisioningArtifactDetail"] as? [String: Any] { self.provisioningArtifactDetail = try Servicecatalog.ProvisioningArtifactDetail(dictionary: provisioningArtifactDetail) } else { self.provisioningArtifactDetail = nil }
             if let info = dictionary["Info"] as? [String: String] {
                 self.info = info
@@ -2656,11 +2717,11 @@ extension Servicecatalog {
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
         public let acceptLanguage: String?
         /// The principal type. Must be IAM 
-        public let principalType: String
+        public let principalType: PrincipalType
         /// The portfolio identifier.
         public let portfolioId: String
 
-        public init(principalARN: String, acceptLanguage: String? = nil, principalType: String, portfolioId: String) {
+        public init(principalARN: String, acceptLanguage: String? = nil, principalType: PrincipalType, portfolioId: String) {
             self.principalARN = principalARN
             self.acceptLanguage = acceptLanguage
             self.principalType = principalType
@@ -2671,7 +2732,7 @@ extension Servicecatalog {
             guard let principalARN = dictionary["PrincipalARN"] as? String else { throw InitializableError.missingRequiredParam("PrincipalARN") }
             self.principalARN = principalARN
             self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            guard let principalType = dictionary["PrincipalType"] as? String else { throw InitializableError.missingRequiredParam("PrincipalType") }
+            guard let rawPrincipalType = dictionary["PrincipalType"] as? String, let principalType = PrincipalType(rawValue: rawPrincipalType) else { throw InitializableError.missingRequiredParam("PrincipalType") }
             self.principalType = principalType
             guard let portfolioId = dictionary["PortfolioId"] as? String else { throw InitializableError.missingRequiredParam("PortfolioId") }
             self.portfolioId = portfolioId
@@ -2732,7 +2793,7 @@ extension Servicecatalog {
         /// A token to disambiguate duplicate requests. You can create multiple resources using the same input in multiple requests, provided that you also specify a different idempotency token for each request.
         public let idempotencyToken: String
         /// The type of the product to create.
-        public let productType: String
+        public let productType: ProductType
         /// Tags to associate with the new product.
         public let tags: [Tag]?
         /// Parameters for the provisioning artifact.
@@ -2746,7 +2807,7 @@ extension Servicecatalog {
         /// The text description of the product.
         public let description: String?
 
-        public init(acceptLanguage: String? = nil, supportEmail: String? = nil, name: String, distributor: String? = nil, idempotencyToken: String, productType: String, tags: [Tag]? = nil, provisioningArtifactParameters: ProvisioningArtifactProperties, supportUrl: String? = nil, owner: String, supportDescription: String? = nil, description: String? = nil) {
+        public init(acceptLanguage: String? = nil, supportEmail: String? = nil, name: String, distributor: String? = nil, idempotencyToken: String, productType: ProductType, tags: [Tag]? = nil, provisioningArtifactParameters: ProvisioningArtifactProperties, supportUrl: String? = nil, owner: String, supportDescription: String? = nil, description: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.supportEmail = supportEmail
             self.name = name
@@ -2769,7 +2830,7 @@ extension Servicecatalog {
             self.distributor = dictionary["Distributor"] as? String
             guard let idempotencyToken = dictionary["IdempotencyToken"] as? String else { throw InitializableError.missingRequiredParam("IdempotencyToken") }
             self.idempotencyToken = idempotencyToken
-            guard let productType = dictionary["ProductType"] as? String else { throw InitializableError.missingRequiredParam("ProductType") }
+            guard let rawProductType = dictionary["ProductType"] as? String, let productType = ProductType(rawValue: rawProductType) else { throw InitializableError.missingRequiredParam("ProductType") }
             self.productType = productType
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
@@ -2790,20 +2851,20 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the current request.
-        public let status: String?
+        public let status: Status?
         /// The resulting detailed provisioning artifact information.
         public let provisioningArtifactDetail: ProvisioningArtifactDetail?
         /// Additional information about the provisioning artifact create request.
         public let info: [String: String]?
 
-        public init(status: String? = nil, provisioningArtifactDetail: ProvisioningArtifactDetail? = nil, info: [String: String]? = nil) {
+        public init(status: Status? = nil, provisioningArtifactDetail: ProvisioningArtifactDetail? = nil, info: [String: String]? = nil) {
             self.status = status
             self.provisioningArtifactDetail = provisioningArtifactDetail
             self.info = info
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = Status(rawValue: status) } else { self.status = nil }
             if let provisioningArtifactDetail = dictionary["ProvisioningArtifactDetail"] as? [String: Any] { self.provisioningArtifactDetail = try Servicecatalog.ProvisioningArtifactDetail(dictionary: provisioningArtifactDetail) } else { self.provisioningArtifactDetail = nil }
             if let info = dictionary["Info"] as? [String: String] {
                 self.info = info

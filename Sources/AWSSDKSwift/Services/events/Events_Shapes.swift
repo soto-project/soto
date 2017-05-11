@@ -82,7 +82,7 @@ extension Events {
         /// The Amazon Resource Name (ARN) of the rule.
         public let arn: String?
         /// The state of the rule.
-        public let state: String?
+        public let state: RuleState?
         /// The name of the rule.
         public let name: String?
         /// The event pattern of the rule.
@@ -94,7 +94,7 @@ extension Events {
         /// The description of the rule.
         public let description: String?
 
-        public init(arn: String? = nil, state: String? = nil, name: String? = nil, eventPattern: String? = nil, roleArn: String? = nil, scheduleExpression: String? = nil, description: String? = nil) {
+        public init(arn: String? = nil, state: RuleState? = nil, name: String? = nil, eventPattern: String? = nil, roleArn: String? = nil, scheduleExpression: String? = nil, description: String? = nil) {
             self.arn = arn
             self.state = state
             self.name = name
@@ -106,7 +106,7 @@ extension Events {
 
         public init(dictionary: [String: Any]) throws {
             self.arn = dictionary["Arn"] as? String
-            self.state = dictionary["State"] as? String
+            if let state = dictionary["State"] as? String { self.state = RuleState(rawValue: state) } else { self.state = nil }
             self.name = dictionary["Name"] as? String
             self.eventPattern = dictionary["EventPattern"] as? String
             self.roleArn = dictionary["RoleArn"] as? String
@@ -260,9 +260,9 @@ extension Events {
         /// The name of the rule that you are creating or updating.
         public let name: String
         /// Indicates whether the rule is enabled or disabled.
-        public let state: String?
+        public let state: RuleState?
 
-        public init(description: String? = nil, scheduleExpression: String? = nil, roleArn: String? = nil, eventPattern: String? = nil, name: String, state: String? = nil) {
+        public init(description: String? = nil, scheduleExpression: String? = nil, roleArn: String? = nil, eventPattern: String? = nil, name: String, state: RuleState? = nil) {
             self.description = description
             self.scheduleExpression = scheduleExpression
             self.roleArn = roleArn
@@ -278,7 +278,7 @@ extension Events {
             self.eventPattern = dictionary["EventPattern"] as? String
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
-            self.state = dictionary["State"] as? String
+            if let state = dictionary["State"] as? String { self.state = RuleState(rawValue: state) } else { self.state = nil }
         }
     }
 
@@ -343,7 +343,7 @@ extension Events {
         /// The Amazon Resource Name (ARN) of the rule.
         public let arn: String?
         /// Specifies whether the rule is enabled or disabled.
-        public let state: String?
+        public let state: RuleState?
         /// The name of the rule.
         public let name: String?
         /// The event pattern.
@@ -355,7 +355,7 @@ extension Events {
         /// The description of the rule.
         public let description: String?
 
-        public init(arn: String? = nil, state: String? = nil, name: String? = nil, eventPattern: String? = nil, roleArn: String? = nil, scheduleExpression: String? = nil, description: String? = nil) {
+        public init(arn: String? = nil, state: RuleState? = nil, name: String? = nil, eventPattern: String? = nil, roleArn: String? = nil, scheduleExpression: String? = nil, description: String? = nil) {
             self.arn = arn
             self.state = state
             self.name = name
@@ -367,7 +367,7 @@ extension Events {
 
         public init(dictionary: [String: Any]) throws {
             self.arn = dictionary["Arn"] as? String
-            self.state = dictionary["State"] as? String
+            if let state = dictionary["State"] as? String { self.state = RuleState(rawValue: state) } else { self.state = nil }
             self.name = dictionary["Name"] as? String
             self.eventPattern = dictionary["EventPattern"] as? String
             self.roleArn = dictionary["RoleArn"] as? String
@@ -480,6 +480,12 @@ extension Events {
             guard let rule = dictionary["Rule"] as? String else { throw InitializableError.missingRequiredParam("Rule") }
             self.rule = rule
         }
+    }
+
+    public enum RuleState: String, CustomStringConvertible {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
     }
 
     public struct EnableRuleRequest: AWSShape {

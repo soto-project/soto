@@ -844,6 +844,13 @@ extension Glacier {
         }
     }
 
+    public enum StatusCode: String, CustomStringConvertible {
+        case inprogress = "InProgress"
+        case succeeded = "Succeeded"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
     public struct CreateVaultOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -929,13 +936,13 @@ extension Glacier {
         /// For an ArchiveRetrieval job, it is the checksum of the archive. Otherwise, the value is null. The SHA256 tree hash value for the requested range of an archive. If the Initiate a Job request for an archive specified a tree-hash aligned range, then this field returns a value. For the specific case when the whole archive is retrieved, this value is the same as the ArchiveSHA256TreeHash value. This field is null in the following situations:   Archive retrieval jobs that specify a range that is not tree-hash aligned.     Archival jobs that specify a range that is equal to the whole archive and the job status is InProgress.     Inventory jobs.  
         public let sHA256TreeHash: String?
         /// The job type. It is either ArchiveRetrieval or InventoryRetrieval.
-        public let action: String?
+        public let action: ActionCode?
         /// The retrieved byte range for archive retrieval jobs in the form "StartByteValue-EndByteValue" If no range was specified in the archive retrieval, then the whole archive is retrieved and StartByteValue equals 0 and EndByteValue equals the size of the archive minus 1. For inventory retrieval jobs this field is null. 
         public let retrievalByteRange: String?
         /// Parameters used for range inventory retrieval.
         public let inventoryRetrievalParameters: InventoryRetrievalJobDescription?
         /// The status code can be InProgress, Succeeded, or Failed, and indicates the status of the job.
-        public let statusCode: String?
+        public let statusCode: StatusCode?
         /// For an ArchiveRetrieval job, this is the size in bytes of the archive being requested for download. For the InventoryRetrieval job, the value is null.
         public let archiveSizeInBytes: Int64?
         /// The job status. When a job is completed, you get the job's output.
@@ -947,7 +954,7 @@ extension Glacier {
         /// The retrieval option to use for the archive retrieval. Valid values are Expedited, Standard, or Bulk. Standard is the default.
         public let tier: String?
 
-        public init(vaultARN: String? = nil, completionDate: String? = nil, inventorySizeInBytes: Int64? = nil, creationDate: String? = nil, archiveId: String? = nil, sNSTopic: String? = nil, archiveSHA256TreeHash: String? = nil, jobId: String? = nil, sHA256TreeHash: String? = nil, action: String? = nil, retrievalByteRange: String? = nil, inventoryRetrievalParameters: InventoryRetrievalJobDescription? = nil, statusCode: String? = nil, archiveSizeInBytes: Int64? = nil, completed: Bool? = nil, jobDescription: String? = nil, statusMessage: String? = nil, tier: String? = nil) {
+        public init(vaultARN: String? = nil, completionDate: String? = nil, inventorySizeInBytes: Int64? = nil, creationDate: String? = nil, archiveId: String? = nil, sNSTopic: String? = nil, archiveSHA256TreeHash: String? = nil, jobId: String? = nil, sHA256TreeHash: String? = nil, action: ActionCode? = nil, retrievalByteRange: String? = nil, inventoryRetrievalParameters: InventoryRetrievalJobDescription? = nil, statusCode: StatusCode? = nil, archiveSizeInBytes: Int64? = nil, completed: Bool? = nil, jobDescription: String? = nil, statusMessage: String? = nil, tier: String? = nil) {
             self.vaultARN = vaultARN
             self.completionDate = completionDate
             self.inventorySizeInBytes = inventorySizeInBytes
@@ -978,10 +985,10 @@ extension Glacier {
             self.archiveSHA256TreeHash = dictionary["ArchiveSHA256TreeHash"] as? String
             self.jobId = dictionary["JobId"] as? String
             self.sHA256TreeHash = dictionary["SHA256TreeHash"] as? String
-            self.action = dictionary["Action"] as? String
+            if let action = dictionary["Action"] as? String { self.action = ActionCode(rawValue: action) } else { self.action = nil }
             self.retrievalByteRange = dictionary["RetrievalByteRange"] as? String
             if let inventoryRetrievalParameters = dictionary["InventoryRetrievalParameters"] as? [String: Any] { self.inventoryRetrievalParameters = try Glacier.InventoryRetrievalJobDescription(dictionary: inventoryRetrievalParameters) } else { self.inventoryRetrievalParameters = nil }
-            self.statusCode = dictionary["StatusCode"] as? String
+            if let statusCode = dictionary["StatusCode"] as? String { self.statusCode = StatusCode(rawValue: statusCode) } else { self.statusCode = nil }
             self.archiveSizeInBytes = dictionary["ArchiveSizeInBytes"] as? Int64
             self.completed = dictionary["Completed"] as? Bool
             self.jobDescription = dictionary["JobDescription"] as? String
@@ -1380,6 +1387,12 @@ extension Glacier {
         }
     }
 
+    public enum ActionCode: String, CustomStringConvertible {
+        case archiveretrieval = "ArchiveRetrieval"
+        case inventoryretrieval = "InventoryRetrieval"
+        public var description: String { return self.rawValue }
+    }
+
     public struct GetJobOutputOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = "body"
@@ -1534,7 +1547,7 @@ extension Glacier {
         /// The Amazon SNS topic ARN to which Amazon Glacier sends a notification when the job is completed and the output is ready for you to download. The specified topic publishes the notification to its subscribers. The SNS topic must exist.
         public let sNSTopic: String?
         /// The job type. You can initiate a job to retrieve an archive or get an inventory of a vault. Valid values are "archive-retrieval" and "inventory-retrieval".
-        public let type: String?
+        public let `type`: String?
         /// The retrieval option to use for the archive retrieval. Valid values are Expedited, Standard, or Bulk. Standard is the default.
         public let tier: String?
         /// The optional description for the job. The description must be less than or equal to 1,024 bytes. The allowable characters are 7-bit ASCII without control codes-specifically, ASCII values 32-126 decimal or 0x20-0x7E hexadecimal.
@@ -1546,7 +1559,7 @@ extension Glacier {
             self.format = format
             self.archiveId = archiveId
             self.sNSTopic = sNSTopic
-            self.type = type
+            self.`type` = `type`
             self.tier = tier
             self.description = description
         }
@@ -1557,7 +1570,7 @@ extension Glacier {
             self.format = dictionary["Format"] as? String
             self.archiveId = dictionary["ArchiveId"] as? String
             self.sNSTopic = dictionary["SNSTopic"] as? String
-            self.type = dictionary["Type"] as? String
+            self.`type` = dictionary["Type"] as? String
             self.tier = dictionary["Tier"] as? String
             self.description = dictionary["Description"] as? String
         }

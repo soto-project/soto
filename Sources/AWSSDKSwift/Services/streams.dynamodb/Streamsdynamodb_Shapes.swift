@@ -29,6 +29,14 @@ import Core
 
 extension Streamsdynamodb {
 
+    public enum ShardIteratorType: String, CustomStringConvertible {
+        case trim_horizon = "TRIM_HORIZON"
+        case latest = "LATEST"
+        case at_sequence_number = "AT_SEQUENCE_NUMBER"
+        case after_sequence_number = "AFTER_SEQUENCE_NUMBER"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DescribeStreamInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -59,9 +67,9 @@ extension Streamsdynamodb {
         /// The name of a key attribute.
         public let attributeName: String
         /// The attribute data, consisting of the data type and the attribute value itself.
-        public let keyType: String
+        public let keyType: KeyType
 
-        public init(attributeName: String, keyType: String) {
+        public init(attributeName: String, keyType: KeyType) {
             self.attributeName = attributeName
             self.keyType = keyType
         }
@@ -69,7 +77,7 @@ extension Streamsdynamodb {
         public init(dictionary: [String: Any]) throws {
             guard let attributeName = dictionary["AttributeName"] as? String else { throw InitializableError.missingRequiredParam("AttributeName") }
             self.attributeName = attributeName
-            guard let keyType = dictionary["KeyType"] as? String else { throw InitializableError.missingRequiredParam("KeyType") }
+            guard let rawKeyType = dictionary["KeyType"] as? String, let keyType = KeyType(rawValue: rawKeyType) else { throw InitializableError.missingRequiredParam("KeyType") }
             self.keyType = keyType
         }
     }
@@ -112,11 +120,17 @@ extension Streamsdynamodb {
         }
     }
 
+    public enum KeyType: String, CustomStringConvertible {
+        case hash = "HASH"
+        case range = "RANGE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Record: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of data modification that was performed on the DynamoDB table:    INSERT - a new item was added to the table.    MODIFY - one or more of an existing item's attributes were modified.    REMOVE - the item was deleted from the table  
-        public let eventName: String?
+        public let eventName: OperationType?
         /// The AWS service from which the stream record originated. For DynamoDB Streams, this is aws:dynamodb.
         public let eventSource: String?
         /// Items that are deleted by the Time to Live process after expiration have the following fields:    Records[].userIdentity.type "Service"   Records[].userIdentity.principalId "dynamodb.amazonaws.com"  
@@ -130,7 +144,7 @@ extension Streamsdynamodb {
         /// The version number of the stream record format. This number is updated whenever the structure of Record is modified. Client applications must not assume that eventVersion will remain at a particular value, as this number is subject to change at any time. In general, eventVersion will only increase as the low-level DynamoDB Streams API evolves.
         public let eventVersion: String?
 
-        public init(eventName: String? = nil, eventSource: String? = nil, userIdentity: Identity? = nil, eventID: String? = nil, dynamodb: StreamRecord? = nil, awsRegion: String? = nil, eventVersion: String? = nil) {
+        public init(eventName: OperationType? = nil, eventSource: String? = nil, userIdentity: Identity? = nil, eventID: String? = nil, dynamodb: StreamRecord? = nil, awsRegion: String? = nil, eventVersion: String? = nil) {
             self.eventName = eventName
             self.eventSource = eventSource
             self.userIdentity = userIdentity
@@ -141,7 +155,7 @@ extension Streamsdynamodb {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.eventName = dictionary["eventName"] as? String
+            if let eventName = dictionary["eventName"] as? String { self.eventName = OperationType(rawValue: eventName) } else { self.eventName = nil }
             self.eventSource = dictionary["eventSource"] as? String
             if let userIdentity = dictionary["userIdentity"] as? [String: Any] { self.userIdentity = try Streamsdynamodb.Identity(dictionary: userIdentity) } else { self.userIdentity = nil }
             self.eventID = dictionary["eventID"] as? String
@@ -155,7 +169,7 @@ extension Streamsdynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         /// Determines how the shard iterator is used to start reading stream records from the shard:    AT_SEQUENCE_NUMBER - Start reading exactly from the position denoted by a specific sequence number.    AFTER_SEQUENCE_NUMBER - Start reading right after the position denoted by a specific sequence number.    TRIM_HORIZON - Start reading at the last (untrimmed) stream record, which is the oldest record in the shard. In DynamoDB Streams, there is a 24 hour limit on data retention. Stream records whose age exceeds this limit are subject to removal (trimming) from the stream.    LATEST - Start reading just after the most recent stream record in the shard, so that you always read the most recent data in the shard.  
-        public let shardIteratorType: String
+        public let shardIteratorType: ShardIteratorType
         /// The sequence number of a stream record in the shard from which to start reading.
         public let sequenceNumber: String?
         /// The Amazon Resource Name (ARN) for the stream.
@@ -163,7 +177,7 @@ extension Streamsdynamodb {
         /// The identifier of the shard. The iterator will be returned for this shard ID.
         public let shardId: String
 
-        public init(shardIteratorType: String, sequenceNumber: String? = nil, streamArn: String, shardId: String) {
+        public init(shardIteratorType: ShardIteratorType, sequenceNumber: String? = nil, streamArn: String, shardId: String) {
             self.shardIteratorType = shardIteratorType
             self.sequenceNumber = sequenceNumber
             self.streamArn = streamArn
@@ -171,7 +185,7 @@ extension Streamsdynamodb {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let shardIteratorType = dictionary["ShardIteratorType"] as? String else { throw InitializableError.missingRequiredParam("ShardIteratorType") }
+            guard let rawShardIteratorType = dictionary["ShardIteratorType"] as? String, let shardIteratorType = ShardIteratorType(rawValue: rawShardIteratorType) else { throw InitializableError.missingRequiredParam("ShardIteratorType") }
             self.shardIteratorType = shardIteratorType
             self.sequenceNumber = dictionary["SequenceNumber"] as? String
             guard let streamArn = dictionary["StreamArn"] as? String else { throw InitializableError.missingRequiredParam("StreamArn") }
@@ -179,6 +193,14 @@ extension Streamsdynamodb {
             guard let shardId = dictionary["ShardId"] as? String else { throw InitializableError.missingRequiredParam("ShardId") }
             self.shardId = shardId
         }
+    }
+
+    public enum StreamViewType: String, CustomStringConvertible {
+        case new_image = "NEW_IMAGE"
+        case old_image = "OLD_IMAGE"
+        case new_and_old_images = "NEW_AND_OLD_IMAGES"
+        case keys_only = "KEYS_ONLY"
+        public var description: String { return self.rawValue }
     }
 
     public struct SequenceNumberRange: AWSShape {
@@ -198,6 +220,13 @@ extension Streamsdynamodb {
             self.endingSequenceNumber = dictionary["EndingSequenceNumber"] as? String
             self.startingSequenceNumber = dictionary["StartingSequenceNumber"] as? String
         }
+    }
+
+    public enum OperationType: String, CustomStringConvertible {
+        case insert = "INSERT"
+        case modify = "MODIFY"
+        case remove = "REMOVE"
+        public var description: String { return self.rawValue }
     }
 
     public struct Stream: AWSShape {
@@ -262,17 +291,17 @@ extension Streamsdynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of the identity. For Time To Live, the type is "Service".
-        public let type: String?
+        public let `type`: String?
         /// A unique identifier for the entity that made the call. For Time To Live, the principalId is "dynamodb.amazonaws.com".
         public let principalId: String?
 
         public init(type: String? = nil, principalId: String? = nil) {
-            self.type = type
+            self.`type` = `type`
             self.principalId = principalId
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.type = dictionary["Type"] as? String
+            self.`type` = dictionary["Type"] as? String
             self.principalId = dictionary["PrincipalId"] as? String
         }
     }
@@ -422,13 +451,13 @@ extension Streamsdynamodb {
         /// The size of the stream record, in bytes.
         public let sizeBytes: Int64?
         /// The type of data from the modified DynamoDB item that was captured in this stream record:    KEYS_ONLY - only the key attributes of the modified item.    NEW_IMAGE - the entire item, as it appeared after it was modified.    OLD_IMAGE - the entire item, as it appeared before it was modified.    NEW_AND_OLD_IMAGES - both the new and the old item images of the item.  
-        public let streamViewType: String?
+        public let streamViewType: StreamViewType?
         /// The approximate date and time when the stream record was created, in UNIX epoch time format.
         public let approximateCreationDateTime: Date?
         /// The item in the DynamoDB table as it appeared before it was modified.
         public let oldImage: [String: AttributeValue]?
 
-        public init(sequenceNumber: String? = nil, keys: [String: AttributeValue]? = nil, newImage: [String: AttributeValue]? = nil, sizeBytes: Int64? = nil, streamViewType: String? = nil, approximateCreationDateTime: Date? = nil, oldImage: [String: AttributeValue]? = nil) {
+        public init(sequenceNumber: String? = nil, keys: [String: AttributeValue]? = nil, newImage: [String: AttributeValue]? = nil, sizeBytes: Int64? = nil, streamViewType: StreamViewType? = nil, approximateCreationDateTime: Date? = nil, oldImage: [String: AttributeValue]? = nil) {
             self.sequenceNumber = sequenceNumber
             self.keys = keys
             self.newImage = newImage
@@ -461,7 +490,7 @@ extension Streamsdynamodb {
                 self.newImage = nil
             }
             self.sizeBytes = dictionary["SizeBytes"] as? Int64
-            self.streamViewType = dictionary["StreamViewType"] as? String
+            if let streamViewType = dictionary["StreamViewType"] as? String { self.streamViewType = StreamViewType(rawValue: streamViewType) } else { self.streamViewType = nil }
             self.approximateCreationDateTime = dictionary["ApproximateCreationDateTime"] as? Date
             if let oldImage = dictionary["OldImage"] as? [String: Any] {
                 var oldImageDict: [String: AttributeValue] = [:]
@@ -492,13 +521,13 @@ extension Streamsdynamodb {
         /// The DynamoDB table with which the stream is associated.
         public let tableName: String?
         /// Indicates the format of the records within this stream:    KEYS_ONLY - only the key attributes of items that were modified in the DynamoDB table.    NEW_IMAGE - entire items from the table, as they appeared after they were modified.    OLD_IMAGE - entire items from the table, as they appeared before they were modified.    NEW_AND_OLD_IMAGES - both the new and the old images of the items from the table.  
-        public let streamViewType: String?
+        public let streamViewType: StreamViewType?
         /// Indicates the current status of the stream:    ENABLING - Streams is currently being enabled on the DynamoDB table.    ENABLED - the stream is enabled.    DISABLING - Streams is currently being disabled on the DynamoDB table.    DISABLED - the stream is disabled.  
-        public let streamStatus: String?
+        public let streamStatus: StreamStatus?
         /// The shard ID of the item where the operation stopped, inclusive of the previous result set. Use this value to start a new operation, excluding this value in the new request. If LastEvaluatedShardId is empty, then the "last page" of results has been processed and there is currently no more data to be retrieved. If LastEvaluatedShardId is not empty, it does not necessarily mean that there is more data in the result set. The only way to know when you have reached the end of the result set is when LastEvaluatedShardId is empty.
         public let lastEvaluatedShardId: String?
 
-        public init(keySchema: [KeySchemaElement]? = nil, streamArn: String? = nil, creationRequestDateTime: Date? = nil, shards: [Shard]? = nil, streamLabel: String? = nil, tableName: String? = nil, streamViewType: String? = nil, streamStatus: String? = nil, lastEvaluatedShardId: String? = nil) {
+        public init(keySchema: [KeySchemaElement]? = nil, streamArn: String? = nil, creationRequestDateTime: Date? = nil, shards: [Shard]? = nil, streamLabel: String? = nil, tableName: String? = nil, streamViewType: StreamViewType? = nil, streamStatus: StreamStatus? = nil, lastEvaluatedShardId: String? = nil) {
             self.keySchema = keySchema
             self.streamArn = streamArn
             self.creationRequestDateTime = creationRequestDateTime
@@ -525,10 +554,18 @@ extension Streamsdynamodb {
             }
             self.streamLabel = dictionary["StreamLabel"] as? String
             self.tableName = dictionary["TableName"] as? String
-            self.streamViewType = dictionary["StreamViewType"] as? String
-            self.streamStatus = dictionary["StreamStatus"] as? String
+            if let streamViewType = dictionary["StreamViewType"] as? String { self.streamViewType = StreamViewType(rawValue: streamViewType) } else { self.streamViewType = nil }
+            if let streamStatus = dictionary["StreamStatus"] as? String { self.streamStatus = StreamStatus(rawValue: streamStatus) } else { self.streamStatus = nil }
             self.lastEvaluatedShardId = dictionary["LastEvaluatedShardId"] as? String
         }
+    }
+
+    public enum StreamStatus: String, CustomStringConvertible {
+        case enabling = "ENABLING"
+        case enabled = "ENABLED"
+        case disabling = "DISABLING"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
     }
 
 }

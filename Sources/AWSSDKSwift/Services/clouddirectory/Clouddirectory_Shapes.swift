@@ -39,9 +39,9 @@ extension Clouddirectory {
         /// The name of the facet attribute.
         public let name: String
         /// The required behavior of the FacetAttribute.
-        public let requiredBehavior: String?
+        public let requiredBehavior: RequiredAttributeBehavior?
 
-        public init(attributeDefinition: FacetAttributeDefinition? = nil, attributeReference: FacetAttributeReference? = nil, name: String, requiredBehavior: String? = nil) {
+        public init(attributeDefinition: FacetAttributeDefinition? = nil, attributeReference: FacetAttributeReference? = nil, name: String, requiredBehavior: RequiredAttributeBehavior? = nil) {
             self.attributeDefinition = attributeDefinition
             self.attributeReference = attributeReference
             self.name = name
@@ -53,7 +53,7 @@ extension Clouddirectory {
             if let attributeReference = dictionary["AttributeReference"] as? [String: Any] { self.attributeReference = try Clouddirectory.FacetAttributeReference(dictionary: attributeReference) } else { self.attributeReference = nil }
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
-            self.requiredBehavior = dictionary["RequiredBehavior"] as? String
+            if let requiredBehavior = dictionary["RequiredBehavior"] as? String { self.requiredBehavior = RequiredAttributeBehavior(rawValue: requiredBehavior) } else { self.requiredBehavior = nil }
         }
     }
 
@@ -97,17 +97,17 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of attribute validation rule.
-        public let type: String?
+        public let `type`: RuleType?
         /// Min and max parameters associated with the rule.
         public let parameters: [String: String]?
 
-        public init(type: String? = nil, parameters: [String: String]? = nil) {
-            self.type = type
+        public init(type: RuleType? = nil, parameters: [String: String]? = nil) {
+            self.`type` = `type`
             self.parameters = parameters
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = RuleType(rawValue: `type`) } else { self.`type` = nil }
             if let parameters = dictionary["Parameters"] as? [String: String] {
                 self.parameters = parameters
             } else { 
@@ -166,19 +166,29 @@ extension Clouddirectory {
         }
     }
 
+    public enum BatchReadExceptionType: String, CustomStringConvertible {
+        case validationexception = "ValidationException"
+        case invalidarnexception = "InvalidArnException"
+        case resourcenotfoundexception = "ResourceNotFoundException"
+        case invalidnexttokenexception = "InvalidNextTokenException"
+        case accessdeniedexception = "AccessDeniedException"
+        case notnodeexception = "NotNodeException"
+        public var description: String { return self.rawValue }
+    }
+
     public struct TypedAttributeValueRange: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// The attribute value to terminate the range at.
         public let endValue: TypedAttributeValue?
         /// Inclusive or exclusive range end.
-        public let endMode: String
+        public let endMode: RangeMode
         /// The value to start the range at.
         public let startValue: TypedAttributeValue?
         /// Inclusive or exclusive range start.
-        public let startMode: String
+        public let startMode: RangeMode
 
-        public init(endValue: TypedAttributeValue? = nil, endMode: String, startValue: TypedAttributeValue? = nil, startMode: String) {
+        public init(endValue: TypedAttributeValue? = nil, endMode: RangeMode, startValue: TypedAttributeValue? = nil, startMode: RangeMode) {
             self.endValue = endValue
             self.endMode = endMode
             self.startValue = startValue
@@ -187,12 +197,21 @@ extension Clouddirectory {
 
         public init(dictionary: [String: Any]) throws {
             if let endValue = dictionary["EndValue"] as? [String: Any] { self.endValue = try Clouddirectory.TypedAttributeValue(dictionary: endValue) } else { self.endValue = nil }
-            guard let endMode = dictionary["EndMode"] as? String else { throw InitializableError.missingRequiredParam("EndMode") }
+            guard let rawEndMode = dictionary["EndMode"] as? String, let endMode = RangeMode(rawValue: rawEndMode) else { throw InitializableError.missingRequiredParam("EndMode") }
             self.endMode = endMode
             if let startValue = dictionary["StartValue"] as? [String: Any] { self.startValue = try Clouddirectory.TypedAttributeValue(dictionary: startValue) } else { self.startValue = nil }
-            guard let startMode = dictionary["StartMode"] as? String else { throw InitializableError.missingRequiredParam("StartMode") }
+            guard let rawStartMode = dictionary["StartMode"] as? String, let startMode = RangeMode(rawValue: rawStartMode) else { throw InitializableError.missingRequiredParam("StartMode") }
             self.startMode = startMode
         }
+    }
+
+    public enum RangeMode: String, CustomStringConvertible {
+        case first = "FIRST"
+        case last = "LAST"
+        case last_before_missing_values = "LAST_BEFORE_MISSING_VALUES"
+        case inclusive = "INCLUSIVE"
+        case exclusive = "EXCLUSIVE"
+        public var description: String { return self.rawValue }
     }
 
     public struct GetSchemaAsJsonResponse: AWSShape {
@@ -251,6 +270,14 @@ extension Clouddirectory {
         }
     }
 
+    public enum ObjectType: String, CustomStringConvertible {
+        case node = "NODE"
+        case leaf_node = "LEAF_NODE"
+        case policy = "POLICY"
+        case index = "INDEX"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ListDevelopmentSchemaArnsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -280,9 +307,9 @@ extension Clouddirectory {
         /// The name of the directory.
         public let name: String?
         /// The state of the directory. Can be either Enabled, Disabled, or Deleted.
-        public let state: String?
+        public let state: DirectoryState?
 
-        public init(creationDateTime: Date? = nil, directoryArn: String? = nil, name: String? = nil, state: String? = nil) {
+        public init(creationDateTime: Date? = nil, directoryArn: String? = nil, name: String? = nil, state: DirectoryState? = nil) {
             self.creationDateTime = creationDateTime
             self.directoryArn = directoryArn
             self.name = name
@@ -293,7 +320,7 @@ extension Clouddirectory {
             self.creationDateTime = dictionary["CreationDateTime"] as? Date
             self.directoryArn = dictionary["DirectoryArn"] as? String
             self.name = dictionary["Name"] as? String
-            self.state = dictionary["State"] as? String
+            if let state = dictionary["State"] as? String { self.state = DirectoryState(rawValue: state) } else { self.state = nil }
         }
     }
 
@@ -449,6 +476,14 @@ extension Clouddirectory {
         }
     }
 
+    public enum RuleType: String, CustomStringConvertible {
+        case binary_length = "BINARY_LENGTH"
+        case number_comparison = "NUMBER_COMPARISON"
+        case string_from_set = "STRING_FROM_SET"
+        case string_length = "STRING_LENGTH"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ApplySchemaRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -484,7 +519,7 @@ extension Clouddirectory {
         /// The ARN of the directory that the index exists in.
         public let directoryArn: String
         /// The consistency level to execute the request at.
-        public let consistencyLevel: String?
+        public let consistencyLevel: ConsistencyLevel?
         /// Specifies the ranges of indexed values that you want to query.
         public let rangesOnIndexedValues: [ObjectAttributeRange]?
         /// The pagination token.
@@ -492,7 +527,7 @@ extension Clouddirectory {
         /// The maximum number of results to retrieve from the index.
         public let maxResults: Int32?
 
-        public init(indexReference: ObjectReference, directoryArn: String, consistencyLevel: String? = nil, rangesOnIndexedValues: [ObjectAttributeRange]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
+        public init(indexReference: ObjectReference, directoryArn: String, consistencyLevel: ConsistencyLevel? = nil, rangesOnIndexedValues: [ObjectAttributeRange]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.indexReference = indexReference
             self.directoryArn = directoryArn
             self.consistencyLevel = consistencyLevel
@@ -506,7 +541,7 @@ extension Clouddirectory {
             self.indexReference = try Clouddirectory.ObjectReference(dictionary: indexReference)
             guard let directoryArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.directoryArn = directoryArn
-            self.consistencyLevel = dictionary["X-amz-consistency-level"] as? String
+            if let consistencyLevel = dictionary["X-amz-consistency-level"] as? String { self.consistencyLevel = ConsistencyLevel(rawValue: consistencyLevel) } else { self.consistencyLevel = nil }
             if let rangesOnIndexedValues = dictionary["RangesOnIndexedValues"] as? [[String: Any]] {
                 self.rangesOnIndexedValues = try rangesOnIndexedValues.map({ try ObjectAttributeRange(dictionary: $0) })
             } else { 
@@ -672,20 +707,20 @@ extension Clouddirectory {
             return ["x-amz-consistency-level": "ConsistencyLevel", "x-amz-data-partition": "DirectoryArn"]
         }
         /// The consistency level at which to retrieve the object information.
-        public let consistencyLevel: String?
+        public let consistencyLevel: ConsistencyLevel?
         /// A reference to the object.
         public let objectReference: ObjectReference
         /// The ARN of the directory being retrieved.
         public let directoryArn: String
 
-        public init(consistencyLevel: String? = nil, objectReference: ObjectReference, directoryArn: String) {
+        public init(consistencyLevel: ConsistencyLevel? = nil, objectReference: ObjectReference, directoryArn: String) {
             self.consistencyLevel = consistencyLevel
             self.objectReference = objectReference
             self.directoryArn = directoryArn
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.consistencyLevel = dictionary["X-amz-consistency-level"] as? String
+            if let consistencyLevel = dictionary["X-amz-consistency-level"] as? String { self.consistencyLevel = ConsistencyLevel(rawValue: consistencyLevel) } else { self.consistencyLevel = nil }
             guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
             self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
             guard let directoryArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
@@ -714,11 +749,11 @@ extension Clouddirectory {
         /// The pagination token.
         public let nextToken: String?
         /// The consistency level to use for this operation.
-        public let consistencyLevel: String?
+        public let consistencyLevel: ConsistencyLevel?
         /// The maximum number of results to retrieve.
         public let maxResults: Int32?
 
-        public init(directoryArn: String, targetReference: ObjectReference, nextToken: String? = nil, consistencyLevel: String? = nil, maxResults: Int32? = nil) {
+        public init(directoryArn: String, targetReference: ObjectReference, nextToken: String? = nil, consistencyLevel: ConsistencyLevel? = nil, maxResults: Int32? = nil) {
             self.directoryArn = directoryArn
             self.targetReference = targetReference
             self.nextToken = nextToken
@@ -732,7 +767,7 @@ extension Clouddirectory {
             guard let targetReference = dictionary["TargetReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TargetReference") }
             self.targetReference = try Clouddirectory.ObjectReference(dictionary: targetReference)
             self.nextToken = dictionary["NextToken"] as? String
-            self.consistencyLevel = dictionary["X-amz-consistency-level"] as? String
+            if let consistencyLevel = dictionary["X-amz-consistency-level"] as? String { self.consistencyLevel = ConsistencyLevel(rawValue: consistencyLevel) } else { self.consistencyLevel = nil }
             self.maxResults = dictionary["MaxResults"] as? Int32
         }
     }
@@ -887,13 +922,13 @@ extension Clouddirectory {
         /// ARN associated with the Directory where the object resides. For more information, see arns.
         public let directoryArn: String
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
-        public let consistencyLevel: String?
+        public let consistencyLevel: ConsistencyLevel?
         /// The pagination token.
         public let nextToken: String?
         /// Reference that identifies the object for which parent objects are being listed.
         public let objectReference: ObjectReference
 
-        public init(maxResults: Int32? = nil, directoryArn: String, consistencyLevel: String? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
+        public init(maxResults: Int32? = nil, directoryArn: String, consistencyLevel: ConsistencyLevel? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.maxResults = maxResults
             self.directoryArn = directoryArn
             self.consistencyLevel = consistencyLevel
@@ -905,7 +940,7 @@ extension Clouddirectory {
             self.maxResults = dictionary["MaxResults"] as? Int32
             guard let directoryArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.directoryArn = directoryArn
-            self.consistencyLevel = dictionary["X-amz-consistency-level"] as? String
+            if let consistencyLevel = dictionary["X-amz-consistency-level"] as? String { self.consistencyLevel = ConsistencyLevel(rawValue: consistencyLevel) } else { self.consistencyLevel = nil }
             self.nextToken = dictionary["NextToken"] as? String
             guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
             self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
@@ -964,17 +999,17 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// Type can be either Update or Delete.
-        public let objectAttributeActionType: String?
+        public let objectAttributeActionType: UpdateActionType?
         /// The value that you want to update to.
         public let objectAttributeUpdateValue: TypedAttributeValue?
 
-        public init(objectAttributeActionType: String? = nil, objectAttributeUpdateValue: TypedAttributeValue? = nil) {
+        public init(objectAttributeActionType: UpdateActionType? = nil, objectAttributeUpdateValue: TypedAttributeValue? = nil) {
             self.objectAttributeActionType = objectAttributeActionType
             self.objectAttributeUpdateValue = objectAttributeUpdateValue
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.objectAttributeActionType = dictionary["ObjectAttributeActionType"] as? String
+            if let objectAttributeActionType = dictionary["ObjectAttributeActionType"] as? String { self.objectAttributeActionType = UpdateActionType(rawValue: objectAttributeActionType) } else { self.objectAttributeActionType = nil }
             if let objectAttributeUpdateValue = dictionary["ObjectAttributeUpdateValue"] as? [String: Any] { self.objectAttributeUpdateValue = try Clouddirectory.TypedAttributeValue(dictionary: objectAttributeUpdateValue) } else { self.objectAttributeUpdateValue = nil }
         }
     }
@@ -1312,6 +1347,19 @@ extension Clouddirectory {
         }
     }
 
+    public enum BatchWriteExceptionType: String, CustomStringConvertible {
+        case internalserviceexception = "InternalServiceException"
+        case validationexception = "ValidationException"
+        case invalidarnexception = "InvalidArnException"
+        case linknamealreadyinuseexception = "LinkNameAlreadyInUseException"
+        case stillcontainslinksexception = "StillContainsLinksException"
+        case facetvalidationexception = "FacetValidationException"
+        case objectnotdetachedexception = "ObjectNotDetachedException"
+        case resourcenotfoundexception = "ResourceNotFoundException"
+        case accessdeniedexception = "AccessDeniedException"
+        public var description: String { return self.rawValue }
+    }
+
     public struct BatchAddFacetToObject: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1361,6 +1409,12 @@ extension Clouddirectory {
         }
     }
 
+    public enum ConsistencyLevel: String, CustomStringConvertible {
+        case serializable = "SERIALIZABLE"
+        case eventual = "EVENTUAL"
+        public var description: String { return self.rawValue }
+    }
+
     public struct BatchUpdateObjectAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1389,7 +1443,7 @@ extension Clouddirectory {
             return ["x-amz-data-partition": "SchemaArn"]
         }
         /// Specifies whether a given object created from this facet is of type Node, Leaf Node, Policy or Index.   Node: Can have multiple children but one parent.     Leaf Node: Cannot have children but can have multiple parents.     Policy: Allows you to store a policy document and policy type. For more information, see Policies.     Index: Can be created with the Index API.  
-        public let objectType: String
+        public let objectType: ObjectType
         /// Attributes associated with the Facet.e
         public let attributes: [FacetAttribute]?
         /// Name of the Facet, which is unique for a given schema.
@@ -1397,7 +1451,7 @@ extension Clouddirectory {
         /// Schema ARN in which the new Facet will be created. For more information, see arns.
         public let schemaArn: String
 
-        public init(objectType: String, attributes: [FacetAttribute]? = nil, name: String, schemaArn: String) {
+        public init(objectType: ObjectType, attributes: [FacetAttribute]? = nil, name: String, schemaArn: String) {
             self.objectType = objectType
             self.attributes = attributes
             self.name = name
@@ -1405,7 +1459,7 @@ extension Clouddirectory {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let objectType = dictionary["ObjectType"] as? String else { throw InitializableError.missingRequiredParam("ObjectType") }
+            guard let rawObjectType = dictionary["ObjectType"] as? String, let objectType = ObjectType(rawValue: rawObjectType) else { throw InitializableError.missingRequiredParam("ObjectType") }
             self.objectType = objectType
             if let attributes = dictionary["Attributes"] as? [[String: Any]] {
                 self.attributes = try attributes.map({ try FacetAttribute(dictionary: $0) })
@@ -1596,13 +1650,13 @@ extension Clouddirectory {
         /// ARN associated with the Directory where objects reside. For more information, see arns.
         public let directoryArn: String
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
-        public let consistencyLevel: String?
+        public let consistencyLevel: ConsistencyLevel?
         /// The pagination token.
         public let nextToken: String?
         /// Reference that identifies the object for which policies will be listed.
         public let objectReference: ObjectReference
 
-        public init(maxResults: Int32? = nil, directoryArn: String, consistencyLevel: String? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
+        public init(maxResults: Int32? = nil, directoryArn: String, consistencyLevel: ConsistencyLevel? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.maxResults = maxResults
             self.directoryArn = directoryArn
             self.consistencyLevel = consistencyLevel
@@ -1614,7 +1668,7 @@ extension Clouddirectory {
             self.maxResults = dictionary["MaxResults"] as? Int32
             guard let directoryArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.directoryArn = directoryArn
-            self.consistencyLevel = dictionary["X-amz-consistency-level"] as? String
+            if let consistencyLevel = dictionary["X-amz-consistency-level"] as? String { self.consistencyLevel = ConsistencyLevel(rawValue: consistencyLevel) } else { self.consistencyLevel = nil }
             self.nextToken = dictionary["NextToken"] as? String
             guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
             self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
@@ -1784,7 +1838,7 @@ extension Clouddirectory {
             return ["x-amz-data-partition": "SchemaArn"]
         }
         /// Object type associated with the facet. See CreateFacetRequest$ObjectType for more details.
-        public let objectType: String?
+        public let objectType: ObjectType?
         /// List of attributes that need to be updated in a given schema Facet. Each attribute is followed by AttributeAction, which specifies the type of update operation to perform. 
         public let attributeUpdates: [FacetAttributeUpdate]?
         ///  
@@ -1792,7 +1846,7 @@ extension Clouddirectory {
         /// ARN associated with the Facet. For more information, see arns.
         public let schemaArn: String
 
-        public init(objectType: String? = nil, attributeUpdates: [FacetAttributeUpdate]? = nil, name: String, schemaArn: String) {
+        public init(objectType: ObjectType? = nil, attributeUpdates: [FacetAttributeUpdate]? = nil, name: String, schemaArn: String) {
             self.objectType = objectType
             self.attributeUpdates = attributeUpdates
             self.name = name
@@ -1800,7 +1854,7 @@ extension Clouddirectory {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.objectType = dictionary["ObjectType"] as? String
+            if let objectType = dictionary["ObjectType"] as? String { self.objectType = ObjectType(rawValue: objectType) } else { self.objectType = nil }
             if let attributeUpdates = dictionary["AttributeUpdates"] as? [[String: Any]] {
                 self.attributeUpdates = try attributeUpdates.map({ try FacetAttributeUpdate(dictionary: $0) })
             } else { 
@@ -1857,6 +1911,13 @@ extension Clouddirectory {
         }
     }
 
+    public enum DirectoryState: String, CustomStringConvertible {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ListDevelopmentSchemaArnsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1900,6 +1961,12 @@ extension Clouddirectory {
         }
     }
 
+    public enum UpdateActionType: String, CustomStringConvertible {
+        case create_or_update = "CREATE_OR_UPDATE"
+        case delete = "DELETE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct BatchCreateObjectResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1937,20 +2004,20 @@ extension Clouddirectory {
             return ["x-amz-consistency-level": "ConsistencyLevel", "x-amz-data-partition": "DirectoryArn"]
         }
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
-        public let consistencyLevel: String?
+        public let consistencyLevel: ConsistencyLevel?
         /// List of operations that are part of the batch.
         public let operations: [BatchReadOperation]
         /// ARN associated with the Directory. For more information, see arns.
         public let directoryArn: String
 
-        public init(consistencyLevel: String? = nil, operations: [BatchReadOperation], directoryArn: String) {
+        public init(consistencyLevel: ConsistencyLevel? = nil, operations: [BatchReadOperation], directoryArn: String) {
             self.consistencyLevel = consistencyLevel
             self.operations = operations
             self.directoryArn = directoryArn
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.consistencyLevel = dictionary["X-amz-consistency-level"] as? String
+            if let consistencyLevel = dictionary["X-amz-consistency-level"] as? String { self.consistencyLevel = ConsistencyLevel(rawValue: consistencyLevel) } else { self.consistencyLevel = nil }
             guard let operations = dictionary["Operations"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Operations") }
             self.operations = try operations.map({ try BatchReadOperation(dictionary: $0) })
             guard let directoryArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
@@ -2252,39 +2319,48 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// Object type associated with the facet. See CreateFacetRequest$ObjectType for more details.
-        public let objectType: String?
+        public let objectType: ObjectType?
         /// The name of the Facet.
         public let name: String?
 
-        public init(objectType: String? = nil, name: String? = nil) {
+        public init(objectType: ObjectType? = nil, name: String? = nil) {
             self.objectType = objectType
             self.name = name
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.objectType = dictionary["ObjectType"] as? String
+            if let objectType = dictionary["ObjectType"] as? String { self.objectType = ObjectType(rawValue: objectType) } else { self.objectType = nil }
             self.name = dictionary["Name"] as? String
         }
+    }
+
+    public enum FacetAttributeType: String, CustomStringConvertible {
+        case string = "STRING"
+        case binary = "BINARY"
+        case boolean = "BOOLEAN"
+        case number = "NUMBER"
+        case datetime = "DATETIME"
+        public var description: String { return self.rawValue }
     }
 
     public struct ListDirectoriesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// The state of the directories in the list. Can be either Enabled, Disabled, or Deleted.
-        public let state: String?
+        public let state: DirectoryState?
         /// The pagination token.
         public let nextToken: String?
         /// The maximum number of results to retrieve.
         public let maxResults: Int32?
 
-        public init(state: String? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
+        public init(state: DirectoryState? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.state = state
             self.nextToken = nextToken
             self.maxResults = maxResults
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.state = dictionary["state"] as? String
+            if let state = dictionary["state"] as? String { self.state = DirectoryState(rawValue: state) } else { self.state = nil }
             self.nextToken = dictionary["NextToken"] as? String
             self.maxResults = dictionary["MaxResults"] as? Int32
         }
@@ -2298,14 +2374,14 @@ extension Clouddirectory {
         /// Validation rules attached to the attribute definition.
         public let rules: [String: Rule]?
         /// The type of the attribute.
-        public let type: String
+        public let `type`: FacetAttributeType
         /// The default value of the attribute (if configured).
         public let defaultValue: TypedAttributeValue?
 
-        public init(isImmutable: Bool? = nil, rules: [String: Rule]? = nil, type: String, defaultValue: TypedAttributeValue? = nil) {
+        public init(isImmutable: Bool? = nil, rules: [String: Rule]? = nil, type: FacetAttributeType, defaultValue: TypedAttributeValue? = nil) {
             self.isImmutable = isImmutable
             self.rules = rules
-            self.type = type
+            self.`type` = `type`
             self.defaultValue = defaultValue
         }
 
@@ -2321,8 +2397,8 @@ extension Clouddirectory {
             } else { 
                 self.rules = nil
             }
-            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
-            self.type = type
+            guard let rawType = dictionary["Type"] as? String, let `type` = FacetAttributeType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
+            self.`type` = `type`
             if let defaultValue = dictionary["DefaultValue"] as? [String: Any] { self.defaultValue = try Clouddirectory.TypedAttributeValue(dictionary: defaultValue) } else { self.defaultValue = nil }
         }
     }
@@ -2346,13 +2422,13 @@ extension Clouddirectory {
         /// ARN associated with the Directory where the object resides. For more information, see arns.
         public let directoryArn: String
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
-        public let consistencyLevel: String?
+        public let consistencyLevel: ConsistencyLevel?
         /// The pagination token.
         public let nextToken: String?
         /// Reference that identifies the object whose attributes will be listed.
         public let objectReference: ObjectReference
 
-        public init(maxResults: Int32? = nil, directoryArn: String, consistencyLevel: String? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
+        public init(maxResults: Int32? = nil, directoryArn: String, consistencyLevel: ConsistencyLevel? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.maxResults = maxResults
             self.directoryArn = directoryArn
             self.consistencyLevel = consistencyLevel
@@ -2364,7 +2440,7 @@ extension Clouddirectory {
             self.maxResults = dictionary["MaxResults"] as? Int32
             guard let directoryArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.directoryArn = directoryArn
-            self.consistencyLevel = dictionary["X-amz-consistency-level"] as? String
+            if let consistencyLevel = dictionary["X-amz-consistency-level"] as? String { self.consistencyLevel = ConsistencyLevel(rawValue: consistencyLevel) } else { self.consistencyLevel = nil }
             self.nextToken = dictionary["NextToken"] as? String
             guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
             self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
@@ -2568,13 +2644,13 @@ extension Clouddirectory {
         /// ARN associated with the Directory where the object resides. For more information, see arns.
         public let directoryArn: String
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
-        public let consistencyLevel: String?
+        public let consistencyLevel: ConsistencyLevel?
         /// The pagination token.
         public let nextToken: String?
         /// Reference that identifies the object for which child objects are being listed.
         public let objectReference: ObjectReference
 
-        public init(maxResults: Int32? = nil, directoryArn: String, consistencyLevel: String? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
+        public init(maxResults: Int32? = nil, directoryArn: String, consistencyLevel: ConsistencyLevel? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.maxResults = maxResults
             self.directoryArn = directoryArn
             self.consistencyLevel = consistencyLevel
@@ -2586,7 +2662,7 @@ extension Clouddirectory {
             self.maxResults = dictionary["MaxResults"] as? Int32
             guard let directoryArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.directoryArn = directoryArn
-            self.consistencyLevel = dictionary["X-amz-consistency-level"] as? String
+            if let consistencyLevel = dictionary["X-amz-consistency-level"] as? String { self.consistencyLevel = ConsistencyLevel(rawValue: consistencyLevel) } else { self.consistencyLevel = nil }
             self.nextToken = dictionary["NextToken"] as? String
             guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
             self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
@@ -2836,19 +2912,25 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// Type of exception, such as InvalidArnException.
-        public let type: String?
+        public let `type`: BatchReadExceptionType?
         /// Exception message associated with the failure.
         public let message: String?
 
-        public init(type: String? = nil, message: String? = nil) {
-            self.type = type
+        public init(type: BatchReadExceptionType? = nil, message: String? = nil) {
+            self.`type` = `type`
             self.message = message
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = BatchReadExceptionType(rawValue: `type`) } else { self.`type` = nil }
             self.message = dictionary["Message"] as? String
         }
+    }
+
+    public enum RequiredAttributeBehavior: String, CustomStringConvertible {
+        case required_always = "REQUIRED_ALWAYS"
+        case not_required = "NOT_REQUIRED"
+        public var description: String { return self.rawValue }
     }
 
     public struct DeleteObjectRequest: AWSShape {
@@ -3064,17 +3146,17 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The action to perform when updating the attribute.
-        public let action: String?
+        public let action: UpdateActionType?
         /// The attribute to update.
         public let attribute: FacetAttribute?
 
-        public init(action: String? = nil, attribute: FacetAttribute? = nil) {
+        public init(action: UpdateActionType? = nil, attribute: FacetAttribute? = nil) {
             self.action = action
             self.attribute = attribute
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.action = dictionary["Action"] as? String
+            if let action = dictionary["Action"] as? String { self.action = UpdateActionType(rawValue: action) } else { self.action = nil }
             if let attribute = dictionary["Attribute"] as? [String: Any] { self.attribute = try Clouddirectory.FacetAttribute(dictionary: attribute) } else { self.attribute = nil }
         }
     }
@@ -3115,11 +3197,11 @@ extension Clouddirectory {
         /// The pagination token.
         public let nextToken: String?
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
-        public let consistencyLevel: String?
+        public let consistencyLevel: ConsistencyLevel?
         /// Maximum number of items to be retrieved in a single call. This is an approximate number.
         public let maxResults: Int32?
 
-        public init(policyReference: ObjectReference, directoryArn: String, nextToken: String? = nil, consistencyLevel: String? = nil, maxResults: Int32? = nil) {
+        public init(policyReference: ObjectReference, directoryArn: String, nextToken: String? = nil, consistencyLevel: ConsistencyLevel? = nil, maxResults: Int32? = nil) {
             self.policyReference = policyReference
             self.directoryArn = directoryArn
             self.nextToken = nextToken
@@ -3133,7 +3215,7 @@ extension Clouddirectory {
             guard let directoryArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.directoryArn = directoryArn
             self.nextToken = dictionary["NextToken"] as? String
-            self.consistencyLevel = dictionary["X-amz-consistency-level"] as? String
+            if let consistencyLevel = dictionary["X-amz-consistency-level"] as? String { self.consistencyLevel = ConsistencyLevel(rawValue: consistencyLevel) } else { self.consistencyLevel = nil }
             self.maxResults = dictionary["MaxResults"] as? Int32
         }
     }

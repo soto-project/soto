@@ -41,17 +41,17 @@ extension Sms {
         /// The key for the payload
         public static let payload: String? = nil
         public let capabilityList: ConnectorCapabilityList?
-        public let status: String?
+        public let status: ConnectorStatus?
         public let ipAddress: String?
         public let vmManagerId: String?
         public let version: String?
-        public let vmManagerType: String?
+        public let vmManagerType: VmManagerType?
         public let connectorId: String?
         public let vmManagerName: String?
         public let macAddress: String?
         public let associatedOn: Date?
 
-        public init(capabilityList: ConnectorCapabilityList? = nil, status: String? = nil, ipAddress: String? = nil, vmManagerId: String? = nil, version: String? = nil, vmManagerType: String? = nil, connectorId: String? = nil, vmManagerName: String? = nil, macAddress: String? = nil, associatedOn: Date? = nil) {
+        public init(capabilityList: ConnectorCapabilityList? = nil, status: ConnectorStatus? = nil, ipAddress: String? = nil, vmManagerId: String? = nil, version: String? = nil, vmManagerType: VmManagerType? = nil, connectorId: String? = nil, vmManagerName: String? = nil, macAddress: String? = nil, associatedOn: Date? = nil) {
             self.capabilityList = capabilityList
             self.status = status
             self.ipAddress = ipAddress
@@ -66,11 +66,11 @@ extension Sms {
 
         public init(dictionary: [String: Any]) throws {
             if let capabilityList = dictionary["capabilityList"] as? [String: Any] { self.capabilityList = try Sms.ConnectorCapabilityList(dictionary: capabilityList) } else { self.capabilityList = nil }
-            self.status = dictionary["status"] as? String
+            if let status = dictionary["status"] as? String { self.status = ConnectorStatus(rawValue: status) } else { self.status = nil }
             self.ipAddress = dictionary["ipAddress"] as? String
             self.vmManagerId = dictionary["vmManagerId"] as? String
             self.version = dictionary["version"] as? String
-            self.vmManagerType = dictionary["vmManagerType"] as? String
+            if let vmManagerType = dictionary["vmManagerType"] as? String { self.vmManagerType = VmManagerType(rawValue: vmManagerType) } else { self.vmManagerType = nil }
             self.connectorId = dictionary["connectorId"] as? String
             self.vmManagerName = dictionary["vmManagerName"] as? String
             self.macAddress = dictionary["macAddress"] as? String
@@ -99,6 +99,11 @@ extension Sms {
         }
     }
 
+    public enum ServerType: String, CustomStringConvertible {
+        case virtual_machine = "VIRTUAL_MACHINE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct GetConnectorsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -124,15 +129,20 @@ extension Sms {
         }
     }
 
+    public enum VmManagerType: String, CustomStringConvertible {
+        case vsphere = "VSPHERE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct GetServersResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         public let serverList: ServerList?
-        public let serverCatalogStatus: String?
+        public let serverCatalogStatus: ServerCatalogStatus?
         public let nextToken: String?
         public let lastModifiedOn: Date?
 
-        public init(serverList: ServerList? = nil, serverCatalogStatus: String? = nil, nextToken: String? = nil, lastModifiedOn: Date? = nil) {
+        public init(serverList: ServerList? = nil, serverCatalogStatus: ServerCatalogStatus? = nil, nextToken: String? = nil, lastModifiedOn: Date? = nil) {
             self.serverList = serverList
             self.serverCatalogStatus = serverCatalogStatus
             self.nextToken = nextToken
@@ -141,7 +151,7 @@ extension Sms {
 
         public init(dictionary: [String: Any]) throws {
             if let serverList = dictionary["serverList"] as? [String: Any] { self.serverList = try Sms.ServerList(dictionary: serverList) } else { self.serverList = nil }
-            self.serverCatalogStatus = dictionary["serverCatalogStatus"] as? String
+            if let serverCatalogStatus = dictionary["serverCatalogStatus"] as? String { self.serverCatalogStatus = ServerCatalogStatus(rawValue: serverCatalogStatus) } else { self.serverCatalogStatus = nil }
             self.nextToken = dictionary["nextToken"] as? String
             self.lastModifiedOn = dictionary["lastModifiedOn"] as? Date
         }
@@ -175,6 +185,15 @@ extension Sms {
         }
     }
 
+    public enum ReplicationJobState: String, CustomStringConvertible {
+        case pending = "PENDING"
+        case active = "ACTIVE"
+        case failed = "FAILED"
+        case deleting = "DELETING"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct StartOnDemandReplicationRunResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -197,9 +216,9 @@ extension Sms {
         public let description: String?
         public let frequency: Int32?
         public let replicationJobId: String
-        public let licenseType: String?
+        public let licenseType: LicenseType?
 
-        public init(roleName: String? = nil, nextReplicationRunStartTime: Date? = nil, description: String? = nil, frequency: Int32? = nil, replicationJobId: String, licenseType: String? = nil) {
+        public init(roleName: String? = nil, nextReplicationRunStartTime: Date? = nil, description: String? = nil, frequency: Int32? = nil, replicationJobId: String, licenseType: LicenseType? = nil) {
             self.roleName = roleName
             self.nextReplicationRunStartTime = nextReplicationRunStartTime
             self.description = description
@@ -215,55 +234,55 @@ extension Sms {
             self.frequency = dictionary["frequency"] as? Int32
             guard let replicationJobId = dictionary["replicationJobId"] as? String else { throw InitializableError.missingRequiredParam("replicationJobId") }
             self.replicationJobId = replicationJobId
-            self.licenseType = dictionary["licenseType"] as? String
+            if let licenseType = dictionary["licenseType"] as? String { self.licenseType = LicenseType(rawValue: licenseType) } else { self.licenseType = nil }
         }
     }
 
     public struct ConnectorCapabilityList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let item: [String]?
+        public let item: [ConnectorCapability]?
 
-        public init(item: [String]? = nil) {
+        public init(item: [ConnectorCapability]? = nil) {
             self.item = item
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.item = dictionary["Item"] as? [String]
+            if let item = dictionary["Item"] as? [String] { self.item = item.flatMap({ ConnectorCapability(rawValue: $0)}) } else { self.item = nil }
         }
     }
 
     public struct ReplicationRun: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let state: String?
+        public let state: ReplicationRunState?
         public let replicationRunId: String?
         public let completedTime: Date?
         public let scheduledStartTime: Date?
         public let description: String?
         public let amiId: String?
-        public let type: String?
+        public let `type`: ReplicationRunType?
         public let statusMessage: String?
 
-        public init(state: String? = nil, replicationRunId: String? = nil, completedTime: Date? = nil, scheduledStartTime: Date? = nil, description: String? = nil, amiId: String? = nil, type: String? = nil, statusMessage: String? = nil) {
+        public init(state: ReplicationRunState? = nil, replicationRunId: String? = nil, completedTime: Date? = nil, scheduledStartTime: Date? = nil, description: String? = nil, amiId: String? = nil, type: ReplicationRunType? = nil, statusMessage: String? = nil) {
             self.state = state
             self.replicationRunId = replicationRunId
             self.completedTime = completedTime
             self.scheduledStartTime = scheduledStartTime
             self.description = description
             self.amiId = amiId
-            self.type = type
+            self.`type` = `type`
             self.statusMessage = statusMessage
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.state = dictionary["state"] as? String
+            if let state = dictionary["state"] as? String { self.state = ReplicationRunState(rawValue: state) } else { self.state = nil }
             self.replicationRunId = dictionary["replicationRunId"] as? String
             self.completedTime = dictionary["completedTime"] as? Date
             self.scheduledStartTime = dictionary["scheduledStartTime"] as? Date
             self.description = dictionary["description"] as? String
             self.amiId = dictionary["amiId"] as? String
-            self.type = dictionary["type"] as? String
+            if let `type` = dictionary["type"] as? String { self.`type` = ReplicationRunType(rawValue: `type`) } else { self.`type` = nil }
             self.statusMessage = dictionary["statusMessage"] as? String
         }
     }
@@ -279,11 +298,11 @@ extension Sms {
     public struct ReplicationJob: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let state: String?
+        public let state: ReplicationJobState?
         public let replicationRunList: ReplicationRunList?
         public let nextReplicationRunStartTime: Date?
         public let vmServer: VmServer?
-        public let licenseType: String?
+        public let licenseType: LicenseType?
         public let description: String?
         public let serverId: String?
         public let latestAmiId: String?
@@ -292,9 +311,9 @@ extension Sms {
         public let replicationJobId: String?
         public let roleName: String?
         public let seedReplicationTime: Date?
-        public let serverType: String?
+        public let serverType: ServerType?
 
-        public init(state: String? = nil, replicationRunList: ReplicationRunList? = nil, nextReplicationRunStartTime: Date? = nil, vmServer: VmServer? = nil, licenseType: String? = nil, description: String? = nil, serverId: String? = nil, latestAmiId: String? = nil, frequency: Int32? = nil, statusMessage: String? = nil, replicationJobId: String? = nil, roleName: String? = nil, seedReplicationTime: Date? = nil, serverType: String? = nil) {
+        public init(state: ReplicationJobState? = nil, replicationRunList: ReplicationRunList? = nil, nextReplicationRunStartTime: Date? = nil, vmServer: VmServer? = nil, licenseType: LicenseType? = nil, description: String? = nil, serverId: String? = nil, latestAmiId: String? = nil, frequency: Int32? = nil, statusMessage: String? = nil, replicationJobId: String? = nil, roleName: String? = nil, seedReplicationTime: Date? = nil, serverType: ServerType? = nil) {
             self.state = state
             self.replicationRunList = replicationRunList
             self.nextReplicationRunStartTime = nextReplicationRunStartTime
@@ -312,11 +331,11 @@ extension Sms {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.state = dictionary["state"] as? String
+            if let state = dictionary["state"] as? String { self.state = ReplicationJobState(rawValue: state) } else { self.state = nil }
             if let replicationRunList = dictionary["replicationRunList"] as? [String: Any] { self.replicationRunList = try Sms.ReplicationRunList(dictionary: replicationRunList) } else { self.replicationRunList = nil }
             self.nextReplicationRunStartTime = dictionary["nextReplicationRunStartTime"] as? Date
             if let vmServer = dictionary["vmServer"] as? [String: Any] { self.vmServer = try Sms.VmServer(dictionary: vmServer) } else { self.vmServer = nil }
-            self.licenseType = dictionary["licenseType"] as? String
+            if let licenseType = dictionary["licenseType"] as? String { self.licenseType = LicenseType(rawValue: licenseType) } else { self.licenseType = nil }
             self.description = dictionary["description"] as? String
             self.serverId = dictionary["serverId"] as? String
             self.latestAmiId = dictionary["latestAmiId"] as? String
@@ -325,8 +344,19 @@ extension Sms {
             self.replicationJobId = dictionary["replicationJobId"] as? String
             self.roleName = dictionary["roleName"] as? String
             self.seedReplicationTime = dictionary["seedReplicationTime"] as? Date
-            self.serverType = dictionary["serverType"] as? String
+            if let serverType = dictionary["serverType"] as? String { self.serverType = ServerType(rawValue: serverType) } else { self.serverType = nil }
         }
+    }
+
+    public enum ReplicationRunState: String, CustomStringConvertible {
+        case pending = "PENDING"
+        case missed = "MISSED"
+        case active = "ACTIVE"
+        case failed = "FAILED"
+        case completed = "COMPLETED"
+        case deleting = "DELETING"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
     }
 
     public struct ImportServerCatalogResponse: AWSShape {
@@ -381,6 +411,12 @@ extension Sms {
         }
     }
 
+    public enum ConnectorStatus: String, CustomStringConvertible {
+        case healthy = "HEALTHY"
+        case unhealthy = "UNHEALTHY"
+        public var description: String { return self.rawValue }
+    }
+
     public struct GetConnectorsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -406,9 +442,9 @@ extension Sms {
         public let serverId: String
         public let description: String?
         public let frequency: Int32
-        public let licenseType: String?
+        public let licenseType: LicenseType?
 
-        public init(seedReplicationTime: Date, roleName: String? = nil, serverId: String, description: String? = nil, frequency: Int32, licenseType: String? = nil) {
+        public init(seedReplicationTime: Date, roleName: String? = nil, serverId: String, description: String? = nil, frequency: Int32, licenseType: LicenseType? = nil) {
             self.seedReplicationTime = seedReplicationTime
             self.roleName = roleName
             self.serverId = serverId
@@ -426,8 +462,14 @@ extension Sms {
             self.description = dictionary["description"] as? String
             guard let frequency = dictionary["frequency"] as? Int32 else { throw InitializableError.missingRequiredParam("frequency") }
             self.frequency = frequency
-            self.licenseType = dictionary["licenseType"] as? String
+            if let licenseType = dictionary["licenseType"] as? String { self.licenseType = LicenseType(rawValue: licenseType) } else { self.licenseType = nil }
         }
+    }
+
+    public enum ReplicationRunType: String, CustomStringConvertible {
+        case on_demand = "ON_DEMAND"
+        case automatic = "AUTOMATIC"
+        public var description: String { return self.rawValue }
     }
 
     public struct VmServerAddress: AWSShape {
@@ -464,6 +506,11 @@ extension Sms {
         }
     }
 
+    public enum ConnectorCapability: String, CustomStringConvertible {
+        case vsphere = "VSPHERE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ConnectorList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -486,12 +533,12 @@ extension Sms {
         /// The key for the payload
         public static let payload: String? = nil
         public let vmManagerName: String?
-        public let vmManagerType: String?
+        public let vmManagerType: VmManagerType?
         public let vmName: String?
         public let vmServerAddress: VmServerAddress?
         public let vmPath: String?
 
-        public init(vmManagerName: String? = nil, vmManagerType: String? = nil, vmName: String? = nil, vmServerAddress: VmServerAddress? = nil, vmPath: String? = nil) {
+        public init(vmManagerName: String? = nil, vmManagerType: VmManagerType? = nil, vmName: String? = nil, vmServerAddress: VmServerAddress? = nil, vmPath: String? = nil) {
             self.vmManagerName = vmManagerName
             self.vmManagerType = vmManagerType
             self.vmName = vmName
@@ -501,7 +548,7 @@ extension Sms {
 
         public init(dictionary: [String: Any]) throws {
             self.vmManagerName = dictionary["vmManagerName"] as? String
-            self.vmManagerType = dictionary["vmManagerType"] as? String
+            if let vmManagerType = dictionary["vmManagerType"] as? String { self.vmManagerType = VmManagerType(rawValue: vmManagerType) } else { self.vmManagerType = nil }
             self.vmName = dictionary["vmName"] as? String
             if let vmServerAddress = dictionary["vmServerAddress"] as? [String: Any] { self.vmServerAddress = try Sms.VmServerAddress(dictionary: vmServerAddress) } else { self.vmServerAddress = nil }
             self.vmPath = dictionary["vmPath"] as? String
@@ -513,11 +560,11 @@ extension Sms {
         public static let payload: String? = nil
         public let serverId: String?
         public let replicationJobTerminated: Bool?
-        public let serverType: String?
+        public let serverType: ServerType?
         public let vmServer: VmServer?
         public let replicationJobId: String?
 
-        public init(serverId: String? = nil, replicationJobTerminated: Bool? = nil, serverType: String? = nil, vmServer: VmServer? = nil, replicationJobId: String? = nil) {
+        public init(serverId: String? = nil, replicationJobTerminated: Bool? = nil, serverType: ServerType? = nil, vmServer: VmServer? = nil, replicationJobId: String? = nil) {
             self.serverId = serverId
             self.replicationJobTerminated = replicationJobTerminated
             self.serverType = serverType
@@ -528,7 +575,7 @@ extension Sms {
         public init(dictionary: [String: Any]) throws {
             self.serverId = dictionary["serverId"] as? String
             self.replicationJobTerminated = dictionary["replicationJobTerminated"] as? Bool
-            self.serverType = dictionary["serverType"] as? String
+            if let serverType = dictionary["serverType"] as? String { self.serverType = ServerType(rawValue: serverType) } else { self.serverType = nil }
             if let vmServer = dictionary["vmServer"] as? [String: Any] { self.vmServer = try Sms.VmServer(dictionary: vmServer) } else { self.vmServer = nil }
             self.replicationJobId = dictionary["replicationJobId"] as? String
         }
@@ -592,6 +639,15 @@ extension Sms {
         }
     }
 
+    public enum ServerCatalogStatus: String, CustomStringConvertible {
+        case not_imported = "NOT_IMPORTED"
+        case importing = "IMPORTING"
+        case available = "AVAILABLE"
+        case deleted = "DELETED"
+        case expired = "EXPIRED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct GetReplicationJobsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -642,6 +698,12 @@ extension Sms {
             if let replicationRunList = dictionary["replicationRunList"] as? [String: Any] { self.replicationRunList = try Sms.ReplicationRunList(dictionary: replicationRunList) } else { self.replicationRunList = nil }
             self.nextToken = dictionary["nextToken"] as? String
         }
+    }
+
+    public enum LicenseType: String, CustomStringConvertible {
+        case aws = "AWS"
+        case byol = "BYOL"
+        public var description: String { return self.rawValue }
     }
 
     public struct DeleteReplicationJobRequest: AWSShape {

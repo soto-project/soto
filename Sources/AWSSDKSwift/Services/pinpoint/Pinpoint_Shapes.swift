@@ -117,9 +117,9 @@ extension Pinpoint {
         public let requestId: String?
         /// Custom user-specific attributes that your app reports to Amazon Pinpoint.
         public let user: EndpointUser?
-        public let channelType: String?
+        public let channelType: ChannelType?
 
-        public init(endpointStatus: String? = nil, optOut: String? = nil, metrics: [String: Double]? = nil, effectiveDate: String? = nil, address: String? = nil, location: EndpointLocation? = nil, demographic: EndpointDemographic? = nil, attributes: [String: [String]]? = nil, requestId: String? = nil, user: EndpointUser? = nil, channelType: String? = nil) {
+        public init(endpointStatus: String? = nil, optOut: String? = nil, metrics: [String: Double]? = nil, effectiveDate: String? = nil, address: String? = nil, location: EndpointLocation? = nil, demographic: EndpointDemographic? = nil, attributes: [String: [String]]? = nil, requestId: String? = nil, user: EndpointUser? = nil, channelType: ChannelType? = nil) {
             self.endpointStatus = endpointStatus
             self.optOut = optOut
             self.metrics = metrics
@@ -157,7 +157,7 @@ extension Pinpoint {
             }
             self.requestId = dictionary["RequestId"] as? String
             if let user = dictionary["User"] as? [String: Any] { self.user = try Pinpoint.EndpointUser(dictionary: user) } else { self.user = nil }
-            self.channelType = dictionary["ChannelType"] as? String
+            if let channelType = dictionary["ChannelType"] as? String { self.channelType = ChannelType(rawValue: channelType) } else { self.channelType = nil }
         }
     }
 
@@ -192,6 +192,12 @@ extension Pinpoint {
             guard let applicationId = dictionary["Application-id"] as? String else { throw InitializableError.missingRequiredParam("Application-id") }
             self.applicationId = applicationId
         }
+    }
+
+    public enum Format: String, CustomStringConvertible {
+        case csv = "CSV"
+        case json = "JSON"
+        public var description: String { return self.rawValue }
     }
 
     public struct GCMChannelRequest: AWSShape {
@@ -312,6 +318,13 @@ extension Pinpoint {
         }
     }
 
+    public enum Action: String, CustomStringConvertible {
+        case open_app = "OPEN_APP"
+        case deep_link = "DEEP_LINK"
+        case url = "URL"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DeleteGcmChannelResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "GCMChannelResponse"
@@ -425,7 +438,7 @@ extension Pinpoint {
     public struct Message: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let action: String?
+        public let action: Action?
         /// The URL to open in the user's mobile browser. Used if the value for Action is URL.
         public let url: String?
         /// The URL that points to the media resource, for example a .mp4 or .gif file.
@@ -444,7 +457,7 @@ extension Pinpoint {
         /// The URL that points to the icon image for the push notification icon, for example, the app icon.
         public let imageIconUrl: String?
 
-        public init(action: String? = nil, url: String? = nil, mediaUrl: String? = nil, title: String? = nil, imageUrl: String? = nil, silentPush: Bool? = nil, jsonBody: String? = nil, body: String? = nil, imageIconUrl: String? = nil) {
+        public init(action: Action? = nil, url: String? = nil, mediaUrl: String? = nil, title: String? = nil, imageUrl: String? = nil, silentPush: Bool? = nil, jsonBody: String? = nil, body: String? = nil, imageIconUrl: String? = nil) {
             self.action = action
             self.url = url
             self.mediaUrl = mediaUrl
@@ -457,7 +470,7 @@ extension Pinpoint {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.action = dictionary["Action"] as? String
+            if let action = dictionary["Action"] as? String { self.action = Action(rawValue: action) } else { self.action = nil }
             self.url = dictionary["Url"] as? String
             self.mediaUrl = dictionary["MediaUrl"] as? String
             self.title = dictionary["Title"] as? String
@@ -714,11 +727,11 @@ extension Pinpoint {
         public let applicationId: String?
         /// The unique ID for the most recent request to update the endpoint.
         public let requestId: String?
-        public let channelType: String?
+        public let channelType: ChannelType?
         /// The endpoint status. Can be either ACTIVE or INACTIVE. Will be set to INACTIVE if a delivery fails. Will be set to ACTIVE if the address is updated.
         public let endpointStatus: String?
 
-        public init(user: EndpointUser? = nil, shardId: String? = nil, optOut: String? = nil, metrics: [String: Double]? = nil, creationDate: String? = nil, cohortId: String? = nil, id: String? = nil, effectiveDate: String? = nil, location: EndpointLocation? = nil, address: String? = nil, demographic: EndpointDemographic? = nil, attributes: [String: [String]]? = nil, applicationId: String? = nil, requestId: String? = nil, channelType: String? = nil, endpointStatus: String? = nil) {
+        public init(user: EndpointUser? = nil, shardId: String? = nil, optOut: String? = nil, metrics: [String: Double]? = nil, creationDate: String? = nil, cohortId: String? = nil, id: String? = nil, effectiveDate: String? = nil, location: EndpointLocation? = nil, address: String? = nil, demographic: EndpointDemographic? = nil, attributes: [String: [String]]? = nil, applicationId: String? = nil, requestId: String? = nil, channelType: ChannelType? = nil, endpointStatus: String? = nil) {
             self.user = user
             self.shardId = shardId
             self.optOut = optOut
@@ -765,7 +778,7 @@ extension Pinpoint {
             }
             self.applicationId = dictionary["ApplicationId"] as? String
             self.requestId = dictionary["RequestId"] as? String
-            self.channelType = dictionary["ChannelType"] as? String
+            if let channelType = dictionary["ChannelType"] as? String { self.channelType = ChannelType(rawValue: channelType) } else { self.channelType = nil }
             self.endpointStatus = dictionary["EndpointStatus"] as? String
         }
     }
@@ -884,6 +897,15 @@ extension Pinpoint {
         }
     }
 
+    public enum Frequency: String, CustomStringConvertible {
+        case once = "ONCE"
+        case hourly = "HOURLY"
+        case daily = "DAILY"
+        case weekly = "WEEKLY"
+        case monthly = "MONTHLY"
+        public var description: String { return self.rawValue }
+    }
+
     public struct WriteApplicationSettingsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -981,10 +1003,24 @@ extension Pinpoint {
         }
     }
 
+    public enum Duration: String, CustomStringConvertible {
+        case hr_24 = "HR_24"
+        case day_7 = "DAY_7"
+        case day_14 = "DAY_14"
+        case day_30 = "DAY_30"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChannelType: String, CustomStringConvertible {
+        case apns = "APNS"
+        case gcm = "GCM"
+        public var description: String { return self.rawValue }
+    }
+
     public struct EndpointBatchItem: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let channelType: String?
+        public let channelType: ChannelType?
         /// Custom user-specific attributes that your app reports to Amazon Pinpoint.
         public let user: EndpointUser?
         /// The last time the endpoint was updated. Provided in ISO 8601 format.
@@ -1007,7 +1043,7 @@ extension Pinpoint {
         public let endpointStatus: String?
         public let id: String?
 
-        public init(channelType: String? = nil, user: EndpointUser? = nil, effectiveDate: String? = nil, optOut: String? = nil, metrics: [String: Double]? = nil, location: EndpointLocation? = nil, address: String? = nil, demographic: EndpointDemographic? = nil, attributes: [String: [String]]? = nil, requestId: String? = nil, endpointStatus: String? = nil, id: String? = nil) {
+        public init(channelType: ChannelType? = nil, user: EndpointUser? = nil, effectiveDate: String? = nil, optOut: String? = nil, metrics: [String: Double]? = nil, location: EndpointLocation? = nil, address: String? = nil, demographic: EndpointDemographic? = nil, attributes: [String: [String]]? = nil, requestId: String? = nil, endpointStatus: String? = nil, id: String? = nil) {
             self.channelType = channelType
             self.user = user
             self.effectiveDate = effectiveDate
@@ -1023,7 +1059,7 @@ extension Pinpoint {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.channelType = dictionary["ChannelType"] as? String
+            if let channelType = dictionary["ChannelType"] as? String { self.channelType = ChannelType(rawValue: channelType) } else { self.channelType = nil }
             if let user = dictionary["User"] as? [String: Any] { self.user = try Pinpoint.EndpointUser(dictionary: user) } else { self.user = nil }
             self.effectiveDate = dictionary["EffectiveDate"] as? String
             self.optOut = dictionary["OptOut"] as? String
@@ -1049,6 +1085,12 @@ extension Pinpoint {
             self.endpointStatus = dictionary["EndpointStatus"] as? String
             self.id = dictionary["Id"] as? String
         }
+    }
+
+    public enum AttributeType: String, CustomStringConvertible {
+        case inclusive = "INCLUSIVE"
+        case exclusive = "EXCLUSIVE"
+        public var description: String { return self.rawValue }
     }
 
     public struct CampaignsResponse: AWSShape {
@@ -1209,17 +1251,17 @@ extension Pinpoint {
     public struct RecencyDimension: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let duration: String?
-        public let recencyType: String?
+        public let duration: Duration?
+        public let recencyType: RecencyType?
 
-        public init(duration: String? = nil, recencyType: String? = nil) {
+        public init(duration: Duration? = nil, recencyType: RecencyType? = nil) {
             self.duration = duration
             self.recencyType = recencyType
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.duration = dictionary["Duration"] as? String
-            self.recencyType = dictionary["RecencyType"] as? String
+            if let duration = dictionary["Duration"] as? String { self.duration = Duration(rawValue: duration) } else { self.duration = nil }
+            if let recencyType = dictionary["RecencyType"] as? String { self.recencyType = RecencyType(rawValue: recencyType) } else { self.recencyType = nil }
         }
     }
 
@@ -1230,7 +1272,7 @@ extension Pinpoint {
         public let startTime: String?
         /// The scheduled time that the campaign ends in ISO 8601 format.
         public let endTime: String?
-        public let frequency: String?
+        public let frequency: Frequency?
         /// The time during which the campaign sends no messages.
         public let quietTime: QuietTime?
         /// Indicates whether the campaign schedule takes effect according to each user's local time.
@@ -1270,7 +1312,7 @@ extension Pinpoint {
         /// UTC-11
         public let timezone: String?
 
-        public init(startTime: String? = nil, endTime: String? = nil, frequency: String? = nil, quietTime: QuietTime? = nil, isLocalTime: Bool? = nil, timezone: String? = nil) {
+        public init(startTime: String? = nil, endTime: String? = nil, frequency: Frequency? = nil, quietTime: QuietTime? = nil, isLocalTime: Bool? = nil, timezone: String? = nil) {
             self.startTime = startTime
             self.endTime = endTime
             self.frequency = frequency
@@ -1282,7 +1324,7 @@ extension Pinpoint {
         public init(dictionary: [String: Any]) throws {
             self.startTime = dictionary["StartTime"] as? String
             self.endTime = dictionary["EndTime"] as? String
-            self.frequency = dictionary["Frequency"] as? String
+            if let frequency = dictionary["Frequency"] as? String { self.frequency = Frequency(rawValue: frequency) } else { self.frequency = nil }
             if let quietTime = dictionary["QuietTime"] as? [String: Any] { self.quietTime = try Pinpoint.QuietTime(dictionary: quietTime) } else { self.quietTime = nil }
             self.isLocalTime = dictionary["IsLocalTime"] as? Bool
             self.timezone = dictionary["Timezone"] as? String
@@ -1309,7 +1351,7 @@ extension Pinpoint {
         public static let payload: String? = nil
         /// A unique, custom ID assigned to the IAM role that restricts who can assume the role.
         public let externalId: String?
-        public let format: String?
+        public let format: Format?
         /// The Amazon Resource Name (ARN) of an IAM role that grants Amazon Pinpoint access to the endpoints in Amazon S3.
         public let roleArn: String?
         /// A URL that points to the Amazon S3 location from which the endpoints for this segment were imported.
@@ -1317,7 +1359,7 @@ extension Pinpoint {
         /// The number of endpoints that were successfully imported to create this segment.
         public let size: Int32?
 
-        public init(externalId: String? = nil, format: String? = nil, roleArn: String? = nil, s3Url: String? = nil, size: Int32? = nil) {
+        public init(externalId: String? = nil, format: Format? = nil, roleArn: String? = nil, s3Url: String? = nil, size: Int32? = nil) {
             self.externalId = externalId
             self.format = format
             self.roleArn = roleArn
@@ -1327,11 +1369,17 @@ extension Pinpoint {
 
         public init(dictionary: [String: Any]) throws {
             self.externalId = dictionary["ExternalId"] as? String
-            self.format = dictionary["Format"] as? String
+            if let format = dictionary["Format"] as? String { self.format = Format(rawValue: format) } else { self.format = nil }
             self.roleArn = dictionary["RoleArn"] as? String
             self.s3Url = dictionary["S3Url"] as? String
             self.size = dictionary["Size"] as? Int32
         }
+    }
+
+    public enum DimensionType: String, CustomStringConvertible {
+        case inclusive = "INCLUSIVE"
+        case exclusive = "EXCLUSIVE"
+        public var description: String { return self.rawValue }
     }
 
     public struct ImportJobRequest: AWSShape {
@@ -1343,7 +1391,7 @@ extension Pinpoint {
         public let s3Url: String?
         /// Sets whether the endpoints create a segment when they are imported.
         public let defineSegment: Bool?
-        public let format: String?
+        public let format: Format?
         /// A unique, custom ID assigned to the IAM role that restricts who can assume the role.	
         public let externalId: String?
         /// Sets whether the endpoints are registered with Amazon Pinpoint when they are imported.
@@ -1355,7 +1403,7 @@ extension Pinpoint {
         /// The ID of the segment to update if the import job is meant to update an existing segment.
         public let segmentId: String?
 
-        public init(s3Url: String? = nil, defineSegment: Bool? = nil, format: String? = nil, externalId: String? = nil, registerEndpoints: Bool? = nil, segmentName: String? = nil, roleArn: String? = nil, segmentId: String? = nil) {
+        public init(s3Url: String? = nil, defineSegment: Bool? = nil, format: Format? = nil, externalId: String? = nil, registerEndpoints: Bool? = nil, segmentName: String? = nil, roleArn: String? = nil, segmentId: String? = nil) {
             self.s3Url = s3Url
             self.defineSegment = defineSegment
             self.format = format
@@ -1369,7 +1417,7 @@ extension Pinpoint {
         public init(dictionary: [String: Any]) throws {
             self.s3Url = dictionary["S3Url"] as? String
             self.defineSegment = dictionary["DefineSegment"] as? Bool
-            self.format = dictionary["Format"] as? String
+            if let format = dictionary["Format"] as? String { self.format = Format(rawValue: format) } else { self.format = nil }
             self.externalId = dictionary["ExternalId"] as? String
             self.registerEndpoints = dictionary["RegisterEndpoints"] as? Bool
             self.segmentName = dictionary["SegmentName"] as? String
@@ -1405,6 +1453,15 @@ extension Pinpoint {
         }
     }
 
+    public enum CampaignStatus: String, CustomStringConvertible {
+        case scheduled = "SCHEDULED"
+        case executing = "EXECUTING"
+        case pending_next_run = "PENDING_NEXT_RUN"
+        case completed = "COMPLETED"
+        case paused = "PAUSED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct CreateImportJobRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = "ImportJobRequest"
@@ -1436,7 +1493,7 @@ extension Pinpoint {
         public let s3Url: String?
         /// Sets whether the endpoints create a segment when they are imported.
         public let defineSegment: Bool?
-        public let format: String?
+        public let format: Format?
         /// A unique, custom ID assigned to the IAM role that restricts who can assume the role.	
         public let externalId: String?
         /// Sets whether the endpoints are registered with Amazon Pinpoint when they are imported.
@@ -1448,7 +1505,7 @@ extension Pinpoint {
         /// The ID of the segment to update if the import job is meant to update an existing segment.
         public let segmentId: String?
 
-        public init(s3Url: String? = nil, defineSegment: Bool? = nil, format: String? = nil, externalId: String? = nil, registerEndpoints: Bool? = nil, segmentName: String? = nil, roleArn: String? = nil, segmentId: String? = nil) {
+        public init(s3Url: String? = nil, defineSegment: Bool? = nil, format: Format? = nil, externalId: String? = nil, registerEndpoints: Bool? = nil, segmentName: String? = nil, roleArn: String? = nil, segmentId: String? = nil) {
             self.s3Url = s3Url
             self.defineSegment = defineSegment
             self.format = format
@@ -1462,7 +1519,7 @@ extension Pinpoint {
         public init(dictionary: [String: Any]) throws {
             self.s3Url = dictionary["S3Url"] as? String
             self.defineSegment = dictionary["DefineSegment"] as? Bool
-            self.format = dictionary["Format"] as? String
+            if let format = dictionary["Format"] as? String { self.format = Format(rawValue: format) } else { self.format = nil }
             self.externalId = dictionary["ExternalId"] as? String
             self.registerEndpoints = dictionary["RegisterEndpoints"] as? Bool
             self.segmentName = dictionary["SegmentName"] as? String
@@ -1474,16 +1531,16 @@ extension Pinpoint {
     public struct SetDimension: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let dimensionType: String?
+        public let dimensionType: DimensionType?
         public let values: [String]?
 
-        public init(dimensionType: String? = nil, values: [String]? = nil) {
+        public init(dimensionType: DimensionType? = nil, values: [String]? = nil) {
             self.dimensionType = dimensionType
             self.values = values
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.dimensionType = dictionary["DimensionType"] as? String
+            if let dimensionType = dictionary["DimensionType"] as? String { self.dimensionType = DimensionType(rawValue: dimensionType) } else { self.dimensionType = nil }
             self.values = dictionary["Values"] as? [String]
         }
     }
@@ -1522,6 +1579,12 @@ extension Pinpoint {
         }
     }
 
+    public enum RecencyType: String, CustomStringConvertible {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct EndpointUser: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1547,6 +1610,17 @@ extension Pinpoint {
                 self.userAttributes = nil
             }
         }
+    }
+
+    public enum JobStatus: String, CustomStringConvertible {
+        case created = "CREATED"
+        case initializing = "INITIALIZING"
+        case processing = "PROCESSING"
+        case completing = "COMPLETING"
+        case completed = "COMPLETED"
+        case failing = "FAILING"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
     }
 
     public struct MessageBody: AWSShape {
@@ -1723,16 +1797,16 @@ extension Pinpoint {
     public struct AttributeDimension: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let attributeType: String?
+        public let attributeType: AttributeType?
         public let values: [String]?
 
-        public init(attributeType: String? = nil, values: [String]? = nil) {
+        public init(attributeType: AttributeType? = nil, values: [String]? = nil) {
             self.attributeType = attributeType
             self.values = values
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.attributeType = dictionary["AttributeType"] as? String
+            if let attributeType = dictionary["AttributeType"] as? String { self.attributeType = AttributeType(rawValue: attributeType) } else { self.attributeType = nil }
             self.values = dictionary["Values"] as? [String]
         }
     }
@@ -1842,9 +1916,9 @@ extension Pinpoint {
         public let lastModifiedDate: String?
         /// The import job settings.
         public let importDefinition: SegmentImportResource?
-        public let segmentType: String?
+        public let segmentType: SegmentType?
 
-        public init(id: String? = nil, name: String? = nil, version: Int32? = nil, dimensions: SegmentDimensions? = nil, creationDate: String? = nil, applicationId: String? = nil, lastModifiedDate: String? = nil, importDefinition: SegmentImportResource? = nil, segmentType: String? = nil) {
+        public init(id: String? = nil, name: String? = nil, version: Int32? = nil, dimensions: SegmentDimensions? = nil, creationDate: String? = nil, applicationId: String? = nil, lastModifiedDate: String? = nil, importDefinition: SegmentImportResource? = nil, segmentType: SegmentType? = nil) {
             self.id = id
             self.name = name
             self.version = version
@@ -1865,7 +1939,7 @@ extension Pinpoint {
             self.applicationId = dictionary["ApplicationId"] as? String
             self.lastModifiedDate = dictionary["LastModifiedDate"] as? String
             if let importDefinition = dictionary["ImportDefinition"] as? [String: Any] { self.importDefinition = try Pinpoint.SegmentImportResource(dictionary: importDefinition) } else { self.importDefinition = nil }
-            self.segmentType = dictionary["SegmentType"] as? String
+            if let segmentType = dictionary["SegmentType"] as? String { self.segmentType = SegmentType(rawValue: segmentType) } else { self.segmentType = nil }
         }
     }
 
@@ -1882,7 +1956,7 @@ extension Pinpoint {
         public let totalPieces: Int32?
         /// The date the import job was created in ISO 8601 format.
         public let creationDate: String?
-        public let jobStatus: String?
+        public let jobStatus: JobStatus?
         /// The unique ID of the import job.
         public let id: String?
         /// The number of endpoints that were processed by the import job.
@@ -1895,9 +1969,9 @@ extension Pinpoint {
         /// The unique ID of the application to which the import job applies.
         public let applicationId: String?
         /// The job type. Will be Import.
-        public let type: String?
+        public let `type`: String?
 
-        public init(completionDate: String? = nil, definition: ImportJobResource? = nil, failedPieces: Int32? = nil, totalPieces: Int32? = nil, creationDate: String? = nil, jobStatus: String? = nil, id: String? = nil, totalProcessed: Int32? = nil, completedPieces: Int32? = nil, totalFailures: Int32? = nil, failures: [String]? = nil, applicationId: String? = nil, type: String? = nil) {
+        public init(completionDate: String? = nil, definition: ImportJobResource? = nil, failedPieces: Int32? = nil, totalPieces: Int32? = nil, creationDate: String? = nil, jobStatus: JobStatus? = nil, id: String? = nil, totalProcessed: Int32? = nil, completedPieces: Int32? = nil, totalFailures: Int32? = nil, failures: [String]? = nil, applicationId: String? = nil, type: String? = nil) {
             self.completionDate = completionDate
             self.definition = definition
             self.failedPieces = failedPieces
@@ -1910,7 +1984,7 @@ extension Pinpoint {
             self.totalFailures = totalFailures
             self.failures = failures
             self.applicationId = applicationId
-            self.type = type
+            self.`type` = `type`
         }
 
         public init(dictionary: [String: Any]) throws {
@@ -1919,14 +1993,14 @@ extension Pinpoint {
             self.failedPieces = dictionary["FailedPieces"] as? Int32
             self.totalPieces = dictionary["TotalPieces"] as? Int32
             self.creationDate = dictionary["CreationDate"] as? String
-            self.jobStatus = dictionary["JobStatus"] as? String
+            if let jobStatus = dictionary["JobStatus"] as? String { self.jobStatus = JobStatus(rawValue: jobStatus) } else { self.jobStatus = nil }
             self.id = dictionary["Id"] as? String
             self.totalProcessed = dictionary["TotalProcessed"] as? Int32
             self.completedPieces = dictionary["CompletedPieces"] as? Int32
             self.totalFailures = dictionary["TotalFailures"] as? Int32
             self.failures = dictionary["Failures"] as? [String]
             self.applicationId = dictionary["ApplicationId"] as? String
-            self.type = dictionary["Type"] as? String
+            self.`type` = dictionary["Type"] as? String
         }
     }
 
@@ -2488,14 +2562,14 @@ extension Pinpoint {
     public struct CampaignState: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let campaignStatus: String?
+        public let campaignStatus: CampaignStatus?
 
-        public init(campaignStatus: String? = nil) {
+        public init(campaignStatus: CampaignStatus? = nil) {
             self.campaignStatus = campaignStatus
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.campaignStatus = dictionary["CampaignStatus"] as? String
+            if let campaignStatus = dictionary["CampaignStatus"] as? String { self.campaignStatus = CampaignStatus(rawValue: campaignStatus) } else { self.campaignStatus = nil }
         }
     }
 
@@ -2650,6 +2724,12 @@ extension Pinpoint {
             self.model = dictionary["Model"] as? String
             self.modelVersion = dictionary["ModelVersion"] as? String
         }
+    }
+
+    public enum SegmentType: String, CustomStringConvertible {
+        case dimensional = "DIMENSIONAL"
+        case `import` = "IMPORT"
+        public var description: String { return self.rawValue }
     }
 
     public struct WriteSegmentRequest: AWSShape {

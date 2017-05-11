@@ -159,7 +159,7 @@ extension S3 {
         /// Unique identifier for the rule. The value cannot be longer than 255 characters.
         public let iD: String?
         /// If 'Enabled', the rule is currently being applied. If 'Disabled', the rule is not currently being applied.
-        public let status: String
+        public let status: ExpirationStatus
         public let abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload?
         public let noncurrentVersionExpiration: NoncurrentVersionExpiration?
         public let transition: Transition?
@@ -168,7 +168,7 @@ extension S3 {
         /// Prefix identifying one or more objects to which the rule applies.
         public let prefix: String
 
-        public init(iD: String? = nil, status: String, abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload? = nil, noncurrentVersionExpiration: NoncurrentVersionExpiration? = nil, transition: Transition? = nil, noncurrentVersionTransition: NoncurrentVersionTransition? = nil, expiration: LifecycleExpiration? = nil, prefix: String) {
+        public init(iD: String? = nil, status: ExpirationStatus, abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload? = nil, noncurrentVersionExpiration: NoncurrentVersionExpiration? = nil, transition: Transition? = nil, noncurrentVersionTransition: NoncurrentVersionTransition? = nil, expiration: LifecycleExpiration? = nil, prefix: String) {
             self.iD = iD
             self.status = status
             self.abortIncompleteMultipartUpload = abortIncompleteMultipartUpload
@@ -181,7 +181,7 @@ extension S3 {
 
         public init(dictionary: [String: Any]) throws {
             self.iD = dictionary["ID"] as? String
-            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            guard let rawStatus = dictionary["Status"] as? String, let status = ExpirationStatus(rawValue: rawStatus) else { throw InitializableError.missingRequiredParam("Status") }
             self.status = status
             if let abortIncompleteMultipartUpload = dictionary["AbortIncompleteMultipartUpload"] as? [String: Any] { self.abortIncompleteMultipartUpload = try S3.AbortIncompleteMultipartUpload(dictionary: abortIncompleteMultipartUpload) } else { self.abortIncompleteMultipartUpload = nil }
             if let noncurrentVersionExpiration = dictionary["NoncurrentVersionExpiration"] as? [String: Any] { self.noncurrentVersionExpiration = try S3.NoncurrentVersionExpiration(dictionary: noncurrentVersionExpiration) } else { self.noncurrentVersionExpiration = nil }
@@ -309,14 +309,14 @@ extension S3 {
     public struct GetBucketLocationOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let locationConstraint: String?
+        public let locationConstraint: BucketLocationConstraint?
 
-        public init(locationConstraint: String? = nil) {
+        public init(locationConstraint: BucketLocationConstraint? = nil) {
             self.locationConstraint = locationConstraint
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.locationConstraint = dictionary["LocationConstraint"] as? String
+            if let locationConstraint = dictionary["LocationConstraint"] as? String { self.locationConstraint = BucketLocationConstraint(rawValue: locationConstraint) } else { self.locationConstraint = nil }
         }
     }
 
@@ -326,9 +326,9 @@ extension S3 {
         /// Name of the host where requests will be redirected.
         public let hostName: String
         /// Protocol to use (http, https) when redirecting requests. The default is the protocol that is used in the original request.
-        public let `protocol`: String?
+        public let `protocol`: Protocol?
 
-        public init(hostName: String, protocol: String? = nil) {
+        public init(hostName: String, protocol: Protocol? = nil) {
             self.hostName = hostName
             self.`protocol` = `protocol`
         }
@@ -336,8 +336,14 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let hostName = dictionary["HostName"] as? String else { throw InitializableError.missingRequiredParam("HostName") }
             self.hostName = hostName
-            self.`protocol` = dictionary["Protocol"] as? String
+            if let `protocol` = dictionary["Protocol"] as? String { self.`protocol` = Protocol(rawValue: `protocol`) } else { self.`protocol` = nil }
         }
+    }
+
+    public enum ServerSideEncryption: String, CustomStringConvertible {
+        case aes256 = "AES256"
+        case aws_kms = "aws:kms"
+        public var description: String { return self.rawValue }
     }
 
     public struct UploadPartCopyOutput: AWSShape {
@@ -356,10 +362,10 @@ extension S3 {
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
         public let sSECustomerAlgorithm: String?
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        public let serverSideEncryption: String?
-        public let requestCharged: String?
+        public let serverSideEncryption: ServerSideEncryption?
+        public let requestCharged: RequestCharged?
 
-        public init(copyPartResult: CopyPartResult? = nil, sSECustomerKeyMD5: String? = nil, copySourceVersionId: String? = nil, sSEKMSKeyId: String? = nil, sSECustomerAlgorithm: String? = nil, serverSideEncryption: String? = nil, requestCharged: String? = nil) {
+        public init(copyPartResult: CopyPartResult? = nil, sSECustomerKeyMD5: String? = nil, copySourceVersionId: String? = nil, sSEKMSKeyId: String? = nil, sSECustomerAlgorithm: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, requestCharged: RequestCharged? = nil) {
             self.copyPartResult = copyPartResult
             self.sSECustomerKeyMD5 = sSECustomerKeyMD5
             self.copySourceVersionId = copySourceVersionId
@@ -375,8 +381,8 @@ extension S3 {
             self.copySourceVersionId = dictionary["X-amz-copy-source-version-id"] as? String
             self.sSEKMSKeyId = dictionary["X-amz-server-side-encryption-aws-kms-key-id"] as? String
             self.sSECustomerAlgorithm = dictionary["X-amz-server-side-encryption-customer-algorithm"] as? String
-            self.serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String
-            self.requestCharged = dictionary["X-amz-request-charged"] as? String
+            if let serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String { self.serverSideEncryption = ServerSideEncryption(rawValue: serverSideEncryption) } else { self.serverSideEncryption = nil }
+            if let requestCharged = dictionary["X-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
         }
     }
 
@@ -449,11 +455,11 @@ extension S3 {
         public let sSEKMSKeyId: String?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
         public let sSECustomerAlgorithm: String?
-        public let requestCharged: String?
+        public let requestCharged: RequestCharged?
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        public let serverSideEncryption: String?
+        public let serverSideEncryption: ServerSideEncryption?
 
-        public init(bucket: String? = nil, abortDate: Date? = nil, abortRuleId: String? = nil, sSECustomerKeyMD5: String? = nil, key: String? = nil, uploadId: String? = nil, sSEKMSKeyId: String? = nil, sSECustomerAlgorithm: String? = nil, requestCharged: String? = nil, serverSideEncryption: String? = nil) {
+        public init(bucket: String? = nil, abortDate: Date? = nil, abortRuleId: String? = nil, sSECustomerKeyMD5: String? = nil, key: String? = nil, uploadId: String? = nil, sSEKMSKeyId: String? = nil, sSECustomerAlgorithm: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil) {
             self.bucket = bucket
             self.abortDate = abortDate
             self.abortRuleId = abortRuleId
@@ -475,8 +481,8 @@ extension S3 {
             self.uploadId = dictionary["UploadId"] as? String
             self.sSEKMSKeyId = dictionary["X-amz-server-side-encryption-aws-kms-key-id"] as? String
             self.sSECustomerAlgorithm = dictionary["X-amz-server-side-encryption-customer-algorithm"] as? String
-            self.requestCharged = dictionary["X-amz-request-charged"] as? String
-            self.serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String
+            if let requestCharged = dictionary["X-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
+            if let serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String { self.serverSideEncryption = ServerSideEncryption(rawValue: serverSideEncryption) } else { self.serverSideEncryption = nil }
         }
     }
 
@@ -485,13 +491,13 @@ extension S3 {
         public static let payload: String? = nil
         public let lastModified: Date?
         /// The class of storage used to store the object.
-        public let storageClass: String?
+        public let storageClass: ObjectStorageClass?
         public let key: String?
         public let eTag: String?
         public let owner: Owner?
         public let size: Int32?
 
-        public init(lastModified: Date? = nil, storageClass: String? = nil, key: String? = nil, eTag: String? = nil, owner: Owner? = nil, size: Int32? = nil) {
+        public init(lastModified: Date? = nil, storageClass: ObjectStorageClass? = nil, key: String? = nil, eTag: String? = nil, owner: Owner? = nil, size: Int32? = nil) {
             self.lastModified = lastModified
             self.storageClass = storageClass
             self.key = key
@@ -502,7 +508,7 @@ extension S3 {
 
         public init(dictionary: [String: Any]) throws {
             self.lastModified = dictionary["LastModified"] as? Date
-            self.storageClass = dictionary["StorageClass"] as? String
+            if let storageClass = dictionary["StorageClass"] as? String { self.storageClass = ObjectStorageClass(rawValue: storageClass) } else { self.storageClass = nil }
             self.key = dictionary["Key"] as? String
             self.eTag = dictionary["ETag"] as? String
             if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) } else { self.owner = nil }
@@ -556,18 +562,18 @@ extension S3 {
         /// Specifies caching behavior along the request/reply chain.
         public let cacheControl: String?
         /// Specifies whether the object tag-set are copied from the source object or replaced with tag-set provided in the request.
-        public let taggingDirective: String?
-        public let requestPayer: String?
+        public let taggingDirective: TaggingDirective?
+        public let requestPayer: RequestPayer?
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
         public let sSECustomerKeyMD5: String?
         /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.
         public let grantFullControl: String?
         /// Specifies whether the metadata is copied from the source object or replaced with metadata provided in the request.
-        public let metadataDirective: String?
+        public let metadataDirective: MetadataDirective?
         /// The name of the source bucket and key name of the source object, separated by a slash (/). Must be URL-encoded.
         public let copySource: String
         /// The canned ACL to apply to the object.
-        public let aCL: String?
+        public let aCL: ObjectCannedACL?
         /// A map of metadata to store with the object in S3.
         public let metadata: [String: String]?
         /// The date and time at which the object is no longer cacheable.
@@ -575,15 +581,15 @@ extension S3 {
         /// A standard MIME type describing the format of the object data.
         public let contentType: String?
         /// The type of storage to use for the object. Defaults to 'STANDARD'.
-        public let storageClass: String?
+        public let storageClass: StorageClass?
         /// Specifies the algorithm to use when decrypting the source object (e.g., AES256).
         public let copySourceSSECustomerAlgorithm: String?
         /// Allows grantee to read the object data and its metadata.
         public let grantRead: String?
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        public let serverSideEncryption: String?
+        public let serverSideEncryption: ServerSideEncryption?
 
-        public init(bucket: String, tagging: String? = nil, contentDisposition: String? = nil, copySourceIfModifiedSince: Date? = nil, copySourceIfNoneMatch: String? = nil, copySourceIfMatch: String? = nil, copySourceSSECustomerKey: String? = nil, contentLanguage: String? = nil, grantReadACP: String? = nil, sSECustomerAlgorithm: String? = nil, sSEKMSKeyId: String? = nil, contentEncoding: String? = nil, grantWriteACP: String? = nil, key: String, websiteRedirectLocation: String? = nil, copySourceSSECustomerKeyMD5: String? = nil, copySourceIfUnmodifiedSince: Date? = nil, sSECustomerKey: String? = nil, cacheControl: String? = nil, taggingDirective: String? = nil, requestPayer: String? = nil, sSECustomerKeyMD5: String? = nil, grantFullControl: String? = nil, metadataDirective: String? = nil, copySource: String, aCL: String? = nil, metadata: [String: String]? = nil, expires: Date? = nil, contentType: String? = nil, storageClass: String? = nil, copySourceSSECustomerAlgorithm: String? = nil, grantRead: String? = nil, serverSideEncryption: String? = nil) {
+        public init(bucket: String, tagging: String? = nil, contentDisposition: String? = nil, copySourceIfModifiedSince: Date? = nil, copySourceIfNoneMatch: String? = nil, copySourceIfMatch: String? = nil, copySourceSSECustomerKey: String? = nil, contentLanguage: String? = nil, grantReadACP: String? = nil, sSECustomerAlgorithm: String? = nil, sSEKMSKeyId: String? = nil, contentEncoding: String? = nil, grantWriteACP: String? = nil, key: String, websiteRedirectLocation: String? = nil, copySourceSSECustomerKeyMD5: String? = nil, copySourceIfUnmodifiedSince: Date? = nil, sSECustomerKey: String? = nil, cacheControl: String? = nil, taggingDirective: TaggingDirective? = nil, requestPayer: RequestPayer? = nil, sSECustomerKeyMD5: String? = nil, grantFullControl: String? = nil, metadataDirective: MetadataDirective? = nil, copySource: String, aCL: ObjectCannedACL? = nil, metadata: [String: String]? = nil, expires: Date? = nil, contentType: String? = nil, storageClass: StorageClass? = nil, copySourceSSECustomerAlgorithm: String? = nil, grantRead: String? = nil, serverSideEncryption: ServerSideEncryption? = nil) {
             self.bucket = bucket
             self.tagging = tagging
             self.contentDisposition = contentDisposition
@@ -641,14 +647,14 @@ extension S3 {
             self.copySourceIfUnmodifiedSince = dictionary["X-amz-copy-source-if-unmodified-since"] as? Date
             self.sSECustomerKey = dictionary["X-amz-server-side-encryption-customer-key"] as? String
             self.cacheControl = dictionary["Cache-Control"] as? String
-            self.taggingDirective = dictionary["X-amz-tagging-directive"] as? String
-            self.requestPayer = dictionary["X-amz-request-payer"] as? String
+            if let taggingDirective = dictionary["X-amz-tagging-directive"] as? String { self.taggingDirective = TaggingDirective(rawValue: taggingDirective) } else { self.taggingDirective = nil }
+            if let requestPayer = dictionary["X-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
             self.sSECustomerKeyMD5 = dictionary["X-amz-server-side-encryption-customer-key-MD5"] as? String
             self.grantFullControl = dictionary["X-amz-grant-full-control"] as? String
-            self.metadataDirective = dictionary["X-amz-metadata-directive"] as? String
+            if let metadataDirective = dictionary["X-amz-metadata-directive"] as? String { self.metadataDirective = MetadataDirective(rawValue: metadataDirective) } else { self.metadataDirective = nil }
             guard let copySource = dictionary["X-amz-copy-source"] as? String else { throw InitializableError.missingRequiredParam("X-amz-copy-source") }
             self.copySource = copySource
-            self.aCL = dictionary["X-amz-acl"] as? String
+            if let aCL = dictionary["X-amz-acl"] as? String { self.aCL = ObjectCannedACL(rawValue: aCL) } else { self.aCL = nil }
             if let metadata = dictionary["X-amz-meta-"] as? [String: String] {
                 self.metadata = metadata
             } else { 
@@ -656,11 +662,17 @@ extension S3 {
             }
             self.expires = dictionary["Expires"] as? Date
             self.contentType = dictionary["Content-Type"] as? String
-            self.storageClass = dictionary["X-amz-storage-class"] as? String
+            if let storageClass = dictionary["X-amz-storage-class"] as? String { self.storageClass = StorageClass(rawValue: storageClass) } else { self.storageClass = nil }
             self.copySourceSSECustomerAlgorithm = dictionary["X-amz-copy-source-server-side-encryption-customer-algorithm"] as? String
             self.grantRead = dictionary["X-amz-grant-read"] as? String
-            self.serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String
+            if let serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String { self.serverSideEncryption = ServerSideEncryption(rawValue: serverSideEncryption) } else { self.serverSideEncryption = nil }
         }
+    }
+
+    public enum TaggingDirective: String, CustomStringConvertible {
+        case copy = "COPY"
+        case replace = "REPLACE"
+        public var description: String { return self.rawValue }
     }
 
     public struct GetBucketLocationRequest: AWSShape {
@@ -685,16 +697,16 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the permission given to the grantee.
-        public let permission: String?
+        public let permission: Permission?
         public let grantee: Grantee?
 
-        public init(permission: String? = nil, grantee: Grantee? = nil) {
+        public init(permission: Permission? = nil, grantee: Grantee? = nil) {
             self.permission = permission
             self.grantee = grantee
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.permission = dictionary["Permission"] as? String
+            if let permission = dictionary["Permission"] as? String { self.permission = Permission(rawValue: permission) } else { self.permission = nil }
             if let grantee = dictionary["Grantee"] as? [String: Any] { self.grantee = try S3.Grantee(dictionary: grantee) } else { self.grantee = nil }
         }
     }
@@ -715,6 +727,14 @@ extension S3 {
         }
     }
 
+    public enum BucketCannedACL: String, CustomStringConvertible {
+        case `private` = "private"
+        case public_read = "public-read"
+        case public_read_write = "public-read-write"
+        case authenticated_read = "authenticated-read"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ListObjectsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -733,14 +753,14 @@ extension S3 {
         /// Specifies the key to start with when listing objects in a bucket.
         public let marker: String?
         /// Confirms that the requester knows that she or he will be charged for the list objects request. Bucket owners need not specify this parameter in their requests.
-        public let requestPayer: String?
+        public let requestPayer: RequestPayer?
         /// Limits the response to keys that begin with the specified prefix.
         public let prefix: String?
         /// A delimiter is a character you use to group keys.
         public let delimiter: String?
-        public let encodingType: String?
+        public let encodingType: EncodingType?
 
-        public init(bucket: String, maxKeys: Int32? = nil, marker: String? = nil, requestPayer: String? = nil, prefix: String? = nil, delimiter: String? = nil, encodingType: String? = nil) {
+        public init(bucket: String, maxKeys: Int32? = nil, marker: String? = nil, requestPayer: RequestPayer? = nil, prefix: String? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil) {
             self.bucket = bucket
             self.maxKeys = maxKeys
             self.marker = marker
@@ -755,10 +775,10 @@ extension S3 {
             self.bucket = bucket
             self.maxKeys = dictionary["Max-keys"] as? Int32
             self.marker = dictionary["Marker"] as? String
-            self.requestPayer = dictionary["X-amz-request-payer"] as? String
+            if let requestPayer = dictionary["X-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
             self.prefix = dictionary["Prefix"] as? String
             self.delimiter = dictionary["Delimiter"] as? String
-            self.encodingType = dictionary["Encoding-type"] as? String
+            if let encodingType = dictionary["Encoding-type"] as? String { self.encodingType = EncodingType(rawValue: encodingType) } else { self.encodingType = nil }
         }
     }
 
@@ -799,11 +819,11 @@ extension S3 {
         public static let payload: String? = nil
         public let cloudFunction: String?
         public let invocationRole: String?
-        public let events: [String]?
-        public let event: String?
+        public let events: [Event]?
+        public let event: Event?
         public let id: String?
 
-        public init(cloudFunction: String? = nil, invocationRole: String? = nil, events: [String]? = nil, event: String? = nil, id: String? = nil) {
+        public init(cloudFunction: String? = nil, invocationRole: String? = nil, events: [Event]? = nil, event: Event? = nil, id: String? = nil) {
             self.cloudFunction = cloudFunction
             self.invocationRole = invocationRole
             self.events = events
@@ -814,8 +834,8 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             self.cloudFunction = dictionary["CloudFunction"] as? String
             self.invocationRole = dictionary["InvocationRole"] as? String
-            self.events = dictionary["Event"] as? [String]
-            self.event = dictionary["Event"] as? String
+            if let events = dictionary["Event"] as? [String] { self.events = events.flatMap({ Event(rawValue: $0)}) } else { self.events = nil }
+            if let event = dictionary["Event"] as? String { self.event = Event(rawValue: event) } else { self.event = nil }
             self.id = dictionary["Id"] as? String
         }
     }
@@ -841,7 +861,7 @@ extension S3 {
         public let partNumber: Int32?
         /// Downloads the specified range bytes of an object. For more information about the HTTP Range header, go to http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.
         public let range: String?
-        public let requestPayer: String?
+        public let requestPayer: RequestPayer?
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
         public let sSECustomerKeyMD5: String?
         /// VersionId used to reference a specific version of the object.
@@ -856,7 +876,7 @@ extension S3 {
         /// Return the object only if its entity tag (ETag) is the same as the one specified, otherwise return a 412 (precondition failed).
         public let ifMatch: String?
 
-        public init(bucket: String, sSECustomerKey: String? = nil, ifUnmodifiedSince: Date? = nil, partNumber: Int32? = nil, range: String? = nil, requestPayer: String? = nil, sSECustomerKeyMD5: String? = nil, versionId: String? = nil, sSECustomerAlgorithm: String? = nil, ifNoneMatch: String? = nil, key: String, ifModifiedSince: Date? = nil, ifMatch: String? = nil) {
+        public init(bucket: String, sSECustomerKey: String? = nil, ifUnmodifiedSince: Date? = nil, partNumber: Int32? = nil, range: String? = nil, requestPayer: RequestPayer? = nil, sSECustomerKeyMD5: String? = nil, versionId: String? = nil, sSECustomerAlgorithm: String? = nil, ifNoneMatch: String? = nil, key: String, ifModifiedSince: Date? = nil, ifMatch: String? = nil) {
             self.bucket = bucket
             self.sSECustomerKey = sSECustomerKey
             self.ifUnmodifiedSince = ifUnmodifiedSince
@@ -879,7 +899,7 @@ extension S3 {
             self.ifUnmodifiedSince = dictionary["If-Unmodified-Since"] as? Date
             self.partNumber = dictionary["PartNumber"] as? Int32
             self.range = dictionary["Range"] as? String
-            self.requestPayer = dictionary["X-amz-request-payer"] as? String
+            if let requestPayer = dictionary["X-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
             self.sSECustomerKeyMD5 = dictionary["X-amz-server-side-encryption-customer-key-MD5"] as? String
             self.versionId = dictionary["VersionId"] as? String
             self.sSECustomerAlgorithm = dictionary["X-amz-server-side-encryption-customer-algorithm"] as? String
@@ -895,14 +915,14 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies who pays for the download and request fees.
-        public let payer: String?
+        public let payer: Payer?
 
-        public init(payer: String? = nil) {
+        public init(payer: Payer? = nil) {
             self.payer = payer
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.payer = dictionary["Payer"] as? String
+            if let payer = dictionary["Payer"] as? String { self.payer = Payer(rawValue: payer) } else { self.payer = nil }
         }
     }
 
@@ -912,14 +932,14 @@ extension S3 {
         public static var headerParams: [String: String] {
             return ["x-amz-request-charged": "RequestCharged"]
         }
-        public let requestCharged: String?
+        public let requestCharged: RequestCharged?
 
-        public init(requestCharged: String? = nil) {
+        public init(requestCharged: RequestCharged? = nil) {
             self.requestCharged = requestCharged
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.requestCharged = dictionary["X-amz-request-charged"] as? String
+            if let requestCharged = dictionary["X-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
         }
     }
 
@@ -979,6 +999,23 @@ extension S3 {
         }
     }
 
+    public enum ObjectCannedACL: String, CustomStringConvertible {
+        case `private` = "private"
+        case public_read = "public-read"
+        case public_read_write = "public-read-write"
+        case authenticated_read = "authenticated-read"
+        case aws_exec_read = "aws-exec-read"
+        case bucket_owner_read = "bucket-owner-read"
+        case bucket_owner_full_control = "bucket-owner-full-control"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MFADeleteStatus: String, CustomStringConvertible {
+        case enabled = "Enabled"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
     public struct GetObjectOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = "Body"
@@ -991,7 +1028,7 @@ extension S3 {
         public let contentDisposition: String?
         /// Version of the object.
         public let versionId: String?
-        public let replicationStatus: String?
+        public let replicationStatus: ReplicationStatus?
         /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
         public let sSEKMSKeyId: String?
         /// The language the content is in.
@@ -1031,14 +1068,14 @@ extension S3 {
         public let contentRange: String?
         /// A standard MIME type describing the format of the object data.
         public let contentType: String?
-        public let storageClass: String?
+        public let storageClass: StorageClass?
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        public let serverSideEncryption: String?
-        public let requestCharged: String?
+        public let serverSideEncryption: ServerSideEncryption?
+        public let requestCharged: RequestCharged?
         /// Specifies whether the object retrieved was (true) or was not (false) a Delete Marker. If false, this response header does not appear in the response.
         public let deleteMarker: Bool?
 
-        public init(partsCount: Int32? = nil, contentDisposition: String? = nil, versionId: String? = nil, replicationStatus: String? = nil, sSEKMSKeyId: String? = nil, contentLanguage: String? = nil, tagCount: Int32? = nil, sSECustomerAlgorithm: String? = nil, restore: String? = nil, contentEncoding: String? = nil, contentLength: Int64? = nil, expiration: String? = nil, websiteRedirectLocation: String? = nil, eTag: String? = nil, body: Data? = nil, missingMeta: Int32? = nil, cacheControl: String? = nil, sSECustomerKeyMD5: String? = nil, acceptRanges: String? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, expires: Date? = nil, contentRange: String? = nil, contentType: String? = nil, storageClass: String? = nil, serverSideEncryption: String? = nil, requestCharged: String? = nil, deleteMarker: Bool? = nil) {
+        public init(partsCount: Int32? = nil, contentDisposition: String? = nil, versionId: String? = nil, replicationStatus: ReplicationStatus? = nil, sSEKMSKeyId: String? = nil, contentLanguage: String? = nil, tagCount: Int32? = nil, sSECustomerAlgorithm: String? = nil, restore: String? = nil, contentEncoding: String? = nil, contentLength: Int64? = nil, expiration: String? = nil, websiteRedirectLocation: String? = nil, eTag: String? = nil, body: Data? = nil, missingMeta: Int32? = nil, cacheControl: String? = nil, sSECustomerKeyMD5: String? = nil, acceptRanges: String? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, expires: Date? = nil, contentRange: String? = nil, contentType: String? = nil, storageClass: StorageClass? = nil, serverSideEncryption: ServerSideEncryption? = nil, requestCharged: RequestCharged? = nil, deleteMarker: Bool? = nil) {
             self.partsCount = partsCount
             self.contentDisposition = contentDisposition
             self.versionId = versionId
@@ -1073,7 +1110,7 @@ extension S3 {
             self.partsCount = dictionary["X-amz-mp-parts-count"] as? Int32
             self.contentDisposition = dictionary["Content-Disposition"] as? String
             self.versionId = dictionary["X-amz-version-id"] as? String
-            self.replicationStatus = dictionary["X-amz-replication-status"] as? String
+            if let replicationStatus = dictionary["X-amz-replication-status"] as? String { self.replicationStatus = ReplicationStatus(rawValue: replicationStatus) } else { self.replicationStatus = nil }
             self.sSEKMSKeyId = dictionary["X-amz-server-side-encryption-aws-kms-key-id"] as? String
             self.contentLanguage = dictionary["Content-Language"] as? String
             self.tagCount = dictionary["X-amz-tagging-count"] as? Int32
@@ -1098,11 +1135,24 @@ extension S3 {
             self.expires = dictionary["Expires"] as? Date
             self.contentRange = dictionary["Content-Range"] as? String
             self.contentType = dictionary["Content-Type"] as? String
-            self.storageClass = dictionary["X-amz-storage-class"] as? String
-            self.serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String
-            self.requestCharged = dictionary["X-amz-request-charged"] as? String
+            if let storageClass = dictionary["X-amz-storage-class"] as? String { self.storageClass = StorageClass(rawValue: storageClass) } else { self.storageClass = nil }
+            if let serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String { self.serverSideEncryption = ServerSideEncryption(rawValue: serverSideEncryption) } else { self.serverSideEncryption = nil }
+            if let requestCharged = dictionary["X-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
             self.deleteMarker = dictionary["X-amz-delete-marker"] as? Bool
         }
+    }
+
+    public enum Event: String, CustomStringConvertible {
+        case s3_reducedredundancylostobject = "s3:ReducedRedundancyLostObject"
+        case s3_objectcreated_all = "s3:ObjectCreated:*"
+        case s3_objectcreated_put = "s3:ObjectCreated:Put"
+        case s3_objectcreated_post = "s3:ObjectCreated:Post"
+        case s3_objectcreated_copy = "s3:ObjectCreated:Copy"
+        case s3_objectcreated_completemultipartupload = "s3:ObjectCreated:CompleteMultipartUpload"
+        case s3_objectremoved_all = "s3:ObjectRemoved:*"
+        case s3_objectremoved_delete = "s3:ObjectRemoved:Delete"
+        case s3_objectremoved_deletemarkercreated = "s3:ObjectRemoved:DeleteMarkerCreated"
+        public var description: String { return self.rawValue }
     }
 
     public struct NotificationConfigurationDeprecated: AWSShape {
@@ -1129,20 +1179,20 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The class of storage used to store the object.
-        public let storageClass: String?
+        public let storageClass: TransitionStorageClass?
         /// Indicates at what date the object is to be moved or deleted. Should be in GMT ISO 8601 Format.
         public let date: Date?
         /// Indicates the lifetime, in days, of the objects that are subject to the rule. The value must be a non-zero positive integer.
         public let days: Int32?
 
-        public init(storageClass: String? = nil, date: Date? = nil, days: Int32? = nil) {
+        public init(storageClass: TransitionStorageClass? = nil, date: Date? = nil, days: Int32? = nil) {
             self.storageClass = storageClass
             self.date = date
             self.days = days
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.storageClass = dictionary["StorageClass"] as? String
+            if let storageClass = dictionary["StorageClass"] as? String { self.storageClass = TransitionStorageClass(rawValue: storageClass) } else { self.storageClass = nil }
             self.date = dictionary["Date"] as? Date
             self.days = dictionary["Days"] as? Int32
         }
@@ -1191,18 +1241,18 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies whether MFA delete is enabled in the bucket versioning configuration. This element is only returned if the bucket has been configured with MFA delete. If the bucket has never been so configured, this element is not returned.
-        public let mFADelete: String?
+        public let mFADelete: MFADelete?
         /// The versioning state of the bucket.
-        public let status: String?
+        public let status: BucketVersioningStatus?
 
-        public init(mFADelete: String? = nil, status: String? = nil) {
+        public init(mFADelete: MFADelete? = nil, status: BucketVersioningStatus? = nil) {
             self.mFADelete = mFADelete
             self.status = status
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.mFADelete = dictionary["MfaDelete"] as? String
-            self.status = dictionary["Status"] as? String
+            if let mFADelete = dictionary["MfaDelete"] as? String { self.mFADelete = MFADelete(rawValue: mFADelete) } else { self.mFADelete = nil }
+            if let status = dictionary["Status"] as? String { self.status = BucketVersioningStatus(rawValue: status) } else { self.status = nil }
         }
     }
 
@@ -1210,14 +1260,14 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The accelerate configuration of the bucket.
-        public let status: String?
+        public let status: BucketAccelerateStatus?
 
-        public init(status: String? = nil) {
+        public init(status: BucketAccelerateStatus? = nil) {
             self.status = status
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = BucketAccelerateStatus(rawValue: status) } else { self.status = nil }
         }
     }
 
@@ -1285,6 +1335,14 @@ extension S3 {
         }
     }
 
+    public enum ReplicationStatus: String, CustomStringConvertible {
+        case complete = "COMPLETE"
+        case pending = "PENDING"
+        case failed = "FAILED"
+        case replica = "REPLICA"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ObjectVersion: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1295,7 +1353,7 @@ extension S3 {
         /// Version ID of an object.
         public let versionId: String?
         /// The class of storage used to store the object.
-        public let storageClass: String?
+        public let storageClass: ObjectVersionStorageClass?
         /// The object key.
         public let key: String?
         /// Specifies whether the object is (true) or is not (false) the latest version of an object.
@@ -1303,7 +1361,7 @@ extension S3 {
         public let eTag: String?
         public let owner: Owner?
 
-        public init(lastModified: Date? = nil, size: Int32? = nil, versionId: String? = nil, storageClass: String? = nil, key: String? = nil, isLatest: Bool? = nil, eTag: String? = nil, owner: Owner? = nil) {
+        public init(lastModified: Date? = nil, size: Int32? = nil, versionId: String? = nil, storageClass: ObjectVersionStorageClass? = nil, key: String? = nil, isLatest: Bool? = nil, eTag: String? = nil, owner: Owner? = nil) {
             self.lastModified = lastModified
             self.size = size
             self.versionId = versionId
@@ -1318,7 +1376,7 @@ extension S3 {
             self.lastModified = dictionary["LastModified"] as? Date
             self.size = dictionary["Size"] as? Int32
             self.versionId = dictionary["VersionId"] as? String
-            self.storageClass = dictionary["StorageClass"] as? String
+            if let storageClass = dictionary["StorageClass"] as? String { self.storageClass = ObjectVersionStorageClass(rawValue: storageClass) } else { self.storageClass = nil }
             self.key = dictionary["Key"] as? String
             self.isLatest = dictionary["IsLatest"] as? Bool
             self.eTag = dictionary["ETag"] as? String
@@ -1372,6 +1430,12 @@ extension S3 {
         }
     }
 
+    public enum ReplicationRuleStatus: String, CustomStringConvertible {
+        case enabled = "Enabled"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ListObjectsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1385,11 +1449,11 @@ extension S3 {
         public let contents: [Object]?
         public let delimiter: String?
         /// Encoding type used by Amazon S3 to encode object keys in the response.
-        public let encodingType: String?
+        public let encodingType: EncodingType?
         /// When response is truncated (the IsTruncated element value in the response is true), you can use the key name in this field as marker in the subsequent request to get next set of objects. Amazon S3 lists objects in alphabetical order Note: This element is returned only if you have delimiter request parameter specified. If response does not include the NextMaker and it is truncated, you can use the value of the last Key in the response as the marker in the subsequent request to get the next set of object keys.
         public let nextMarker: String?
 
-        public init(maxKeys: Int32? = nil, isTruncated: Bool? = nil, marker: String? = nil, name: String? = nil, prefix: String? = nil, commonPrefixes: [CommonPrefix]? = nil, contents: [Object]? = nil, delimiter: String? = nil, encodingType: String? = nil, nextMarker: String? = nil) {
+        public init(maxKeys: Int32? = nil, isTruncated: Bool? = nil, marker: String? = nil, name: String? = nil, prefix: String? = nil, commonPrefixes: [CommonPrefix]? = nil, contents: [Object]? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil, nextMarker: String? = nil) {
             self.maxKeys = maxKeys
             self.isTruncated = isTruncated
             self.marker = marker
@@ -1419,7 +1483,7 @@ extension S3 {
                 self.contents = nil
             }
             self.delimiter = dictionary["Delimiter"] as? String
-            self.encodingType = dictionary["EncodingType"] as? String
+            if let encodingType = dictionary["EncodingType"] as? String { self.encodingType = EncodingType(rawValue: encodingType) } else { self.encodingType = nil }
             self.nextMarker = dictionary["NextMarker"] as? String
         }
     }
@@ -1442,10 +1506,10 @@ extension S3 {
         /// Entity tag of the object.
         public let eTag: String?
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        public let serverSideEncryption: String?
-        public let requestCharged: String?
+        public let serverSideEncryption: ServerSideEncryption?
+        public let requestCharged: RequestCharged?
 
-        public init(bucket: String? = nil, location: String? = nil, expiration: String? = nil, versionId: String? = nil, key: String? = nil, sSEKMSKeyId: String? = nil, eTag: String? = nil, serverSideEncryption: String? = nil, requestCharged: String? = nil) {
+        public init(bucket: String? = nil, location: String? = nil, expiration: String? = nil, versionId: String? = nil, key: String? = nil, sSEKMSKeyId: String? = nil, eTag: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, requestCharged: RequestCharged? = nil) {
             self.bucket = bucket
             self.location = location
             self.expiration = expiration
@@ -1465,8 +1529,8 @@ extension S3 {
             self.key = dictionary["Key"] as? String
             self.sSEKMSKeyId = dictionary["X-amz-server-side-encryption-aws-kms-key-id"] as? String
             self.eTag = dictionary["ETag"] as? String
-            self.serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String
-            self.requestCharged = dictionary["X-amz-request-charged"] as? String
+            if let serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String { self.serverSideEncryption = ServerSideEncryption(rawValue: serverSideEncryption) } else { self.serverSideEncryption = nil }
+            if let requestCharged = dictionary["X-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
         }
     }
 
@@ -1501,7 +1565,7 @@ extension S3 {
         public let accessControlPolicy: AccessControlPolicy?
         /// Allows grantee to write the ACL for the applicable bucket.
         public let grantWriteACP: String?
-        public let requestPayer: String?
+        public let requestPayer: RequestPayer?
         /// Allows grantee the read, write, read ACP, and write ACP permissions on the bucket.
         public let grantFullControl: String?
         /// VersionId used to reference a specific version of the object.
@@ -1514,9 +1578,9 @@ extension S3 {
         /// Allows grantee to list the objects in the bucket.
         public let grantRead: String?
         /// The canned ACL to apply to the object.
-        public let aCL: String?
+        public let aCL: ObjectCannedACL?
 
-        public init(bucket: String, contentMD5: String? = nil, accessControlPolicy: AccessControlPolicy? = nil, grantWriteACP: String? = nil, requestPayer: String? = nil, grantFullControl: String? = nil, versionId: String? = nil, grantWrite: String? = nil, key: String, grantReadACP: String? = nil, grantRead: String? = nil, aCL: String? = nil) {
+        public init(bucket: String, contentMD5: String? = nil, accessControlPolicy: AccessControlPolicy? = nil, grantWriteACP: String? = nil, requestPayer: RequestPayer? = nil, grantFullControl: String? = nil, versionId: String? = nil, grantWrite: String? = nil, key: String, grantReadACP: String? = nil, grantRead: String? = nil, aCL: ObjectCannedACL? = nil) {
             self.bucket = bucket
             self.contentMD5 = contentMD5
             self.accessControlPolicy = accessControlPolicy
@@ -1537,7 +1601,7 @@ extension S3 {
             self.contentMD5 = dictionary["Content-MD5"] as? String
             if let accessControlPolicy = dictionary["AccessControlPolicy"] as? [String: Any] { self.accessControlPolicy = try S3.AccessControlPolicy(dictionary: accessControlPolicy) } else { self.accessControlPolicy = nil }
             self.grantWriteACP = dictionary["X-amz-grant-write-acp"] as? String
-            self.requestPayer = dictionary["X-amz-request-payer"] as? String
+            if let requestPayer = dictionary["X-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
             self.grantFullControl = dictionary["X-amz-grant-full-control"] as? String
             self.versionId = dictionary["VersionId"] as? String
             self.grantWrite = dictionary["X-amz-grant-write"] as? String
@@ -1545,8 +1609,13 @@ extension S3 {
             self.key = key
             self.grantReadACP = dictionary["X-amz-grant-read-acp"] as? String
             self.grantRead = dictionary["X-amz-grant-read"] as? String
-            self.aCL = dictionary["X-amz-acl"] as? String
+            if let aCL = dictionary["X-amz-acl"] as? String { self.aCL = ObjectCannedACL(rawValue: aCL) } else { self.aCL = nil }
         }
+    }
+
+    public enum AnalyticsS3ExportFileFormat: String, CustomStringConvertible {
+        case csv = "CSV"
+        public var description: String { return self.rawValue }
     }
 
     public struct TopicConfiguration: AWSShape {
@@ -1555,10 +1624,10 @@ extension S3 {
         /// Amazon SNS topic ARN to which Amazon S3 will publish a message when it detects events of specified type.
         public let topicArn: String
         public let filter: NotificationConfigurationFilter?
-        public let events: [String]
+        public let events: [Event]
         public let id: String?
 
-        public init(topicArn: String, filter: NotificationConfigurationFilter? = nil, events: [String], id: String? = nil) {
+        public init(topicArn: String, filter: NotificationConfigurationFilter? = nil, events: [Event], id: String? = nil) {
             self.topicArn = topicArn
             self.filter = filter
             self.events = events
@@ -1570,7 +1639,7 @@ extension S3 {
             self.topicArn = topicArn
             if let filter = dictionary["Filter"] as? [String: Any] { self.filter = try S3.NotificationConfigurationFilter(dictionary: filter) } else { self.filter = nil }
             guard let events = dictionary["Event"] as? [String] else { throw InitializableError.missingRequiredParam("Event") }
-            self.events = events
+            self.events = events.flatMap({ Event(rawValue: $0)})
             self.id = dictionary["Id"] as? String
         }
     }
@@ -1593,6 +1662,11 @@ extension S3 {
             self.redirect = try S3.Redirect(dictionary: redirect)
             if let condition = dictionary["Condition"] as? [String: Any] { self.condition = try S3.Condition(dictionary: condition) } else { self.condition = nil }
         }
+    }
+
+    public enum EncodingType: String, CustomStringConvertible {
+        case url = "url"
+        public var description: String { return self.rawValue }
     }
 
     public struct LifecycleRuleFilter: AWSShape {
@@ -1645,7 +1719,7 @@ extension S3 {
         public let contentDisposition: String?
         /// Version of the object.
         public let versionId: String?
-        public let replicationStatus: String?
+        public let replicationStatus: ReplicationStatus?
         /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
         public let sSEKMSKeyId: String?
         /// The language the content is in.
@@ -1679,14 +1753,14 @@ extension S3 {
         public let expires: Date?
         /// A standard MIME type describing the format of the object data.
         public let contentType: String?
-        public let storageClass: String?
+        public let storageClass: StorageClass?
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        public let serverSideEncryption: String?
-        public let requestCharged: String?
+        public let serverSideEncryption: ServerSideEncryption?
+        public let requestCharged: RequestCharged?
         /// Specifies whether the object retrieved was (true) or was not (false) a Delete Marker. If false, this response header does not appear in the response.
         public let deleteMarker: Bool?
 
-        public init(partsCount: Int32? = nil, contentDisposition: String? = nil, versionId: String? = nil, replicationStatus: String? = nil, sSEKMSKeyId: String? = nil, contentLanguage: String? = nil, sSECustomerAlgorithm: String? = nil, restore: String? = nil, contentEncoding: String? = nil, contentLength: Int64? = nil, expiration: String? = nil, websiteRedirectLocation: String? = nil, eTag: String? = nil, missingMeta: Int32? = nil, cacheControl: String? = nil, sSECustomerKeyMD5: String? = nil, acceptRanges: String? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, expires: Date? = nil, contentType: String? = nil, storageClass: String? = nil, serverSideEncryption: String? = nil, requestCharged: String? = nil, deleteMarker: Bool? = nil) {
+        public init(partsCount: Int32? = nil, contentDisposition: String? = nil, versionId: String? = nil, replicationStatus: ReplicationStatus? = nil, sSEKMSKeyId: String? = nil, contentLanguage: String? = nil, sSECustomerAlgorithm: String? = nil, restore: String? = nil, contentEncoding: String? = nil, contentLength: Int64? = nil, expiration: String? = nil, websiteRedirectLocation: String? = nil, eTag: String? = nil, missingMeta: Int32? = nil, cacheControl: String? = nil, sSECustomerKeyMD5: String? = nil, acceptRanges: String? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, expires: Date? = nil, contentType: String? = nil, storageClass: StorageClass? = nil, serverSideEncryption: ServerSideEncryption? = nil, requestCharged: RequestCharged? = nil, deleteMarker: Bool? = nil) {
             self.partsCount = partsCount
             self.contentDisposition = contentDisposition
             self.versionId = versionId
@@ -1718,7 +1792,7 @@ extension S3 {
             self.partsCount = dictionary["X-amz-mp-parts-count"] as? Int32
             self.contentDisposition = dictionary["Content-Disposition"] as? String
             self.versionId = dictionary["X-amz-version-id"] as? String
-            self.replicationStatus = dictionary["X-amz-replication-status"] as? String
+            if let replicationStatus = dictionary["X-amz-replication-status"] as? String { self.replicationStatus = ReplicationStatus(rawValue: replicationStatus) } else { self.replicationStatus = nil }
             self.sSEKMSKeyId = dictionary["X-amz-server-side-encryption-aws-kms-key-id"] as? String
             self.contentLanguage = dictionary["Content-Language"] as? String
             self.sSECustomerAlgorithm = dictionary["X-amz-server-side-encryption-customer-algorithm"] as? String
@@ -1740,9 +1814,9 @@ extension S3 {
             }
             self.expires = dictionary["Expires"] as? Date
             self.contentType = dictionary["Content-Type"] as? String
-            self.storageClass = dictionary["X-amz-storage-class"] as? String
-            self.serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String
-            self.requestCharged = dictionary["X-amz-request-charged"] as? String
+            if let storageClass = dictionary["X-amz-storage-class"] as? String { self.storageClass = StorageClass(rawValue: storageClass) } else { self.storageClass = nil }
+            if let serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String { self.serverSideEncryption = ServerSideEncryption(rawValue: serverSideEncryption) } else { self.serverSideEncryption = nil }
+            if let requestCharged = dictionary["X-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
             self.deleteMarker = dictionary["X-amz-delete-marker"] as? Bool
         }
     }
@@ -1808,11 +1882,11 @@ extension S3 {
         /// A delimiter is a character you use to group keys.
         public let delimiter: String?
         /// Encoding type used by Amazon S3 to encode object keys in the response.
-        public let encodingType: String?
+        public let encodingType: EncodingType?
         /// KeyCount is the number of keys returned with this request. KeyCount will always be less than equals to MaxKeys field. Say you ask for 50 keys, your result will include less than equals 50 keys
         public let keyCount: Int32?
 
-        public init(maxKeys: Int32? = nil, startAfter: String? = nil, isTruncated: Bool? = nil, continuationToken: String? = nil, name: String? = nil, prefix: String? = nil, nextContinuationToken: String? = nil, commonPrefixes: [CommonPrefix]? = nil, contents: [Object]? = nil, delimiter: String? = nil, encodingType: String? = nil, keyCount: Int32? = nil) {
+        public init(maxKeys: Int32? = nil, startAfter: String? = nil, isTruncated: Bool? = nil, continuationToken: String? = nil, name: String? = nil, prefix: String? = nil, nextContinuationToken: String? = nil, commonPrefixes: [CommonPrefix]? = nil, contents: [Object]? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil, keyCount: Int32? = nil) {
             self.maxKeys = maxKeys
             self.startAfter = startAfter
             self.isTruncated = isTruncated
@@ -1846,7 +1920,7 @@ extension S3 {
                 self.contents = nil
             }
             self.delimiter = dictionary["Delimiter"] as? String
-            self.encodingType = dictionary["EncodingType"] as? String
+            if let encodingType = dictionary["EncodingType"] as? String { self.encodingType = EncodingType(rawValue: encodingType) } else { self.encodingType = nil }
             self.keyCount = dictionary["KeyCount"] as? Int32
         }
     }
@@ -1855,16 +1929,16 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Logging permissions assigned to the Grantee for the bucket.
-        public let permission: String?
+        public let permission: BucketLogsPermission?
         public let grantee: Grantee?
 
-        public init(permission: String? = nil, grantee: Grantee? = nil) {
+        public init(permission: BucketLogsPermission? = nil, grantee: Grantee? = nil) {
             self.permission = permission
             self.grantee = grantee
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.permission = dictionary["Permission"] as? String
+            if let permission = dictionary["Permission"] as? String { self.permission = BucketLogsPermission(rawValue: permission) } else { self.permission = nil }
             if let grantee = dictionary["Grantee"] as? [String: Any] { self.grantee = try S3.Grantee(dictionary: grantee) } else { self.grantee = nil }
         }
     }
@@ -1889,13 +1963,13 @@ extension S3 {
         /// The Amazon resource name (ARN) of the bucket to which data is exported.
         public let bucket: String
         /// The file format used when exporting data to Amazon S3.
-        public let format: String
+        public let format: AnalyticsS3ExportFileFormat
         /// The account ID that owns the destination bucket. If no account ID is provided, the owner will not be validated prior to exporting data.
         public let bucketAccountId: String?
         /// The prefix to use when exporting data. The exported data begins with this prefix.
         public let prefix: String?
 
-        public init(bucket: String, format: String, bucketAccountId: String? = nil, prefix: String? = nil) {
+        public init(bucket: String, format: AnalyticsS3ExportFileFormat, bucketAccountId: String? = nil, prefix: String? = nil) {
             self.bucket = bucket
             self.format = format
             self.bucketAccountId = bucketAccountId
@@ -1905,11 +1979,17 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            guard let format = dictionary["Format"] as? String else { throw InitializableError.missingRequiredParam("Format") }
+            guard let rawFormat = dictionary["Format"] as? String, let format = AnalyticsS3ExportFileFormat(rawValue: rawFormat) else { throw InitializableError.missingRequiredParam("Format") }
             self.format = format
             self.bucketAccountId = dictionary["BucketAccountId"] as? String
             self.prefix = dictionary["Prefix"] as? String
         }
+    }
+
+    public enum InventoryFrequency: String, CustomStringConvertible {
+        case daily = "Daily"
+        case weekly = "Weekly"
+        public var description: String { return self.rawValue }
     }
 
     public struct PutBucketLifecycleRequest: AWSShape {
@@ -2098,7 +2178,7 @@ extension S3 {
         /// Marks the last Key returned in a truncated response.
         public let keyMarker: String?
         /// Encoding type used by Amazon S3 to encode object keys in the response.
-        public let encodingType: String?
+        public let encodingType: EncodingType?
         public let name: String?
         public let prefix: String?
         public let deleteMarkers: [DeleteMarkerEntry]?
@@ -2106,7 +2186,7 @@ extension S3 {
         public let nextKeyMarker: String?
         public let versions: [ObjectVersion]?
 
-        public init(maxKeys: Int32? = nil, isTruncated: Bool? = nil, versionIdMarker: String? = nil, nextVersionIdMarker: String? = nil, commonPrefixes: [CommonPrefix]? = nil, delimiter: String? = nil, keyMarker: String? = nil, encodingType: String? = nil, name: String? = nil, prefix: String? = nil, deleteMarkers: [DeleteMarkerEntry]? = nil, nextKeyMarker: String? = nil, versions: [ObjectVersion]? = nil) {
+        public init(maxKeys: Int32? = nil, isTruncated: Bool? = nil, versionIdMarker: String? = nil, nextVersionIdMarker: String? = nil, commonPrefixes: [CommonPrefix]? = nil, delimiter: String? = nil, keyMarker: String? = nil, encodingType: EncodingType? = nil, name: String? = nil, prefix: String? = nil, deleteMarkers: [DeleteMarkerEntry]? = nil, nextKeyMarker: String? = nil, versions: [ObjectVersion]? = nil) {
             self.maxKeys = maxKeys
             self.isTruncated = isTruncated
             self.versionIdMarker = versionIdMarker
@@ -2134,7 +2214,7 @@ extension S3 {
             }
             self.delimiter = dictionary["Delimiter"] as? String
             self.keyMarker = dictionary["KeyMarker"] as? String
-            self.encodingType = dictionary["EncodingType"] as? String
+            if let encodingType = dictionary["EncodingType"] as? String { self.encodingType = EncodingType(rawValue: encodingType) } else { self.encodingType = nil }
             self.name = dictionary["Name"] as? String
             self.prefix = dictionary["Prefix"] as? String
             if let deleteMarkers = dictionary["DeleteMarker"] as? [[String: Any]] {
@@ -2180,18 +2260,18 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies whether MFA delete is enabled in the bucket versioning configuration. This element is only returned if the bucket has been configured with MFA delete. If the bucket has never been so configured, this element is not returned.
-        public let mFADelete: String?
+        public let mFADelete: MFADeleteStatus?
         /// The versioning state of the bucket.
-        public let status: String?
+        public let status: BucketVersioningStatus?
 
-        public init(mFADelete: String? = nil, status: String? = nil) {
+        public init(mFADelete: MFADeleteStatus? = nil, status: BucketVersioningStatus? = nil) {
             self.mFADelete = mFADelete
             self.status = status
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.mFADelete = dictionary["MfaDelete"] as? String
-            self.status = dictionary["Status"] as? String
+            if let mFADelete = dictionary["MfaDelete"] as? String { self.mFADelete = MFADeleteStatus(rawValue: mFADelete) } else { self.mFADelete = nil }
+            if let status = dictionary["Status"] as? String { self.status = BucketVersioningStatus(rawValue: status) } else { self.status = nil }
         }
     }
 
@@ -2223,10 +2303,10 @@ extension S3 {
         public let bucket: String
         /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device.
         public let mFA: String?
-        public let requestPayer: String?
+        public let requestPayer: RequestPayer?
         public let delete: Delete
 
-        public init(bucket: String, mFA: String? = nil, requestPayer: String? = nil, delete: Delete) {
+        public init(bucket: String, mFA: String? = nil, requestPayer: RequestPayer? = nil, delete: Delete) {
             self.bucket = bucket
             self.mFA = mFA
             self.requestPayer = requestPayer
@@ -2237,7 +2317,7 @@ extension S3 {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
             self.mFA = dictionary["X-amz-mfa"] as? String
-            self.requestPayer = dictionary["X-amz-request-payer"] as? String
+            if let requestPayer = dictionary["X-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
             guard let delete = dictionary["Delete"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Delete") }
             self.delete = try S3.Delete(dictionary: delete)
         }
@@ -2284,9 +2364,9 @@ extension S3 {
         public let owner: Owner?
         /// A list of grants.
         public let grants: Grants?
-        public let requestCharged: String?
+        public let requestCharged: RequestCharged?
 
-        public init(owner: Owner? = nil, grants: Grants? = nil, requestCharged: String? = nil) {
+        public init(owner: Owner? = nil, grants: Grants? = nil, requestCharged: RequestCharged? = nil) {
             self.owner = owner
             self.grants = grants
             self.requestCharged = requestCharged
@@ -2295,7 +2375,7 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) } else { self.owner = nil }
             if let grants = dictionary["AccessControlList"] as? [String: Any] { self.grants = try S3.Grants(dictionary: grants) } else { self.grants = nil }
-            self.requestCharged = dictionary["X-amz-request-charged"] as? String
+            if let requestCharged = dictionary["X-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
         }
     }
 
@@ -2318,6 +2398,13 @@ extension S3 {
         }
     }
 
+    public enum BucketLogsPermission: String, CustomStringConvertible {
+        case full_control = "FULL_CONTROL"
+        case read = "READ"
+        case write = "WRITE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ListMultipartUploadsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2336,11 +2423,11 @@ extension S3 {
         public let maxUploads: Int32?
         /// Character you use to group keys.
         public let delimiter: String?
-        public let encodingType: String?
+        public let encodingType: EncodingType?
         /// Together with upload-id-marker, this parameter specifies the multipart upload after which listing should begin.
         public let keyMarker: String?
 
-        public init(bucket: String, uploadIdMarker: String? = nil, prefix: String? = nil, maxUploads: Int32? = nil, delimiter: String? = nil, encodingType: String? = nil, keyMarker: String? = nil) {
+        public init(bucket: String, uploadIdMarker: String? = nil, prefix: String? = nil, maxUploads: Int32? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil, keyMarker: String? = nil) {
             self.bucket = bucket
             self.uploadIdMarker = uploadIdMarker
             self.prefix = prefix
@@ -2357,7 +2444,7 @@ extension S3 {
             self.prefix = dictionary["Prefix"] as? String
             self.maxUploads = dictionary["Max-uploads"] as? Int32
             self.delimiter = dictionary["Delimiter"] as? String
-            self.encodingType = dictionary["Encoding-type"] as? String
+            if let encodingType = dictionary["Encoding-type"] as? String { self.encodingType = EncodingType(rawValue: encodingType) } else { self.encodingType = nil }
             self.keyMarker = dictionary["Key-marker"] as? String
         }
     }
@@ -2368,18 +2455,18 @@ extension S3 {
         public static var headerParams: [String: String] {
             return ["x-amz-request-charged": "RequestCharged"]
         }
-        public let requestCharged: String?
+        public let requestCharged: RequestCharged?
         public let errors: [Error]?
         public let deleted: [DeletedObject]?
 
-        public init(requestCharged: String? = nil, errors: [Error]? = nil, deleted: [DeletedObject]? = nil) {
+        public init(requestCharged: RequestCharged? = nil, errors: [Error]? = nil, deleted: [DeletedObject]? = nil) {
             self.requestCharged = requestCharged
             self.errors = errors
             self.deleted = deleted
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.requestCharged = dictionary["X-amz-request-charged"] as? String
+            if let requestCharged = dictionary["X-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
             if let errors = dictionary["Error"] as? [[String: Any]] {
                 self.errors = try errors.map({ try Error(dictionary: $0) })
             } else { 
@@ -2438,6 +2525,13 @@ extension S3 {
         }
     }
 
+    public enum StorageClass: String, CustomStringConvertible {
+        case standard = "STANDARD"
+        case reduced_redundancy = "REDUCED_REDUNDANCY"
+        case standard_ia = "STANDARD_IA"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ListBucketAnalyticsConfigurationsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2473,14 +2567,14 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies how frequently inventory results are produced.
-        public let frequency: String
+        public let frequency: InventoryFrequency
 
-        public init(frequency: String) {
+        public init(frequency: InventoryFrequency) {
             self.frequency = frequency
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let frequency = dictionary["Frequency"] as? String else { throw InitializableError.missingRequiredParam("Frequency") }
+            guard let rawFrequency = dictionary["Frequency"] as? String, let frequency = InventoryFrequency(rawValue: rawFrequency) else { throw InitializableError.missingRequiredParam("Frequency") }
             self.frequency = frequency
         }
     }
@@ -2504,13 +2598,13 @@ extension S3 {
         public let uploads: [MultipartUpload]?
         public let delimiter: String?
         /// Encoding type used by Amazon S3 to encode object keys in the response.
-        public let encodingType: String?
+        public let encodingType: EncodingType?
         /// When a list is truncated, this element specifies the value that should be used for the key-marker request parameter in a subsequent request.
         public let nextKeyMarker: String?
         /// When a list is truncated, this element specifies the value that should be used for the upload-id-marker request parameter in a subsequent request.
         public let nextUploadIdMarker: String?
 
-        public init(bucket: String? = nil, isTruncated: Bool? = nil, keyMarker: String? = nil, prefix: String? = nil, uploadIdMarker: String? = nil, commonPrefixes: [CommonPrefix]? = nil, maxUploads: Int32? = nil, uploads: [MultipartUpload]? = nil, delimiter: String? = nil, encodingType: String? = nil, nextKeyMarker: String? = nil, nextUploadIdMarker: String? = nil) {
+        public init(bucket: String? = nil, isTruncated: Bool? = nil, keyMarker: String? = nil, prefix: String? = nil, uploadIdMarker: String? = nil, commonPrefixes: [CommonPrefix]? = nil, maxUploads: Int32? = nil, uploads: [MultipartUpload]? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil, nextKeyMarker: String? = nil, nextUploadIdMarker: String? = nil) {
             self.bucket = bucket
             self.isTruncated = isTruncated
             self.keyMarker = keyMarker
@@ -2543,7 +2637,7 @@ extension S3 {
                 self.uploads = nil
             }
             self.delimiter = dictionary["Delimiter"] as? String
-            self.encodingType = dictionary["EncodingType"] as? String
+            if let encodingType = dictionary["EncodingType"] as? String { self.encodingType = EncodingType(rawValue: encodingType) } else { self.encodingType = nil }
             self.nextKeyMarker = dictionary["NextKeyMarker"] as? String
             self.nextUploadIdMarker = dictionary["NextUploadIdMarker"] as? String
         }
@@ -2634,7 +2728,7 @@ extension S3 {
         /// ContinuationToken indicates Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key
         public let continuationToken: String?
         /// Confirms that the requester knows that she or he will be charged for the list objects request in V2 style. Bucket owners need not specify this parameter in their requests.
-        public let requestPayer: String?
+        public let requestPayer: RequestPayer?
         /// Limits the response to keys that begin with the specified prefix.
         public let prefix: String?
         /// The owner field is not present in listV2 by default, if you want to return owner field with each key in the result then set the fetch owner field to true
@@ -2642,9 +2736,9 @@ extension S3 {
         /// A delimiter is a character you use to group keys.
         public let delimiter: String?
         /// Encoding type used by Amazon S3 to encode object keys in the response.
-        public let encodingType: String?
+        public let encodingType: EncodingType?
 
-        public init(bucket: String, maxKeys: Int32? = nil, startAfter: String? = nil, continuationToken: String? = nil, requestPayer: String? = nil, prefix: String? = nil, fetchOwner: Bool? = nil, delimiter: String? = nil, encodingType: String? = nil) {
+        public init(bucket: String, maxKeys: Int32? = nil, startAfter: String? = nil, continuationToken: String? = nil, requestPayer: RequestPayer? = nil, prefix: String? = nil, fetchOwner: Bool? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil) {
             self.bucket = bucket
             self.maxKeys = maxKeys
             self.startAfter = startAfter
@@ -2662,11 +2756,11 @@ extension S3 {
             self.maxKeys = dictionary["Max-keys"] as? Int32
             self.startAfter = dictionary["Start-after"] as? String
             self.continuationToken = dictionary["Continuation-token"] as? String
-            self.requestPayer = dictionary["X-amz-request-payer"] as? String
+            if let requestPayer = dictionary["X-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
             self.prefix = dictionary["Prefix"] as? String
             self.fetchOwner = dictionary["Fetch-owner"] as? Bool
             self.delimiter = dictionary["Delimiter"] as? String
-            self.encodingType = dictionary["Encoding-type"] as? String
+            if let encodingType = dictionary["Encoding-type"] as? String { self.encodingType = EncodingType(rawValue: encodingType) } else { self.encodingType = nil }
         }
     }
 
@@ -2708,11 +2802,11 @@ extension S3 {
         /// Allows grantee to list the objects in the bucket.
         public let grantRead: String?
         /// The canned ACL to apply to the bucket.
-        public let aCL: String?
+        public let aCL: BucketCannedACL?
         /// Allows grantee to read the bucket ACL.
         public let grantReadACP: String?
 
-        public init(bucket: String, createBucketConfiguration: CreateBucketConfiguration? = nil, grantWriteACP: String? = nil, grantFullControl: String? = nil, grantWrite: String? = nil, grantRead: String? = nil, aCL: String? = nil, grantReadACP: String? = nil) {
+        public init(bucket: String, createBucketConfiguration: CreateBucketConfiguration? = nil, grantWriteACP: String? = nil, grantFullControl: String? = nil, grantWrite: String? = nil, grantRead: String? = nil, aCL: BucketCannedACL? = nil, grantReadACP: String? = nil) {
             self.bucket = bucket
             self.createBucketConfiguration = createBucketConfiguration
             self.grantWriteACP = grantWriteACP
@@ -2731,9 +2825,24 @@ extension S3 {
             self.grantFullControl = dictionary["X-amz-grant-full-control"] as? String
             self.grantWrite = dictionary["X-amz-grant-write"] as? String
             self.grantRead = dictionary["X-amz-grant-read"] as? String
-            self.aCL = dictionary["X-amz-acl"] as? String
+            if let aCL = dictionary["X-amz-acl"] as? String { self.aCL = BucketCannedACL(rawValue: aCL) } else { self.aCL = nil }
             self.grantReadACP = dictionary["X-amz-grant-read-acp"] as? String
         }
+    }
+
+    public enum BucketLocationConstraint: String, CustomStringConvertible {
+        case eu = "EU"
+        case eu_west_1 = "eu-west-1"
+        case us_west_1 = "us-west-1"
+        case us_west_2 = "us-west-2"
+        case ap_south_1 = "ap-south-1"
+        case ap_southeast_1 = "ap-southeast-1"
+        case ap_southeast_2 = "ap-southeast-2"
+        case ap_northeast_1 = "ap-northeast-1"
+        case sa_east_1 = "sa-east-1"
+        case cn_north_1 = "cn-north-1"
+        case eu_central_1 = "eu-central-1"
+        public var description: String { return self.rawValue }
     }
 
     public struct Initiator: AWSShape {
@@ -2801,6 +2910,16 @@ extension S3 {
         }
     }
 
+    public enum InventoryOptionalField: String, CustomStringConvertible {
+        case size = "Size"
+        case lastmodifieddate = "LastModifiedDate"
+        case storageclass = "StorageClass"
+        case etag = "ETag"
+        case ismultipartuploaded = "IsMultipartUploaded"
+        case replicationstatus = "ReplicationStatus"
+        public var description: String { return self.rawValue }
+    }
+
     public struct CORSRule: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2850,7 +2969,7 @@ extension S3 {
         public let bucket: String
         /// Specifies presentational information for the object.
         public let contentDisposition: String?
-        public let requestPayer: String?
+        public let requestPayer: RequestPayer?
         /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.
         public let grantFullControl: String?
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
@@ -2860,7 +2979,7 @@ extension S3 {
         /// Allows grantee to read the object ACL.
         public let grantReadACP: String?
         /// The canned ACL to apply to the object.
-        public let aCL: String?
+        public let aCL: ObjectCannedACL?
         /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
         public let sSECustomerAlgorithm: String?
         /// The language the content is in.
@@ -2876,16 +2995,16 @@ extension S3 {
         /// A standard MIME type describing the format of the object data.
         public let contentType: String?
         /// The type of storage to use for the object. Defaults to 'STANDARD'.
-        public let storageClass: String?
+        public let storageClass: StorageClass?
         public let key: String
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
         public let websiteRedirectLocation: String?
         /// Allows grantee to read the object data and its metadata.
         public let grantRead: String?
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        public let serverSideEncryption: String?
+        public let serverSideEncryption: ServerSideEncryption?
 
-        public init(sSECustomerKey: String? = nil, cacheControl: String? = nil, bucket: String, contentDisposition: String? = nil, requestPayer: String? = nil, grantFullControl: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, grantReadACP: String? = nil, aCL: String? = nil, sSECustomerAlgorithm: String? = nil, contentLanguage: String? = nil, metadata: [String: String]? = nil, contentEncoding: String? = nil, expires: Date? = nil, grantWriteACP: String? = nil, contentType: String? = nil, storageClass: String? = nil, key: String, websiteRedirectLocation: String? = nil, grantRead: String? = nil, serverSideEncryption: String? = nil) {
+        public init(sSECustomerKey: String? = nil, cacheControl: String? = nil, bucket: String, contentDisposition: String? = nil, requestPayer: RequestPayer? = nil, grantFullControl: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, grantReadACP: String? = nil, aCL: ObjectCannedACL? = nil, sSECustomerAlgorithm: String? = nil, contentLanguage: String? = nil, metadata: [String: String]? = nil, contentEncoding: String? = nil, expires: Date? = nil, grantWriteACP: String? = nil, contentType: String? = nil, storageClass: StorageClass? = nil, key: String, websiteRedirectLocation: String? = nil, grantRead: String? = nil, serverSideEncryption: ServerSideEncryption? = nil) {
             self.sSECustomerKey = sSECustomerKey
             self.cacheControl = cacheControl
             self.bucket = bucket
@@ -2916,12 +3035,12 @@ extension S3 {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
             self.contentDisposition = dictionary["Content-Disposition"] as? String
-            self.requestPayer = dictionary["X-amz-request-payer"] as? String
+            if let requestPayer = dictionary["X-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
             self.grantFullControl = dictionary["X-amz-grant-full-control"] as? String
             self.sSECustomerKeyMD5 = dictionary["X-amz-server-side-encryption-customer-key-MD5"] as? String
             self.sSEKMSKeyId = dictionary["X-amz-server-side-encryption-aws-kms-key-id"] as? String
             self.grantReadACP = dictionary["X-amz-grant-read-acp"] as? String
-            self.aCL = dictionary["X-amz-acl"] as? String
+            if let aCL = dictionary["X-amz-acl"] as? String { self.aCL = ObjectCannedACL(rawValue: aCL) } else { self.aCL = nil }
             self.sSECustomerAlgorithm = dictionary["X-amz-server-side-encryption-customer-algorithm"] as? String
             self.contentLanguage = dictionary["Content-Language"] as? String
             if let metadata = dictionary["X-amz-meta-"] as? [String: String] {
@@ -2933,12 +3052,12 @@ extension S3 {
             self.expires = dictionary["Expires"] as? Date
             self.grantWriteACP = dictionary["X-amz-grant-write-acp"] as? String
             self.contentType = dictionary["Content-Type"] as? String
-            self.storageClass = dictionary["X-amz-storage-class"] as? String
+            if let storageClass = dictionary["X-amz-storage-class"] as? String { self.storageClass = StorageClass(rawValue: storageClass) } else { self.storageClass = nil }
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
             self.websiteRedirectLocation = dictionary["X-amz-website-redirect-location"] as? String
             self.grantRead = dictionary["X-amz-grant-read"] as? String
-            self.serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String
+            if let serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String { self.serverSideEncryption = ServerSideEncryption(rawValue: serverSideEncryption) } else { self.serverSideEncryption = nil }
         }
     }
 
@@ -2978,9 +3097,9 @@ extension S3 {
         public let key: String
         /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device.
         public let mFA: String?
-        public let requestPayer: String?
+        public let requestPayer: RequestPayer?
 
-        public init(versionId: String? = nil, bucket: String, key: String, mFA: String? = nil, requestPayer: String? = nil) {
+        public init(versionId: String? = nil, bucket: String, key: String, mFA: String? = nil, requestPayer: RequestPayer? = nil) {
             self.versionId = versionId
             self.bucket = bucket
             self.key = key
@@ -2995,7 +3114,7 @@ extension S3 {
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
             self.mFA = dictionary["X-amz-mfa"] as? String
-            self.requestPayer = dictionary["X-amz-request-payer"] as? String
+            if let requestPayer = dictionary["X-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
         }
     }
 
@@ -3005,14 +3124,14 @@ extension S3 {
         public static var headerParams: [String: String] {
             return ["x-amz-request-charged": "RequestCharged"]
         }
-        public let requestCharged: String?
+        public let requestCharged: RequestCharged?
 
-        public init(requestCharged: String? = nil) {
+        public init(requestCharged: RequestCharged? = nil) {
             self.requestCharged = requestCharged
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.requestCharged = dictionary["X-amz-request-charged"] as? String
+            if let requestCharged = dictionary["X-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
         }
     }
 
@@ -3039,16 +3158,16 @@ extension S3 {
         /// Id of the lifecycle rule that makes a multipart upload eligible for abort operation.
         public let abortRuleId: String?
         /// The class of storage used to store the object.
-        public let storageClass: String?
+        public let storageClass: StorageClass?
         /// Object key for which the multipart upload was initiated.
         public let key: String?
         /// Maximum number of parts that were allowed in the response.
         public let maxParts: Int32?
         /// When a list is truncated, this element specifies the last part in the list, as well as the value to use for the part-number-marker request parameter in a subsequent request.
         public let nextPartNumberMarker: Int32?
-        public let requestCharged: String?
+        public let requestCharged: RequestCharged?
 
-        public init(partNumberMarker: Int32? = nil, bucket: String? = nil, isTruncated: Bool? = nil, abortDate: Date? = nil, uploadId: String? = nil, owner: Owner? = nil, parts: [Part]? = nil, initiator: Initiator? = nil, abortRuleId: String? = nil, storageClass: String? = nil, key: String? = nil, maxParts: Int32? = nil, nextPartNumberMarker: Int32? = nil, requestCharged: String? = nil) {
+        public init(partNumberMarker: Int32? = nil, bucket: String? = nil, isTruncated: Bool? = nil, abortDate: Date? = nil, uploadId: String? = nil, owner: Owner? = nil, parts: [Part]? = nil, initiator: Initiator? = nil, abortRuleId: String? = nil, storageClass: StorageClass? = nil, key: String? = nil, maxParts: Int32? = nil, nextPartNumberMarker: Int32? = nil, requestCharged: RequestCharged? = nil) {
             self.partNumberMarker = partNumberMarker
             self.bucket = bucket
             self.isTruncated = isTruncated
@@ -3079,11 +3198,11 @@ extension S3 {
             }
             if let initiator = dictionary["Initiator"] as? [String: Any] { self.initiator = try S3.Initiator(dictionary: initiator) } else { self.initiator = nil }
             self.abortRuleId = dictionary["X-amz-abort-rule-id"] as? String
-            self.storageClass = dictionary["StorageClass"] as? String
+            if let storageClass = dictionary["StorageClass"] as? String { self.storageClass = StorageClass(rawValue: storageClass) } else { self.storageClass = nil }
             self.key = dictionary["Key"] as? String
             self.maxParts = dictionary["MaxParts"] as? Int32
             self.nextPartNumberMarker = dictionary["NextPartNumberMarker"] as? Int32
-            self.requestCharged = dictionary["X-amz-request-charged"] as? String
+            if let requestCharged = dictionary["X-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
         }
     }
 
@@ -3149,12 +3268,12 @@ extension S3 {
         public static let payload: String? = nil
         /// Amazon SNS topic to which Amazon S3 will publish a message to report the specified events for the bucket.
         public let topic: String?
-        public let events: [String]?
+        public let events: [Event]?
         /// Bucket event for which to send notifications.
-        public let event: String?
+        public let event: Event?
         public let id: String?
 
-        public init(topic: String? = nil, events: [String]? = nil, event: String? = nil, id: String? = nil) {
+        public init(topic: String? = nil, events: [Event]? = nil, event: Event? = nil, id: String? = nil) {
             self.topic = topic
             self.events = events
             self.event = event
@@ -3163,10 +3282,15 @@ extension S3 {
 
         public init(dictionary: [String: Any]) throws {
             self.topic = dictionary["Topic"] as? String
-            self.events = dictionary["Event"] as? [String]
-            self.event = dictionary["Event"] as? String
+            if let events = dictionary["Event"] as? [String] { self.events = events.flatMap({ Event(rawValue: $0)}) } else { self.events = nil }
+            if let event = dictionary["Event"] as? String { self.event = Event(rawValue: event) } else { self.event = nil }
             self.id = dictionary["Id"] as? String
         }
+    }
+
+    public enum ObjectVersionStorageClass: String, CustomStringConvertible {
+        case standard = "STANDARD"
+        public var description: String { return self.rawValue }
     }
 
     public struct DeleteBucketRequest: AWSShape {
@@ -3185,6 +3309,17 @@ extension S3 {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
         }
+    }
+
+    public enum FilterRuleName: String, CustomStringConvertible {
+        case prefix = "prefix"
+        case suffix = "suffix"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RequestPayer: String, CustomStringConvertible {
+        case requester = "requester"
+        public var description: String { return self.rawValue }
     }
 
     public struct StorageClassAnalysis: AWSShape {
@@ -3235,6 +3370,12 @@ extension S3 {
         }
     }
 
+    public enum ExpirationStatus: String, CustomStringConvertible {
+        case enabled = "Enabled"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
     public struct GetObjectTorrentRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -3246,9 +3387,9 @@ extension S3 {
         }
         public let bucket: String
         public let key: String
-        public let requestPayer: String?
+        public let requestPayer: RequestPayer?
 
-        public init(bucket: String, key: String, requestPayer: String? = nil) {
+        public init(bucket: String, key: String, requestPayer: RequestPayer? = nil) {
             self.bucket = bucket
             self.key = key
             self.requestPayer = requestPayer
@@ -3259,7 +3400,7 @@ extension S3 {
             self.bucket = bucket
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
-            self.requestPayer = dictionary["X-amz-request-payer"] as? String
+            if let requestPayer = dictionary["X-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
         }
     }
 
@@ -3269,13 +3410,13 @@ extension S3 {
         /// The Amazon resource name (ARN) of the bucket where inventory results will be published.
         public let bucket: String
         /// Specifies the output format of the inventory results.
-        public let format: String
+        public let format: InventoryFormat
         /// The ID of the account that owns the destination bucket.
         public let accountId: String?
         /// The prefix that is prepended to all inventory results.
         public let prefix: String?
 
-        public init(bucket: String, format: String, accountId: String? = nil, prefix: String? = nil) {
+        public init(bucket: String, format: InventoryFormat, accountId: String? = nil, prefix: String? = nil) {
             self.bucket = bucket
             self.format = format
             self.accountId = accountId
@@ -3285,7 +3426,7 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            guard let format = dictionary["Format"] as? String else { throw InitializableError.missingRequiredParam("Format") }
+            guard let rawFormat = dictionary["Format"] as? String, let format = InventoryFormat(rawValue: rawFormat) else { throw InitializableError.missingRequiredParam("Format") }
             self.format = format
             self.accountId = dictionary["AccountId"] as? String
             self.prefix = dictionary["Prefix"] as? String
@@ -3308,9 +3449,9 @@ extension S3 {
         /// VersionId used to reference a specific version of the object.
         public let versionId: String?
         public let key: String
-        public let requestPayer: String?
+        public let requestPayer: RequestPayer?
 
-        public init(bucket: String, versionId: String? = nil, key: String, requestPayer: String? = nil) {
+        public init(bucket: String, versionId: String? = nil, key: String, requestPayer: RequestPayer? = nil) {
             self.bucket = bucket
             self.versionId = versionId
             self.key = key
@@ -3323,7 +3464,7 @@ extension S3 {
             self.versionId = dictionary["VersionId"] as? String
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
-            self.requestPayer = dictionary["X-amz-request-payer"] as? String
+            if let requestPayer = dictionary["X-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
         }
     }
 
@@ -3378,6 +3519,12 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             self.location = dictionary["Location"] as? String
         }
+    }
+
+    public enum Payer: String, CustomStringConvertible {
+        case requester = "Requester"
+        case bucketowner = "BucketOwner"
+        public var description: String { return self.rawValue }
     }
 
     public struct DeleteBucketInventoryConfigurationRequest: AWSShape {
@@ -3493,9 +3640,9 @@ extension S3 {
         /// The place to store the data for an analysis.
         public let destination: AnalyticsExportDestination
         /// The version of the output schema to use when exporting data. Must be V_1.
-        public let outputSchemaVersion: String
+        public let outputSchemaVersion: StorageClassAnalysisSchemaVersion
 
-        public init(destination: AnalyticsExportDestination, outputSchemaVersion: String) {
+        public init(destination: AnalyticsExportDestination, outputSchemaVersion: StorageClassAnalysisSchemaVersion) {
             self.destination = destination
             self.outputSchemaVersion = outputSchemaVersion
         }
@@ -3503,7 +3650,7 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let destination = dictionary["Destination"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Destination") }
             self.destination = try S3.AnalyticsExportDestination(dictionary: destination)
-            guard let outputSchemaVersion = dictionary["OutputSchemaVersion"] as? String else { throw InitializableError.missingRequiredParam("OutputSchemaVersion") }
+            guard let rawOutputSchemaVersion = dictionary["OutputSchemaVersion"] as? String, let outputSchemaVersion = StorageClassAnalysisSchemaVersion(rawValue: rawOutputSchemaVersion) else { throw InitializableError.missingRequiredParam("OutputSchemaVersion") }
             self.outputSchemaVersion = outputSchemaVersion
         }
     }
@@ -3553,15 +3700,21 @@ extension S3 {
         public static var headerParams: [String: String] {
             return ["x-amz-request-charged": "RequestCharged"]
         }
-        public let requestCharged: String?
+        public let requestCharged: RequestCharged?
 
-        public init(requestCharged: String? = nil) {
+        public init(requestCharged: RequestCharged? = nil) {
             self.requestCharged = requestCharged
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.requestCharged = dictionary["X-amz-request-charged"] as? String
+            if let requestCharged = dictionary["X-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
         }
+    }
+
+    public enum MetadataDirective: String, CustomStringConvertible {
+        case copy = "COPY"
+        case replace = "REPLACE"
+        public var description: String { return self.rawValue }
     }
 
     public struct BucketLifecycleConfiguration: AWSShape {
@@ -3612,7 +3765,7 @@ extension S3 {
         /// Unique identifier for the rule. The value cannot be longer than 255 characters.
         public let iD: String?
         /// If 'Enabled', the rule is currently being applied. If 'Disabled', the rule is not currently being applied.
-        public let status: String
+        public let status: ExpirationStatus
         public let noncurrentVersionExpiration: NoncurrentVersionExpiration?
         public let abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload?
         public let expiration: LifecycleExpiration?
@@ -3622,7 +3775,7 @@ extension S3 {
         public let filter: LifecycleRuleFilter?
         public let noncurrentVersionTransitions: [NoncurrentVersionTransition]?
 
-        public init(iD: String? = nil, status: String, noncurrentVersionExpiration: NoncurrentVersionExpiration? = nil, abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload? = nil, expiration: LifecycleExpiration? = nil, prefix: String? = nil, transitions: [Transition]? = nil, filter: LifecycleRuleFilter? = nil, noncurrentVersionTransitions: [NoncurrentVersionTransition]? = nil) {
+        public init(iD: String? = nil, status: ExpirationStatus, noncurrentVersionExpiration: NoncurrentVersionExpiration? = nil, abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload? = nil, expiration: LifecycleExpiration? = nil, prefix: String? = nil, transitions: [Transition]? = nil, filter: LifecycleRuleFilter? = nil, noncurrentVersionTransitions: [NoncurrentVersionTransition]? = nil) {
             self.iD = iD
             self.status = status
             self.noncurrentVersionExpiration = noncurrentVersionExpiration
@@ -3636,7 +3789,7 @@ extension S3 {
 
         public init(dictionary: [String: Any]) throws {
             self.iD = dictionary["ID"] as? String
-            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            guard let rawStatus = dictionary["Status"] as? String, let status = ExpirationStatus(rawValue: rawStatus) else { throw InitializableError.missingRequiredParam("Status") }
             self.status = status
             if let noncurrentVersionExpiration = dictionary["NoncurrentVersionExpiration"] as? [String: Any] { self.noncurrentVersionExpiration = try S3.NoncurrentVersionExpiration(dictionary: noncurrentVersionExpiration) } else { self.noncurrentVersionExpiration = nil }
             if let abortIncompleteMultipartUpload = dictionary["AbortIncompleteMultipartUpload"] as? [String: Any] { self.abortIncompleteMultipartUpload = try S3.AbortIncompleteMultipartUpload(dictionary: abortIncompleteMultipartUpload) } else { self.abortIncompleteMultipartUpload = nil }
@@ -3659,14 +3812,14 @@ extension S3 {
     public struct InventoryOptionalFields: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let field: [String]?
+        public let field: [InventoryOptionalField]?
 
-        public init(field: [String]? = nil) {
+        public init(field: [InventoryOptionalField]? = nil) {
             self.field = field
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.field = dictionary["Field"] as? [String]
+            if let field = dictionary["Field"] as? [String] { self.field = field.flatMap({ InventoryOptionalField(rawValue: $0)}) } else { self.field = nil }
         }
     }
 
@@ -3713,9 +3866,9 @@ extension S3 {
         /// Amazon resource name (ARN) of the bucket where you want Amazon S3 to store replicas of the object identified by the rule.
         public let bucket: String
         /// The class of storage used to store the object.
-        public let storageClass: String?
+        public let storageClass: StorageClass?
 
-        public init(bucket: String, storageClass: String? = nil) {
+        public init(bucket: String, storageClass: StorageClass? = nil) {
             self.bucket = bucket
             self.storageClass = storageClass
         }
@@ -3723,7 +3876,7 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.storageClass = dictionary["StorageClass"] as? String
+            if let storageClass = dictionary["StorageClass"] as? String { self.storageClass = StorageClass(rawValue: storageClass) } else { self.storageClass = nil }
         }
     }
 
@@ -3731,14 +3884,14 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Glacier retrieval tier at which the restore will be processed.
-        public let tier: String
+        public let tier: Tier
 
-        public init(tier: String) {
+        public init(tier: Tier) {
             self.tier = tier
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let tier = dictionary["Tier"] as? String else { throw InitializableError.missingRequiredParam("Tier") }
+            guard let rawTier = dictionary["Tier"] as? String, let tier = Tier(rawValue: rawTier) else { throw InitializableError.missingRequiredParam("Tier") }
             self.tier = tier
         }
     }
@@ -3787,9 +3940,9 @@ extension S3 {
         public let multipartUpload: CompletedMultipartUpload?
         public let key: String
         public let uploadId: String
-        public let requestPayer: String?
+        public let requestPayer: RequestPayer?
 
-        public init(bucket: String, multipartUpload: CompletedMultipartUpload? = nil, key: String, uploadId: String, requestPayer: String? = nil) {
+        public init(bucket: String, multipartUpload: CompletedMultipartUpload? = nil, key: String, uploadId: String, requestPayer: RequestPayer? = nil) {
             self.bucket = bucket
             self.multipartUpload = multipartUpload
             self.key = key
@@ -3805,7 +3958,7 @@ extension S3 {
             self.key = key
             guard let uploadId = dictionary["UploadId"] as? String else { throw InitializableError.missingRequiredParam("UploadId") }
             self.uploadId = uploadId
-            self.requestPayer = dictionary["X-amz-request-payer"] as? String
+            if let requestPayer = dictionary["X-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
         }
     }
 
@@ -3889,14 +4042,14 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The accelerate configuration of the bucket.
-        public let status: String?
+        public let status: BucketAccelerateStatus?
 
-        public init(status: String? = nil) {
+        public init(status: BucketAccelerateStatus? = nil) {
             self.status = status
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = BucketAccelerateStatus(rawValue: status) } else { self.status = nil }
         }
     }
 
@@ -3950,22 +4103,34 @@ extension S3 {
         }
     }
 
+    public enum InventoryFormat: String, CustomStringConvertible {
+        case csv = "CSV"
+        public var description: String { return self.rawValue }
+    }
+
     public struct FilterRule: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         public let value: String?
         /// Object key name prefix or suffix identifying one or more objects to which the filtering rule applies. Maximum prefix length can be up to 1,024 characters. Overlapping prefixes and suffixes are not supported. For more information, go to Configuring Event Notifications in the Amazon Simple Storage Service Developer Guide.
-        public let name: String?
+        public let name: FilterRuleName?
 
-        public init(value: String? = nil, name: String? = nil) {
+        public init(value: String? = nil, name: FilterRuleName? = nil) {
             self.value = value
             self.name = name
         }
 
         public init(dictionary: [String: Any]) throws {
             self.value = dictionary["Value"] as? String
-            self.name = dictionary["Name"] as? String
+            if let name = dictionary["Name"] as? String { self.name = FilterRuleName(rawValue: name) } else { self.name = nil }
         }
+    }
+
+    public enum `Type`: String, CustomStringConvertible {
+        case canonicaluser = "CanonicalUser"
+        case amazoncustomerbyemail = "AmazonCustomerByEmail"
+        case group = "Group"
+        public var description: String { return self.rawValue }
     }
 
     public struct ListBucketInventoryConfigurationsRequest: AWSShape {
@@ -4046,7 +4211,7 @@ extension S3 {
         public let range: String?
         /// Sets the Content-Encoding header of the response.
         public let responseContentEncoding: String?
-        public let requestPayer: String?
+        public let requestPayer: RequestPayer?
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
         public let sSECustomerKeyMD5: String?
         /// Sets the Content-Language header of the response.
@@ -4071,7 +4236,7 @@ extension S3 {
         /// Return the object only if its entity tag (ETag) is the same as the one specified, otherwise return a 412 (precondition failed).
         public let ifMatch: String?
 
-        public init(bucket: String, sSECustomerKey: String? = nil, ifUnmodifiedSince: Date? = nil, partNumber: Int32? = nil, range: String? = nil, responseContentEncoding: String? = nil, requestPayer: String? = nil, sSECustomerKeyMD5: String? = nil, responseContentLanguage: String? = nil, responseExpires: Date? = nil, versionId: String? = nil, sSECustomerAlgorithm: String? = nil, ifNoneMatch: String? = nil, responseContentDisposition: String? = nil, key: String, responseCacheControl: String? = nil, responseContentType: String? = nil, ifModifiedSince: Date? = nil, ifMatch: String? = nil) {
+        public init(bucket: String, sSECustomerKey: String? = nil, ifUnmodifiedSince: Date? = nil, partNumber: Int32? = nil, range: String? = nil, responseContentEncoding: String? = nil, requestPayer: RequestPayer? = nil, sSECustomerKeyMD5: String? = nil, responseContentLanguage: String? = nil, responseExpires: Date? = nil, versionId: String? = nil, sSECustomerAlgorithm: String? = nil, ifNoneMatch: String? = nil, responseContentDisposition: String? = nil, key: String, responseCacheControl: String? = nil, responseContentType: String? = nil, ifModifiedSince: Date? = nil, ifMatch: String? = nil) {
             self.bucket = bucket
             self.sSECustomerKey = sSECustomerKey
             self.ifUnmodifiedSince = ifUnmodifiedSince
@@ -4101,7 +4266,7 @@ extension S3 {
             self.partNumber = dictionary["PartNumber"] as? Int32
             self.range = dictionary["Range"] as? String
             self.responseContentEncoding = dictionary["Response-content-encoding"] as? String
-            self.requestPayer = dictionary["X-amz-request-payer"] as? String
+            if let requestPayer = dictionary["X-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
             self.sSECustomerKeyMD5 = dictionary["X-amz-server-side-encryption-customer-key-MD5"] as? String
             self.responseContentLanguage = dictionary["Response-content-language"] as? String
             self.responseExpires = dictionary["Response-expires"] as? Date
@@ -4133,9 +4298,9 @@ extension S3 {
         public let bucket: String
         public let key: String
         public let uploadId: String
-        public let requestPayer: String?
+        public let requestPayer: RequestPayer?
 
-        public init(bucket: String, key: String, uploadId: String, requestPayer: String? = nil) {
+        public init(bucket: String, key: String, uploadId: String, requestPayer: RequestPayer? = nil) {
             self.bucket = bucket
             self.key = key
             self.uploadId = uploadId
@@ -4149,7 +4314,7 @@ extension S3 {
             self.key = key
             guard let uploadId = dictionary["UploadId"] as? String else { throw InitializableError.missingRequiredParam("UploadId") }
             self.uploadId = uploadId
-            self.requestPayer = dictionary["X-amz-request-payer"] as? String
+            if let requestPayer = dictionary["X-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
         }
     }
 
@@ -4160,17 +4325,23 @@ extension S3 {
             return ["x-amz-request-charged": "RequestCharged"]
         }
         public let body: Data?
-        public let requestCharged: String?
+        public let requestCharged: RequestCharged?
 
-        public init(body: Data? = nil, requestCharged: String? = nil) {
+        public init(body: Data? = nil, requestCharged: RequestCharged? = nil) {
             self.body = body
             self.requestCharged = requestCharged
         }
 
         public init(dictionary: [String: Any]) throws {
             self.body = dictionary["Body"] as? Data
-            self.requestCharged = dictionary["X-amz-request-charged"] as? String
+            if let requestCharged = dictionary["X-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
         }
+    }
+
+    public enum MFADelete: String, CustomStringConvertible {
+        case enabled = "Enabled"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
     }
 
     public struct NoncurrentVersionTransition: AWSShape {
@@ -4179,16 +4350,16 @@ extension S3 {
         /// Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. For information about the noncurrent days calculations, see How Amazon S3 Calculates When an Object Became Noncurrent in the Amazon Simple Storage Service Developer Guide.
         public let noncurrentDays: Int32?
         /// The class of storage used to store the object.
-        public let storageClass: String?
+        public let storageClass: TransitionStorageClass?
 
-        public init(noncurrentDays: Int32? = nil, storageClass: String? = nil) {
+        public init(noncurrentDays: Int32? = nil, storageClass: TransitionStorageClass? = nil) {
             self.noncurrentDays = noncurrentDays
             self.storageClass = storageClass
         }
 
         public init(dictionary: [String: Any]) throws {
             self.noncurrentDays = dictionary["NoncurrentDays"] as? Int32
-            self.storageClass = dictionary["StorageClass"] as? String
+            if let storageClass = dictionary["StorageClass"] as? String { self.storageClass = TransitionStorageClass(rawValue: storageClass) } else { self.storageClass = nil }
         }
     }
 
@@ -4211,7 +4382,7 @@ extension S3 {
         public let partNumber: Int32
         /// Copies the object if it has been modified since the specified time.
         public let copySourceIfModifiedSince: Date?
-        public let requestPayer: String?
+        public let requestPayer: RequestPayer?
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
         public let sSECustomerKeyMD5: String?
         /// Specifies the customer-provided encryption key for Amazon S3 to use to decrypt the source object. The encryption key provided in this header must be one that was used when the source object was created.
@@ -4236,7 +4407,7 @@ extension S3 {
         /// Copies the object if it hasn't been modified since the specified time.
         public let copySourceIfUnmodifiedSince: Date?
 
-        public init(bucket: String, sSECustomerKey: String? = nil, partNumber: Int32, copySourceIfModifiedSince: Date? = nil, requestPayer: String? = nil, sSECustomerKeyMD5: String? = nil, copySourceSSECustomerKey: String? = nil, copySource: String, copySourceIfNoneMatch: String? = nil, uploadId: String, sSECustomerAlgorithm: String? = nil, copySourceIfMatch: String? = nil, copySourceRange: String? = nil, key: String, copySourceSSECustomerKeyMD5: String? = nil, copySourceSSECustomerAlgorithm: String? = nil, copySourceIfUnmodifiedSince: Date? = nil) {
+        public init(bucket: String, sSECustomerKey: String? = nil, partNumber: Int32, copySourceIfModifiedSince: Date? = nil, requestPayer: RequestPayer? = nil, sSECustomerKeyMD5: String? = nil, copySourceSSECustomerKey: String? = nil, copySource: String, copySourceIfNoneMatch: String? = nil, uploadId: String, sSECustomerAlgorithm: String? = nil, copySourceIfMatch: String? = nil, copySourceRange: String? = nil, key: String, copySourceSSECustomerKeyMD5: String? = nil, copySourceSSECustomerAlgorithm: String? = nil, copySourceIfUnmodifiedSince: Date? = nil) {
             self.bucket = bucket
             self.sSECustomerKey = sSECustomerKey
             self.partNumber = partNumber
@@ -4263,7 +4434,7 @@ extension S3 {
             guard let partNumber = dictionary["PartNumber"] as? Int32 else { throw InitializableError.missingRequiredParam("PartNumber") }
             self.partNumber = partNumber
             self.copySourceIfModifiedSince = dictionary["X-amz-copy-source-if-modified-since"] as? Date
-            self.requestPayer = dictionary["X-amz-request-payer"] as? String
+            if let requestPayer = dictionary["X-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
             self.sSECustomerKeyMD5 = dictionary["X-amz-server-side-encryption-customer-key-MD5"] as? String
             self.copySourceSSECustomerKey = dictionary["X-amz-copy-source-server-side-encryption-customer-key"] as? String
             guard let copySource = dictionary["X-amz-copy-source"] as? String else { throw InitializableError.missingRequiredParam("X-amz-copy-source") }
@@ -4303,11 +4474,11 @@ extension S3 {
         /// Allows grantee to list the objects in the bucket.
         public let grantRead: String?
         /// The canned ACL to apply to the bucket.
-        public let aCL: String?
+        public let aCL: BucketCannedACL?
         /// Allows grantee to read the bucket ACL.
         public let grantReadACP: String?
 
-        public init(bucket: String, contentMD5: String? = nil, accessControlPolicy: AccessControlPolicy? = nil, grantWriteACP: String? = nil, grantFullControl: String? = nil, grantWrite: String? = nil, grantRead: String? = nil, aCL: String? = nil, grantReadACP: String? = nil) {
+        public init(bucket: String, contentMD5: String? = nil, accessControlPolicy: AccessControlPolicy? = nil, grantWriteACP: String? = nil, grantFullControl: String? = nil, grantWrite: String? = nil, grantRead: String? = nil, aCL: BucketCannedACL? = nil, grantReadACP: String? = nil) {
             self.bucket = bucket
             self.contentMD5 = contentMD5
             self.accessControlPolicy = accessControlPolicy
@@ -4328,7 +4499,7 @@ extension S3 {
             self.grantFullControl = dictionary["X-amz-grant-full-control"] as? String
             self.grantWrite = dictionary["X-amz-grant-write"] as? String
             self.grantRead = dictionary["X-amz-grant-read"] as? String
-            self.aCL = dictionary["X-amz-acl"] as? String
+            if let aCL = dictionary["X-amz-acl"] as? String { self.aCL = BucketCannedACL(rawValue: aCL) } else { self.aCL = nil }
             self.grantReadACP = dictionary["X-amz-grant-read-acp"] as? String
         }
     }
@@ -4343,11 +4514,11 @@ extension S3 {
         /// The host name to use in the redirect request.
         public let hostName: String?
         /// Protocol to use (http, https) when redirecting requests. The default is the protocol that is used in the original request.
-        public let `protocol`: String?
+        public let `protocol`: Protocol?
         /// The specific object key to use in the redirect request. For example, redirect request to error.html. Not required if one of the sibling is present. Can be present only if ReplaceKeyPrefixWith is not provided.
         public let replaceKeyWith: String?
 
-        public init(replaceKeyPrefixWith: String? = nil, httpRedirectCode: String? = nil, hostName: String? = nil, protocol: String? = nil, replaceKeyWith: String? = nil) {
+        public init(replaceKeyPrefixWith: String? = nil, httpRedirectCode: String? = nil, hostName: String? = nil, protocol: Protocol? = nil, replaceKeyWith: String? = nil) {
             self.replaceKeyPrefixWith = replaceKeyPrefixWith
             self.httpRedirectCode = httpRedirectCode
             self.hostName = hostName
@@ -4359,16 +4530,22 @@ extension S3 {
             self.replaceKeyPrefixWith = dictionary["ReplaceKeyPrefixWith"] as? String
             self.httpRedirectCode = dictionary["HttpRedirectCode"] as? String
             self.hostName = dictionary["HostName"] as? String
-            self.`protocol` = dictionary["Protocol"] as? String
+            if let `protocol` = dictionary["Protocol"] as? String { self.`protocol` = Protocol(rawValue: `protocol`) } else { self.`protocol` = nil }
             self.replaceKeyWith = dictionary["ReplaceKeyWith"] as? String
         }
+    }
+
+    public enum BucketVersioningStatus: String, CustomStringConvertible {
+        case enabled = "Enabled"
+        case suspended = "Suspended"
+        public var description: String { return self.rawValue }
     }
 
     public struct MultipartUpload: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// The class of storage used to store the object.
-        public let storageClass: String?
+        public let storageClass: StorageClass?
         /// Key of the object for which the multipart upload was initiated.
         public let key: String?
         /// Upload ID that identifies the multipart upload.
@@ -4379,7 +4556,7 @@ extension S3 {
         /// Identifies who initiated the multipart upload.
         public let initiator: Initiator?
 
-        public init(storageClass: String? = nil, key: String? = nil, uploadId: String? = nil, owner: Owner? = nil, initiated: Date? = nil, initiator: Initiator? = nil) {
+        public init(storageClass: StorageClass? = nil, key: String? = nil, uploadId: String? = nil, owner: Owner? = nil, initiated: Date? = nil, initiator: Initiator? = nil) {
             self.storageClass = storageClass
             self.key = key
             self.uploadId = uploadId
@@ -4389,7 +4566,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.storageClass = dictionary["StorageClass"] as? String
+            if let storageClass = dictionary["StorageClass"] as? String { self.storageClass = StorageClass(rawValue: storageClass) } else { self.storageClass = nil }
             self.key = dictionary["Key"] as? String
             self.uploadId = dictionary["UploadId"] as? String
             if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) } else { self.owner = nil }
@@ -4422,6 +4599,13 @@ extension S3 {
             self.bucket = bucket
             self.continuationToken = dictionary["Continuation-token"] as? String
         }
+    }
+
+    public enum ObjectStorageClass: String, CustomStringConvertible {
+        case standard = "STANDARD"
+        case reduced_redundancy = "REDUCED_REDUNDANCY"
+        case glacier = "GLACIER"
+        public var description: String { return self.rawValue }
     }
 
     public struct GetBucketLifecycleConfigurationOutput: AWSShape {
@@ -4464,14 +4648,14 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies who pays for the download and request fees.
-        public let payer: String
+        public let payer: Payer
 
-        public init(payer: String) {
+        public init(payer: Payer) {
             self.payer = payer
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let payer = dictionary["Payer"] as? String else { throw InitializableError.missingRequiredParam("Payer") }
+            guard let rawPayer = dictionary["Payer"] as? String, let payer = Payer(rawValue: rawPayer) else { throw InitializableError.missingRequiredParam("Payer") }
             self.payer = payer
         }
     }
@@ -4484,11 +4668,11 @@ extension S3 {
         }
         /// Returns the version ID of the delete marker created as a result of the DELETE operation.
         public let versionId: String?
-        public let requestCharged: String?
+        public let requestCharged: RequestCharged?
         /// Specifies whether the versioned object that was permanently deleted was (true) or was not (false) a delete marker.
         public let deleteMarker: Bool?
 
-        public init(versionId: String? = nil, requestCharged: String? = nil, deleteMarker: Bool? = nil) {
+        public init(versionId: String? = nil, requestCharged: RequestCharged? = nil, deleteMarker: Bool? = nil) {
             self.versionId = versionId
             self.requestCharged = requestCharged
             self.deleteMarker = deleteMarker
@@ -4496,9 +4680,14 @@ extension S3 {
 
         public init(dictionary: [String: Any]) throws {
             self.versionId = dictionary["X-amz-version-id"] as? String
-            self.requestCharged = dictionary["X-amz-request-charged"] as? String
+            if let requestCharged = dictionary["X-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
             self.deleteMarker = dictionary["X-amz-delete-marker"] as? Bool
         }
+    }
+
+    public enum StorageClassAnalysisSchemaVersion: String, CustomStringConvertible {
+        case v_1 = "V_1"
+        public var description: String { return self.rawValue }
     }
 
     public struct RoutingRules: AWSShape {
@@ -4525,10 +4714,10 @@ extension S3 {
         public let filter: NotificationConfigurationFilter?
         /// Amazon SQS queue ARN to which Amazon S3 will publish a message when it detects events of specified type.
         public let queueArn: String
-        public let events: [String]
+        public let events: [Event]
         public let id: String?
 
-        public init(filter: NotificationConfigurationFilter? = nil, queueArn: String, events: [String], id: String? = nil) {
+        public init(filter: NotificationConfigurationFilter? = nil, queueArn: String, events: [Event], id: String? = nil) {
             self.filter = filter
             self.queueArn = queueArn
             self.events = events
@@ -4540,7 +4729,7 @@ extension S3 {
             guard let queueArn = dictionary["Queue"] as? String else { throw InitializableError.missingRequiredParam("Queue") }
             self.queueArn = queueArn
             guard let events = dictionary["Event"] as? [String] else { throw InitializableError.missingRequiredParam("Event") }
-            self.events = events
+            self.events = events.flatMap({ Event(rawValue: $0)})
             self.id = dictionary["Id"] as? String
         }
     }
@@ -4590,11 +4779,11 @@ extension S3 {
         /// Specifies an inventory filter. The inventory only includes objects that meet the filter's criteria.
         public let filter: InventoryFilter?
         /// Specifies which object version(s) to included in the inventory results.
-        public let includedObjectVersions: String
+        public let includedObjectVersions: InventoryIncludedObjectVersions
         /// The ID used to identify the inventory configuration.
         public let id: String
 
-        public init(optionalFields: InventoryOptionalFields? = nil, destination: InventoryDestination, isEnabled: Bool, schedule: InventorySchedule, filter: InventoryFilter? = nil, includedObjectVersions: String, id: String) {
+        public init(optionalFields: InventoryOptionalFields? = nil, destination: InventoryDestination, isEnabled: Bool, schedule: InventorySchedule, filter: InventoryFilter? = nil, includedObjectVersions: InventoryIncludedObjectVersions, id: String) {
             self.optionalFields = optionalFields
             self.destination = destination
             self.isEnabled = isEnabled
@@ -4613,7 +4802,7 @@ extension S3 {
             guard let schedule = dictionary["Schedule"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Schedule") }
             self.schedule = try S3.InventorySchedule(dictionary: schedule)
             if let filter = dictionary["Filter"] as? [String: Any] { self.filter = try S3.InventoryFilter(dictionary: filter) } else { self.filter = nil }
-            guard let includedObjectVersions = dictionary["IncludedObjectVersions"] as? String else { throw InitializableError.missingRequiredParam("IncludedObjectVersions") }
+            guard let rawIncludedObjectVersions = dictionary["IncludedObjectVersions"] as? String, let includedObjectVersions = InventoryIncludedObjectVersions(rawValue: rawIncludedObjectVersions) else { throw InitializableError.missingRequiredParam("IncludedObjectVersions") }
             self.includedObjectVersions = includedObjectVersions
             guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
             self.id = id
@@ -4706,13 +4895,13 @@ extension S3 {
         public let prefix: String?
         /// A delimiter is a character you use to group keys.
         public let delimiter: String?
-        public let encodingType: String?
+        public let encodingType: EncodingType?
         /// Specifies the key to start with when listing objects in a bucket.
         public let keyMarker: String?
         /// Specifies the object version you want to start listing from.
         public let versionIdMarker: String?
 
-        public init(bucket: String, maxKeys: Int32? = nil, prefix: String? = nil, delimiter: String? = nil, encodingType: String? = nil, keyMarker: String? = nil, versionIdMarker: String? = nil) {
+        public init(bucket: String, maxKeys: Int32? = nil, prefix: String? = nil, delimiter: String? = nil, encodingType: EncodingType? = nil, keyMarker: String? = nil, versionIdMarker: String? = nil) {
             self.bucket = bucket
             self.maxKeys = maxKeys
             self.prefix = prefix
@@ -4728,7 +4917,7 @@ extension S3 {
             self.maxKeys = dictionary["Max-keys"] as? Int32
             self.prefix = dictionary["Prefix"] as? String
             self.delimiter = dictionary["Delimiter"] as? String
-            self.encodingType = dictionary["Encoding-type"] as? String
+            if let encodingType = dictionary["Encoding-type"] as? String { self.encodingType = EncodingType(rawValue: encodingType) } else { self.encodingType = nil }
             self.keyMarker = dictionary["Key-marker"] as? String
             self.versionIdMarker = dictionary["Version-id-marker"] as? String
         }
@@ -4750,6 +4939,18 @@ extension S3 {
                 self.rules = nil
             }
         }
+    }
+
+    public enum Tier: String, CustomStringConvertible {
+        case standard = "Standard"
+        case bulk = "Bulk"
+        case expedited = "Expedited"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RequestCharged: String, CustomStringConvertible {
+        case requester = "requester"
+        public var description: String { return self.rawValue }
     }
 
     public struct DeleteMarkerEntry: AWSShape {
@@ -4782,6 +4983,12 @@ extension S3 {
         }
     }
 
+    public enum InventoryIncludedObjectVersions: String, CustomStringConvertible {
+        case all = "All"
+        case current = "Current"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DeleteBucketTaggingRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -4806,12 +5013,12 @@ extension S3 {
         /// Unique identifier for the rule. The value cannot be longer than 255 characters.
         public let iD: String?
         /// The rule is ignored if status is not Enabled.
-        public let status: String
+        public let status: ReplicationRuleStatus
         public let destination: Destination
         /// Object keyname prefix identifying one or more objects to which the rule applies. Maximum prefix length can be up to 1,024 characters. Overlapping prefixes are not supported.
         public let prefix: String
 
-        public init(iD: String? = nil, status: String, destination: Destination, prefix: String) {
+        public init(iD: String? = nil, status: ReplicationRuleStatus, destination: Destination, prefix: String) {
             self.iD = iD
             self.status = status
             self.destination = destination
@@ -4820,7 +5027,7 @@ extension S3 {
 
         public init(dictionary: [String: Any]) throws {
             self.iD = dictionary["ID"] as? String
-            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
+            guard let rawStatus = dictionary["Status"] as? String, let status = ReplicationRuleStatus(rawValue: rawStatus) else { throw InitializableError.missingRequiredParam("Status") }
             self.status = status
             guard let destination = dictionary["Destination"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Destination") }
             self.destination = try S3.Destination(dictionary: destination)
@@ -4863,11 +5070,11 @@ extension S3 {
         public static let payload: String? = nil
         /// Lambda cloud function ARN that Amazon S3 can invoke when it detects events of the specified type.
         public let lambdaFunctionArn: String
-        public let events: [String]
+        public let events: [Event]
         public let filter: NotificationConfigurationFilter?
         public let id: String?
 
-        public init(lambdaFunctionArn: String, events: [String], filter: NotificationConfigurationFilter? = nil, id: String? = nil) {
+        public init(lambdaFunctionArn: String, events: [Event], filter: NotificationConfigurationFilter? = nil, id: String? = nil) {
             self.lambdaFunctionArn = lambdaFunctionArn
             self.events = events
             self.filter = filter
@@ -4878,7 +5085,7 @@ extension S3 {
             guard let lambdaFunctionArn = dictionary["CloudFunction"] as? String else { throw InitializableError.missingRequiredParam("CloudFunction") }
             self.lambdaFunctionArn = lambdaFunctionArn
             guard let events = dictionary["Event"] as? [String] else { throw InitializableError.missingRequiredParam("Event") }
-            self.events = events
+            self.events = events.flatMap({ Event(rawValue: $0)})
             if let filter = dictionary["Filter"] as? [String: Any] { self.filter = try S3.NotificationConfigurationFilter(dictionary: filter) } else { self.filter = nil }
             self.id = dictionary["Id"] as? String
         }
@@ -4912,11 +5119,11 @@ extension S3 {
         public let eTag: String?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
         public let sSECustomerAlgorithm: String?
-        public let requestCharged: String?
+        public let requestCharged: RequestCharged?
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        public let serverSideEncryption: String?
+        public let serverSideEncryption: ServerSideEncryption?
 
-        public init(sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, eTag: String? = nil, sSECustomerAlgorithm: String? = nil, requestCharged: String? = nil, serverSideEncryption: String? = nil) {
+        public init(sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, eTag: String? = nil, sSECustomerAlgorithm: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil) {
             self.sSECustomerKeyMD5 = sSECustomerKeyMD5
             self.sSEKMSKeyId = sSEKMSKeyId
             self.eTag = eTag
@@ -4930,8 +5137,8 @@ extension S3 {
             self.sSEKMSKeyId = dictionary["X-amz-server-side-encryption-aws-kms-key-id"] as? String
             self.eTag = dictionary["ETag"] as? String
             self.sSECustomerAlgorithm = dictionary["X-amz-server-side-encryption-customer-algorithm"] as? String
-            self.requestCharged = dictionary["X-amz-request-charged"] as? String
-            self.serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String
+            if let requestCharged = dictionary["X-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
+            if let serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String { self.serverSideEncryption = ServerSideEncryption(rawValue: serverSideEncryption) } else { self.serverSideEncryption = nil }
         }
     }
 
@@ -5038,13 +5245,13 @@ extension S3 {
         public let contentMD5: String?
         /// Specifies caching behavior along the request/reply chain.
         public let cacheControl: String?
-        public let requestPayer: String?
+        public let requestPayer: RequestPayer?
         /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.
         public let grantFullControl: String?
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
         public let sSECustomerKeyMD5: String?
         /// The canned ACL to apply to the object.
-        public let aCL: String?
+        public let aCL: ObjectCannedACL?
         /// A map of metadata to store with the object in S3.
         public let metadata: [String: String]?
         /// The date and time at which the object is no longer cacheable.
@@ -5052,13 +5259,13 @@ extension S3 {
         /// A standard MIME type describing the format of the object data.
         public let contentType: String?
         /// The type of storage to use for the object. Defaults to 'STANDARD'.
-        public let storageClass: String?
+        public let storageClass: StorageClass?
         /// Allows grantee to read the object data and its metadata.
         public let grantRead: String?
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        public let serverSideEncryption: String?
+        public let serverSideEncryption: ServerSideEncryption?
 
-        public init(bucket: String, tagging: String? = nil, contentDisposition: String? = nil, sSEKMSKeyId: String? = nil, grantReadACP: String? = nil, sSECustomerAlgorithm: String? = nil, contentLanguage: String? = nil, contentEncoding: String? = nil, contentLength: Int64? = nil, grantWriteACP: String? = nil, key: String, websiteRedirectLocation: String? = nil, body: Data? = nil, sSECustomerKey: String? = nil, contentMD5: String? = nil, cacheControl: String? = nil, requestPayer: String? = nil, grantFullControl: String? = nil, sSECustomerKeyMD5: String? = nil, aCL: String? = nil, metadata: [String: String]? = nil, expires: Date? = nil, contentType: String? = nil, storageClass: String? = nil, grantRead: String? = nil, serverSideEncryption: String? = nil) {
+        public init(bucket: String, tagging: String? = nil, contentDisposition: String? = nil, sSEKMSKeyId: String? = nil, grantReadACP: String? = nil, sSECustomerAlgorithm: String? = nil, contentLanguage: String? = nil, contentEncoding: String? = nil, contentLength: Int64? = nil, grantWriteACP: String? = nil, key: String, websiteRedirectLocation: String? = nil, body: Data? = nil, sSECustomerKey: String? = nil, contentMD5: String? = nil, cacheControl: String? = nil, requestPayer: RequestPayer? = nil, grantFullControl: String? = nil, sSECustomerKeyMD5: String? = nil, aCL: ObjectCannedACL? = nil, metadata: [String: String]? = nil, expires: Date? = nil, contentType: String? = nil, storageClass: StorageClass? = nil, grantRead: String? = nil, serverSideEncryption: ServerSideEncryption? = nil) {
             self.bucket = bucket
             self.tagging = tagging
             self.contentDisposition = contentDisposition
@@ -5106,10 +5313,10 @@ extension S3 {
             self.sSECustomerKey = dictionary["X-amz-server-side-encryption-customer-key"] as? String
             self.contentMD5 = dictionary["Content-MD5"] as? String
             self.cacheControl = dictionary["Cache-Control"] as? String
-            self.requestPayer = dictionary["X-amz-request-payer"] as? String
+            if let requestPayer = dictionary["X-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
             self.grantFullControl = dictionary["X-amz-grant-full-control"] as? String
             self.sSECustomerKeyMD5 = dictionary["X-amz-server-side-encryption-customer-key-MD5"] as? String
-            self.aCL = dictionary["X-amz-acl"] as? String
+            if let aCL = dictionary["X-amz-acl"] as? String { self.aCL = ObjectCannedACL(rawValue: aCL) } else { self.aCL = nil }
             if let metadata = dictionary["X-amz-meta-"] as? [String: String] {
                 self.metadata = metadata
             } else { 
@@ -5117,9 +5324,9 @@ extension S3 {
             }
             self.expires = dictionary["Expires"] as? Date
             self.contentType = dictionary["Content-Type"] as? String
-            self.storageClass = dictionary["X-amz-storage-class"] as? String
+            if let storageClass = dictionary["X-amz-storage-class"] as? String { self.storageClass = StorageClass(rawValue: storageClass) } else { self.storageClass = nil }
             self.grantRead = dictionary["X-amz-grant-read"] as? String
-            self.serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String
+            if let serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String { self.serverSideEncryption = ServerSideEncryption(rawValue: serverSideEncryption) } else { self.serverSideEncryption = nil }
         }
     }
 
@@ -5127,14 +5334,14 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the region where the bucket will be created. If you don't specify a region, the bucket will be created in US Standard.
-        public let locationConstraint: String?
+        public let locationConstraint: BucketLocationConstraint?
 
-        public init(locationConstraint: String? = nil) {
+        public init(locationConstraint: BucketLocationConstraint? = nil) {
             self.locationConstraint = locationConstraint
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.locationConstraint = dictionary["LocationConstraint"] as? String
+            if let locationConstraint = dictionary["LocationConstraint"] as? String { self.locationConstraint = BucketLocationConstraint(rawValue: locationConstraint) } else { self.locationConstraint = nil }
         }
     }
 
@@ -5178,7 +5385,7 @@ extension S3 {
         public let partNumber: Int32
         /// Size of the body in bytes. This parameter is useful when the size of the body cannot be determined automatically.
         public let contentLength: Int64?
-        public let requestPayer: String?
+        public let requestPayer: RequestPayer?
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
         public let sSECustomerKeyMD5: String?
         /// Object key for which the multipart upload was initiated.
@@ -5190,7 +5397,7 @@ extension S3 {
         /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
         public let sSECustomerAlgorithm: String?
 
-        public init(bucket: String, sSECustomerKey: String? = nil, contentMD5: String? = nil, partNumber: Int32, contentLength: Int64? = nil, requestPayer: String? = nil, sSECustomerKeyMD5: String? = nil, key: String, uploadId: String, body: Data? = nil, sSECustomerAlgorithm: String? = nil) {
+        public init(bucket: String, sSECustomerKey: String? = nil, contentMD5: String? = nil, partNumber: Int32, contentLength: Int64? = nil, requestPayer: RequestPayer? = nil, sSECustomerKeyMD5: String? = nil, key: String, uploadId: String, body: Data? = nil, sSECustomerAlgorithm: String? = nil) {
             self.bucket = bucket
             self.sSECustomerKey = sSECustomerKey
             self.contentMD5 = contentMD5
@@ -5212,7 +5419,7 @@ extension S3 {
             guard let partNumber = dictionary["PartNumber"] as? Int32 else { throw InitializableError.missingRequiredParam("PartNumber") }
             self.partNumber = partNumber
             self.contentLength = dictionary["Content-Length"] as? Int64
-            self.requestPayer = dictionary["X-amz-request-payer"] as? String
+            if let requestPayer = dictionary["X-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
             self.sSECustomerKeyMD5 = dictionary["X-amz-server-side-encryption-customer-key-MD5"] as? String
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
@@ -5315,6 +5522,12 @@ extension S3 {
                 self.filterRules = nil
             }
         }
+    }
+
+    public enum TransitionStorageClass: String, CustomStringConvertible {
+        case glacier = "GLACIER"
+        case standard_ia = "STANDARD_IA"
+        public var description: String { return self.rawValue }
     }
 
     public struct PutBucketWebsiteRequest: AWSShape {
@@ -5570,9 +5783,9 @@ extension S3 {
         public let uploadId: String
         /// Sets the maximum number of parts to return.
         public let maxParts: Int32?
-        public let requestPayer: String?
+        public let requestPayer: RequestPayer?
 
-        public init(bucket: String, partNumberMarker: Int32? = nil, key: String, uploadId: String, maxParts: Int32? = nil, requestPayer: String? = nil) {
+        public init(bucket: String, partNumberMarker: Int32? = nil, key: String, uploadId: String, maxParts: Int32? = nil, requestPayer: RequestPayer? = nil) {
             self.bucket = bucket
             self.partNumberMarker = partNumberMarker
             self.key = key
@@ -5590,8 +5803,14 @@ extension S3 {
             guard let uploadId = dictionary["UploadId"] as? String else { throw InitializableError.missingRequiredParam("UploadId") }
             self.uploadId = uploadId
             self.maxParts = dictionary["Max-parts"] as? Int32
-            self.requestPayer = dictionary["X-amz-request-payer"] as? String
+            if let requestPayer = dictionary["X-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
         }
+    }
+
+    public enum BucketAccelerateStatus: String, CustomStringConvertible {
+        case enabled = "Enabled"
+        case suspended = "Suspended"
+        public var description: String { return self.rawValue }
     }
 
     public struct RestoreObjectRequest: AWSShape {
@@ -5610,9 +5829,9 @@ extension S3 {
         public let restoreRequest: RestoreRequest?
         public let key: String
         public let versionId: String?
-        public let requestPayer: String?
+        public let requestPayer: RequestPayer?
 
-        public init(bucket: String, restoreRequest: RestoreRequest? = nil, key: String, versionId: String? = nil, requestPayer: String? = nil) {
+        public init(bucket: String, restoreRequest: RestoreRequest? = nil, key: String, versionId: String? = nil, requestPayer: RequestPayer? = nil) {
             self.bucket = bucket
             self.restoreRequest = restoreRequest
             self.key = key
@@ -5627,7 +5846,7 @@ extension S3 {
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
             self.versionId = dictionary["VersionId"] as? String
-            self.requestPayer = dictionary["X-amz-request-payer"] as? String
+            if let requestPayer = dictionary["X-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
         }
     }
 
@@ -5639,16 +5858,16 @@ extension S3 {
         /// Email address of the grantee.
         public let emailAddress: String?
         /// Type of grantee
-        public let type: String
+        public let `type`: Type
         /// Screen name of the grantee.
         public let displayName: String?
         /// URI of the grantee group.
         public let uRI: String?
 
-        public init(iD: String? = nil, emailAddress: String? = nil, type: String, displayName: String? = nil, uRI: String? = nil) {
+        public init(iD: String? = nil, emailAddress: String? = nil, type: Type, displayName: String? = nil, uRI: String? = nil) {
             self.iD = iD
             self.emailAddress = emailAddress
-            self.type = type
+            self.`type` = `type`
             self.displayName = displayName
             self.uRI = uRI
         }
@@ -5656,8 +5875,8 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             self.iD = dictionary["ID"] as? String
             self.emailAddress = dictionary["EmailAddress"] as? String
-            guard let type = dictionary["Xsi:type"] as? String else { throw InitializableError.missingRequiredParam("Xsi:type") }
-            self.type = type
+            guard let rawType = dictionary["Xsi:type"] as? String, let `type` = Type(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Xsi:type") }
+            self.`type` = `type`
             self.displayName = dictionary["DisplayName"] as? String
             self.uRI = dictionary["URI"] as? String
         }
@@ -5667,11 +5886,11 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public let queue: String?
-        public let events: [String]?
-        public let event: String?
+        public let events: [Event]?
+        public let event: Event?
         public let id: String?
 
-        public init(queue: String? = nil, events: [String]? = nil, event: String? = nil, id: String? = nil) {
+        public init(queue: String? = nil, events: [Event]? = nil, event: Event? = nil, id: String? = nil) {
             self.queue = queue
             self.events = events
             self.event = event
@@ -5680,8 +5899,8 @@ extension S3 {
 
         public init(dictionary: [String: Any]) throws {
             self.queue = dictionary["Queue"] as? String
-            self.events = dictionary["Event"] as? [String]
-            self.event = dictionary["Event"] as? String
+            if let events = dictionary["Event"] as? [String] { self.events = events.flatMap({ Event(rawValue: $0)}) } else { self.events = nil }
+            if let event = dictionary["Event"] as? String { self.event = Event(rawValue: event) } else { self.event = nil }
             self.id = dictionary["Id"] as? String
         }
     }
@@ -5720,6 +5939,21 @@ extension S3 {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
         }
+    }
+
+    public enum `Protocol`: String, CustomStringConvertible {
+        case http = "http"
+        case https = "https"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Permission: String, CustomStringConvertible {
+        case full_control = "FULL_CONTROL"
+        case write = "WRITE"
+        case write_acp = "WRITE_ACP"
+        case read = "READ"
+        case read_acp = "READ_ACP"
+        public var description: String { return self.rawValue }
     }
 
     public struct PutBucketRequestPaymentRequest: AWSShape {
@@ -5768,11 +6002,11 @@ extension S3 {
         public let eTag: String?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
         public let sSECustomerAlgorithm: String?
-        public let requestCharged: String?
+        public let requestCharged: RequestCharged?
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        public let serverSideEncryption: String?
+        public let serverSideEncryption: ServerSideEncryption?
 
-        public init(expiration: String? = nil, versionId: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, eTag: String? = nil, sSECustomerAlgorithm: String? = nil, requestCharged: String? = nil, serverSideEncryption: String? = nil) {
+        public init(expiration: String? = nil, versionId: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, eTag: String? = nil, sSECustomerAlgorithm: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil) {
             self.expiration = expiration
             self.versionId = versionId
             self.sSECustomerKeyMD5 = sSECustomerKeyMD5
@@ -5790,8 +6024,8 @@ extension S3 {
             self.sSEKMSKeyId = dictionary["X-amz-server-side-encryption-aws-kms-key-id"] as? String
             self.eTag = dictionary["ETag"] as? String
             self.sSECustomerAlgorithm = dictionary["X-amz-server-side-encryption-customer-algorithm"] as? String
-            self.requestCharged = dictionary["X-amz-request-charged"] as? String
-            self.serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String
+            if let requestCharged = dictionary["X-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
+            if let serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String { self.serverSideEncryption = ServerSideEncryption(rawValue: serverSideEncryption) } else { self.serverSideEncryption = nil }
         }
     }
 
@@ -5814,10 +6048,10 @@ extension S3 {
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
         public let sSECustomerAlgorithm: String?
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        public let serverSideEncryption: String?
-        public let requestCharged: String?
+        public let serverSideEncryption: ServerSideEncryption?
+        public let requestCharged: RequestCharged?
 
-        public init(copyObjectResult: CopyObjectResult? = nil, sSECustomerKeyMD5: String? = nil, versionId: String? = nil, copySourceVersionId: String? = nil, sSEKMSKeyId: String? = nil, expiration: String? = nil, sSECustomerAlgorithm: String? = nil, serverSideEncryption: String? = nil, requestCharged: String? = nil) {
+        public init(copyObjectResult: CopyObjectResult? = nil, sSECustomerKeyMD5: String? = nil, versionId: String? = nil, copySourceVersionId: String? = nil, sSEKMSKeyId: String? = nil, expiration: String? = nil, sSECustomerAlgorithm: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, requestCharged: RequestCharged? = nil) {
             self.copyObjectResult = copyObjectResult
             self.sSECustomerKeyMD5 = sSECustomerKeyMD5
             self.versionId = versionId
@@ -5837,8 +6071,8 @@ extension S3 {
             self.sSEKMSKeyId = dictionary["X-amz-server-side-encryption-aws-kms-key-id"] as? String
             self.expiration = dictionary["X-amz-expiration"] as? String
             self.sSECustomerAlgorithm = dictionary["X-amz-server-side-encryption-customer-algorithm"] as? String
-            self.serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String
-            self.requestCharged = dictionary["X-amz-request-charged"] as? String
+            if let serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String { self.serverSideEncryption = ServerSideEncryption(rawValue: serverSideEncryption) } else { self.serverSideEncryption = nil }
+            if let requestCharged = dictionary["X-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
         }
     }
 

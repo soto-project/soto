@@ -207,9 +207,9 @@ extension Codecommit {
         /// Any custom data associated with the trigger that will be included in the information sent to the target of the trigger.
         public let customData: String?
         /// The repository events that will cause the trigger to run actions in another service, such as sending a notification through Amazon Simple Notification Service (SNS).   The valid value "all" cannot be used with any other values. 
-        public let events: [String]
+        public let events: [RepositoryTriggerEventEnum]
 
-        public init(destinationArn: String, name: String, branches: [String]? = nil, customData: String? = nil, events: [String]) {
+        public init(destinationArn: String, name: String, branches: [String]? = nil, customData: String? = nil, events: [RepositoryTriggerEventEnum]) {
             self.destinationArn = destinationArn
             self.name = name
             self.branches = branches
@@ -225,7 +225,7 @@ extension Codecommit {
             self.branches = dictionary["branches"] as? [String]
             self.customData = dictionary["customData"] as? String
             guard let events = dictionary["events"] as? [String] else { throw InitializableError.missingRequiredParam("events") }
-            self.events = events
+            self.events = events.flatMap({ RepositoryTriggerEventEnum(rawValue: $0)})
         }
     }
 
@@ -308,6 +308,12 @@ extension Codecommit {
         }
     }
 
+    public enum OrderEnum: String, CustomStringConvertible {
+        case ascending = "ascending"
+        case descending = "descending"
+        public var description: String { return self.rawValue }
+    }
+
     public struct GetRepositoryOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -365,6 +371,13 @@ extension Codecommit {
             guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
             self.repositoryName = repositoryName
         }
+    }
+
+    public enum ChangeTypeEnum: String, CustomStringConvertible {
+        case a = "A"
+        case m = "M"
+        case d = "D"
+        public var description: String { return self.rawValue }
     }
 
     public struct UpdateRepositoryDescriptionInput: AWSShape {
@@ -436,24 +449,30 @@ extension Codecommit {
         }
     }
 
+    public enum SortByEnum: String, CustomStringConvertible {
+        case repositoryname = "repositoryName"
+        case lastmodifieddate = "lastModifiedDate"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Difference: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// Whether the change type of the difference is an addition (A), deletion (D), or modification (M).
-        public let changeType: String?
+        public let changeType: ChangeTypeEnum?
         /// Information about an afterBlob data type object, including the ID, the file mode permission code, and the path.
         public let afterBlob: BlobMetadata?
         /// Information about a beforeBlob data type object, including the ID, the file mode permission code, and the path.
         public let beforeBlob: BlobMetadata?
 
-        public init(changeType: String? = nil, afterBlob: BlobMetadata? = nil, beforeBlob: BlobMetadata? = nil) {
+        public init(changeType: ChangeTypeEnum? = nil, afterBlob: BlobMetadata? = nil, beforeBlob: BlobMetadata? = nil) {
             self.changeType = changeType
             self.afterBlob = afterBlob
             self.beforeBlob = beforeBlob
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.changeType = dictionary["changeType"] as? String
+            if let changeType = dictionary["changeType"] as? String { self.changeType = ChangeTypeEnum(rawValue: changeType) } else { self.changeType = nil }
             if let afterBlob = dictionary["afterBlob"] as? [String: Any] { self.afterBlob = try Codecommit.BlobMetadata(dictionary: afterBlob) } else { self.afterBlob = nil }
             if let beforeBlob = dictionary["beforeBlob"] as? [String: Any] { self.beforeBlob = try Codecommit.BlobMetadata(dictionary: beforeBlob) } else { self.beforeBlob = nil }
         }
@@ -476,6 +495,14 @@ extension Codecommit {
             self.repositoryId = dictionary["repositoryId"] as? String
             self.repositoryName = dictionary["repositoryName"] as? String
         }
+    }
+
+    public enum RepositoryTriggerEventEnum: String, CustomStringConvertible {
+        case all = "all"
+        case updatereference = "updateReference"
+        case createreference = "createReference"
+        case deletereference = "deleteReference"
+        public var description: String { return self.rawValue }
     }
 
     public struct GetDifferencesInput: AWSShape {
@@ -743,21 +770,21 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// The criteria used to sort the results of a list repositories operation.
-        public let sortBy: String?
+        public let sortBy: SortByEnum?
         /// The order in which to sort the results of a list repositories operation.
-        public let order: String?
+        public let order: OrderEnum?
         /// An enumeration token that allows the operation to batch the results of the operation. Batch sizes are 1,000 for list repository operations. When the client sends the token back to AWS CodeCommit, another page of 1,000 records is retrieved.
         public let nextToken: String?
 
-        public init(sortBy: String? = nil, order: String? = nil, nextToken: String? = nil) {
+        public init(sortBy: SortByEnum? = nil, order: OrderEnum? = nil, nextToken: String? = nil) {
             self.sortBy = sortBy
             self.order = order
             self.nextToken = nextToken
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.sortBy = dictionary["sortBy"] as? String
-            self.order = dictionary["order"] as? String
+            if let sortBy = dictionary["sortBy"] as? String { self.sortBy = SortByEnum(rawValue: sortBy) } else { self.sortBy = nil }
+            if let order = dictionary["order"] as? String { self.order = OrderEnum(rawValue: order) } else { self.order = nil }
             self.nextToken = dictionary["nextToken"] as? String
         }
     }

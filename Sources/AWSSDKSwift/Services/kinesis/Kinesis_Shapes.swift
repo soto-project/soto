@@ -79,6 +79,15 @@ extension Kinesis {
         }
     }
 
+    public enum ShardIteratorType: String, CustomStringConvertible {
+        case at_sequence_number = "AT_SEQUENCE_NUMBER"
+        case after_sequence_number = "AFTER_SEQUENCE_NUMBER"
+        case trim_horizon = "TRIM_HORIZON"
+        case latest = "LATEST"
+        case at_timestamp = "AT_TIMESTAMP"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DescribeStreamInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -242,22 +251,22 @@ extension Kinesis {
         /// The key for the payload
         public static let payload: String? = nil
         /// Represents the list of all the metrics that would be in the enhanced state after the operation.
-        public let desiredShardLevelMetrics: [String]?
+        public let desiredShardLevelMetrics: [MetricsName]?
         /// The name of the Amazon Kinesis stream.
         public let streamName: String?
         /// Represents the current state of the metrics that are in the enhanced state before the operation.
-        public let currentShardLevelMetrics: [String]?
+        public let currentShardLevelMetrics: [MetricsName]?
 
-        public init(desiredShardLevelMetrics: [String]? = nil, streamName: String? = nil, currentShardLevelMetrics: [String]? = nil) {
+        public init(desiredShardLevelMetrics: [MetricsName]? = nil, streamName: String? = nil, currentShardLevelMetrics: [MetricsName]? = nil) {
             self.desiredShardLevelMetrics = desiredShardLevelMetrics
             self.streamName = streamName
             self.currentShardLevelMetrics = currentShardLevelMetrics
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.desiredShardLevelMetrics = dictionary["DesiredShardLevelMetrics"] as? [String]
+            if let desiredShardLevelMetrics = dictionary["DesiredShardLevelMetrics"] as? [String] { self.desiredShardLevelMetrics = desiredShardLevelMetrics.flatMap({ MetricsName(rawValue: $0)}) } else { self.desiredShardLevelMetrics = nil }
             self.streamName = dictionary["StreamName"] as? String
-            self.currentShardLevelMetrics = dictionary["CurrentShardLevelMetrics"] as? [String]
+            if let currentShardLevelMetrics = dictionary["CurrentShardLevelMetrics"] as? [String] { self.currentShardLevelMetrics = currentShardLevelMetrics.flatMap({ MetricsName(rawValue: $0)}) } else { self.currentShardLevelMetrics = nil }
         }
     }
 
@@ -312,22 +321,34 @@ extension Kinesis {
         }
     }
 
+    public enum MetricsName: String, CustomStringConvertible {
+        case incomingbytes = "IncomingBytes"
+        case incomingrecords = "IncomingRecords"
+        case outgoingbytes = "OutgoingBytes"
+        case outgoingrecords = "OutgoingRecords"
+        case writeprovisionedthroughputexceeded = "WriteProvisionedThroughputExceeded"
+        case readprovisionedthroughputexceeded = "ReadProvisionedThroughputExceeded"
+        case iteratoragemilliseconds = "IteratorAgeMilliseconds"
+        case all = "ALL"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DisableEnhancedMonitoringInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// List of shard-level metrics to disable. The following are the valid shard-level metrics. The value "ALL" disables every metric.    IncomingBytes     IncomingRecords     OutgoingBytes     OutgoingRecords     WriteProvisionedThroughputExceeded     ReadProvisionedThroughputExceeded     IteratorAgeMilliseconds     ALL    For more information, see Monitoring the Amazon Kinesis Streams Service with Amazon CloudWatch in the Amazon Kinesis Streams Developer Guide.
-        public let shardLevelMetrics: [String]
+        public let shardLevelMetrics: [MetricsName]
         /// The name of the Amazon Kinesis stream for which to disable enhanced monitoring.
         public let streamName: String
 
-        public init(shardLevelMetrics: [String], streamName: String) {
+        public init(shardLevelMetrics: [MetricsName], streamName: String) {
             self.shardLevelMetrics = shardLevelMetrics
             self.streamName = streamName
         }
 
         public init(dictionary: [String: Any]) throws {
             guard let shardLevelMetrics = dictionary["ShardLevelMetrics"] as? [String] else { throw InitializableError.missingRequiredParam("ShardLevelMetrics") }
-            self.shardLevelMetrics = shardLevelMetrics
+            self.shardLevelMetrics = shardLevelMetrics.flatMap({ MetricsName(rawValue: $0)})
             guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
             self.streamName = streamName
         }
@@ -424,13 +445,13 @@ extension Kinesis {
         /// The timestamp of the data record from which to start reading. Used with shard iterator type AT_TIMESTAMP. A timestamp is the Unix epoch date with precision in milliseconds. For example, 2016-04-04T19:58:46.480-00:00 or 1459799926.480. If a record with this exact timestamp does not exist, the iterator returned is for the next (later) record. If the timestamp is older than the current trim horizon, the iterator returned is for the oldest untrimmed data record (TRIM_HORIZON).
         public let timestamp: Date?
         /// Determines how the shard iterator is used to start reading data records from the shard. The following are the valid Amazon Kinesis shard iterator types:  AT_SEQUENCE_NUMBER - Start reading from the position denoted by a specific sequence number, provided in the value StartingSequenceNumber.  AFTER_SEQUENCE_NUMBER - Start reading right after the position denoted by a specific sequence number, provided in the value StartingSequenceNumber.  AT_TIMESTAMP - Start reading from the position denoted by a specific timestamp, provided in the value Timestamp.  TRIM_HORIZON - Start reading at the last untrimmed record in the shard in the system, which is the oldest data record in the shard.  LATEST - Start reading just after the most recent record in the shard, so that you always read the most recent data in the shard.  
-        public let shardIteratorType: String
+        public let shardIteratorType: ShardIteratorType
         /// The name of the Amazon Kinesis stream.
         public let streamName: String
         /// The shard ID of the Amazon Kinesis shard to get the iterator for.
         public let shardId: String
 
-        public init(startingSequenceNumber: String? = nil, timestamp: Date? = nil, shardIteratorType: String, streamName: String, shardId: String) {
+        public init(startingSequenceNumber: String? = nil, timestamp: Date? = nil, shardIteratorType: ShardIteratorType, streamName: String, shardId: String) {
             self.startingSequenceNumber = startingSequenceNumber
             self.timestamp = timestamp
             self.shardIteratorType = shardIteratorType
@@ -441,7 +462,7 @@ extension Kinesis {
         public init(dictionary: [String: Any]) throws {
             self.startingSequenceNumber = dictionary["StartingSequenceNumber"] as? String
             self.timestamp = dictionary["Timestamp"] as? Date
-            guard let shardIteratorType = dictionary["ShardIteratorType"] as? String else { throw InitializableError.missingRequiredParam("ShardIteratorType") }
+            guard let rawShardIteratorType = dictionary["ShardIteratorType"] as? String, let shardIteratorType = ShardIteratorType(rawValue: rawShardIteratorType) else { throw InitializableError.missingRequiredParam("ShardIteratorType") }
             self.shardIteratorType = shardIteratorType
             guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
             self.streamName = streamName
@@ -524,9 +545,9 @@ extension Kinesis {
         /// The name of the stream.
         public let streamName: String
         /// The scaling type. Uniform scaling creates shards of equal size.
-        public let scalingType: String
+        public let scalingType: ScalingType
 
-        public init(targetShardCount: Int32, streamName: String, scalingType: String) {
+        public init(targetShardCount: Int32, streamName: String, scalingType: ScalingType) {
             self.targetShardCount = targetShardCount
             self.streamName = streamName
             self.scalingType = scalingType
@@ -537,7 +558,7 @@ extension Kinesis {
             self.targetShardCount = targetShardCount
             guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
             self.streamName = streamName
-            guard let scalingType = dictionary["ScalingType"] as? String else { throw InitializableError.missingRequiredParam("ScalingType") }
+            guard let rawScalingType = dictionary["ScalingType"] as? String, let scalingType = ScalingType(rawValue: rawScalingType) else { throw InitializableError.missingRequiredParam("ScalingType") }
             self.scalingType = scalingType
         }
     }
@@ -703,21 +724,26 @@ extension Kinesis {
         /// The key for the payload
         public static let payload: String? = nil
         /// List of shard-level metrics to enable. The following are the valid shard-level metrics. The value "ALL" enables every metric.    IncomingBytes     IncomingRecords     OutgoingBytes     OutgoingRecords     WriteProvisionedThroughputExceeded     ReadProvisionedThroughputExceeded     IteratorAgeMilliseconds     ALL    For more information, see Monitoring the Amazon Kinesis Streams Service with Amazon CloudWatch in the Amazon Kinesis Streams Developer Guide.
-        public let shardLevelMetrics: [String]
+        public let shardLevelMetrics: [MetricsName]
         /// The name of the stream for which to enable enhanced monitoring.
         public let streamName: String
 
-        public init(shardLevelMetrics: [String], streamName: String) {
+        public init(shardLevelMetrics: [MetricsName], streamName: String) {
             self.shardLevelMetrics = shardLevelMetrics
             self.streamName = streamName
         }
 
         public init(dictionary: [String: Any]) throws {
             guard let shardLevelMetrics = dictionary["ShardLevelMetrics"] as? [String] else { throw InitializableError.missingRequiredParam("ShardLevelMetrics") }
-            self.shardLevelMetrics = shardLevelMetrics
+            self.shardLevelMetrics = shardLevelMetrics.flatMap({ MetricsName(rawValue: $0)})
             guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
             self.streamName = streamName
         }
+    }
+
+    public enum ScalingType: String, CustomStringConvertible {
+        case uniform_scaling = "UNIFORM_SCALING"
+        public var description: String { return self.rawValue }
     }
 
     public struct MergeShardsInput: AWSShape {
@@ -840,14 +866,14 @@ extension Kinesis {
         /// The key for the payload
         public static let payload: String? = nil
         /// List of shard-level metrics. The following are the valid shard-level metrics. The value "ALL" enhances every metric.    IncomingBytes     IncomingRecords     OutgoingBytes     OutgoingRecords     WriteProvisionedThroughputExceeded     ReadProvisionedThroughputExceeded     IteratorAgeMilliseconds     ALL    For more information, see Monitoring the Amazon Kinesis Streams Service with Amazon CloudWatch in the Amazon Kinesis Streams Developer Guide.
-        public let shardLevelMetrics: [String]?
+        public let shardLevelMetrics: [MetricsName]?
 
-        public init(shardLevelMetrics: [String]? = nil) {
+        public init(shardLevelMetrics: [MetricsName]? = nil) {
             self.shardLevelMetrics = shardLevelMetrics
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.shardLevelMetrics = dictionary["ShardLevelMetrics"] as? [String]
+            if let shardLevelMetrics = dictionary["ShardLevelMetrics"] as? [String] { self.shardLevelMetrics = shardLevelMetrics.flatMap({ MetricsName(rawValue: $0)}) } else { self.shardLevelMetrics = nil }
         }
     }
 
@@ -869,9 +895,9 @@ extension Kinesis {
         /// The name of the stream being described.
         public let streamName: String
         /// The current status of the stream being described. The stream status is one of the following states:    CREATING - The stream is being created. Amazon Kinesis immediately returns and sets StreamStatus to CREATING.    DELETING - The stream is being deleted. The specified stream is in the DELETING state until Amazon Kinesis completes the deletion.    ACTIVE - The stream exists and is ready for read and write operations or deletion. You should perform read and write operations only on an ACTIVE stream.    UPDATING - Shards in the stream are being merged or split. Read and write operations continue to work while the stream is in the UPDATING state.  
-        public let streamStatus: String
+        public let streamStatus: StreamStatus
 
-        public init(streamARN: String, retentionPeriodHours: Int32, enhancedMonitoring: [EnhancedMetrics], hasMoreShards: Bool, shards: [Shard], streamCreationTimestamp: Date, streamName: String, streamStatus: String) {
+        public init(streamARN: String, retentionPeriodHours: Int32, enhancedMonitoring: [EnhancedMetrics], hasMoreShards: Bool, shards: [Shard], streamCreationTimestamp: Date, streamName: String, streamStatus: StreamStatus) {
             self.streamARN = streamARN
             self.retentionPeriodHours = retentionPeriodHours
             self.enhancedMonitoring = enhancedMonitoring
@@ -897,9 +923,17 @@ extension Kinesis {
             self.streamCreationTimestamp = streamCreationTimestamp
             guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
             self.streamName = streamName
-            guard let streamStatus = dictionary["StreamStatus"] as? String else { throw InitializableError.missingRequiredParam("StreamStatus") }
+            guard let rawStreamStatus = dictionary["StreamStatus"] as? String, let streamStatus = StreamStatus(rawValue: rawStreamStatus) else { throw InitializableError.missingRequiredParam("StreamStatus") }
             self.streamStatus = streamStatus
         }
+    }
+
+    public enum StreamStatus: String, CustomStringConvertible {
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case active = "ACTIVE"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
     }
 
 }

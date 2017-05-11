@@ -298,6 +298,15 @@ extension Redshift {
         }
     }
 
+    public enum TableRestoreStatusType: String, CustomStringConvertible {
+        case pending = "PENDING"
+        case in_progress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        case canceled = "CANCELED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Endpoint: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -923,7 +932,7 @@ extension Redshift {
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeEvents request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
         /// The event source to retrieve events for. If no value is specified, all events are returned. Constraints: If SourceType is supplied, SourceIdentifier must also be provided.   Specify cluster when SourceIdentifier is a cluster identifier.   Specify cluster-security-group when SourceIdentifier is a cluster security group name.   Specify cluster-parameter-group when SourceIdentifier is a cluster parameter group name.   Specify cluster-snapshot when SourceIdentifier is a cluster snapshot identifier.  
-        public let sourceType: String?
+        public let sourceType: SourceType?
         /// The end of the time interval for which to retrieve events, specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2009-07-08T18:00Z 
         public let endTime: Date?
         /// The identifier of the event source for which events will be returned. If this parameter is not specified, then all sources are included in the response. Constraints: If SourceIdentifier is supplied, SourceType must also be provided.   Specify a cluster identifier when SourceType is cluster.   Specify a cluster security group name when SourceType is cluster-security-group.   Specify a cluster parameter group name when SourceType is cluster-parameter-group.   Specify a cluster snapshot identifier when SourceType is cluster-snapshot.  
@@ -931,7 +940,7 @@ extension Redshift {
         /// The number of minutes prior to the time of the request for which to retrieve events. For example, if the request is sent at 18:00 and you specify a duration of 60, then only events which have occurred after 17:00 will be returned. Default: 60 
         public let duration: Int32?
 
-        public init(startTime: Date? = nil, maxRecords: Int32? = nil, marker: String? = nil, sourceType: String? = nil, endTime: Date? = nil, sourceIdentifier: String? = nil, duration: Int32? = nil) {
+        public init(startTime: Date? = nil, maxRecords: Int32? = nil, marker: String? = nil, sourceType: SourceType? = nil, endTime: Date? = nil, sourceIdentifier: String? = nil, duration: Int32? = nil) {
             self.startTime = startTime
             self.maxRecords = maxRecords
             self.marker = marker
@@ -945,7 +954,7 @@ extension Redshift {
             self.startTime = dictionary["StartTime"] as? Date
             self.maxRecords = dictionary["MaxRecords"] as? Int32
             self.marker = dictionary["Marker"] as? String
-            self.sourceType = dictionary["SourceType"] as? String
+            if let sourceType = dictionary["SourceType"] as? String { self.sourceType = SourceType(rawValue: sourceType) } else { self.sourceType = nil }
             self.endTime = dictionary["EndTime"] as? Date
             self.sourceIdentifier = dictionary["SourceIdentifier"] as? String
             self.duration = dictionary["Duration"] as? Int32
@@ -1619,7 +1628,7 @@ extension Redshift {
         /// The name of the parameter.
         public let parameterName: String?
         /// Specifies how to apply the WLM configuration parameter. Some properties can be applied dynamically, while other properties require that any associated clusters be rebooted for the configuration changes to be applied. For more information about parameters and parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Management Guide.
-        public let applyType: String?
+        public let applyType: ParameterApplyType?
         /// The source of the parameter value, such as "engine-default" or "user".
         public let source: String?
         /// If true, the parameter can be modified. Some parameters have security or operational implications that prevent them from being changed. 
@@ -1629,7 +1638,7 @@ extension Redshift {
         /// A description of the parameter.
         public let description: String?
 
-        public init(parameterValue: String? = nil, allowedValues: String? = nil, dataType: String? = nil, parameterName: String? = nil, applyType: String? = nil, source: String? = nil, isModifiable: Bool? = nil, minimumEngineVersion: String? = nil, description: String? = nil) {
+        public init(parameterValue: String? = nil, allowedValues: String? = nil, dataType: String? = nil, parameterName: String? = nil, applyType: ParameterApplyType? = nil, source: String? = nil, isModifiable: Bool? = nil, minimumEngineVersion: String? = nil, description: String? = nil) {
             self.parameterValue = parameterValue
             self.allowedValues = allowedValues
             self.dataType = dataType
@@ -1646,7 +1655,7 @@ extension Redshift {
             self.allowedValues = dictionary["AllowedValues"] as? String
             self.dataType = dictionary["DataType"] as? String
             self.parameterName = dictionary["ParameterName"] as? String
-            self.applyType = dictionary["ApplyType"] as? String
+            if let applyType = dictionary["ApplyType"] as? String { self.applyType = ParameterApplyType(rawValue: applyType) } else { self.applyType = nil }
             self.source = dictionary["Source"] as? String
             self.isModifiable = dictionary["IsModifiable"] as? Bool
             self.minimumEngineVersion = dictionary["MinimumEngineVersion"] as? String
@@ -1776,7 +1785,7 @@ extension Redshift {
         /// The text of this event.
         public let message: String?
         /// The source type for this event.
-        public let sourceType: String?
+        public let sourceType: SourceType?
         /// The identifier of the event.
         public let eventId: String?
         /// A list of the event categories. Values: Configuration, Management, Monitoring, Security
@@ -1786,7 +1795,7 @@ extension Redshift {
         /// The date and time of the event.
         public let date: Date?
 
-        public init(severity: String? = nil, message: String? = nil, sourceType: String? = nil, eventId: String? = nil, eventCategories: EventCategoriesList? = nil, sourceIdentifier: String? = nil, date: Date? = nil) {
+        public init(severity: String? = nil, message: String? = nil, sourceType: SourceType? = nil, eventId: String? = nil, eventCategories: EventCategoriesList? = nil, sourceIdentifier: String? = nil, date: Date? = nil) {
             self.severity = severity
             self.message = message
             self.sourceType = sourceType
@@ -1799,7 +1808,7 @@ extension Redshift {
         public init(dictionary: [String: Any]) throws {
             self.severity = dictionary["Severity"] as? String
             self.message = dictionary["Message"] as? String
-            self.sourceType = dictionary["SourceType"] as? String
+            if let sourceType = dictionary["SourceType"] as? String { self.sourceType = SourceType(rawValue: sourceType) } else { self.sourceType = nil }
             self.eventId = dictionary["EventId"] as? String
             if let eventCategories = dictionary["EventCategories"] as? [String: Any] { self.eventCategories = try Redshift.EventCategoriesList(dictionary: eventCategories) } else { self.eventCategories = nil }
             self.sourceIdentifier = dictionary["SourceIdentifier"] as? String
@@ -1935,7 +1944,7 @@ extension Redshift {
         /// The unique identifier for the table restore request.
         public let tableRestoreRequestId: String?
         /// A value that describes the current state of the table restore request. Valid Values: SUCCEEDED, FAILED, CANCELED, PENDING, IN_PROGRESS 
-        public let status: String?
+        public let status: TableRestoreStatusType?
         /// The identifier of the snapshot that the table is being restored from.
         public let snapshotIdentifier: String?
         /// The name of the source database that contains the table being restored.
@@ -1947,7 +1956,7 @@ extension Redshift {
         /// The name of the schema to restore the table to.
         public let targetSchemaName: String?
 
-        public init(message: String? = nil, progressInMegaBytes: Int64? = nil, sourceSchemaName: String? = nil, clusterIdentifier: String? = nil, targetDatabaseName: String? = nil, totalDataInMegaBytes: Int64? = nil, requestTime: Date? = nil, tableRestoreRequestId: String? = nil, status: String? = nil, snapshotIdentifier: String? = nil, sourceDatabaseName: String? = nil, sourceTableName: String? = nil, newTableName: String? = nil, targetSchemaName: String? = nil) {
+        public init(message: String? = nil, progressInMegaBytes: Int64? = nil, sourceSchemaName: String? = nil, clusterIdentifier: String? = nil, targetDatabaseName: String? = nil, totalDataInMegaBytes: Int64? = nil, requestTime: Date? = nil, tableRestoreRequestId: String? = nil, status: TableRestoreStatusType? = nil, snapshotIdentifier: String? = nil, sourceDatabaseName: String? = nil, sourceTableName: String? = nil, newTableName: String? = nil, targetSchemaName: String? = nil) {
             self.message = message
             self.progressInMegaBytes = progressInMegaBytes
             self.sourceSchemaName = sourceSchemaName
@@ -1973,7 +1982,7 @@ extension Redshift {
             self.totalDataInMegaBytes = dictionary["TotalDataInMegaBytes"] as? Int64
             self.requestTime = dictionary["RequestTime"] as? Date
             self.tableRestoreRequestId = dictionary["TableRestoreRequestId"] as? String
-            self.status = dictionary["Status"] as? String
+            if let status = dictionary["Status"] as? String { self.status = TableRestoreStatusType(rawValue: status) } else { self.status = nil }
             self.snapshotIdentifier = dictionary["SnapshotIdentifier"] as? String
             self.sourceDatabaseName = dictionary["SourceDatabaseName"] as? String
             self.sourceTableName = dictionary["SourceTableName"] as? String
@@ -2664,6 +2673,12 @@ extension Redshift {
         }
     }
 
+    public enum ParameterApplyType: String, CustomStringConvertible {
+        case `static` = "static"
+        case dynamic = "dynamic"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DescribeReservedNodesMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -3164,6 +3179,14 @@ extension Redshift {
         public init(dictionary: [String: Any]) throws {
             if let reservedNode = dictionary["ReservedNode"] as? [String: Any] { self.reservedNode = try Redshift.ReservedNode(dictionary: reservedNode) } else { self.reservedNode = nil }
         }
+    }
+
+    public enum SourceType: String, CustomStringConvertible {
+        case cluster = "cluster"
+        case cluster_parameter_group = "cluster-parameter-group"
+        case cluster_security_group = "cluster-security-group"
+        case cluster_snapshot = "cluster-snapshot"
+        public var description: String { return self.rawValue }
     }
 
     public struct DefaultClusterParameters: AWSShape {

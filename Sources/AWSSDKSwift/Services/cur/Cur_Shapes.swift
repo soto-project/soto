@@ -29,6 +29,17 @@ import Core
 
 extension Cur {
 
+    public enum ReportFormat: String, CustomStringConvertible {
+        case textorcsv = "textORcsv"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AdditionalArtifact: String, CustomStringConvertible {
+        case redshift = "REDSHIFT"
+        case quicksight = "QUICKSIGHT"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DescribeReportDefinitionsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -48,6 +59,12 @@ extension Cur {
                 self.reportDefinitions = nil
             }
         }
+    }
+
+    public enum CompressionFormat: String, CustomStringConvertible {
+        case zip = "ZIP"
+        case gzip = "GZIP"
+        public var description: String { return self.rawValue }
     }
 
     public struct DeleteReportDefinitionResponse: AWSShape {
@@ -75,17 +92,17 @@ extension Cur {
     public struct ReportDefinition: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let timeUnit: String
-        public let format: String
-        public let compression: String
+        public let timeUnit: TimeUnit
+        public let format: ReportFormat
+        public let compression: CompressionFormat
         public let reportName: String
-        public let s3Region: String
-        public let additionalArtifacts: [String]?
-        public let additionalSchemaElements: [String]
+        public let s3Region: AWSRegion
+        public let additionalArtifacts: [AdditionalArtifact]?
+        public let additionalSchemaElements: [SchemaElement]
         public let s3Bucket: String
         public let s3Prefix: String
 
-        public init(timeUnit: String, format: String, compression: String, reportName: String, s3Region: String, additionalArtifacts: [String]? = nil, additionalSchemaElements: [String], s3Bucket: String, s3Prefix: String) {
+        public init(timeUnit: TimeUnit, format: ReportFormat, compression: CompressionFormat, reportName: String, s3Region: AWSRegion, additionalArtifacts: [AdditionalArtifact]? = nil, additionalSchemaElements: [SchemaElement], s3Bucket: String, s3Prefix: String) {
             self.timeUnit = timeUnit
             self.format = format
             self.compression = compression
@@ -98,24 +115,36 @@ extension Cur {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let timeUnit = dictionary["TimeUnit"] as? String else { throw InitializableError.missingRequiredParam("TimeUnit") }
+            guard let rawTimeUnit = dictionary["TimeUnit"] as? String, let timeUnit = TimeUnit(rawValue: rawTimeUnit) else { throw InitializableError.missingRequiredParam("TimeUnit") }
             self.timeUnit = timeUnit
-            guard let format = dictionary["Format"] as? String else { throw InitializableError.missingRequiredParam("Format") }
+            guard let rawFormat = dictionary["Format"] as? String, let format = ReportFormat(rawValue: rawFormat) else { throw InitializableError.missingRequiredParam("Format") }
             self.format = format
-            guard let compression = dictionary["Compression"] as? String else { throw InitializableError.missingRequiredParam("Compression") }
+            guard let rawCompression = dictionary["Compression"] as? String, let compression = CompressionFormat(rawValue: rawCompression) else { throw InitializableError.missingRequiredParam("Compression") }
             self.compression = compression
             guard let reportName = dictionary["ReportName"] as? String else { throw InitializableError.missingRequiredParam("ReportName") }
             self.reportName = reportName
-            guard let s3Region = dictionary["S3Region"] as? String else { throw InitializableError.missingRequiredParam("S3Region") }
+            guard let rawS3Region = dictionary["S3Region"] as? String, let s3Region = AWSRegion(rawValue: rawS3Region) else { throw InitializableError.missingRequiredParam("S3Region") }
             self.s3Region = s3Region
-            self.additionalArtifacts = dictionary["AdditionalArtifacts"] as? [String]
+            if let additionalArtifacts = dictionary["AdditionalArtifacts"] as? [String] { self.additionalArtifacts = additionalArtifacts.flatMap({ AdditionalArtifact(rawValue: $0)}) } else { self.additionalArtifacts = nil }
             guard let additionalSchemaElements = dictionary["AdditionalSchemaElements"] as? [String] else { throw InitializableError.missingRequiredParam("AdditionalSchemaElements") }
-            self.additionalSchemaElements = additionalSchemaElements
+            self.additionalSchemaElements = additionalSchemaElements.flatMap({ SchemaElement(rawValue: $0)})
             guard let s3Bucket = dictionary["S3Bucket"] as? String else { throw InitializableError.missingRequiredParam("S3Bucket") }
             self.s3Bucket = s3Bucket
             guard let s3Prefix = dictionary["S3Prefix"] as? String else { throw InitializableError.missingRequiredParam("S3Prefix") }
             self.s3Prefix = s3Prefix
         }
+    }
+
+    public enum AWSRegion: String, CustomStringConvertible {
+        case us_east_1 = "us-east-1"
+        case us_west_1 = "us-west-1"
+        case us_west_2 = "us-west-2"
+        case eu_central_1 = "eu-central-1"
+        case eu_west_1 = "eu-west-1"
+        case ap_southeast_1 = "ap-southeast-1"
+        case ap_southeast_2 = "ap-southeast-2"
+        case ap_northeast_1 = "ap-northeast-1"
+        public var description: String { return self.rawValue }
     }
 
     public struct PutReportDefinitionRequest: AWSShape {
@@ -131,6 +160,17 @@ extension Cur {
             guard let reportDefinition = dictionary["ReportDefinition"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ReportDefinition") }
             self.reportDefinition = try Cur.ReportDefinition(dictionary: reportDefinition)
         }
+    }
+
+    public enum TimeUnit: String, CustomStringConvertible {
+        case hourly = "HOURLY"
+        case daily = "DAILY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SchemaElement: String, CustomStringConvertible {
+        case resources = "RESOURCES"
+        public var description: String { return self.rawValue }
     }
 
     public struct DescribeReportDefinitionsRequest: AWSShape {

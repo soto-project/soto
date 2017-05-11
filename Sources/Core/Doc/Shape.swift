@@ -116,5 +116,6 @@ public indirect enum ShapeType {
     case float(max: Int?, min: Int?)
     case boolean
     case timestamp
+    case `enum`([String])
     case unhandledType
 }

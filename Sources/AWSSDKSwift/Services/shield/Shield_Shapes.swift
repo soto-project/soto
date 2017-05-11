@@ -29,6 +29,12 @@ import Core
 
 extension Shield {
 
+    public enum SubResourceType: String, CustomStringConvertible {
+        case ip = "IP"
+        case url = "URL"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Protection: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -510,15 +516,15 @@ extension Shield {
         /// The counters that describe the details of the attack.
         public let counters: [SummarizedCounter]?
         /// The SubResource type.
-        public let type: String?
+        public let `type`: SubResourceType?
         /// The list of attack types and associated counters.
         public let attackVectors: [SummarizedAttackVector]?
         /// The unique identifier (ID) of the SubResource.
         public let id: String?
 
-        public init(counters: [SummarizedCounter]? = nil, type: String? = nil, attackVectors: [SummarizedAttackVector]? = nil, id: String? = nil) {
+        public init(counters: [SummarizedCounter]? = nil, type: SubResourceType? = nil, attackVectors: [SummarizedAttackVector]? = nil, id: String? = nil) {
             self.counters = counters
-            self.type = type
+            self.`type` = `type`
             self.attackVectors = attackVectors
             self.id = id
         }
@@ -529,7 +535,7 @@ extension Shield {
             } else { 
                 self.counters = nil
             }
-            self.type = dictionary["Type"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = SubResourceType(rawValue: `type`) } else { self.`type` = nil }
             if let attackVectors = dictionary["AttackVectors"] as? [[String: Any]] {
                 self.attackVectors = try attackVectors.map({ try SummarizedAttackVector(dictionary: $0) })
             } else { 
