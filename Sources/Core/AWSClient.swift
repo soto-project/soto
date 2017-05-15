@@ -113,13 +113,16 @@ public struct AWSClient {
     }
     
     public func request(_ request: AWSRequest) throws -> Prorsum.Response {
-        var prorsumRequest = try request.toProrsumRequest()
-        switch request.httpMethod {
-        case "GET":
+        
+        func createProrsumRequestWithSignedURL(_ request: AWSRequest) throws -> Request {
+            var prorsumRequest = try request.toProrsumRequest()
             prorsumRequest.url = signer.signedURL(url: prorsumRequest.url)
             prorsumRequest.headers["Host"] = prorsumRequest.url.hostWithPort!
-            
-        default:
+            return prorsumRequest
+        }
+        
+        func createProrsumRequestWithSignedHeader(_ request: AWSRequest) throws -> Request {
+            var prorsumRequest = try request.toProrsumRequest()
             // TODO avoid copying
             var headers: [String: String] = [:]
             for (key, value) in prorsumRequest.headers {
@@ -136,6 +139,23 @@ public struct AWSClient {
             for (key, value) in signedHeaders {
                 prorsumRequest.headers[key] = value
             }
+            
+            return prorsumRequest
+        }
+        
+        
+        let prorsumRequest: Request
+        switch request.httpMethod {
+        case "GET":
+            switch serviceProtocol {
+            case .restjson:
+                prorsumRequest = try createProrsumRequestWithSignedHeader(request)
+                
+            default:
+                prorsumRequest = try createProrsumRequestWithSignedURL(request)
+            }
+        default:
+            prorsumRequest = try createProrsumRequestWithSignedHeader(request)
         }
         
         // TODO implement Keep-alive
@@ -184,17 +204,30 @@ public struct AWSClient {
             var code: String?
             var message: String?
             
-            if responseBody.isXML() {
-                if let dict = bodyDict["ErrorResponse"] as? [String: Any] {
-                    bodyDict = dict
+            switch serviceProtocol {
+            case .query:
+                guard let dict = bodyDict["ErrorResponse"] as? [String: Any] else {
+                    break
                 }
+                let errorDict = dict["Error"] as? [String: Any]
+                code = errorDict?["Code"] as? String
+                message = errorDict?["Message"] as? String
+            
+            case .restxml:
                 let errorDict = bodyDict["Error"] as? [String: Any]
                 code = errorDict?["Code"] as? String
                 message = errorDict?["Message"] as? String
-            }
-            else if responseBody.isJSON() {
+                
+            case .restjson:
+                code = response.headers["x-amzn-ErrorType"]
+                message = bodyDict.filter({ $0.key.lowercased() == "message" }).first?.value as? String
+            
+            case .json:
                 code = bodyDict["__type"] as? String
                 message = bodyDict.filter({ $0.key.lowercased() == "message" }).first?.value as? String
+            
+            default:
+                break
             }
             
             if let errorCode = code {
