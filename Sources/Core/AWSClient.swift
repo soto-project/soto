@@ -11,6 +11,11 @@ import Dispatch
 import SwiftyJSON
 import Prorsum
 
+extension Characters {
+    public static let uriAWSQueryAllowed: Characters = ["!", "$", "&", "\'", "(", ")", "*", "+", "-", ".", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "=", "?", "@", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "_", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "~"
+    ]
+}
+
 extension Prorsum.Body {
     func asData() -> Data {
         switch self {
@@ -153,7 +158,7 @@ public struct AWSClient {
                     responseBody = .json(dictionary)
                 }
                 
-            case .restxml:
+            case .restxml, .query:
                 let xmlNode = try XML2Parser(data: data).parse()
                 responseBody = .xml(xmlNode)
                 
@@ -166,9 +171,6 @@ public struct AWSClient {
                 default:
                     responseBody = .buffer(data)
                 }
-                
-            default:
-                responseBody = .buffer(data)
             }
         }
         
@@ -183,6 +185,9 @@ public struct AWSClient {
             var message: String?
             
             if responseBody.isXML() {
+                if let dict = bodyDict["ErrorResponse"] as? [String: Any] {
+                    bodyDict = dict
+                }
                 let errorDict = bodyDict["Error"] as? [String: Any]
                 code = errorDict?["Code"] as? String
                 message = errorDict?["Message"] as? String
@@ -223,6 +228,9 @@ public struct AWSClient {
             outputDict = try JSONSerialization.jsonObject(with: str.data(using: .utf8)!, options: []) as? [String: Any] ?? [:]
             if let childOutputDict = outputDict[operationName+"Response"] as? [String: Any] {
                 outputDict = childOutputDict
+                if let childOutputDict = outputDict[operationName+"Result"] as? [String: Any] {
+                    outputDict = childOutputDict
+                }
             }
             
         case .buffer(let data):
@@ -290,13 +298,28 @@ public struct AWSClient {
                 }
                 
             case .query:
-                let dict = try ctx.input.serializeToDictionary()
-                let params = dict.map({ "\($0.key)=\($0.value)" }).joined(separator: "&")
+                var dict = try ctx.input.serializeToDictionary()
+                dict["Action"] = operationName
+                dict["Version"] = apiVersion
+                
+                var queryItems = [String]()
+                let keys = Array(dict.keys).sorted {$0.localizedCompare($1) == ComparisonResult.orderedAscending }
+                
+                for key in keys {
+                    if let value = dict[key] {
+                        queryItems.append("\(key)=\(value)")
+                    }
+                }
+                    
+                let params = queryItems.joined(separator: "&").percentEncoded(allowing: Characters.uriAWSQueryAllowed)
+
                 if path.contains("?") {
                     path += "&" + params
                 } else {
                     path += "?" + params
                 }
+                
+                body = .text(params)
                 
             case .restxml:
                 if let payload = ctx.Shape.payload, let payloadBody = mirror.getAttribute(forKey: payload.toSwiftVariableCase()) {

@@ -104,7 +104,7 @@ public class XMLNodeSerializer {
             return jsonStr
         }
         
-        return "{" + _serialize(nodeTree: [node]) + "}"
+        return ("{" + _serialize(nodeTree: [node]) + "}").replacingOccurrences(of: "\n", with: "", options: .regularExpression)
         
     }
 }

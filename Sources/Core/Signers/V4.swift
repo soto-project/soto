@@ -72,6 +72,9 @@ extension Signers {
                 }
             }
             
+            
+            queries = queries.sorted { $0.name.localizedCompare($1.name) == ComparisonResult.orderedAscending }
+            
             let url = URL(string: url.absoluteString.components(separatedBy: "?")[0]+"?"+queries.asStringForURL)!
             
             let sig = signature(
