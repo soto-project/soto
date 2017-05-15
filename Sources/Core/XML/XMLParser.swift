@@ -24,6 +24,8 @@ public class XML2Parser: NSObject, XMLParserDelegate {
     
     private var lastElementName: String?
     
+    private var currentNodeIsArray = false
+    
     public init(data: Data) {
         self.parser = XMLParser(data: data)
         super.init()
@@ -41,7 +43,13 @@ public class XML2Parser: NSObject, XMLParserDelegate {
     public func parser(_ parser: XMLParser, foundCharacters string: String) {
         let string = string.trimmingCharacters(in: .whitespacesAndNewlines)
         if !string.isEmpty && string != "\"" {
-            currentNode?.values.append(string)
+            if currentNode?.values.count == 0 || currentNodeIsArray {
+                currentNode?.values.append(string)
+            } else {
+                if let first = currentNode?.values.first {
+                    currentNode?.values[0] = first+string
+                }
+            }
         }
     }
     
@@ -49,6 +57,8 @@ public class XML2Parser: NSObject, XMLParserDelegate {
         let elementName = elementName.upperFirst()
         let node = XMLNode(elementName: elementName)
         node.attributes = attributeDict
+        
+        currentNodeIsArray = lastElementName == elementName
         
         if nodeTree == nil {
             nodeTree = node
