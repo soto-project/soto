@@ -259,10 +259,15 @@ public struct AWSClient {
         case .xml(let node):
             let str = XMLNodeSerializer(node: node).serializeToJSON()
             outputDict = try JSONSerialization.jsonObject(with: str.data(using: .utf8)!, options: []) as? [String: Any] ?? [:]
+            
             if let childOutputDict = outputDict[operationName+"Response"] as? [String: Any] {
                 outputDict = childOutputDict
                 if let childOutputDict = outputDict[operationName+"Result"] as? [String: Any] {
                     outputDict = childOutputDict
+                }
+            } else {
+                if let key = outputDict.keys.first, let dict = outputDict[key] as? [String: Any] {
+                    outputDict = dict
                 }
             }
             
