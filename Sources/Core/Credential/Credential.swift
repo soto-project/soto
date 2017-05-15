@@ -30,7 +30,7 @@ public struct Credential: CredentialProvider {
     public let accessKeyId: String
     public let secretAccessKey: String
     
-    init(accessKeyId: String, secretAccessKey: String) {
+    public init(accessKeyId: String, secretAccessKey: String) {
         self.accessKeyId = accessKeyId
         self.secretAccessKey = secretAccessKey
     }
