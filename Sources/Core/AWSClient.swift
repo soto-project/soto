@@ -10,6 +10,7 @@ import Foundation
 import Dispatch
 import SwiftyJSON
 import Prorsum
+import HypertextApplicationLanguage
 
 extension Characters {
     public static let uriAWSQueryAllowed: Characters = ["!", "$", "&", "\'", "(", ")", "+", "-", ".", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "=", "?", "@", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "_", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
@@ -32,16 +33,16 @@ public struct InputContext {
     let input: AWSShape
 }
 
-public struct AWSClient {
-    var jsonKeyStyle: DictionaryKeyStyle {
-        switch signer.service {
-        case "apigateway":
-            return .pascal
-        default:
-            return .camel
-        }
+public func jsonKeyStyle(forService service: String) -> DictionaryKeyStyle {
+    switch service {
+    case "apigateway":
+        return .pascal
+    default:
+        return .camel
     }
-    
+}
+
+public struct AWSClient {
     let signer: Signers.V4
     
     let apiVersion: String
@@ -182,8 +183,28 @@ public struct AWSClient {
         if !data.isEmpty {
             switch serviceProtocol {
             case .json, .restjson:
-                if let dictionary = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                if let cType = response.contentType, cType.subtype.contains("hal+json") {
+                    var dictionary: [String: Any] = [:]
+                    let representation = try Representation.from(json: data)
+                    for rel in representation.rels {
+                        guard let representations = try Representation.from(json: data).representations(for: rel) else {
+                            continue
+                        }
+                        
+                        let isArray = representation.links.filter({ $0.rel == rel }).count > 1
+                        
+                        if isArray {
+                            dictionary[rel] = representations.map({ $0.properties })
+                        } else {
+                            dictionary[rel] = representations.map({ $0.properties }).first ?? [:]
+                        }
+                    }
                     responseBody = .json(dictionary)
+
+                } else {
+                    if let dictionary = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                        responseBody = .json(dictionary)
+                    }
                 }
                 
             case .restxml, .query:
@@ -340,7 +361,7 @@ public struct AWSClient {
                     body = Body(anyValue: payloadBody)
                     headers.removeValue(forKey: payload.toSwiftVariableCase())
                 } else {
-                    body = .json(try ctx.input.serializeToDictionary(keyStyle: jsonKeyStyle))
+                    body = .json(try ctx.input.serializeToDictionary(keyStyle: jsonKeyStyle(forService: signer.service)))
                 }
                 
             case .query:

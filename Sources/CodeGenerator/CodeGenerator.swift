@@ -96,23 +96,6 @@ extension Member {
         let defaultArgument = required ? "" : " = nil"
         return "\(name.toSwiftLabelCase()): \(swiftTypeName)\(optionalSuffix)\(defaultArgument)"
     }
-    
-    func guardStatement() -> String {
-        switch shape.type {
-        case .structure(_), .map(_):
-            return "guard let \(variableName) = dictionary[\"\(pathForLocation)\"] as? [String: Any] else { throw InitializableError.missingRequiredParam(\"\(pathForLocation)\") }"
-            
-        case .list(let shape):
-            switch shape.type {
-            case .structure(_), .map(_):
-                return "guard let \(variableName) = dictionary[\"\(pathForLocation)\"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam(\"\(pathForLocation)\") }"
-            default:
-                return "guard let \(variableName) = dictionary[\"\(pathForLocation)\"] as? [\(shape.swiftTypeName)] else { throw InitializableError.missingRequiredParam(\"\(pathForLocation)\") }"
-            }
-        default:
-            return "guard let \(variableName) = dictionary[\"\(pathForLocation)\"] as? \(shape.swiftTypeName) else { throw InitializableError.missingRequiredParam(\"\(pathForLocation)\") }"
-        }
-    }
 }
 
 extension AWSService {
@@ -217,24 +200,31 @@ extension AWSService {
         code += "\(indt(2))public init(dictionary: [String: Any]) throws {\n"
         
         for member in structure.members {
+            let pathForLocation: String
+            if Core.jsonKeyStyle(forService: endpointPrefix).isCamelCase {
+                pathForLocation = member.locationName?.upperFirst() ?? member.name
+            } else {
+                pathForLocation = member.locationName ?? member.name
+            }
+            
             switch member.shape.type {
             case .structure(_):
                 let substituting = "self.\(member.variableName) = try \(serviceName).\(member.swiftTypeName)(dictionary: \(member.variableName))"
                 
                 if member.required {
-                    code += "\(indt(3))\(member.guardStatement())"
+                    code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(pathForLocation)\"] as? [String: Any] else { throw InitializableError.missingRequiredParam(\"\(pathForLocation)\") }"
                     code += "\n"
                     code += indt(3)+substituting
                 } else {
-                    code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(member.pathForLocation)\"] as? [String: Any] { \(substituting) } else { self.\(member.variableName) = nil }"
+                    code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(pathForLocation)\"] as? [String: Any] { \(substituting) } else { self.\(member.variableName) = nil }"
                 }
                 code += "\n"
             case .enum:
                 if member.required {
-                    code += "\(indt(3))guard let raw\(member.name) = dictionary[\"\(member.pathForLocation)\"] as? String, let \(member.variableName) = \(member.shape.swiftTypeName.toSwiftClassCase())(rawValue: raw\(member.name)) else { throw InitializableError.missingRequiredParam(\"\(member.pathForLocation)\") }\n"
+                    code += "\(indt(3))guard let raw\(member.name) = dictionary[\"\(pathForLocation)\"] as? String, let \(member.variableName) = \(member.shape.swiftTypeName.toSwiftClassCase())(rawValue: raw\(member.name)) else { throw InitializableError.missingRequiredParam(\"\(pathForLocation)\") }\n"
                     code += indt(3)+"self.\(member.variableName) = \(member.variableName)"
                 } else {
-                    code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(member.pathForLocation)\"] as? String { self.\(member.variableName) = \(member.shape.swiftTypeName.toSwiftClassCase())(rawValue: \(member.variableName)) } else { self.\(member.variableName) = nil }"
+                    code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(pathForLocation)\"] as? String { self.\(member.variableName) = \(member.shape.swiftTypeName.toSwiftClassCase())(rawValue: \(member.variableName)) } else { self.\(member.variableName) = nil }"
                 }
                 code += "\n"
                 
@@ -375,10 +365,10 @@ extension AWSService {
                 
                 if let decodingCode = decodingCode {
                     if member.required {
-                        code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(member.pathForLocation)\"] as? \(firstElementType) else { throw InitializableError.missingRequiredParam(\"\(member.pathForLocation)\") }\n"
+                        code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(pathForLocation)\"] as? \(firstElementType) else { throw InitializableError.missingRequiredParam(\"\(pathForLocation)\") }\n"
                         code += decodingCode(3)
                     } else {
-                        code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(member.pathForLocation)\"] as? \(firstElementType) {\n"
+                        code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(pathForLocation)\"] as? \(firstElementType) {\n"
                         code += decodingCode(4)
                         code += "\(indt(3))} else { \n"
                         code += "\(indt(4))self.\(member.variableName) = nil\n"
@@ -391,19 +381,19 @@ extension AWSService {
                 case .enum(_):
                     let substituting = "self.\(member.variableName) = \(member.variableName).flatMap({ \(shape.swiftTypeName.toSwiftClassCase())(rawValue: $0)})"
                     if member.required {
-                        code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(member.pathForLocation)\"] as? [String] else { throw InitializableError.missingRequiredParam(\"\(member.pathForLocation)\") }\n"
+                        code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(pathForLocation)\"] as? [String] else { throw InitializableError.missingRequiredParam(\"\(pathForLocation)\") }\n"
                         code += indt(3)+substituting
                     } else {
-                        code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(member.pathForLocation)\"] as? [String] { \(substituting) } else { self.\(member.variableName) = nil }"
+                        code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(pathForLocation)\"] as? [String] { \(substituting) } else { self.\(member.variableName) = nil }"
                     }
                     code += "\n"
                     
                 case .structure:
                     if member.required {
-                        code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(member.pathForLocation)\"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam(\"\(member.pathForLocation)\") }\n"
+                        code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(pathForLocation)\"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam(\"\(pathForLocation)\") }\n"
                         code += "\(indt(3))self.\(member.variableName) = try \(member.variableName).map({ try \(shape.swiftTypeName)(dictionary: $0) })\n"
                     } else {
-                        code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(member.pathForLocation)\"] as? [[String: Any]] {\n"
+                        code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(pathForLocation)\"] as? [[String: Any]] {\n"
                         code += "\(indt(4))self.\(member.variableName) = try \(member.variableName).map({ try \(shape.swiftTypeName)(dictionary: $0) })\n"
                         code += "\(indt(3))} else { \n"
                         code += "\(indt(4))self.\(member.variableName) = nil\n"
@@ -431,10 +421,10 @@ extension AWSService {
                         }
                         
                         if member.required {
-                            code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(member.pathForLocation)\"] as? [[String: [String: Any]]] else { throw InitializableError.missingRequiredParam(\"\(member.pathForLocation)\") }\n"
+                            code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(pathForLocation)\"] as? [[String: [String: Any]]] else { throw InitializableError.missingRequiredParam(\"\(pathForLocation)\") }\n"
                             code += decodingCode(3)
                         } else {
-                            code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(member.pathForLocation)\"] as? [[String: [String: Any]]] {\n"
+                            code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(pathForLocation)\"] as? [[String: [String: Any]]] {\n"
                                 code += decodingCode(4)
                             code += "\(indt(3))} else { \n"
                                 code += "\(indt(4))self.\(member.variableName) = nil\n"
@@ -445,10 +435,10 @@ extension AWSService {
                         
                     default:
                         if member.required {
-                            code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(member.pathForLocation)\"] as? \(member.swiftTypeName) else { throw InitializableError.missingRequiredParam(\"\(member.name)\") }\n"
+                            code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(pathForLocation)\"] as? \(member.swiftTypeName) else { throw InitializableError.missingRequiredParam(\"\(member.name)\") }\n"
                             code += "\(indt(3))self.\(member.variableName) = \(member.variableName)\n"
                         } else {
-                            code += "\(indt(3))self.\(member.variableName) = dictionary[\"\(member.pathForLocation)\"] as? \(member.swiftTypeName)\n"
+                            code += "\(indt(3))self.\(member.variableName) = dictionary[\"\(pathForLocation)\"] as? \(member.swiftTypeName)\n"
                         }
                     }
                 case .list(let childShape):
@@ -458,27 +448,27 @@ extension AWSService {
                         
                     default:
                         if member.required {
-                            code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(member.pathForLocation)\"] as? \(member.swiftTypeName) else { throw InitializableError.missingRequiredParam(\"\(member.pathForLocation)\") }\n"
+                            code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(pathForLocation)\"] as? \(member.swiftTypeName) else { throw InitializableError.missingRequiredParam(\"\(pathForLocation)\") }\n"
                             code += "\(indt(3))self.\(member.variableName) = \(member.variableName)\n"
                         } else {
-                            code += "\(indt(3))self.\(member.variableName) = dictionary[\"\(member.pathForLocation)\"] as? \(member.swiftTypeName)\n"
+                            code += "\(indt(3))self.\(member.variableName) = dictionary[\"\(pathForLocation)\"] as? \(member.swiftTypeName)\n"
                         }
                     }
                 default:
                     if member.required {
-                        code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(member.pathForLocation)\"] as? \(member.swiftTypeName) else { throw InitializableError.missingRequiredParam(\"\(member.pathForLocation)\") }\n"
+                        code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(pathForLocation)\"] as? \(member.swiftTypeName) else { throw InitializableError.missingRequiredParam(\"\(pathForLocation)\") }\n"
                         code += "\(indt(3))self.\(member.variableName) = \(member.variableName)\n"
                     } else {
-                        code += "\(indt(3))self.\(member.variableName) = dictionary[\"\(member.pathForLocation)\"] as? \(member.swiftTypeName)\n"
+                        code += "\(indt(3))self.\(member.variableName) = dictionary[\"\(pathForLocation)\"] as? \(member.swiftTypeName)\n"
                     }
                 }
                 
             default:
                 if member.required {
-                    code += "\(indt(3))\(member.guardStatement())\n"
+                    code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(pathForLocation)\"] as? \(member.swiftTypeName) else { throw InitializableError.missingRequiredParam(\"\(pathForLocation)\") }\n"
                     code += "\(indt(3))self.\(member.variableName) = \(member.variableName)\n"
                 } else {
-                    code += "\(indt(3))self.\(member.variableName) = dictionary[\"\(member.pathForLocation)\"] as? \(member.swiftTypeName)\n"
+                    code += "\(indt(3))self.\(member.variableName) = dictionary[\"\(pathForLocation)\"] as? \(member.swiftTypeName)\n"
                 }
             }
         }
