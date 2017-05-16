@@ -253,10 +253,10 @@ public struct AWSClient {
                     throw error
                 }
                 
-                throw AWSRawError(errorCode: errorCode, message: message)
+                throw AWSResponseError(errorCode: errorCode, message: message)
             }
             
-            throw AWSRawError(errorCode: "Unknown", message: String(data: data, encoding: .utf8))
+            throw AWSError(message: message ?? "Unhandled Error", rawBody: String(data: data, encoding: .utf8) ?? "")
         }
         
         var outputDict: [String: Any] = [:]
