@@ -17,10 +17,6 @@ public struct Member {
     public let xmlNamespace: XMLNamespace?
     public let isStreaming: Bool
     
-    public var pathForLocation: String {
-        return locationName?.upperFirst() ?? name
-    }
-    
     public init(name: String, required: Bool, shape: Shape, location: Location?, locationName: String?, xmlNamespace: XMLNamespace?, isStreaming: Bool){
         self.name = name
         self.required = required

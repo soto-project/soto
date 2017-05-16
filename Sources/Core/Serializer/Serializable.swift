@@ -12,7 +12,7 @@ public enum DictionaryKeyStyle {
     case camel
     case pascal
     
-    var isCamelCase: Bool {
+    public var isCamelCase: Bool {
         switch self {
         case .camel:
             return true
