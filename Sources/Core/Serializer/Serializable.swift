@@ -8,6 +8,20 @@
 
 import Foundation
 
+public enum DictionaryKeyStyle {
+    case camel
+    case pascal
+    
+    var isCamelCase: Bool {
+        switch self {
+        case .camel:
+            return true
+        default:
+            return false
+        }
+    }
+}
+
 func unwrap(any: Any) -> Any? {
     let mi = Mirror(reflecting: any)
     if mi.displayStyle != .optional {
@@ -94,7 +108,7 @@ extension XMLNodeSerializable {
 }
 
 extension DictionarySerializable {
-    public func serializeToDictionary() throws -> [String: Any] {
+    public func serializeToDictionary(keyStyle: DictionaryKeyStyle = .camel) throws -> [String: Any] {
         let mirror = Mirror.init(reflecting: self)
         var serialized: [String: Any] = [:]
         
@@ -103,29 +117,31 @@ extension DictionarySerializable {
                 continue
             }
             
+            let key = keyStyle.isCamelCase ? label.upperFirst() : label
+            
             guard let value = unwrap(any: el.value) else {
                 continue
             }
             
             switch value {
             case let v as DictionarySerializable:
-                serialized[label.upperFirst()] = try v.serializeToDictionary()
+                serialized[key] = try v.serializeToDictionary()
                 
             case let v as [DictionarySerializable]:
-                serialized[label.upperFirst()] = try v.serialize()
+                serialized[key] = try v.serialize()
                 
             case let v as [AnyHashable: DictionarySerializable]:
                 var dict: [String: Any] = [:]
                 for (key, value) in v {
                     dict["\(key)"] = try value.serializeToDictionary()
                 }
-                serialized[label.upperFirst()] = dict
+                serialized[key] = dict
                 
             case _ as NSNull:
                 break
                 
             default:
-                serialized[label.upperFirst()] = value
+                serialized[key] = value
             }
         }
         return serialized

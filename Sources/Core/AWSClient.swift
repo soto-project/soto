@@ -33,6 +33,14 @@ public struct InputContext {
 }
 
 public struct AWSClient {
+    var jsonKeyStyle: DictionaryKeyStyle {
+        switch signer.service {
+        case "apigateway":
+            return .pascal
+        default:
+            return .camel
+        }
+    }
     
     let signer: Signers.V4
     
@@ -332,7 +340,7 @@ public struct AWSClient {
                     body = Body(anyValue: payloadBody)
                     headers.removeValue(forKey: payload.toSwiftVariableCase())
                 } else {
-                    body = .json(try ctx.input.serializeToDictionary())
+                    body = .json(try ctx.input.serializeToDictionary(keyStyle: jsonKeyStyle))
                 }
                 
             case .query:
