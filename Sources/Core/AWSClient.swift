@@ -10,6 +10,7 @@ import Foundation
 import Dispatch
 import SwiftyJSON
 import Prorsum
+import HypertextApplicationLanguage
 
 extension Characters {
     public static let uriAWSQueryAllowed: Characters = ["!", "$", "&", "\'", "(", ")", "+", "-", ".", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "=", "?", "@", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "_", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
@@ -182,8 +183,13 @@ public struct AWSClient {
         if !data.isEmpty {
             switch serviceProtocol {
             case .json, .restjson:
-                if let dictionary = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-                    responseBody = .json(dictionary)
+                if let cType = response.contentType, cType.subtype.contains("hal+json") {
+                    
+
+                } else {
+                    if let dictionary = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                        responseBody = .json(dictionary)
+                    }
                 }
                 
             case .restxml, .query:
