@@ -12,13 +12,23 @@ public protocol AWSErrorType: Error {
     init?(errorCode: String, message: String?)
 }
 
-public struct AWSRawError: Error {
+public struct AWSResponseError: Error {
     public let errorCode: String
     public let message: String?
     
     public init(errorCode: String, message: String?){
         self.errorCode = errorCode
         self.message = message
+    }
+}
+
+public struct AWSError: Error {
+    public let message: String
+    public let rawBody: String
+    
+    public init(message: String, rawBody: String){
+        self.message = message
+        self.rawBody = rawBody
     }
 }
 
