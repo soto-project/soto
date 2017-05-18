@@ -37,8 +37,8 @@ public protocol DictionarySerializable {}
 public protocol XMLNodeSerializable {}
 
 extension Collection where Iterator.Element == DictionarySerializable {
-    public func serialize() throws -> [[String: Any]] {
-        return try self.map({ try $0.serializeToDictionary() })
+    public func serialize(keyStyle: DictionaryKeyStyle = .camel) throws -> [[String: Any]] {
+        return try self.map({ try $0.serializeToDictionary(keyStyle: keyStyle) })
     }
 }
 
@@ -125,15 +125,15 @@ extension DictionarySerializable {
             
             switch value {
             case let v as DictionarySerializable:
-                serialized[key] = try v.serializeToDictionary()
+                serialized[key] = try v.serializeToDictionary(keyStyle: keyStyle)
                 
             case let v as [DictionarySerializable]:
-                serialized[key] = try v.serialize()
+                serialized[key] = try v.serialize(keyStyle: keyStyle)
                 
             case let v as [AnyHashable: DictionarySerializable]:
                 var dict: [String: Any] = [:]
                 for (key, value) in v {
-                    dict["\(key)"] = try value.serializeToDictionary()
+                    dict["\(key)"] = try value.serializeToDictionary(keyStyle: keyStyle)
                 }
                 serialized[key] = dict
                 
