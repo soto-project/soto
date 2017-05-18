@@ -32,7 +32,7 @@ extension Ec2 {
     public struct DescribeVpcClassicLinkResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcSet", required: false, type: .structure)
         ]
         /// The ClassicLink status of one or more VPCs.
@@ -50,7 +50,7 @@ extension Ec2 {
     public struct GetConsoleScreenshotRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WakeUp", required: false, type: .boolean), 
             AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
@@ -79,7 +79,7 @@ extension Ec2 {
     public struct DescribeIamInstanceProfileAssociationsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AssociationId", required: false, type: .structure), 
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
@@ -112,7 +112,7 @@ extension Ec2 {
     public struct InstanceCountList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [InstanceCount]?
@@ -139,7 +139,7 @@ extension Ec2 {
     public struct DescribeInstanceAttributeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
             AWSShapeProperty(label: "Attribute", required: true, type: .enum)
@@ -169,7 +169,7 @@ extension Ec2 {
     public struct BlobAttributeValue: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: false, type: .blob)
         ]
         public let value: Data?
@@ -186,7 +186,7 @@ extension Ec2 {
     public struct ModifyVolumeAttributeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "AutoEnableIO", required: false, type: .structure), 
             AWSShapeProperty(label: "VolumeId", required: true, type: .string)
@@ -233,7 +233,7 @@ extension Ec2 {
     public struct InternetGatewayAttachment: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcId", required: false, type: .string), 
             AWSShapeProperty(label: "State", required: false, type: .enum)
         ]
@@ -256,7 +256,7 @@ extension Ec2 {
     public struct DescribeScheduledInstanceAvailabilityResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "ScheduledInstanceAvailabilitySet", required: false, type: .structure)
         ]
@@ -279,7 +279,7 @@ extension Ec2 {
     public struct RouteTableAssociationList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [RouteTableAssociation]?
@@ -300,7 +300,7 @@ extension Ec2 {
     public struct DescribeAddressesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AddressesSet", required: false, type: .structure)
         ]
         /// Information about one or more Elastic IP addresses.
@@ -318,7 +318,7 @@ extension Ec2 {
     public struct DescribeNatGatewaysResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NatGatewaySet", required: false, type: .structure), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -341,7 +341,7 @@ extension Ec2 {
     public struct CreateEgressOnlyInternetGatewayRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcId", required: true, type: .string), 
             AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
@@ -370,7 +370,7 @@ extension Ec2 {
     public struct ModifyVpcAttributeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcId", required: true, type: .string), 
             AWSShapeProperty(label: "EnableDnsSupport", required: false, type: .structure), 
             AWSShapeProperty(label: "EnableDnsHostnames", required: false, type: .structure)
@@ -399,7 +399,7 @@ extension Ec2 {
     public struct CreateVpcPeeringConnectionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PeerOwnerId", required: false, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "VpcId", required: false, type: .string), 
@@ -432,7 +432,7 @@ extension Ec2 {
     public struct Host: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
             AWSShapeProperty(label: "AutoPlacement", required: false, type: .enum), 
             AWSShapeProperty(label: "HostId", required: false, type: .string), 
@@ -490,7 +490,7 @@ extension Ec2 {
     public struct ReservedIntancesIds: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [ReservedInstancesId]?
@@ -511,7 +511,7 @@ extension Ec2 {
     public struct TargetReservationValue: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TargetConfiguration", required: false, type: .structure), 
             AWSShapeProperty(label: "ReservationValue", required: false, type: .structure)
         ]
@@ -534,7 +534,7 @@ extension Ec2 {
     public struct ImportKeyPairResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "KeyName", required: false, type: .string), 
             AWSShapeProperty(label: "KeyFingerprint", required: false, type: .string)
         ]
@@ -557,7 +557,7 @@ extension Ec2 {
     public struct SpotFleetRequestConfigSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [SpotFleetRequestConfig]?
@@ -578,7 +578,7 @@ extension Ec2 {
     public struct CancelSpotFleetRequestsErrorSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [CancelSpotFleetRequestsErrorItem]?
@@ -599,7 +599,7 @@ extension Ec2 {
     public struct DescribeSnapshotsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "SnapshotSet", required: false, type: .structure)
         ]
@@ -622,7 +622,7 @@ extension Ec2 {
     public struct DescribeInstanceStatusRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "IncludeAllInstances", required: false, type: .boolean), 
@@ -665,7 +665,7 @@ extension Ec2 {
     public struct VolumeStatusItem: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ActionsSet", required: false, type: .structure), 
             AWSShapeProperty(label: "VolumeStatus", required: false, type: .structure), 
             AWSShapeProperty(label: "EventsSet", required: false, type: .structure), 
@@ -703,7 +703,7 @@ extension Ec2 {
     public struct CreateRouteTableResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RouteTable", required: false, type: .structure)
         ]
         /// Information about the route table.
@@ -721,7 +721,7 @@ extension Ec2 {
     public struct EnableVpcClassicLinkRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcId", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
@@ -745,7 +745,7 @@ extension Ec2 {
     public struct InstanceNetworkInterface: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubnetId", required: false, type: .string), 
             AWSShapeProperty(label: "NetworkInterfaceId", required: false, type: .string), 
             AWSShapeProperty(label: "MacAddress", required: false, type: .string), 
@@ -833,7 +833,7 @@ extension Ec2 {
     public struct CreateNetworkInterfaceResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NetworkInterface", required: false, type: .structure)
         ]
         /// Information about the network interface.
@@ -851,7 +851,7 @@ extension Ec2 {
     public struct ReservedInstancesModificationList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [ReservedInstancesModification]?
@@ -872,7 +872,7 @@ extension Ec2 {
     public struct ResetInstanceAttributeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
             AWSShapeProperty(label: "Attribute", required: true, type: .enum)
@@ -902,7 +902,7 @@ extension Ec2 {
     public struct Monitoring: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "State", required: false, type: .enum)
         ]
         /// Indicates whether detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
@@ -920,7 +920,7 @@ extension Ec2 {
     public struct RequestSpotLaunchSpecification: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BlockDeviceMapping", required: false, type: .structure), 
             AWSShapeProperty(label: "SubnetId", required: false, type: .string), 
             AWSShapeProperty(label: "UserData", required: false, type: .string), 
@@ -1010,7 +1010,7 @@ extension Ec2 {
     public struct AssociateVpcCidrBlockRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcId", required: true, type: .string), 
             AWSShapeProperty(label: "AmazonProvidedIpv6CidrBlock", required: false, type: .boolean)
         ]
@@ -1034,7 +1034,7 @@ extension Ec2 {
     public struct ImageDiskContainer: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserBucket", required: false, type: .structure), 
             AWSShapeProperty(label: "Format", required: false, type: .string), 
             AWSShapeProperty(label: "SnapshotId", required: false, type: .string), 
@@ -1077,7 +1077,7 @@ extension Ec2 {
     public struct PurchaseReservedInstancesOfferingRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReservedInstancesOfferingId", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "InstanceCount", required: true, type: .integer), 
@@ -1112,7 +1112,7 @@ extension Ec2 {
     public struct ReservedInstances: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RecurringCharges", required: false, type: .structure), 
             AWSShapeProperty(label: "TagSet", required: false, type: .structure), 
             AWSShapeProperty(label: "UsagePrice", required: false, type: .float), 
@@ -1215,7 +1215,7 @@ extension Ec2 {
     public struct NetworkInterfaceIpv6Address: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Ipv6Address", required: false, type: .string)
         ]
         /// The IPv6 address.
@@ -1233,7 +1233,7 @@ extension Ec2 {
     public struct DescribeCustomerGatewaysRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CustomerGatewayId", required: false, type: .structure), 
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
@@ -1261,7 +1261,7 @@ extension Ec2 {
     public struct NetworkInterface: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubnetId", required: false, type: .string), 
             AWSShapeProperty(label: "NetworkInterfaceId", required: false, type: .string), 
             AWSShapeProperty(label: "MacAddress", required: false, type: .string), 
@@ -1374,7 +1374,7 @@ extension Ec2 {
     public struct VolumeModificationList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [VolumeModification]?
@@ -1403,7 +1403,7 @@ extension Ec2 {
     public struct Subnet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MapPublicIpOnLaunch", required: false, type: .boolean), 
             AWSShapeProperty(label: "SubnetId", required: false, type: .string), 
             AWSShapeProperty(label: "DefaultForAz", required: false, type: .boolean), 
@@ -1471,7 +1471,7 @@ extension Ec2 {
     public struct CancelSpotInstanceRequestsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SpotInstanceRequestSet", required: false, type: .structure)
         ]
         /// One or more Spot instance requests.
@@ -1489,7 +1489,7 @@ extension Ec2 {
     public struct DhcpConfigurationList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [DhcpConfiguration]?
@@ -1510,7 +1510,7 @@ extension Ec2 {
     public struct EnableVolumeIORequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VolumeId", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
@@ -1534,7 +1534,7 @@ extension Ec2 {
     public struct VolumeIdStringList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VolumeId", required: false, type: .list)
         ]
         public let volumeId: [String]?
@@ -1551,7 +1551,7 @@ extension Ec2 {
     public struct AssociateSubnetCidrBlockResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubnetId", required: false, type: .string), 
             AWSShapeProperty(label: "Ipv6CidrBlockAssociation", required: false, type: .structure)
         ]
@@ -1574,7 +1574,7 @@ extension Ec2 {
     public struct EventInformation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EventSubType", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
             AWSShapeProperty(label: "EventDescription", required: false, type: .string)
@@ -1602,7 +1602,7 @@ extension Ec2 {
     public struct ProductCodeList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [ProductCode]?
@@ -1623,7 +1623,7 @@ extension Ec2 {
     public struct ExecutableByStringList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ExecutableBy", required: false, type: .list)
         ]
         public let executableBy: [String]?
@@ -1640,7 +1640,7 @@ extension Ec2 {
     public struct DescribeSubnetsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubnetId", required: false, type: .structure), 
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
@@ -1668,7 +1668,7 @@ extension Ec2 {
     public struct DescribeTagsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "TagSet", required: false, type: .structure)
         ]
@@ -1691,7 +1691,7 @@ extension Ec2 {
     public struct AcceptReservedInstancesExchangeQuoteResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ExchangeId", required: false, type: .string)
         ]
         /// The ID of the successful exchange.
@@ -1709,7 +1709,7 @@ extension Ec2 {
     public struct DescribeNatGatewaysRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
             AWSShapeProperty(label: "NatGatewayId", required: false, type: .structure), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
@@ -1768,7 +1768,7 @@ extension Ec2 {
     public struct NetworkInterfacePrivateIpAddress: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PrivateIpAddress", required: false, type: .string), 
             AWSShapeProperty(label: "PrivateDnsName", required: false, type: .string), 
             AWSShapeProperty(label: "Primary", required: false, type: .boolean), 
@@ -1801,7 +1801,7 @@ extension Ec2 {
     public struct DescribeNetworkAclsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NetworkAclSet", required: false, type: .structure)
         ]
         /// Information about one or more network ACLs.
@@ -1819,7 +1819,7 @@ extension Ec2 {
     public struct ReservedInstancesListing: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .enum), 
             AWSShapeProperty(label: "PriceSchedules", required: false, type: .structure), 
             AWSShapeProperty(label: "ReservedInstancesListingId", required: false, type: .string), 
@@ -1882,7 +1882,7 @@ extension Ec2 {
     public struct ReservedInstanceIdSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReservedInstanceId", required: false, type: .list)
         ]
         public let reservedInstanceId: [String]?
@@ -1899,7 +1899,7 @@ extension Ec2 {
     public struct DeleteNetworkAclRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "NetworkAclId", required: true, type: .string)
         ]
@@ -1923,7 +1923,7 @@ extension Ec2 {
     public struct DescribeConversionTaskList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [ConversionTask]?
@@ -1944,7 +1944,7 @@ extension Ec2 {
     public struct AllocateHostsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AutoPlacement", required: false, type: .enum), 
             AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceType", required: true, type: .string), 
@@ -1985,7 +1985,7 @@ extension Ec2 {
     public struct DescribeVpcEndpointServicesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
@@ -2013,7 +2013,7 @@ extension Ec2 {
     public struct UnassignIpv6AddressesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Ipv6Addresses", required: true, type: .structure), 
             AWSShapeProperty(label: "NetworkInterfaceId", required: true, type: .string)
         ]
@@ -2038,7 +2038,7 @@ extension Ec2 {
     public struct BundleInstanceResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BundleInstanceTask", required: false, type: .structure)
         ]
         /// Information about the bundle task.
@@ -2056,7 +2056,7 @@ extension Ec2 {
     public struct DeletePlacementGroupRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "GroupName", required: true, type: .string)
         ]
@@ -2080,7 +2080,7 @@ extension Ec2 {
     public struct PrefixListId: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PrefixListId", required: false, type: .string)
         ]
         /// The ID of the prefix.
@@ -2098,7 +2098,7 @@ extension Ec2 {
     public struct PeeringConnectionOptionsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AllowEgressFromLocalVpcToRemoteClassicLink", required: false, type: .boolean), 
             AWSShapeProperty(label: "AllowDnsResolutionFromRemoteVpc", required: false, type: .boolean), 
             AWSShapeProperty(label: "AllowEgressFromLocalClassicLinkToRemoteVpc", required: false, type: .boolean)
@@ -2126,7 +2126,7 @@ extension Ec2 {
     public struct AccountAttributeValue: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AttributeValue", required: false, type: .string)
         ]
         /// The value of the attribute.
@@ -2144,7 +2144,7 @@ extension Ec2 {
     public struct PurchaseScheduledInstancesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PurchaseRequest", required: true, type: .structure), 
             AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
@@ -2173,7 +2173,7 @@ extension Ec2 {
     public struct DescribeHostReservationOfferingsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxDuration", required: false, type: .integer), 
             AWSShapeProperty(label: "MinDuration", required: false, type: .integer), 
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
@@ -2216,7 +2216,7 @@ extension Ec2 {
     public struct StopInstancesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstancesSet", required: false, type: .structure)
         ]
         /// Information about one or more stopped instances.
@@ -2234,7 +2234,7 @@ extension Ec2 {
     public struct OccurrenceDaySet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [Int32]?
@@ -2251,7 +2251,7 @@ extension Ec2 {
     public struct DescribeScheduledInstanceAvailabilityRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FirstSlotStartTimeRange", required: true, type: .structure), 
             AWSShapeProperty(label: "MinSlotDurationInHours", required: false, type: .integer), 
             AWSShapeProperty(label: "MaxSlotDurationInHours", required: false, type: .integer), 
@@ -2306,7 +2306,7 @@ extension Ec2 {
     public struct ReservedInstancesModificationResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReservedInstancesId", required: false, type: .string), 
             AWSShapeProperty(label: "TargetConfiguration", required: false, type: .structure)
         ]
@@ -2329,7 +2329,7 @@ extension Ec2 {
     public struct EnableVpcClassicLinkDnsSupportResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Return", required: false, type: .boolean)
         ]
         /// Returns true if the request succeeds; otherwise, it returns an error.
@@ -2347,7 +2347,7 @@ extension Ec2 {
     public struct ImportVolumeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Image", required: true, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "Volume", required: true, type: .structure), 
@@ -2388,7 +2388,7 @@ extension Ec2 {
     public struct ScheduledInstancesNetworkInterfaceSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NetworkInterface", required: false, type: .list)
         ]
         public let networkInterface: [ScheduledInstancesNetworkInterface]?
@@ -2424,7 +2424,7 @@ extension Ec2 {
     public struct DescribeAddressesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PublicIp", required: false, type: .structure), 
             AWSShapeProperty(label: "AllocationId", required: false, type: .structure), 
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
@@ -2457,7 +2457,7 @@ extension Ec2 {
     public struct Ipv6CidrBlock: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Ipv6CidrBlock", required: false, type: .string)
         ]
         /// The IPv6 CIDR block.
@@ -2475,7 +2475,7 @@ extension Ec2 {
     public struct VolumeStatusActionsList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [VolumeStatusAction]?
@@ -2496,7 +2496,7 @@ extension Ec2 {
     public struct SecurityGroup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IpPermissionsEgress", required: false, type: .structure), 
             AWSShapeProperty(label: "GroupName", required: false, type: .string), 
             AWSShapeProperty(label: "VpcId", required: false, type: .string), 
@@ -2549,7 +2549,7 @@ extension Ec2 {
     public struct DescribeAccountAttributesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountAttributeSet", required: false, type: .structure)
         ]
         /// Information about one or more account attributes.
@@ -2567,7 +2567,7 @@ extension Ec2 {
     public struct ReplaceRouteRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NatGatewayId", required: false, type: .string), 
             AWSShapeProperty(label: "NetworkInterfaceId", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
@@ -2631,7 +2631,7 @@ extension Ec2 {
     public struct CreateRouteRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NatGatewayId", required: false, type: .string), 
             AWSShapeProperty(label: "NetworkInterfaceId", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
@@ -2695,7 +2695,7 @@ extension Ec2 {
     public struct ImageIdStringList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ImageId", required: false, type: .list)
         ]
         public let imageId: [String]?
@@ -2712,7 +2712,7 @@ extension Ec2 {
     public struct DeleteVpnConnectionRouteRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpnConnectionId", required: true, type: .string), 
             AWSShapeProperty(label: "DestinationCidrBlock", required: true, type: .string)
         ]
@@ -2737,7 +2737,7 @@ extension Ec2 {
     public struct KeyPairInfo: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "KeyName", required: false, type: .string), 
             AWSShapeProperty(label: "KeyFingerprint", required: false, type: .string)
         ]
@@ -2760,7 +2760,7 @@ extension Ec2 {
     public struct VolumeAttachment: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AttachTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "DeleteOnTermination", required: false, type: .boolean), 
             AWSShapeProperty(label: "Device", required: false, type: .string), 
@@ -2803,7 +2803,7 @@ extension Ec2 {
     public struct ImportSnapshotTask: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Description", required: false, type: .string), 
             AWSShapeProperty(label: "SnapshotTaskDetail", required: false, type: .structure), 
             AWSShapeProperty(label: "ImportTaskId", required: false, type: .string)
@@ -2831,7 +2831,7 @@ extension Ec2 {
     public struct CreateNatGatewayRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubnetId", required: true, type: .string), 
             AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
             AWSShapeProperty(label: "AllocationId", required: true, type: .string)
@@ -2861,7 +2861,7 @@ extension Ec2 {
     public struct LaunchPermissionList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [LaunchPermission]?
@@ -2882,7 +2882,7 @@ extension Ec2 {
     public struct AttachVpnGatewayResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Attachment", required: false, type: .structure)
         ]
         /// Information about the attachment.
@@ -2900,7 +2900,7 @@ extension Ec2 {
     public struct RequestSpotInstancesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BlockDurationMinutes", required: false, type: .integer), 
             AWSShapeProperty(label: "AvailabilityZoneGroup", required: false, type: .string), 
             AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
@@ -2968,7 +2968,7 @@ extension Ec2 {
     public struct DescribeImagesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "ExecutableBy", required: false, type: .structure), 
@@ -3006,7 +3006,7 @@ extension Ec2 {
     public struct HostOffering: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UpfrontPrice", required: false, type: .string), 
             AWSShapeProperty(label: "PaymentOption", required: false, type: .enum), 
             AWSShapeProperty(label: "OfferingId", required: false, type: .string), 
@@ -3054,7 +3054,7 @@ extension Ec2 {
     public struct InstanceNetworkInterfaceSpecification: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DeviceIndex", required: false, type: .integer), 
             AWSShapeProperty(label: "SubnetId", required: false, type: .string), 
             AWSShapeProperty(label: "NetworkInterfaceId", required: false, type: .string), 
@@ -3127,7 +3127,7 @@ extension Ec2 {
     public struct DeleteRouteTableRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RouteTableId", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
@@ -3151,7 +3151,7 @@ extension Ec2 {
     public struct NatGatewayAddress: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NetworkInterfaceId", required: false, type: .string), 
             AWSShapeProperty(label: "PublicIp", required: false, type: .string), 
             AWSShapeProperty(label: "PrivateIp", required: false, type: .string), 
@@ -3184,7 +3184,7 @@ extension Ec2 {
     public struct DescribeNetworkInterfaceAttributeResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Description", required: false, type: .structure), 
             AWSShapeProperty(label: "NetworkInterfaceId", required: false, type: .string), 
             AWSShapeProperty(label: "Attachment", required: false, type: .structure), 
@@ -3222,7 +3222,7 @@ extension Ec2 {
     public struct ModifyVpcEndpointResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Return", required: false, type: .boolean)
         ]
         /// Returns true if the request succeeds; otherwise, it returns an error.
@@ -3240,7 +3240,7 @@ extension Ec2 {
     public struct ImportSnapshotRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
             AWSShapeProperty(label: "RoleName", required: false, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
@@ -3283,7 +3283,7 @@ extension Ec2 {
     public struct CreateVpcRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceTenancy", required: false, type: .enum), 
             AWSShapeProperty(label: "AmazonProvidedIpv6CidrBlock", required: false, type: .boolean), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
@@ -3317,7 +3317,7 @@ extension Ec2 {
     public struct DhcpOptionsIdStringList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DhcpOptionsId", required: false, type: .list)
         ]
         public let dhcpOptionsId: [String]?
@@ -3334,7 +3334,7 @@ extension Ec2 {
     public struct CreateRouteTableRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcId", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
@@ -3358,7 +3358,7 @@ extension Ec2 {
     public struct DescribeVpcsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcSet", required: false, type: .structure)
         ]
         /// Information about one or more VPCs.
@@ -3376,7 +3376,7 @@ extension Ec2 {
     public struct ImportInstanceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DiskImage", required: false, type: .list), 
             AWSShapeProperty(label: "Platform", required: true, type: .enum), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
@@ -3419,7 +3419,7 @@ extension Ec2 {
     public struct CreateVpcEndpointRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
             AWSShapeProperty(label: "ServiceName", required: true, type: .string), 
             AWSShapeProperty(label: "VpcId", required: true, type: .string), 
@@ -3464,7 +3464,7 @@ extension Ec2 {
     public struct MovingAddressStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MoveStatus", required: false, type: .enum), 
             AWSShapeProperty(label: "PublicIp", required: false, type: .string)
         ]
@@ -3493,7 +3493,7 @@ extension Ec2 {
     public struct AvailabilityZoneList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [AvailabilityZone]?
@@ -3514,7 +3514,7 @@ extension Ec2 {
     public struct VpcIdStringList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcId", required: false, type: .list)
         ]
         public let vpcId: [String]?
@@ -3531,7 +3531,7 @@ extension Ec2 {
     public struct DeregisterImageRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "ImageId", required: true, type: .string)
         ]
@@ -3555,7 +3555,7 @@ extension Ec2 {
     public struct SpotPriceHistoryList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [SpotPrice]?
@@ -3576,7 +3576,7 @@ extension Ec2 {
     public struct DeleteSnapshotRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SnapshotId", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
@@ -3600,7 +3600,7 @@ extension Ec2 {
     public struct DescribeReservedInstancesOfferingsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxDuration", required: false, type: .long), 
             AWSShapeProperty(label: "InstanceTenancy", required: false, type: .enum), 
             AWSShapeProperty(label: "ReservedInstancesOfferingId", required: false, type: .list), 
@@ -3688,7 +3688,7 @@ extension Ec2 {
     public struct CancelledSpotInstanceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SpotInstanceRequestId", required: false, type: .string), 
             AWSShapeProperty(label: "State", required: false, type: .enum)
         ]
@@ -3711,7 +3711,7 @@ extension Ec2 {
     public struct VpcPeeringConnectionList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [VpcPeeringConnection]?
@@ -3732,7 +3732,7 @@ extension Ec2 {
     public struct MovingAddressStatusSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [MovingAddressStatus]?
@@ -3753,7 +3753,7 @@ extension Ec2 {
     public struct ModifyImageAttributeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ProductCode", required: false, type: .structure), 
             AWSShapeProperty(label: "Description", required: false, type: .structure), 
             AWSShapeProperty(label: "UserId", required: false, type: .structure), 
@@ -3817,7 +3817,7 @@ extension Ec2 {
     public struct SubnetIpv6CidrBlockAssociation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Ipv6CidrBlockState", required: false, type: .structure), 
             AWSShapeProperty(label: "Ipv6CidrBlock", required: false, type: .string), 
             AWSShapeProperty(label: "AssociationId", required: false, type: .string)
@@ -3845,7 +3845,7 @@ extension Ec2 {
     public struct NetworkAclList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [NetworkAcl]?
@@ -3866,7 +3866,7 @@ extension Ec2 {
     public struct VolumeStatusDetailsList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [VolumeStatusDetails]?
@@ -3887,7 +3887,7 @@ extension Ec2 {
     public struct CreateDhcpOptionsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DhcpOptions", required: false, type: .structure)
         ]
         /// A set of DHCP options.
@@ -3905,7 +3905,7 @@ extension Ec2 {
     public struct InstanceNetworkInterfaceAssociation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PublicDnsName", required: false, type: .string), 
             AWSShapeProperty(label: "IpOwnerId", required: false, type: .string), 
             AWSShapeProperty(label: "PublicIp", required: false, type: .string)
@@ -3933,7 +3933,7 @@ extension Ec2 {
     public struct AddressList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [Address]?
@@ -3954,7 +3954,7 @@ extension Ec2 {
     public struct EbsInstanceBlockDevice: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AttachTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "DeleteOnTermination", required: false, type: .boolean), 
             AWSShapeProperty(label: "Status", required: false, type: .enum), 
@@ -3987,7 +3987,7 @@ extension Ec2 {
     public struct CancelImportTaskRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "CancelReason", required: false, type: .string), 
             AWSShapeProperty(label: "ImportTaskId", required: false, type: .string)
@@ -4015,7 +4015,7 @@ extension Ec2 {
     public struct ReservedInstanceReservationValue: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReservedInstanceId", required: false, type: .string), 
             AWSShapeProperty(label: "ReservationValue", required: false, type: .structure)
         ]
@@ -4038,7 +4038,7 @@ extension Ec2 {
     public struct CreateFlowLogsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FlowLogIdSet", required: false, type: .structure), 
             AWSShapeProperty(label: "Unsuccessful", required: false, type: .structure), 
             AWSShapeProperty(label: "ClientToken", required: false, type: .string)
@@ -4066,7 +4066,7 @@ extension Ec2 {
     public struct StopInstancesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "InstanceId", required: true, type: .structure), 
             AWSShapeProperty(label: "Force", required: false, type: .boolean)
@@ -4095,7 +4095,7 @@ extension Ec2 {
     public struct AvailabilityZone: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ZoneName", required: false, type: .string), 
             AWSShapeProperty(label: "ZoneState", required: false, type: .enum), 
             AWSShapeProperty(label: "MessageSet", required: false, type: .structure), 
@@ -4128,7 +4128,7 @@ extension Ec2 {
     public struct VolumeStatusDetails: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: false, type: .enum), 
             AWSShapeProperty(label: "Status", required: false, type: .string)
         ]
@@ -4151,7 +4151,7 @@ extension Ec2 {
     public struct DisassociateIamInstanceProfileResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IamInstanceProfileAssociation", required: false, type: .structure)
         ]
         /// Information about the IAM instance profile association.
@@ -4177,7 +4177,7 @@ extension Ec2 {
     public struct DescribeReservedInstancesModificationsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
             AWSShapeProperty(label: "ReservedInstancesModificationId", required: false, type: .structure)
@@ -4205,7 +4205,7 @@ extension Ec2 {
     public struct SpotInstanceStateFault: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Code", required: false, type: .string), 
             AWSShapeProperty(label: "Message", required: false, type: .string)
         ]
@@ -4228,7 +4228,7 @@ extension Ec2 {
     public struct DescribeImagesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ImagesSet", required: false, type: .structure)
         ]
         /// Information about one or more images.
@@ -4246,7 +4246,7 @@ extension Ec2 {
     public struct SecurityGroupIdStringList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SecurityGroupId", required: false, type: .list)
         ]
         public let securityGroupId: [String]?
@@ -4263,7 +4263,7 @@ extension Ec2 {
     public struct ScheduledInstancesPlacement: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AvailabilityZone", required: false, type: .string), 
             AWSShapeProperty(label: "GroupName", required: false, type: .string)
         ]
@@ -4286,7 +4286,7 @@ extension Ec2 {
     public struct CancelSpotFleetRequestsSuccessItem: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CurrentSpotFleetRequestState", required: true, type: .enum), 
             AWSShapeProperty(label: "PreviousSpotFleetRequestState", required: true, type: .enum), 
             AWSShapeProperty(label: "SpotFleetRequestId", required: true, type: .string)
@@ -4317,7 +4317,7 @@ extension Ec2 {
     public struct AuthorizeSecurityGroupIngressRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SourceSecurityGroupOwnerId", required: false, type: .string), 
             AWSShapeProperty(label: "GroupName", required: false, type: .string), 
             AWSShapeProperty(label: "IpPermissions", required: false, type: .structure), 
@@ -4380,7 +4380,7 @@ extension Ec2 {
     public struct KeyNameStringList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "KeyName", required: false, type: .list)
         ]
         public let keyName: [String]?
@@ -4397,7 +4397,7 @@ extension Ec2 {
     public struct PortRange: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "From", required: false, type: .integer), 
             AWSShapeProperty(label: "To", required: false, type: .integer)
         ]
@@ -4420,7 +4420,7 @@ extension Ec2 {
     public struct InstanceState: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: false, type: .enum), 
             AWSShapeProperty(label: "Code", required: false, type: .integer)
         ]
@@ -4450,7 +4450,7 @@ extension Ec2 {
     public struct VgwTelemetryList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [VgwTelemetry]?
@@ -4471,7 +4471,7 @@ extension Ec2 {
     public struct InstancePrivateIpAddress: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PrivateIpAddress", required: false, type: .string), 
             AWSShapeProperty(label: "PrivateDnsName", required: false, type: .string), 
             AWSShapeProperty(label: "Primary", required: false, type: .boolean), 
@@ -4504,7 +4504,7 @@ extension Ec2 {
     public struct HostProperties: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Sockets", required: false, type: .integer), 
             AWSShapeProperty(label: "InstanceType", required: false, type: .string), 
             AWSShapeProperty(label: "TotalVCpus", required: false, type: .integer), 
@@ -4537,7 +4537,7 @@ extension Ec2 {
     public struct UnassignPrivateIpAddressesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NetworkInterfaceId", required: true, type: .string), 
             AWSShapeProperty(label: "PrivateIpAddress", required: true, type: .structure)
         ]
@@ -4562,7 +4562,7 @@ extension Ec2 {
     public struct SecurityGroupReference: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReferencingVpcId", required: true, type: .string), 
             AWSShapeProperty(label: "GroupId", required: true, type: .string), 
             AWSShapeProperty(label: "VpcPeeringConnectionId", required: false, type: .string)
@@ -4592,7 +4592,7 @@ extension Ec2 {
     public struct RegionList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [Region]?
@@ -4613,7 +4613,7 @@ extension Ec2 {
     public struct PriceSchedule: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Active", required: false, type: .boolean), 
             AWSShapeProperty(label: "CurrencyCode", required: false, type: .enum), 
             AWSShapeProperty(label: "Term", required: false, type: .long), 
@@ -4646,7 +4646,7 @@ extension Ec2 {
     public struct DescribePrefixListsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PrefixListId", required: false, type: .structure), 
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
@@ -4684,7 +4684,7 @@ extension Ec2 {
     public struct DiskImage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Image", required: false, type: .structure), 
             AWSShapeProperty(label: "Volume", required: false, type: .structure), 
             AWSShapeProperty(label: "Description", required: false, type: .string)
@@ -4712,7 +4712,7 @@ extension Ec2 {
     public struct DescribeRouteTablesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RouteTableId", required: false, type: .structure), 
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
@@ -4740,7 +4740,7 @@ extension Ec2 {
     public struct DescribeInternetGatewaysResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InternetGatewaySet", required: false, type: .structure)
         ]
         /// Information about one or more Internet gateways.
@@ -4758,7 +4758,7 @@ extension Ec2 {
     public struct InstanceNetworkInterfaceAttachment: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AttachTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "DeleteOnTermination", required: false, type: .boolean), 
             AWSShapeProperty(label: "DeviceIndex", required: false, type: .integer), 
@@ -4796,7 +4796,7 @@ extension Ec2 {
     public struct NetworkInterfaceIdList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [String]?
@@ -4813,7 +4813,7 @@ extension Ec2 {
     public struct DisassociateVpcCidrBlockRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AssociationId", required: true, type: .string)
         ]
         /// The association ID for the CIDR block.
@@ -4832,7 +4832,7 @@ extension Ec2 {
     public struct DescribeVpcPeeringConnectionsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
             AWSShapeProperty(label: "VpcPeeringConnectionId", required: false, type: .structure)
@@ -4860,7 +4860,7 @@ extension Ec2 {
     public struct DetachClassicLinkVpcRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcId", required: true, type: .string), 
             AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
@@ -4890,7 +4890,7 @@ extension Ec2 {
     public struct ReservationValue: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "HourlyPrice", required: false, type: .string), 
             AWSShapeProperty(label: "RemainingTotalValue", required: false, type: .string), 
             AWSShapeProperty(label: "RemainingUpfrontValue", required: false, type: .string)
@@ -4918,7 +4918,7 @@ extension Ec2 {
     public struct DetachClassicLinkVpcResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Return", required: false, type: .boolean)
         ]
         /// Returns true if the request succeeds; otherwise, it returns an error.
@@ -4936,7 +4936,7 @@ extension Ec2 {
     public struct UnsuccessfulItemList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [UnsuccessfulItem]?
@@ -4957,7 +4957,7 @@ extension Ec2 {
     public struct PrivateIpAddressSpecificationList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [PrivateIpAddressSpecification]?
@@ -4978,7 +4978,7 @@ extension Ec2 {
     public struct S3Storage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Bucket", required: false, type: .string), 
             AWSShapeProperty(label: "AWSAccessKeyId", required: false, type: .string), 
             AWSShapeProperty(label: "UploadPolicySignature", required: false, type: .string), 
@@ -5016,7 +5016,7 @@ extension Ec2 {
     public struct VolumeAttachmentList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [VolumeAttachment]?
@@ -5037,7 +5037,7 @@ extension Ec2 {
     public struct DescribeInstancesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "ReservationSet", required: false, type: .structure)
         ]
@@ -5060,7 +5060,7 @@ extension Ec2 {
     public struct DescribeReservedInstancesListingsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReservedInstancesId", required: false, type: .string), 
             AWSShapeProperty(label: "ReservedInstancesListingId", required: false, type: .string), 
             AWSShapeProperty(label: "Filter", required: false, type: .structure)
@@ -5088,7 +5088,7 @@ extension Ec2 {
     public struct ScheduledInstancesSecurityGroupIdSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SecurityGroupId", required: false, type: .list)
         ]
         public let securityGroupId: [String]?
@@ -5113,7 +5113,7 @@ extension Ec2 {
     public struct AccountAttributeList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [AccountAttribute]?
@@ -5134,7 +5134,7 @@ extension Ec2 {
     public struct CancelBundleTaskRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BundleId", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
@@ -5158,7 +5158,7 @@ extension Ec2 {
     public struct ImageDiskContainerList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [ImageDiskContainer]?
@@ -5179,7 +5179,7 @@ extension Ec2 {
     public struct DeleteCustomerGatewayRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CustomerGatewayId", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
@@ -5203,7 +5203,7 @@ extension Ec2 {
     public struct DescribeHostsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "HostSet", required: false, type: .structure), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -5232,7 +5232,7 @@ extension Ec2 {
     public struct NatGatewayAddressList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [NatGatewayAddress]?
@@ -5253,7 +5253,7 @@ extension Ec2 {
     public struct PurchaseHostReservationResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Purchase", required: false, type: .list), 
             AWSShapeProperty(label: "TotalUpfrontPrice", required: false, type: .string), 
             AWSShapeProperty(label: "CurrencyCode", required: false, type: .enum), 
@@ -5295,7 +5295,7 @@ extension Ec2 {
     public struct DeleteEgressOnlyInternetGatewayResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReturnCode", required: false, type: .boolean)
         ]
         /// Returns true if the request succeeds; otherwise, it returns an error.
@@ -5313,7 +5313,7 @@ extension Ec2 {
     public struct DeleteVolumeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VolumeId", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
@@ -5337,7 +5337,7 @@ extension Ec2 {
     public struct EgressOnlyInternetGatewayIdList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [String]?
@@ -5354,7 +5354,7 @@ extension Ec2 {
     public struct RequestHostIdList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [String]?
@@ -5371,7 +5371,7 @@ extension Ec2 {
     public struct TargetConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OfferingId", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceCount", required: false, type: .integer)
         ]
@@ -5394,7 +5394,7 @@ extension Ec2 {
     public struct FilterList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Filter", required: false, type: .list)
         ]
         public let filter: [Filter]?
@@ -5415,7 +5415,7 @@ extension Ec2 {
     public struct CreateCustomerGatewayResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CustomerGateway", required: false, type: .structure)
         ]
         /// Information about the customer gateway.
@@ -5433,7 +5433,7 @@ extension Ec2 {
     public struct DescribeBundleTasksResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BundleInstanceTasksSet", required: false, type: .structure)
         ]
         /// Information about one or more bundle tasks.
@@ -5451,7 +5451,7 @@ extension Ec2 {
     public struct GetReservedInstancesExchangeQuoteResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OutputReservedInstancesWillExpireAt", required: false, type: .timestamp), 
             AWSShapeProperty(label: "TargetConfigurationValueRollup", required: false, type: .structure), 
             AWSShapeProperty(label: "IsValidExchange", required: false, type: .boolean), 
@@ -5509,7 +5509,7 @@ extension Ec2 {
     public struct InstanceExportDetails: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
             AWSShapeProperty(label: "TargetEnvironment", required: false, type: .enum)
         ]
@@ -5532,7 +5532,7 @@ extension Ec2 {
     public struct NetworkAcl: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Default", required: false, type: .boolean), 
             AWSShapeProperty(label: "EntrySet", required: false, type: .structure), 
             AWSShapeProperty(label: "NetworkAclId", required: false, type: .string), 
@@ -5581,7 +5581,7 @@ extension Ec2 {
     public struct RevokeSecurityGroupIngressRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SourceSecurityGroupOwnerId", required: false, type: .string), 
             AWSShapeProperty(label: "GroupName", required: false, type: .string), 
             AWSShapeProperty(label: "IpPermissions", required: false, type: .structure), 
@@ -5644,7 +5644,7 @@ extension Ec2 {
     public struct DescribeKeyPairsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "KeySet", required: false, type: .structure)
         ]
         /// Information about one or more key pairs.
@@ -5662,7 +5662,7 @@ extension Ec2 {
     public struct ScheduledInstancesPrivateIpAddressConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Primary", required: false, type: .boolean), 
             AWSShapeProperty(label: "PrivateIpAddress", required: false, type: .string)
         ]
@@ -5685,7 +5685,7 @@ extension Ec2 {
     public struct CancelReservedInstancesListingResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReservedInstancesListingsSet", required: false, type: .structure)
         ]
         /// The Reserved Instance listing.
@@ -5703,7 +5703,7 @@ extension Ec2 {
     public struct ReservationList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [Reservation]?
@@ -5724,7 +5724,7 @@ extension Ec2 {
     public struct AcceptReservedInstancesExchangeQuoteRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReservedInstanceId", required: true, type: .structure), 
             AWSShapeProperty(label: "TargetConfiguration", required: false, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
@@ -5761,7 +5761,7 @@ extension Ec2 {
     public struct BundleInstanceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
             AWSShapeProperty(label: "Storage", required: true, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
@@ -5791,7 +5791,7 @@ extension Ec2 {
     public struct DescribeVolumesModificationsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "VolumeModificationSet", required: false, type: .structure)
         ]
@@ -5814,7 +5814,7 @@ extension Ec2 {
     public struct DescribeVpcClassicLinkRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
             AWSShapeProperty(label: "VpcId", required: false, type: .structure)
@@ -5842,7 +5842,7 @@ extension Ec2 {
     public struct DhcpOptionsList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [DhcpOptions]?
@@ -5863,7 +5863,7 @@ extension Ec2 {
     public struct VpcClassicLinkList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [VpcClassicLink]?
@@ -5884,7 +5884,7 @@ extension Ec2 {
     public struct SpotInstanceRequestList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [SpotInstanceRequest]?
@@ -5905,7 +5905,7 @@ extension Ec2 {
     public struct DescribeVolumeAttributeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "VolumeId", required: true, type: .string), 
             AWSShapeProperty(label: "Attribute", required: false, type: .enum)
@@ -5934,7 +5934,7 @@ extension Ec2 {
     public struct GetPasswordDataRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
@@ -5966,7 +5966,7 @@ extension Ec2 {
     public struct ReportInstanceStatusRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "Status", required: true, type: .enum), 
             AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
@@ -6017,7 +6017,7 @@ extension Ec2 {
     public struct AllocateHostsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "HostIdSet", required: false, type: .structure)
         ]
         /// The ID of the allocated Dedicated Host. This is used when you want to launch an instance onto a specific host.
@@ -6035,7 +6035,7 @@ extension Ec2 {
     public struct InternetGatewayAttachmentList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [InternetGatewayAttachment]?
@@ -6056,7 +6056,7 @@ extension Ec2 {
     public struct Tag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: false, type: .string), 
             AWSShapeProperty(label: "Key", required: false, type: .string)
         ]
@@ -6079,7 +6079,7 @@ extension Ec2 {
     public struct DescribeRegionsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RegionName", required: false, type: .structure), 
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
@@ -6107,7 +6107,7 @@ extension Ec2 {
     public struct TagDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Key", required: false, type: .string), 
             AWSShapeProperty(label: "ResourceId", required: false, type: .string), 
             AWSShapeProperty(label: "Value", required: false, type: .string), 
@@ -6140,7 +6140,7 @@ extension Ec2 {
     public struct RegionNameStringList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RegionName", required: false, type: .list)
         ]
         public let regionName: [String]?
@@ -6157,7 +6157,7 @@ extension Ec2 {
     public struct ProvisionedBandwidth: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Provisioned", required: false, type: .string), 
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "RequestTime", required: false, type: .timestamp), 
@@ -6195,7 +6195,7 @@ extension Ec2 {
     public struct DescribeSnapshotAttributeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SnapshotId", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "Attribute", required: true, type: .enum)
@@ -6225,7 +6225,7 @@ extension Ec2 {
     public struct DescribeSpotDatafeedSubscriptionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -6243,7 +6243,7 @@ extension Ec2 {
     public struct DescribeSnapshotAttributeResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CreateVolumePermission", required: false, type: .structure), 
             AWSShapeProperty(label: "ProductCodes", required: false, type: .structure), 
             AWSShapeProperty(label: "SnapshotId", required: false, type: .string)
@@ -6271,7 +6271,7 @@ extension Ec2 {
     public struct RecurringCharge: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Frequency", required: false, type: .enum), 
             AWSShapeProperty(label: "Amount", required: false, type: .double)
         ]
@@ -6294,7 +6294,7 @@ extension Ec2 {
     public struct DeleteVpcPeeringConnectionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "VpcPeeringConnectionId", required: true, type: .string)
         ]
@@ -6318,7 +6318,7 @@ extension Ec2 {
     public struct DescribeAvailabilityZonesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "ZoneName", required: false, type: .structure), 
             AWSShapeProperty(label: "Filter", required: false, type: .structure)
@@ -6346,7 +6346,7 @@ extension Ec2 {
     public struct AssociateRouteTableResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AssociationId", required: false, type: .string)
         ]
         /// The route table association ID (needed to disassociate the route table).
@@ -6364,7 +6364,7 @@ extension Ec2 {
     public struct Ipv6AddressList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [String]?
@@ -6381,7 +6381,7 @@ extension Ec2 {
     public struct IcmpTypeCode: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Type", required: false, type: .integer), 
             AWSShapeProperty(label: "Code", required: false, type: .integer)
         ]
@@ -6404,7 +6404,7 @@ extension Ec2 {
     public struct DeleteFlowLogsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FlowLogId", required: true, type: .structure)
         ]
         /// One or more flow log IDs.
@@ -6423,7 +6423,7 @@ extension Ec2 {
     public struct DescribeVpnConnectionsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpnConnectionId", required: false, type: .structure), 
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
@@ -6451,7 +6451,7 @@ extension Ec2 {
     public struct ReservedInstanceLimitPrice: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CurrencyCode", required: false, type: .enum), 
             AWSShapeProperty(label: "Amount", required: false, type: .double)
         ]
@@ -6474,7 +6474,7 @@ extension Ec2 {
     public struct NewDhcpConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Key", required: false, type: .string), 
             AWSShapeProperty(label: "Value", required: false, type: .structure)
         ]
@@ -6495,7 +6495,7 @@ extension Ec2 {
     public struct KeyPairList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [KeyPairInfo]?
@@ -6516,7 +6516,7 @@ extension Ec2 {
     public struct NetworkAclEntry: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CidrBlock", required: false, type: .string), 
             AWSShapeProperty(label: "IcmpTypeCode", required: false, type: .structure), 
             AWSShapeProperty(label: "RuleNumber", required: false, type: .integer), 
@@ -6569,7 +6569,7 @@ extension Ec2 {
     public struct Vpc: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IsDefault", required: false, type: .boolean), 
             AWSShapeProperty(label: "VpcId", required: false, type: .string), 
             AWSShapeProperty(label: "State", required: false, type: .enum), 
@@ -6622,7 +6622,7 @@ extension Ec2 {
     public struct AvailabilityZoneMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Message", required: false, type: .string)
         ]
         /// The message about the Availability Zone.
@@ -6640,7 +6640,7 @@ extension Ec2 {
     public struct DescribeStaleSecurityGroupsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "VpcId", required: true, type: .string), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
@@ -6674,7 +6674,7 @@ extension Ec2 {
     public struct RestoreAddressToClassicRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "PublicIp", required: true, type: .string)
         ]
@@ -6698,7 +6698,7 @@ extension Ec2 {
     public struct RouteTable: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RouteSet", required: false, type: .structure), 
             AWSShapeProperty(label: "PropagatingVgwSet", required: false, type: .structure), 
             AWSShapeProperty(label: "RouteTableId", required: false, type: .string), 
@@ -6747,7 +6747,7 @@ extension Ec2 {
     public struct VolumeStatusEvent: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NotBefore", required: false, type: .timestamp), 
             AWSShapeProperty(label: "EventType", required: false, type: .string), 
             AWSShapeProperty(label: "NotAfter", required: false, type: .timestamp), 
@@ -6785,7 +6785,7 @@ extension Ec2 {
     public struct ModifyVpcEndpointRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AddRouteTableId", required: false, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "VpcEndpointId", required: true, type: .string), 
@@ -6829,7 +6829,7 @@ extension Ec2 {
     public struct VpcClassicLink: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcId", required: false, type: .string), 
             AWSShapeProperty(label: "TagSet", required: false, type: .structure), 
             AWSShapeProperty(label: "ClassicLinkEnabled", required: false, type: .boolean)
@@ -6938,7 +6938,7 @@ extension Ec2 {
     public struct DisassociateIamInstanceProfileRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AssociationId", required: true, type: .string)
         ]
         /// The ID of the IAM instance profile association.
@@ -6957,7 +6957,7 @@ extension Ec2 {
     public struct DescribeHostReservationOfferingsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OfferingSet", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -6984,7 +6984,7 @@ extension Ec2 {
     public struct NatGatewayList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [NatGateway]?
@@ -7005,7 +7005,7 @@ extension Ec2 {
     public struct VpcCidrBlockState: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "State", required: false, type: .enum), 
             AWSShapeProperty(label: "StatusMessage", required: false, type: .string)
         ]
@@ -7028,7 +7028,7 @@ extension Ec2 {
     public struct NetworkAclAssociation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubnetId", required: false, type: .string), 
             AWSShapeProperty(label: "NetworkAclAssociationId", required: false, type: .string), 
             AWSShapeProperty(label: "NetworkAclId", required: false, type: .string)
@@ -7062,7 +7062,7 @@ extension Ec2 {
     public struct DeleteNatGatewayRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NatGatewayId", required: true, type: .string)
         ]
         /// The ID of the NAT gateway.
@@ -7081,7 +7081,7 @@ extension Ec2 {
     public struct PurchaseScheduledInstancesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ScheduledInstanceSet", required: false, type: .structure)
         ]
         /// Information about the Scheduled Instances.
@@ -7099,7 +7099,7 @@ extension Ec2 {
     public struct DescribeVolumeStatusResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "VolumeStatusSet", required: false, type: .structure)
         ]
@@ -7122,7 +7122,7 @@ extension Ec2 {
     public struct AvailableCapacity: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AvailableInstanceCapacity", required: false, type: .structure), 
             AWSShapeProperty(label: "AvailableVCpus", required: false, type: .integer)
         ]
@@ -7145,7 +7145,7 @@ extension Ec2 {
     public struct SpotPrice: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Timestamp", required: false, type: .timestamp), 
             AWSShapeProperty(label: "InstanceType", required: false, type: .enum), 
             AWSShapeProperty(label: "AvailabilityZone", required: false, type: .string), 
@@ -7183,7 +7183,7 @@ extension Ec2 {
     public struct SnapshotList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [Snapshot]?
@@ -7204,7 +7204,7 @@ extension Ec2 {
     public struct ReservedInstancesConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Platform", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceCount", required: false, type: .integer), 
             AWSShapeProperty(label: "InstanceType", required: false, type: .enum), 
@@ -7242,7 +7242,7 @@ extension Ec2 {
     public struct CreatePlacementGroupRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "Strategy", required: true, type: .enum), 
             AWSShapeProperty(label: "GroupName", required: true, type: .string)
@@ -7272,7 +7272,7 @@ extension Ec2 {
     public struct DescribeSecurityGroupReferencesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "GroupId", required: true, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
@@ -7296,7 +7296,7 @@ extension Ec2 {
     public struct AvailableInstanceCapacityList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [InstanceCapacity]?
@@ -7317,7 +7317,7 @@ extension Ec2 {
     public struct PurchasedScheduledInstanceSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [ScheduledInstance]?
@@ -7346,7 +7346,7 @@ extension Ec2 {
     public struct DescribeVolumesModificationsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VolumeId", required: false, type: .structure), 
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
@@ -7384,7 +7384,7 @@ extension Ec2 {
     public struct ImageAttribute: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BlockDeviceMapping", required: false, type: .structure), 
             AWSShapeProperty(label: "ProductCodes", required: false, type: .structure), 
             AWSShapeProperty(label: "LaunchPermission", required: false, type: .structure), 
@@ -7437,7 +7437,7 @@ extension Ec2 {
     public struct CreateInstanceExportTaskRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TargetEnvironment", required: false, type: .enum), 
             AWSShapeProperty(label: "ExportToS3", required: false, type: .structure), 
             AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
@@ -7471,7 +7471,7 @@ extension Ec2 {
     public struct CreateFlowLogsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TrafficType", required: true, type: .enum), 
             AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
             AWSShapeProperty(label: "ResourceId", required: true, type: .structure), 
@@ -7519,7 +7519,7 @@ extension Ec2 {
     public struct ScheduledInstancesIpv6AddressList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Ipv6Address", required: false, type: .list)
         ]
         public let ipv6Address: [ScheduledInstancesIpv6Address]?
@@ -7540,7 +7540,7 @@ extension Ec2 {
     public struct AccountAttributeValueList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [AccountAttributeValue]?
@@ -7561,7 +7561,7 @@ extension Ec2 {
     public struct TargetConfigurationRequestSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TargetConfigurationRequest", required: false, type: .list)
         ]
         public let targetConfigurationRequest: [TargetConfigurationRequest]?
@@ -7582,7 +7582,7 @@ extension Ec2 {
     public struct ImportImageTask: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LicenseType", required: false, type: .string), 
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "Platform", required: false, type: .string), 
@@ -7650,7 +7650,7 @@ extension Ec2 {
     public struct DescribeVolumesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VolumeSet", required: false, type: .structure), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -7673,7 +7673,7 @@ extension Ec2 {
     public struct ResponseHostIdSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [String]?
@@ -7690,7 +7690,7 @@ extension Ec2 {
     public struct ModifyInstancePlacementRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Affinity", required: false, type: .enum), 
             AWSShapeProperty(label: "HostId", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
@@ -7724,7 +7724,7 @@ extension Ec2 {
     public struct ScheduledInstancesLaunchSpecification: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BlockDeviceMapping", required: false, type: .structure), 
             AWSShapeProperty(label: "SubnetId", required: false, type: .string), 
             AWSShapeProperty(label: "UserData", required: false, type: .string), 
@@ -7808,7 +7808,7 @@ extension Ec2 {
     public struct DisableVpcClassicLinkRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcId", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
@@ -7832,7 +7832,7 @@ extension Ec2 {
     public struct MoveAddressToVpcResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .enum), 
             AWSShapeProperty(label: "AllocationId", required: false, type: .string)
         ]
@@ -7855,7 +7855,7 @@ extension Ec2 {
     public struct DeleteVpnConnectionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpnConnectionId", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
@@ -7879,7 +7879,7 @@ extension Ec2 {
     public struct CreateVolumePermission: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserId", required: false, type: .string), 
             AWSShapeProperty(label: "Group", required: false, type: .enum)
         ]
@@ -7902,7 +7902,7 @@ extension Ec2 {
     public struct ReservedInstancesModificationIdStringList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReservedInstancesModificationId", required: false, type: .list)
         ]
         public let reservedInstancesModificationId: [String]?
@@ -7919,7 +7919,7 @@ extension Ec2 {
     public struct BlockDeviceMappingList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [BlockDeviceMapping]?
@@ -7940,7 +7940,7 @@ extension Ec2 {
     public struct CustomerGateway: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CustomerGatewayId", required: false, type: .string), 
             AWSShapeProperty(label: "BgpAsn", required: false, type: .string), 
             AWSShapeProperty(label: "Type", required: false, type: .string), 
@@ -7983,7 +7983,7 @@ extension Ec2 {
     public struct DescribeAccountAttributesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AttributeName", required: false, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
@@ -8006,7 +8006,7 @@ extension Ec2 {
     public struct HistoryRecords: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [HistoryRecord]?
@@ -8027,7 +8027,7 @@ extension Ec2 {
     public struct ReservedInstancesModificationResultList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [ReservedInstancesModificationResult]?
@@ -8048,7 +8048,7 @@ extension Ec2 {
     public struct VpnGatewayIdStringList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpnGatewayId", required: false, type: .list)
         ]
         public let vpnGatewayId: [String]?
@@ -8065,7 +8065,7 @@ extension Ec2 {
     public struct CreateVpnGatewayRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Type", required: true, type: .enum), 
             AWSShapeProperty(label: "AvailabilityZone", required: false, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
@@ -8094,7 +8094,7 @@ extension Ec2 {
     public struct DeleteSpotDatafeedSubscriptionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -8112,7 +8112,7 @@ extension Ec2 {
     public struct Route: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EgressOnlyInternetGatewayId", required: false, type: .string), 
             AWSShapeProperty(label: "NetworkInterfaceId", required: false, type: .string), 
             AWSShapeProperty(label: "NatGatewayId", required: false, type: .string), 
@@ -8185,7 +8185,7 @@ extension Ec2 {
     public struct CancelSpotFleetRequestsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SuccessfulFleetRequestSet", required: false, type: .structure), 
             AWSShapeProperty(label: "UnsuccessfulFleetRequestSet", required: false, type: .structure)
         ]
@@ -8208,7 +8208,7 @@ extension Ec2 {
     public struct VpnGatewayList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [VpnGateway]?
@@ -8229,7 +8229,7 @@ extension Ec2 {
     public struct DeleteSecurityGroupRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "GroupId", required: false, type: .string), 
             AWSShapeProperty(label: "GroupName", required: false, type: .string)
@@ -8257,7 +8257,7 @@ extension Ec2 {
     public struct CreateVpcResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Vpc", required: false, type: .structure)
         ]
         /// Information about the VPC.
@@ -8275,7 +8275,7 @@ extension Ec2 {
     public struct DescribeInstancesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "InstanceId", required: false, type: .structure), 
@@ -8313,7 +8313,7 @@ extension Ec2 {
     public struct UserGroupStringList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserGroup", required: false, type: .list)
         ]
         public let userGroup: [String]?
@@ -8330,7 +8330,7 @@ extension Ec2 {
     public struct DescribeScheduledInstancesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "ScheduledInstanceSet", required: false, type: .structure)
         ]
@@ -8353,7 +8353,7 @@ extension Ec2 {
     public struct DeleteNetworkAclEntryRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NetworkAclId", required: true, type: .string), 
             AWSShapeProperty(label: "RuleNumber", required: true, type: .integer), 
             AWSShapeProperty(label: "Egress", required: true, type: .boolean), 
@@ -8389,7 +8389,7 @@ extension Ec2 {
     public struct NewDhcpConfigurationList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [NewDhcpConfiguration]?
@@ -8410,7 +8410,7 @@ extension Ec2 {
     public struct ResetSnapshotAttributeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SnapshotId", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "Attribute", required: true, type: .enum)
@@ -8440,7 +8440,7 @@ extension Ec2 {
     public struct VpnGateway: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Attachments", required: false, type: .structure), 
             AWSShapeProperty(label: "VpnGatewayId", required: false, type: .string), 
             AWSShapeProperty(label: "Type", required: false, type: .enum), 
@@ -8483,7 +8483,7 @@ extension Ec2 {
     public struct CancelSpotFleetRequestsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "TerminateInstances", required: true, type: .boolean), 
             AWSShapeProperty(label: "SpotFleetRequestId", required: true, type: .structure)
@@ -8513,7 +8513,7 @@ extension Ec2 {
     public struct InstanceIpv6AddressList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [InstanceIpv6Address]?
@@ -8534,7 +8534,7 @@ extension Ec2 {
     public struct ScheduledInstanceSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [ScheduledInstance]?
@@ -8555,7 +8555,7 @@ extension Ec2 {
     public struct DescribeVolumeStatusRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VolumeId", required: false, type: .structure), 
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
@@ -8593,7 +8593,7 @@ extension Ec2 {
     public struct InstanceStatusList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [InstanceStatus]?
@@ -8614,7 +8614,7 @@ extension Ec2 {
     public struct DescribeSecurityGroupsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "GroupId", required: false, type: .structure), 
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
@@ -8647,7 +8647,7 @@ extension Ec2 {
     public struct Snapshot: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StatusMessage", required: false, type: .string), 
             AWSShapeProperty(label: "Status", required: false, type: .enum), 
             AWSShapeProperty(label: "VolumeId", required: false, type: .string), 
@@ -8730,7 +8730,7 @@ extension Ec2 {
     public struct DescribeVpcsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
             AWSShapeProperty(label: "VpcId", required: false, type: .structure)
@@ -8758,7 +8758,7 @@ extension Ec2 {
     public struct PurchaseRequestSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PurchaseRequest", required: false, type: .list)
         ]
         public let purchaseRequest: [PurchaseRequest]?
@@ -8779,7 +8779,7 @@ extension Ec2 {
     public struct DescribeIdFormatResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StatusSet", required: false, type: .structure)
         ]
         /// Information about the ID format for the resource.
@@ -8797,7 +8797,7 @@ extension Ec2 {
     public struct RegisterImageRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BillingProduct", required: false, type: .structure), 
             AWSShapeProperty(label: "BlockDeviceMapping", required: false, type: .structure), 
             AWSShapeProperty(label: "SriovNetSupport", required: false, type: .string), 
@@ -8876,7 +8876,7 @@ extension Ec2 {
     public struct DescribeMovingAddressesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PublicIp", required: false, type: .structure), 
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
@@ -8914,7 +8914,7 @@ extension Ec2 {
     public struct BillingProductList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [String]?
@@ -8931,7 +8931,7 @@ extension Ec2 {
     public struct MonitorInstancesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstancesSet", required: false, type: .structure)
         ]
         /// The monitoring information.
@@ -8949,7 +8949,7 @@ extension Ec2 {
     public struct AssignIpv6AddressesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AssignedIpv6Addresses", required: false, type: .structure), 
             AWSShapeProperty(label: "NetworkInterfaceId", required: false, type: .string)
         ]
@@ -8972,7 +8972,7 @@ extension Ec2 {
     public struct AssignPrivateIpAddressesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AllowReassignment", required: false, type: .boolean), 
             AWSShapeProperty(label: "NetworkInterfaceId", required: true, type: .string), 
             AWSShapeProperty(label: "SecondaryPrivateIpAddressCount", required: false, type: .integer), 
@@ -9013,7 +9013,7 @@ extension Ec2 {
     public struct RunInstancesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DisableApiTermination", required: false, type: .boolean), 
             AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
             AWSShapeProperty(label: "EbsOptimized", required: false, type: .boolean), 
@@ -9154,7 +9154,7 @@ extension Ec2 {
     public struct SpotInstanceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LaunchedAvailabilityZone", required: false, type: .string), 
             AWSShapeProperty(label: "SpotInstanceRequestId", required: false, type: .string), 
             AWSShapeProperty(label: "State", required: false, type: .enum), 
@@ -9257,7 +9257,7 @@ extension Ec2 {
     public struct RebootInstancesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceId", required: true, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
@@ -9281,7 +9281,7 @@ extension Ec2 {
     public struct VpcPeeringConnectionStateReason: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Code", required: false, type: .enum), 
             AWSShapeProperty(label: "Message", required: false, type: .string)
         ]
@@ -9320,7 +9320,7 @@ extension Ec2 {
     public struct ScheduledInstance: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Platform", required: false, type: .string), 
             AWSShapeProperty(label: "PreviousSlotEndTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "TotalScheduledInstanceHours", required: false, type: .integer), 
@@ -9408,7 +9408,7 @@ extension Ec2 {
     public struct DescribeSpotFleetInstancesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "SpotFleetRequestId", required: true, type: .string), 
             AWSShapeProperty(label: "ActiveInstanceSet", required: true, type: .structure)
@@ -9438,7 +9438,7 @@ extension Ec2 {
     public struct ProductCode: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Type", required: false, type: .enum), 
             AWSShapeProperty(label: "ProductCode", required: false, type: .string)
         ]
@@ -9461,7 +9461,7 @@ extension Ec2 {
     public struct InstanceStatusEvent: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Code", required: false, type: .enum), 
             AWSShapeProperty(label: "NotBefore", required: false, type: .timestamp), 
             AWSShapeProperty(label: "NotAfter", required: false, type: .timestamp), 
@@ -9494,7 +9494,7 @@ extension Ec2 {
     public struct DescribeVolumeAttributeResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ProductCodes", required: false, type: .structure), 
             AWSShapeProperty(label: "VolumeId", required: false, type: .string), 
             AWSShapeProperty(label: "AutoEnableIO", required: false, type: .structure)
@@ -9522,7 +9522,7 @@ extension Ec2 {
     public struct DeleteNetworkInterfaceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NetworkInterfaceId", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
@@ -9546,7 +9546,7 @@ extension Ec2 {
     public struct SpotDatafeedSubscription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Bucket", required: false, type: .string), 
             AWSShapeProperty(label: "OwnerId", required: false, type: .string), 
             AWSShapeProperty(label: "State", required: false, type: .enum), 
@@ -9584,7 +9584,7 @@ extension Ec2 {
     public struct ImportImageRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DiskContainer", required: false, type: .structure), 
             AWSShapeProperty(label: "Platform", required: false, type: .string), 
             AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
@@ -9647,7 +9647,7 @@ extension Ec2 {
     public struct OwnerStringList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Owner", required: false, type: .list)
         ]
         public let owner: [String]?
@@ -9664,7 +9664,7 @@ extension Ec2 {
     public struct ImportInstanceVolumeDetailItem: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: true, type: .string), 
             AWSShapeProperty(label: "BytesConverted", required: true, type: .long), 
             AWSShapeProperty(label: "Volume", required: true, type: .structure), 
@@ -9717,7 +9717,7 @@ extension Ec2 {
     public struct RecurringChargesList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [RecurringCharge]?
@@ -9738,7 +9738,7 @@ extension Ec2 {
     public struct UnsuccessfulItem: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceId", required: false, type: .string), 
             AWSShapeProperty(label: "Error", required: true, type: .structure)
         ]
@@ -9762,7 +9762,7 @@ extension Ec2 {
     public struct DescribeIamInstanceProfileAssociationsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "IamInstanceProfileAssociationSet", required: false, type: .structure)
         ]
@@ -9785,7 +9785,7 @@ extension Ec2 {
     public struct ModifySpotFleetRequestResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Return", required: false, type: .boolean)
         ]
         /// Is true if the request succeeds, and an error otherwise.
@@ -9803,7 +9803,7 @@ extension Ec2 {
     public struct OccurrenceDayRequestSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OccurenceDay", required: false, type: .list)
         ]
         public let occurenceDay: [Int32]?
@@ -9829,7 +9829,7 @@ extension Ec2 {
     public struct Volume: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VolumeType", required: false, type: .enum), 
             AWSShapeProperty(label: "Status", required: false, type: .enum), 
             AWSShapeProperty(label: "VolumeId", required: false, type: .string), 
@@ -9902,7 +9902,7 @@ extension Ec2 {
     public struct PurchaseHostReservationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CurrencyCode", required: false, type: .enum), 
             AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
             AWSShapeProperty(label: "LimitPrice", required: false, type: .string), 
@@ -9942,7 +9942,7 @@ extension Ec2 {
     public struct SubnetCidrBlockState: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "State", required: false, type: .enum), 
             AWSShapeProperty(label: "StatusMessage", required: false, type: .string)
         ]
@@ -9965,7 +9965,7 @@ extension Ec2 {
     public struct InstanceAttribute: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BlockDeviceMapping", required: false, type: .structure), 
             AWSShapeProperty(label: "DisableApiTermination", required: false, type: .structure), 
             AWSShapeProperty(label: "UserData", required: false, type: .structure), 
@@ -10053,7 +10053,7 @@ extension Ec2 {
     public struct DescribeConversionTasksResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConversionTasks", required: false, type: .structure)
         ]
         /// Information about the conversion tasks.
@@ -10071,7 +10071,7 @@ extension Ec2 {
     public struct ModifySnapshotAttributeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserId", required: false, type: .structure), 
             AWSShapeProperty(label: "SnapshotId", required: true, type: .string), 
             AWSShapeProperty(label: "CreateVolumePermission", required: false, type: .structure), 
@@ -10120,7 +10120,7 @@ extension Ec2 {
     public struct CancelledSpotInstanceRequestList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [CancelledSpotInstanceRequest]?
@@ -10141,7 +10141,7 @@ extension Ec2 {
     public struct AttachClassicLinkVpcResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Return", required: false, type: .boolean)
         ]
         /// Returns true if the request succeeds; otherwise, it returns an error.
@@ -10159,7 +10159,7 @@ extension Ec2 {
     public struct ModifySpotFleetRequestRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TargetCapacity", required: false, type: .integer), 
             AWSShapeProperty(label: "SpotFleetRequestId", required: true, type: .string), 
             AWSShapeProperty(label: "ExcessCapacityTerminationPolicy", required: false, type: .enum)
@@ -10188,7 +10188,7 @@ extension Ec2 {
     public struct BundleTaskList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [BundleTask]?
@@ -10209,7 +10209,7 @@ extension Ec2 {
     public struct HostReservation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UpfrontPrice", required: false, type: .string), 
             AWSShapeProperty(label: "State", required: false, type: .enum), 
             AWSShapeProperty(label: "PaymentOption", required: false, type: .enum), 
@@ -10287,7 +10287,7 @@ extension Ec2 {
     public struct CreateReservedInstancesListingResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReservedInstancesListingsSet", required: false, type: .structure)
         ]
         /// Information about the Standard Reserved Instance listing.
@@ -10305,7 +10305,7 @@ extension Ec2 {
     public struct DescribeHostsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
             AWSShapeProperty(label: "HostId", required: false, type: .structure), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
@@ -10338,7 +10338,7 @@ extension Ec2 {
     public struct AllocateAddressRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Domain", required: false, type: .enum), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
@@ -10361,7 +10361,7 @@ extension Ec2 {
     public struct DescribeBundleTasksRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
             AWSShapeProperty(label: "BundleId", required: false, type: .structure)
@@ -10389,7 +10389,7 @@ extension Ec2 {
     public struct CustomerGatewayList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [CustomerGateway]?
@@ -10410,7 +10410,7 @@ extension Ec2 {
     public struct RunScheduledInstancesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceIdSet", required: false, type: .structure)
         ]
         /// The IDs of the newly launched instances.
@@ -10428,7 +10428,7 @@ extension Ec2 {
     public struct DescribeVpcEndpointServicesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ServiceNameSet", required: false, type: .structure), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -10451,7 +10451,7 @@ extension Ec2 {
     public struct AssociateVpcCidrBlockResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcId", required: false, type: .string), 
             AWSShapeProperty(label: "Ipv6CidrBlockAssociation", required: false, type: .structure)
         ]
@@ -10474,7 +10474,7 @@ extension Ec2 {
     public struct ExportTaskList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [ExportTask]?
@@ -10503,7 +10503,7 @@ extension Ec2 {
     public struct UserData: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Data", required: false, type: .string)
         ]
         /// The user data. If you are using an AWS SDK or command line tool, Base64-encoding is performed for you, and you can load the text from a file. Otherwise, you must provide Base64-encoded text.
@@ -10521,7 +10521,7 @@ extension Ec2 {
     public struct AssociateAddressRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PrivateIpAddress", required: false, type: .string), 
             AWSShapeProperty(label: "NetworkInterfaceId", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
@@ -10575,7 +10575,7 @@ extension Ec2 {
     public struct DisassociateSubnetCidrBlockRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AssociationId", required: true, type: .string)
         ]
         /// The association ID for the CIDR block.
@@ -10594,7 +10594,7 @@ extension Ec2 {
     public struct DeleteEgressOnlyInternetGatewayRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EgressOnlyInternetGatewayId", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
@@ -10624,7 +10624,7 @@ extension Ec2 {
     public struct AuthorizeSecurityGroupEgressRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SourceSecurityGroupOwnerId", required: false, type: .string), 
             AWSShapeProperty(label: "IpPermissions", required: false, type: .structure), 
             AWSShapeProperty(label: "CidrIp", required: false, type: .string), 
@@ -10683,7 +10683,7 @@ extension Ec2 {
     public struct VpcList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [Vpc]?
@@ -10704,7 +10704,7 @@ extension Ec2 {
     public struct FlowLog: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LogGroupName", required: false, type: .string), 
             AWSShapeProperty(label: "FlowLogStatus", required: false, type: .string), 
             AWSShapeProperty(label: "FlowLogId", required: false, type: .string), 
@@ -10762,7 +10762,7 @@ extension Ec2 {
     public struct CreateVpcEndpointResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
             AWSShapeProperty(label: "VpcEndpoint", required: false, type: .structure)
         ]
@@ -10785,7 +10785,7 @@ extension Ec2 {
     public struct AttachNetworkInterfaceResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AttachmentId", required: false, type: .string)
         ]
         /// The ID of the network interface attachment.
@@ -10803,7 +10803,7 @@ extension Ec2 {
     public struct DescribeVpcEndpointsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "VpcEndpointSet", required: false, type: .structure)
         ]
@@ -10826,7 +10826,7 @@ extension Ec2 {
     public struct CreateKeyPairRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "KeyName", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
@@ -10850,7 +10850,7 @@ extension Ec2 {
     public struct StaleSecurityGroup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StaleIpPermissions", required: false, type: .structure), 
             AWSShapeProperty(label: "StaleIpPermissionsEgress", required: false, type: .structure), 
             AWSShapeProperty(label: "GroupName", required: false, type: .string), 
@@ -10894,7 +10894,7 @@ extension Ec2 {
     public struct ConfirmProductInstanceResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OwnerId", required: false, type: .string), 
             AWSShapeProperty(label: "Return", required: false, type: .boolean)
         ]
@@ -10924,7 +10924,7 @@ extension Ec2 {
     public struct UserIdGroupPairList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [UserIdGroupPair]?
@@ -10945,7 +10945,7 @@ extension Ec2 {
     public struct ImportKeyPairRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "KeyName", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "PublicKeyMaterial", required: true, type: .blob)
@@ -10975,7 +10975,7 @@ extension Ec2 {
     public struct InstanceIdStringList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceId", required: false, type: .list)
         ]
         public let instanceId: [String]?
@@ -10992,7 +10992,7 @@ extension Ec2 {
     public struct VpcClassicLinkIdList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcId", required: false, type: .list)
         ]
         public let vpcId: [String]?
@@ -11009,7 +11009,7 @@ extension Ec2 {
     public struct RunInstancesMonitoringEnabled: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Enabled", required: true, type: .boolean)
         ]
         /// Indicates whether detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
@@ -11028,7 +11028,7 @@ extension Ec2 {
     public struct GetPasswordDataResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Timestamp", required: false, type: .timestamp), 
             AWSShapeProperty(label: "PasswordData", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceId", required: false, type: .string)
@@ -11056,7 +11056,7 @@ extension Ec2 {
     public struct AvailabilityZoneMessageList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [AvailabilityZoneMessage]?
@@ -11082,7 +11082,7 @@ extension Ec2 {
     public struct IdFormat: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Deadline", required: false, type: .timestamp), 
             AWSShapeProperty(label: "Resource", required: false, type: .string), 
             AWSShapeProperty(label: "UseLongIds", required: false, type: .boolean)
@@ -11110,7 +11110,7 @@ extension Ec2 {
     public struct DescribeClassicLinkInstancesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "InstanceId", required: false, type: .structure), 
@@ -11148,7 +11148,7 @@ extension Ec2 {
     public struct RunScheduledInstancesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "LaunchSpecification", required: true, type: .structure), 
@@ -11188,7 +11188,7 @@ extension Ec2 {
     public struct BlockDeviceMapping: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NoDevice", required: false, type: .string), 
             AWSShapeProperty(label: "VirtualName", required: false, type: .string), 
             AWSShapeProperty(label: "DeviceName", required: false, type: .string), 
@@ -11231,7 +11231,7 @@ extension Ec2 {
     public struct ReplaceIamInstanceProfileAssociationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IamInstanceProfile", required: true, type: .structure), 
             AWSShapeProperty(label: "AssociationId", required: true, type: .string)
         ]
@@ -11256,7 +11256,7 @@ extension Ec2 {
     public struct AllocationIdList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AllocationId", required: false, type: .list)
         ]
         public let allocationId: [String]?
@@ -11273,7 +11273,7 @@ extension Ec2 {
     public struct ScheduledInstancesIpv6Address: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Ipv6Address", required: false, type: .string)
         ]
         /// The IPv6 address.
@@ -11303,7 +11303,7 @@ extension Ec2 {
     public struct DescribeSpotFleetRequestHistoryRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StartTime", required: true, type: .timestamp), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "EventType", required: false, type: .enum), 
@@ -11348,7 +11348,7 @@ extension Ec2 {
     public struct ScheduledInstanceAvailability: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Platform", required: false, type: .string), 
             AWSShapeProperty(label: "TotalScheduledInstanceHours", required: false, type: .integer), 
             AWSShapeProperty(label: "MinTermDurationInDays", required: false, type: .integer), 
@@ -11426,7 +11426,7 @@ extension Ec2 {
     public struct PricingDetailsList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [PricingDetail]?
@@ -11447,7 +11447,7 @@ extension Ec2 {
     public struct VolumeDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Size", required: true, type: .long)
         ]
         /// The size of the volume, in GiB.
@@ -11466,7 +11466,7 @@ extension Ec2 {
     public struct ReleaseHostsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "HostId", required: true, type: .structure)
         ]
         /// The IDs of the Dedicated Hosts you want to release.
@@ -11494,7 +11494,7 @@ extension Ec2 {
     public struct InstanceStatusDetails: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: false, type: .enum), 
             AWSShapeProperty(label: "Status", required: false, type: .enum), 
             AWSShapeProperty(label: "ImpairedSince", required: false, type: .timestamp)
@@ -11522,7 +11522,7 @@ extension Ec2 {
     public struct StartInstancesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "InstanceId", required: true, type: .structure), 
             AWSShapeProperty(label: "AdditionalInfo", required: false, type: .string)
@@ -11551,7 +11551,7 @@ extension Ec2 {
     public struct FlowLogSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [FlowLog]?
@@ -11572,7 +11572,7 @@ extension Ec2 {
     public struct SlotStartTimeRangeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EarliestTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "LatestTime", required: false, type: .timestamp)
         ]
@@ -11595,7 +11595,7 @@ extension Ec2 {
     public struct CreateRouteResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Return", required: false, type: .boolean)
         ]
         /// Returns true if the request succeeds; otherwise, it returns an error.
@@ -11613,7 +11613,7 @@ extension Ec2 {
     public struct VolumeStatusEventsList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [VolumeStatusEvent]?
@@ -11640,7 +11640,7 @@ extension Ec2 {
     public struct DescribeReservedInstancesListingsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReservedInstancesListingsSet", required: false, type: .structure)
         ]
         /// Information about the Reserved Instance listing.
@@ -11658,7 +11658,7 @@ extension Ec2 {
     public struct GetHostReservationPurchasePreviewResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Purchase", required: false, type: .list), 
             AWSShapeProperty(label: "TotalUpfrontPrice", required: false, type: .string), 
             AWSShapeProperty(label: "CurrencyCode", required: false, type: .enum), 
@@ -11695,7 +11695,7 @@ extension Ec2 {
     public struct ExportTask: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceExport", required: false, type: .structure), 
             AWSShapeProperty(label: "ExportTaskId", required: false, type: .string), 
             AWSShapeProperty(label: "ExportToS3", required: false, type: .structure), 
@@ -11738,7 +11738,7 @@ extension Ec2 {
     public struct CreateSpotDatafeedSubscriptionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Bucket", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "Prefix", required: false, type: .string)
@@ -11767,7 +11767,7 @@ extension Ec2 {
     public struct EgressOnlyInternetGatewayList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [EgressOnlyInternetGateway]?
@@ -11788,7 +11788,7 @@ extension Ec2 {
     public struct DescribeScheduledInstancesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SlotStartTimeRange", required: false, type: .structure), 
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer), 
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
@@ -11831,7 +11831,7 @@ extension Ec2 {
     public struct DeleteSubnetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubnetId", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
@@ -11855,7 +11855,7 @@ extension Ec2 {
     public struct EbsInstanceBlockDeviceSpecification: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DeleteOnTermination", required: false, type: .boolean), 
             AWSShapeProperty(label: "VolumeId", required: false, type: .string)
         ]
@@ -11878,7 +11878,7 @@ extension Ec2 {
     public struct NetworkInterfaceAttachment: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DeviceIndex", required: false, type: .integer), 
             AWSShapeProperty(label: "Status", required: false, type: .enum), 
             AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
@@ -11926,7 +11926,7 @@ extension Ec2 {
     public struct DescribePrefixListsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "PrefixListSet", required: false, type: .structure)
         ]
@@ -11949,7 +11949,7 @@ extension Ec2 {
     public struct ReplaceRouteTableAssociationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "RouteTableId", required: true, type: .string), 
             AWSShapeProperty(label: "AssociationId", required: true, type: .string)
@@ -11979,7 +11979,7 @@ extension Ec2 {
     public struct AccountAttributeNameStringList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AttributeName", required: false, type: .list)
         ]
         public let attributeName: [AccountAttributeName]?
@@ -12015,7 +12015,7 @@ extension Ec2 {
     public struct ScheduledInstancesBlockDeviceMappingSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BlockDeviceMapping", required: false, type: .list)
         ]
         public let blockDeviceMapping: [ScheduledInstancesBlockDeviceMapping]?
@@ -12036,7 +12036,7 @@ extension Ec2 {
     public struct SecurityGroupReferences: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [SecurityGroupReference]?
@@ -12057,7 +12057,7 @@ extension Ec2 {
     public struct InstanceStatusSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Details", required: false, type: .structure), 
             AWSShapeProperty(label: "Status", required: false, type: .enum)
         ]
@@ -12080,7 +12080,7 @@ extension Ec2 {
     public struct UnsuccessfulItemError: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Code", required: true, type: .string), 
             AWSShapeProperty(label: "Message", required: true, type: .string)
         ]
@@ -12105,7 +12105,7 @@ extension Ec2 {
     public struct SnapshotIdStringList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SnapshotId", required: false, type: .list)
         ]
         public let snapshotId: [String]?
@@ -12122,7 +12122,7 @@ extension Ec2 {
     public struct RestoreAddressToClassicResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .enum), 
             AWSShapeProperty(label: "PublicIp", required: false, type: .string)
         ]
@@ -12145,7 +12145,7 @@ extension Ec2 {
     public struct CopyImageResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ImageId", required: false, type: .string)
         ]
         /// The ID of the new AMI.
@@ -12163,7 +12163,7 @@ extension Ec2 {
     public struct DescribeSecurityGroupReferencesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SecurityGroupReferenceSet", required: false, type: .structure)
         ]
         /// Information about the VPCs with the referencing security groups.
@@ -12181,7 +12181,7 @@ extension Ec2 {
     public struct InstanceStateChangeList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [InstanceStateChange]?
@@ -12202,7 +12202,7 @@ extension Ec2 {
     public struct LaunchPermission: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserId", required: false, type: .string), 
             AWSShapeProperty(label: "Group", required: false, type: .enum)
         ]
@@ -12230,7 +12230,7 @@ extension Ec2 {
     public struct ImportImageResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LicenseType", required: false, type: .string), 
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "Platform", required: false, type: .string), 
@@ -12298,7 +12298,7 @@ extension Ec2 {
     public struct DescribeVpcPeeringConnectionsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcPeeringConnectionSet", required: false, type: .structure)
         ]
         /// Information about the VPC peering connections.
@@ -12316,7 +12316,7 @@ extension Ec2 {
     public struct DiskImageDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Format", required: true, type: .enum), 
             AWSShapeProperty(label: "ImportManifestUrl", required: true, type: .string), 
             AWSShapeProperty(label: "Bytes", required: true, type: .long)
@@ -12347,7 +12347,7 @@ extension Ec2 {
     public struct PrefixList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PrefixListId", required: false, type: .string), 
             AWSShapeProperty(label: "CidrSet", required: false, type: .structure), 
             AWSShapeProperty(label: "PrefixListName", required: false, type: .string)
@@ -12375,7 +12375,7 @@ extension Ec2 {
     public struct ModifyIdFormatRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Resource", required: true, type: .string), 
             AWSShapeProperty(label: "UseLongIds", required: true, type: .boolean)
         ]
@@ -12400,7 +12400,7 @@ extension Ec2 {
     public struct DescribeTagsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
@@ -12433,7 +12433,7 @@ extension Ec2 {
     public struct BundleTask: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "Error", required: false, type: .structure), 
             AWSShapeProperty(label: "Progress", required: false, type: .string), 
@@ -12496,7 +12496,7 @@ extension Ec2 {
     public struct DetachNetworkInterfaceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "AttachmentId", required: true, type: .string), 
             AWSShapeProperty(label: "Force", required: false, type: .boolean)
@@ -12525,7 +12525,7 @@ extension Ec2 {
     public struct DescribeRegionsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RegionInfo", required: false, type: .structure)
         ]
         /// Information about one or more regions.
@@ -12543,7 +12543,7 @@ extension Ec2 {
     public struct GetConsoleOutputRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
@@ -12567,7 +12567,7 @@ extension Ec2 {
     public struct CreateVolumePermissionList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [CreateVolumePermission]?
@@ -12588,7 +12588,7 @@ extension Ec2 {
     public struct ZoneNameStringList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ZoneName", required: false, type: .list)
         ]
         public let zoneName: [String]?
@@ -12605,7 +12605,7 @@ extension Ec2 {
     public struct PlacementGroupList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [PlacementGroup]?
@@ -12626,7 +12626,7 @@ extension Ec2 {
     public struct CreateVpnConnectionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Options", required: false, type: .structure), 
             AWSShapeProperty(label: "CustomerGatewayId", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
@@ -12667,7 +12667,7 @@ extension Ec2 {
     public struct DescribeSpotPriceHistoryResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "SpotPriceHistorySet", required: false, type: .structure)
         ]
@@ -12690,7 +12690,7 @@ extension Ec2 {
     public struct CreateSecurityGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "GroupId", required: false, type: .string)
         ]
         /// The ID of the security group.
@@ -12708,7 +12708,7 @@ extension Ec2 {
     public struct InstanceNetworkInterfaceSpecificationList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [InstanceNetworkInterfaceSpecification]?
@@ -12729,7 +12729,7 @@ extension Ec2 {
     public struct CancelSpotFleetRequestsSuccessSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [CancelSpotFleetRequestsSuccessItem]?
@@ -12756,7 +12756,7 @@ extension Ec2 {
     public struct CreateNatGatewayResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
             AWSShapeProperty(label: "NatGateway", required: false, type: .structure)
         ]
@@ -12779,7 +12779,7 @@ extension Ec2 {
     public struct InstanceStatusDetailsList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [InstanceStatusDetails]?
@@ -12800,7 +12800,7 @@ extension Ec2 {
     public struct SecurityGroupList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [SecurityGroup]?
@@ -12830,7 +12830,7 @@ extension Ec2 {
     public struct SpotPlacement: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AvailabilityZone", required: false, type: .string), 
             AWSShapeProperty(label: "Tenancy", required: false, type: .enum), 
             AWSShapeProperty(label: "GroupName", required: false, type: .string)
@@ -12858,7 +12858,7 @@ extension Ec2 {
     public struct Instance: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
             AWSShapeProperty(label: "RootDeviceName", required: false, type: .string), 
             AWSShapeProperty(label: "EbsOptimized", required: false, type: .boolean), 
@@ -13067,7 +13067,7 @@ extension Ec2 {
     public struct AttachVolumeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Device", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
@@ -13103,7 +13103,7 @@ extension Ec2 {
     public struct DisableVpcClassicLinkResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Return", required: false, type: .boolean)
         ]
         /// Returns true if the request succeeds; otherwise, it returns an error.
@@ -13127,7 +13127,7 @@ extension Ec2 {
     public struct AcceptVpcPeeringConnectionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "VpcPeeringConnectionId", required: false, type: .string)
         ]
@@ -13150,7 +13150,7 @@ extension Ec2 {
     public struct DescribeFlowLogsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
             AWSShapeProperty(label: "FlowLogId", required: false, type: .structure), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
@@ -13183,7 +13183,7 @@ extension Ec2 {
     public struct HostInstance: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceType", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceId", required: false, type: .string)
         ]
@@ -13215,7 +13215,7 @@ extension Ec2 {
     public struct DescribeSpotDatafeedSubscriptionResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SpotDatafeedSubscription", required: false, type: .structure)
         ]
         /// The Spot instance data feed subscription.
@@ -13233,7 +13233,7 @@ extension Ec2 {
     public struct SpotFleetMonitoring: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Enabled", required: false, type: .boolean)
         ]
         /// Enables monitoring for the instance. Default: false 
@@ -13251,7 +13251,7 @@ extension Ec2 {
     public struct Storage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "S3", required: false, type: .structure)
         ]
         /// An Amazon S3 storage location.
@@ -13269,7 +13269,7 @@ extension Ec2 {
     public struct BlockDeviceMappingRequestList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BlockDeviceMapping", required: false, type: .list)
         ]
         public let blockDeviceMapping: [BlockDeviceMapping]?
@@ -13296,7 +13296,7 @@ extension Ec2 {
     public struct ImportInstanceLaunchSpecification: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PrivateIpAddress", required: false, type: .string), 
             AWSShapeProperty(label: "SubnetId", required: false, type: .string), 
             AWSShapeProperty(label: "UserData", required: false, type: .structure), 
@@ -13364,7 +13364,7 @@ extension Ec2 {
     public struct GroupIdentifierList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [GroupIdentifier]?
@@ -13385,7 +13385,7 @@ extension Ec2 {
     public struct ReservedInstancesList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [ReservedInstances]?
@@ -13406,7 +13406,7 @@ extension Ec2 {
     public struct IpPermissionList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [IpPermission]?
@@ -13427,7 +13427,7 @@ extension Ec2 {
     public struct Ipv6RangeList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [Ipv6Range]?
@@ -13448,7 +13448,7 @@ extension Ec2 {
     public struct SpotInstanceStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Message", required: false, type: .string), 
             AWSShapeProperty(label: "Code", required: false, type: .string), 
             AWSShapeProperty(label: "UpdateTime", required: false, type: .timestamp)
@@ -13476,7 +13476,7 @@ extension Ec2 {
     public struct InstanceStatusEventList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [InstanceStatusEvent]?
@@ -13497,7 +13497,7 @@ extension Ec2 {
     public struct SecurityGroupStringList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SecurityGroup", required: false, type: .list)
         ]
         public let securityGroup: [String]?
@@ -13514,7 +13514,7 @@ extension Ec2 {
     public struct InstanceIpv6Address: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Ipv6Address", required: false, type: .string)
         ]
         /// The IPv6 address.
@@ -13532,7 +13532,7 @@ extension Ec2 {
     public struct ImportSnapshotTaskList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [ImportSnapshotTask]?
@@ -13561,7 +13561,7 @@ extension Ec2 {
     public struct StaleIpPermission: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PrefixListIds", required: false, type: .structure), 
             AWSShapeProperty(label: "Groups", required: false, type: .structure), 
             AWSShapeProperty(label: "IpRanges", required: false, type: .structure), 
@@ -13604,7 +13604,7 @@ extension Ec2 {
     public struct IamInstanceProfile: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Arn", required: false, type: .string), 
             AWSShapeProperty(label: "Id", required: false, type: .string)
         ]
@@ -13627,7 +13627,7 @@ extension Ec2 {
     public struct DescribeSecurityGroupsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SecurityGroupInfo", required: false, type: .structure)
         ]
         /// Information about one or more security groups.
@@ -13645,7 +13645,7 @@ extension Ec2 {
     public struct Purchase: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UpfrontPrice", required: false, type: .string), 
             AWSShapeProperty(label: "HostIdSet", required: false, type: .structure), 
             AWSShapeProperty(label: "PaymentOption", required: false, type: .enum), 
@@ -13698,7 +13698,7 @@ extension Ec2 {
     public struct RequestSpotFleetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SpotFleetRequestConfig", required: true, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
@@ -13728,7 +13728,7 @@ extension Ec2 {
     public struct ReservedInstancesOffering: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RecurringCharges", required: false, type: .structure), 
             AWSShapeProperty(label: "UsagePrice", required: false, type: .float), 
             AWSShapeProperty(label: "InstanceTenancy", required: false, type: .enum), 
@@ -13816,7 +13816,7 @@ extension Ec2 {
     public struct InstanceCount: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "State", required: false, type: .enum), 
             AWSShapeProperty(label: "InstanceCount", required: false, type: .integer)
         ]
@@ -13839,7 +13839,7 @@ extension Ec2 {
     public struct DescribeNetworkInterfacesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "NetworkInterfaceId", required: false, type: .structure), 
             AWSShapeProperty(label: "Filter", required: false, type: .structure)
@@ -13872,7 +13872,7 @@ extension Ec2 {
     public struct CreateNetworkAclResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NetworkAcl", required: false, type: .structure)
         ]
         /// Information about the network ACL.
@@ -13890,7 +13890,7 @@ extension Ec2 {
     public struct InstanceBlockDeviceMapping: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Ebs", required: false, type: .structure), 
             AWSShapeProperty(label: "DeviceName", required: false, type: .string)
         ]
@@ -13913,7 +13913,7 @@ extension Ec2 {
     public struct VolumeStatusAction: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Code", required: false, type: .string), 
             AWSShapeProperty(label: "EventType", required: false, type: .string), 
             AWSShapeProperty(label: "EventId", required: false, type: .string), 
@@ -13946,7 +13946,7 @@ extension Ec2 {
     public struct InstanceMonitoringList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [InstanceMonitoring]?
@@ -13967,7 +13967,7 @@ extension Ec2 {
     public struct NetworkInterfaceList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [NetworkInterface]?
@@ -13988,7 +13988,7 @@ extension Ec2 {
     public struct CreateReservedInstancesListingRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PriceSchedules", required: true, type: .structure), 
             AWSShapeProperty(label: "InstanceCount", required: true, type: .integer), 
             AWSShapeProperty(label: "ReservedInstancesId", required: true, type: .string), 
@@ -14025,7 +14025,7 @@ extension Ec2 {
     public struct GroupIds: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [String]?
@@ -14042,7 +14042,7 @@ extension Ec2 {
     public struct DescribeRouteTablesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RouteTableSet", required: false, type: .structure)
         ]
         /// Information about one or more route tables.
@@ -14060,7 +14060,7 @@ extension Ec2 {
     public struct AssociateIamInstanceProfileResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IamInstanceProfileAssociation", required: false, type: .structure)
         ]
         /// Information about the IAM instance profile association.
@@ -14084,7 +14084,7 @@ extension Ec2 {
     public struct DhcpOptions: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DhcpOptionsId", required: false, type: .string), 
             AWSShapeProperty(label: "DhcpConfigurationSet", required: false, type: .structure), 
             AWSShapeProperty(label: "TagSet", required: false, type: .structure)
@@ -14112,7 +14112,7 @@ extension Ec2 {
     public struct DescribeClassicLinkInstancesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstancesSet", required: false, type: .structure), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -14135,7 +14135,7 @@ extension Ec2 {
     public struct UserIdStringList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserId", required: false, type: .list)
         ]
         public let userId: [String]?
@@ -14170,7 +14170,7 @@ extension Ec2 {
     public struct CopyImageRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "KmsKeyId", required: false, type: .string), 
             AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
             AWSShapeProperty(label: "SourceRegion", required: true, type: .string), 
@@ -14226,7 +14226,7 @@ extension Ec2 {
     public struct DescribeNetworkAclsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "NetworkAclId", required: false, type: .structure), 
             AWSShapeProperty(label: "Filter", required: false, type: .structure)
@@ -14268,7 +14268,7 @@ extension Ec2 {
     public struct VpcAttachmentList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [VpcAttachment]?
@@ -14289,7 +14289,7 @@ extension Ec2 {
     public struct TerminateInstancesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstancesSet", required: false, type: .structure)
         ]
         /// Information about one or more terminated instances.
@@ -14307,7 +14307,7 @@ extension Ec2 {
     public struct CreateVolumeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VolumeType", required: false, type: .enum), 
             AWSShapeProperty(label: "Encrypted", required: false, type: .boolean), 
             AWSShapeProperty(label: "Size", required: false, type: .integer), 
@@ -14367,7 +14367,7 @@ extension Ec2 {
     public struct DescribeImportSnapshotTasksRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Filters", required: false, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "ImportTaskId", required: false, type: .structure), 
@@ -14405,7 +14405,7 @@ extension Ec2 {
     public struct DisassociateSubnetCidrBlockResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubnetId", required: false, type: .string), 
             AWSShapeProperty(label: "Ipv6CidrBlockAssociation", required: false, type: .structure)
         ]
@@ -14428,7 +14428,7 @@ extension Ec2 {
     public struct ReservedInstanceReservationValueSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [ReservedInstanceReservationValue]?
@@ -14449,7 +14449,7 @@ extension Ec2 {
     public struct AllocateAddressResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AllocationId", required: false, type: .string), 
             AWSShapeProperty(label: "Domain", required: false, type: .enum), 
             AWSShapeProperty(label: "PublicIp", required: false, type: .string)
@@ -14477,7 +14477,7 @@ extension Ec2 {
     public struct VolumeModification: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "OriginalIops", required: false, type: .integer), 
             AWSShapeProperty(label: "ModificationState", required: false, type: .enum), 
@@ -14550,7 +14550,7 @@ extension Ec2 {
     public struct UserBucket: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "S3Bucket", required: false, type: .string), 
             AWSShapeProperty(label: "S3Key", required: false, type: .string)
         ]
@@ -14573,7 +14573,7 @@ extension Ec2 {
     public struct AssociateDhcpOptionsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcId", required: true, type: .string), 
             AWSShapeProperty(label: "DhcpOptionsId", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
@@ -14603,7 +14603,7 @@ extension Ec2 {
     public struct CreateSnapshotRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "VolumeId", required: true, type: .string), 
             AWSShapeProperty(label: "Description", required: false, type: .string)
@@ -14632,7 +14632,7 @@ extension Ec2 {
     public struct HostReservationIdSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [String]?
@@ -14649,7 +14649,7 @@ extension Ec2 {
     public struct DescribeIdFormatRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Resource", required: false, type: .string)
         ]
         /// The type of resource: instance | reservation | snapshot | volume 
@@ -14667,7 +14667,7 @@ extension Ec2 {
     public struct HostInstanceList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [HostInstance]?
@@ -14688,7 +14688,7 @@ extension Ec2 {
     public struct DescribeHostReservationsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "HostReservationIdSet", required: false, type: .structure), 
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
@@ -14721,7 +14721,7 @@ extension Ec2 {
     public struct GetHostReservationPurchasePreviewRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "HostIdSet", required: true, type: .structure), 
             AWSShapeProperty(label: "OfferingId", required: true, type: .string)
         ]
@@ -14746,7 +14746,7 @@ extension Ec2 {
     public struct ActiveInstance: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceType", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceHealth", required: false, type: .enum), 
             AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
@@ -14779,7 +14779,7 @@ extension Ec2 {
     public struct DescribeMovingAddressesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "MovingAddressStatusSet", required: false, type: .structure)
         ]
@@ -14802,7 +14802,7 @@ extension Ec2 {
     public struct ExportToS3Task: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "S3Key", required: false, type: .string), 
             AWSShapeProperty(label: "ContainerFormat", required: false, type: .enum), 
             AWSShapeProperty(label: "S3Bucket", required: false, type: .string), 
@@ -14841,7 +14841,7 @@ extension Ec2 {
     public struct ValueStringList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [String]?
@@ -14858,7 +14858,7 @@ extension Ec2 {
     public struct VpcAttachment: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcId", required: false, type: .string), 
             AWSShapeProperty(label: "State", required: false, type: .enum)
         ]
@@ -14881,7 +14881,7 @@ extension Ec2 {
     public struct Ipv6Range: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CidrIpv6", required: false, type: .string)
         ]
         /// The IPv6 CIDR range. You can either specify a CIDR range or a source security group, not both. To specify a single IPv6 address, use the /128 prefix.
@@ -14899,7 +14899,7 @@ extension Ec2 {
     public struct DisableVpcClassicLinkDnsSupportResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Return", required: false, type: .boolean)
         ]
         /// Returns true if the request succeeds; otherwise, it returns an error.
@@ -14917,7 +14917,7 @@ extension Ec2 {
     public struct CreateTagsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "Tag", required: true, type: .structure), 
             AWSShapeProperty(label: "ResourceId", required: true, type: .list)
@@ -14947,7 +14947,7 @@ extension Ec2 {
     public struct PrefixListSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [PrefixList]?
@@ -14968,7 +14968,7 @@ extension Ec2 {
     public struct DescribeSnapshotsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RestorableBy", required: false, type: .list), 
             AWSShapeProperty(label: "SnapshotId", required: false, type: .structure), 
             AWSShapeProperty(label: "Owner", required: false, type: .structure), 
@@ -15016,7 +15016,7 @@ extension Ec2 {
     public struct CancelReservedInstancesListingRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReservedInstancesListingId", required: true, type: .string)
         ]
         /// The ID of the Reserved Instance listing.
@@ -15035,7 +15035,7 @@ extension Ec2 {
     public struct ScheduledInstancesMonitoring: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Enabled", required: false, type: .boolean)
         ]
         /// Indicates whether monitoring is enabled.
@@ -15053,7 +15053,7 @@ extension Ec2 {
     public struct CreateNetworkInterfaceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Description", required: false, type: .string), 
             AWSShapeProperty(label: "SubnetId", required: true, type: .string), 
             AWSShapeProperty(label: "PrivateIpAddress", required: false, type: .string), 
@@ -15112,7 +15112,7 @@ extension Ec2 {
     public struct ModifyReservedInstancesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReservedInstancesId", required: true, type: .structure), 
             AWSShapeProperty(label: "ReservedInstancesConfigurationSetItemType", required: true, type: .structure), 
             AWSShapeProperty(label: "ClientToken", required: false, type: .string)
@@ -15142,7 +15142,7 @@ extension Ec2 {
     public struct CancelSpotFleetRequestsErrorItem: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SpotFleetRequestId", required: true, type: .string), 
             AWSShapeProperty(label: "Error", required: true, type: .structure)
         ]
@@ -15167,7 +15167,7 @@ extension Ec2 {
     public struct CreateInstanceExportTaskResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ExportTask", required: false, type: .structure)
         ]
         /// Information about the instance export task.
@@ -15185,7 +15185,7 @@ extension Ec2 {
     public struct DescribeVolumesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VolumeId", required: false, type: .structure), 
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
@@ -15223,7 +15223,7 @@ extension Ec2 {
     public struct DeleteVpnGatewayRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "VpnGatewayId", required: true, type: .string)
         ]
@@ -15247,7 +15247,7 @@ extension Ec2 {
     public struct DescribeReservedInstancesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReservedInstancesSet", required: false, type: .structure)
         ]
         /// A list of Reserved Instances.
@@ -15271,7 +15271,7 @@ extension Ec2 {
     public struct InstanceNetworkInterfaceList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [InstanceNetworkInterface]?
@@ -15292,7 +15292,7 @@ extension Ec2 {
     public struct EnableVpcClassicLinkDnsSupportRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcId", required: false, type: .string)
         ]
         /// The ID of the VPC.
@@ -15310,7 +15310,7 @@ extension Ec2 {
     public struct DescribeNetworkInterfaceAttributeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "NetworkInterfaceId", required: true, type: .string), 
             AWSShapeProperty(label: "Attribute", required: false, type: .enum)
@@ -15339,7 +15339,7 @@ extension Ec2 {
     public struct SlotDateTimeRangeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EarliestTime", required: true, type: .timestamp), 
             AWSShapeProperty(label: "LatestTime", required: true, type: .timestamp)
         ]
@@ -15364,7 +15364,7 @@ extension Ec2 {
     public struct DeleteVpcRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcId", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
@@ -15388,7 +15388,7 @@ extension Ec2 {
     public struct InstanceBlockDeviceMappingSpecification: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NoDevice", required: false, type: .string), 
             AWSShapeProperty(label: "VirtualName", required: false, type: .string), 
             AWSShapeProperty(label: "DeviceName", required: false, type: .string), 
@@ -15421,7 +15421,7 @@ extension Ec2 {
     public struct InstanceMonitoring: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Monitoring", required: false, type: .structure), 
             AWSShapeProperty(label: "InstanceId", required: false, type: .string)
         ]
@@ -15444,7 +15444,7 @@ extension Ec2 {
     public struct PriceScheduleList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [PriceSchedule]?
@@ -15465,7 +15465,7 @@ extension Ec2 {
     public struct DescribeVpcEndpointsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcEndpointId", required: false, type: .structure), 
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
@@ -15510,7 +15510,7 @@ extension Ec2 {
     public struct DescribeFlowLogsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "FlowLogSet", required: false, type: .structure)
         ]
@@ -15533,7 +15533,7 @@ extension Ec2 {
     public struct EnableVpcClassicLinkResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Return", required: false, type: .boolean)
         ]
         /// Returns true if the request succeeds; otherwise, it returns an error.
@@ -15551,7 +15551,7 @@ extension Ec2 {
     public struct CreateVpnConnectionResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpnConnection", required: false, type: .structure)
         ]
         /// Information about the VPN connection.
@@ -15569,7 +15569,7 @@ extension Ec2 {
     public struct PropagatingVgw: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "GatewayId", required: false, type: .string)
         ]
         /// The ID of the virtual private gateway (VGW).
@@ -15587,7 +15587,7 @@ extension Ec2 {
     public struct StartInstancesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstancesSet", required: false, type: .structure)
         ]
         /// Information about one or more started instances.
@@ -15605,7 +15605,7 @@ extension Ec2 {
     public struct RevokeSecurityGroupEgressRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SourceSecurityGroupOwnerId", required: false, type: .string), 
             AWSShapeProperty(label: "IpPermissions", required: false, type: .structure), 
             AWSShapeProperty(label: "CidrIp", required: false, type: .string), 
@@ -15669,7 +15669,7 @@ extension Ec2 {
     public struct PublicIpStringList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PublicIp", required: false, type: .list)
         ]
         public let publicIp: [String]?
@@ -15686,7 +15686,7 @@ extension Ec2 {
     public struct DescribeImportImageTasksResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "ImportImageTaskSet", required: false, type: .structure)
         ]
@@ -15737,7 +15737,7 @@ extension Ec2 {
     public struct InstanceStateChange: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PreviousState", required: false, type: .structure), 
             AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
             AWSShapeProperty(label: "CurrentState", required: false, type: .structure)
@@ -15765,7 +15765,7 @@ extension Ec2 {
     public struct ClassicLinkInstanceList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [ClassicLinkInstance]?
@@ -15786,7 +15786,7 @@ extension Ec2 {
     public struct GroupIdentifier: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "GroupId", required: false, type: .string), 
             AWSShapeProperty(label: "GroupName", required: false, type: .string)
         ]
@@ -15809,7 +15809,7 @@ extension Ec2 {
     public struct CreateSubnetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "VpcId", required: true, type: .string), 
             AWSShapeProperty(label: "AvailabilityZone", required: false, type: .string), 
@@ -15849,7 +15849,7 @@ extension Ec2 {
     public struct ReservedInstancesId: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReservedInstancesId", required: false, type: .string)
         ]
         /// The ID of the Reserved Instance.
@@ -15867,7 +15867,7 @@ extension Ec2 {
     public struct StaleIpPermissionSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [StaleIpPermission]?
@@ -15888,7 +15888,7 @@ extension Ec2 {
     public struct ResetNetworkInterfaceAttributeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "NetworkInterfaceId", required: true, type: .string), 
             AWSShapeProperty(label: "SourceDestCheck", required: false, type: .string)
@@ -15923,7 +15923,7 @@ extension Ec2 {
     public struct DescribeInternetGatewaysRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InternetGatewayId", required: false, type: .structure), 
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
@@ -15951,7 +15951,7 @@ extension Ec2 {
     public struct DescribeIdentityIdFormatRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PrincipalArn", required: true, type: .string), 
             AWSShapeProperty(label: "Resource", required: false, type: .string)
         ]
@@ -15975,7 +15975,7 @@ extension Ec2 {
     public struct ResponseHostIdList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [String]?
@@ -16005,7 +16005,7 @@ extension Ec2 {
     public struct CustomerGatewayIdStringList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CustomerGatewayId", required: false, type: .list)
         ]
         public let customerGatewayId: [String]?
@@ -16030,7 +16030,7 @@ extension Ec2 {
     public struct Image: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BlockDeviceMapping", required: false, type: .structure), 
             AWSShapeProperty(label: "Platform", required: false, type: .enum), 
             AWSShapeProperty(label: "RootDeviceName", required: false, type: .string), 
@@ -16163,7 +16163,7 @@ extension Ec2 {
     public struct InternetGatewayList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [InternetGateway]?
@@ -16184,7 +16184,7 @@ extension Ec2 {
     public struct VpnConnectionOptions: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StaticRoutesOnly", required: false, type: .boolean)
         ]
         /// Indicates whether the VPN connection uses static routes only. Static routes must be used for devices that don't support BGP.
@@ -16202,7 +16202,7 @@ extension Ec2 {
     public struct DescribeImportImageTasksRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Filters", required: false, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "ImportTaskId", required: false, type: .structure), 
@@ -16240,7 +16240,7 @@ extension Ec2 {
     public struct NatGateway: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubnetId", required: false, type: .string), 
             AWSShapeProperty(label: "NatGatewayId", required: false, type: .string), 
             AWSShapeProperty(label: "DeleteTime", required: false, type: .timestamp), 
@@ -16303,7 +16303,7 @@ extension Ec2 {
     public struct VpnStaticRouteList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [VpnStaticRoute]?
@@ -16324,7 +16324,7 @@ extension Ec2 {
     public struct InstanceCapacity: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceType", required: false, type: .string), 
             AWSShapeProperty(label: "TotalCapacity", required: false, type: .integer), 
             AWSShapeProperty(label: "AvailableCapacity", required: false, type: .integer)
@@ -16357,7 +16357,7 @@ extension Ec2 {
     public struct UnassignIpv6AddressesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NetworkInterfaceId", required: false, type: .string), 
             AWSShapeProperty(label: "UnassignedIpv6Addresses", required: false, type: .structure)
         ]
@@ -16380,7 +16380,7 @@ extension Ec2 {
     public struct ClassicLinkDnsSupport: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcId", required: false, type: .string), 
             AWSShapeProperty(label: "ClassicLinkDnsSupported", required: false, type: .boolean)
         ]
@@ -16403,7 +16403,7 @@ extension Ec2 {
     public struct ClassicLinkDnsSupportList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [ClassicLinkDnsSupport]?
@@ -16424,7 +16424,7 @@ extension Ec2 {
     public struct CancelImportTaskResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PreviousState", required: false, type: .string), 
             AWSShapeProperty(label: "State", required: false, type: .string), 
             AWSShapeProperty(label: "ImportTaskId", required: false, type: .string)
@@ -16452,7 +16452,7 @@ extension Ec2 {
     public struct SnapshotDetailList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [SnapshotDetail]?
@@ -16473,7 +16473,7 @@ extension Ec2 {
     public struct PriceScheduleSpecification: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Price", required: false, type: .double), 
             AWSShapeProperty(label: "CurrencyCode", required: false, type: .enum), 
             AWSShapeProperty(label: "Term", required: false, type: .long)
@@ -16507,7 +16507,7 @@ extension Ec2 {
     public struct ProductCodeStringList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ProductCode", required: false, type: .list)
         ]
         public let productCode: [String]?
@@ -16532,7 +16532,7 @@ extension Ec2 {
     public struct DescribeIdentityIdFormatResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StatusSet", required: false, type: .structure)
         ]
         /// Information about the ID format for the resources.
@@ -16550,7 +16550,7 @@ extension Ec2 {
     public struct CreateVpnConnectionRouteRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpnConnectionId", required: true, type: .string), 
             AWSShapeProperty(label: "DestinationCidrBlock", required: true, type: .string)
         ]
@@ -16575,7 +16575,7 @@ extension Ec2 {
     public struct ReservedInstancesConfigurationList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [ReservedInstancesConfiguration]?
@@ -16602,7 +16602,7 @@ extension Ec2 {
     public struct ImportVolumeResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConversionTask", required: false, type: .structure)
         ]
         /// Information about the conversion task.
@@ -16620,7 +16620,7 @@ extension Ec2 {
     public struct VpnConnection: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Options", required: false, type: .structure), 
             AWSShapeProperty(label: "CustomerGatewayId", required: false, type: .string), 
             AWSShapeProperty(label: "Routes", required: false, type: .structure), 
@@ -16688,7 +16688,7 @@ extension Ec2 {
     public struct Address: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NetworkInterfaceOwnerId", required: false, type: .string), 
             AWSShapeProperty(label: "NetworkInterfaceId", required: false, type: .string), 
             AWSShapeProperty(label: "AssociationId", required: false, type: .string), 
@@ -16741,7 +16741,7 @@ extension Ec2 {
     public struct DescribeVpnGatewaysRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpnGatewayId", required: false, type: .structure), 
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
@@ -16777,7 +16777,7 @@ extension Ec2 {
     public struct TerminateInstancesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceId", required: true, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
@@ -16801,7 +16801,7 @@ extension Ec2 {
     public struct ReasonCodesList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [ReportInstanceReasonCodes]?
@@ -16818,7 +16818,7 @@ extension Ec2 {
     public struct ImportImageTaskList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [ImportImageTask]?
@@ -16839,7 +16839,7 @@ extension Ec2 {
     public struct NetworkAclAssociationList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [NetworkAclAssociation]?
@@ -16860,7 +16860,7 @@ extension Ec2 {
     public struct PurchaseReservedInstancesOfferingResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReservedInstancesId", required: false, type: .string)
         ]
         /// The IDs of the purchased Reserved Instances.
@@ -16878,7 +16878,7 @@ extension Ec2 {
     public struct CreateNetworkAclRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcId", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
@@ -16902,7 +16902,7 @@ extension Ec2 {
     public struct DescribeVpnConnectionsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpnConnectionSet", required: false, type: .structure)
         ]
         /// Information about one or more VPN connections.
@@ -16920,7 +16920,7 @@ extension Ec2 {
     public struct ImportInstanceTaskDetails: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Platform", required: false, type: .enum), 
             AWSShapeProperty(label: "Volumes", required: true, type: .structure), 
             AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
@@ -16954,7 +16954,7 @@ extension Ec2 {
     public struct BundleTaskError: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Code", required: false, type: .string), 
             AWSShapeProperty(label: "Message", required: false, type: .string)
         ]
@@ -16977,7 +16977,7 @@ extension Ec2 {
     public struct AccountAttribute: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AttributeName", required: false, type: .string), 
             AWSShapeProperty(label: "AttributeValueSet", required: false, type: .structure)
         ]
@@ -17000,7 +17000,7 @@ extension Ec2 {
     public struct PropagatingVgwList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [PropagatingVgw]?
@@ -17021,7 +17021,7 @@ extension Ec2 {
     public struct ModifyReservedInstancesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReservedInstancesModificationId", required: false, type: .string)
         ]
         /// The ID for the modification.
@@ -17039,7 +17039,7 @@ extension Ec2 {
     public struct CreateCustomerGatewayRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BgpAsn", required: true, type: .integer), 
             AWSShapeProperty(label: "IpAddress", required: true, type: .string), 
             AWSShapeProperty(label: "Type", required: true, type: .enum), 
@@ -17075,7 +17075,7 @@ extension Ec2 {
     public struct CancelSpotInstanceRequestsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "SpotInstanceRequestId", required: true, type: .structure)
         ]
@@ -17106,7 +17106,7 @@ extension Ec2 {
     public struct DescribeEgressOnlyInternetGatewaysResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "EgressOnlyInternetGatewaySet", required: false, type: .structure)
         ]
@@ -17129,7 +17129,7 @@ extension Ec2 {
     public struct CreateSecurityGroupRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "GroupName", required: true, type: .string), 
             AWSShapeProperty(label: "VpcId", required: false, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
@@ -17164,7 +17164,7 @@ extension Ec2 {
     public struct SubnetList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [Subnet]?
@@ -17185,7 +17185,7 @@ extension Ec2 {
     public struct MoveAddressToVpcRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "PublicIp", required: true, type: .string)
         ]
@@ -17209,7 +17209,7 @@ extension Ec2 {
     public struct DescribeSpotFleetRequestHistoryResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LastEvaluatedTime", required: true, type: .timestamp), 
             AWSShapeProperty(label: "StartTime", required: true, type: .timestamp), 
             AWSShapeProperty(label: "HistoryRecordSet", required: true, type: .structure), 
@@ -17251,7 +17251,7 @@ extension Ec2 {
     public struct CreateInternetGatewayResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InternetGateway", required: false, type: .structure)
         ]
         /// Information about the Internet gateway.
@@ -17269,7 +17269,7 @@ extension Ec2 {
     public struct DescribeImageAttributeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Attribute", required: true, type: .enum), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "ImageId", required: true, type: .string)
@@ -17299,7 +17299,7 @@ extension Ec2 {
     public struct HostList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [Host]?
@@ -17320,7 +17320,7 @@ extension Ec2 {
     public struct ReplaceNetworkAclEntryRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CidrBlock", required: false, type: .string), 
             AWSShapeProperty(label: "Icmp", required: false, type: .structure), 
             AWSShapeProperty(label: "RuleNumber", required: true, type: .integer), 
@@ -17388,7 +17388,7 @@ extension Ec2 {
     public struct DeleteKeyPairRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "KeyName", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
@@ -17412,7 +17412,7 @@ extension Ec2 {
     public struct IamInstanceProfileAssociationSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [IamInstanceProfileAssociation]?
@@ -17433,7 +17433,7 @@ extension Ec2 {
     public struct EbsBlockDevice: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SnapshotId", required: false, type: .string), 
             AWSShapeProperty(label: "DeleteOnTermination", required: false, type: .boolean), 
             AWSShapeProperty(label: "VolumeType", required: false, type: .enum), 
@@ -17476,7 +17476,7 @@ extension Ec2 {
     public struct DescribeExportTasksResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ExportTaskSet", required: false, type: .structure)
         ]
         /// Information about the export tasks.
@@ -17500,7 +17500,7 @@ extension Ec2 {
     public struct CreateVpcPeeringConnectionResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcPeeringConnection", required: false, type: .structure)
         ]
         /// Information about the VPC peering connection.
@@ -17518,7 +17518,7 @@ extension Ec2 {
     public struct IpRange: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CidrIp", required: false, type: .string)
         ]
         /// The IPv4 CIDR range. You can either specify a CIDR range or a source security group, not both. To specify a single IPv4 address, use the /32 prefix.
@@ -17536,7 +17536,7 @@ extension Ec2 {
     public struct DhcpConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Key", required: false, type: .string), 
             AWSShapeProperty(label: "ValueSet", required: false, type: .structure)
         ]
@@ -17559,7 +17559,7 @@ extension Ec2 {
     public struct CancelConversionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "ConversionTaskId", required: true, type: .string), 
             AWSShapeProperty(label: "ReasonMessage", required: false, type: .string)
@@ -17588,7 +17588,7 @@ extension Ec2 {
     public struct GroupIdStringList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "GroupId", required: false, type: .list)
         ]
         public let groupId: [String]?
@@ -17605,7 +17605,7 @@ extension Ec2 {
     public struct SpotInstanceRequestIdList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SpotInstanceRequestId", required: false, type: .list)
         ]
         public let spotInstanceRequestId: [String]?
@@ -17622,7 +17622,7 @@ extension Ec2 {
     public struct ModifyInstancePlacementResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Return", required: false, type: .boolean)
         ]
         /// Is true if the request succeeds, and an error otherwise.
@@ -17640,7 +17640,7 @@ extension Ec2 {
     public struct NetworkInterfaceIpv6AddressesList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [NetworkInterfaceIpv6Address]?
@@ -17667,7 +17667,7 @@ extension Ec2 {
     public struct UnsuccessfulItemSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [UnsuccessfulItem]?
@@ -17688,7 +17688,7 @@ extension Ec2 {
     public struct DescribeVpcAttributeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcId", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "Attribute", required: true, type: .enum)
@@ -17718,7 +17718,7 @@ extension Ec2 {
     public struct ReservedInstancesModification: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReservedInstancesSet", required: false, type: .structure), 
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "EffectiveDate", required: false, type: .timestamp), 
@@ -17776,7 +17776,7 @@ extension Ec2 {
     public struct DescribeAvailabilityZonesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AvailabilityZoneInfo", required: false, type: .structure)
         ]
         /// Information about one or more Availability Zones.
@@ -17794,7 +17794,7 @@ extension Ec2 {
     public struct RejectVpcPeeringConnectionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "VpcPeeringConnectionId", required: true, type: .string)
         ]
@@ -17818,7 +17818,7 @@ extension Ec2 {
     public struct NetworkInterfacePrivateIpAddressList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [NetworkInterfacePrivateIpAddress]?
@@ -17839,7 +17839,7 @@ extension Ec2 {
     public struct ReplaceIamInstanceProfileAssociationResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IamInstanceProfileAssociation", required: false, type: .structure)
         ]
         /// Information about the IAM instance profile association.
@@ -17857,7 +17857,7 @@ extension Ec2 {
     public struct CreateImageResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ImageId", required: false, type: .string)
         ]
         /// The ID of the new AMI.
@@ -17875,7 +17875,7 @@ extension Ec2 {
     public struct ImportVolumeTaskDetails: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Image", required: true, type: .structure), 
             AWSShapeProperty(label: "BytesConverted", required: true, type: .long), 
             AWSShapeProperty(label: "Volume", required: true, type: .structure), 
@@ -17917,7 +17917,7 @@ extension Ec2 {
     public struct IpRanges: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [String]?
@@ -17934,7 +17934,7 @@ extension Ec2 {
     public struct NetworkInterfaceAssociation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PublicIp", required: false, type: .string), 
             AWSShapeProperty(label: "AssociationId", required: false, type: .string), 
             AWSShapeProperty(label: "IpOwnerId", required: false, type: .string), 
@@ -17972,7 +17972,7 @@ extension Ec2 {
     public struct ScheduledInstanceRecurrenceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OccurrenceDay", required: false, type: .structure), 
             AWSShapeProperty(label: "Frequency", required: false, type: .string), 
             AWSShapeProperty(label: "OccurrenceUnit", required: false, type: .string), 
@@ -18010,7 +18010,7 @@ extension Ec2 {
     public struct Filter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "Value", required: false, type: .structure)
         ]
@@ -18033,7 +18033,7 @@ extension Ec2 {
     public struct MonitorInstancesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceId", required: true, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
@@ -18057,7 +18057,7 @@ extension Ec2 {
     public struct LaunchSpecification: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BlockDeviceMapping", required: false, type: .structure), 
             AWSShapeProperty(label: "SubnetId", required: false, type: .string), 
             AWSShapeProperty(label: "UserData", required: false, type: .string), 
@@ -18144,7 +18144,7 @@ extension Ec2 {
     public struct RequestSpotInstancesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SpotInstanceRequestSet", required: false, type: .structure)
         ]
         /// One or more Spot instance requests.
@@ -18162,7 +18162,7 @@ extension Ec2 {
     public struct CreateNetworkAclEntryRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CidrBlock", required: false, type: .string), 
             AWSShapeProperty(label: "Icmp", required: false, type: .structure), 
             AWSShapeProperty(label: "RuleNumber", required: true, type: .integer), 
@@ -18230,7 +18230,7 @@ extension Ec2 {
     public struct CancelBundleTaskResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BundleInstanceTask", required: false, type: .structure)
         ]
         /// Information about the bundle task.
@@ -18248,7 +18248,7 @@ extension Ec2 {
     public struct VpcPeeringConnection: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RequesterVpcInfo", required: false, type: .structure), 
             AWSShapeProperty(label: "AccepterVpcInfo", required: false, type: .structure), 
             AWSShapeProperty(label: "Status", required: false, type: .structure), 
@@ -18297,7 +18297,7 @@ extension Ec2 {
     public struct ScheduledInstanceAvailabilitySet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [ScheduledInstanceAvailability]?
@@ -18318,7 +18318,7 @@ extension Ec2 {
     public struct RegisterImageResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ImageId", required: false, type: .string)
         ]
         /// The ID of the newly registered AMI.
@@ -18336,7 +18336,7 @@ extension Ec2 {
     public struct PriceScheduleSpecificationList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [PriceScheduleSpecification]?
@@ -18357,7 +18357,7 @@ extension Ec2 {
     public struct ClientData: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Comment", required: false, type: .string), 
             AWSShapeProperty(label: "UploadStart", required: false, type: .timestamp), 
             AWSShapeProperty(label: "UploadEnd", required: false, type: .timestamp), 
@@ -18390,7 +18390,7 @@ extension Ec2 {
     public struct RejectVpcPeeringConnectionResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Return", required: false, type: .boolean)
         ]
         /// Returns true if the request succeeds; otherwise, it returns an error.
@@ -18408,7 +18408,7 @@ extension Ec2 {
     public struct DiskImageDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Format", required: true, type: .enum), 
             AWSShapeProperty(label: "Checksum", required: false, type: .string), 
             AWSShapeProperty(label: "Size", required: true, type: .long), 
@@ -18453,7 +18453,7 @@ extension Ec2 {
     public struct CreateSubnetResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Subnet", required: false, type: .structure)
         ]
         /// Information about the subnet.
@@ -18471,7 +18471,7 @@ extension Ec2 {
     public struct PrivateIpAddressConfigSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PrivateIpAddressConfigSet", required: false, type: .list)
         ]
         public let privateIpAddressConfigSet: [ScheduledInstancesPrivateIpAddressConfig]?
@@ -18492,7 +18492,7 @@ extension Ec2 {
     public struct GroupNameStringList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "GroupName", required: false, type: .list)
         ]
         public let groupName: [String]?
@@ -18509,7 +18509,7 @@ extension Ec2 {
     public struct GetConsoleOutputResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Timestamp", required: false, type: .timestamp), 
             AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
             AWSShapeProperty(label: "Output", required: false, type: .string)
@@ -18537,7 +18537,7 @@ extension Ec2 {
     public struct InstanceIdSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [String]?
@@ -18554,7 +18554,7 @@ extension Ec2 {
     public struct DisassociateRouteTableRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "AssociationId", required: true, type: .string)
         ]
@@ -18578,7 +18578,7 @@ extension Ec2 {
     public struct AssignIpv6AddressesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Ipv6AddressCount", required: false, type: .integer), 
             AWSShapeProperty(label: "Ipv6Addresses", required: false, type: .structure), 
             AWSShapeProperty(label: "NetworkInterfaceId", required: true, type: .string)
@@ -18607,7 +18607,7 @@ extension Ec2 {
     public struct DescribeImportSnapshotTasksResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "ImportSnapshotTaskSet", required: false, type: .structure)
         ]
@@ -18630,7 +18630,7 @@ extension Ec2 {
     public struct VpnConnectionIdStringList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpnConnectionId", required: false, type: .list)
         ]
         public let vpnConnectionId: [String]?
@@ -18647,7 +18647,7 @@ extension Ec2 {
     public struct VolumeStatusInfo: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Details", required: false, type: .structure), 
             AWSShapeProperty(label: "Status", required: false, type: .enum)
         ]
@@ -18670,7 +18670,7 @@ extension Ec2 {
     public struct DisableVpcClassicLinkDnsSupportRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcId", required: false, type: .string)
         ]
         /// The ID of the VPC.
@@ -18688,7 +18688,7 @@ extension Ec2 {
     public struct RouteTableList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [RouteTable]?
@@ -18709,7 +18709,7 @@ extension Ec2 {
     public struct DescribeSubnetsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubnetSet", required: false, type: .structure)
         ]
         /// Information about one or more subnets.
@@ -18727,7 +18727,7 @@ extension Ec2 {
     public struct DeleteVpcPeeringConnectionResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Return", required: false, type: .boolean)
         ]
         /// Returns true if the request succeeds; otherwise, it returns an error.
@@ -18745,7 +18745,7 @@ extension Ec2 {
     public struct StaleSecurityGroupSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [StaleSecurityGroup]?
@@ -18766,7 +18766,7 @@ extension Ec2 {
     public struct UserBucketDetails: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "S3Bucket", required: false, type: .string), 
             AWSShapeProperty(label: "S3Key", required: false, type: .string)
         ]
@@ -18789,7 +18789,7 @@ extension Ec2 {
     public struct RequestSpotFleetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SpotFleetRequestId", required: true, type: .string)
         ]
         /// The ID of the Spot fleet request.
@@ -18808,7 +18808,7 @@ extension Ec2 {
     public struct DeleteVpcEndpointsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Unsuccessful", required: false, type: .structure)
         ]
         /// Information about the endpoints that were not successfully deleted.
@@ -18826,7 +18826,7 @@ extension Ec2 {
     public struct DescribeEgressOnlyInternetGatewaysRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
@@ -18859,7 +18859,7 @@ extension Ec2 {
     public struct AttachInternetGatewayRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcId", required: true, type: .string), 
             AWSShapeProperty(label: "InternetGatewayId", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
@@ -18889,7 +18889,7 @@ extension Ec2 {
     public struct CopySnapshotResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SnapshotId", required: false, type: .string)
         ]
         /// The ID of the new snapshot.
@@ -18907,7 +18907,7 @@ extension Ec2 {
     public struct VpcIpv6CidrBlockAssociation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Ipv6CidrBlockState", required: false, type: .structure), 
             AWSShapeProperty(label: "Ipv6CidrBlock", required: false, type: .string), 
             AWSShapeProperty(label: "AssociationId", required: false, type: .string)
@@ -18935,7 +18935,7 @@ extension Ec2 {
     public struct ScheduledInstancesIamInstanceProfile: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "Arn", required: false, type: .string)
         ]
@@ -18958,7 +18958,7 @@ extension Ec2 {
     public struct ImportInstanceVolumeDetailSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [ImportInstanceVolumeDetailItem]?
@@ -18979,7 +18979,7 @@ extension Ec2 {
     public struct AcceptVpcPeeringConnectionResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcPeeringConnection", required: false, type: .structure)
         ]
         /// Information about the VPC peering connection.
@@ -18997,7 +18997,7 @@ extension Ec2 {
     public struct ImportSnapshotResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Description", required: false, type: .string), 
             AWSShapeProperty(label: "SnapshotTaskDetail", required: false, type: .structure), 
             AWSShapeProperty(label: "ImportTaskId", required: false, type: .string)
@@ -19025,7 +19025,7 @@ extension Ec2 {
     public struct SnapshotDiskContainer: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserBucket", required: false, type: .structure), 
             AWSShapeProperty(label: "Format", required: false, type: .string), 
             AWSShapeProperty(label: "Url", required: false, type: .string), 
@@ -19058,7 +19058,7 @@ extension Ec2 {
     public struct DeleteFlowLogsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Unsuccessful", required: false, type: .structure)
         ]
         /// Information about the flow logs that could not be deleted successfully.
@@ -19076,7 +19076,7 @@ extension Ec2 {
     public struct DescribeDhcpOptionsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DhcpOptionsSet", required: false, type: .structure)
         ]
         /// Information about one or more DHCP options sets.
@@ -19094,7 +19094,7 @@ extension Ec2 {
     public struct UserIdGroupPairSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [UserIdGroupPair]?
@@ -19115,7 +19115,7 @@ extension Ec2 {
     public struct DeleteRouteRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RouteTableId", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "DestinationCidrBlock", required: false, type: .string), 
@@ -19149,7 +19149,7 @@ extension Ec2 {
     public struct IamInstanceProfileAssociation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Timestamp", required: false, type: .timestamp), 
             AWSShapeProperty(label: "AssociationId", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
@@ -19187,7 +19187,7 @@ extension Ec2 {
     public struct PeeringConnectionOptions: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AllowEgressFromLocalVpcToRemoteClassicLink", required: false, type: .boolean), 
             AWSShapeProperty(label: "AllowDnsResolutionFromRemoteVpc", required: false, type: .boolean), 
             AWSShapeProperty(label: "AllowEgressFromLocalClassicLinkToRemoteVpc", required: false, type: .boolean)
@@ -19215,7 +19215,7 @@ extension Ec2 {
     public struct DetachVpnGatewayRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcId", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "VpnGatewayId", required: true, type: .string)
@@ -19245,7 +19245,7 @@ extension Ec2 {
     public struct RouteTableAssociation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubnetId", required: false, type: .string), 
             AWSShapeProperty(label: "RouteTableId", required: false, type: .string), 
             AWSShapeProperty(label: "RouteTableAssociationId", required: false, type: .string), 
@@ -19278,7 +19278,7 @@ extension Ec2 {
     public struct ReservedInstancesListingList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [ReservedInstancesListing]?
@@ -19299,7 +19299,7 @@ extension Ec2 {
     public struct UnmonitorInstancesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceId", required: true, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
@@ -19323,7 +19323,7 @@ extension Ec2 {
     public struct DescribeExportTasksRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ExportTaskId", required: false, type: .structure)
         ]
         /// One or more export task IDs.
@@ -19341,7 +19341,7 @@ extension Ec2 {
     public struct PricingDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Price", required: false, type: .double), 
             AWSShapeProperty(label: "Count", required: false, type: .integer)
         ]
@@ -19364,7 +19364,7 @@ extension Ec2 {
     public struct ConversionIdStringList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [String]?
@@ -19381,7 +19381,7 @@ extension Ec2 {
     public struct VolumeList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [Volume]?
@@ -19402,7 +19402,7 @@ extension Ec2 {
     public struct GetConsoleScreenshotResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
             AWSShapeProperty(label: "ImageData", required: false, type: .string)
         ]
@@ -19425,7 +19425,7 @@ extension Ec2 {
     public struct DescribeReservedInstancesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReservedInstancesId", required: false, type: .structure), 
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
@@ -19463,7 +19463,7 @@ extension Ec2 {
     public struct Placement: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Affinity", required: false, type: .string), 
             AWSShapeProperty(label: "GroupName", required: false, type: .string), 
             AWSShapeProperty(label: "HostId", required: false, type: .string), 
@@ -19501,7 +19501,7 @@ extension Ec2 {
     public struct VolumeStatusList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [VolumeStatusItem]?
@@ -19522,7 +19522,7 @@ extension Ec2 {
     public struct RouteList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [Route]?
@@ -19551,7 +19551,7 @@ extension Ec2 {
     public struct DescribeStaleSecurityGroupsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StaleSecurityGroupSet", required: false, type: .structure), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -19574,7 +19574,7 @@ extension Ec2 {
     public struct ScheduledInstancesNetworkInterface: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DeviceIndex", required: false, type: .integer), 
             AWSShapeProperty(label: "SubnetId", required: false, type: .string), 
             AWSShapeProperty(label: "NetworkInterfaceId", required: false, type: .string), 
@@ -19647,7 +19647,7 @@ extension Ec2 {
     public struct UserIdGroupPair: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserId", required: false, type: .string), 
             AWSShapeProperty(label: "PeeringStatus", required: false, type: .string), 
             AWSShapeProperty(label: "VpcId", required: false, type: .string), 
@@ -19690,7 +19690,7 @@ extension Ec2 {
     public struct DescribeConversionTasksRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "ConversionTaskId", required: false, type: .structure)
         ]
@@ -19713,7 +19713,7 @@ extension Ec2 {
     public struct ModifySubnetAttributeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MapPublicIpOnLaunch", required: false, type: .structure), 
             AWSShapeProperty(label: "SubnetId", required: true, type: .string), 
             AWSShapeProperty(label: "AssignIpv6AddressOnCreation", required: false, type: .structure)
@@ -19742,7 +19742,7 @@ extension Ec2 {
     public struct PlacementGroup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "State", required: false, type: .enum), 
             AWSShapeProperty(label: "Strategy", required: false, type: .enum), 
             AWSShapeProperty(label: "GroupName", required: false, type: .string)
@@ -19770,7 +19770,7 @@ extension Ec2 {
     public struct InstanceBlockDeviceMappingSpecificationList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [InstanceBlockDeviceMappingSpecification]?
@@ -19791,7 +19791,7 @@ extension Ec2 {
     public struct AssociateAddressResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AssociationId", required: false, type: .string)
         ]
         /// [EC2-VPC] The ID that represents the association of the Elastic IP address with an instance.
@@ -19809,7 +19809,7 @@ extension Ec2 {
     public struct Reservation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RequesterId", required: false, type: .string), 
             AWSShapeProperty(label: "InstancesSet", required: false, type: .structure), 
             AWSShapeProperty(label: "ReservationId", required: false, type: .string), 
@@ -19855,7 +19855,7 @@ extension Ec2 {
     public struct SpotFleetRequestConfigData: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TargetCapacity", required: true, type: .integer), 
             AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
             AWSShapeProperty(label: "IamFleetRole", required: true, type: .string), 
@@ -19937,7 +19937,7 @@ extension Ec2 {
     public struct ImageList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [Image]?
@@ -19969,7 +19969,7 @@ extension Ec2 {
     public struct DeleteInternetGatewayRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InternetGatewayId", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
@@ -19993,7 +19993,7 @@ extension Ec2 {
     public struct ScheduledInstancesBlockDeviceMapping: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NoDevice", required: false, type: .string), 
             AWSShapeProperty(label: "VirtualName", required: false, type: .string), 
             AWSShapeProperty(label: "DeviceName", required: false, type: .string), 
@@ -20026,7 +20026,7 @@ extension Ec2 {
     public struct StateReason: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Code", required: false, type: .string), 
             AWSShapeProperty(label: "Message", required: false, type: .string)
         ]
@@ -20049,7 +20049,7 @@ extension Ec2 {
     public struct DeleteTagsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "Tag", required: false, type: .structure), 
             AWSShapeProperty(label: "ResourceId", required: true, type: .list)
@@ -20078,7 +20078,7 @@ extension Ec2 {
     public struct InstancePrivateIpAddressList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [InstancePrivateIpAddress]?
@@ -20112,7 +20112,7 @@ extension Ec2 {
     public struct IdFormatList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [IdFormat]?
@@ -20133,7 +20133,7 @@ extension Ec2 {
     public struct InstanceBlockDeviceMappingList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [InstanceBlockDeviceMapping]?
@@ -20154,7 +20154,7 @@ extension Ec2 {
     public struct DescribeSpotInstanceRequestsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
             AWSShapeProperty(label: "SpotInstanceRequestId", required: false, type: .structure)
@@ -20182,7 +20182,7 @@ extension Ec2 {
     public struct AttachClassicLinkVpcRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "VpcId", required: true, type: .string), 
             AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
@@ -20218,7 +20218,7 @@ extension Ec2 {
     public struct ReleaseHostsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Successful", required: false, type: .structure), 
             AWSShapeProperty(label: "Unsuccessful", required: false, type: .structure)
         ]
@@ -20241,7 +20241,7 @@ extension Ec2 {
     public struct ScheduledInstanceIdRequestSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ScheduledInstanceId", required: false, type: .list)
         ]
         public let scheduledInstanceId: [String]?
@@ -20258,7 +20258,7 @@ extension Ec2 {
     public struct ExportToS3TaskSpecification: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "S3Prefix", required: false, type: .string), 
             AWSShapeProperty(label: "ContainerFormat", required: false, type: .enum), 
             AWSShapeProperty(label: "DiskImageFormat", required: false, type: .enum), 
@@ -20291,7 +20291,7 @@ extension Ec2 {
     public struct CancelSpotFleetRequestsError: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Code", required: true, type: .enum), 
             AWSShapeProperty(label: "Message", required: true, type: .string)
         ]
@@ -20316,7 +20316,7 @@ extension Ec2 {
     public struct DescribeKeyPairsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
             AWSShapeProperty(label: "KeyName", required: false, type: .structure)
@@ -20344,7 +20344,7 @@ extension Ec2 {
     public struct DescribeReservedInstancesOfferingsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReservedInstancesOfferingsSet", required: false, type: .structure), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -20372,7 +20372,7 @@ extension Ec2 {
     public struct VpnStaticRoute: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DestinationCidrBlock", required: false, type: .string), 
             AWSShapeProperty(label: "State", required: false, type: .enum), 
             AWSShapeProperty(label: "Source", required: false, type: .enum)
@@ -20400,7 +20400,7 @@ extension Ec2 {
     public struct CopySnapshotRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Description", required: false, type: .string), 
             AWSShapeProperty(label: "KmsKeyId", required: false, type: .string), 
             AWSShapeProperty(label: "SourceRegion", required: true, type: .string), 
@@ -20460,7 +20460,7 @@ extension Ec2 {
     public struct IpRangeList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [IpRange]?
@@ -20481,7 +20481,7 @@ extension Ec2 {
     public struct VpnConnectionList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [VpnConnection]?
@@ -20502,7 +20502,7 @@ extension Ec2 {
     public struct DescribePlacementGroupsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PlacementGroupSet", required: false, type: .structure)
         ]
         /// One or more placement groups.
@@ -20520,7 +20520,7 @@ extension Ec2 {
     public struct DetachVolumeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Device", required: false, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
@@ -20559,7 +20559,7 @@ extension Ec2 {
     public struct EgressOnlyInternetGateway: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EgressOnlyInternetGatewayId", required: false, type: .string), 
             AWSShapeProperty(label: "AttachmentSet", required: false, type: .structure)
         ]
@@ -20582,7 +20582,7 @@ extension Ec2 {
     public struct EnableVgwRoutePropagationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "GatewayId", required: true, type: .string), 
             AWSShapeProperty(label: "RouteTableId", required: true, type: .string)
         ]
@@ -20607,7 +20607,7 @@ extension Ec2 {
     public struct LaunchSpecsList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [SpotFleetLaunchSpecification]?
@@ -20628,7 +20628,7 @@ extension Ec2 {
     public struct GetReservedInstancesExchangeQuoteRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReservedInstanceId", required: true, type: .structure), 
             AWSShapeProperty(label: "TargetConfiguration", required: false, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
@@ -20657,7 +20657,7 @@ extension Ec2 {
     public struct SpotFleetLaunchSpecification: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BlockDeviceMapping", required: false, type: .structure), 
             AWSShapeProperty(label: "SubnetId", required: false, type: .string), 
             AWSShapeProperty(label: "UserData", required: false, type: .string), 
@@ -20755,7 +20755,7 @@ extension Ec2 {
     public struct Region: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RegionEndpoint", required: false, type: .string), 
             AWSShapeProperty(label: "RegionName", required: false, type: .string)
         ]
@@ -20778,7 +20778,7 @@ extension Ec2 {
     public struct PurchaseRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PurchaseToken", required: true, type: .string), 
             AWSShapeProperty(label: "InstanceCount", required: true, type: .integer)
         ]
@@ -20803,7 +20803,7 @@ extension Ec2 {
     public struct ImportTaskIdList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ImportTaskId", required: false, type: .list)
         ]
         public let importTaskId: [String]?
@@ -20820,7 +20820,7 @@ extension Ec2 {
     public struct DetachInternetGatewayRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcId", required: true, type: .string), 
             AWSShapeProperty(label: "InternetGatewayId", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
@@ -20850,7 +20850,7 @@ extension Ec2 {
     public struct DescribeVpcClassicLinkDnsSupportResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Vpcs", required: false, type: .structure), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -20873,7 +20873,7 @@ extension Ec2 {
     public struct CreateInternetGatewayRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -20891,7 +20891,7 @@ extension Ec2 {
     public struct VpnConnectionOptionsSpecification: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StaticRoutesOnly", required: false, type: .boolean)
         ]
         /// Indicates whether the VPN connection uses static routes only. Static routes must be used for devices that don't support BGP.
@@ -20926,7 +20926,7 @@ extension Ec2 {
     public struct HistoryRecord: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EventType", required: true, type: .enum), 
             AWSShapeProperty(label: "Timestamp", required: true, type: .timestamp), 
             AWSShapeProperty(label: "EventInformation", required: true, type: .structure)
@@ -20957,7 +20957,7 @@ extension Ec2 {
     public struct DescribeSpotFleetRequestsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "SpotFleetRequestConfigSet", required: true, type: .structure)
         ]
@@ -20981,7 +20981,7 @@ extension Ec2 {
     public struct VpcPeeringConnectionOptionsDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AllowEgressFromLocalVpcToRemoteClassicLink", required: false, type: .boolean), 
             AWSShapeProperty(label: "AllowDnsResolutionFromRemoteVpc", required: false, type: .boolean), 
             AWSShapeProperty(label: "AllowEgressFromLocalClassicLinkToRemoteVpc", required: false, type: .boolean)
@@ -21009,7 +21009,7 @@ extension Ec2 {
     public struct VpcEndpointSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [VpcEndpoint]?
@@ -21030,7 +21030,7 @@ extension Ec2 {
     public struct InstanceStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceState", required: false, type: .structure), 
             AWSShapeProperty(label: "SystemStatus", required: false, type: .structure), 
             AWSShapeProperty(label: "EventsSet", required: false, type: .structure), 
@@ -21073,7 +21073,7 @@ extension Ec2 {
     public struct ReservedInstancesOfferingList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [ReservedInstancesOffering]?
@@ -21104,7 +21104,7 @@ extension Ec2 {
     public struct VpcPeeringConnectionVpcInfo: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PeeringOptions", required: false, type: .structure), 
             AWSShapeProperty(label: "Ipv6CidrBlockSet", required: false, type: .structure), 
             AWSShapeProperty(label: "VpcId", required: false, type: .string), 
@@ -21142,7 +21142,7 @@ extension Ec2 {
     public struct SnapshotTaskDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "Progress", required: false, type: .string), 
             AWSShapeProperty(label: "Url", required: false, type: .string), 
@@ -21200,7 +21200,7 @@ extension Ec2 {
     public struct SubnetIpv6CidrBlockAssociationSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [SubnetIpv6CidrBlockAssociation]?
@@ -21221,7 +21221,7 @@ extension Ec2 {
     public struct TargetReservationValueSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [TargetReservationValue]?
@@ -21242,7 +21242,7 @@ extension Ec2 {
     public struct CreateSpotDatafeedSubscriptionResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SpotDatafeedSubscription", required: false, type: .structure)
         ]
         /// The Spot instance data feed subscription.
@@ -21269,7 +21269,7 @@ extension Ec2 {
     public struct DescribeSpotInstanceRequestsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SpotInstanceRequestSet", required: false, type: .structure)
         ]
         /// One or more Spot instance requests.
@@ -21295,7 +21295,7 @@ extension Ec2 {
     public struct ModifyVpcPeeringConnectionOptionsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccepterPeeringConnectionOptions", required: false, type: .structure), 
             AWSShapeProperty(label: "RequesterPeeringConnectionOptions", required: false, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
@@ -21335,7 +21335,7 @@ extension Ec2 {
     public struct IamInstanceProfileSpecification: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "Arn", required: false, type: .string)
         ]
@@ -21364,7 +21364,7 @@ extension Ec2 {
     public struct TagList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [Tag]?
@@ -21385,7 +21385,7 @@ extension Ec2 {
     public struct ConfirmProductInstanceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
             AWSShapeProperty(label: "ProductCode", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
@@ -21415,7 +21415,7 @@ extension Ec2 {
     public struct DisableVgwRoutePropagationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "GatewayId", required: true, type: .string), 
             AWSShapeProperty(label: "RouteTableId", required: true, type: .string)
         ]
@@ -21440,7 +21440,7 @@ extension Ec2 {
     public struct DescribeSpotPriceHistoryRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer), 
             AWSShapeProperty(label: "ProductDescription", required: false, type: .list), 
@@ -21498,7 +21498,7 @@ extension Ec2 {
     public struct ExportTaskIdStringList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ExportTaskId", required: false, type: .list)
         ]
         public let exportTaskId: [String]?
@@ -21515,7 +21515,7 @@ extension Ec2 {
     public struct ConversionTask: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ImportInstance", required: false, type: .structure), 
             AWSShapeProperty(label: "ExpirationTime", required: false, type: .string), 
             AWSShapeProperty(label: "TagSet", required: false, type: .structure), 
@@ -21565,7 +21565,7 @@ extension Ec2 {
     public struct ReplaceRouteTableAssociationResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NewAssociationId", required: false, type: .string)
         ]
         /// The ID of the new association.
@@ -21583,7 +21583,7 @@ extension Ec2 {
     public struct PrefixListIdSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [String]?
@@ -21600,7 +21600,7 @@ extension Ec2 {
     public struct ModifyVolumeResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VolumeModification", required: false, type: .structure)
         ]
         /// A VolumeModification object.
@@ -21618,7 +21618,7 @@ extension Ec2 {
     public struct KeyPair: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "KeyName", required: false, type: .string), 
             AWSShapeProperty(label: "KeyFingerprint", required: false, type: .string), 
             AWSShapeProperty(label: "KeyMaterial", required: false, type: .string)
@@ -21646,7 +21646,7 @@ extension Ec2 {
     public struct DescribeVpnGatewaysResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpnGatewaySet", required: false, type: .structure)
         ]
         /// Information about one or more virtual private gateways.
@@ -21664,7 +21664,7 @@ extension Ec2 {
     public struct DescribeSpotFleetInstancesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "SpotFleetRequestId", required: true, type: .string), 
@@ -21698,7 +21698,7 @@ extension Ec2 {
     public struct DeleteVpcEndpointsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcEndpointId", required: true, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
@@ -21722,7 +21722,7 @@ extension Ec2 {
     public struct DescribeReservedInstancesModificationsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "ReservedInstancesModificationsSet", required: false, type: .structure)
         ]
@@ -21745,7 +21745,7 @@ extension Ec2 {
     public struct AssociateSubnetCidrBlockRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Ipv6CidrBlock", required: true, type: .string), 
             AWSShapeProperty(label: "SubnetId", required: true, type: .string)
         ]
@@ -21770,7 +21770,7 @@ extension Ec2 {
     public struct DescribeDhcpOptionsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DhcpOptionsId", required: false, type: .structure), 
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
@@ -21798,7 +21798,7 @@ extension Ec2 {
     public struct LaunchPermissionModifications: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Remove", required: false, type: .structure), 
             AWSShapeProperty(label: "Add", required: false, type: .structure)
         ]
@@ -21830,7 +21830,7 @@ extension Ec2 {
     public struct ModifyHostsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "HostId", required: true, type: .structure), 
             AWSShapeProperty(label: "AutoPlacement", required: true, type: .enum)
         ]
@@ -21863,7 +21863,7 @@ extension Ec2 {
     public struct ReleaseAddressRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "AllocationId", required: false, type: .string), 
             AWSShapeProperty(label: "PublicIp", required: false, type: .string)
@@ -21891,7 +21891,7 @@ extension Ec2 {
     public struct VpcEndpoint: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CreationTimestamp", required: false, type: .timestamp), 
             AWSShapeProperty(label: "VpcId", required: false, type: .string), 
             AWSShapeProperty(label: "State", required: false, type: .enum), 
@@ -21939,7 +21939,7 @@ extension Ec2 {
     public struct AssociateIamInstanceProfileRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
             AWSShapeProperty(label: "IamInstanceProfile", required: true, type: .structure)
         ]
@@ -21974,7 +21974,7 @@ extension Ec2 {
     public struct DisassociateVpcCidrBlockResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcId", required: false, type: .string), 
             AWSShapeProperty(label: "Ipv6CidrBlockAssociation", required: false, type: .structure)
         ]
@@ -21997,7 +21997,7 @@ extension Ec2 {
     public struct InstanceList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [Instance]?
@@ -22018,7 +22018,7 @@ extension Ec2 {
     public struct DeleteDhcpOptionsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DhcpOptionsId", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
@@ -22047,7 +22047,7 @@ extension Ec2 {
     public struct DescribeHostReservationsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "HostReservationSet", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -22081,7 +22081,7 @@ extension Ec2 {
     public struct ModifyNetworkInterfaceAttributeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Description", required: false, type: .structure), 
             AWSShapeProperty(label: "NetworkInterfaceId", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
@@ -22125,7 +22125,7 @@ extension Ec2 {
     public struct ReservedInstancesIdStringList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReservedInstancesId", required: false, type: .list)
         ]
         public let reservedInstancesId: [String]?
@@ -22142,7 +22142,7 @@ extension Ec2 {
     public struct AttributeBooleanValue: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: false, type: .boolean)
         ]
         /// The attribute value. The valid values are true or false.
@@ -22160,7 +22160,7 @@ extension Ec2 {
     public struct AttachVpnGatewayRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcId", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "VpnGatewayId", required: true, type: .string)
@@ -22190,7 +22190,7 @@ extension Ec2 {
     public struct ActiveInstanceSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [ActiveInstance]?
@@ -22211,7 +22211,7 @@ extension Ec2 {
     public struct CreateEgressOnlyInternetGatewayResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
             AWSShapeProperty(label: "EgressOnlyInternetGateway", required: false, type: .structure)
         ]
@@ -22241,7 +22241,7 @@ extension Ec2 {
     public struct NetworkInterfaceAttachmentChanges: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DeleteOnTermination", required: false, type: .boolean), 
             AWSShapeProperty(label: "AttachmentId", required: false, type: .string)
         ]
@@ -22264,7 +22264,7 @@ extension Ec2 {
     public struct CancelExportTaskRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ExportTaskId", required: true, type: .string)
         ]
         /// The ID of the export task. This is the ID returned by CreateInstanceExportTask.
@@ -22283,7 +22283,7 @@ extension Ec2 {
     public struct ResetImageAttributeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Attribute", required: true, type: .enum), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "ImageId", required: true, type: .string)
@@ -22313,7 +22313,7 @@ extension Ec2 {
     public struct RequestHostIdSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [String]?
@@ -22330,7 +22330,7 @@ extension Ec2 {
     public struct AssociateRouteTableRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubnetId", required: true, type: .string), 
             AWSShapeProperty(label: "RouteTableId", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
@@ -22360,7 +22360,7 @@ extension Ec2 {
     public struct PrivateIpAddressSpecification: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Primary", required: false, type: .boolean), 
             AWSShapeProperty(label: "PrivateIpAddress", required: true, type: .string)
         ]
@@ -22384,7 +22384,7 @@ extension Ec2 {
     public struct ClassicLinkInstance: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcId", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
             AWSShapeProperty(label: "GroupSet", required: false, type: .structure), 
@@ -22417,7 +22417,7 @@ extension Ec2 {
     public struct DescribePlacementGroupsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "Filter", required: false, type: .structure), 
             AWSShapeProperty(label: "GroupName", required: false, type: .list)
@@ -22445,7 +22445,7 @@ extension Ec2 {
     public struct ReplaceNetworkAclAssociationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AssociationId", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "NetworkAclId", required: true, type: .string)
@@ -22475,7 +22475,7 @@ extension Ec2 {
     public struct CreateImageRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BlockDeviceMapping", required: false, type: .structure), 
             AWSShapeProperty(label: "Description", required: false, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
@@ -22520,7 +22520,7 @@ extension Ec2 {
     public struct VpcIpv6CidrBlockAssociationSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [VpcIpv6CidrBlockAssociation]?
@@ -22541,7 +22541,7 @@ extension Ec2 {
     public struct ModifyVpcPeeringConnectionOptionsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccepterPeeringConnectionOptions", required: false, type: .structure), 
             AWSShapeProperty(label: "RequesterPeeringConnectionOptions", required: false, type: .structure)
         ]
@@ -22575,7 +22575,7 @@ extension Ec2 {
     public struct DescribeVpcAttributeResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcId", required: false, type: .string), 
             AWSShapeProperty(label: "EnableDnsSupport", required: false, type: .structure), 
             AWSShapeProperty(label: "EnableDnsHostnames", required: false, type: .structure)
@@ -22603,7 +22603,7 @@ extension Ec2 {
     public struct TagDescriptionList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [TagDescription]?
@@ -22624,7 +22624,7 @@ extension Ec2 {
     public struct SubnetIdStringList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubnetId", required: false, type: .list)
         ]
         public let subnetId: [String]?
@@ -22641,7 +22641,7 @@ extension Ec2 {
     public struct ModifyVolumeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VolumeType", required: false, type: .enum), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "Iops", required: false, type: .integer), 
@@ -22679,7 +22679,7 @@ extension Ec2 {
     public struct DhcpConfigurationValueList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [AttributeValue]?
@@ -22700,7 +22700,7 @@ extension Ec2 {
     public struct DescribeCustomerGatewaysResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CustomerGatewaySet", required: false, type: .structure)
         ]
         /// Information about one or more customer gateways.
@@ -22718,7 +22718,7 @@ extension Ec2 {
     public struct ModifyInstanceAttributeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BlockDeviceMapping", required: false, type: .structure), 
             AWSShapeProperty(label: "DisableApiTermination", required: false, type: .structure), 
             AWSShapeProperty(label: "UserData", required: false, type: .structure), 
@@ -22812,7 +22812,7 @@ extension Ec2 {
     public struct ScheduledInstanceRecurrence: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Frequency", required: false, type: .string), 
             AWSShapeProperty(label: "OccurrenceUnit", required: false, type: .string), 
             AWSShapeProperty(label: "OccurrenceRelativeToEnd", required: false, type: .boolean), 
@@ -22850,7 +22850,7 @@ extension Ec2 {
     public struct CreateVpnGatewayResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpnGateway", required: false, type: .structure)
         ]
         /// Information about the virtual private gateway.
@@ -22868,7 +22868,7 @@ extension Ec2 {
     public struct SnapshotDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "Progress", required: false, type: .string), 
             AWSShapeProperty(label: "Url", required: false, type: .string), 
@@ -22931,7 +22931,7 @@ extension Ec2 {
     public struct DescribeVpcClassicLinkDnsSupportRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcIds", required: false, type: .structure), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
@@ -22959,7 +22959,7 @@ extension Ec2 {
     public struct DeleteNatGatewayResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NatGatewayId", required: false, type: .string)
         ]
         /// The ID of the NAT gateway.
@@ -22977,7 +22977,7 @@ extension Ec2 {
     public struct AttachNetworkInterfaceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DeviceIndex", required: true, type: .integer), 
             AWSShapeProperty(label: "NetworkInterfaceId", required: true, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
@@ -23013,7 +23013,7 @@ extension Ec2 {
     public struct PrivateIpAddressStringList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PrivateIpAddress", required: false, type: .list)
         ]
         public let privateIpAddress: [String]?
@@ -23030,7 +23030,7 @@ extension Ec2 {
     public struct IpPermission: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Groups", required: false, type: .structure), 
             AWSShapeProperty(label: "IpRanges", required: false, type: .structure), 
             AWSShapeProperty(label: "Ipv6Ranges", required: false, type: .structure), 
@@ -23078,7 +23078,7 @@ extension Ec2 {
     public struct VgwTelemetry: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .enum), 
             AWSShapeProperty(label: "LastStatusChange", required: false, type: .timestamp), 
             AWSShapeProperty(label: "OutsideIpAddress", required: false, type: .string), 
@@ -23116,7 +23116,7 @@ extension Ec2 {
     public struct PrefixListIdList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [PrefixListId]?
@@ -23137,7 +23137,7 @@ extension Ec2 {
     public struct ReplaceNetworkAclAssociationResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NewAssociationId", required: false, type: .string)
         ]
         /// The ID of the new association.
@@ -23155,7 +23155,7 @@ extension Ec2 {
     public struct NetworkAclEntryList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [NetworkAclEntry]?
@@ -23176,7 +23176,7 @@ extension Ec2 {
     public struct Ipv6CidrBlockSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [Ipv6CidrBlock]?
@@ -23197,7 +23197,7 @@ extension Ec2 {
     public struct DiskImageVolumeDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Size", required: false, type: .long), 
             AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
@@ -23231,7 +23231,7 @@ extension Ec2 {
     public struct AttributeValue: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: false, type: .string)
         ]
         /// The attribute value. Note that the value is case-sensitive.
@@ -23249,7 +23249,7 @@ extension Ec2 {
     public struct BundleIdStringList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BundleId", required: false, type: .list)
         ]
         public let bundleId: [String]?
@@ -23266,7 +23266,7 @@ extension Ec2 {
     public struct ImportInstanceResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConversionTask", required: false, type: .structure)
         ]
         /// Information about the conversion task.
@@ -23284,7 +23284,7 @@ extension Ec2 {
     public struct CreateDhcpOptionsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DhcpConfiguration", required: true, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
@@ -23308,7 +23308,7 @@ extension Ec2 {
     public struct ModifyIdentityIdFormatRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PrincipalArn", required: true, type: .string), 
             AWSShapeProperty(label: "Resource", required: true, type: .string), 
             AWSShapeProperty(label: "UseLongIds", required: true, type: .boolean)
@@ -23339,7 +23339,7 @@ extension Ec2 {
     public struct SpotFleetRequestConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SpotFleetRequestState", required: true, type: .enum), 
             AWSShapeProperty(label: "CreateTime", required: true, type: .timestamp), 
             AWSShapeProperty(label: "ActivityStatus", required: false, type: .enum), 
@@ -23381,7 +23381,7 @@ extension Ec2 {
     public struct ModifyHostsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Successful", required: false, type: .structure), 
             AWSShapeProperty(label: "Unsuccessful", required: false, type: .structure)
         ]
@@ -23404,7 +23404,7 @@ extension Ec2 {
     public struct DisassociateAddressRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PublicIp", required: false, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "AssociationId", required: false, type: .string)
@@ -23432,7 +23432,7 @@ extension Ec2 {
     public struct ScheduledInstancesEbs: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SnapshotId", required: false, type: .string), 
             AWSShapeProperty(label: "DeleteOnTermination", required: false, type: .boolean), 
             AWSShapeProperty(label: "VolumeType", required: false, type: .string), 
@@ -23475,7 +23475,7 @@ extension Ec2 {
     public struct UnmonitorInstancesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstancesSet", required: false, type: .structure)
         ]
         /// The monitoring information.
@@ -23493,7 +23493,7 @@ extension Ec2 {
     public struct InternetGateway: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TagSet", required: false, type: .structure), 
             AWSShapeProperty(label: "InternetGatewayId", required: false, type: .string), 
             AWSShapeProperty(label: "AttachmentSet", required: false, type: .structure)
@@ -23521,7 +23521,7 @@ extension Ec2 {
     public struct CreateVolumePermissionModifications: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Remove", required: false, type: .structure), 
             AWSShapeProperty(label: "Add", required: false, type: .structure)
         ]
@@ -23544,7 +23544,7 @@ extension Ec2 {
     public struct DescribeSpotFleetRequestsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "SpotFleetRequestId", required: false, type: .structure), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
@@ -23577,7 +23577,7 @@ extension Ec2 {
     public struct DescribeNetworkInterfacesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NetworkInterfaceSet", required: false, type: .structure)
         ]
         /// Information about one or more network interfaces.
@@ -23595,7 +23595,7 @@ extension Ec2 {
     public struct AssociationIdList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AssociationId", required: false, type: .list)
         ]
         public let associationId: [String]?
@@ -23612,7 +23612,7 @@ extension Ec2 {
     public struct TargetConfigurationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OfferingId", required: true, type: .string), 
             AWSShapeProperty(label: "InstanceCount", required: false, type: .integer)
         ]
@@ -23636,7 +23636,7 @@ extension Ec2 {
     public struct DescribeInstanceStatusResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceStatusSet", required: false, type: .structure), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]

@@ -32,7 +32,7 @@ extension Iam {
     public struct CreatePolicyResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Policy", required: false, type: .structure)
         ]
         /// A structure containing details about the new policy.
@@ -50,7 +50,7 @@ extension Iam {
     public struct GetSAMLProviderResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CreateDate", required: false, type: .timestamp), 
             AWSShapeProperty(label: "SAMLMetadataDocument", required: false, type: .string), 
             AWSShapeProperty(label: "ValidUntil", required: false, type: .timestamp)
@@ -78,7 +78,7 @@ extension Iam {
     public struct Policy: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DefaultVersionId", required: false, type: .string), 
             AWSShapeProperty(label: "PolicyId", required: false, type: .string), 
             AWSShapeProperty(label: "Arn", required: false, type: .string), 
@@ -140,7 +140,7 @@ extension Iam {
     public struct ListRolePoliciesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
             AWSShapeProperty(label: "RoleName", required: true, type: .string)
@@ -169,7 +169,7 @@ extension Iam {
     public struct GetOpenIDConnectProviderRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OpenIDConnectProviderArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the OIDC provider resource object in IAM to get information for. You can get a list of OIDC provider resource ARNs by using the ListOpenIDConnectProviders action. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
@@ -188,7 +188,7 @@ extension Iam {
     public struct DeleteRolePolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RoleName", required: true, type: .string), 
             AWSShapeProperty(label: "PolicyName", required: true, type: .string)
         ]
@@ -213,7 +213,7 @@ extension Iam {
     public struct UpdateGroupRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NewPath", required: false, type: .string), 
             AWSShapeProperty(label: "NewGroupName", required: false, type: .string), 
             AWSShapeProperty(label: "GroupName", required: true, type: .string)
@@ -242,7 +242,7 @@ extension Iam {
     public struct DeleteRoleRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RoleName", required: true, type: .string)
         ]
         /// The name of the role to delete. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
@@ -261,7 +261,7 @@ extension Iam {
     public struct DeleteVirtualMFADeviceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SerialNumber", required: true, type: .string)
         ]
         /// The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the same as the ARN. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =/:,.@-
@@ -280,7 +280,7 @@ extension Iam {
     public struct AttachUserPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PolicyArn", required: true, type: .string), 
             AWSShapeProperty(label: "UserName", required: true, type: .string)
         ]
@@ -305,7 +305,7 @@ extension Iam {
     public struct CreateVirtualMFADeviceResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VirtualMFADevice", required: true, type: .structure)
         ]
         /// A structure containing details about the new virtual MFA device.
@@ -324,7 +324,7 @@ extension Iam {
     public struct ListOpenIDConnectProvidersResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OpenIDConnectProviderList", required: false, type: .list)
         ]
         /// The list of IAM OIDC provider resource objects defined in the AWS account.
@@ -346,7 +346,7 @@ extension Iam {
     public struct GetUserRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserName", required: false, type: .string)
         ]
         /// The name of the user to get information about. This parameter is optional. If it is not included, it defaults to the user making the request. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
@@ -364,7 +364,7 @@ extension Iam {
     public struct InstanceProfile: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceProfileName", required: true, type: .string), 
             AWSShapeProperty(label: "CreateDate", required: true, type: .timestamp), 
             AWSShapeProperty(label: "Arn", required: true, type: .string), 
@@ -413,7 +413,7 @@ extension Iam {
     public struct CreateServiceSpecificCredentialResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ServiceSpecificCredential", required: false, type: .structure)
         ]
         /// A structure that contains information about the newly created service-specific credential.  This is the only time that the password for this credential set is available. It cannot be recovered later. Instead, you will have to reset the password with ResetServiceSpecificCredential. 
@@ -431,7 +431,7 @@ extension Iam {
     public struct UpdateSAMLProviderRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SAMLMetadataDocument", required: true, type: .string), 
             AWSShapeProperty(label: "SAMLProviderArn", required: true, type: .string)
         ]
@@ -456,7 +456,7 @@ extension Iam {
     public struct GetGroupPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "GroupName", required: true, type: .string), 
             AWSShapeProperty(label: "PolicyName", required: true, type: .string)
         ]
@@ -487,7 +487,7 @@ extension Iam {
     public struct UploadServerCertificateResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ServerCertificateMetadata", required: false, type: .structure)
         ]
         /// The meta information of the uploaded server certificate without its certificate body, certificate chain, and private key.
@@ -505,7 +505,7 @@ extension Iam {
     public struct ContextEntry: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ContextKeyValues", required: false, type: .list), 
             AWSShapeProperty(label: "ContextKeyName", required: false, type: .string), 
             AWSShapeProperty(label: "ContextKeyType", required: false, type: .enum)
@@ -533,7 +533,7 @@ extension Iam {
     public struct GetSSHPublicKeyResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SSHPublicKey", required: false, type: .structure)
         ]
         /// A structure containing details about the SSH public key.
@@ -557,7 +557,7 @@ extension Iam {
     public struct AttachGroupPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PolicyArn", required: true, type: .string), 
             AWSShapeProperty(label: "GroupName", required: true, type: .string)
         ]
@@ -582,7 +582,7 @@ extension Iam {
     public struct ListEntitiesForPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EntityFilter", required: false, type: .enum), 
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
             AWSShapeProperty(label: "PolicyArn", required: true, type: .string), 
@@ -621,7 +621,7 @@ extension Iam {
     public struct SSHPublicKeyMetadata: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserName", required: true, type: .string), 
             AWSShapeProperty(label: "Status", required: true, type: .enum), 
             AWSShapeProperty(label: "UploadDate", required: true, type: .timestamp), 
@@ -658,7 +658,7 @@ extension Iam {
     public struct ListAttachedRolePoliciesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
             AWSShapeProperty(label: "AttachedPolicies", required: false, type: .list)
@@ -690,7 +690,7 @@ extension Iam {
     public struct ListMFADevicesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
             AWSShapeProperty(label: "MFADevices", required: true, type: .list)
@@ -719,7 +719,7 @@ extension Iam {
     public struct ListInstanceProfilesForRoleRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
             AWSShapeProperty(label: "RoleName", required: true, type: .string)
@@ -748,7 +748,7 @@ extension Iam {
     public struct ListGroupsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
             AWSShapeProperty(label: "Groups", required: true, type: .list)
@@ -777,7 +777,7 @@ extension Iam {
     public struct CreateUserRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserName", required: true, type: .string), 
             AWSShapeProperty(label: "Path", required: false, type: .string)
         ]
@@ -801,7 +801,7 @@ extension Iam {
     public struct AccessKey: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CreateDate", required: false, type: .timestamp), 
             AWSShapeProperty(label: "UserName", required: true, type: .string), 
             AWSShapeProperty(label: "Status", required: true, type: .enum), 
@@ -843,7 +843,7 @@ extension Iam {
     public struct AddRoleToInstanceProfileRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceProfileName", required: true, type: .string), 
             AWSShapeProperty(label: "RoleName", required: true, type: .string)
         ]
@@ -868,7 +868,7 @@ extension Iam {
     public struct CreateInstanceProfileRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceProfileName", required: true, type: .string), 
             AWSShapeProperty(label: "Path", required: false, type: .string)
         ]
@@ -892,7 +892,7 @@ extension Iam {
     public struct ListGroupsForUserResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
             AWSShapeProperty(label: "Groups", required: true, type: .list)
@@ -921,7 +921,7 @@ extension Iam {
     public struct ListInstanceProfilesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
             AWSShapeProperty(label: "PathPrefix", required: false, type: .string)
@@ -949,7 +949,7 @@ extension Iam {
     public struct UploadSSHPublicKeyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SSHPublicKeyBody", required: true, type: .string), 
             AWSShapeProperty(label: "UserName", required: true, type: .string)
         ]
@@ -974,7 +974,7 @@ extension Iam {
     public struct DeleteUserRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserName", required: true, type: .string)
         ]
         /// The name of the user to delete. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
@@ -993,7 +993,7 @@ extension Iam {
     public struct ListSSHPublicKeysRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "UserName", required: false, type: .string), 
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer)
@@ -1021,7 +1021,7 @@ extension Iam {
     public struct UpdateAccessKeyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserName", required: false, type: .string), 
             AWSShapeProperty(label: "Status", required: true, type: .enum), 
             AWSShapeProperty(label: "AccessKeyId", required: true, type: .string)
@@ -1051,7 +1051,7 @@ extension Iam {
     public struct UploadServerCertificateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ServerCertificateName", required: true, type: .string), 
             AWSShapeProperty(label: "CertificateBody", required: true, type: .string), 
             AWSShapeProperty(label: "PrivateKey", required: true, type: .string), 
@@ -1092,7 +1092,7 @@ extension Iam {
     public struct SimulateCustomPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
             AWSShapeProperty(label: "ActionNames", required: true, type: .list), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
@@ -1161,7 +1161,7 @@ extension Iam {
     public struct GetGroupPolicyResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "GroupName", required: true, type: .string), 
             AWSShapeProperty(label: "PolicyDocument", required: true, type: .string), 
             AWSShapeProperty(label: "PolicyName", required: true, type: .string)
@@ -1192,7 +1192,7 @@ extension Iam {
     public struct GetAccountSummaryResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SummaryMap", required: false, type: .map)
         ]
         /// A set of key value pairs containing information about IAM entity usage and IAM quotas.
@@ -1214,7 +1214,7 @@ extension Iam {
     public struct CreateLoginProfileResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LoginProfile", required: true, type: .structure)
         ]
         /// A structure containing the user name and password create date.
@@ -1233,7 +1233,7 @@ extension Iam {
     public struct RoleDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AttachedManagedPolicies", required: false, type: .list), 
             AWSShapeProperty(label: "Arn", required: false, type: .string), 
             AWSShapeProperty(label: "AssumeRolePolicyDocument", required: false, type: .string), 
@@ -1302,7 +1302,7 @@ extension Iam {
     public struct PutUserPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserName", required: true, type: .string), 
             AWSShapeProperty(label: "PolicyDocument", required: true, type: .string), 
             AWSShapeProperty(label: "PolicyName", required: true, type: .string)
@@ -1333,7 +1333,7 @@ extension Iam {
     public struct PutRolePolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RoleName", required: true, type: .string), 
             AWSShapeProperty(label: "PolicyDocument", required: true, type: .string), 
             AWSShapeProperty(label: "PolicyName", required: true, type: .string)
@@ -1364,7 +1364,7 @@ extension Iam {
     public struct ListAttachedRolePoliciesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
             AWSShapeProperty(label: "RoleName", required: true, type: .string), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
@@ -1398,7 +1398,7 @@ extension Iam {
     public struct Position: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Line", required: false, type: .integer), 
             AWSShapeProperty(label: "Column", required: false, type: .integer)
         ]
@@ -1421,7 +1421,7 @@ extension Iam {
     public struct ListAccessKeysResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
             AWSShapeProperty(label: "AccessKeyMetadata", required: true, type: .list)
@@ -1450,7 +1450,7 @@ extension Iam {
     public struct UpdateServiceSpecificCredentialRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ServiceSpecificCredentialId", required: true, type: .string), 
             AWSShapeProperty(label: "UserName", required: false, type: .string), 
             AWSShapeProperty(label: "Status", required: true, type: .enum)
@@ -1480,7 +1480,7 @@ extension Iam {
     public struct DetachRolePolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PolicyArn", required: true, type: .string), 
             AWSShapeProperty(label: "RoleName", required: true, type: .string)
         ]
@@ -1505,7 +1505,7 @@ extension Iam {
     public struct CreateSAMLProviderRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: true, type: .string), 
             AWSShapeProperty(label: "SAMLMetadataDocument", required: true, type: .string)
         ]
@@ -1530,7 +1530,7 @@ extension Iam {
     public struct ListVirtualMFADevicesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AssignmentStatus", required: false, type: .enum), 
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
             AWSShapeProperty(label: "Marker", required: false, type: .string)
@@ -1558,7 +1558,7 @@ extension Iam {
     public struct GetRoleRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RoleName", required: true, type: .string)
         ]
         /// The name of the IAM role to get information about. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
@@ -1577,7 +1577,7 @@ extension Iam {
     public struct AddUserToGroupRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserName", required: true, type: .string), 
             AWSShapeProperty(label: "GroupName", required: true, type: .string)
         ]
@@ -1602,7 +1602,7 @@ extension Iam {
     public struct UpdateUserRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NewPath", required: false, type: .string), 
             AWSShapeProperty(label: "UserName", required: true, type: .string), 
             AWSShapeProperty(label: "NewUserName", required: false, type: .string)
@@ -1631,7 +1631,7 @@ extension Iam {
     public struct OpenIDConnectProviderListEntry: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Arn", required: false, type: .string)
         ]
         public let arn: String?
@@ -1659,7 +1659,7 @@ extension Iam {
     public struct CreatePolicyVersionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PolicyArn", required: true, type: .string), 
             AWSShapeProperty(label: "PolicyDocument", required: true, type: .string), 
             AWSShapeProperty(label: "SetAsDefault", required: false, type: .boolean)
@@ -1689,7 +1689,7 @@ extension Iam {
     public struct CreateServiceSpecificCredentialRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserName", required: true, type: .string), 
             AWSShapeProperty(label: "ServiceName", required: true, type: .string)
         ]
@@ -1714,7 +1714,7 @@ extension Iam {
     public struct PasswordPolicy: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RequireNumbers", required: false, type: .boolean), 
             AWSShapeProperty(label: "ExpirePasswords", required: false, type: .boolean), 
             AWSShapeProperty(label: "MaxPasswordAge", required: false, type: .integer), 
@@ -1777,7 +1777,7 @@ extension Iam {
     public struct CreateRoleResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Role", required: true, type: .structure)
         ]
         /// A structure containing details about the new role.
@@ -1796,7 +1796,7 @@ extension Iam {
     public struct ListServerCertificatesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
             AWSShapeProperty(label: "PathPrefix", required: false, type: .string)
@@ -1824,7 +1824,7 @@ extension Iam {
     public struct SetDefaultPolicyVersionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PolicyArn", required: true, type: .string), 
             AWSShapeProperty(label: "VersionId", required: true, type: .string)
         ]
@@ -1857,7 +1857,7 @@ extension Iam {
     public struct UpdateServerCertificateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NewPath", required: false, type: .string), 
             AWSShapeProperty(label: "ServerCertificateName", required: true, type: .string), 
             AWSShapeProperty(label: "NewServerCertificateName", required: false, type: .string)
@@ -1886,7 +1886,7 @@ extension Iam {
     public struct ListPoliciesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "Policies", required: false, type: .list), 
             AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean)
@@ -1918,7 +1918,7 @@ extension Iam {
     public struct GetServerCertificateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ServerCertificateName", required: true, type: .string)
         ]
         /// The name of the server certificate you want to retrieve information about. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
@@ -1937,7 +1937,7 @@ extension Iam {
     public struct ServiceSpecificCredential: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ServiceSpecificCredentialId", required: true, type: .string), 
             AWSShapeProperty(label: "UserName", required: true, type: .string), 
             AWSShapeProperty(label: "Status", required: true, type: .enum), 
@@ -1992,7 +1992,7 @@ extension Iam {
     public struct GetOpenIDConnectProviderResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CreateDate", required: false, type: .timestamp), 
             AWSShapeProperty(label: "Url", required: false, type: .string), 
             AWSShapeProperty(label: "ThumbprintList", required: false, type: .list), 
@@ -2025,7 +2025,7 @@ extension Iam {
     public struct UserDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserName", required: false, type: .string), 
             AWSShapeProperty(label: "UserId", required: false, type: .string), 
             AWSShapeProperty(label: "Arn", required: false, type: .string), 
@@ -2093,7 +2093,7 @@ extension Iam {
     public struct ListAttachedGroupPoliciesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
             AWSShapeProperty(label: "AttachedPolicies", required: false, type: .list)
@@ -2125,7 +2125,7 @@ extension Iam {
     public struct ListUserPoliciesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "PolicyNames", required: true, type: .list), 
             AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean)
@@ -2154,7 +2154,7 @@ extension Iam {
     public struct ListAccountAliasesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer)
         ]
@@ -2177,7 +2177,7 @@ extension Iam {
     public struct UploadSigningCertificateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserName", required: false, type: .string), 
             AWSShapeProperty(label: "CertificateBody", required: true, type: .string)
         ]
@@ -2201,7 +2201,7 @@ extension Iam {
     public struct DeactivateMFADeviceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserName", required: true, type: .string), 
             AWSShapeProperty(label: "SerialNumber", required: true, type: .string)
         ]
@@ -2226,7 +2226,7 @@ extension Iam {
     public struct DeleteAccountAliasRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountAlias", required: true, type: .string)
         ]
         /// The name of the account alias to delete. This parameter allows (per its regex pattern) a string of characters consisting of lowercase letters, digits, and dashes. You cannot start or finish with a dash, nor can you have two dashes in a row.
@@ -2245,7 +2245,7 @@ extension Iam {
     public struct GetSAMLProviderRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SAMLProviderArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the SAML provider resource object in IAM to get information about. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
@@ -2264,7 +2264,7 @@ extension Iam {
     public struct GenerateCredentialReportResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "State", required: false, type: .enum), 
             AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
@@ -2287,7 +2287,7 @@ extension Iam {
     public struct ListGroupPoliciesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "PolicyNames", required: true, type: .list), 
             AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean)
@@ -2316,7 +2316,7 @@ extension Iam {
     public struct CreateUserResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "User", required: false, type: .structure)
         ]
         /// A structure with details about the new IAM user.
@@ -2334,7 +2334,7 @@ extension Iam {
     public struct SigningCertificate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CertificateId", required: true, type: .string), 
             AWSShapeProperty(label: "UserName", required: true, type: .string), 
             AWSShapeProperty(label: "Status", required: true, type: .enum), 
@@ -2376,7 +2376,7 @@ extension Iam {
     public struct GetGroupRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
             AWSShapeProperty(label: "GroupName", required: true, type: .string)
@@ -2405,7 +2405,7 @@ extension Iam {
     public struct AttachRolePolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PolicyArn", required: true, type: .string), 
             AWSShapeProperty(label: "RoleName", required: true, type: .string)
         ]
@@ -2430,7 +2430,7 @@ extension Iam {
     public struct ChangePasswordRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OldPassword", required: true, type: .string), 
             AWSShapeProperty(label: "NewPassword", required: true, type: .string)
         ]
@@ -2455,7 +2455,7 @@ extension Iam {
     public struct UpdateOpenIDConnectProviderThumbprintRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ThumbprintList", required: true, type: .list), 
             AWSShapeProperty(label: "OpenIDConnectProviderArn", required: true, type: .string)
         ]
@@ -2480,7 +2480,7 @@ extension Iam {
     public struct User: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CreateDate", required: true, type: .timestamp), 
             AWSShapeProperty(label: "PasswordLastUsed", required: false, type: .timestamp), 
             AWSShapeProperty(label: "UserId", required: true, type: .string), 
@@ -2557,7 +2557,7 @@ extension Iam {
     public struct DeleteSSHPublicKeyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserName", required: true, type: .string), 
             AWSShapeProperty(label: "SSHPublicKeyId", required: true, type: .string)
         ]
@@ -2582,7 +2582,7 @@ extension Iam {
     public struct CreateOpenIDConnectProviderRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Url", required: true, type: .string), 
             AWSShapeProperty(label: "ThumbprintList", required: true, type: .list), 
             AWSShapeProperty(label: "ClientIDList", required: false, type: .list)
@@ -2612,7 +2612,7 @@ extension Iam {
     public struct CreatePolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Path", required: false, type: .string), 
             AWSShapeProperty(label: "PolicyName", required: true, type: .string), 
             AWSShapeProperty(label: "PolicyDocument", required: true, type: .string), 
@@ -2647,7 +2647,7 @@ extension Iam {
     public struct ListUserPoliciesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "UserName", required: true, type: .string), 
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer)
@@ -2676,7 +2676,7 @@ extension Iam {
     public struct DeleteServerCertificateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ServerCertificateName", required: true, type: .string)
         ]
         /// The name of the server certificate you want to delete. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
@@ -2695,7 +2695,7 @@ extension Iam {
     public struct SimulatePolicyResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
             AWSShapeProperty(label: "EvaluationResults", required: false, type: .list)
@@ -2727,7 +2727,7 @@ extension Iam {
     public struct GetUserPolicyResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserName", required: true, type: .string), 
             AWSShapeProperty(label: "PolicyDocument", required: true, type: .string), 
             AWSShapeProperty(label: "PolicyName", required: true, type: .string)
@@ -2758,7 +2758,7 @@ extension Iam {
     public struct DeletePolicyVersionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PolicyArn", required: true, type: .string), 
             AWSShapeProperty(label: "VersionId", required: true, type: .string)
         ]
@@ -2783,7 +2783,7 @@ extension Iam {
     public struct SAMLProviderListEntry: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CreateDate", required: false, type: .timestamp), 
             AWSShapeProperty(label: "Arn", required: false, type: .string), 
             AWSShapeProperty(label: "ValidUntil", required: false, type: .timestamp)
@@ -2811,7 +2811,7 @@ extension Iam {
     public struct UpdateSAMLProviderResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SAMLProviderArn", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the SAML provider that was updated.
@@ -2829,7 +2829,7 @@ extension Iam {
     public struct GetContextKeysForPolicyResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ContextKeyNames", required: false, type: .list)
         ]
         /// The list of context keys that are referenced in the input policies.
@@ -2847,7 +2847,7 @@ extension Iam {
     public struct CreateAccountAliasRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountAlias", required: true, type: .string)
         ]
         /// The account alias to create. This parameter allows (per its regex pattern) a string of characters consisting of lowercase letters, digits, and dashes. You cannot start or finish with a dash, nor can you have two dashes in a row.
@@ -2866,7 +2866,7 @@ extension Iam {
     public struct EvaluationResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EvalDecision", required: true, type: .enum), 
             AWSShapeProperty(label: "EvalDecisionDetails", required: false, type: .map), 
             AWSShapeProperty(label: "EvalResourceName", required: false, type: .string), 
@@ -2941,7 +2941,7 @@ extension Iam {
     public struct ResourceSpecificResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MissingContextValues", required: false, type: .list), 
             AWSShapeProperty(label: "EvalResourceDecision", required: true, type: .enum), 
             AWSShapeProperty(label: "EvalDecisionDetails", required: false, type: .map), 
@@ -2997,7 +2997,7 @@ extension Iam {
     public struct ListEntitiesForPolicyResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
             AWSShapeProperty(label: "PolicyUsers", required: false, type: .list), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
@@ -3047,7 +3047,7 @@ extension Iam {
     public struct GetUserPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserName", required: true, type: .string), 
             AWSShapeProperty(label: "PolicyName", required: true, type: .string)
         ]
@@ -3072,7 +3072,7 @@ extension Iam {
     public struct CreateGroupRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Path", required: false, type: .string), 
             AWSShapeProperty(label: "GroupName", required: true, type: .string)
         ]
@@ -3096,7 +3096,7 @@ extension Iam {
     public struct DeleteAccessKeyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserName", required: false, type: .string), 
             AWSShapeProperty(label: "AccessKeyId", required: true, type: .string)
         ]
@@ -3120,7 +3120,7 @@ extension Iam {
     public struct CreateLoginProfileRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Password", required: true, type: .string), 
             AWSShapeProperty(label: "UserName", required: true, type: .string), 
             AWSShapeProperty(label: "PasswordResetRequired", required: false, type: .boolean)
@@ -3159,7 +3159,7 @@ extension Iam {
     public struct DeleteLoginProfileRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserName", required: true, type: .string)
         ]
         /// The name of the user whose password you want to delete. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
@@ -3178,7 +3178,7 @@ extension Iam {
     public struct UploadSSHPublicKeyResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SSHPublicKey", required: false, type: .structure)
         ]
         /// Contains information about the SSH public key.
@@ -3196,7 +3196,7 @@ extension Iam {
     public struct GetLoginProfileRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserName", required: true, type: .string)
         ]
         /// The name of the user whose login profile you want to retrieve. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
@@ -3215,7 +3215,7 @@ extension Iam {
     public struct GetAccountAuthorizationDetailsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
             AWSShapeProperty(label: "Filter", required: false, type: .list)
@@ -3243,7 +3243,7 @@ extension Iam {
     public struct AccessKeyMetadata: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CreateDate", required: false, type: .timestamp), 
             AWSShapeProperty(label: "UserName", required: false, type: .string), 
             AWSShapeProperty(label: "Status", required: false, type: .enum), 
@@ -3276,7 +3276,7 @@ extension Iam {
     public struct Statement: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SourcePolicyType", required: false, type: .enum), 
             AWSShapeProperty(label: "StartPosition", required: false, type: .structure), 
             AWSShapeProperty(label: "SourcePolicyId", required: false, type: .string), 
@@ -3309,7 +3309,7 @@ extension Iam {
     public struct SimulatePrincipalPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
             AWSShapeProperty(label: "ActionNames", required: true, type: .list), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
@@ -3383,7 +3383,7 @@ extension Iam {
     public struct GetUserResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "User", required: true, type: .structure)
         ]
         /// A structure containing details about the IAM user.
@@ -3402,7 +3402,7 @@ extension Iam {
     public struct RemoveClientIDFromOpenIDConnectProviderRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClientID", required: true, type: .string), 
             AWSShapeProperty(label: "OpenIDConnectProviderArn", required: true, type: .string)
         ]
@@ -3427,7 +3427,7 @@ extension Iam {
     public struct LoginProfile: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CreateDate", required: true, type: .timestamp), 
             AWSShapeProperty(label: "UserName", required: true, type: .string), 
             AWSShapeProperty(label: "PasswordResetRequired", required: false, type: .boolean)
@@ -3464,7 +3464,7 @@ extension Iam {
     public struct ListAttachedUserPoliciesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
             AWSShapeProperty(label: "AttachedPolicies", required: false, type: .list)
@@ -3496,7 +3496,7 @@ extension Iam {
     public struct RemoveRoleFromInstanceProfileRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceProfileName", required: true, type: .string), 
             AWSShapeProperty(label: "RoleName", required: true, type: .string)
         ]
@@ -3521,7 +3521,7 @@ extension Iam {
     public struct CreateSAMLProviderResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SAMLProviderArn", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the new SAML provider resource in IAM.
@@ -3539,7 +3539,7 @@ extension Iam {
     public struct CreateVirtualMFADeviceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VirtualMFADeviceName", required: true, type: .string), 
             AWSShapeProperty(label: "Path", required: false, type: .string)
         ]
@@ -3563,7 +3563,7 @@ extension Iam {
     public struct EnableMFADeviceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserName", required: true, type: .string), 
             AWSShapeProperty(label: "AuthenticationCode1", required: true, type: .string), 
             AWSShapeProperty(label: "SerialNumber", required: true, type: .string), 
@@ -3600,7 +3600,7 @@ extension Iam {
     public struct UpdateAssumeRolePolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PolicyDocument", required: true, type: .string), 
             AWSShapeProperty(label: "RoleName", required: true, type: .string)
         ]
@@ -3625,7 +3625,7 @@ extension Iam {
     public struct ListSAMLProvidersResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SAMLProviderList", required: false, type: .list)
         ]
         /// The list of SAML provider resource objects defined in IAM for this AWS account.
@@ -3647,7 +3647,7 @@ extension Iam {
     public struct ServiceSpecificCredentialMetadata: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ServiceSpecificCredentialId", required: true, type: .string), 
             AWSShapeProperty(label: "UserName", required: true, type: .string), 
             AWSShapeProperty(label: "Status", required: true, type: .enum), 
@@ -3696,7 +3696,7 @@ extension Iam {
     public struct SSHPublicKey: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SSHPublicKeyBody", required: true, type: .string), 
             AWSShapeProperty(label: "UserName", required: true, type: .string), 
             AWSShapeProperty(label: "Status", required: true, type: .enum), 
@@ -3744,7 +3744,7 @@ extension Iam {
     public struct AccessKeyLastUsed: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LastUsedDate", required: true, type: .timestamp), 
             AWSShapeProperty(label: "Region", required: true, type: .string), 
             AWSShapeProperty(label: "ServiceName", required: true, type: .string)
@@ -3775,7 +3775,7 @@ extension Iam {
     public struct ResetServiceSpecificCredentialRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ServiceSpecificCredentialId", required: true, type: .string), 
             AWSShapeProperty(label: "UserName", required: false, type: .string)
         ]
@@ -3799,7 +3799,7 @@ extension Iam {
     public struct ListPolicyVersionsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PolicyArn", required: true, type: .string), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer)
@@ -3828,7 +3828,7 @@ extension Iam {
     public struct GetLoginProfileResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LoginProfile", required: true, type: .structure)
         ]
         /// A structure containing the user name and password create date for the user.
@@ -3847,7 +3847,7 @@ extension Iam {
     public struct ManagedPolicyDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Description", required: false, type: .string), 
             AWSShapeProperty(label: "PolicyId", required: false, type: .string), 
             AWSShapeProperty(label: "Arn", required: false, type: .string), 
@@ -3918,7 +3918,7 @@ extension Iam {
     public struct GetAccountAuthorizationDetailsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RoleDetailList", required: false, type: .list), 
             AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
             AWSShapeProperty(label: "Policies", required: false, type: .list), 
@@ -3977,7 +3977,7 @@ extension Iam {
     public struct ListUsersResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "Users", required: true, type: .list), 
             AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean)
@@ -4006,7 +4006,7 @@ extension Iam {
     public struct PolicyVersion: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CreateDate", required: false, type: .timestamp), 
             AWSShapeProperty(label: "VersionId", required: false, type: .string), 
             AWSShapeProperty(label: "Document", required: false, type: .string), 
@@ -4039,7 +4039,7 @@ extension Iam {
     public struct DeleteInstanceProfileRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceProfileName", required: true, type: .string)
         ]
         /// The name of the instance profile to delete. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
@@ -4058,7 +4058,7 @@ extension Iam {
     public struct MFADevice: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserName", required: true, type: .string), 
             AWSShapeProperty(label: "EnableDate", required: true, type: .timestamp), 
             AWSShapeProperty(label: "SerialNumber", required: true, type: .string)
@@ -4089,7 +4089,7 @@ extension Iam {
     public struct ServerCertificateMetadata: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ServerCertificateName", required: true, type: .string), 
             AWSShapeProperty(label: "ServerCertificateId", required: true, type: .string), 
             AWSShapeProperty(label: "Arn", required: true, type: .string), 
@@ -4136,7 +4136,7 @@ extension Iam {
     public struct GroupDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Arn", required: false, type: .string), 
             AWSShapeProperty(label: "GroupName", required: false, type: .string), 
             AWSShapeProperty(label: "GroupPolicyList", required: false, type: .list), 
@@ -4191,7 +4191,7 @@ extension Iam {
     public struct DeleteSigningCertificateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CertificateId", required: true, type: .string), 
             AWSShapeProperty(label: "UserName", required: false, type: .string)
         ]
@@ -4215,7 +4215,7 @@ extension Iam {
     public struct ListPoliciesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OnlyAttached", required: false, type: .boolean), 
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
             AWSShapeProperty(label: "Scope", required: false, type: .enum), 
@@ -4253,7 +4253,7 @@ extension Iam {
     public struct ListAccessKeysRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "UserName", required: false, type: .string), 
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer)
@@ -4281,7 +4281,7 @@ extension Iam {
     public struct ListGroupsForUserRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "UserName", required: true, type: .string), 
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer)
@@ -4310,7 +4310,7 @@ extension Iam {
     public struct ListInstanceProfilesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceProfiles", required: true, type: .list), 
             AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean)
@@ -4339,7 +4339,7 @@ extension Iam {
     public struct GetAccountPasswordPolicyResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PasswordPolicy", required: true, type: .structure)
         ]
         /// Contains information about the account password policy.
@@ -4365,7 +4365,7 @@ extension Iam {
     public struct AddClientIDToOpenIDConnectProviderRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClientID", required: true, type: .string), 
             AWSShapeProperty(label: "OpenIDConnectProviderArn", required: true, type: .string)
         ]
@@ -4390,7 +4390,7 @@ extension Iam {
     public struct ListPolicyVersionsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
             AWSShapeProperty(label: "Versions", required: false, type: .list)
@@ -4422,7 +4422,7 @@ extension Iam {
     public struct GetPolicyVersionResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PolicyVersion", required: false, type: .structure)
         ]
         /// A structure containing details about the policy version.
@@ -4440,7 +4440,7 @@ extension Iam {
     public struct PolicyUser: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserName", required: false, type: .string), 
             AWSShapeProperty(label: "UserId", required: false, type: .string)
         ]
@@ -4463,7 +4463,7 @@ extension Iam {
     public struct ListGroupsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
             AWSShapeProperty(label: "PathPrefix", required: false, type: .string)
@@ -4491,7 +4491,7 @@ extension Iam {
     public struct GetAccessKeyLastUsedRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccessKeyId", required: true, type: .string)
         ]
         /// The identifier of an access key. This parameter allows (per its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
@@ -4510,7 +4510,7 @@ extension Iam {
     public struct GetRoleResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Role", required: true, type: .structure)
         ]
         /// A structure containing details about the IAM role.
@@ -4529,7 +4529,7 @@ extension Iam {
     public struct GetPolicyVersionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PolicyArn", required: true, type: .string), 
             AWSShapeProperty(label: "VersionId", required: true, type: .string)
         ]
@@ -4554,7 +4554,7 @@ extension Iam {
     public struct DeleteServiceSpecificCredentialRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ServiceSpecificCredentialId", required: true, type: .string), 
             AWSShapeProperty(label: "UserName", required: false, type: .string)
         ]
@@ -4578,7 +4578,7 @@ extension Iam {
     public struct ListServiceSpecificCredentialsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserName", required: false, type: .string), 
             AWSShapeProperty(label: "ServiceName", required: false, type: .string)
         ]
@@ -4601,7 +4601,7 @@ extension Iam {
     public struct GetInstanceProfileResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceProfile", required: true, type: .structure)
         ]
         /// A structure containing details about the instance profile.
@@ -4620,7 +4620,7 @@ extension Iam {
     public struct UpdateSSHPublicKeyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserName", required: true, type: .string), 
             AWSShapeProperty(label: "Status", required: true, type: .enum), 
             AWSShapeProperty(label: "SSHPublicKeyId", required: true, type: .string)
@@ -4651,7 +4651,7 @@ extension Iam {
     public struct GetServerCertificateResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ServerCertificate", required: true, type: .structure)
         ]
         /// A structure containing details about the server certificate.
@@ -4670,7 +4670,7 @@ extension Iam {
     public struct CreateRoleRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RoleName", required: true, type: .string), 
             AWSShapeProperty(label: "AssumeRolePolicyDocument", required: true, type: .string), 
             AWSShapeProperty(label: "Path", required: false, type: .string)
@@ -4700,7 +4700,7 @@ extension Iam {
     public struct GetGroupResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
             AWSShapeProperty(label: "Users", required: true, type: .list), 
             AWSShapeProperty(label: "Group", required: true, type: .structure), 
@@ -4735,7 +4735,7 @@ extension Iam {
     public struct DeleteOpenIDConnectProviderRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OpenIDConnectProviderArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the IAM OpenID Connect provider resource object to delete. You can get a list of OpenID Connect provider resource ARNs by using the ListOpenIDConnectProviders action.
@@ -4754,7 +4754,7 @@ extension Iam {
     public struct CreatePolicyVersionResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PolicyVersion", required: false, type: .structure)
         ]
         /// A structure containing details about the new policy version.
@@ -4772,7 +4772,7 @@ extension Iam {
     public struct PutGroupPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "GroupName", required: true, type: .string), 
             AWSShapeProperty(label: "PolicyDocument", required: true, type: .string), 
             AWSShapeProperty(label: "PolicyName", required: true, type: .string)
@@ -4803,7 +4803,7 @@ extension Iam {
     public struct VirtualMFADevice: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EnableDate", required: false, type: .timestamp), 
             AWSShapeProperty(label: "QRCodePNG", required: false, type: .blob), 
             AWSShapeProperty(label: "Base32StringSeed", required: false, type: .blob), 
@@ -4842,7 +4842,7 @@ extension Iam {
     public struct GetRolePolicyResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RoleName", required: true, type: .string), 
             AWSShapeProperty(label: "PolicyDocument", required: true, type: .string), 
             AWSShapeProperty(label: "PolicyName", required: true, type: .string)
@@ -4873,7 +4873,7 @@ extension Iam {
     public struct CreateGroupResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Group", required: true, type: .structure)
         ]
         /// A structure containing details about the new group.
@@ -4892,7 +4892,7 @@ extension Iam {
     public struct UpdateSigningCertificateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CertificateId", required: true, type: .string), 
             AWSShapeProperty(label: "UserName", required: false, type: .string), 
             AWSShapeProperty(label: "Status", required: true, type: .enum)
@@ -4922,7 +4922,7 @@ extension Iam {
     public struct PolicyDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PolicyDocument", required: false, type: .string), 
             AWSShapeProperty(label: "PolicyName", required: false, type: .string)
         ]
@@ -4945,7 +4945,7 @@ extension Iam {
     public struct UpdateAccountPasswordPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RequireNumbers", required: false, type: .boolean), 
             AWSShapeProperty(label: "MaxPasswordAge", required: false, type: .integer), 
             AWSShapeProperty(label: "MinimumPasswordLength", required: false, type: .integer), 
@@ -5003,7 +5003,7 @@ extension Iam {
     public struct GetCredentialReportResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Content", required: false, type: .blob), 
             AWSShapeProperty(label: "ReportFormat", required: false, type: .enum), 
             AWSShapeProperty(label: "GeneratedTime", required: false, type: .timestamp)
@@ -5031,7 +5031,7 @@ extension Iam {
     public struct Group: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CreateDate", required: true, type: .timestamp), 
             AWSShapeProperty(label: "Arn", required: true, type: .string), 
             AWSShapeProperty(label: "GroupName", required: true, type: .string), 
@@ -5074,7 +5074,7 @@ extension Iam {
     public struct ListSigningCertificatesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
             AWSShapeProperty(label: "Certificates", required: true, type: .list)
@@ -5103,7 +5103,7 @@ extension Iam {
     public struct DetachUserPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PolicyArn", required: true, type: .string), 
             AWSShapeProperty(label: "UserName", required: true, type: .string)
         ]
@@ -5128,7 +5128,7 @@ extension Iam {
     public struct GetRolePolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RoleName", required: true, type: .string), 
             AWSShapeProperty(label: "PolicyName", required: true, type: .string)
         ]
@@ -5153,7 +5153,7 @@ extension Iam {
     public struct ListAttachedUserPoliciesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
             AWSShapeProperty(label: "UserName", required: true, type: .string), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
@@ -5187,7 +5187,7 @@ extension Iam {
     public struct PolicyGroup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "GroupId", required: false, type: .string), 
             AWSShapeProperty(label: "GroupName", required: false, type: .string)
         ]
@@ -5210,7 +5210,7 @@ extension Iam {
     public struct CreateAccessKeyResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccessKey", required: true, type: .structure)
         ]
         /// A structure with details about the access key.
@@ -5229,7 +5229,7 @@ extension Iam {
     public struct CreateInstanceProfileResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceProfile", required: true, type: .structure)
         ]
         /// A structure containing details about the new instance profile.
@@ -5248,7 +5248,7 @@ extension Iam {
     public struct CreateAccessKeyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserName", required: false, type: .string)
         ]
         /// The name of the IAM user that the new key will belong to. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
@@ -5266,7 +5266,7 @@ extension Iam {
     public struct GetAccessKeyLastUsedResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccessKeyLastUsed", required: false, type: .structure), 
             AWSShapeProperty(label: "UserName", required: false, type: .string)
         ]
@@ -5289,7 +5289,7 @@ extension Iam {
     public struct GetPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PolicyArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the managed policy that you want information about. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
@@ -5308,7 +5308,7 @@ extension Iam {
     public struct GetSSHPublicKeyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Encoding", required: true, type: .enum), 
             AWSShapeProperty(label: "UserName", required: true, type: .string), 
             AWSShapeProperty(label: "SSHPublicKeyId", required: true, type: .string)
@@ -5339,7 +5339,7 @@ extension Iam {
     public struct CreateOpenIDConnectProviderResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OpenIDConnectProviderArn", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the new IAM OpenID Connect provider that is created. For more information, see OpenIDConnectProviderListEntry. 
@@ -5357,7 +5357,7 @@ extension Iam {
     public struct ListRolePoliciesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "PolicyNames", required: true, type: .list), 
             AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean)
@@ -5386,7 +5386,7 @@ extension Iam {
     public struct UploadSigningCertificateResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Certificate", required: true, type: .structure)
         ]
         /// Information about the certificate.
@@ -5405,7 +5405,7 @@ extension Iam {
     public struct GetPolicyResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Policy", required: false, type: .structure)
         ]
         /// A structure containing details about the policy.
@@ -5423,7 +5423,7 @@ extension Iam {
     public struct RemoveUserFromGroupRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserName", required: true, type: .string), 
             AWSShapeProperty(label: "GroupName", required: true, type: .string)
         ]
@@ -5448,7 +5448,7 @@ extension Iam {
     public struct ServerCertificate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CertificateChain", required: false, type: .string), 
             AWSShapeProperty(label: "ServerCertificateMetadata", required: true, type: .structure), 
             AWSShapeProperty(label: "CertificateBody", required: true, type: .string)
@@ -5478,7 +5478,7 @@ extension Iam {
     public struct ListSigningCertificatesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "UserName", required: false, type: .string), 
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer)
@@ -5506,7 +5506,7 @@ extension Iam {
     public struct AttachedPolicy: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PolicyArn", required: false, type: .string), 
             AWSShapeProperty(label: "PolicyName", required: false, type: .string)
         ]
@@ -5528,7 +5528,7 @@ extension Iam {
     public struct Role: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CreateDate", required: true, type: .timestamp), 
             AWSShapeProperty(label: "RoleId", required: true, type: .string), 
             AWSShapeProperty(label: "Arn", required: true, type: .string), 
@@ -5576,7 +5576,7 @@ extension Iam {
     public struct ListAttachedGroupPoliciesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
             AWSShapeProperty(label: "GroupName", required: true, type: .string), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
@@ -5610,7 +5610,7 @@ extension Iam {
     public struct ListServerCertificatesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
             AWSShapeProperty(label: "ServerCertificateMetadataList", required: true, type: .list)
@@ -5639,7 +5639,7 @@ extension Iam {
     public struct ListRolesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
             AWSShapeProperty(label: "PathPrefix", required: false, type: .string)
@@ -5667,7 +5667,7 @@ extension Iam {
     public struct DeletePolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PolicyArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the IAM policy you want to delete. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
@@ -5686,7 +5686,7 @@ extension Iam {
     public struct DeleteGroupPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "GroupName", required: true, type: .string), 
             AWSShapeProperty(label: "PolicyName", required: true, type: .string)
         ]
@@ -5711,7 +5711,7 @@ extension Iam {
     public struct ResyncMFADeviceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserName", required: true, type: .string), 
             AWSShapeProperty(label: "AuthenticationCode1", required: true, type: .string), 
             AWSShapeProperty(label: "SerialNumber", required: true, type: .string), 
@@ -5748,7 +5748,7 @@ extension Iam {
     public struct ListInstanceProfilesForRoleResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceProfiles", required: true, type: .list), 
             AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean)
@@ -5784,7 +5784,7 @@ extension Iam {
     public struct DeleteSAMLProviderRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SAMLProviderArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the SAML provider to delete.
@@ -5803,7 +5803,7 @@ extension Iam {
     public struct PolicyRole: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RoleId", required: false, type: .string), 
             AWSShapeProperty(label: "RoleName", required: false, type: .string)
         ]
@@ -5826,7 +5826,7 @@ extension Iam {
     public struct GetContextKeysForCustomPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PolicyInputList", required: true, type: .list)
         ]
         /// A list of policies for which you want the list of context keys referenced in those policies. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
@@ -5845,7 +5845,7 @@ extension Iam {
     public struct ListUsersRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
             AWSShapeProperty(label: "PathPrefix", required: false, type: .string)
@@ -5873,7 +5873,7 @@ extension Iam {
     public struct OrganizationsDecisionDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AllowedByOrganizations", required: false, type: .boolean)
         ]
         /// Specifies whether the simulated action is allowed by the AWS Organizations service control policies that impact the simulated user's account.
@@ -5891,7 +5891,7 @@ extension Iam {
     public struct GetContextKeysForPrincipalPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PolicyInputList", required: false, type: .list), 
             AWSShapeProperty(label: "PolicySourceArn", required: true, type: .string)
         ]
@@ -5915,7 +5915,7 @@ extension Iam {
     public struct ListGroupPoliciesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
             AWSShapeProperty(label: "GroupName", required: true, type: .string)
@@ -5949,7 +5949,7 @@ extension Iam {
     public struct DetachGroupPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PolicyArn", required: true, type: .string), 
             AWSShapeProperty(label: "GroupName", required: true, type: .string)
         ]
@@ -5974,7 +5974,7 @@ extension Iam {
     public struct ListVirtualMFADevicesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VirtualMFADevices", required: true, type: .list), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean)
@@ -6003,7 +6003,7 @@ extension Iam {
     public struct GetInstanceProfileRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceProfileName", required: true, type: .string)
         ]
         /// The name of the instance profile to get information about. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
@@ -6022,7 +6022,7 @@ extension Iam {
     public struct ListRolesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
             AWSShapeProperty(label: "Roles", required: true, type: .list)
@@ -6067,7 +6067,7 @@ extension Iam {
     public struct DeleteUserPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserName", required: true, type: .string), 
             AWSShapeProperty(label: "PolicyName", required: true, type: .string)
         ]
@@ -6092,7 +6092,7 @@ extension Iam {
     public struct ResetServiceSpecificCredentialResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ServiceSpecificCredential", required: false, type: .structure)
         ]
         /// A structure with details about the updated service-specific credential, including the new password.  This is the only time that you can access the password. You cannot recover the password later, but you can reset it again. 
@@ -6110,7 +6110,7 @@ extension Iam {
     public struct UpdateLoginProfileRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Password", required: false, type: .string), 
             AWSShapeProperty(label: "UserName", required: true, type: .string), 
             AWSShapeProperty(label: "PasswordResetRequired", required: false, type: .boolean)
@@ -6139,7 +6139,7 @@ extension Iam {
     public struct ListAccountAliasesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
             AWSShapeProperty(label: "AccountAliases", required: true, type: .list)
@@ -6168,7 +6168,7 @@ extension Iam {
     public struct ListSSHPublicKeysResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "SSHPublicKeys", required: false, type: .list), 
             AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean)
@@ -6200,7 +6200,7 @@ extension Iam {
     public struct ListServiceSpecificCredentialsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ServiceSpecificCredentials", required: false, type: .list)
         ]
         /// A list of structures that each contain details about a service-specific credential.
@@ -6229,7 +6229,7 @@ extension Iam {
     public struct ListMFADevicesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "UserName", required: false, type: .string), 
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer)
@@ -6257,7 +6257,7 @@ extension Iam {
     public struct DeleteGroupRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "GroupName", required: true, type: .string)
         ]
         /// The name of the IAM group to delete. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-

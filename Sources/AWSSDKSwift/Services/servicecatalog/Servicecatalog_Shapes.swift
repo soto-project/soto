@@ -32,7 +32,7 @@ extension Servicecatalog {
     public struct DeletePortfolioShareInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountId", required: true, type: .string), 
             AWSShapeProperty(label: "PortfolioId", required: true, type: .string), 
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string)
@@ -62,7 +62,7 @@ extension Servicecatalog {
     public struct DisassociatePrincipalFromPortfolioInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PrincipalARN", required: true, type: .string), 
             AWSShapeProperty(label: "PortfolioId", required: true, type: .string), 
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string)
@@ -99,7 +99,7 @@ extension Servicecatalog {
     public struct DeletePortfolioInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
@@ -123,7 +123,7 @@ extension Servicecatalog {
     public struct DescribeProvisioningParametersOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UsageInstructions", required: false, type: .list), 
             AWSShapeProperty(label: "ProvisioningArtifactParameters", required: false, type: .list), 
             AWSShapeProperty(label: "ConstraintSummaries", required: false, type: .list)
@@ -163,7 +163,7 @@ extension Servicecatalog {
     public struct ProvisioningArtifactProperties: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Description", required: false, type: .string), 
             AWSShapeProperty(label: "Type", required: false, type: .enum), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
@@ -197,7 +197,7 @@ extension Servicecatalog {
     public struct DescribeProductAsAdminOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Tags", required: false, type: .list), 
             AWSShapeProperty(label: "ProductViewDetail", required: false, type: .structure)
         ]
@@ -224,7 +224,7 @@ extension Servicecatalog {
     public struct ListPortfolioAccessOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextPageToken", required: false, type: .string), 
             AWSShapeProperty(label: "AccountIds", required: false, type: .list)
         ]
@@ -247,7 +247,7 @@ extension Servicecatalog {
     public struct CreateProductOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Tags", required: false, type: .list), 
             AWSShapeProperty(label: "ProductViewDetail", required: false, type: .structure), 
             AWSShapeProperty(label: "ProvisioningArtifactDetail", required: false, type: .structure)
@@ -284,7 +284,7 @@ extension Servicecatalog {
     public struct UsageInstruction: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Type", required: false, type: .string), 
             AWSShapeProperty(label: "Value", required: false, type: .string)
         ]
@@ -307,7 +307,7 @@ extension Servicecatalog {
     public struct CreatePortfolioShareInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountId", required: true, type: .string), 
             AWSShapeProperty(label: "PortfolioId", required: true, type: .string), 
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string)
@@ -337,7 +337,7 @@ extension Servicecatalog {
     public struct DescribeProductViewOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ProductViewSummary", required: false, type: .structure), 
             AWSShapeProperty(label: "ProvisioningArtifacts", required: false, type: .list)
         ]
@@ -364,7 +364,7 @@ extension Servicecatalog {
     public struct ScanProvisionedProductsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ProvisionedProducts", required: false, type: .list), 
             AWSShapeProperty(label: "NextPageToken", required: false, type: .string)
         ]
@@ -391,7 +391,7 @@ extension Servicecatalog {
     public struct DescribeConstraintInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
@@ -415,7 +415,7 @@ extension Servicecatalog {
     public struct ConstraintDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConstraintId", required: false, type: .string), 
             AWSShapeProperty(label: "Type", required: false, type: .string), 
             AWSShapeProperty(label: "Owner", required: false, type: .string), 
@@ -448,7 +448,7 @@ extension Servicecatalog {
     public struct UpdatePortfolioOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PortfolioDetail", required: false, type: .structure), 
             AWSShapeProperty(label: "Tags", required: false, type: .list)
         ]
@@ -475,7 +475,7 @@ extension Servicecatalog {
     public struct Tag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: true, type: .string), 
             AWSShapeProperty(label: "Key", required: true, type: .string)
         ]
@@ -500,7 +500,7 @@ extension Servicecatalog {
     public struct DescribeProductInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
@@ -524,7 +524,7 @@ extension Servicecatalog {
     public struct ListRecordHistoryOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RecordDetails", required: false, type: .list), 
             AWSShapeProperty(label: "NextPageToken", required: false, type: .string)
         ]
@@ -551,7 +551,7 @@ extension Servicecatalog {
     public struct ScanProvisionedProductsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PageSize", required: false, type: .integer), 
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeProperty(label: "AccessLevelFilter", required: false, type: .structure), 
@@ -584,7 +584,7 @@ extension Servicecatalog {
     public struct CreatePortfolioInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Description", required: false, type: .string), 
             AWSShapeProperty(label: "ProviderName", required: true, type: .string), 
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
@@ -634,7 +634,7 @@ extension Servicecatalog {
     public struct ListRecordHistorySearchFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: false, type: .string), 
             AWSShapeProperty(label: "Key", required: false, type: .string)
         ]
@@ -657,7 +657,7 @@ extension Servicecatalog {
     public struct ListPortfoliosInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PageSize", required: false, type: .integer), 
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeProperty(label: "PageToken", required: false, type: .string)
@@ -693,7 +693,7 @@ extension Servicecatalog {
     public struct ListLaunchPathsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LaunchPathSummaries", required: false, type: .list), 
             AWSShapeProperty(label: "NextPageToken", required: false, type: .string)
         ]
@@ -720,7 +720,7 @@ extension Servicecatalog {
     public struct ListConstraintsForPortfolioOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConstraintDetails", required: false, type: .list), 
             AWSShapeProperty(label: "NextPageToken", required: false, type: .string)
         ]
@@ -747,7 +747,7 @@ extension Servicecatalog {
     public struct UpdateProductOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Tags", required: false, type: .list), 
             AWSShapeProperty(label: "ProductViewDetail", required: false, type: .structure)
         ]
@@ -774,7 +774,7 @@ extension Servicecatalog {
     public struct SearchProductsAsAdminInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SortBy", required: false, type: .enum), 
             AWSShapeProperty(label: "PageSize", required: false, type: .integer), 
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
@@ -836,7 +836,7 @@ extension Servicecatalog {
     public struct ProvisionProductInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ProvisioningArtifactId", required: true, type: .string), 
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeProperty(label: "NotificationArns", required: false, type: .list), 
@@ -906,7 +906,7 @@ extension Servicecatalog {
     public struct UpdateProvisioningParameter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: false, type: .string), 
             AWSShapeProperty(label: "Key", required: false, type: .string), 
             AWSShapeProperty(label: "UsePreviousValue", required: false, type: .boolean)
@@ -934,7 +934,7 @@ extension Servicecatalog {
     public struct CreateConstraintInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeProperty(label: "PortfolioId", required: true, type: .string), 
             AWSShapeProperty(label: "Parameters", required: true, type: .string), 
@@ -992,7 +992,7 @@ extension Servicecatalog {
     public struct LaunchPathSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConstraintSummaries", required: false, type: .list), 
             AWSShapeProperty(label: "Tags", required: false, type: .list), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
@@ -1041,7 +1041,7 @@ extension Servicecatalog {
     public struct UpdateProvisionedProductInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ProvisioningArtifactId", required: false, type: .string), 
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeProperty(label: "UpdateToken", required: true, type: .string), 
@@ -1115,7 +1115,7 @@ extension Servicecatalog {
     public struct ProvisioningArtifactParameter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ParameterType", required: false, type: .string), 
             AWSShapeProperty(label: "Description", required: false, type: .string), 
             AWSShapeProperty(label: "ParameterConstraints", required: false, type: .structure), 
@@ -1158,7 +1158,7 @@ extension Servicecatalog {
     public struct ListPrincipalsForPortfolioOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Principals", required: false, type: .list), 
             AWSShapeProperty(label: "NextPageToken", required: false, type: .string)
         ]
@@ -1185,7 +1185,7 @@ extension Servicecatalog {
     public struct DescribeRecordInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PageSize", required: false, type: .integer), 
             AWSShapeProperty(label: "PageToken", required: false, type: .string), 
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
@@ -1219,7 +1219,7 @@ extension Servicecatalog {
     public struct ListPortfoliosForProductOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PortfolioDetails", required: false, type: .list), 
             AWSShapeProperty(label: "NextPageToken", required: false, type: .string)
         ]
@@ -1246,7 +1246,7 @@ extension Servicecatalog {
     public struct CreateConstraintOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConstraintDetail", required: false, type: .structure), 
             AWSShapeProperty(label: "Status", required: false, type: .enum), 
             AWSShapeProperty(label: "ConstraintParameters", required: false, type: .string)
@@ -1274,7 +1274,7 @@ extension Servicecatalog {
     public struct ProductViewDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .enum), 
             AWSShapeProperty(label: "ProductARN", required: false, type: .string), 
             AWSShapeProperty(label: "ProductViewSummary", required: false, type: .structure), 
@@ -1307,7 +1307,7 @@ extension Servicecatalog {
     public struct CreateProvisioningArtifactInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeProperty(label: "Parameters", required: true, type: .structure), 
             AWSShapeProperty(label: "ProductId", required: true, type: .string), 
@@ -1343,7 +1343,7 @@ extension Servicecatalog {
     public struct DescribeProvisioningArtifactInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ProvisioningArtifactId", required: true, type: .string), 
             AWSShapeProperty(label: "ProductId", required: true, type: .string), 
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string)
@@ -1373,7 +1373,7 @@ extension Servicecatalog {
     public struct UpdateConstraintOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConstraintDetail", required: false, type: .structure), 
             AWSShapeProperty(label: "Status", required: false, type: .enum), 
             AWSShapeProperty(label: "ConstraintParameters", required: false, type: .string)
@@ -1406,7 +1406,7 @@ extension Servicecatalog {
     public struct DescribeRecordOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RecordDetail", required: false, type: .structure), 
             AWSShapeProperty(label: "RecordOutputs", required: false, type: .list), 
             AWSShapeProperty(label: "NextPageToken", required: false, type: .string)
@@ -1438,7 +1438,7 @@ extension Servicecatalog {
     public struct UpdateProvisionedProductOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RecordDetail", required: false, type: .structure)
         ]
         /// The detailed result of the UpdateProvisionedProduct request, containing the inputs made to that request, the current state of the request, a pointer to the ProvisionedProduct object that the request is modifying, and a list of any errors that the request encountered.
@@ -1456,7 +1456,7 @@ extension Servicecatalog {
     public struct ListProvisioningArtifactsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ProvisioningArtifactDetails", required: false, type: .list), 
             AWSShapeProperty(label: "NextPageToken", required: false, type: .string)
         ]
@@ -1483,7 +1483,7 @@ extension Servicecatalog {
     public struct TerminateProvisionedProductOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RecordDetail", required: false, type: .structure)
         ]
         /// The detailed result of the TerminateProvisionedProduct request, containing the inputs made to that request, the current state of the request, a pointer to the ProvisionedProduct object that the request is modifying, and a list of any errors that the request encountered.
@@ -1501,7 +1501,7 @@ extension Servicecatalog {
     public struct ProvisioningParameter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: false, type: .string), 
             AWSShapeProperty(label: "Key", required: false, type: .string)
         ]
@@ -1524,7 +1524,7 @@ extension Servicecatalog {
     public struct RecordOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OutputValue", required: false, type: .string), 
             AWSShapeProperty(label: "OutputKey", required: false, type: .string), 
             AWSShapeProperty(label: "Description", required: false, type: .string)
@@ -1552,7 +1552,7 @@ extension Servicecatalog {
     public struct ProvisioningArtifact: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Description", required: false, type: .string), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "CreatedTime", required: false, type: .timestamp), 
@@ -1593,7 +1593,7 @@ extension Servicecatalog {
     public struct ListLaunchPathsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PageSize", required: false, type: .integer), 
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeProperty(label: "ProductId", required: true, type: .string), 
@@ -1635,7 +1635,7 @@ extension Servicecatalog {
     public struct SearchProductsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ProductViewAggregations", required: false, type: .map), 
             AWSShapeProperty(label: "ProductViewSummaries", required: false, type: .list), 
             AWSShapeProperty(label: "NextPageToken", required: false, type: .string)
@@ -1685,7 +1685,7 @@ extension Servicecatalog {
     public struct DeleteConstraintInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
@@ -1709,7 +1709,7 @@ extension Servicecatalog {
     public struct DescribeProductViewInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
@@ -1733,7 +1733,7 @@ extension Servicecatalog {
     public struct DeleteProvisioningArtifactInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ProvisioningArtifactId", required: true, type: .string), 
             AWSShapeProperty(label: "ProductId", required: true, type: .string), 
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string)
@@ -1763,7 +1763,7 @@ extension Servicecatalog {
     public struct ParameterConstraints: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AllowedValues", required: false, type: .list)
         ]
         /// The values that the administrator has allowed for the parameter.
@@ -1786,7 +1786,7 @@ extension Servicecatalog {
     public struct ListPortfoliosForProductInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PageSize", required: false, type: .integer), 
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeProperty(label: "ProductId", required: true, type: .string), 
@@ -1820,7 +1820,7 @@ extension Servicecatalog {
     public struct PortfolioDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DisplayName", required: false, type: .string), 
             AWSShapeProperty(label: "ProviderName", required: false, type: .string), 
             AWSShapeProperty(label: "ARN", required: false, type: .string), 
@@ -1863,7 +1863,7 @@ extension Servicecatalog {
     public struct DescribeProvisioningParametersInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ProvisioningArtifactId", required: true, type: .string), 
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeProperty(label: "ProductId", required: true, type: .string), 
@@ -1898,7 +1898,7 @@ extension Servicecatalog {
     public struct SearchProductsAsAdminOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ProductViewDetails", required: false, type: .list), 
             AWSShapeProperty(label: "NextPageToken", required: false, type: .string)
         ]
@@ -1925,7 +1925,7 @@ extension Servicecatalog {
     public struct ProductViewAggregationValue: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: false, type: .string), 
             AWSShapeProperty(label: "ApproximateCount", required: false, type: .integer)
         ]
@@ -1948,7 +1948,7 @@ extension Servicecatalog {
     public struct ListAcceptedPortfolioSharesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PageSize", required: false, type: .integer), 
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeProperty(label: "PageToken", required: false, type: .string)
@@ -1976,7 +1976,7 @@ extension Servicecatalog {
     public struct SearchProductsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PageSize", required: false, type: .integer), 
             AWSShapeProperty(label: "SortBy", required: false, type: .enum), 
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
@@ -2028,7 +2028,7 @@ extension Servicecatalog {
     public struct RecordError: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Code", required: false, type: .string), 
             AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
@@ -2051,7 +2051,7 @@ extension Servicecatalog {
     public struct UpdateConstraintInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Description", required: false, type: .string), 
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeProperty(label: "Id", required: true, type: .string)
@@ -2080,7 +2080,7 @@ extension Servicecatalog {
     public struct ProvisionedProductDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .enum), 
             AWSShapeProperty(label: "Arn", required: false, type: .string), 
             AWSShapeProperty(label: "LastRecordId", required: false, type: .string), 
@@ -2138,7 +2138,7 @@ extension Servicecatalog {
     public struct ProvisionProductOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RecordDetail", required: false, type: .structure)
         ]
         /// The detailed result of the ProvisionProduct request, containing the inputs made to that request, the current state of the request, a pointer to the ProvisionedProduct object of the request, and a list of any errors that the request encountered. 
@@ -2156,7 +2156,7 @@ extension Servicecatalog {
     public struct DeleteProductInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
@@ -2180,7 +2180,7 @@ extension Servicecatalog {
     public struct ListProvisioningArtifactsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ProductId", required: true, type: .string), 
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string)
         ]
@@ -2204,7 +2204,7 @@ extension Servicecatalog {
     public struct ListRecordHistoryInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PageSize", required: false, type: .integer), 
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeProperty(label: "AccessLevelFilter", required: false, type: .structure), 
@@ -2242,7 +2242,7 @@ extension Servicecatalog {
     public struct AssociateProductWithPortfolioInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeProperty(label: "SourcePortfolioId", required: false, type: .string), 
             AWSShapeProperty(label: "PortfolioId", required: true, type: .string), 
@@ -2277,7 +2277,7 @@ extension Servicecatalog {
     public struct UpdateProductInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Id", required: true, type: .string), 
             AWSShapeProperty(label: "RemoveTags", required: false, type: .list), 
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
@@ -2357,7 +2357,7 @@ extension Servicecatalog {
     public struct TerminateProvisionedProductInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IgnoreErrors", required: false, type: .boolean), 
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeProperty(label: "TerminateToken", required: true, type: .string), 
@@ -2410,7 +2410,7 @@ extension Servicecatalog {
     public struct UpdateProvisioningArtifactInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ProvisioningArtifactId", required: true, type: .string), 
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeProperty(label: "ProductId", required: true, type: .string), 
@@ -2457,7 +2457,7 @@ extension Servicecatalog {
     public struct DescribePortfolioOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PortfolioDetail", required: false, type: .structure), 
             AWSShapeProperty(label: "Tags", required: false, type: .list)
         ]
@@ -2484,7 +2484,7 @@ extension Servicecatalog {
     public struct CreatePortfolioOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PortfolioDetail", required: false, type: .structure), 
             AWSShapeProperty(label: "Tags", required: false, type: .list)
         ]
@@ -2511,7 +2511,7 @@ extension Servicecatalog {
     public struct AccessLevelFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: false, type: .string), 
             AWSShapeProperty(label: "Key", required: false, type: .enum)
         ]
@@ -2534,7 +2534,7 @@ extension Servicecatalog {
     public struct ConstraintSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Type", required: false, type: .string), 
             AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
@@ -2557,7 +2557,7 @@ extension Servicecatalog {
     public struct ProductViewSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "HasDefaultPath", required: false, type: .boolean), 
             AWSShapeProperty(label: "ShortDescription", required: false, type: .string), 
             AWSShapeProperty(label: "Id", required: false, type: .string), 
@@ -2632,7 +2632,7 @@ extension Servicecatalog {
     public struct RejectPortfolioShareInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PortfolioId", required: true, type: .string), 
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string)
         ]
@@ -2656,7 +2656,7 @@ extension Servicecatalog {
     public struct UpdateProvisioningArtifactOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .enum), 
             AWSShapeProperty(label: "ProvisioningArtifactDetail", required: false, type: .structure), 
             AWSShapeProperty(label: "Info", required: false, type: .map)
@@ -2688,7 +2688,7 @@ extension Servicecatalog {
     public struct DescribeConstraintOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConstraintDetail", required: false, type: .structure), 
             AWSShapeProperty(label: "Status", required: false, type: .enum), 
             AWSShapeProperty(label: "ConstraintParameters", required: false, type: .string)
@@ -2723,7 +2723,7 @@ extension Servicecatalog {
     public struct Principal: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PrincipalARN", required: false, type: .string), 
             AWSShapeProperty(label: "PrincipalType", required: false, type: .enum)
         ]
@@ -2746,7 +2746,7 @@ extension Servicecatalog {
     public struct ProvisioningArtifactDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Description", required: false, type: .string), 
             AWSShapeProperty(label: "Type", required: false, type: .enum), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
@@ -2784,7 +2784,7 @@ extension Servicecatalog {
     public struct ListConstraintsForPortfolioInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PageSize", required: false, type: .integer), 
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeProperty(label: "PortfolioId", required: true, type: .string), 
@@ -2823,7 +2823,7 @@ extension Servicecatalog {
     public struct DisassociateProductFromPortfolioInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PortfolioId", required: true, type: .string), 
             AWSShapeProperty(label: "ProductId", required: true, type: .string), 
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string)
@@ -2853,7 +2853,7 @@ extension Servicecatalog {
     public struct ListPortfoliosOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PortfolioDetails", required: false, type: .list), 
             AWSShapeProperty(label: "NextPageToken", required: false, type: .string)
         ]
@@ -2888,7 +2888,7 @@ extension Servicecatalog {
     public struct ListPrincipalsForPortfolioInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PageSize", required: false, type: .integer), 
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeProperty(label: "PortfolioId", required: true, type: .string), 
@@ -2938,7 +2938,7 @@ extension Servicecatalog {
     public struct DescribeProductOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ProductViewSummary", required: false, type: .structure), 
             AWSShapeProperty(label: "ProvisioningArtifacts", required: false, type: .list)
         ]
@@ -2965,7 +2965,7 @@ extension Servicecatalog {
     public struct RecordDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ProvisioningArtifactId", required: false, type: .string), 
             AWSShapeProperty(label: "UpdatedTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "ProvisionedProductName", required: false, type: .string), 
@@ -3051,7 +3051,7 @@ extension Servicecatalog {
     public struct DescribeProvisioningArtifactOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .enum), 
             AWSShapeProperty(label: "ProvisioningArtifactDetail", required: false, type: .structure), 
             AWSShapeProperty(label: "Info", required: false, type: .map)
@@ -3083,7 +3083,7 @@ extension Servicecatalog {
     public struct AcceptPortfolioShareInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PortfolioId", required: true, type: .string), 
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string)
         ]
@@ -3107,7 +3107,7 @@ extension Servicecatalog {
     public struct RecordTag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: false, type: .string), 
             AWSShapeProperty(label: "Key", required: false, type: .string)
         ]
@@ -3130,7 +3130,7 @@ extension Servicecatalog {
     public struct ListAcceptedPortfolioSharesOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PortfolioDetails", required: false, type: .list), 
             AWSShapeProperty(label: "NextPageToken", required: false, type: .string)
         ]
@@ -3157,7 +3157,7 @@ extension Servicecatalog {
     public struct UpdatePortfolioInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Id", required: true, type: .string), 
             AWSShapeProperty(label: "RemoveTags", required: false, type: .list), 
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
@@ -3218,7 +3218,7 @@ extension Servicecatalog {
     public struct AssociatePrincipalWithPortfolioInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PrincipalARN", required: true, type: .string), 
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeProperty(label: "PrincipalType", required: true, type: .enum), 
@@ -3254,7 +3254,7 @@ extension Servicecatalog {
     public struct DescribeProductAsAdminInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
@@ -3278,7 +3278,7 @@ extension Servicecatalog {
     public struct DescribePortfolioInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
@@ -3302,7 +3302,7 @@ extension Servicecatalog {
     public struct CreateProductInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeProperty(label: "SupportEmail", required: false, type: .string), 
             AWSShapeProperty(label: "Name", required: true, type: .string), 
@@ -3384,7 +3384,7 @@ extension Servicecatalog {
     public struct CreateProvisioningArtifactOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .enum), 
             AWSShapeProperty(label: "ProvisioningArtifactDetail", required: false, type: .structure), 
             AWSShapeProperty(label: "Info", required: false, type: .map)
@@ -3416,7 +3416,7 @@ extension Servicecatalog {
     public struct ListPortfolioAccessInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PortfolioId", required: true, type: .string), 
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string)
         ]

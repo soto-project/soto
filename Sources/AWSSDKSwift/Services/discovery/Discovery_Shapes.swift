@@ -32,7 +32,7 @@ extension Discovery {
     public struct DisassociateConfigurationItemsFromApplicationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "applicationConfigurationId", required: true, type: .string), 
             AWSShapeProperty(label: "configurationIds", required: true, type: .list)
         ]
@@ -57,7 +57,7 @@ extension Discovery {
     public struct DescribeTagsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "tags", required: false, type: .structure), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
@@ -80,7 +80,7 @@ extension Discovery {
     public struct CreateTagsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "tags", required: true, type: .structure), 
             AWSShapeProperty(label: "configurationIds", required: true, type: .list)
         ]
@@ -113,7 +113,7 @@ extension Discovery {
     public struct FilterValues: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [String]?
@@ -138,7 +138,7 @@ extension Discovery {
     public struct ListConfigurationsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "configurationType", required: true, type: .enum), 
             AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
@@ -185,7 +185,7 @@ extension Discovery {
     public struct TagSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [Tag]?
@@ -206,7 +206,7 @@ extension Discovery {
     public struct OrderByElement: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "fieldName", required: true, type: .string), 
             AWSShapeProperty(label: "sortOrder", required: false, type: .enum)
         ]
@@ -230,7 +230,7 @@ extension Discovery {
     public struct AgentInfo: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "health", required: false, type: .enum), 
             AWSShapeProperty(label: "agentNetworkInfoList", required: false, type: .list), 
             AWSShapeProperty(label: "lastHealthPingTime", required: false, type: .string), 
@@ -304,7 +304,7 @@ extension Discovery {
     public struct GetDiscoverySummaryResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "serversMappedtoTags", required: false, type: .long), 
             AWSShapeProperty(label: "applications", required: false, type: .long), 
             AWSShapeProperty(label: "connectorSummary", required: false, type: .structure), 
@@ -347,7 +347,7 @@ extension Discovery {
     public struct DescribeExportConfigurationsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "exportIds", required: false, type: .list), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
             AWSShapeProperty(label: "maxResults", required: false, type: .integer)
@@ -375,7 +375,7 @@ extension Discovery {
     public struct ConfigurationTag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "timeOfCreation", required: false, type: .timestamp), 
             AWSShapeProperty(label: "configurationType", required: false, type: .enum), 
             AWSShapeProperty(label: "value", required: false, type: .string), 
@@ -413,7 +413,7 @@ extension Discovery {
     public struct ListConfigurationsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "configurations", required: false, type: .list), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
@@ -436,7 +436,7 @@ extension Discovery {
     public struct AgentConfigurationStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "description", required: false, type: .string), 
             AWSShapeProperty(label: "agentId", required: false, type: .string), 
             AWSShapeProperty(label: "operationSucceeded", required: false, type: .boolean)
@@ -464,7 +464,7 @@ extension Discovery {
     public struct DeleteApplicationsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "configurationIds", required: true, type: .list)
         ]
         /// Configuration ID of an application to be deleted.
@@ -483,7 +483,7 @@ extension Discovery {
     public struct CustomerConnectorInfo: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "unhealthyConnectors", required: true, type: .integer), 
             AWSShapeProperty(label: "healthyConnectors", required: true, type: .integer), 
             AWSShapeProperty(label: "activeConnectors", required: true, type: .integer), 
@@ -538,7 +538,7 @@ extension Discovery {
     public struct NeighborConnectionDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "destinationServerId", required: true, type: .string), 
             AWSShapeProperty(label: "transportProtocol", required: false, type: .string), 
             AWSShapeProperty(label: "connectionsCount", required: true, type: .long), 
@@ -579,7 +579,7 @@ extension Discovery {
     public struct StopDataCollectionByAgentIdsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "agentIds", required: true, type: .list)
         ]
         /// The IDs of the agents or Connectors that you want to stop collecting data.
@@ -606,7 +606,7 @@ extension Discovery {
     public struct DescribeTagsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "filters", required: false, type: .list), 
             AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string)
@@ -638,7 +638,7 @@ extension Discovery {
     public struct DeleteTagsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "tags", required: false, type: .structure), 
             AWSShapeProperty(label: "configurationIds", required: true, type: .list)
         ]
@@ -662,7 +662,7 @@ extension Discovery {
     public struct DescribeConfigurationsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "configurationIds", required: true, type: .list)
         ]
         /// One or more configuration IDs.
@@ -681,7 +681,7 @@ extension Discovery {
     public struct ListServerNeighborsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "neighbors", required: true, type: .list), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
             AWSShapeProperty(label: "knownDependencyCount", required: false, type: .long)
@@ -728,7 +728,7 @@ extension Discovery {
     public struct DescribeExportConfigurationsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
             AWSShapeProperty(label: "exportsInfo", required: false, type: .list)
         ]
@@ -755,7 +755,7 @@ extension Discovery {
     public struct StopDataCollectionByAgentIdsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "agentsConfigurationStatus", required: false, type: .list)
         ]
         /// Information about agents or the Connector that were instructed to stop collecting data. Information includes the agent/Connector ID, a description of the operation performed, and whether or not the agent/Connector configuration was updated.
@@ -777,7 +777,7 @@ extension Discovery {
     public struct StartDataCollectionByAgentIdsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "agentsConfigurationStatus", required: false, type: .list)
         ]
         /// Information about agents or the Connector that were instructed to start collecting data. Information includes the agent/Connector ID, a description of the operation performed, and whether or not the agent/Connector configuration was updated.
@@ -799,7 +799,7 @@ extension Discovery {
     public struct CreateApplicationResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "configurationId", required: false, type: .string)
         ]
         /// Configuration ID of an application to be created.
@@ -823,7 +823,7 @@ extension Discovery {
     public struct TagFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "name", required: true, type: .string), 
             AWSShapeProperty(label: "values", required: true, type: .structure)
         ]
@@ -848,7 +848,7 @@ extension Discovery {
     public struct AssociateConfigurationItemsToApplicationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "applicationConfigurationId", required: true, type: .string), 
             AWSShapeProperty(label: "configurationIds", required: true, type: .list)
         ]
@@ -873,7 +873,7 @@ extension Discovery {
     public struct Tag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "key", required: true, type: .string), 
             AWSShapeProperty(label: "value", required: true, type: .string)
         ]
@@ -906,7 +906,7 @@ extension Discovery {
     public struct ExportInfo: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "exportId", required: true, type: .string), 
             AWSShapeProperty(label: "exportStatus", required: true, type: .enum), 
             AWSShapeProperty(label: "configurationsDownloadUrl", required: false, type: .string), 
@@ -948,7 +948,7 @@ extension Discovery {
     public struct DescribeAgentsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "agentsInfo", required: false, type: .list), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
@@ -983,7 +983,7 @@ extension Discovery {
     public struct DescribeConfigurationsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "configurations", required: false, type: .list)
         ]
         /// A key in the response map. The value is an array of data.
@@ -1001,7 +1001,7 @@ extension Discovery {
     public struct ConfigurationTagSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [ConfigurationTag]?
@@ -1022,7 +1022,7 @@ extension Discovery {
     public struct DescribeAgentsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
             AWSShapeProperty(label: "filters", required: false, type: .list), 
@@ -1059,7 +1059,7 @@ extension Discovery {
     public struct ExportConfigurationsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "exportId", required: false, type: .string)
         ]
         /// A unique identifier that you can use to query the export status.
@@ -1077,7 +1077,7 @@ extension Discovery {
     public struct CreateApplicationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "description", required: false, type: .string), 
             AWSShapeProperty(label: "name", required: true, type: .string)
         ]
@@ -1109,7 +1109,7 @@ extension Discovery {
     public struct CustomerAgentInfo: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "unhealthyAgents", required: true, type: .integer), 
             AWSShapeProperty(label: "blackListedAgents", required: true, type: .integer), 
             AWSShapeProperty(label: "totalAgents", required: true, type: .integer), 
@@ -1164,7 +1164,7 @@ extension Discovery {
     public struct StartDataCollectionByAgentIdsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "agentIds", required: true, type: .list)
         ]
         /// The IDs of the agents or Connectors that you want to start collecting data. If you send a request to an agent/Connector ID that you do not have permission to contact, according to your AWS account, the service does not throw an exception. Instead, it returns the error in the Description field. If you send a request to multiple agents/Connectors and you do not have permission to contact some of those agents/Connectors, the system does not throw an exception. Instead, the system shows Failed in the Description field.
@@ -1183,7 +1183,7 @@ extension Discovery {
     public struct ListServerNeighborsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
             AWSShapeProperty(label: "portInformationNeeded", required: false, type: .boolean), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
@@ -1222,7 +1222,7 @@ extension Discovery {
     public struct UpdateApplicationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "description", required: false, type: .string), 
             AWSShapeProperty(label: "name", required: false, type: .string), 
             AWSShapeProperty(label: "configurationId", required: true, type: .string)
@@ -1251,7 +1251,7 @@ extension Discovery {
     public struct Filter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "name", required: true, type: .string), 
             AWSShapeProperty(label: "values", required: true, type: .structure), 
             AWSShapeProperty(label: "condition", required: true, type: .string)
@@ -1282,7 +1282,7 @@ extension Discovery {
     public struct AgentNetworkInfo: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "macAddress", required: false, type: .string), 
             AWSShapeProperty(label: "ipAddress", required: false, type: .string)
         ]

@@ -32,7 +32,7 @@ extension Runtimelex {
     public struct GenericAttachment: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "attachmentLinkUrl", required: false, type: .string), 
             AWSShapeProperty(label: "title", required: false, type: .string), 
             AWSShapeProperty(label: "imageUrl", required: false, type: .string), 
@@ -73,7 +73,7 @@ extension Runtimelex {
     public struct ResponseCard: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "genericAttachments", required: false, type: .list), 
             AWSShapeProperty(label: "version", required: false, type: .string), 
             AWSShapeProperty(label: "contentType", required: false, type: .enum)
@@ -115,7 +115,7 @@ extension Runtimelex {
     public struct PostTextResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "slotToElicit", required: false, type: .string), 
             AWSShapeProperty(label: "slots", required: false, type: .map), 
             AWSShapeProperty(label: "sessionAttributes", required: false, type: .map), 
@@ -174,7 +174,7 @@ extension Runtimelex {
         public static var pathParams: [String: String] {
             return ["botAlias": "botAlias", "userId": "userId", "botName": "botName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BotAlias", required: true, type: .string), 
             AWSShapeProperty(label: "sessionAttributes", required: false, type: .map), 
             AWSShapeProperty(label: "UserId", required: true, type: .string), 
@@ -225,7 +225,7 @@ extension Runtimelex {
     public struct Button: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "text", required: true, type: .string), 
             AWSShapeProperty(label: "value", required: true, type: .string)
         ]

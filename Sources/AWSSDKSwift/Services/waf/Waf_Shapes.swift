@@ -38,7 +38,7 @@ extension Waf {
     public struct ListXssMatchSetsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "XssMatchSets", required: false, type: .list), 
             AWSShapeProperty(label: "NextMarker", required: false, type: .string)
         ]
@@ -65,7 +65,7 @@ extension Waf {
     public struct WebACLUpdate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Action", required: true, type: .enum), 
             AWSShapeProperty(label: "ActivatedRule", required: true, type: .structure)
         ]
@@ -90,7 +90,7 @@ extension Waf {
     public struct UpdateSqlInjectionMatchSetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
             AWSShapeProperty(label: "SqlInjectionMatchSetId", required: true, type: .string), 
             AWSShapeProperty(label: "Updates", required: true, type: .list)
@@ -121,7 +121,7 @@ extension Waf {
     public struct Rule: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MetricName", required: false, type: .string), 
             AWSShapeProperty(label: "RuleId", required: true, type: .string), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
@@ -156,7 +156,7 @@ extension Waf {
     public struct IPSetUpdate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Action", required: true, type: .enum), 
             AWSShapeProperty(label: "IPSetDescriptor", required: true, type: .structure)
         ]
@@ -181,7 +181,7 @@ extension Waf {
     public struct ListWebACLsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Limit", required: false, type: .integer), 
             AWSShapeProperty(label: "NextMarker", required: false, type: .string)
         ]
@@ -204,7 +204,7 @@ extension Waf {
     public struct UpdateSizeConstraintSetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
             AWSShapeProperty(label: "Updates", required: true, type: .list), 
             AWSShapeProperty(label: "SizeConstraintSetId", required: true, type: .string)
@@ -235,7 +235,7 @@ extension Waf {
     public struct ActivatedRule: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Priority", required: true, type: .integer), 
             AWSShapeProperty(label: "Action", required: true, type: .structure), 
             AWSShapeProperty(label: "RuleId", required: true, type: .string)
@@ -266,7 +266,7 @@ extension Waf {
     public struct GetIPSetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IPSetId", required: true, type: .string)
         ]
         /// The IPSetId of the IPSet that you want to get. IPSetId is returned by CreateIPSet and by ListIPSets.
@@ -285,7 +285,7 @@ extension Waf {
     public struct ByteMatchSetUpdate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Action", required: true, type: .enum), 
             AWSShapeProperty(label: "ByteMatchTuple", required: true, type: .structure)
         ]
@@ -310,7 +310,7 @@ extension Waf {
     public struct ListIPSetsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Limit", required: false, type: .integer), 
             AWSShapeProperty(label: "NextMarker", required: false, type: .string)
         ]
@@ -346,7 +346,7 @@ extension Waf {
     public struct CreateRuleRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MetricName", required: true, type: .string), 
             AWSShapeProperty(label: "Name", required: true, type: .string), 
             AWSShapeProperty(label: "ChangeToken", required: true, type: .string)
@@ -377,7 +377,7 @@ extension Waf {
     public struct SqlInjectionMatchTuple: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FieldToMatch", required: true, type: .structure), 
             AWSShapeProperty(label: "TextTransformation", required: true, type: .enum)
         ]
@@ -402,7 +402,7 @@ extension Waf {
     public struct GetByteMatchSetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ByteMatchSet", required: false, type: .structure)
         ]
         /// Information about the ByteMatchSet that you specified in the GetByteMatchSet request. For more information, see the following topics:    ByteMatchSet: Contains ByteMatchSetId, ByteMatchTuples, and Name     ByteMatchTuples: Contains an array of ByteMatchTuple objects. Each ByteMatchTuple object contains FieldToMatch, PositionalConstraint, TargetString, and TextTransformation     FieldToMatch: Contains Data and Type   
@@ -420,7 +420,7 @@ extension Waf {
     public struct IPSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IPSetId", required: true, type: .string), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "IPSetDescriptors", required: true, type: .list)
@@ -450,7 +450,7 @@ extension Waf {
     public struct DeleteRuleResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
         ]
         /// The ChangeToken that you used to submit the DeleteRule request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
@@ -468,7 +468,7 @@ extension Waf {
     public struct CreateIPSetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
             AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
@@ -493,7 +493,7 @@ extension Waf {
     public struct UpdateSqlInjectionMatchSetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
         ]
         /// The ChangeToken that you used to submit the UpdateSqlInjectionMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
@@ -511,7 +511,7 @@ extension Waf {
     public struct UpdateIPSetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
         ]
         /// The ChangeToken that you used to submit the UpdateIPSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
@@ -529,7 +529,7 @@ extension Waf {
     public struct WebACLSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: true, type: .string), 
             AWSShapeProperty(label: "WebACLId", required: true, type: .string)
         ]
@@ -554,7 +554,7 @@ extension Waf {
     public struct GetByteMatchSetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ByteMatchSetId", required: true, type: .string)
         ]
         /// The ByteMatchSetId of the ByteMatchSet that you want to get. ByteMatchSetId is returned by CreateByteMatchSet and by ListByteMatchSets.
@@ -573,7 +573,7 @@ extension Waf {
     public struct CreateIPSetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: false, type: .string), 
             AWSShapeProperty(label: "IPSet", required: false, type: .structure)
         ]
@@ -596,7 +596,7 @@ extension Waf {
     public struct GetChangeTokenStatusRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: true, type: .string)
         ]
         /// The change token for which you want to get the status. This change token was previously returned in the GetChangeToken response.
@@ -615,7 +615,7 @@ extension Waf {
     public struct DeleteIPSetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
             AWSShapeProperty(label: "IPSetId", required: true, type: .string)
         ]
@@ -648,7 +648,7 @@ extension Waf {
     public struct CreateXssMatchSetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: false, type: .string), 
             AWSShapeProperty(label: "XssMatchSet", required: false, type: .structure)
         ]
@@ -677,7 +677,7 @@ extension Waf {
     public struct UpdateWebACLResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
         ]
         /// The ChangeToken that you used to submit the UpdateWebACL request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
@@ -695,7 +695,7 @@ extension Waf {
     public struct DeleteWebACLRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
             AWSShapeProperty(label: "WebACLId", required: true, type: .string)
         ]
@@ -720,7 +720,7 @@ extension Waf {
     public struct CreateByteMatchSetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
             AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
@@ -745,7 +745,7 @@ extension Waf {
     public struct TimeWindow: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EndTime", required: true, type: .timestamp), 
             AWSShapeProperty(label: "StartTime", required: true, type: .timestamp)
         ]
@@ -770,7 +770,7 @@ extension Waf {
     public struct CreateSizeConstraintSetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: false, type: .string), 
             AWSShapeProperty(label: "SizeConstraintSet", required: false, type: .structure)
         ]
@@ -793,7 +793,7 @@ extension Waf {
     public struct SizeConstraint: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FieldToMatch", required: true, type: .structure), 
             AWSShapeProperty(label: "TextTransformation", required: true, type: .enum), 
             AWSShapeProperty(label: "ComparisonOperator", required: true, type: .enum), 
@@ -830,7 +830,7 @@ extension Waf {
     public struct IPSetDescriptor: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Type", required: true, type: .enum), 
             AWSShapeProperty(label: "Value", required: true, type: .string)
         ]
@@ -855,7 +855,7 @@ extension Waf {
     public struct DeleteSizeConstraintSetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
         ]
         /// The ChangeToken that you used to submit the DeleteSizeConstraintSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
@@ -873,7 +873,7 @@ extension Waf {
     public struct SizeConstraintSetUpdate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SizeConstraint", required: true, type: .structure), 
             AWSShapeProperty(label: "Action", required: true, type: .enum)
         ]
@@ -898,7 +898,7 @@ extension Waf {
     public struct CreateRuleResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: false, type: .string), 
             AWSShapeProperty(label: "Rule", required: false, type: .structure)
         ]
@@ -921,7 +921,7 @@ extension Waf {
     public struct DeleteIPSetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
         ]
         /// The ChangeToken that you used to submit the DeleteIPSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
@@ -939,7 +939,7 @@ extension Waf {
     public struct UpdateXssMatchSetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "XssMatchSetId", required: true, type: .string), 
             AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
             AWSShapeProperty(label: "Updates", required: true, type: .list)
@@ -970,7 +970,7 @@ extension Waf {
     public struct HTTPRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClientIP", required: false, type: .string), 
             AWSShapeProperty(label: "Headers", required: false, type: .list), 
             AWSShapeProperty(label: "Country", required: false, type: .string), 
@@ -1017,7 +1017,7 @@ extension Waf {
     public struct HTTPHeader: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: false, type: .string), 
             AWSShapeProperty(label: "Name", required: false, type: .string)
         ]
@@ -1040,7 +1040,7 @@ extension Waf {
     public struct ListRulesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Limit", required: false, type: .integer), 
             AWSShapeProperty(label: "NextMarker", required: false, type: .string)
         ]
@@ -1063,7 +1063,7 @@ extension Waf {
     public struct GetWebACLResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WebACL", required: false, type: .structure)
         ]
         /// Information about the WebACL that you specified in the GetWebACL request. For more information, see the following topics:    WebACL: Contains DefaultAction, MetricName, Name, an array of Rule objects, and WebACLId     DefaultAction (Data type is WafAction): Contains Type     Rules: Contains an array of ActivatedRule objects, which contain Action, Priority, and RuleId     Action: Contains Type   
@@ -1081,7 +1081,7 @@ extension Waf {
     public struct XssMatchSetSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "XssMatchSetId", required: true, type: .string), 
             AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
@@ -1106,7 +1106,7 @@ extension Waf {
     public struct GetXssMatchSetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "XssMatchSetId", required: true, type: .string)
         ]
         /// The XssMatchSetId of the XssMatchSet that you want to get. XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets.
@@ -1125,7 +1125,7 @@ extension Waf {
     public struct UpdateIPSetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
             AWSShapeProperty(label: "IPSetId", required: true, type: .string), 
             AWSShapeProperty(label: "Updates", required: true, type: .list)
@@ -1156,7 +1156,7 @@ extension Waf {
     public struct GetSizeConstraintSetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SizeConstraintSetId", required: true, type: .string)
         ]
         /// The SizeConstraintSetId of the SizeConstraintSet that you want to get. SizeConstraintSetId is returned by CreateSizeConstraintSet and by ListSizeConstraintSets.
@@ -1175,7 +1175,7 @@ extension Waf {
     public struct CreateWebACLRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MetricName", required: true, type: .string), 
             AWSShapeProperty(label: "DefaultAction", required: true, type: .structure), 
             AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
@@ -1212,7 +1212,7 @@ extension Waf {
     public struct WafAction: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Type", required: true, type: .enum)
         ]
         /// Specifies how you want AWS WAF to respond to requests that match the settings in a Rule. Valid settings include the following:    ALLOW: AWS WAF allows requests    BLOCK: AWS WAF blocks requests    COUNT: AWS WAF increments a counter of the requests that match all of the conditions in the rule. AWS WAF then continues to inspect the web request based on the remaining rules in the web ACL. You can't specify COUNT for the default action for a WebACL.  
@@ -1231,7 +1231,7 @@ extension Waf {
     public struct CreateWebACLResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: false, type: .string), 
             AWSShapeProperty(label: "WebACL", required: false, type: .structure)
         ]
@@ -1254,7 +1254,7 @@ extension Waf {
     public struct CreateSqlInjectionMatchSetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: false, type: .string), 
             AWSShapeProperty(label: "SqlInjectionMatchSet", required: false, type: .structure)
         ]
@@ -1286,7 +1286,7 @@ extension Waf {
     public struct GetChangeTokenResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
         ]
         /// The ChangeToken that you used in the request. Use this value in a GetChangeTokenStatus request to get the current status of the request. 
@@ -1304,7 +1304,7 @@ extension Waf {
     public struct DeleteSqlInjectionMatchSetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
             AWSShapeProperty(label: "SqlInjectionMatchSetId", required: true, type: .string)
         ]
@@ -1329,7 +1329,7 @@ extension Waf {
     public struct CreateXssMatchSetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
             AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
@@ -1354,7 +1354,7 @@ extension Waf {
     public struct ByteMatchTuple: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FieldToMatch", required: true, type: .structure), 
             AWSShapeProperty(label: "TargetString", required: true, type: .blob), 
             AWSShapeProperty(label: "TextTransformation", required: true, type: .enum), 
@@ -1391,7 +1391,7 @@ extension Waf {
     public struct RuleSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RuleId", required: true, type: .string), 
             AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
@@ -1416,7 +1416,7 @@ extension Waf {
     public struct GetSizeConstraintSetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SizeConstraintSet", required: false, type: .structure)
         ]
         /// Information about the SizeConstraintSet that you specified in the GetSizeConstraintSet request. For more information, see the following topics:    SizeConstraintSet: Contains SizeConstraintSetId, SizeConstraints, and Name     SizeConstraints: Contains an array of SizeConstraint objects. Each SizeConstraint object contains FieldToMatch, TextTransformation, ComparisonOperator, and Size     FieldToMatch: Contains Data and Type   
@@ -1434,7 +1434,7 @@ extension Waf {
     public struct XssMatchSetUpdate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "XssMatchTuple", required: true, type: .structure), 
             AWSShapeProperty(label: "Action", required: true, type: .enum)
         ]
@@ -1459,7 +1459,7 @@ extension Waf {
     public struct ListXssMatchSetsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Limit", required: false, type: .integer), 
             AWSShapeProperty(label: "NextMarker", required: false, type: .string)
         ]
@@ -1482,7 +1482,7 @@ extension Waf {
     public struct ListSqlInjectionMatchSetsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextMarker", required: false, type: .string), 
             AWSShapeProperty(label: "SqlInjectionMatchSets", required: false, type: .list)
         ]
@@ -1509,7 +1509,7 @@ extension Waf {
     public struct UpdateRuleResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
         ]
         /// The ChangeToken that you used to submit the UpdateRule request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
@@ -1527,7 +1527,7 @@ extension Waf {
     public struct SqlInjectionMatchSetUpdate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Action", required: true, type: .enum), 
             AWSShapeProperty(label: "SqlInjectionMatchTuple", required: true, type: .structure)
         ]
@@ -1552,7 +1552,7 @@ extension Waf {
     public struct UpdateRuleRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
             AWSShapeProperty(label: "RuleId", required: true, type: .string), 
             AWSShapeProperty(label: "Updates", required: true, type: .list)
@@ -1583,7 +1583,7 @@ extension Waf {
     public struct GetSampledRequestsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxItems", required: true, type: .long), 
             AWSShapeProperty(label: "TimeWindow", required: true, type: .structure), 
             AWSShapeProperty(label: "RuleId", required: true, type: .string), 
@@ -1620,7 +1620,7 @@ extension Waf {
     public struct UpdateXssMatchSetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
         ]
         /// The ChangeToken that you used to submit the UpdateXssMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
@@ -1638,7 +1638,7 @@ extension Waf {
     public struct CreateSqlInjectionMatchSetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
             AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
@@ -1663,7 +1663,7 @@ extension Waf {
     public struct DeleteRuleRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
             AWSShapeProperty(label: "RuleId", required: true, type: .string)
         ]
@@ -1688,7 +1688,7 @@ extension Waf {
     public struct DeleteWebACLResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
         ]
         /// The ChangeToken that you used to submit the DeleteWebACL request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
@@ -1706,7 +1706,7 @@ extension Waf {
     public struct UpdateSizeConstraintSetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
         ]
         /// The ChangeToken that you used to submit the UpdateSizeConstraintSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
@@ -1724,7 +1724,7 @@ extension Waf {
     public struct SqlInjectionMatchSetSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SqlInjectionMatchSetId", required: true, type: .string), 
             AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
@@ -1749,7 +1749,7 @@ extension Waf {
     public struct ListWebACLsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WebACLs", required: false, type: .list), 
             AWSShapeProperty(label: "NextMarker", required: false, type: .string)
         ]
@@ -1776,7 +1776,7 @@ extension Waf {
     public struct DeleteXssMatchSetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "XssMatchSetId", required: true, type: .string), 
             AWSShapeProperty(label: "ChangeToken", required: true, type: .string)
         ]
@@ -1801,7 +1801,7 @@ extension Waf {
     public struct SizeConstraintSetSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: true, type: .string), 
             AWSShapeProperty(label: "SizeConstraintSetId", required: true, type: .string)
         ]
@@ -1826,7 +1826,7 @@ extension Waf {
     public struct DeleteByteMatchSetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
             AWSShapeProperty(label: "ByteMatchSetId", required: true, type: .string)
         ]
@@ -1851,7 +1851,7 @@ extension Waf {
     public struct FieldToMatch: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Type", required: true, type: .enum), 
             AWSShapeProperty(label: "Data", required: false, type: .string)
         ]
@@ -1882,7 +1882,7 @@ extension Waf {
     public struct UpdateByteMatchSetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
         ]
         /// The ChangeToken that you used to submit the UpdateByteMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
@@ -1900,7 +1900,7 @@ extension Waf {
     public struct CreateByteMatchSetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: false, type: .string), 
             AWSShapeProperty(label: "ByteMatchSet", required: false, type: .structure)
         ]
@@ -1923,7 +1923,7 @@ extension Waf {
     public struct SampledHTTPRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Timestamp", required: false, type: .timestamp), 
             AWSShapeProperty(label: "Request", required: true, type: .structure), 
             AWSShapeProperty(label: "Weight", required: true, type: .long), 
@@ -1958,7 +1958,7 @@ extension Waf {
     public struct IPSetSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IPSetId", required: true, type: .string), 
             AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
@@ -1992,7 +1992,7 @@ extension Waf {
     public struct GetIPSetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IPSet", required: false, type: .structure)
         ]
         /// Information about the IPSet that you specified in the GetIPSet request. For more information, see the following topics:    IPSet: Contains IPSetDescriptors, IPSetId, and Name     IPSetDescriptors: Contains an array of IPSetDescriptor objects. Each IPSetDescriptor object contains Type and Value   
@@ -2010,7 +2010,7 @@ extension Waf {
     public struct ListByteMatchSetsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Limit", required: false, type: .integer), 
             AWSShapeProperty(label: "NextMarker", required: false, type: .string)
         ]
@@ -2033,7 +2033,7 @@ extension Waf {
     public struct XssMatchTuple: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FieldToMatch", required: true, type: .structure), 
             AWSShapeProperty(label: "TextTransformation", required: true, type: .enum)
         ]
@@ -2065,7 +2065,7 @@ extension Waf {
     public struct DeleteByteMatchSetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
         ]
         /// The ChangeToken that you used to submit the DeleteByteMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
@@ -2083,7 +2083,7 @@ extension Waf {
     public struct GetSqlInjectionMatchSetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SqlInjectionMatchSetId", required: true, type: .string)
         ]
         /// The SqlInjectionMatchSetId of the SqlInjectionMatchSet that you want to get. SqlInjectionMatchSetId is returned by CreateSqlInjectionMatchSet and by ListSqlInjectionMatchSets.
@@ -2111,7 +2111,7 @@ extension Waf {
     public struct DeleteSizeConstraintSetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
             AWSShapeProperty(label: "SizeConstraintSetId", required: true, type: .string)
         ]
@@ -2136,7 +2136,7 @@ extension Waf {
     public struct GetSqlInjectionMatchSetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SqlInjectionMatchSet", required: false, type: .structure)
         ]
         /// Information about the SqlInjectionMatchSet that you specified in the GetSqlInjectionMatchSet request. For more information, see the following topics:    SqlInjectionMatchSet: Contains Name, SqlInjectionMatchSetId, and an array of SqlInjectionMatchTuple objects    SqlInjectionMatchTuple: Each SqlInjectionMatchTuple object contains FieldToMatch and TextTransformation     FieldToMatch: Contains Data and Type   
@@ -2164,7 +2164,7 @@ extension Waf {
     public struct GetChangeTokenStatusResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeTokenStatus", required: false, type: .enum)
         ]
         /// The status of the change token.
@@ -2182,7 +2182,7 @@ extension Waf {
     public struct UpdateByteMatchSetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
             AWSShapeProperty(label: "ByteMatchSetId", required: true, type: .string), 
             AWSShapeProperty(label: "Updates", required: true, type: .list)
@@ -2219,7 +2219,7 @@ extension Waf {
     public struct SizeConstraintSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SizeConstraints", required: true, type: .list), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "SizeConstraintSetId", required: true, type: .string)
@@ -2249,7 +2249,7 @@ extension Waf {
     public struct GetXssMatchSetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "XssMatchSet", required: false, type: .structure)
         ]
         /// Information about the XssMatchSet that you specified in the GetXssMatchSet request. For more information, see the following topics:    XssMatchSet: Contains Name, XssMatchSetId, and an array of XssMatchTuple objects    XssMatchTuple: Each XssMatchTuple object contains FieldToMatch and TextTransformation     FieldToMatch: Contains Data and Type   
@@ -2267,7 +2267,7 @@ extension Waf {
     public struct UpdateWebACLRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DefaultAction", required: false, type: .structure), 
             AWSShapeProperty(label: "Updates", required: false, type: .list), 
             AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
@@ -2306,7 +2306,7 @@ extension Waf {
     public struct GetWebACLRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WebACLId", required: true, type: .string)
         ]
         /// The WebACLId of the WebACL that you want to get. WebACLId is returned by CreateWebACL and by ListWebACLs.
@@ -2325,7 +2325,7 @@ extension Waf {
     public struct ListSqlInjectionMatchSetsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Limit", required: false, type: .integer), 
             AWSShapeProperty(label: "NextMarker", required: false, type: .string)
         ]
@@ -2348,7 +2348,7 @@ extension Waf {
     public struct ByteMatchSetSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ByteMatchSetId", required: true, type: .string), 
             AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
@@ -2373,7 +2373,7 @@ extension Waf {
     public struct ListRulesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Rules", required: false, type: .list), 
             AWSShapeProperty(label: "NextMarker", required: false, type: .string)
         ]
@@ -2400,7 +2400,7 @@ extension Waf {
     public struct ByteMatchSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ByteMatchSetId", required: true, type: .string), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "ByteMatchTuples", required: true, type: .list)
@@ -2430,7 +2430,7 @@ extension Waf {
     public struct ListSizeConstraintSetsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SizeConstraintSets", required: false, type: .list), 
             AWSShapeProperty(label: "NextMarker", required: false, type: .string)
         ]
@@ -2457,7 +2457,7 @@ extension Waf {
     public struct GetRuleResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Rule", required: false, type: .structure)
         ]
         /// Information about the Rule that you specified in the GetRule request. For more information, see the following topics:    Rule: Contains MetricName, Name, an array of Predicate objects, and RuleId     Predicate: Each Predicate object contains DataId, Negated, and Type   
@@ -2475,7 +2475,7 @@ extension Waf {
     public struct CreateSizeConstraintSetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
             AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
@@ -2500,7 +2500,7 @@ extension Waf {
     public struct ListByteMatchSetsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ByteMatchSets", required: false, type: .list), 
             AWSShapeProperty(label: "NextMarker", required: false, type: .string)
         ]
@@ -2527,7 +2527,7 @@ extension Waf {
     public struct Predicate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Type", required: true, type: .enum), 
             AWSShapeProperty(label: "Negated", required: true, type: .boolean), 
             AWSShapeProperty(label: "DataId", required: true, type: .string)
@@ -2558,7 +2558,7 @@ extension Waf {
     public struct RuleUpdate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Action", required: true, type: .enum), 
             AWSShapeProperty(label: "Predicate", required: true, type: .structure)
         ]
@@ -2583,7 +2583,7 @@ extension Waf {
     public struct DeleteSqlInjectionMatchSetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
         ]
         /// The ChangeToken that you used to submit the DeleteSqlInjectionMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
@@ -2601,7 +2601,7 @@ extension Waf {
     public struct GetSampledRequestsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PopulationSize", required: false, type: .long), 
             AWSShapeProperty(label: "SampledRequests", required: false, type: .list), 
             AWSShapeProperty(label: "TimeWindow", required: false, type: .structure)
@@ -2643,7 +2643,7 @@ extension Waf {
     public struct ListIPSetsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IPSets", required: false, type: .list), 
             AWSShapeProperty(label: "NextMarker", required: false, type: .string)
         ]
@@ -2670,7 +2670,7 @@ extension Waf {
     public struct DeleteXssMatchSetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
         ]
         /// The ChangeToken that you used to submit the DeleteXssMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
@@ -2688,7 +2688,7 @@ extension Waf {
     public struct XssMatchSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "XssMatchSetId", required: true, type: .string), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "XssMatchTuples", required: true, type: .list)
@@ -2718,7 +2718,7 @@ extension Waf {
     public struct GetRuleRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RuleId", required: true, type: .string)
         ]
         /// The RuleId of the Rule that you want to get. RuleId is returned by CreateRule and by ListRules.
@@ -2737,7 +2737,7 @@ extension Waf {
     public struct WebACL: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MetricName", required: false, type: .string), 
             AWSShapeProperty(label: "DefaultAction", required: true, type: .structure), 
             AWSShapeProperty(label: "Rules", required: true, type: .list), 
@@ -2778,7 +2778,7 @@ extension Waf {
     public struct ListSizeConstraintSetsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Limit", required: false, type: .integer), 
             AWSShapeProperty(label: "NextMarker", required: false, type: .string)
         ]
@@ -2801,7 +2801,7 @@ extension Waf {
     public struct SqlInjectionMatchSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SqlInjectionMatchSetId", required: true, type: .string), 
             AWSShapeProperty(label: "SqlInjectionMatchTuples", required: true, type: .list), 
             AWSShapeProperty(label: "Name", required: false, type: .string)

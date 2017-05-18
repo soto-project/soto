@@ -38,7 +38,7 @@ extension Shield {
     public struct Protection: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceArn", required: false, type: .string), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "Id", required: false, type: .string)
@@ -74,7 +74,7 @@ extension Shield {
     public struct AttackSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "ResourceArn", required: false, type: .string), 
@@ -116,7 +116,7 @@ extension Shield {
     public struct Subscription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "TimeCommitmentInSeconds", required: false, type: .long)
         ]
@@ -139,7 +139,7 @@ extension Shield {
     public struct AttackDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "Mitigations", required: false, type: .list), 
             AWSShapeProperty(label: "ResourceArn", required: false, type: .string), 
@@ -199,7 +199,7 @@ extension Shield {
     public struct ListAttacksResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "AttackSummaries", required: false, type: .list)
         ]
@@ -226,7 +226,7 @@ extension Shield {
     public struct DescribeAttackResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Attack", required: false, type: .structure)
         ]
         /// The attack that is described.
@@ -244,7 +244,7 @@ extension Shield {
     public struct ListProtectionsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Protections", required: false, type: .list)
         ]
@@ -271,7 +271,7 @@ extension Shield {
     public struct SummarizedCounter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Unit", required: false, type: .string), 
             AWSShapeProperty(label: "Average", required: false, type: .double), 
             AWSShapeProperty(label: "N", required: false, type: .integer), 
@@ -314,7 +314,7 @@ extension Shield {
     public struct CreateProtectionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: true, type: .string), 
             AWSShapeProperty(label: "ResourceArn", required: true, type: .string)
         ]
@@ -339,7 +339,7 @@ extension Shield {
     public struct DescribeProtectionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ProtectionId", required: true, type: .string)
         ]
         /// The unique identifier (ID) for the Protection object that is described.
@@ -358,7 +358,7 @@ extension Shield {
     public struct DescribeAttackRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AttackId", required: true, type: .string)
         ]
         /// The unique identifier (ID) for the attack that to be described.
@@ -377,7 +377,7 @@ extension Shield {
     public struct DescribeProtectionResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Protection", required: false, type: .structure)
         ]
         /// The Protection object that is described.
@@ -395,7 +395,7 @@ extension Shield {
     public struct DeleteProtectionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ProtectionId", required: true, type: .string)
         ]
         /// The unique identifier (ID) for the Protection object to be deleted.
@@ -422,7 +422,7 @@ extension Shield {
     public struct TimeRange: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ToExclusive", required: false, type: .timestamp), 
             AWSShapeProperty(label: "FromInclusive", required: false, type: .timestamp)
         ]
@@ -453,7 +453,7 @@ extension Shield {
     public struct CreateProtectionResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ProtectionId", required: false, type: .string)
         ]
         /// The unique identifier (ID) for the Protection object that is created.
@@ -471,7 +471,7 @@ extension Shield {
     public struct SummarizedAttackVector: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VectorCounters", required: false, type: .list), 
             AWSShapeProperty(label: "VectorType", required: true, type: .string)
         ]
@@ -499,7 +499,7 @@ extension Shield {
     public struct Mitigation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MitigationName", required: false, type: .string)
         ]
         /// The name of the mitigation taken for this attack.
@@ -517,7 +517,7 @@ extension Shield {
     public struct DescribeSubscriptionResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Subscription", required: false, type: .structure)
         ]
         /// The AWS Shield Advanced subscription details for an account.
@@ -543,7 +543,7 @@ extension Shield {
     public struct ListAttacksRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StartTime", required: false, type: .structure), 
             AWSShapeProperty(label: "ResourceArns", required: false, type: .list), 
             AWSShapeProperty(label: "EndTime", required: false, type: .structure), 
@@ -581,7 +581,7 @@ extension Shield {
     public struct AttackVectorDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VectorType", required: true, type: .string)
         ]
         /// The attack type, for example, SNMP reflection or SYN flood.
@@ -600,7 +600,7 @@ extension Shield {
     public struct SubResourceSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Counters", required: false, type: .list), 
             AWSShapeProperty(label: "Type", required: false, type: .enum), 
             AWSShapeProperty(label: "AttackVectors", required: false, type: .list), 
@@ -641,7 +641,7 @@ extension Shield {
     public struct ListProtectionsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]

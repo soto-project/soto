@@ -40,7 +40,7 @@ extension Dynamodb {
     public struct UpdateTableInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AttributeDefinitions", required: false, type: .list), 
             AWSShapeProperty(label: "ProvisionedThroughput", required: false, type: .structure), 
             AWSShapeProperty(label: "TableName", required: true, type: .string), 
@@ -87,7 +87,7 @@ extension Dynamodb {
     public struct DeleteRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Key", required: true, type: .map)
         ]
         /// A map of attribute name to attribute values, representing the primary key of the item to delete. All of the table's primary key attributes must be specified, and their data types must match those of the table's key schema.
@@ -111,7 +111,7 @@ extension Dynamodb {
     public struct CreateGlobalSecondaryIndexAction: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Projection", required: true, type: .structure), 
             AWSShapeProperty(label: "IndexName", required: true, type: .string), 
             AWSShapeProperty(label: "KeySchema", required: true, type: .list), 
@@ -148,7 +148,7 @@ extension Dynamodb {
     public struct Projection: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NonKeyAttributes", required: false, type: .list), 
             AWSShapeProperty(label: "ProjectionType", required: false, type: .enum)
         ]
@@ -171,7 +171,7 @@ extension Dynamodb {
     public struct KeySchemaElement: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AttributeName", required: true, type: .string), 
             AWSShapeProperty(label: "KeyType", required: true, type: .enum)
         ]
@@ -196,7 +196,7 @@ extension Dynamodb {
     public struct TagResourceInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceArn", required: true, type: .string), 
             AWSShapeProperty(label: "Tags", required: true, type: .list)
         ]
@@ -221,7 +221,7 @@ extension Dynamodb {
     public struct ProvisionedThroughput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WriteCapacityUnits", required: true, type: .long), 
             AWSShapeProperty(label: "ReadCapacityUnits", required: true, type: .long)
         ]
@@ -259,7 +259,7 @@ extension Dynamodb {
     public struct DescribeTimeToLiveOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TimeToLiveDescription", required: false, type: .structure)
         ]
         public let timeToLiveDescription: TimeToLiveDescription?
@@ -276,7 +276,7 @@ extension Dynamodb {
     public struct ConsumedCapacity: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CapacityUnits", required: false, type: .double), 
             AWSShapeProperty(label: "Table", required: false, type: .structure), 
             AWSShapeProperty(label: "TableName", required: false, type: .string), 
@@ -340,7 +340,7 @@ extension Dynamodb {
     public struct ExpectedAttributeValue: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AttributeValueList", required: false, type: .list), 
             AWSShapeProperty(label: "ComparisonOperator", required: false, type: .enum), 
             AWSShapeProperty(label: "Value", required: false, type: .structure), 
@@ -377,7 +377,7 @@ extension Dynamodb {
     public struct QueryInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConsistentRead", required: false, type: .boolean), 
             AWSShapeProperty(label: "ExpressionAttributeNames", required: false, type: .map), 
             AWSShapeProperty(label: "ProjectionExpression", required: false, type: .string), 
@@ -521,7 +521,7 @@ extension Dynamodb {
     public struct PutItemOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConsumedCapacity", required: false, type: .structure), 
             AWSShapeProperty(label: "Attributes", required: false, type: .map), 
             AWSShapeProperty(label: "ItemCollectionMetrics", required: false, type: .structure)
@@ -558,7 +558,7 @@ extension Dynamodb {
     public struct Tag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: true, type: .string), 
             AWSShapeProperty(label: "Key", required: true, type: .string)
         ]
@@ -583,7 +583,7 @@ extension Dynamodb {
     public struct GetItemInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConsistentRead", required: false, type: .boolean), 
             AWSShapeProperty(label: "ExpressionAttributeNames", required: false, type: .map), 
             AWSShapeProperty(label: "ProjectionExpression", required: false, type: .string), 
@@ -641,7 +641,7 @@ extension Dynamodb {
     public struct AttributeValueUpdate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Action", required: false, type: .enum), 
             AWSShapeProperty(label: "Value", required: false, type: .structure)
         ]
@@ -671,7 +671,7 @@ extension Dynamodb {
     public struct WriteRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DeleteRequest", required: false, type: .structure), 
             AWSShapeProperty(label: "PutRequest", required: false, type: .structure)
         ]
@@ -694,7 +694,7 @@ extension Dynamodb {
     public struct CreateTableOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TableDescription", required: false, type: .structure)
         ]
         /// Represents the properties of the table.
@@ -712,7 +712,7 @@ extension Dynamodb {
     public struct TimeToLiveSpecification: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AttributeName", required: true, type: .string), 
             AWSShapeProperty(label: "Enabled", required: true, type: .boolean)
         ]
@@ -737,7 +737,7 @@ extension Dynamodb {
     public struct ListTagsOfResourceInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceArn", required: true, type: .string), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -769,7 +769,7 @@ extension Dynamodb {
     public struct DeleteTableInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TableName", required: true, type: .string)
         ]
         /// The name of the table to delete.
@@ -788,7 +788,7 @@ extension Dynamodb {
     public struct ScanOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LastEvaluatedKey", required: false, type: .map), 
             AWSShapeProperty(label: "ConsumedCapacity", required: false, type: .structure), 
             AWSShapeProperty(label: "ScannedCount", required: false, type: .integer), 
@@ -847,7 +847,7 @@ extension Dynamodb {
     public struct GlobalSecondaryIndex: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Projection", required: true, type: .structure), 
             AWSShapeProperty(label: "IndexName", required: true, type: .string), 
             AWSShapeProperty(label: "KeySchema", required: true, type: .list), 
@@ -890,7 +890,7 @@ extension Dynamodb {
     public struct PutRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: true, type: .map)
         ]
         /// A map of attribute name to attribute values, representing the primary key of an item to be processed by PutItem. All of the table's primary key attributes must be specified, and their data types must match those of the table's key schema. If any attributes are present in the item which are part of an index key schema for the table, their types must match the index key schema.
@@ -914,7 +914,7 @@ extension Dynamodb {
     public struct CreateTableInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AttributeDefinitions", required: true, type: .list), 
             AWSShapeProperty(label: "KeySchema", required: true, type: .list), 
             AWSShapeProperty(label: "ProvisionedThroughput", required: true, type: .structure), 
@@ -974,7 +974,7 @@ extension Dynamodb {
     public struct ListTablesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ExclusiveStartTableName", required: false, type: .string), 
             AWSShapeProperty(label: "Limit", required: false, type: .integer)
         ]
@@ -997,7 +997,7 @@ extension Dynamodb {
     public struct TimeToLiveDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TimeToLiveStatus", required: false, type: .enum), 
             AWSShapeProperty(label: "AttributeName", required: false, type: .string)
         ]
@@ -1020,7 +1020,7 @@ extension Dynamodb {
     public struct BatchGetItemInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReturnConsumedCapacity", required: false, type: .enum), 
             AWSShapeProperty(label: "RequestItems", required: true, type: .map)
         ]
@@ -1048,7 +1048,7 @@ extension Dynamodb {
     public struct TableDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LatestStreamArn", required: false, type: .string), 
             AWSShapeProperty(label: "ProvisionedThroughput", required: false, type: .structure), 
             AWSShapeProperty(label: "KeySchema", required: false, type: .list), 
@@ -1156,7 +1156,7 @@ extension Dynamodb {
     public struct QueryOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LastEvaluatedKey", required: false, type: .map), 
             AWSShapeProperty(label: "ConsumedCapacity", required: false, type: .structure), 
             AWSShapeProperty(label: "ScannedCount", required: false, type: .integer), 
@@ -1215,7 +1215,7 @@ extension Dynamodb {
     public struct UntagResourceInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceArn", required: true, type: .string), 
             AWSShapeProperty(label: "TagKeys", required: true, type: .list)
         ]
@@ -1240,7 +1240,7 @@ extension Dynamodb {
     public struct LocalSecondaryIndexDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Projection", required: false, type: .structure), 
             AWSShapeProperty(label: "IndexName", required: false, type: .string), 
             AWSShapeProperty(label: "KeySchema", required: false, type: .list), 
@@ -1287,7 +1287,7 @@ extension Dynamodb {
     public struct StreamSpecification: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StreamViewType", required: false, type: .enum), 
             AWSShapeProperty(label: "StreamEnabled", required: false, type: .boolean)
         ]
@@ -1310,7 +1310,7 @@ extension Dynamodb {
     public struct DescribeTimeToLiveInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TableName", required: true, type: .string)
         ]
         /// The name of the table to be described.
@@ -1337,7 +1337,7 @@ extension Dynamodb {
     public struct DeleteItemInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ExpressionAttributeNames", required: false, type: .map), 
             AWSShapeProperty(label: "ConditionExpression", required: false, type: .string), 
             AWSShapeProperty(label: "ConditionalOperator", required: false, type: .enum), 
@@ -1435,7 +1435,7 @@ extension Dynamodb {
     public struct DescribeTableOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Table", required: false, type: .structure)
         ]
         /// The properties of the table.
@@ -1453,7 +1453,7 @@ extension Dynamodb {
     public struct UpdateTimeToLiveInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TableName", required: true, type: .string), 
             AWSShapeProperty(label: "TimeToLiveSpecification", required: true, type: .structure)
         ]
@@ -1486,7 +1486,7 @@ extension Dynamodb {
     public struct ScanInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConsistentRead", required: false, type: .boolean), 
             AWSShapeProperty(label: "ExpressionAttributeNames", required: false, type: .map), 
             AWSShapeProperty(label: "ProjectionExpression", required: false, type: .string), 
@@ -1610,7 +1610,7 @@ extension Dynamodb {
     public struct BatchWriteItemOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UnprocessedItems", required: false, type: .map), 
             AWSShapeProperty(label: "ConsumedCapacity", required: false, type: .list), 
             AWSShapeProperty(label: "ItemCollectionMetrics", required: false, type: .map)
@@ -1662,7 +1662,7 @@ extension Dynamodb {
     public struct DeleteTableOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TableDescription", required: false, type: .structure)
         ]
         /// Represents the properties of a table.
@@ -1680,7 +1680,7 @@ extension Dynamodb {
     public struct ProvisionedThroughputDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WriteCapacityUnits", required: false, type: .long), 
             AWSShapeProperty(label: "LastIncreaseDateTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "ReadCapacityUnits", required: false, type: .long), 
@@ -1718,7 +1718,7 @@ extension Dynamodb {
     public struct PutItemInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ExpressionAttributeNames", required: false, type: .map), 
             AWSShapeProperty(label: "ConditionExpression", required: false, type: .string), 
             AWSShapeProperty(label: "ConditionalOperator", required: false, type: .enum), 
@@ -1809,7 +1809,7 @@ extension Dynamodb {
     public struct Condition: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ComparisonOperator", required: true, type: .enum), 
             AWSShapeProperty(label: "AttributeValueList", required: false, type: .list)
         ]
@@ -1837,7 +1837,7 @@ extension Dynamodb {
     public struct GlobalSecondaryIndexDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IndexName", required: false, type: .string), 
             AWSShapeProperty(label: "KeySchema", required: false, type: .list), 
             AWSShapeProperty(label: "IndexArn", required: false, type: .string), 
@@ -1899,7 +1899,7 @@ extension Dynamodb {
     public struct DeleteItemOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConsumedCapacity", required: false, type: .structure), 
             AWSShapeProperty(label: "Attributes", required: false, type: .map), 
             AWSShapeProperty(label: "ItemCollectionMetrics", required: false, type: .structure)
@@ -1936,7 +1936,7 @@ extension Dynamodb {
     public struct DescribeLimitsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TableMaxWriteCapacityUnits", required: false, type: .long), 
             AWSShapeProperty(label: "TableMaxReadCapacityUnits", required: false, type: .long), 
             AWSShapeProperty(label: "AccountMaxReadCapacityUnits", required: false, type: .long), 
@@ -1969,7 +1969,7 @@ extension Dynamodb {
     public struct BatchGetItemOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UnprocessedKeys", required: false, type: .map), 
             AWSShapeProperty(label: "ConsumedCapacity", required: false, type: .list), 
             AWSShapeProperty(label: "Responses", required: false, type: .map)
@@ -2042,7 +2042,7 @@ extension Dynamodb {
     public struct BatchWriteItemInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReturnItemCollectionMetrics", required: false, type: .enum), 
             AWSShapeProperty(label: "ReturnConsumedCapacity", required: false, type: .enum), 
             AWSShapeProperty(label: "RequestItems", required: true, type: .map)
@@ -2076,7 +2076,7 @@ extension Dynamodb {
     public struct UpdateItemInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AttributeUpdates", required: false, type: .map), 
             AWSShapeProperty(label: "ExpressionAttributeNames", required: false, type: .map), 
             AWSShapeProperty(label: "ConditionExpression", required: false, type: .string), 
@@ -2186,7 +2186,7 @@ extension Dynamodb {
     public struct GetItemOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .map), 
             AWSShapeProperty(label: "ConsumedCapacity", required: false, type: .structure)
         ]
@@ -2218,7 +2218,7 @@ extension Dynamodb {
     public struct ItemCollectionMetrics: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ItemCollectionKey", required: false, type: .map), 
             AWSShapeProperty(label: "SizeEstimateRangeGB", required: false, type: .list)
         ]
@@ -2250,7 +2250,7 @@ extension Dynamodb {
     public struct LocalSecondaryIndex: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Projection", required: true, type: .structure), 
             AWSShapeProperty(label: "IndexName", required: true, type: .string), 
             AWSShapeProperty(label: "KeySchema", required: true, type: .list)
@@ -2281,7 +2281,7 @@ extension Dynamodb {
     public struct DeleteGlobalSecondaryIndexAction: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IndexName", required: true, type: .string)
         ]
         /// The name of the global secondary index to be deleted.
@@ -2300,7 +2300,7 @@ extension Dynamodb {
     public struct UpdateTimeToLiveOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TimeToLiveSpecification", required: false, type: .structure)
         ]
         /// Represents the output of an UpdateTimeToLive operation.
@@ -2318,7 +2318,7 @@ extension Dynamodb {
     public struct AttributeDefinition: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AttributeType", required: true, type: .enum), 
             AWSShapeProperty(label: "AttributeName", required: true, type: .string)
         ]
@@ -2343,7 +2343,7 @@ extension Dynamodb {
     public struct KeysAndAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConsistentRead", required: false, type: .boolean), 
             AWSShapeProperty(label: "ExpressionAttributeNames", required: false, type: .map), 
             AWSShapeProperty(label: "ProjectionExpression", required: false, type: .string), 
@@ -2394,7 +2394,7 @@ extension Dynamodb {
     public struct ListTagsOfResourceOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Tags", required: false, type: .list)
         ]
@@ -2421,7 +2421,7 @@ extension Dynamodb {
     public struct DescribeTableInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TableName", required: true, type: .string)
         ]
         /// The name of the table to describe.
@@ -2440,7 +2440,7 @@ extension Dynamodb {
     public struct ListTablesOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TableNames", required: false, type: .list), 
             AWSShapeProperty(label: "LastEvaluatedTableName", required: false, type: .string)
         ]
@@ -2463,7 +2463,7 @@ extension Dynamodb {
     public struct AttributeValue: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NS", required: false, type: .list), 
             AWSShapeProperty(label: "N", required: false, type: .string), 
             AWSShapeProperty(label: "BOOL", required: false, type: .boolean), 
@@ -2539,7 +2539,7 @@ extension Dynamodb {
     public struct UpdateTableOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TableDescription", required: false, type: .structure)
         ]
         /// Represents the properties of the table.
@@ -2557,7 +2557,7 @@ extension Dynamodb {
     public struct UpdateItemOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConsumedCapacity", required: false, type: .structure), 
             AWSShapeProperty(label: "Attributes", required: false, type: .map), 
             AWSShapeProperty(label: "ItemCollectionMetrics", required: false, type: .structure)
@@ -2594,7 +2594,7 @@ extension Dynamodb {
     public struct UpdateGlobalSecondaryIndexAction: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IndexName", required: true, type: .string), 
             AWSShapeProperty(label: "ProvisionedThroughput", required: true, type: .structure)
         ]
@@ -2619,7 +2619,7 @@ extension Dynamodb {
     public struct Capacity: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CapacityUnits", required: false, type: .double)
         ]
         /// The total number of capacity units consumed on a table or an index.
@@ -2654,7 +2654,7 @@ extension Dynamodb {
     public struct GlobalSecondaryIndexUpdate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Create", required: false, type: .structure), 
             AWSShapeProperty(label: "Update", required: false, type: .structure), 
             AWSShapeProperty(label: "Delete", required: false, type: .structure)

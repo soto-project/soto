@@ -32,7 +32,7 @@ extension Sqs {
     public struct ReceiveMessageRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MessageAttributeNames", required: false, type: .structure), 
             AWSShapeProperty(label: "VisibilityTimeout", required: false, type: .integer), 
             AWSShapeProperty(label: "MaxNumberOfMessages", required: false, type: .integer), 
@@ -81,7 +81,7 @@ extension Sqs {
     public struct GetQueueUrlRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "QueueName", required: true, type: .string), 
             AWSShapeProperty(label: "QueueOwnerAWSAccountId", required: false, type: .string)
         ]
@@ -105,7 +105,7 @@ extension Sqs {
     public struct SendMessageResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MD5OfMessageAttributes", required: false, type: .string), 
             AWSShapeProperty(label: "MD5OfMessageBody", required: false, type: .string), 
             AWSShapeProperty(label: "SequenceNumber", required: false, type: .string), 
@@ -138,7 +138,7 @@ extension Sqs {
     public struct BinaryList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BinaryListValue", required: false, type: .list)
         ]
         public let binaryListValue: [Data]?
@@ -155,7 +155,7 @@ extension Sqs {
     public struct MessageAttributeValue: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BinaryListValue", required: false, type: .structure), 
             AWSShapeProperty(label: "BinaryValue", required: false, type: .blob), 
             AWSShapeProperty(label: "StringValue", required: false, type: .string), 
@@ -194,7 +194,7 @@ extension Sqs {
     public struct ChangeMessageVisibilityBatchRequestEntry: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VisibilityTimeout", required: false, type: .integer), 
             AWSShapeProperty(label: "ReceiptHandle", required: true, type: .string), 
             AWSShapeProperty(label: "Id", required: true, type: .string)
@@ -224,7 +224,7 @@ extension Sqs {
     public struct StringList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StringListValue", required: false, type: .list)
         ]
         public let stringListValue: [String]?
@@ -241,7 +241,7 @@ extension Sqs {
     public struct GetQueueUrlResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "QueueUrl", required: false, type: .string)
         ]
         /// The URL of the queue.
@@ -259,7 +259,7 @@ extension Sqs {
     public struct ActionNameList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ActionName", required: false, type: .list)
         ]
         public let actionName: [String]?
@@ -276,7 +276,7 @@ extension Sqs {
     public struct ChangeMessageVisibilityBatchRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Entries", required: true, type: .structure), 
             AWSShapeProperty(label: "QueueUrl", required: true, type: .string)
         ]
@@ -301,7 +301,7 @@ extension Sqs {
     public struct Message: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReceiptHandle", required: false, type: .string), 
             AWSShapeProperty(label: "MessageId", required: false, type: .string), 
             AWSShapeProperty(label: "MD5OfMessageAttributes", required: false, type: .string), 
@@ -362,7 +362,7 @@ extension Sqs {
     public struct MessageAttributeNameList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MessageAttributeName", required: false, type: .list)
         ]
         public let messageAttributeName: [String]?
@@ -379,7 +379,7 @@ extension Sqs {
     public struct DeleteMessageBatchResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Successful", required: true, type: .structure), 
             AWSShapeProperty(label: "Failed", required: true, type: .structure)
         ]
@@ -404,7 +404,7 @@ extension Sqs {
     public struct ReceiveMessageResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Messages", required: false, type: .structure)
         ]
         /// A list of messages.
@@ -422,7 +422,7 @@ extension Sqs {
     public struct SendMessageRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DelaySeconds", required: false, type: .integer), 
             AWSShapeProperty(label: "QueueUrl", required: true, type: .string), 
             AWSShapeProperty(label: "MessageGroupId", required: false, type: .string), 
@@ -476,7 +476,7 @@ extension Sqs {
     public struct AddPermissionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Label", required: true, type: .string), 
             AWSShapeProperty(label: "AWSAccountIds", required: true, type: .structure), 
             AWSShapeProperty(label: "Actions", required: true, type: .structure), 
@@ -513,7 +513,7 @@ extension Sqs {
     public struct CreateQueueRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "QueueName", required: true, type: .string), 
             AWSShapeProperty(label: "Attribute", required: false, type: .map)
         ]
@@ -541,7 +541,7 @@ extension Sqs {
     public struct ListDeadLetterSourceQueuesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "queueUrls", required: true, type: .structure)
         ]
         /// A list of source queue URLs that have the RedrivePolicy queue attribute configured with a dead letter queue.
@@ -560,7 +560,7 @@ extension Sqs {
     public struct AWSAccountIdList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AWSAccountId", required: false, type: .list)
         ]
         public let aWSAccountId: [String]?
@@ -577,7 +577,7 @@ extension Sqs {
     public struct QueueUrlList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "QueueUrl", required: false, type: .list)
         ]
         public let queueUrl: [String]?
@@ -614,7 +614,7 @@ extension Sqs {
     public struct ListQueuesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "QueueNamePrefix", required: false, type: .string)
         ]
         /// A string to use for filtering the list results. Only those queues whose name begins with the specified string are returned. Queue names are case-sensitive.
@@ -632,7 +632,7 @@ extension Sqs {
     public struct RemovePermissionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "QueueUrl", required: true, type: .string), 
             AWSShapeProperty(label: "Label", required: true, type: .string)
         ]
@@ -657,7 +657,7 @@ extension Sqs {
     public struct SendMessageBatchResultEntryList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SendMessageBatchResultEntry", required: false, type: .list)
         ]
         public let sendMessageBatchResultEntry: [SendMessageBatchResultEntry]?
@@ -678,7 +678,7 @@ extension Sqs {
     public struct ChangeMessageVisibilityBatchResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Successful", required: true, type: .structure), 
             AWSShapeProperty(label: "Failed", required: true, type: .structure)
         ]
@@ -703,7 +703,7 @@ extension Sqs {
     public struct DeleteMessageBatchResultEntryList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DeleteMessageBatchResultEntry", required: false, type: .list)
         ]
         public let deleteMessageBatchResultEntry: [DeleteMessageBatchResultEntry]?
@@ -724,7 +724,7 @@ extension Sqs {
     public struct MessageList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Message", required: false, type: .list)
         ]
         public let message: [Message]?
@@ -745,7 +745,7 @@ extension Sqs {
     public struct ListDeadLetterSourceQueuesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "QueueUrl", required: true, type: .string)
         ]
         /// The URL of a dead letter queue. Queue URLs are case-sensitive.
@@ -764,7 +764,7 @@ extension Sqs {
     public struct SendMessageBatchResultEntry: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MD5OfMessageAttributes", required: false, type: .string), 
             AWSShapeProperty(label: "MD5OfMessageBody", required: true, type: .string), 
             AWSShapeProperty(label: "SequenceNumber", required: false, type: .string), 
@@ -805,7 +805,7 @@ extension Sqs {
     public struct SetQueueAttributesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Attribute", required: true, type: .map), 
             AWSShapeProperty(label: "QueueUrl", required: true, type: .string)
         ]
@@ -830,7 +830,7 @@ extension Sqs {
     public struct AttributeNameList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AttributeName", required: false, type: .list)
         ]
         public let attributeName: [QueueAttributeName]?
@@ -847,7 +847,7 @@ extension Sqs {
     public struct GetQueueAttributesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Attribute", required: false, type: .map)
         ]
         /// A map of attributes to their respective values.
@@ -869,7 +869,7 @@ extension Sqs {
     public struct CreateQueueResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "QueueUrl", required: false, type: .string)
         ]
         /// The URL of the created Amazon SQS queue.
@@ -887,7 +887,7 @@ extension Sqs {
     public struct ListQueuesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "QueueUrls", required: false, type: .structure)
         ]
         /// A list of queue URLs, up to 1,000 entries.
@@ -905,7 +905,7 @@ extension Sqs {
     public struct ChangeMessageVisibilityRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VisibilityTimeout", required: true, type: .integer), 
             AWSShapeProperty(label: "ReceiptHandle", required: true, type: .string), 
             AWSShapeProperty(label: "QueueUrl", required: true, type: .string)
@@ -936,7 +936,7 @@ extension Sqs {
     public struct ChangeMessageVisibilityBatchRequestEntryList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeMessageVisibilityBatchRequestEntry", required: false, type: .list)
         ]
         public let changeMessageVisibilityBatchRequestEntry: [ChangeMessageVisibilityBatchRequestEntry]?
@@ -968,7 +968,7 @@ extension Sqs {
     public struct DeleteMessageBatchRequestEntry: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReceiptHandle", required: true, type: .string), 
             AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
@@ -993,7 +993,7 @@ extension Sqs {
     public struct BatchResultErrorEntry: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Code", required: true, type: .string), 
             AWSShapeProperty(label: "Message", required: false, type: .string), 
             AWSShapeProperty(label: "SenderFault", required: true, type: .boolean), 
@@ -1029,7 +1029,7 @@ extension Sqs {
     public struct ChangeMessageVisibilityBatchResultEntryList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeMessageVisibilityBatchResultEntry", required: false, type: .list)
         ]
         public let changeMessageVisibilityBatchResultEntry: [ChangeMessageVisibilityBatchResultEntry]?
@@ -1050,7 +1050,7 @@ extension Sqs {
     public struct DeleteMessageRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReceiptHandle", required: true, type: .string), 
             AWSShapeProperty(label: "QueueUrl", required: true, type: .string)
         ]
@@ -1075,7 +1075,7 @@ extension Sqs {
     public struct ChangeMessageVisibilityBatchResultEntry: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
         /// Represents a message whose visibility timeout has been changed successfully.
@@ -1094,7 +1094,7 @@ extension Sqs {
     public struct SendMessageBatchRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Entries", required: true, type: .structure), 
             AWSShapeProperty(label: "QueueUrl", required: true, type: .string)
         ]
@@ -1119,7 +1119,7 @@ extension Sqs {
     public struct PurgeQueueRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "QueueUrl", required: true, type: .string)
         ]
         /// The URL of the queue from which the PurgeQueue action deletes messages. Queue URLs are case-sensitive.
@@ -1138,7 +1138,7 @@ extension Sqs {
     public struct DeleteMessageBatchRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Entries", required: true, type: .structure), 
             AWSShapeProperty(label: "QueueUrl", required: true, type: .string)
         ]
@@ -1163,7 +1163,7 @@ extension Sqs {
     public struct GetQueueAttributesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AttributeNames", required: false, type: .structure), 
             AWSShapeProperty(label: "QueueUrl", required: true, type: .string)
         ]
@@ -1187,7 +1187,7 @@ extension Sqs {
     public struct BatchResultErrorEntryList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BatchResultErrorEntry", required: false, type: .list)
         ]
         public let batchResultErrorEntry: [BatchResultErrorEntry]?
@@ -1208,7 +1208,7 @@ extension Sqs {
     public struct DeleteQueueRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "QueueUrl", required: true, type: .string)
         ]
         /// The URL of the Amazon SQS queue to delete. Queue URLs are case-sensitive.
@@ -1227,7 +1227,7 @@ extension Sqs {
     public struct SendMessageBatchRequestEntryList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SendMessageBatchRequestEntry", required: false, type: .list)
         ]
         public let sendMessageBatchRequestEntry: [SendMessageBatchRequestEntry]?
@@ -1248,7 +1248,7 @@ extension Sqs {
     public struct DeleteMessageBatchRequestEntryList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DeleteMessageBatchRequestEntry", required: false, type: .list)
         ]
         public let deleteMessageBatchRequestEntry: [DeleteMessageBatchRequestEntry]?
@@ -1269,7 +1269,7 @@ extension Sqs {
     public struct SendMessageBatchRequestEntry: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DelaySeconds", required: false, type: .integer), 
             AWSShapeProperty(label: "MessageAttribute", required: false, type: .map), 
             AWSShapeProperty(label: "MessageGroupId", required: false, type: .string), 
@@ -1323,7 +1323,7 @@ extension Sqs {
     public struct DeleteMessageBatchResultEntry: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
         /// Represents a successfully deleted message.
@@ -1342,7 +1342,7 @@ extension Sqs {
     public struct SendMessageBatchResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Successful", required: true, type: .structure), 
             AWSShapeProperty(label: "Failed", required: true, type: .structure)
         ]

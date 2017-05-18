@@ -32,7 +32,7 @@ extension Config {
     public struct ConfigStreamDeliveryInfo: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "lastErrorMessage", required: false, type: .string), 
             AWSShapeProperty(label: "lastErrorCode", required: false, type: .string), 
             AWSShapeProperty(label: "lastStatus", required: false, type: .enum), 
@@ -65,7 +65,7 @@ extension Config {
     public struct GetComplianceDetailsByConfigRuleResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EvaluationResults", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -92,7 +92,7 @@ extension Config {
     public struct GetComplianceDetailsByResourceResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EvaluationResults", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -119,7 +119,7 @@ extension Config {
     public struct Source: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Owner", required: true, type: .enum), 
             AWSShapeProperty(label: "SourceDetails", required: false, type: .list), 
             AWSShapeProperty(label: "SourceIdentifier", required: true, type: .string)
@@ -153,7 +153,7 @@ extension Config {
     public struct DeleteConfigRuleRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConfigRuleName", required: true, type: .string)
         ]
         /// The name of the AWS Config rule that you want to delete.
@@ -172,7 +172,7 @@ extension Config {
     public struct ConfigExportDeliveryInfo: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "lastErrorMessage", required: false, type: .string), 
             AWSShapeProperty(label: "lastAttemptTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "lastSuccessfulTime", required: false, type: .timestamp), 
@@ -215,7 +215,7 @@ extension Config {
     public struct SourceDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MessageType", required: false, type: .enum), 
             AWSShapeProperty(label: "EventSource", required: false, type: .enum), 
             AWSShapeProperty(label: "MaximumExecutionFrequency", required: false, type: .enum)
@@ -251,7 +251,7 @@ extension Config {
     public struct DescribeConfigurationRecordersResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConfigurationRecorders", required: false, type: .list)
         ]
         /// A list that contains the descriptions of the specified configuration recorders.
@@ -273,7 +273,7 @@ extension Config {
     public struct DescribeConfigurationRecordersRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConfigurationRecorderNames", required: false, type: .list)
         ]
         /// A list of configuration recorder names.
@@ -291,7 +291,7 @@ extension Config {
     public struct ResourceIdentifier: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "resourceType", required: false, type: .enum), 
             AWSShapeProperty(label: "resourceId", required: false, type: .string), 
             AWSShapeProperty(label: "resourceName", required: false, type: .string), 
@@ -324,7 +324,7 @@ extension Config {
     public struct DeliveryChannel: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "s3KeyPrefix", required: false, type: .string), 
             AWSShapeProperty(label: "name", required: false, type: .string), 
             AWSShapeProperty(label: "configSnapshotDeliveryProperties", required: false, type: .structure), 
@@ -361,7 +361,7 @@ extension Config {
     public struct PutConfigRuleRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConfigRule", required: true, type: .structure)
         ]
         public let configRule: ConfigRule
@@ -379,7 +379,7 @@ extension Config {
     public struct DescribeDeliveryChannelsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DeliveryChannels", required: false, type: .list)
         ]
         /// A list that contains the descriptions of the specified delivery channel.
@@ -401,7 +401,7 @@ extension Config {
     public struct DescribeConfigRuleEvaluationStatusResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "ConfigRulesEvaluationStatus", required: false, type: .list)
         ]
@@ -433,7 +433,7 @@ extension Config {
     public struct DescribeComplianceByResourceResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "ComplianceByResources", required: false, type: .list)
         ]
@@ -460,7 +460,7 @@ extension Config {
     public struct DescribeConfigRulesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConfigRuleNames", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -483,7 +483,7 @@ extension Config {
     public struct DeliverConfigSnapshotResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "configSnapshotId", required: false, type: .string)
         ]
         /// The ID of the snapshot that is being created.
@@ -501,7 +501,7 @@ extension Config {
     public struct ListDiscoveredResourcesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "includeDeletedResources", required: false, type: .boolean), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
             AWSShapeProperty(label: "resourceType", required: true, type: .enum), 
@@ -545,7 +545,7 @@ extension Config {
     public struct DeliverConfigSnapshotRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "deliveryChannelName", required: true, type: .string)
         ]
         /// The name of the delivery channel through which the snapshot is delivered.
@@ -564,7 +564,7 @@ extension Config {
     public struct DescribeDeliveryChannelsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DeliveryChannelNames", required: false, type: .list)
         ]
         /// A list of delivery channel names.
@@ -634,7 +634,7 @@ extension Config {
     public struct GetComplianceSummaryByResourceTypeResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ComplianceSummariesByResourceType", required: false, type: .list)
         ]
         /// The number of resources that are compliant and the number that are noncompliant. If one or more resource types were provided with the request, the numbers are returned for each resource type. The maximum number returned is 100.
@@ -656,7 +656,7 @@ extension Config {
     public struct DeleteEvaluationResultsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConfigRuleName", required: true, type: .string)
         ]
         /// The name of the Config rule for which you want to delete the evaluation results.
@@ -675,7 +675,7 @@ extension Config {
     public struct ConfigurationItem: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "configurationStateId", required: false, type: .string), 
             AWSShapeProperty(label: "resourceType", required: false, type: .enum), 
             AWSShapeProperty(label: "resourceName", required: false, type: .string), 
@@ -790,7 +790,7 @@ extension Config {
     public struct PutConfigurationRecorderRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConfigurationRecorder", required: true, type: .structure)
         ]
         /// The configuration recorder object that records each configuration change made to the resources.
@@ -809,7 +809,7 @@ extension Config {
     public struct EvaluationResultIdentifier: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OrderingTimestamp", required: false, type: .timestamp), 
             AWSShapeProperty(label: "EvaluationResultQualifier", required: false, type: .structure)
         ]
@@ -832,7 +832,7 @@ extension Config {
     public struct RecordingGroup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "allSupported", required: false, type: .boolean), 
             AWSShapeProperty(label: "includeGlobalResourceTypes", required: false, type: .boolean), 
             AWSShapeProperty(label: "resourceTypes", required: false, type: .list)
@@ -860,7 +860,7 @@ extension Config {
     public struct GetComplianceDetailsByConfigRuleRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConfigRuleName", required: true, type: .string), 
             AWSShapeProperty(label: "Limit", required: false, type: .integer), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
@@ -894,7 +894,7 @@ extension Config {
     public struct ComplianceSummaryByResourceType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ComplianceSummary", required: false, type: .structure), 
             AWSShapeProperty(label: "ResourceType", required: false, type: .string)
         ]
@@ -917,7 +917,7 @@ extension Config {
     public struct PutDeliveryChannelRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DeliveryChannel", required: true, type: .structure)
         ]
         /// The configuration delivery channel object that delivers the configuration information to an Amazon S3 bucket, and to an Amazon SNS topic.
@@ -936,7 +936,7 @@ extension Config {
     public struct Evaluation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ComplianceType", required: true, type: .enum), 
             AWSShapeProperty(label: "ComplianceResourceType", required: true, type: .string), 
             AWSShapeProperty(label: "ComplianceResourceId", required: true, type: .string), 
@@ -978,7 +978,7 @@ extension Config {
     public struct StopConfigurationRecorderRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConfigurationRecorderName", required: true, type: .string)
         ]
         /// The name of the recorder object that records each configuration change made to the resources.
@@ -997,7 +997,7 @@ extension Config {
     public struct ConfigRule: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConfigRuleState", required: false, type: .enum), 
             AWSShapeProperty(label: "ConfigRuleName", required: false, type: .string), 
             AWSShapeProperty(label: "InputParameters", required: false, type: .string), 
@@ -1056,7 +1056,7 @@ extension Config {
     public struct EvaluationResultQualifier: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceId", required: false, type: .string), 
             AWSShapeProperty(label: "ResourceType", required: false, type: .string), 
             AWSShapeProperty(label: "ConfigRuleName", required: false, type: .string)
@@ -1084,7 +1084,7 @@ extension Config {
     public struct DescribeConfigurationRecorderStatusResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConfigurationRecordersStatus", required: false, type: .list)
         ]
         /// A list that contains status of the specified recorders.
@@ -1106,7 +1106,7 @@ extension Config {
     public struct ComplianceSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ComplianceSummaryTimestamp", required: false, type: .timestamp), 
             AWSShapeProperty(label: "NonCompliantResourceCount", required: false, type: .structure), 
             AWSShapeProperty(label: "CompliantResourceCount", required: false, type: .structure)
@@ -1141,7 +1141,7 @@ extension Config {
     public struct Scope: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ComplianceResourceTypes", required: false, type: .list), 
             AWSShapeProperty(label: "ComplianceResourceId", required: false, type: .string), 
             AWSShapeProperty(label: "TagValue", required: false, type: .string), 
@@ -1174,7 +1174,7 @@ extension Config {
     public struct ConfigRuleEvaluationStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LastFailedEvaluationTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "FirstEvaluationStarted", required: false, type: .boolean), 
             AWSShapeProperty(label: "LastSuccessfulEvaluationTime", required: false, type: .timestamp), 
@@ -1242,7 +1242,7 @@ extension Config {
     public struct GetComplianceSummaryByConfigRuleResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ComplianceSummary", required: false, type: .structure)
         ]
         /// The number of AWS Config rules that are compliant and the number that are noncompliant, up to a maximum of 25 for each.
@@ -1260,7 +1260,7 @@ extension Config {
     public struct GetComplianceSummaryByResourceTypeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceTypes", required: false, type: .list)
         ]
         /// Specify one or more resource types to get the number of resources that are compliant and the number that are noncompliant for each resource type. For this request, you can specify an AWS resource type such as AWS::EC2::Instance, and you can specify that the resource type is an AWS account by specifying AWS::::Account.
@@ -1278,7 +1278,7 @@ extension Config {
     public struct DescribeComplianceByConfigRuleRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConfigRuleNames", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "ComplianceTypes", required: false, type: .list)
@@ -1306,7 +1306,7 @@ extension Config {
     public struct GetComplianceDetailsByResourceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "ResourceType", required: true, type: .string), 
@@ -1341,7 +1341,7 @@ extension Config {
     public struct ComplianceByResource: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Compliance", required: false, type: .structure), 
             AWSShapeProperty(label: "ResourceId", required: false, type: .string), 
             AWSShapeProperty(label: "ResourceType", required: false, type: .string)
@@ -1369,7 +1369,7 @@ extension Config {
     public struct DescribeComplianceByConfigRuleResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ComplianceByConfigRules", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -1396,7 +1396,7 @@ extension Config {
     public struct DescribeConfigRuleEvaluationStatusRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConfigRuleNames", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Limit", required: false, type: .integer)
@@ -1424,7 +1424,7 @@ extension Config {
     public struct DeliveryChannelStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "name", required: false, type: .string), 
             AWSShapeProperty(label: "configStreamDeliveryInfo", required: false, type: .structure), 
             AWSShapeProperty(label: "configHistoryDeliveryInfo", required: false, type: .structure), 
@@ -1465,7 +1465,7 @@ extension Config {
     public struct ComplianceByConfigRule: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Compliance", required: false, type: .structure), 
             AWSShapeProperty(label: "ConfigRuleName", required: false, type: .string)
         ]
@@ -1488,7 +1488,7 @@ extension Config {
     public struct GetResourceConfigHistoryResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "configurationItems", required: false, type: .list), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
@@ -1515,7 +1515,7 @@ extension Config {
     public struct ComplianceContributorCount: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CappedCount", required: false, type: .integer), 
             AWSShapeProperty(label: "CapExceeded", required: false, type: .boolean)
         ]
@@ -1538,7 +1538,7 @@ extension Config {
     public struct DeleteConfigurationRecorderRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConfigurationRecorderName", required: true, type: .string)
         ]
         /// The name of the configuration recorder to be deleted. You can retrieve the name of your configuration recorder by using the DescribeConfigurationRecorders action.
@@ -1557,7 +1557,7 @@ extension Config {
     public struct GetResourceConfigHistoryRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "laterTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "limit", required: false, type: .integer), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
@@ -1607,7 +1607,7 @@ extension Config {
     public struct Relationship: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "resourceType", required: false, type: .enum), 
             AWSShapeProperty(label: "resourceId", required: false, type: .string), 
             AWSShapeProperty(label: "resourceName", required: false, type: .string), 
@@ -1640,7 +1640,7 @@ extension Config {
     public struct Compliance: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ComplianceContributorCount", required: false, type: .structure), 
             AWSShapeProperty(label: "ComplianceType", required: false, type: .enum)
         ]
@@ -1663,7 +1663,7 @@ extension Config {
     public struct DescribeConfigurationRecorderStatusRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConfigurationRecorderNames", required: false, type: .list)
         ]
         /// The name(s) of the configuration recorder. If the name is not specified, the action returns the current status of all the configuration recorders associated with the account.
@@ -1681,7 +1681,7 @@ extension Config {
     public struct ConfigSnapshotDeliveryProperties: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "deliveryFrequency", required: false, type: .enum)
         ]
         /// The frequency with which AWS Config delivers configuration snapshots.
@@ -1706,7 +1706,7 @@ extension Config {
     public struct ListDiscoveredResourcesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "resourceIdentifiers", required: false, type: .list), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
@@ -1749,7 +1749,7 @@ extension Config {
     public struct DescribeConfigRulesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConfigRules", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -1785,7 +1785,7 @@ extension Config {
     public struct EvaluationResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EvaluationResultIdentifier", required: false, type: .structure), 
             AWSShapeProperty(label: "ConfigRuleInvokedTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "ResultRecordedTime", required: false, type: .timestamp), 
@@ -1836,7 +1836,7 @@ extension Config {
     public struct DescribeComplianceByResourceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Limit", required: false, type: .integer), 
             AWSShapeProperty(label: "ResourceId", required: false, type: .string), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
@@ -1874,7 +1874,7 @@ extension Config {
     public struct DescribeDeliveryChannelStatusResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DeliveryChannelsStatus", required: false, type: .list)
         ]
         /// A list that contains the status of a specified delivery channel.
@@ -1896,7 +1896,7 @@ extension Config {
     public struct PutEvaluationsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FailedEvaluations", required: false, type: .list)
         ]
         /// Requests that failed because of a client or server error.
@@ -1924,7 +1924,7 @@ extension Config {
     public struct StartConfigRulesEvaluationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConfigRuleNames", required: false, type: .list)
         ]
         /// The list of names of Config rules that you want to run evaluations for.
@@ -1942,7 +1942,7 @@ extension Config {
     public struct StartConfigurationRecorderRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConfigurationRecorderName", required: true, type: .string)
         ]
         /// The name of the recorder object that records each configuration change made to the resources.
@@ -1961,7 +1961,7 @@ extension Config {
     public struct DeleteDeliveryChannelRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DeliveryChannelName", required: true, type: .string)
         ]
         /// The name of the delivery channel to delete.
@@ -1980,7 +1980,7 @@ extension Config {
     public struct DescribeDeliveryChannelStatusRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DeliveryChannelNames", required: false, type: .list)
         ]
         /// A list of delivery channel names.
@@ -1998,7 +1998,7 @@ extension Config {
     public struct ConfigurationRecorderStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "name", required: false, type: .string), 
             AWSShapeProperty(label: "lastStatusChangeTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "lastStopTime", required: false, type: .timestamp), 
@@ -2051,7 +2051,7 @@ extension Config {
     public struct ConfigurationRecorder: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "name", required: false, type: .string), 
             AWSShapeProperty(label: "recordingGroup", required: false, type: .structure), 
             AWSShapeProperty(label: "roleARN", required: false, type: .string)
@@ -2079,7 +2079,7 @@ extension Config {
     public struct PutEvaluationsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Evaluations", required: false, type: .list), 
             AWSShapeProperty(label: "ResultToken", required: true, type: .string), 
             AWSShapeProperty(label: "TestMode", required: false, type: .boolean)

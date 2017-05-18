@@ -35,7 +35,7 @@ extension Lambda {
         public static var queryParams: [String: String] {
             return ["Marker": "Marker", "MaxItems": "MaxItems"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer)
         ]
@@ -58,7 +58,7 @@ extension Lambda {
     public struct EventSourceMappingConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LastModified", required: false, type: .timestamp), 
             AWSShapeProperty(label: "UUID", required: false, type: .string), 
             AWSShapeProperty(label: "BatchSize", required: false, type: .integer), 
@@ -127,7 +127,7 @@ extension Lambda {
         public static var pathParams: [String: String] {
             return ["FunctionName": "FunctionName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FunctionName", required: true, type: .string), 
             AWSShapeProperty(label: "Qualifier", required: false, type: .string)
         ]
@@ -154,7 +154,7 @@ extension Lambda {
         public static var pathParams: [String: String] {
             return ["Name": "Name", "FunctionName": "FunctionName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FunctionName", required: true, type: .string), 
             AWSShapeProperty(label: "FunctionVersion", required: false, type: .string), 
             AWSShapeProperty(label: "Name", required: true, type: .string), 
@@ -198,7 +198,7 @@ extension Lambda {
         public static var pathParams: [String: String] {
             return ["FunctionName": "FunctionName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FunctionName", required: true, type: .string), 
             AWSShapeProperty(label: "X-Amz-Invocation-Type", required: false, type: .enum), 
             AWSShapeProperty(label: "Payload", required: false, type: .blob), 
@@ -242,7 +242,7 @@ extension Lambda {
     public struct DeadLetterConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TargetArn", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic you specify as your Dead Letter Queue (DLQ).
@@ -266,7 +266,7 @@ extension Lambda {
         public static var pathParams: [String: String] {
             return ["FunctionName": "FunctionName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StatementId", required: true, type: .string), 
             AWSShapeProperty(label: "FunctionName", required: true, type: .string), 
             AWSShapeProperty(label: "Action", required: true, type: .string), 
@@ -323,7 +323,7 @@ extension Lambda {
     public struct CreateEventSourceMappingRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FunctionName", required: true, type: .string), 
             AWSShapeProperty(label: "BatchSize", required: false, type: .integer), 
             AWSShapeProperty(label: "StartingPositionTimestamp", required: false, type: .timestamp), 
@@ -369,7 +369,7 @@ extension Lambda {
     public struct EnvironmentError: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ErrorCode", required: false, type: .string), 
             AWSShapeProperty(label: "Message", required: false, type: .string)
         ]
@@ -395,7 +395,7 @@ extension Lambda {
         public static var pathParams: [String: String] {
             return ["FunctionName": "FunctionName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FunctionName", required: true, type: .string), 
             AWSShapeProperty(label: "InvokeArgs", required: true, type: .blob)
         ]
@@ -420,7 +420,7 @@ extension Lambda {
     public struct Environment: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Variables", required: false, type: .map)
         ]
         /// The key-value pairs that represent your environment's configuration settings. The value you specify cannot contain a ",".
@@ -448,7 +448,7 @@ extension Lambda {
         public static var pathParams: [String: String] {
             return ["FunctionName": "FunctionName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
             AWSShapeProperty(label: "FunctionName", required: true, type: .string)
@@ -477,7 +477,7 @@ extension Lambda {
     public struct ListAliasesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Aliases", required: false, type: .list), 
             AWSShapeProperty(label: "NextMarker", required: false, type: .string)
         ]
@@ -504,7 +504,7 @@ extension Lambda {
     public struct FunctionCode: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "S3ObjectVersion", required: false, type: .string), 
             AWSShapeProperty(label: "S3Key", required: false, type: .string), 
             AWSShapeProperty(label: "S3Bucket", required: false, type: .string), 
@@ -537,7 +537,7 @@ extension Lambda {
     public struct FunctionCodeLocation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Location", required: false, type: .string), 
             AWSShapeProperty(label: "RepositoryType", required: false, type: .string)
         ]
@@ -570,7 +570,7 @@ extension Lambda {
         public static var pathParams: [String: String] {
             return ["FunctionName": "FunctionName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "S3ObjectVersion", required: false, type: .string), 
             AWSShapeProperty(label: "FunctionName", required: true, type: .string), 
             AWSShapeProperty(label: "S3Bucket", required: false, type: .string), 
@@ -620,7 +620,7 @@ extension Lambda {
         public static var pathParams: [String: String] {
             return ["FunctionName": "FunctionName", "StatementId": "StatementId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Qualifier", required: false, type: .string), 
             AWSShapeProperty(label: "FunctionName", required: true, type: .string), 
             AWSShapeProperty(label: "StatementId", required: true, type: .string)
@@ -666,7 +666,7 @@ extension Lambda {
         public static var queryParams: [String: String] {
             return ["MaxItems": "MaxItems", "FunctionName": "FunctionName", "EventSourceArn": "EventSourceArn", "Marker": "Marker"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
             AWSShapeProperty(label: "FunctionName", required: false, type: .string), 
             AWSShapeProperty(label: "EventSourceArn", required: false, type: .string), 
@@ -702,7 +702,7 @@ extension Lambda {
         public static var pathParams: [String: String] {
             return ["FunctionName": "FunctionName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FunctionName", required: true, type: .string), 
             AWSShapeProperty(label: "FunctionVersion", required: true, type: .string), 
             AWSShapeProperty(label: "Name", required: true, type: .string), 
@@ -741,7 +741,7 @@ extension Lambda {
         public static var pathParams: [String: String] {
             return ["UUID": "UUID"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UUID", required: true, type: .string), 
             AWSShapeProperty(label: "FunctionName", required: false, type: .string), 
             AWSShapeProperty(label: "BatchSize", required: false, type: .integer), 
@@ -781,7 +781,7 @@ extension Lambda {
         public static var pathParams: [String: String] {
             return ["FunctionName": "FunctionName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FunctionName", required: true, type: .string), 
             AWSShapeProperty(label: "Qualifier", required: false, type: .string)
         ]
@@ -805,7 +805,7 @@ extension Lambda {
     public struct InvokeAsyncResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .integer)
         ]
         /// It will be 202 upon success.
@@ -834,7 +834,7 @@ extension Lambda {
         public static var pathParams: [String: String] {
             return ["Name": "Name", "FunctionName": "FunctionName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: true, type: .string), 
             AWSShapeProperty(label: "FunctionName", required: true, type: .string)
         ]
@@ -862,7 +862,7 @@ extension Lambda {
         public static var headerParams: [String: String] {
             return ["X-Amz-Log-Result": "LogResult", "X-Amz-Function-Error": "FunctionError"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StatusCode", required: false, type: .integer), 
             AWSShapeProperty(label: "X-Amz-Log-Result", required: false, type: .string), 
             AWSShapeProperty(label: "Payload", required: false, type: .blob), 
@@ -895,7 +895,7 @@ extension Lambda {
     public struct AddPermissionResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Statement", required: false, type: .string)
         ]
         /// The permission statement you specified in the request. The response returns the same as a string using a backslash ("\") as an escape character in the JSON.
@@ -916,7 +916,7 @@ extension Lambda {
         public static var pathParams: [String: String] {
             return ["FunctionName": "FunctionName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "KMSKeyArn", required: false, type: .string), 
             AWSShapeProperty(label: "Handler", required: false, type: .string), 
             AWSShapeProperty(label: "FunctionName", required: true, type: .string), 
@@ -984,7 +984,7 @@ extension Lambda {
     public struct ListFunctionsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Functions", required: false, type: .list), 
             AWSShapeProperty(label: "NextMarker", required: false, type: .string)
         ]
@@ -1011,7 +1011,7 @@ extension Lambda {
     public struct CreateFunctionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcConfig", required: false, type: .structure), 
             AWSShapeProperty(label: "DeadLetterConfig", required: false, type: .structure), 
             AWSShapeProperty(label: "Timeout", required: false, type: .integer), 
@@ -1100,7 +1100,7 @@ extension Lambda {
     public struct VpcConfigResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcId", required: false, type: .string), 
             AWSShapeProperty(label: "SubnetIds", required: false, type: .list), 
             AWSShapeProperty(label: "SecurityGroupIds", required: false, type: .list)
@@ -1134,7 +1134,7 @@ extension Lambda {
         public static var pathParams: [String: String] {
             return ["FunctionName": "FunctionName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FunctionName", required: true, type: .string), 
             AWSShapeProperty(label: "Qualifier", required: false, type: .string)
         ]
@@ -1158,7 +1158,7 @@ extension Lambda {
     public struct FunctionConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcConfig", required: false, type: .structure), 
             AWSShapeProperty(label: "DeadLetterConfig", required: false, type: .structure), 
             AWSShapeProperty(label: "Timeout", required: false, type: .integer), 
@@ -1251,7 +1251,7 @@ extension Lambda {
     public struct GetPolicyResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Policy", required: false, type: .string)
         ]
         /// The resource policy associated with the specified function. The response returns the same as a string using a backslash ("\") as an escape character in the JSON.
@@ -1269,7 +1269,7 @@ extension Lambda {
     public struct ListVersionsByFunctionResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Versions", required: false, type: .list), 
             AWSShapeProperty(label: "NextMarker", required: false, type: .string)
         ]
@@ -1296,7 +1296,7 @@ extension Lambda {
     public struct AccountLimit: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CodeSizeZipped", required: false, type: .long), 
             AWSShapeProperty(label: "CodeSizeUnzipped", required: false, type: .long), 
             AWSShapeProperty(label: "ConcurrentExecutions", required: false, type: .integer), 
@@ -1329,7 +1329,7 @@ extension Lambda {
     public struct AliasConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FunctionVersion", required: false, type: .string), 
             AWSShapeProperty(label: "AliasArn", required: false, type: .string), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
@@ -1365,7 +1365,7 @@ extension Lambda {
         public static var pathParams: [String: String] {
             return ["Name": "Name", "FunctionName": "FunctionName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: true, type: .string), 
             AWSShapeProperty(label: "FunctionName", required: true, type: .string)
         ]
@@ -1396,7 +1396,7 @@ extension Lambda {
         public static var pathParams: [String: String] {
             return ["FunctionName": "FunctionName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
             AWSShapeProperty(label: "FunctionName", required: true, type: .string), 
             AWSShapeProperty(label: "FunctionVersion", required: false, type: .string), 
@@ -1430,7 +1430,7 @@ extension Lambda {
     public struct EnvironmentResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Error", required: false, type: .structure), 
             AWSShapeProperty(label: "Variables", required: false, type: .map)
         ]
@@ -1456,7 +1456,7 @@ extension Lambda {
     public struct AccountUsage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FunctionCount", required: false, type: .long), 
             AWSShapeProperty(label: "TotalCodeSize", required: false, type: .long)
         ]
@@ -1479,7 +1479,7 @@ extension Lambda {
     public struct VpcConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubnetIds", required: false, type: .list), 
             AWSShapeProperty(label: "SecurityGroupIds", required: false, type: .list)
         ]
@@ -1505,7 +1505,7 @@ extension Lambda {
         public static var pathParams: [String: String] {
             return ["UUID": "UUID"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UUID", required: true, type: .string)
         ]
         /// The event source mapping ID.
@@ -1527,7 +1527,7 @@ extension Lambda {
         public static var pathParams: [String: String] {
             return ["UUID": "UUID"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UUID", required: true, type: .string)
         ]
         /// The AWS Lambda assigned ID of the event source mapping.
@@ -1549,7 +1549,7 @@ extension Lambda {
         public static var pathParams: [String: String] {
             return ["FunctionName": "FunctionName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Description", required: false, type: .string), 
             AWSShapeProperty(label: "CodeSha256", required: false, type: .string), 
             AWSShapeProperty(label: "FunctionName", required: true, type: .string)
@@ -1578,7 +1578,7 @@ extension Lambda {
     public struct GetFunctionResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Configuration", required: false, type: .structure), 
             AWSShapeProperty(label: "Code", required: false, type: .structure)
         ]
@@ -1605,7 +1605,7 @@ extension Lambda {
         public static var pathParams: [String: String] {
             return ["FunctionName": "FunctionName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FunctionName", required: true, type: .string), 
             AWSShapeProperty(label: "Qualifier", required: false, type: .string)
         ]
@@ -1629,7 +1629,7 @@ extension Lambda {
     public struct ListEventSourceMappingsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EventSourceMappings", required: false, type: .list), 
             AWSShapeProperty(label: "NextMarker", required: false, type: .string)
         ]
@@ -1656,7 +1656,7 @@ extension Lambda {
     public struct GetAccountSettingsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountUsage", required: false, type: .structure), 
             AWSShapeProperty(label: "AccountLimit", required: false, type: .structure)
         ]

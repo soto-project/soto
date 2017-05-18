@@ -32,7 +32,7 @@ extension Codepipeline {
     public struct ActionContext: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "name", required: false, type: .string)
         ]
         /// The name of the action within the context of a job.
@@ -50,7 +50,7 @@ extension Codepipeline {
     public struct PipelineSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "updated", required: false, type: .timestamp), 
             AWSShapeProperty(label: "name", required: false, type: .string), 
             AWSShapeProperty(label: "version", required: false, type: .integer), 
@@ -83,7 +83,7 @@ extension Codepipeline {
     public struct FailureDetails: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "type", required: true, type: .enum), 
             AWSShapeProperty(label: "message", required: true, type: .string), 
             AWSShapeProperty(label: "externalExecutionId", required: false, type: .string)
@@ -113,7 +113,7 @@ extension Codepipeline {
     public struct ListActionTypesOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "actionTypes", required: true, type: .list), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
@@ -137,7 +137,7 @@ extension Codepipeline {
     public struct GetJobDetailsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "jobId", required: true, type: .string)
         ]
         /// The unique system-generated ID for the job.
@@ -156,7 +156,7 @@ extension Codepipeline {
     public struct CurrentRevision: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "revision", required: true, type: .string), 
             AWSShapeProperty(label: "changeIdentifier", required: true, type: .string), 
             AWSShapeProperty(label: "created", required: false, type: .timestamp), 
@@ -191,7 +191,7 @@ extension Codepipeline {
     public struct PutActionRevisionOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "pipelineExecutionId", required: false, type: .string), 
             AWSShapeProperty(label: "newRevision", required: false, type: .boolean)
         ]
@@ -214,7 +214,7 @@ extension Codepipeline {
     public struct RetryStageExecutionOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "pipelineExecutionId", required: false, type: .string)
         ]
         /// The ID of the current workflow execution in the failed stage.
@@ -232,7 +232,7 @@ extension Codepipeline {
     public struct ArtifactDetails: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "minimumCount", required: true, type: .integer), 
             AWSShapeProperty(label: "maximumCount", required: true, type: .integer)
         ]
@@ -257,7 +257,7 @@ extension Codepipeline {
     public struct ErrorDetails: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "code", required: false, type: .string), 
             AWSShapeProperty(label: "message", required: false, type: .string)
         ]
@@ -280,7 +280,7 @@ extension Codepipeline {
     public struct ActionConfigurationProperty: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "name", required: true, type: .string), 
             AWSShapeProperty(label: "key", required: true, type: .boolean), 
             AWSShapeProperty(label: "secret", required: true, type: .boolean), 
@@ -332,7 +332,7 @@ extension Codepipeline {
     public struct StageContext: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "name", required: false, type: .string)
         ]
         /// The name of the stage.
@@ -350,7 +350,7 @@ extension Codepipeline {
     public struct StageExecution: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "status", required: true, type: .enum), 
             AWSShapeProperty(label: "pipelineExecutionId", required: true, type: .string)
         ]
@@ -375,7 +375,7 @@ extension Codepipeline {
     public struct ActionExecution: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "summary", required: false, type: .string), 
             AWSShapeProperty(label: "status", required: false, type: .enum), 
             AWSShapeProperty(label: "lastUpdatedBy", required: false, type: .string), 
@@ -433,7 +433,7 @@ extension Codepipeline {
     public struct StartPipelineExecutionInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "name", required: true, type: .string)
         ]
         /// The name of the pipeline to start.
@@ -452,7 +452,7 @@ extension Codepipeline {
     public struct StageState: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "inboundTransitionState", required: false, type: .structure), 
             AWSShapeProperty(label: "actionStates", required: false, type: .list), 
             AWSShapeProperty(label: "stageName", required: false, type: .string), 
@@ -489,7 +489,7 @@ extension Codepipeline {
     public struct PutActionRevisionInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "stageName", required: true, type: .string), 
             AWSShapeProperty(label: "actionName", required: true, type: .string), 
             AWSShapeProperty(label: "pipelineName", required: true, type: .string), 
@@ -525,7 +525,7 @@ extension Codepipeline {
     public struct PutThirdPartyJobFailureResultInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "failureDetails", required: true, type: .structure), 
             AWSShapeProperty(label: "clientToken", required: true, type: .string), 
             AWSShapeProperty(label: "jobId", required: true, type: .string)
@@ -555,7 +555,7 @@ extension Codepipeline {
     public struct Artifact: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "revision", required: false, type: .string), 
             AWSShapeProperty(label: "name", required: false, type: .string), 
             AWSShapeProperty(label: "location", required: false, type: .structure)
@@ -583,7 +583,7 @@ extension Codepipeline {
     public struct JobData: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "actionTypeId", required: false, type: .structure), 
             AWSShapeProperty(label: "actionConfiguration", required: false, type: .structure), 
             AWSShapeProperty(label: "artifactCredentials", required: false, type: .structure), 
@@ -639,7 +639,7 @@ extension Codepipeline {
     public struct PutApprovalResultInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "stageName", required: true, type: .string), 
             AWSShapeProperty(label: "actionName", required: true, type: .string), 
             AWSShapeProperty(label: "result", required: true, type: .structure), 
@@ -682,7 +682,7 @@ extension Codepipeline {
     public struct ArtifactLocation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "type", required: false, type: .enum), 
             AWSShapeProperty(label: "s3Location", required: false, type: .structure)
         ]
@@ -705,7 +705,7 @@ extension Codepipeline {
     public struct GetPipelineExecutionInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "pipelineName", required: true, type: .string), 
             AWSShapeProperty(label: "pipelineExecutionId", required: true, type: .string)
         ]
@@ -746,7 +746,7 @@ extension Codepipeline {
     public struct DisableStageTransitionInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "transitionType", required: true, type: .enum), 
             AWSShapeProperty(label: "stageName", required: true, type: .string), 
             AWSShapeProperty(label: "reason", required: true, type: .string), 
@@ -798,7 +798,7 @@ extension Codepipeline {
     public struct GetJobDetailsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "jobDetails", required: false, type: .structure)
         ]
         /// The details of the job.  If AWSSessionCredentials is used, a long-running job can call GetJobDetails again to obtain new credentials. 
@@ -816,7 +816,7 @@ extension Codepipeline {
     public struct AcknowledgeJobOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "status", required: false, type: .enum)
         ]
         /// Whether the job worker has received the specified job.
@@ -834,7 +834,7 @@ extension Codepipeline {
     public struct PipelineExecution: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "status", required: false, type: .enum), 
             AWSShapeProperty(label: "pipelineVersion", required: false, type: .integer), 
             AWSShapeProperty(label: "pipelineExecutionId", required: false, type: .string), 
@@ -876,7 +876,7 @@ extension Codepipeline {
     public struct AcknowledgeJobInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nonce", required: true, type: .string), 
             AWSShapeProperty(label: "jobId", required: true, type: .string)
         ]
@@ -901,7 +901,7 @@ extension Codepipeline {
     public struct JobDetails: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "id", required: false, type: .string), 
             AWSShapeProperty(label: "accountId", required: false, type: .string), 
             AWSShapeProperty(label: "data", required: false, type: .structure)
@@ -928,7 +928,7 @@ extension Codepipeline {
     public struct S3ArtifactLocation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "bucketName", required: true, type: .string), 
             AWSShapeProperty(label: "objectKey", required: true, type: .string)
         ]
@@ -953,7 +953,7 @@ extension Codepipeline {
     public struct CreateCustomActionTypeOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "actionType", required: true, type: .structure)
         ]
         public let actionType: ActionType
@@ -971,7 +971,7 @@ extension Codepipeline {
     public struct ActionTypeId: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "owner", required: true, type: .enum), 
             AWSShapeProperty(label: "version", required: true, type: .string), 
             AWSShapeProperty(label: "provider", required: true, type: .string), 
@@ -1015,7 +1015,7 @@ extension Codepipeline {
     public struct GetThirdPartyJobDetailsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "clientToken", required: true, type: .string), 
             AWSShapeProperty(label: "jobId", required: true, type: .string)
         ]
@@ -1040,7 +1040,7 @@ extension Codepipeline {
     public struct PutThirdPartyJobSuccessResultInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "executionDetails", required: false, type: .structure), 
             AWSShapeProperty(label: "clientToken", required: true, type: .string), 
             AWSShapeProperty(label: "continuationToken", required: false, type: .string), 
@@ -1078,7 +1078,7 @@ extension Codepipeline {
     public struct DeleteCustomActionTypeInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "provider", required: true, type: .string), 
             AWSShapeProperty(label: "version", required: true, type: .string), 
             AWSShapeProperty(label: "category", required: true, type: .enum)
@@ -1109,7 +1109,7 @@ extension Codepipeline {
     public struct StageDeclaration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "blockers", required: false, type: .list), 
             AWSShapeProperty(label: "name", required: true, type: .string), 
             AWSShapeProperty(label: "actions", required: true, type: .list)
@@ -1143,7 +1143,7 @@ extension Codepipeline {
     public struct AWSSessionCredentials: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "sessionToken", required: true, type: .string), 
             AWSShapeProperty(label: "accessKeyId", required: true, type: .string), 
             AWSShapeProperty(label: "secretAccessKey", required: true, type: .string)
@@ -1174,7 +1174,7 @@ extension Codepipeline {
     public struct EncryptionKey: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "id", required: true, type: .string), 
             AWSShapeProperty(label: "type", required: true, type: .enum)
         ]
@@ -1199,7 +1199,7 @@ extension Codepipeline {
     public struct EnableStageTransitionInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "pipelineName", required: true, type: .string), 
             AWSShapeProperty(label: "transitionType", required: true, type: .enum), 
             AWSShapeProperty(label: "stageName", required: true, type: .string)
@@ -1230,7 +1230,7 @@ extension Codepipeline {
     public struct InputArtifact: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "name", required: true, type: .string)
         ]
         /// The name of the artifact to be worked on, for example, "My App". The input artifact of an action must exactly match the output artifact declared in a preceding action, but the input artifact does not have to be the next action in strict sequence from the action that provided the output artifact. Actions in parallel can declare different output artifacts, which are in turn consumed by different following actions.
@@ -1255,7 +1255,7 @@ extension Codepipeline {
     public struct PollForJobsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "jobs", required: false, type: .list)
         ]
         /// Information about the jobs to take action on.
@@ -1282,7 +1282,7 @@ extension Codepipeline {
     public struct ActionDeclaration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "actionTypeId", required: true, type: .structure), 
             AWSShapeProperty(label: "roleArn", required: false, type: .string), 
             AWSShapeProperty(label: "name", required: true, type: .string), 
@@ -1344,7 +1344,7 @@ extension Codepipeline {
     public struct GetPipelineStateOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "updated", required: false, type: .timestamp), 
             AWSShapeProperty(label: "pipelineVersion", required: false, type: .integer), 
             AWSShapeProperty(label: "stageStates", required: false, type: .list), 
@@ -1386,7 +1386,7 @@ extension Codepipeline {
     public struct PutJobSuccessResultInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "executionDetails", required: false, type: .structure), 
             AWSShapeProperty(label: "continuationToken", required: false, type: .string), 
             AWSShapeProperty(label: "currentRevision", required: false, type: .structure), 
@@ -1420,7 +1420,7 @@ extension Codepipeline {
     public struct OutputArtifact: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "name", required: true, type: .string)
         ]
         /// The name of the output of an artifact, such as "My App". The input artifact of an action must exactly match the output artifact declared in a preceding action, but the input artifact does not have to be the next action in strict sequence from the action that provided the output artifact. Actions in parallel can declare different output artifacts, which are in turn consumed by different following actions. Output artifact names must be unique within a pipeline.
@@ -1439,7 +1439,7 @@ extension Codepipeline {
     public struct DeletePipelineInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "name", required: true, type: .string)
         ]
         /// The name of the pipeline to be deleted.
@@ -1458,7 +1458,7 @@ extension Codepipeline {
     public struct PipelineDeclaration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "artifactStore", required: true, type: .structure), 
             AWSShapeProperty(label: "name", required: true, type: .string), 
             AWSShapeProperty(label: "stages", required: true, type: .list), 
@@ -1499,7 +1499,7 @@ extension Codepipeline {
     public struct ThirdPartyJobDetails: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "id", required: false, type: .string), 
             AWSShapeProperty(label: "nonce", required: false, type: .string), 
             AWSShapeProperty(label: "data", required: false, type: .structure)
@@ -1527,7 +1527,7 @@ extension Codepipeline {
     public struct ActionState: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "entityUrl", required: false, type: .string), 
             AWSShapeProperty(label: "actionName", required: false, type: .string), 
             AWSShapeProperty(label: "currentRevision", required: false, type: .structure), 
@@ -1563,7 +1563,7 @@ extension Codepipeline {
     public struct PollForJobsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "actionTypeId", required: true, type: .structure), 
             AWSShapeProperty(label: "queryParam", required: false, type: .map), 
             AWSShapeProperty(label: "maxBatchSize", required: false, type: .integer)
@@ -1595,7 +1595,7 @@ extension Codepipeline {
     public struct ThirdPartyJob: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "jobId", required: false, type: .string), 
             AWSShapeProperty(label: "clientId", required: false, type: .string)
         ]
@@ -1618,7 +1618,7 @@ extension Codepipeline {
     public struct ArtifactRevision: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "revisionSummary", required: false, type: .string), 
             AWSShapeProperty(label: "name", required: false, type: .string), 
             AWSShapeProperty(label: "created", required: false, type: .timestamp), 
@@ -1661,7 +1661,7 @@ extension Codepipeline {
     public struct ListPipelinesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
         /// An identifier that was returned from the previous list pipelines call, which can be used to return the next set of pipelines in the list.
@@ -1679,7 +1679,7 @@ extension Codepipeline {
     public struct ActionRevision: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "created", required: true, type: .timestamp), 
             AWSShapeProperty(label: "revisionChangeId", required: true, type: .string), 
             AWSShapeProperty(label: "revisionId", required: true, type: .string)
@@ -1718,7 +1718,7 @@ extension Codepipeline {
     public struct RetryStageExecutionInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "retryMode", required: true, type: .enum), 
             AWSShapeProperty(label: "pipelineExecutionId", required: true, type: .string), 
             AWSShapeProperty(label: "stageName", required: true, type: .string), 
@@ -1755,7 +1755,7 @@ extension Codepipeline {
     public struct TransitionState: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "enabled", required: false, type: .boolean), 
             AWSShapeProperty(label: "disabledReason", required: false, type: .string), 
             AWSShapeProperty(label: "lastChangedAt", required: false, type: .timestamp), 
@@ -1794,7 +1794,7 @@ extension Codepipeline {
     public struct PipelineContext: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "pipelineName", required: false, type: .string), 
             AWSShapeProperty(label: "action", required: false, type: .structure), 
             AWSShapeProperty(label: "stage", required: false, type: .structure)
@@ -1821,7 +1821,7 @@ extension Codepipeline {
     public struct PollForThirdPartyJobsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "actionTypeId", required: true, type: .structure), 
             AWSShapeProperty(label: "maxBatchSize", required: false, type: .integer)
         ]
@@ -1844,7 +1844,7 @@ extension Codepipeline {
     public struct PollForThirdPartyJobsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "jobs", required: false, type: .list)
         ]
         /// Information about the jobs to take action on.
@@ -1866,7 +1866,7 @@ extension Codepipeline {
     public struct PutJobFailureResultInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "failureDetails", required: true, type: .structure), 
             AWSShapeProperty(label: "jobId", required: true, type: .string)
         ]
@@ -1891,7 +1891,7 @@ extension Codepipeline {
     public struct ArtifactStore: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "type", required: true, type: .enum), 
             AWSShapeProperty(label: "location", required: true, type: .string), 
             AWSShapeProperty(label: "encryptionKey", required: false, type: .structure)
@@ -1921,7 +1921,7 @@ extension Codepipeline {
     public struct PutApprovalResultOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "approvedAt", required: false, type: .timestamp)
         ]
         /// The timestamp showing when the approval or rejection was submitted.
@@ -1956,7 +1956,7 @@ extension Codepipeline {
     public struct GetPipelineInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "name", required: true, type: .string), 
             AWSShapeProperty(label: "version", required: false, type: .integer)
         ]
@@ -1980,7 +1980,7 @@ extension Codepipeline {
     public struct ActionType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "inputArtifactDetails", required: true, type: .structure), 
             AWSShapeProperty(label: "id", required: true, type: .structure), 
             AWSShapeProperty(label: "actionConfigurationProperties", required: false, type: .list), 
@@ -2029,7 +2029,7 @@ extension Codepipeline {
     public struct GetPipelineExecutionOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "pipelineExecution", required: false, type: .structure)
         ]
         /// Represents information about the execution of a pipeline.
@@ -2047,7 +2047,7 @@ extension Codepipeline {
     public struct ThirdPartyJobData: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "actionTypeId", required: false, type: .structure), 
             AWSShapeProperty(label: "actionConfiguration", required: false, type: .structure), 
             AWSShapeProperty(label: "artifactCredentials", required: false, type: .structure), 
@@ -2104,7 +2104,7 @@ extension Codepipeline {
     public struct GetPipelineOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "pipeline", required: false, type: .structure)
         ]
         public let pipeline: PipelineDeclaration?
@@ -2121,7 +2121,7 @@ extension Codepipeline {
     public struct ActionConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "configuration", required: false, type: .map)
         ]
         /// The configuration data for the action.
@@ -2143,7 +2143,7 @@ extension Codepipeline {
     public struct CreatePipelineOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "pipeline", required: false, type: .structure)
         ]
         public let pipeline: PipelineDeclaration?
@@ -2160,7 +2160,7 @@ extension Codepipeline {
     public struct StartPipelineExecutionOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "pipelineExecutionId", required: false, type: .string)
         ]
         /// The unique system-generated ID of the pipeline execution that was started.
@@ -2185,7 +2185,7 @@ extension Codepipeline {
     public struct GetPipelineStateInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "name", required: true, type: .string)
         ]
         /// The name of the pipeline about which you want to get information.
@@ -2204,7 +2204,7 @@ extension Codepipeline {
     public struct ActionTypeSettings: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "revisionUrlTemplate", required: false, type: .string), 
             AWSShapeProperty(label: "thirdPartyConfigurationUrl", required: false, type: .string), 
             AWSShapeProperty(label: "executionUrlTemplate", required: false, type: .string), 
@@ -2237,7 +2237,7 @@ extension Codepipeline {
     public struct AcknowledgeThirdPartyJobOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "status", required: false, type: .enum)
         ]
         /// The status information for the third party job, if any.
@@ -2255,7 +2255,7 @@ extension Codepipeline {
     public struct CreateCustomActionTypeInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "inputArtifactDetails", required: true, type: .structure), 
             AWSShapeProperty(label: "settings", required: false, type: .structure), 
             AWSShapeProperty(label: "outputArtifactDetails", required: true, type: .structure), 
@@ -2309,7 +2309,7 @@ extension Codepipeline {
     public struct ApprovalResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "summary", required: true, type: .string), 
             AWSShapeProperty(label: "status", required: true, type: .enum)
         ]
@@ -2334,7 +2334,7 @@ extension Codepipeline {
     public struct BlockerDeclaration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "type", required: true, type: .enum), 
             AWSShapeProperty(label: "name", required: true, type: .string)
         ]
@@ -2366,7 +2366,7 @@ extension Codepipeline {
     public struct ListActionTypesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
             AWSShapeProperty(label: "actionOwnerFilter", required: false, type: .enum)
         ]
@@ -2389,7 +2389,7 @@ extension Codepipeline {
     public struct CreatePipelineInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "pipeline", required: true, type: .structure)
         ]
         public let pipeline: PipelineDeclaration
@@ -2407,7 +2407,7 @@ extension Codepipeline {
     public struct UpdatePipelineInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "pipeline", required: true, type: .structure)
         ]
         /// The name of the pipeline to be updated.
@@ -2426,7 +2426,7 @@ extension Codepipeline {
     public struct Job: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "accountId", required: false, type: .string), 
             AWSShapeProperty(label: "data", required: false, type: .structure), 
             AWSShapeProperty(label: "id", required: false, type: .string), 
@@ -2459,7 +2459,7 @@ extension Codepipeline {
     public struct UpdatePipelineOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "pipeline", required: false, type: .structure)
         ]
         /// The structure of the updated pipeline.
@@ -2477,7 +2477,7 @@ extension Codepipeline {
     public struct ExecutionDetails: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "summary", required: false, type: .string), 
             AWSShapeProperty(label: "percentComplete", required: false, type: .integer), 
             AWSShapeProperty(label: "externalExecutionId", required: false, type: .string)
@@ -2505,7 +2505,7 @@ extension Codepipeline {
     public struct GetThirdPartyJobDetailsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "jobDetails", required: false, type: .structure)
         ]
         /// The details of the job, including any protected values defined for the job.
@@ -2523,7 +2523,7 @@ extension Codepipeline {
     public struct AcknowledgeThirdPartyJobInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nonce", required: true, type: .string), 
             AWSShapeProperty(label: "jobId", required: true, type: .string), 
             AWSShapeProperty(label: "clientToken", required: true, type: .string)
@@ -2554,7 +2554,7 @@ extension Codepipeline {
     public struct ListPipelinesOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
             AWSShapeProperty(label: "pipelines", required: false, type: .list)
         ]

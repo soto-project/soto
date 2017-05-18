@@ -32,7 +32,7 @@ extension Sns {
     public struct SetPlatformApplicationAttributesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PlatformApplicationArn", required: true, type: .string), 
             AWSShapeProperty(label: "Attributes", required: true, type: .map)
         ]
@@ -57,7 +57,7 @@ extension Sns {
     public struct RemovePermissionInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TopicArn", required: true, type: .string), 
             AWSShapeProperty(label: "Label", required: true, type: .string)
         ]
@@ -82,7 +82,7 @@ extension Sns {
     public struct ListSubscriptionsByTopicInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TopicArn", required: true, type: .string), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -106,7 +106,7 @@ extension Sns {
     public struct ListPhoneNumbersOptedOutInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
         /// A NextToken string is used when you call the ListPhoneNumbersOptedOut action to retrieve additional records that are available after the first page of results.
@@ -124,7 +124,7 @@ extension Sns {
     public struct PublishResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MessageId", required: false, type: .string)
         ]
         /// Unique identifier assigned to the published message. Length Constraint: Maximum 100 characters
@@ -142,7 +142,7 @@ extension Sns {
     public struct ListEndpointsByPlatformApplicationInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "PlatformApplicationArn", required: true, type: .string)
         ]
@@ -166,7 +166,7 @@ extension Sns {
     public struct OptInPhoneNumberInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "phoneNumber", required: true, type: .string)
         ]
         /// The phone number to opt in.
@@ -185,7 +185,7 @@ extension Sns {
     public struct Subscription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TopicArn", required: false, type: .string), 
             AWSShapeProperty(label: "Owner", required: false, type: .string), 
             AWSShapeProperty(label: "SubscriptionArn", required: false, type: .string), 
@@ -223,7 +223,7 @@ extension Sns {
     public struct AddPermissionInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TopicArn", required: true, type: .string), 
             AWSShapeProperty(label: "AWSAccountId", required: true, type: .list), 
             AWSShapeProperty(label: "ActionName", required: true, type: .list), 
@@ -260,7 +260,7 @@ extension Sns {
     public struct ListTopicsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// Token returned by the previous ListTopics request.
@@ -278,7 +278,7 @@ extension Sns {
     public struct Endpoint: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EndpointArn", required: false, type: .string), 
             AWSShapeProperty(label: "Attributes", required: false, type: .map)
         ]
@@ -305,7 +305,7 @@ extension Sns {
     public struct UnsubscribeInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubscriptionArn", required: true, type: .string)
         ]
         /// The ARN of the subscription to be deleted.
@@ -324,7 +324,7 @@ extension Sns {
     public struct SetEndpointAttributesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EndpointArn", required: true, type: .string), 
             AWSShapeProperty(label: "Attributes", required: true, type: .map)
         ]
@@ -349,7 +349,7 @@ extension Sns {
     public struct PlatformApplication: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PlatformApplicationArn", required: false, type: .string), 
             AWSShapeProperty(label: "Attributes", required: false, type: .map)
         ]
@@ -376,7 +376,7 @@ extension Sns {
     public struct GetSubscriptionAttributesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubscriptionArn", required: true, type: .string)
         ]
         /// The ARN of the subscription whose properties you want to get.
@@ -395,7 +395,7 @@ extension Sns {
     public struct SetSubscriptionAttributesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AttributeName", required: true, type: .string), 
             AWSShapeProperty(label: "AttributeValue", required: false, type: .string), 
             AWSShapeProperty(label: "SubscriptionArn", required: true, type: .string)
@@ -425,7 +425,7 @@ extension Sns {
     public struct GetSMSAttributesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "attributes", required: false, type: .map)
         ]
         /// The SMS attribute names and their values.
@@ -447,7 +447,7 @@ extension Sns {
     public struct CreatePlatformEndpointInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CustomUserData", required: false, type: .string), 
             AWSShapeProperty(label: "Attributes", required: false, type: .map), 
             AWSShapeProperty(label: "Token", required: true, type: .string), 
@@ -486,7 +486,7 @@ extension Sns {
     public struct GetEndpointAttributesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EndpointArn", required: true, type: .string)
         ]
         /// EndpointArn for GetEndpointAttributes input.
@@ -505,7 +505,7 @@ extension Sns {
     public struct ListTopicsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Topics", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -532,7 +532,7 @@ extension Sns {
     public struct GetPlatformApplicationAttributesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PlatformApplicationArn", required: true, type: .string)
         ]
         /// PlatformApplicationArn for GetPlatformApplicationAttributesInput.
@@ -551,7 +551,7 @@ extension Sns {
     public struct GetPlatformApplicationAttributesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Attributes", required: false, type: .map)
         ]
         /// Attributes include the following:    EventEndpointCreated -- Topic ARN to which EndpointCreated event notifications should be sent.    EventEndpointDeleted -- Topic ARN to which EndpointDeleted event notifications should be sent.    EventEndpointUpdated -- Topic ARN to which EndpointUpdate event notifications should be sent.    EventDeliveryFailure -- Topic ARN to which DeliveryFailure event notifications should be sent upon Direct Publish delivery failure (permanent) to one of the application's endpoints.  
@@ -573,7 +573,7 @@ extension Sns {
     public struct GetTopicAttributesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TopicArn", required: true, type: .string)
         ]
         /// The ARN of the topic whose properties you want to get.
@@ -592,7 +592,7 @@ extension Sns {
     public struct CreatePlatformApplicationInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: true, type: .string), 
             AWSShapeProperty(label: "Attributes", required: true, type: .map), 
             AWSShapeProperty(label: "Platform", required: true, type: .string)
@@ -623,7 +623,7 @@ extension Sns {
     public struct CreatePlatformApplicationResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PlatformApplicationArn", required: false, type: .string)
         ]
         /// PlatformApplicationArn is returned.
@@ -641,7 +641,7 @@ extension Sns {
     public struct DeleteTopicInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TopicArn", required: true, type: .string)
         ]
         /// The ARN of the topic you want to delete.
@@ -660,7 +660,7 @@ extension Sns {
     public struct ListEndpointsByPlatformApplicationResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Endpoints", required: false, type: .list)
         ]
@@ -687,7 +687,7 @@ extension Sns {
     public struct ListPhoneNumbersOptedOutResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "phoneNumbers", required: false, type: .list), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
@@ -710,7 +710,7 @@ extension Sns {
     public struct CheckIfPhoneNumberIsOptedOutResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "isOptedOut", required: false, type: .boolean)
         ]
         /// Indicates whether the phone number is opted out:    true – The phone number is opted out, meaning you cannot publish SMS messages to it.    false – The phone number is opted in, meaning you can publish SMS messages to it.  
@@ -728,7 +728,7 @@ extension Sns {
     public struct ConfirmSubscriptionResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubscriptionArn", required: false, type: .string)
         ]
         /// The ARN of the created subscription.
@@ -746,7 +746,7 @@ extension Sns {
     public struct SubscribeResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubscriptionArn", required: false, type: .string)
         ]
         /// The ARN of the subscription, if the service was able to create a subscription immediately (without requiring endpoint owner confirmation).
@@ -764,7 +764,7 @@ extension Sns {
     public struct ListSubscriptionsByTopicResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Subscriptions", required: false, type: .list)
         ]
@@ -791,7 +791,7 @@ extension Sns {
     public struct ListSubscriptionsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Subscriptions", required: false, type: .list)
         ]
@@ -818,7 +818,7 @@ extension Sns {
     public struct MessageAttributeValue: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DataType", required: true, type: .string), 
             AWSShapeProperty(label: "BinaryValue", required: false, type: .blob), 
             AWSShapeProperty(label: "StringValue", required: false, type: .string)
@@ -847,7 +847,7 @@ extension Sns {
     public struct ListPlatformApplicationsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "PlatformApplications", required: false, type: .list)
         ]
@@ -874,7 +874,7 @@ extension Sns {
     public struct ConfirmSubscriptionInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AuthenticateOnUnsubscribe", required: false, type: .string), 
             AWSShapeProperty(label: "TopicArn", required: true, type: .string), 
             AWSShapeProperty(label: "Token", required: true, type: .string)
@@ -904,7 +904,7 @@ extension Sns {
     public struct ListSubscriptionsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// Token returned by the previous ListSubscriptions request.
@@ -922,7 +922,7 @@ extension Sns {
     public struct Topic: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TopicArn", required: false, type: .string)
         ]
         /// The topic's ARN.
@@ -948,7 +948,7 @@ extension Sns {
     public struct SetSMSAttributesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "attributes", required: true, type: .map)
         ]
         /// The default settings for sending SMS messages from your account. You can set values for the following attribute names:  MonthlySpendLimit – The maximum amount in USD that you are willing to spend each month to send SMS messages. When Amazon SNS determines that sending an SMS message would incur a cost that exceeds this limit, it stops sending SMS messages within minutes.  Amazon SNS stops sending SMS messages within minutes of the limit being crossed. During that interval, if you continue to send SMS messages, you will incur costs that exceed your limit.  By default, the spend limit is set to the maximum allowed by Amazon SNS. If you want to exceed the maximum, contact AWS Support or your AWS sales representative for a service limit increase.  DeliveryStatusIAMRole – The ARN of the IAM role that allows Amazon SNS to write logs about SMS deliveries in CloudWatch Logs. For each SMS message that you send, Amazon SNS writes a log that includes the message price, the success or failure status, the reason for failure (if the message failed), the message dwell time, and other information.  DeliveryStatusSuccessSamplingRate – The percentage of successful SMS deliveries for which Amazon SNS will write logs in CloudWatch Logs. The value can be an integer from 0 - 100. For example, to write logs only for failed deliveries, set this value to 0. To write logs for 10% of your successful deliveries, set it to 10.  DefaultSenderID – A string, such as your business brand, that is displayed as the sender on the receiving device. Support for sender IDs varies by country. The sender ID can be 1 - 11 alphanumeric characters, and it must contain at least one letter.  DefaultSMSType – The type of SMS message that you will send by default. You can assign the following values:    Promotional – (Default) Noncritical messages, such as marketing messages. Amazon SNS optimizes the message delivery to incur the lowest cost.    Transactional – Critical messages that support customer transactions, such as one-time passcodes for multi-factor authentication. Amazon SNS optimizes the message delivery to achieve the highest reliability.    UsageReportS3Bucket – The name of the Amazon S3 bucket to receive daily SMS usage reports from Amazon SNS. Each day, Amazon SNS will deliver a usage report as a CSV file to the bucket. The report includes the following information for each SMS message that was successfully delivered by your account:   Time that the message was published (in UTC)   Message ID   Destination phone number   Message type   Delivery status   Message price (in USD)   Part number (a message is split into multiple parts if it is too long for a single message)   Total number of parts   To receive the report, the bucket must have a policy that allows the Amazon SNS service principle to perform the s3:PutObject and s3:GetBucketLocation actions. For an example bucket policy and usage report, see Monitoring SMS Activity in the Amazon SNS Developer Guide.
@@ -967,7 +967,7 @@ extension Sns {
     public struct SubscribeInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Endpoint", required: false, type: .string), 
             AWSShapeProperty(label: "TopicArn", required: true, type: .string), 
             AWSShapeProperty(label: "Protocol", required: true, type: .string)
@@ -997,7 +997,7 @@ extension Sns {
     public struct GetTopicAttributesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Attributes", required: false, type: .map)
         ]
         /// A map of the topic's attributes. Attributes in this map include the following:    TopicArn -- the topic's ARN    Owner -- the AWS account ID of the topic's owner    Policy -- the JSON serialization of the topic's access control policy    DisplayName -- the human-readable name used in the "From" field for notifications to email and email-json endpoints    SubscriptionsPending -- the number of subscriptions pending confirmation on this topic    SubscriptionsConfirmed -- the number of confirmed subscriptions on this topic    SubscriptionsDeleted -- the number of deleted subscriptions on this topic    DeliveryPolicy -- the JSON serialization of the topic's delivery policy    EffectiveDeliveryPolicy -- the JSON serialization of the effective delivery policy that takes into account system defaults  
@@ -1019,7 +1019,7 @@ extension Sns {
     public struct CreateTopicResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TopicArn", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) assigned to the created topic.
@@ -1037,7 +1037,7 @@ extension Sns {
     public struct CreateEndpointResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EndpointArn", required: false, type: .string)
         ]
         /// EndpointArn returned from CreateEndpoint action.
@@ -1055,7 +1055,7 @@ extension Sns {
     public struct PublishInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MessageAttributes", required: false, type: .map), 
             AWSShapeProperty(label: "PhoneNumber", required: false, type: .string), 
             AWSShapeProperty(label: "Message", required: true, type: .string), 
@@ -1113,7 +1113,7 @@ extension Sns {
     public struct CheckIfPhoneNumberIsOptedOutInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "phoneNumber", required: true, type: .string)
         ]
         /// The phone number for which you want to check the opt out status.
@@ -1132,7 +1132,7 @@ extension Sns {
     public struct GetEndpointAttributesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Attributes", required: false, type: .map)
         ]
         /// Attributes include the following:    CustomUserData -- arbitrary user data to associate with the endpoint. Amazon SNS does not use this data. The data must be in UTF-8 format and less than 2KB.    Enabled -- flag that enables/disables delivery to the endpoint. Amazon SNS will set this to false when a notification service indicates to Amazon SNS that the endpoint is invalid. Users can set it back to true, typically after updating Token.    Token -- device token, also referred to as a registration id, for an app and mobile device. This is returned from the notification service when an app and mobile device are registered with the notification service.  
@@ -1154,7 +1154,7 @@ extension Sns {
     public struct DeleteEndpointInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EndpointArn", required: true, type: .string)
         ]
         /// EndpointArn of endpoint to delete.
@@ -1181,7 +1181,7 @@ extension Sns {
     public struct SetTopicAttributesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AttributeName", required: true, type: .string), 
             AWSShapeProperty(label: "TopicArn", required: true, type: .string), 
             AWSShapeProperty(label: "AttributeValue", required: false, type: .string)
@@ -1211,7 +1211,7 @@ extension Sns {
     public struct GetSMSAttributesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "attributes", required: false, type: .list)
         ]
         /// A list of the individual attribute names, such as MonthlySpendLimit, for which you want values. For all attribute names, see SetSMSAttributes. If you don't use this parameter, Amazon SNS returns all SMS attributes.
@@ -1229,7 +1229,7 @@ extension Sns {
     public struct CreateTopicInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
         /// The name of the topic you want to create. Constraints: Topic names must be made up of only uppercase and lowercase ASCII letters, numbers, underscores, and hyphens, and must be between 1 and 256 characters long.
@@ -1248,7 +1248,7 @@ extension Sns {
     public struct ListPlatformApplicationsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// NextToken string is used when calling ListPlatformApplications action to retrieve additional records that are available after the first page results.
@@ -1266,7 +1266,7 @@ extension Sns {
     public struct GetSubscriptionAttributesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Attributes", required: false, type: .map)
         ]
         /// A map of the subscription's attributes. Attributes in this map include the following:    SubscriptionArn -- the subscription's ARN    TopicArn -- the topic ARN that the subscription is associated with    Owner -- the AWS account ID of the subscription's owner    ConfirmationWasAuthenticated -- true if the subscription confirmation request was authenticated    DeliveryPolicy -- the JSON serialization of the subscription's delivery policy    EffectiveDeliveryPolicy -- the JSON serialization of the effective delivery policy that takes into account the topic delivery policy and account system defaults  
@@ -1288,7 +1288,7 @@ extension Sns {
     public struct DeletePlatformApplicationInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PlatformApplicationArn", required: true, type: .string)
         ]
         /// PlatformApplicationArn of platform application object to delete.

@@ -32,7 +32,7 @@ extension Monitoring {
     public struct AlarmHistoryItem: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AlarmName", required: false, type: .string), 
             AWSShapeProperty(label: "Timestamp", required: false, type: .timestamp), 
             AWSShapeProperty(label: "HistoryData", required: false, type: .string), 
@@ -70,7 +70,7 @@ extension Monitoring {
     public struct EnableAlarmActionsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AlarmNames", required: true, type: .list)
         ]
         /// The names of the alarms.
@@ -89,7 +89,7 @@ extension Monitoring {
     public struct MetricDatum: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MetricName", required: true, type: .string), 
             AWSShapeProperty(label: "Unit", required: false, type: .enum), 
             AWSShapeProperty(label: "Dimensions", required: false, type: .list), 
@@ -137,7 +137,7 @@ extension Monitoring {
     public struct DescribeAlarmsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MetricAlarms", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -171,7 +171,7 @@ extension Monitoring {
     public struct StatisticSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SampleCount", required: true, type: .double), 
             AWSShapeProperty(label: "Minimum", required: true, type: .double), 
             AWSShapeProperty(label: "Sum", required: true, type: .double), 
@@ -208,7 +208,7 @@ extension Monitoring {
     public struct DisableAlarmActionsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AlarmNames", required: true, type: .list)
         ]
         /// The names of the alarms.
@@ -227,7 +227,7 @@ extension Monitoring {
     public struct Datapoint: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SampleCount", required: false, type: .double), 
             AWSShapeProperty(label: "Timestamp", required: false, type: .timestamp), 
             AWSShapeProperty(label: "Sum", required: false, type: .double), 
@@ -284,7 +284,7 @@ extension Monitoring {
     public struct PutMetricAlarmInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MetricName", required: true, type: .string), 
             AWSShapeProperty(label: "Threshold", required: true, type: .double), 
             AWSShapeProperty(label: "Period", required: true, type: .integer), 
@@ -388,7 +388,7 @@ extension Monitoring {
     public struct DescribeAlarmHistoryInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AlarmName", required: false, type: .string), 
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "StartDate", required: false, type: .timestamp), 
@@ -431,7 +431,7 @@ extension Monitoring {
     public struct DescribeAlarmsForMetricInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MetricName", required: true, type: .string), 
             AWSShapeProperty(label: "Period", required: false, type: .integer), 
             AWSShapeProperty(label: "ExtendedStatistic", required: false, type: .string), 
@@ -485,7 +485,7 @@ extension Monitoring {
     public struct DescribeAlarmsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "AlarmNamePrefix", required: false, type: .string), 
             AWSShapeProperty(label: "ActionPrefix", required: false, type: .string), 
@@ -528,7 +528,7 @@ extension Monitoring {
     public struct ListMetricsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Metrics", required: false, type: .list)
         ]
@@ -555,7 +555,7 @@ extension Monitoring {
     public struct MetricAlarm: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MetricName", required: false, type: .string), 
             AWSShapeProperty(label: "Threshold", required: false, type: .double), 
             AWSShapeProperty(label: "Period", required: false, type: .integer), 
@@ -713,7 +713,7 @@ extension Monitoring {
     public struct Metric: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MetricName", required: false, type: .string), 
             AWSShapeProperty(label: "Dimensions", required: false, type: .list), 
             AWSShapeProperty(label: "Namespace", required: false, type: .string)
@@ -745,7 +745,7 @@ extension Monitoring {
     public struct ListMetricsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Namespace", required: false, type: .string), 
             AWSShapeProperty(label: "MetricName", required: false, type: .string), 
             AWSShapeProperty(label: "Dimensions", required: false, type: .list), 
@@ -782,7 +782,7 @@ extension Monitoring {
     public struct DeleteAlarmsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AlarmNames", required: true, type: .list)
         ]
         /// The alarms to be deleted.
@@ -801,7 +801,7 @@ extension Monitoring {
     public struct PutMetricDataInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Namespace", required: true, type: .string), 
             AWSShapeProperty(label: "MetricData", required: true, type: .list)
         ]
@@ -826,7 +826,7 @@ extension Monitoring {
     public struct GetMetricStatisticsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StartTime", required: true, type: .timestamp), 
             AWSShapeProperty(label: "MetricName", required: true, type: .string), 
             AWSShapeProperty(label: "Period", required: true, type: .integer), 
@@ -893,7 +893,7 @@ extension Monitoring {
     public struct Dimension: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: true, type: .string), 
             AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
@@ -918,7 +918,7 @@ extension Monitoring {
     public struct GetMetricStatisticsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Label", required: false, type: .string), 
             AWSShapeProperty(label: "Datapoints", required: false, type: .list)
         ]
@@ -954,7 +954,7 @@ extension Monitoring {
     public struct DescribeAlarmHistoryOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "AlarmHistoryItems", required: false, type: .list)
         ]
@@ -981,7 +981,7 @@ extension Monitoring {
     public struct SetAlarmStateInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AlarmName", required: true, type: .string), 
             AWSShapeProperty(label: "StateReasonData", required: false, type: .string), 
             AWSShapeProperty(label: "StateReason", required: true, type: .string), 
@@ -1032,7 +1032,7 @@ extension Monitoring {
     public struct DescribeAlarmsForMetricOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MetricAlarms", required: false, type: .list)
         ]
         /// The information for each alarm with the specified metric.
@@ -1054,7 +1054,7 @@ extension Monitoring {
     public struct DimensionFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: false, type: .string), 
             AWSShapeProperty(label: "Name", required: true, type: .string)
         ]

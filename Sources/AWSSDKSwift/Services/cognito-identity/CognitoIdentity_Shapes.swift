@@ -32,7 +32,7 @@ extension CognitoIdentity {
     public struct MappingRule: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Claim", required: true, type: .string), 
             AWSShapeProperty(label: "MatchType", required: true, type: .enum), 
             AWSShapeProperty(label: "Value", required: true, type: .string), 
@@ -69,7 +69,7 @@ extension CognitoIdentity {
     public struct CreateIdentityPoolInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OpenIdConnectProviderARNs", required: false, type: .list), 
             AWSShapeProperty(label: "CognitoIdentityProviders", required: false, type: .list), 
             AWSShapeProperty(label: "DeveloperProviderName", required: false, type: .string), 
@@ -127,7 +127,7 @@ extension CognitoIdentity {
     public struct ListIdentityPoolsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "MaxResults", required: true, type: .integer)
         ]
@@ -151,7 +151,7 @@ extension CognitoIdentity {
     public struct Credentials: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SecretKey", required: false, type: .string), 
             AWSShapeProperty(label: "AccessKeyId", required: false, type: .string), 
             AWSShapeProperty(label: "SessionToken", required: false, type: .string), 
@@ -184,7 +184,7 @@ extension CognitoIdentity {
     public struct GetCredentialsForIdentityInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CustomRoleArn", required: false, type: .string), 
             AWSShapeProperty(label: "Logins", required: false, type: .map), 
             AWSShapeProperty(label: "IdentityId", required: true, type: .string)
@@ -217,7 +217,7 @@ extension CognitoIdentity {
     public struct LookupDeveloperIdentityInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DeveloperUserIdentifier", required: false, type: .string), 
             AWSShapeProperty(label: "IdentityId", required: false, type: .string), 
             AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string), 
@@ -256,7 +256,7 @@ extension CognitoIdentity {
     public struct RulesConfigurationType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Rules", required: true, type: .list)
         ]
         /// An array of rules. You can specify up to 25 rules per identity provider. Rules are evaluated in order. The first one to match specifies the role.
@@ -275,7 +275,7 @@ extension CognitoIdentity {
     public struct IdentityPool: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OpenIdConnectProviderARNs", required: false, type: .list), 
             AWSShapeProperty(label: "CognitoIdentityProviders", required: false, type: .list), 
             AWSShapeProperty(label: "DeveloperProviderName", required: false, type: .string), 
@@ -339,7 +339,7 @@ extension CognitoIdentity {
     public struct IdentityPoolShortDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IdentityPoolId", required: false, type: .string), 
             AWSShapeProperty(label: "IdentityPoolName", required: false, type: .string)
         ]
@@ -362,7 +362,7 @@ extension CognitoIdentity {
     public struct ListIdentitiesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "HideDisabled", required: false, type: .boolean), 
             AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
@@ -397,7 +397,7 @@ extension CognitoIdentity {
     public struct DeleteIdentityPoolInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string)
         ]
         /// An identity pool ID in the format REGION:GUID.
@@ -416,7 +416,7 @@ extension CognitoIdentity {
     public struct GetCredentialsForIdentityResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Credentials", required: false, type: .structure), 
             AWSShapeProperty(label: "IdentityId", required: false, type: .string)
         ]
@@ -439,7 +439,7 @@ extension CognitoIdentity {
     public struct MergeDeveloperIdentitiesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DestinationUserIdentifier", required: true, type: .string), 
             AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string), 
             AWSShapeProperty(label: "SourceUserIdentifier", required: true, type: .string), 
@@ -476,7 +476,7 @@ extension CognitoIdentity {
     public struct DeleteIdentitiesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UnprocessedIdentityIds", required: false, type: .list)
         ]
         /// An array of UnprocessedIdentityId objects, each of which contains an ErrorCode and IdentityId.
@@ -498,7 +498,7 @@ extension CognitoIdentity {
     public struct GetOpenIdTokenForDeveloperIdentityInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TokenDuration", required: false, type: .long), 
             AWSShapeProperty(label: "IdentityId", required: false, type: .string), 
             AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string), 
@@ -533,7 +533,7 @@ extension CognitoIdentity {
     public struct GetOpenIdTokenInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Logins", required: false, type: .map), 
             AWSShapeProperty(label: "IdentityId", required: true, type: .string)
         ]
@@ -561,7 +561,7 @@ extension CognitoIdentity {
     public struct DeleteIdentitiesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IdentityIdsToDelete", required: true, type: .list)
         ]
         /// A list of 1-60 identities that you want to delete.
@@ -580,7 +580,7 @@ extension CognitoIdentity {
     public struct GetIdInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountId", required: false, type: .string), 
             AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string), 
             AWSShapeProperty(label: "Logins", required: false, type: .map)
@@ -613,7 +613,7 @@ extension CognitoIdentity {
     public struct ListIdentityPoolsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IdentityPools", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -640,7 +640,7 @@ extension CognitoIdentity {
     public struct GetIdentityPoolRolesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IdentityPoolId", required: false, type: .string), 
             AWSShapeProperty(label: "RoleMappings", required: false, type: .map), 
             AWSShapeProperty(label: "Roles", required: false, type: .map)
@@ -681,7 +681,7 @@ extension CognitoIdentity {
     public struct GetOpenIdTokenForDeveloperIdentityResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Token", required: false, type: .string), 
             AWSShapeProperty(label: "IdentityId", required: false, type: .string)
         ]
@@ -704,7 +704,7 @@ extension CognitoIdentity {
     public struct DescribeIdentityPoolInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string)
         ]
         /// An identity pool ID in the format REGION:GUID.
@@ -723,7 +723,7 @@ extension CognitoIdentity {
     public struct GetIdentityPoolRolesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string)
         ]
         /// An identity pool ID in the format REGION:GUID.
@@ -742,7 +742,7 @@ extension CognitoIdentity {
     public struct UnlinkDeveloperIdentityInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DeveloperUserIdentifier", required: true, type: .string), 
             AWSShapeProperty(label: "IdentityId", required: true, type: .string), 
             AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string), 
@@ -779,7 +779,7 @@ extension CognitoIdentity {
     public struct GetIdResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IdentityId", required: false, type: .string)
         ]
         /// A unique identifier in the format REGION:GUID.
@@ -809,7 +809,7 @@ extension CognitoIdentity {
     public struct IdentityDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LastModifiedDate", required: false, type: .timestamp), 
             AWSShapeProperty(label: "CreationDate", required: false, type: .timestamp), 
             AWSShapeProperty(label: "IdentityId", required: false, type: .string), 
@@ -842,7 +842,7 @@ extension CognitoIdentity {
     public struct SetIdentityPoolRolesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string), 
             AWSShapeProperty(label: "RoleMappings", required: false, type: .map), 
             AWSShapeProperty(label: "Roles", required: true, type: .map)
@@ -881,7 +881,7 @@ extension CognitoIdentity {
     public struct UnlinkIdentityInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Logins", required: true, type: .map), 
             AWSShapeProperty(label: "LoginsToRemove", required: true, type: .list), 
             AWSShapeProperty(label: "IdentityId", required: true, type: .string)
@@ -912,7 +912,7 @@ extension CognitoIdentity {
     public struct GetOpenIdTokenResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Token", required: false, type: .string), 
             AWSShapeProperty(label: "IdentityId", required: false, type: .string)
         ]
@@ -935,7 +935,7 @@ extension CognitoIdentity {
     public struct CognitoIdentityProvider: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ServerSideTokenCheck", required: false, type: .boolean), 
             AWSShapeProperty(label: "ProviderName", required: false, type: .string), 
             AWSShapeProperty(label: "ClientId", required: false, type: .string)
@@ -963,7 +963,7 @@ extension CognitoIdentity {
     public struct ListIdentitiesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IdentityPoolId", required: false, type: .string), 
             AWSShapeProperty(label: "Identities", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
@@ -995,7 +995,7 @@ extension CognitoIdentity {
     public struct LookupDeveloperIdentityResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DeveloperUserIdentifierList", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "IdentityId", required: false, type: .string)
@@ -1023,7 +1023,7 @@ extension CognitoIdentity {
     public struct UnprocessedIdentityId: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ErrorCode", required: false, type: .enum), 
             AWSShapeProperty(label: "IdentityId", required: false, type: .string)
         ]
@@ -1046,7 +1046,7 @@ extension CognitoIdentity {
     public struct MergeDeveloperIdentitiesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IdentityId", required: false, type: .string)
         ]
         /// A unique identifier in the format REGION:GUID.
@@ -1072,7 +1072,7 @@ extension CognitoIdentity {
     public struct RoleMapping: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Type", required: true, type: .enum), 
             AWSShapeProperty(label: "RulesConfiguration", required: false, type: .structure), 
             AWSShapeProperty(label: "AmbiguousRoleResolution", required: false, type: .enum)
@@ -1107,7 +1107,7 @@ extension CognitoIdentity {
     public struct DescribeIdentityInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IdentityId", required: true, type: .string)
         ]
         /// A unique identifier in the format REGION:GUID.

@@ -32,7 +32,7 @@ extension Mobileanalytics {
     public struct Event: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "metrics", required: false, type: .map), 
             AWSShapeProperty(label: "session", required: false, type: .structure), 
             AWSShapeProperty(label: "attributes", required: false, type: .map), 
@@ -85,7 +85,7 @@ extension Mobileanalytics {
     public struct Session: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "startTimestamp", required: false, type: .string), 
             AWSShapeProperty(label: "id", required: false, type: .string), 
             AWSShapeProperty(label: "stopTimestamp", required: false, type: .string), 
@@ -121,7 +121,7 @@ extension Mobileanalytics {
         public static var headerParams: [String: String] {
             return ["x-amz-Client-Context-Encoding": "clientContextEncoding", "x-amz-Client-Context": "clientContext"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "X-amz-Client-Context", required: true, type: .string), 
             AWSShapeProperty(label: "X-amz-Client-Context-Encoding", required: false, type: .string), 
             AWSShapeProperty(label: "events", required: true, type: .list)

@@ -32,7 +32,7 @@ extension Redshift {
     public struct ClusterSubnetGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "ClusterSubnetGroups", required: false, type: .structure)
         ]
@@ -55,7 +55,7 @@ extension Redshift {
     public struct DeleteClusterResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Cluster", required: false, type: .structure)
         ]
         public let cluster: Cluster?
@@ -72,7 +72,7 @@ extension Redshift {
     public struct EventsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "Events", required: false, type: .structure)
         ]
@@ -95,7 +95,7 @@ extension Redshift {
     public struct TaggedResourceListMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "TaggedResources", required: false, type: .structure)
         ]
@@ -118,7 +118,7 @@ extension Redshift {
     public struct RevokeClusterSecurityGroupIngressResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterSecurityGroup", required: false, type: .structure)
         ]
         public let clusterSecurityGroup: ClusterSecurityGroup?
@@ -135,7 +135,7 @@ extension Redshift {
     public struct AuthorizeClusterSecurityGroupIngressMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CIDRIP", required: false, type: .string), 
             AWSShapeProperty(label: "EC2SecurityGroupName", required: false, type: .string), 
             AWSShapeProperty(label: "EC2SecurityGroupOwnerId", required: false, type: .string), 
@@ -169,7 +169,7 @@ extension Redshift {
     public struct ClusterSecurityGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "ClusterSecurityGroups", required: false, type: .structure)
         ]
@@ -192,7 +192,7 @@ extension Redshift {
     public struct DescribeTableRestoreStatusMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterIdentifier", required: false, type: .string), 
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "TableRestoreRequestId", required: false, type: .string), 
@@ -225,7 +225,7 @@ extension Redshift {
     public struct RebootClusterResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Cluster", required: false, type: .structure)
         ]
         public let cluster: Cluster?
@@ -242,7 +242,7 @@ extension Redshift {
     public struct DeleteHsmClientCertificateMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "HsmClientCertificateIdentifier", required: true, type: .string)
         ]
         /// The identifier of the HSM client certificate to be deleted.
@@ -261,7 +261,7 @@ extension Redshift {
     public struct OrderableClusterOptionsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "OrderableClusterOptions", required: false, type: .structure)
         ]
@@ -284,7 +284,7 @@ extension Redshift {
     public struct AccountsWithRestoreAccessList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountWithRestoreAccess", required: false, type: .list)
         ]
         public let accountWithRestoreAccess: [AccountWithRestoreAccess]?
@@ -305,7 +305,7 @@ extension Redshift {
     public struct ClusterList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Cluster", required: false, type: .list)
         ]
         public let cluster: [Cluster]?
@@ -326,7 +326,7 @@ extension Redshift {
     public struct AuthorizeSnapshotAccessMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SnapshotClusterIdentifier", required: false, type: .string), 
             AWSShapeProperty(label: "SnapshotIdentifier", required: true, type: .string), 
             AWSShapeProperty(label: "AccountWithRestoreAccess", required: true, type: .string)
@@ -365,7 +365,7 @@ extension Redshift {
     public struct Endpoint: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Address", required: false, type: .string), 
             AWSShapeProperty(label: "Port", required: false, type: .integer)
         ]
@@ -388,7 +388,7 @@ extension Redshift {
     public struct ReservedNodeList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReservedNode", required: false, type: .list)
         ]
         public let reservedNode: [ReservedNode]?
@@ -409,7 +409,7 @@ extension Redshift {
     public struct ClusterVersionList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterVersion", required: false, type: .list)
         ]
         public let clusterVersion: [ClusterVersion]?
@@ -430,7 +430,7 @@ extension Redshift {
     public struct ClusterParameterGroupStatusList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterParameterGroup", required: false, type: .list)
         ]
         public let clusterParameterGroup: [ClusterParameterGroupStatus]?
@@ -451,7 +451,7 @@ extension Redshift {
     public struct CreateClusterParameterGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterParameterGroup", required: false, type: .structure)
         ]
         public let clusterParameterGroup: ClusterParameterGroup?
@@ -468,7 +468,7 @@ extension Redshift {
     public struct HsmConfigurationMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "HsmConfigurations", required: false, type: .structure)
         ]
@@ -491,7 +491,7 @@ extension Redshift {
     public struct PurchaseReservedNodeOfferingMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReservedNodeOfferingId", required: true, type: .string), 
             AWSShapeProperty(label: "NodeCount", required: false, type: .integer)
         ]
@@ -515,7 +515,7 @@ extension Redshift {
     public struct ModifySnapshotCopyRetentionPeriodResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Cluster", required: false, type: .structure)
         ]
         public let cluster: Cluster?
@@ -532,7 +532,7 @@ extension Redshift {
     public struct HsmStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "HsmConfigurationIdentifier", required: false, type: .string), 
             AWSShapeProperty(label: "HsmClientCertificateIdentifier", required: false, type: .string)
@@ -560,7 +560,7 @@ extension Redshift {
     public struct ModifyClusterSubnetGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubnetIds", required: true, type: .structure), 
             AWSShapeProperty(label: "ClusterSubnetGroupName", required: true, type: .string), 
             AWSShapeProperty(label: "Description", required: false, type: .string)
@@ -590,7 +590,7 @@ extension Redshift {
     public struct RestoreTableFromClusterSnapshotResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TableRestoreStatus", required: false, type: .structure)
         ]
         public let tableRestoreStatus: TableRestoreStatus?
@@ -607,7 +607,7 @@ extension Redshift {
     public struct TableRestoreStatusList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TableRestoreStatus", required: false, type: .list)
         ]
         public let tableRestoreStatus: [TableRestoreStatus]?
@@ -628,7 +628,7 @@ extension Redshift {
     public struct AuthorizeSnapshotAccessResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Snapshot", required: false, type: .structure)
         ]
         public let snapshot: Snapshot?
@@ -645,7 +645,7 @@ extension Redshift {
     public struct ClusterSubnetGroup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubnetGroupStatus", required: false, type: .string), 
             AWSShapeProperty(label: "Subnets", required: false, type: .structure), 
             AWSShapeProperty(label: "VpcId", required: false, type: .string), 
@@ -688,7 +688,7 @@ extension Redshift {
     public struct CreateHsmConfigurationMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "HsmPartitionName", required: true, type: .string), 
             AWSShapeProperty(label: "HsmPartitionPassword", required: true, type: .string), 
             AWSShapeProperty(label: "Tags", required: false, type: .structure), 
@@ -742,7 +742,7 @@ extension Redshift {
     public struct RestoreTableFromClusterSnapshotMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SnapshotIdentifier", required: true, type: .string), 
             AWSShapeProperty(label: "SourceDatabaseName", required: true, type: .string), 
             AWSShapeProperty(label: "SourceTableName", required: true, type: .string), 
@@ -800,7 +800,7 @@ extension Redshift {
     public struct DisableSnapshotCopyResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Cluster", required: false, type: .structure)
         ]
         public let cluster: Cluster?
@@ -817,7 +817,7 @@ extension Redshift {
     public struct Tag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: false, type: .string), 
             AWSShapeProperty(label: "Key", required: false, type: .string)
         ]
@@ -840,7 +840,7 @@ extension Redshift {
     public struct ResizeProgressMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "EstimatedTimeToCompletionInSeconds", required: false, type: .long), 
             AWSShapeProperty(label: "TargetClusterType", required: false, type: .string), 
@@ -913,7 +913,7 @@ extension Redshift {
     public struct OrderableClusterOption: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AvailabilityZones", required: false, type: .structure), 
             AWSShapeProperty(label: "ClusterType", required: false, type: .string), 
             AWSShapeProperty(label: "ClusterVersion", required: false, type: .string), 
@@ -946,7 +946,7 @@ extension Redshift {
     public struct CreateEventSubscriptionMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Severity", required: false, type: .string), 
             AWSShapeProperty(label: "SnsTopicArn", required: true, type: .string), 
             AWSShapeProperty(label: "SubscriptionName", required: true, type: .string), 
@@ -1001,7 +1001,7 @@ extension Redshift {
     public struct ClusterIamRoleList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterIamRole", required: false, type: .list)
         ]
         public let clusterIamRole: [ClusterIamRole]?
@@ -1022,7 +1022,7 @@ extension Redshift {
     public struct EventCategoriesMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EventCategoriesMapList", required: false, type: .structure)
         ]
         /// A list of event categories descriptions.
@@ -1040,7 +1040,7 @@ extension Redshift {
     public struct RecurringCharge: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RecurringChargeAmount", required: false, type: .double), 
             AWSShapeProperty(label: "RecurringChargeFrequency", required: false, type: .string)
         ]
@@ -1063,7 +1063,7 @@ extension Redshift {
     public struct IPRangeList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IPRange", required: false, type: .list)
         ]
         public let iPRange: [IPRange]?
@@ -1084,7 +1084,7 @@ extension Redshift {
     public struct HsmClientCertificateMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "HsmClientCertificates", required: false, type: .structure)
         ]
@@ -1107,7 +1107,7 @@ extension Redshift {
     public struct DescribeEventsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
@@ -1155,7 +1155,7 @@ extension Redshift {
     public struct EnableSnapshotCopyMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DestinationRegion", required: true, type: .string), 
             AWSShapeProperty(label: "RetentionPeriod", required: false, type: .integer), 
             AWSShapeProperty(label: "ClusterIdentifier", required: true, type: .string), 
@@ -1190,7 +1190,7 @@ extension Redshift {
     public struct DescribeClusterSecurityGroupsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "TagValues", required: false, type: .structure), 
             AWSShapeProperty(label: "TagKeys", required: false, type: .structure), 
@@ -1228,7 +1228,7 @@ extension Redshift {
     public struct CreateClusterSecurityGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterSecurityGroupName", required: true, type: .string), 
             AWSShapeProperty(label: "Tags", required: false, type: .structure), 
             AWSShapeProperty(label: "Description", required: true, type: .string)
@@ -1258,7 +1258,7 @@ extension Redshift {
     public struct VpcSecurityGroupIdList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcSecurityGroupId", required: false, type: .list)
         ]
         public let vpcSecurityGroupId: [String]?
@@ -1275,7 +1275,7 @@ extension Redshift {
     public struct DescribeHsmConfigurationsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "TagValues", required: false, type: .structure), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
@@ -1313,7 +1313,7 @@ extension Redshift {
     public struct EventList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Event", required: false, type: .list)
         ]
         public let event: [Event]?
@@ -1334,7 +1334,7 @@ extension Redshift {
     public struct DeleteClusterSnapshotResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Snapshot", required: false, type: .structure)
         ]
         public let snapshot: Snapshot?
@@ -1351,7 +1351,7 @@ extension Redshift {
     public struct EventInfoMapList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EventInfoMap", required: false, type: .list)
         ]
         public let eventInfoMap: [EventInfoMap]?
@@ -1372,7 +1372,7 @@ extension Redshift {
     public struct ClusterParameterGroup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ParameterGroupName", required: false, type: .string), 
             AWSShapeProperty(label: "ParameterGroupFamily", required: false, type: .string), 
             AWSShapeProperty(label: "Tags", required: false, type: .structure), 
@@ -1405,7 +1405,7 @@ extension Redshift {
     public struct ReservedNode: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "RecurringCharges", required: false, type: .structure), 
             AWSShapeProperty(label: "NodeCount", required: false, type: .integer), 
@@ -1478,7 +1478,7 @@ extension Redshift {
     public struct RestoreStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "SnapshotSizeInMegaBytes", required: false, type: .long), 
             AWSShapeProperty(label: "CurrentRestoreRateInMegaBytesPerSecond", required: false, type: .double), 
@@ -1521,7 +1521,7 @@ extension Redshift {
     public struct RestoreFromClusterSnapshotMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterSecurityGroups", required: false, type: .structure), 
             AWSShapeProperty(label: "SnapshotClusterIdentifier", required: false, type: .string), 
             AWSShapeProperty(label: "OwnerAccount", required: false, type: .string), 
@@ -1646,7 +1646,7 @@ extension Redshift {
     public struct DeleteTagsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceName", required: true, type: .string), 
             AWSShapeProperty(label: "TagKeys", required: true, type: .structure)
         ]
@@ -1671,7 +1671,7 @@ extension Redshift {
     public struct RebootClusterMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterIdentifier", required: true, type: .string)
         ]
         /// The cluster identifier.
@@ -1690,7 +1690,7 @@ extension Redshift {
     public struct ReservedNodesMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "ReservedNodes", required: false, type: .structure)
         ]
@@ -1713,7 +1713,7 @@ extension Redshift {
     public struct DescribeLoggingStatusMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterIdentifier", required: true, type: .string)
         ]
         /// The identifier of the cluster from which to get the logging status. Example: examplecluster 
@@ -1732,7 +1732,7 @@ extension Redshift {
     public struct ResetClusterParameterGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Parameters", required: false, type: .structure), 
             AWSShapeProperty(label: "ResetAllParameters", required: false, type: .boolean), 
             AWSShapeProperty(label: "ParameterGroupName", required: true, type: .string)
@@ -1761,7 +1761,7 @@ extension Redshift {
     public struct DeleteEventSubscriptionMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubscriptionName", required: true, type: .string)
         ]
         /// The name of the Amazon Redshift event notification subscription to be deleted.
@@ -1780,7 +1780,7 @@ extension Redshift {
     public struct DescribeOrderableClusterOptionsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "ClusterVersion", required: false, type: .string), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
@@ -1813,7 +1813,7 @@ extension Redshift {
     public struct IamRoleArnList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IamRoleArn", required: false, type: .list)
         ]
         public let iamRoleArn: [String]?
@@ -1830,7 +1830,7 @@ extension Redshift {
     public struct SourceIdsList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SourceId", required: false, type: .list)
         ]
         public let sourceId: [String]?
@@ -1847,7 +1847,7 @@ extension Redshift {
     public struct ClusterVersion: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterVersion", required: false, type: .string), 
             AWSShapeProperty(label: "ClusterParameterGroupFamily", required: false, type: .string), 
             AWSShapeProperty(label: "Description", required: false, type: .string)
@@ -1875,7 +1875,7 @@ extension Redshift {
     public struct SubnetIdentifierList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubnetIdentifier", required: false, type: .list)
         ]
         public let subnetIdentifier: [String]?
@@ -1892,7 +1892,7 @@ extension Redshift {
     public struct Subnet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubnetIdentifier", required: false, type: .string), 
             AWSShapeProperty(label: "SubnetAvailabilityZone", required: false, type: .structure), 
             AWSShapeProperty(label: "SubnetStatus", required: false, type: .string)
@@ -1919,7 +1919,7 @@ extension Redshift {
     public struct EC2SecurityGroup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "EC2SecurityGroupOwnerId", required: false, type: .string), 
             AWSShapeProperty(label: "Tags", required: false, type: .structure), 
@@ -1952,7 +1952,7 @@ extension Redshift {
     public struct Parameter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ParameterValue", required: false, type: .string), 
             AWSShapeProperty(label: "AllowedValues", required: false, type: .string), 
             AWSShapeProperty(label: "DataType", required: false, type: .string), 
@@ -2010,7 +2010,7 @@ extension Redshift {
     public struct CreateClusterParameterGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ParameterGroupName", required: true, type: .string), 
             AWSShapeProperty(label: "ParameterGroupFamily", required: true, type: .string), 
             AWSShapeProperty(label: "Tags", required: false, type: .structure), 
@@ -2046,7 +2046,7 @@ extension Redshift {
     public struct DescribeHsmClientCertificatesMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "TagValues", required: false, type: .structure), 
             AWSShapeProperty(label: "HsmClientCertificateIdentifier", required: false, type: .string), 
@@ -2084,7 +2084,7 @@ extension Redshift {
     public struct DescribeResizeMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterIdentifier", required: true, type: .string)
         ]
         /// The unique identifier of a cluster whose resize progress you are requesting. This parameter is case-sensitive. By default, resize operations for all clusters defined for an AWS account are returned.
@@ -2103,7 +2103,7 @@ extension Redshift {
     public struct ClusterVersionsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "ClusterVersions", required: false, type: .structure)
         ]
@@ -2126,7 +2126,7 @@ extension Redshift {
     public struct ClusterSecurityGroups: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterSecurityGroup", required: false, type: .list)
         ]
         public let clusterSecurityGroup: [ClusterSecurityGroup]?
@@ -2147,7 +2147,7 @@ extension Redshift {
     public struct Event: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Severity", required: false, type: .string), 
             AWSShapeProperty(label: "Message", required: false, type: .string), 
             AWSShapeProperty(label: "SourceType", required: false, type: .enum), 
@@ -2195,7 +2195,7 @@ extension Redshift {
     public struct SnapshotList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Snapshot", required: false, type: .list)
         ]
         public let snapshot: [Snapshot]?
@@ -2216,7 +2216,7 @@ extension Redshift {
     public struct ReservedNodeOffering: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RecurringCharges", required: false, type: .structure), 
             AWSShapeProperty(label: "UsagePrice", required: false, type: .double), 
             AWSShapeProperty(label: "NodeType", required: false, type: .string), 
@@ -2269,7 +2269,7 @@ extension Redshift {
     public struct RevokeSnapshotAccessResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Snapshot", required: false, type: .structure)
         ]
         public let snapshot: Snapshot?
@@ -2286,7 +2286,7 @@ extension Redshift {
     public struct CreateClusterResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Cluster", required: false, type: .structure)
         ]
         public let cluster: Cluster?
@@ -2303,7 +2303,7 @@ extension Redshift {
     public struct EventCategoriesMap: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SourceType", required: false, type: .string), 
             AWSShapeProperty(label: "Events", required: false, type: .structure)
         ]
@@ -2326,7 +2326,7 @@ extension Redshift {
     public struct TableRestoreStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Message", required: false, type: .string), 
             AWSShapeProperty(label: "ProgressInMegaBytes", required: false, type: .long), 
             AWSShapeProperty(label: "SourceSchemaName", required: false, type: .string), 
@@ -2409,7 +2409,7 @@ extension Redshift {
     public struct DescribeEventSubscriptionsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "SubscriptionName", required: false, type: .string)
@@ -2437,7 +2437,7 @@ extension Redshift {
     public struct DescribeDefaultClusterParametersResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DefaultClusterParameters", required: false, type: .structure)
         ]
         public let defaultClusterParameters: DefaultClusterParameters?
@@ -2454,7 +2454,7 @@ extension Redshift {
     public struct ModifyEventSubscriptionResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EventSubscription", required: false, type: .structure)
         ]
         public let eventSubscription: EventSubscription?
@@ -2471,7 +2471,7 @@ extension Redshift {
     public struct ClusterParameterGroupStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterParameterStatusList", required: false, type: .list), 
             AWSShapeProperty(label: "ParameterApplyStatus", required: false, type: .string), 
             AWSShapeProperty(label: "ParameterGroupName", required: false, type: .string)
@@ -2503,7 +2503,7 @@ extension Redshift {
     public struct CreateClusterSubnetGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubnetIds", required: true, type: .structure), 
             AWSShapeProperty(label: "ClusterSubnetGroupName", required: true, type: .string), 
             AWSShapeProperty(label: "Tags", required: false, type: .structure), 
@@ -2539,7 +2539,7 @@ extension Redshift {
     public struct CopyClusterSnapshotMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TargetSnapshotIdentifier", required: true, type: .string), 
             AWSShapeProperty(label: "SourceSnapshotIdentifier", required: true, type: .string), 
             AWSShapeProperty(label: "SourceSnapshotClusterIdentifier", required: false, type: .string)
@@ -2569,7 +2569,7 @@ extension Redshift {
     public struct DeleteHsmConfigurationMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "HsmConfigurationIdentifier", required: true, type: .string)
         ]
         /// The identifier of the Amazon Redshift HSM configuration to be deleted.
@@ -2588,7 +2588,7 @@ extension Redshift {
     public struct RestoreFromClusterSnapshotResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Cluster", required: false, type: .structure)
         ]
         public let cluster: Cluster?
@@ -2605,7 +2605,7 @@ extension Redshift {
     public struct RestorableNodeTypeList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NodeType", required: false, type: .list)
         ]
         public let nodeType: [String]?
@@ -2622,7 +2622,7 @@ extension Redshift {
     public struct DescribeClusterVersionsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "ClusterVersion", required: false, type: .string), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
@@ -2655,7 +2655,7 @@ extension Redshift {
     public struct LoggingStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LastFailureMessage", required: false, type: .string), 
             AWSShapeProperty(label: "BucketName", required: false, type: .string), 
             AWSShapeProperty(label: "S3KeyPrefix", required: false, type: .string), 
@@ -2698,7 +2698,7 @@ extension Redshift {
     public struct EnableSnapshotCopyResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Cluster", required: false, type: .structure)
         ]
         public let cluster: Cluster?
@@ -2715,7 +2715,7 @@ extension Redshift {
     public struct DeleteClusterMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterIdentifier", required: true, type: .string), 
             AWSShapeProperty(label: "FinalClusterSnapshotIdentifier", required: false, type: .string), 
             AWSShapeProperty(label: "SkipFinalClusterSnapshot", required: false, type: .boolean)
@@ -2744,7 +2744,7 @@ extension Redshift {
     public struct DeleteClusterSecurityGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterSecurityGroupName", required: true, type: .string)
         ]
         /// The name of the cluster security group to be deleted.
@@ -2763,7 +2763,7 @@ extension Redshift {
     public struct DescribeReservedNodeOfferingsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "ReservedNodeOfferingId", required: false, type: .string)
@@ -2791,7 +2791,7 @@ extension Redshift {
     public struct ModifyClusterResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Cluster", required: false, type: .structure)
         ]
         public let cluster: Cluster?
@@ -2808,7 +2808,7 @@ extension Redshift {
     public struct TagValueList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TagValue", required: false, type: .list)
         ]
         public let tagValue: [String]?
@@ -2825,7 +2825,7 @@ extension Redshift {
     public struct EventSubscriptionsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EventSubscriptionsList", required: false, type: .structure), 
             AWSShapeProperty(label: "Marker", required: false, type: .string)
         ]
@@ -2848,7 +2848,7 @@ extension Redshift {
     public struct ClusterParameterGroupNameMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ParameterGroupStatus", required: false, type: .string), 
             AWSShapeProperty(label: "ParameterGroupName", required: false, type: .string)
         ]
@@ -2871,7 +2871,7 @@ extension Redshift {
     public struct EventSubscriptionsList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EventSubscription", required: false, type: .list)
         ]
         public let eventSubscription: [EventSubscription]?
@@ -2892,7 +2892,7 @@ extension Redshift {
     public struct TableRestoreStatusMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TableRestoreStatusDetails", required: false, type: .structure), 
             AWSShapeProperty(label: "Marker", required: false, type: .string)
         ]
@@ -2915,7 +2915,7 @@ extension Redshift {
     public struct CreateEventSubscriptionResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EventSubscription", required: false, type: .structure)
         ]
         public let eventSubscription: EventSubscription?
@@ -2932,7 +2932,7 @@ extension Redshift {
     public struct ReservedNodeOfferingList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReservedNodeOffering", required: false, type: .list)
         ]
         public let reservedNodeOffering: [ReservedNodeOffering]?
@@ -2953,7 +2953,7 @@ extension Redshift {
     public struct VpcSecurityGroupMembership: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "VpcSecurityGroupId", required: false, type: .string)
         ]
@@ -2976,7 +2976,7 @@ extension Redshift {
     public struct HsmClientCertificate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Tags", required: false, type: .structure), 
             AWSShapeProperty(label: "HsmClientCertificatePublicKey", required: false, type: .string), 
             AWSShapeProperty(label: "HsmClientCertificateIdentifier", required: false, type: .string)
@@ -3004,7 +3004,7 @@ extension Redshift {
     public struct DescribeClusterSnapshotsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "SnapshotIdentifier", required: false, type: .string), 
@@ -3067,7 +3067,7 @@ extension Redshift {
     public struct DeleteSnapshotCopyGrantMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SnapshotCopyGrantName", required: true, type: .string)
         ]
         /// The name of the snapshot copy grant to delete.
@@ -3086,7 +3086,7 @@ extension Redshift {
     public struct ClusterParameterGroupsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "ParameterGroups", required: false, type: .structure)
         ]
@@ -3109,7 +3109,7 @@ extension Redshift {
     public struct EventCategoriesList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EventCategory", required: false, type: .list)
         ]
         public let eventCategory: [String]?
@@ -3126,7 +3126,7 @@ extension Redshift {
     public struct DescribeDefaultClusterParametersMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "ParameterGroupFamily", required: true, type: .string)
@@ -3155,7 +3155,7 @@ extension Redshift {
     public struct RecurringChargeList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RecurringCharge", required: false, type: .list)
         ]
         public let recurringCharge: [RecurringCharge]?
@@ -3176,7 +3176,7 @@ extension Redshift {
     public struct CreateClusterSubnetGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterSubnetGroup", required: false, type: .structure)
         ]
         public let clusterSubnetGroup: ClusterSubnetGroup?
@@ -3193,7 +3193,7 @@ extension Redshift {
     public struct ModifyClusterIamRolesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Cluster", required: false, type: .structure)
         ]
         public let cluster: Cluster?
@@ -3210,7 +3210,7 @@ extension Redshift {
     public struct ClusterSecurityGroupMembership: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "ClusterSecurityGroupName", required: false, type: .string)
         ]
@@ -3239,7 +3239,7 @@ extension Redshift {
     public struct DescribeReservedNodesMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "ReservedNodeId", required: false, type: .string), 
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer)
@@ -3267,7 +3267,7 @@ extension Redshift {
     public struct CopyClusterSnapshotResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Snapshot", required: false, type: .structure)
         ]
         public let snapshot: Snapshot?
@@ -3284,7 +3284,7 @@ extension Redshift {
     public struct DescribeTagsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "TagValues", required: false, type: .structure), 
             AWSShapeProperty(label: "ResourceType", required: false, type: .string), 
@@ -3327,7 +3327,7 @@ extension Redshift {
     public struct ClusterSubnetGroups: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterSubnetGroup", required: false, type: .list)
         ]
         public let clusterSubnetGroup: [ClusterSubnetGroup]?
@@ -3348,7 +3348,7 @@ extension Redshift {
     public struct Snapshot: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ActualIncrementalBackupSizeInMegaBytes", required: false, type: .double), 
             AWSShapeProperty(label: "DBName", required: false, type: .string), 
             AWSShapeProperty(label: "ClusterVersion", required: false, type: .string), 
@@ -3506,7 +3506,7 @@ extension Redshift {
     public struct EventSubscription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Severity", required: false, type: .string), 
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "SnsTopicArn", required: false, type: .string), 
@@ -3574,7 +3574,7 @@ extension Redshift {
     public struct VpcSecurityGroupMembershipList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcSecurityGroup", required: false, type: .list)
         ]
         public let vpcSecurityGroup: [VpcSecurityGroupMembership]?
@@ -3595,7 +3595,7 @@ extension Redshift {
     public struct CreateSnapshotCopyGrantMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SnapshotCopyGrantName", required: true, type: .string), 
             AWSShapeProperty(label: "Tags", required: false, type: .structure), 
             AWSShapeProperty(label: "KmsKeyId", required: false, type: .string)
@@ -3624,7 +3624,7 @@ extension Redshift {
     public struct TagList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Tag", required: false, type: .list)
         ]
         public let tag: [Tag]?
@@ -3645,7 +3645,7 @@ extension Redshift {
     public struct ElasticIpStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ElasticIp", required: false, type: .string), 
             AWSShapeProperty(label: "Status", required: false, type: .string)
         ]
@@ -3668,7 +3668,7 @@ extension Redshift {
     public struct DescribeEventCategoriesMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SourceType", required: false, type: .string)
         ]
         /// The source type, such as cluster or parameter group, to which the described event categories apply. Valid values: cluster, cluster-snapshot, cluster-parameter-group, and cluster-security-group.
@@ -3686,7 +3686,7 @@ extension Redshift {
     public struct AvailabilityZoneList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AvailabilityZone", required: false, type: .list)
         ]
         public let availabilityZone: [AvailabilityZone]?
@@ -3707,7 +3707,7 @@ extension Redshift {
     public struct DeleteClusterParameterGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ParameterGroupName", required: true, type: .string)
         ]
         /// The name of the parameter group to be deleted. Constraints:   Must be the name of an existing cluster parameter group.   Cannot delete a default cluster parameter group.  
@@ -3726,7 +3726,7 @@ extension Redshift {
     public struct CreateHsmClientCertificateMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Tags", required: false, type: .structure), 
             AWSShapeProperty(label: "HsmClientCertificateIdentifier", required: true, type: .string)
         ]
@@ -3750,7 +3750,7 @@ extension Redshift {
     public struct TaggedResourceList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TaggedResource", required: false, type: .list)
         ]
         public let taggedResource: [TaggedResource]?
@@ -3771,7 +3771,7 @@ extension Redshift {
     public struct DescribeSnapshotCopyGrantsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "TagValues", required: false, type: .structure), 
             AWSShapeProperty(label: "SnapshotCopyGrantName", required: false, type: .string), 
@@ -3809,7 +3809,7 @@ extension Redshift {
     public struct ClustersMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "Clusters", required: false, type: .structure)
         ]
@@ -3832,7 +3832,7 @@ extension Redshift {
     public struct PurchaseReservedNodeOfferingResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReservedNode", required: false, type: .structure)
         ]
         public let reservedNode: ReservedNode?
@@ -3857,7 +3857,7 @@ extension Redshift {
     public struct DefaultClusterParameters: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Parameters", required: false, type: .structure), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "ParameterGroupFamily", required: false, type: .string)
@@ -3885,7 +3885,7 @@ extension Redshift {
     public struct ModifyClusterMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterSecurityGroups", required: false, type: .structure), 
             AWSShapeProperty(label: "ClusterVersion", required: false, type: .string), 
             AWSShapeProperty(label: "NewClusterIdentifier", required: false, type: .string), 
@@ -3989,7 +3989,7 @@ extension Redshift {
     public struct RotateEncryptionKeyResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Cluster", required: false, type: .structure)
         ]
         public let cluster: Cluster?
@@ -4006,7 +4006,7 @@ extension Redshift {
     public struct HsmConfigurationList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "HsmConfiguration", required: false, type: .list)
         ]
         public let hsmConfiguration: [HsmConfiguration]?
@@ -4027,7 +4027,7 @@ extension Redshift {
     public struct DescribeClusterSubnetGroupsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "TagValues", required: false, type: .structure), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
@@ -4065,7 +4065,7 @@ extension Redshift {
     public struct ModifyClusterIamRolesMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterIdentifier", required: true, type: .string), 
             AWSShapeProperty(label: "AddIamRoles", required: false, type: .structure), 
             AWSShapeProperty(label: "RemoveIamRoles", required: false, type: .structure)
@@ -4094,7 +4094,7 @@ extension Redshift {
     public struct ClusterIamRole: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IamRoleArn", required: false, type: .string), 
             AWSShapeProperty(label: "ApplyStatus", required: false, type: .string)
         ]
@@ -4117,7 +4117,7 @@ extension Redshift {
     public struct CreateClusterSnapshotMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterIdentifier", required: true, type: .string), 
             AWSShapeProperty(label: "Tags", required: false, type: .structure), 
             AWSShapeProperty(label: "SnapshotIdentifier", required: true, type: .string)
@@ -4147,7 +4147,7 @@ extension Redshift {
     public struct ClusterSecurityGroupMembershipList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterSecurityGroup", required: false, type: .list)
         ]
         public let clusterSecurityGroup: [ClusterSecurityGroupMembership]?
@@ -4168,7 +4168,7 @@ extension Redshift {
     public struct ClusterParameterGroupDetails: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "Parameters", required: false, type: .structure)
         ]
@@ -4191,7 +4191,7 @@ extension Redshift {
     public struct AuthorizeClusterSecurityGroupIngressResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterSecurityGroup", required: false, type: .structure)
         ]
         public let clusterSecurityGroup: ClusterSecurityGroup?
@@ -4208,7 +4208,7 @@ extension Redshift {
     public struct ClusterSecurityGroup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Description", required: false, type: .string), 
             AWSShapeProperty(label: "IPRanges", required: false, type: .structure), 
             AWSShapeProperty(label: "EC2SecurityGroups", required: false, type: .structure), 
@@ -4246,7 +4246,7 @@ extension Redshift {
     public struct TaggedResource: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Tag", required: false, type: .structure), 
             AWSShapeProperty(label: "ResourceName", required: false, type: .string), 
             AWSShapeProperty(label: "ResourceType", required: false, type: .string)
@@ -4274,7 +4274,7 @@ extension Redshift {
     public struct ReservedNodeOfferingsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReservedNodeOfferings", required: false, type: .structure), 
             AWSShapeProperty(label: "Marker", required: false, type: .string)
         ]
@@ -4297,7 +4297,7 @@ extension Redshift {
     public struct ClusterNode: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NodeRole", required: false, type: .string), 
             AWSShapeProperty(label: "PrivateIPAddress", required: false, type: .string), 
             AWSShapeProperty(label: "PublicIPAddress", required: false, type: .string)
@@ -4325,7 +4325,7 @@ extension Redshift {
     public struct OrderableClusterOptionsList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OrderableClusterOption", required: false, type: .list)
         ]
         public let orderableClusterOption: [OrderableClusterOption]?
@@ -4346,7 +4346,7 @@ extension Redshift {
     public struct TagKeyList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TagKey", required: false, type: .list)
         ]
         public let tagKey: [String]?
@@ -4363,7 +4363,7 @@ extension Redshift {
     public struct SnapshotCopyGrantMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "SnapshotCopyGrants", required: false, type: .structure)
         ]
@@ -4386,7 +4386,7 @@ extension Redshift {
     public struct SnapshotCopyGrantList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SnapshotCopyGrant", required: false, type: .list)
         ]
         public let snapshotCopyGrant: [SnapshotCopyGrant]?
@@ -4407,7 +4407,7 @@ extension Redshift {
     public struct Cluster: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcSecurityGroups", required: false, type: .structure), 
             AWSShapeProperty(label: "ClusterNodes", required: false, type: .list), 
             AWSShapeProperty(label: "DBName", required: false, type: .string), 
@@ -4589,7 +4589,7 @@ extension Redshift {
     public struct CreateClusterSnapshotResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Snapshot", required: false, type: .structure)
         ]
         public let snapshot: Snapshot?
@@ -4606,7 +4606,7 @@ extension Redshift {
     public struct ModifyEventSubscriptionMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Severity", required: false, type: .string), 
             AWSShapeProperty(label: "SnsTopicArn", required: false, type: .string), 
             AWSShapeProperty(label: "SubscriptionName", required: true, type: .string), 
@@ -4655,7 +4655,7 @@ extension Redshift {
     public struct ClusterSnapshotCopyStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DestinationRegion", required: false, type: .string), 
             AWSShapeProperty(label: "RetentionPeriod", required: false, type: .long), 
             AWSShapeProperty(label: "SnapshotCopyGrantName", required: false, type: .string)
@@ -4683,7 +4683,7 @@ extension Redshift {
     public struct AvailabilityZone: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: false, type: .string)
         ]
         /// The name of the availability zone.
@@ -4701,7 +4701,7 @@ extension Redshift {
     public struct ModifyClusterSubnetGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterSubnetGroup", required: false, type: .structure)
         ]
         public let clusterSubnetGroup: ClusterSubnetGroup?
@@ -4718,7 +4718,7 @@ extension Redshift {
     public struct HsmConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "HsmIpAddress", required: false, type: .string), 
             AWSShapeProperty(label: "HsmPartitionName", required: false, type: .string), 
             AWSShapeProperty(label: "Tags", required: false, type: .structure), 
@@ -4756,7 +4756,7 @@ extension Redshift {
     public struct DisableLoggingMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterIdentifier", required: true, type: .string)
         ]
         /// The identifier of the cluster on which logging is to be stopped. Example: examplecluster 
@@ -4775,7 +4775,7 @@ extension Redshift {
     public struct HsmClientCertificateList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "HsmClientCertificate", required: false, type: .list)
         ]
         public let hsmClientCertificate: [HsmClientCertificate]?
@@ -4796,7 +4796,7 @@ extension Redshift {
     public struct DescribeClustersMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterIdentifier", required: false, type: .string), 
             AWSShapeProperty(label: "TagValues", required: false, type: .structure), 
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
@@ -4834,7 +4834,7 @@ extension Redshift {
     public struct RotateEncryptionKeyMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterIdentifier", required: true, type: .string)
         ]
         /// The unique identifier of the cluster that you want to rotate the encryption keys for. Constraints: Must be the name of valid cluster that has encryption enabled.
@@ -4853,7 +4853,7 @@ extension Redshift {
     public struct RevokeClusterSecurityGroupIngressMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CIDRIP", required: false, type: .string), 
             AWSShapeProperty(label: "EC2SecurityGroupName", required: false, type: .string), 
             AWSShapeProperty(label: "EC2SecurityGroupOwnerId", required: false, type: .string), 
@@ -4887,7 +4887,7 @@ extension Redshift {
     public struct EC2SecurityGroupList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EC2SecurityGroup", required: false, type: .list)
         ]
         public let eC2SecurityGroup: [EC2SecurityGroup]?
@@ -4908,7 +4908,7 @@ extension Redshift {
     public struct EnableLoggingMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterIdentifier", required: true, type: .string), 
             AWSShapeProperty(label: "BucketName", required: true, type: .string), 
             AWSShapeProperty(label: "S3KeyPrefix", required: false, type: .string)
@@ -4938,7 +4938,7 @@ extension Redshift {
     public struct SubnetList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Subnet", required: false, type: .list)
         ]
         public let subnet: [Subnet]?
@@ -4959,7 +4959,7 @@ extension Redshift {
     public struct SnapshotMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "Snapshots", required: false, type: .structure)
         ]
@@ -4982,7 +4982,7 @@ extension Redshift {
     public struct CreateClusterMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBName", required: false, type: .string), 
             AWSShapeProperty(label: "ClusterVersion", required: false, type: .string), 
             AWSShapeProperty(label: "Encrypted", required: false, type: .boolean), 
@@ -5134,7 +5134,7 @@ extension Redshift {
     public struct SnapshotCopyGrant: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SnapshotCopyGrantName", required: false, type: .string), 
             AWSShapeProperty(label: "Tags", required: false, type: .structure), 
             AWSShapeProperty(label: "KmsKeyId", required: false, type: .string)
@@ -5162,7 +5162,7 @@ extension Redshift {
     public struct ClusterSecurityGroupNameList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterSecurityGroupName", required: false, type: .list)
         ]
         public let clusterSecurityGroupName: [String]?
@@ -5179,7 +5179,7 @@ extension Redshift {
     public struct ModifySnapshotCopyRetentionPeriodMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterIdentifier", required: true, type: .string), 
             AWSShapeProperty(label: "RetentionPeriod", required: true, type: .integer)
         ]
@@ -5204,7 +5204,7 @@ extension Redshift {
     public struct DeleteClusterSubnetGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterSubnetGroupName", required: true, type: .string)
         ]
         /// The name of the cluster subnet group name to be deleted.
@@ -5223,7 +5223,7 @@ extension Redshift {
     public struct RevokeSnapshotAccessMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SnapshotClusterIdentifier", required: false, type: .string), 
             AWSShapeProperty(label: "SnapshotIdentifier", required: true, type: .string), 
             AWSShapeProperty(label: "AccountWithRestoreAccess", required: true, type: .string)
@@ -5253,7 +5253,7 @@ extension Redshift {
     public struct CreateHsmClientCertificateResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "HsmClientCertificate", required: false, type: .structure)
         ]
         public let hsmClientCertificate: HsmClientCertificate?
@@ -5270,7 +5270,7 @@ extension Redshift {
     public struct CreateSnapshotCopyGrantResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SnapshotCopyGrant", required: false, type: .structure)
         ]
         public let snapshotCopyGrant: SnapshotCopyGrant?
@@ -5287,7 +5287,7 @@ extension Redshift {
     public struct ClusterParameterStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ParameterApplyErrorDescription", required: false, type: .string), 
             AWSShapeProperty(label: "ParameterName", required: false, type: .string), 
             AWSShapeProperty(label: "ParameterApplyStatus", required: false, type: .string)
@@ -5315,7 +5315,7 @@ extension Redshift {
     public struct CreateClusterSecurityGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterSecurityGroup", required: false, type: .structure)
         ]
         public let clusterSecurityGroup: ClusterSecurityGroup?
@@ -5332,7 +5332,7 @@ extension Redshift {
     public struct PendingModifiedValues: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterVersion", required: false, type: .string), 
             AWSShapeProperty(label: "NodeType", required: false, type: .string), 
             AWSShapeProperty(label: "ClusterIdentifier", required: false, type: .string), 
@@ -5390,7 +5390,7 @@ extension Redshift {
     public struct CreateHsmConfigurationResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "HsmConfiguration", required: false, type: .structure)
         ]
         public let hsmConfiguration: HsmConfiguration?
@@ -5407,7 +5407,7 @@ extension Redshift {
     public struct CreateTagsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Tags", required: true, type: .structure), 
             AWSShapeProperty(label: "ResourceName", required: true, type: .string)
         ]
@@ -5432,7 +5432,7 @@ extension Redshift {
     public struct ParameterGroupList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterParameterGroup", required: false, type: .list)
         ]
         public let clusterParameterGroup: [ClusterParameterGroup]?
@@ -5453,7 +5453,7 @@ extension Redshift {
     public struct IPRange: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "Tags", required: false, type: .structure), 
             AWSShapeProperty(label: "CIDRIP", required: false, type: .string)
@@ -5481,7 +5481,7 @@ extension Redshift {
     public struct DeleteClusterSnapshotMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SnapshotIdentifier", required: true, type: .string), 
             AWSShapeProperty(label: "SnapshotClusterIdentifier", required: false, type: .string)
         ]
@@ -5505,7 +5505,7 @@ extension Redshift {
     public struct DescribeClusterParameterGroupsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "TagValues", required: false, type: .structure), 
             AWSShapeProperty(label: "ParameterGroupName", required: false, type: .string), 
@@ -5543,7 +5543,7 @@ extension Redshift {
     public struct ParametersList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Parameter", required: false, type: .list)
         ]
         public let parameter: [Parameter]?
@@ -5564,7 +5564,7 @@ extension Redshift {
     public struct DisableSnapshotCopyMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterIdentifier", required: true, type: .string)
         ]
         /// The unique identifier of the source cluster that you want to disable copying of snapshots to a destination region. Constraints: Must be the valid name of an existing cluster that has cross-region snapshot copy enabled.
@@ -5583,7 +5583,7 @@ extension Redshift {
     public struct ModifyClusterParameterGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Parameters", required: true, type: .structure), 
             AWSShapeProperty(label: "ParameterGroupName", required: true, type: .string)
         ]
@@ -5608,7 +5608,7 @@ extension Redshift {
     public struct DescribeClusterParametersMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "ParameterGroupName", required: true, type: .string), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
@@ -5642,7 +5642,7 @@ extension Redshift {
     public struct AccountWithRestoreAccess: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountId", required: false, type: .string)
         ]
         /// The identifier of an AWS customer account authorized to restore a snapshot.
@@ -5660,7 +5660,7 @@ extension Redshift {
     public struct EventInfoMap: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Severity", required: false, type: .string), 
             AWSShapeProperty(label: "EventId", required: false, type: .string), 
             AWSShapeProperty(label: "EventDescription", required: false, type: .string), 
@@ -5693,7 +5693,7 @@ extension Redshift {
     public struct EventCategoriesMapList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EventCategoriesMap", required: false, type: .list)
         ]
         public let eventCategoriesMap: [EventCategoriesMap]?

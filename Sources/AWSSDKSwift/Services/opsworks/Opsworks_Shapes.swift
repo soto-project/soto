@@ -32,7 +32,7 @@ extension Opsworks {
     public struct DeregisterVolumeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VolumeId", required: true, type: .string)
         ]
         /// The AWS OpsWorks volume ID, which is the GUID that AWS OpsWorks assigned to the instance when you registered the volume with the stack, not the Amazon EC2 volume ID.
@@ -51,7 +51,7 @@ extension Opsworks {
     public struct CreateUserProfileRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IamUserArn", required: true, type: .string), 
             AWSShapeProperty(label: "SshPublicKey", required: false, type: .string), 
             AWSShapeProperty(label: "SshUsername", required: false, type: .string), 
@@ -85,7 +85,7 @@ extension Opsworks {
     public struct DescribeRdsDbInstancesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackId", required: true, type: .string), 
             AWSShapeProperty(label: "RdsDbInstanceArns", required: false, type: .list)
         ]
@@ -109,7 +109,7 @@ extension Opsworks {
     public struct Layer: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Shortname", required: false, type: .string), 
             AWSShapeProperty(label: "Packages", required: false, type: .list), 
             AWSShapeProperty(label: "LifecycleEventConfiguration", required: false, type: .structure), 
@@ -234,7 +234,7 @@ extension Opsworks {
     public struct SetTimeBasedAutoScalingRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
             AWSShapeProperty(label: "AutoScalingSchedule", required: false, type: .structure)
         ]
@@ -258,7 +258,7 @@ extension Opsworks {
     public struct DescribeRaidArraysRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackId", required: false, type: .string), 
             AWSShapeProperty(label: "RaidArrayIds", required: false, type: .list), 
             AWSShapeProperty(label: "InstanceId", required: false, type: .string)
@@ -286,7 +286,7 @@ extension Opsworks {
     public struct StackSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstancesCount", required: false, type: .structure), 
             AWSShapeProperty(label: "LayersCount", required: false, type: .integer), 
             AWSShapeProperty(label: "Arn", required: false, type: .string), 
@@ -329,7 +329,7 @@ extension Opsworks {
     public struct DescribeCommandsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Commands", required: false, type: .list)
         ]
         /// An array of Command objects that describe each of the specified commands.
@@ -351,7 +351,7 @@ extension Opsworks {
     public struct DeregisterEcsClusterRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EcsClusterArn", required: true, type: .string)
         ]
         /// The cluster's ARN.
@@ -370,7 +370,7 @@ extension Opsworks {
     public struct DescribeEcsClustersResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EcsClusters", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -397,7 +397,7 @@ extension Opsworks {
     public struct UpdateUserProfileRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IamUserArn", required: true, type: .string), 
             AWSShapeProperty(label: "SshPublicKey", required: false, type: .string), 
             AWSShapeProperty(label: "SshUsername", required: false, type: .string), 
@@ -431,7 +431,7 @@ extension Opsworks {
     public struct DescribeStacksRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackIds", required: false, type: .list)
         ]
         /// An array of stack IDs that specify the stacks to be described. If you omit this parameter, DescribeStacks returns a description of every stack.
@@ -449,7 +449,7 @@ extension Opsworks {
     public struct SslConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Certificate", required: true, type: .string), 
             AWSShapeProperty(label: "Chain", required: false, type: .string), 
             AWSShapeProperty(label: "PrivateKey", required: true, type: .string)
@@ -479,7 +479,7 @@ extension Opsworks {
     public struct DescribeElasticIpsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackId", required: false, type: .string), 
             AWSShapeProperty(label: "Ips", required: false, type: .list), 
             AWSShapeProperty(label: "InstanceId", required: false, type: .string)
@@ -507,7 +507,7 @@ extension Opsworks {
     public struct StackConfigurationManager: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "Version", required: false, type: .string)
         ]
@@ -530,7 +530,7 @@ extension Opsworks {
     public struct UpdateAppRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AppId", required: true, type: .string), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "DataSources", required: false, type: .list), 
@@ -611,7 +611,7 @@ extension Opsworks {
     public struct Instance: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EcsContainerInstanceArn", required: false, type: .string), 
             AWSShapeProperty(label: "Hostname", required: false, type: .string), 
             AWSShapeProperty(label: "EbsOptimized", required: false, type: .boolean), 
@@ -828,7 +828,7 @@ extension Opsworks {
     public struct DescribeUserProfilesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IamUserArns", required: false, type: .list)
         ]
         /// An array of IAM or federated user ARNs that identify the users to be described.
@@ -846,7 +846,7 @@ extension Opsworks {
     public struct DeleteInstanceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DeleteVolumes", required: false, type: .boolean), 
             AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
             AWSShapeProperty(label: "DeleteElasticIp", required: false, type: .boolean)
@@ -875,7 +875,7 @@ extension Opsworks {
     public struct InstancesCount: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Pending", required: false, type: .integer), 
             AWSShapeProperty(label: "Stopping", required: false, type: .integer), 
             AWSShapeProperty(label: "Booting", required: false, type: .integer), 
@@ -983,7 +983,7 @@ extension Opsworks {
     public struct CreateLayerRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Shortname", required: true, type: .string), 
             AWSShapeProperty(label: "Packages", required: false, type: .list), 
             AWSShapeProperty(label: "LifecycleEventConfiguration", required: false, type: .structure), 
@@ -1093,7 +1093,7 @@ extension Opsworks {
     public struct UpdateInstanceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LayerIds", required: false, type: .list), 
             AWSShapeProperty(label: "Hostname", required: false, type: .string), 
             AWSShapeProperty(label: "AgentVersion", required: false, type: .string), 
@@ -1167,7 +1167,7 @@ extension Opsworks {
     public struct RaidArray: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Device", required: false, type: .string), 
             AWSShapeProperty(label: "Iops", required: false, type: .integer), 
             AWSShapeProperty(label: "AvailabilityZone", required: false, type: .string), 
@@ -1245,7 +1245,7 @@ extension Opsworks {
     public struct CloneStackResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackId", required: false, type: .string)
         ]
         /// The cloned stack ID.
@@ -1263,7 +1263,7 @@ extension Opsworks {
     public struct CreateStackResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackId", required: false, type: .string)
         ]
         /// The stack ID, which is an opaque string that you use to identify the stack when performing actions such as DescribeStacks.
@@ -1287,7 +1287,7 @@ extension Opsworks {
     public struct LoadBasedAutoScalingConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DownScaling", required: false, type: .structure), 
             AWSShapeProperty(label: "Enable", required: false, type: .boolean), 
             AWSShapeProperty(label: "UpScaling", required: false, type: .structure), 
@@ -1320,7 +1320,7 @@ extension Opsworks {
     public struct App: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Shortname", required: false, type: .string), 
             AWSShapeProperty(label: "SslConfiguration", required: false, type: .structure), 
             AWSShapeProperty(label: "AppSource", required: false, type: .structure), 
@@ -1421,7 +1421,7 @@ extension Opsworks {
     public struct Command: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LogUrl", required: false, type: .string), 
             AWSShapeProperty(label: "AcknowledgedAt", required: false, type: .string), 
             AWSShapeProperty(label: "CreatedAt", required: false, type: .string), 
@@ -1500,7 +1500,7 @@ extension Opsworks {
     public struct UserProfile: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IamUserArn", required: false, type: .string), 
             AWSShapeProperty(label: "SshPublicKey", required: false, type: .string), 
             AWSShapeProperty(label: "SshUsername", required: false, type: .string), 
@@ -1538,7 +1538,7 @@ extension Opsworks {
     public struct WeeklyAutoScalingSchedule: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Saturday", required: false, type: .map), 
             AWSShapeProperty(label: "Tuesday", required: false, type: .map), 
             AWSShapeProperty(label: "Sunday", required: false, type: .map), 
@@ -1614,7 +1614,7 @@ extension Opsworks {
     public struct RegisterEcsClusterResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EcsClusterArn", required: false, type: .string)
         ]
         /// The cluster's ARN.
@@ -1632,7 +1632,7 @@ extension Opsworks {
     public struct RegisterElasticIpResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ElasticIp", required: false, type: .string)
         ]
         /// The Elastic IP address.
@@ -1650,7 +1650,7 @@ extension Opsworks {
     public struct GetHostnameSuggestionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LayerId", required: true, type: .string)
         ]
         /// The layer ID.
@@ -1669,7 +1669,7 @@ extension Opsworks {
     public struct DeregisterInstanceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceId", required: true, type: .string)
         ]
         /// The instance ID.
@@ -1688,7 +1688,7 @@ extension Opsworks {
     public struct CreateInstanceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BlockDeviceMappings", required: false, type: .list), 
             AWSShapeProperty(label: "SubnetId", required: false, type: .string), 
             AWSShapeProperty(label: "LayerIds", required: true, type: .list), 
@@ -1798,7 +1798,7 @@ extension Opsworks {
     public struct CreateAppRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Shortname", required: false, type: .string), 
             AWSShapeProperty(label: "StackId", required: true, type: .string), 
             AWSShapeProperty(label: "Name", required: true, type: .string), 
@@ -1886,7 +1886,7 @@ extension Opsworks {
     public struct ShutdownEventConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ExecutionTimeout", required: false, type: .integer), 
             AWSShapeProperty(label: "DelayUntilElbConnectionsDrained", required: false, type: .boolean)
         ]
@@ -1909,7 +1909,7 @@ extension Opsworks {
     public struct CreateUserProfileResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IamUserArn", required: false, type: .string)
         ]
         /// The user's IAM ARN.
@@ -1927,7 +1927,7 @@ extension Opsworks {
     public struct CloneStackRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DefaultOs", required: false, type: .string), 
             AWSShapeProperty(label: "ClonePermissions", required: false, type: .boolean), 
             AWSShapeProperty(label: "ServiceRoleArn", required: true, type: .string), 
@@ -2055,7 +2055,7 @@ extension Opsworks {
     public struct DescribeLayersRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackId", required: false, type: .string), 
             AWSShapeProperty(label: "LayerIds", required: false, type: .list)
         ]
@@ -2078,7 +2078,7 @@ extension Opsworks {
     public struct DescribeAgentVersionsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackId", required: false, type: .string), 
             AWSShapeProperty(label: "ConfigurationManager", required: false, type: .structure)
         ]
@@ -2101,7 +2101,7 @@ extension Opsworks {
     public struct DescribeDeploymentsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackId", required: false, type: .string), 
             AWSShapeProperty(label: "DeploymentIds", required: false, type: .list), 
             AWSShapeProperty(label: "AppId", required: false, type: .string)
@@ -2129,7 +2129,7 @@ extension Opsworks {
     public struct DescribeAppsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Apps", required: false, type: .list)
         ]
         /// An array of App objects that describe the specified apps. 
@@ -2151,7 +2151,7 @@ extension Opsworks {
     public struct DescribeVolumesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Volumes", required: false, type: .list)
         ]
         /// An array of volume IDs.
@@ -2173,7 +2173,7 @@ extension Opsworks {
     public struct GrantAccessRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ValidForInMinutes", required: false, type: .integer), 
             AWSShapeProperty(label: "InstanceId", required: true, type: .string)
         ]
@@ -2197,7 +2197,7 @@ extension Opsworks {
     public struct DescribeLayersResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Layers", required: false, type: .list)
         ]
         /// An array of Layer objects that describe the layers.
@@ -2219,7 +2219,7 @@ extension Opsworks {
     public struct DetachElasticLoadBalancerRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LayerId", required: true, type: .string), 
             AWSShapeProperty(label: "ElasticLoadBalancerName", required: true, type: .string)
         ]
@@ -2244,7 +2244,7 @@ extension Opsworks {
     public struct RegisterInstanceResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceId", required: false, type: .string)
         ]
         /// The registered instance's AWS OpsWorks ID.
@@ -2262,7 +2262,7 @@ extension Opsworks {
     public struct ElasticIp: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Domain", required: false, type: .string), 
             AWSShapeProperty(label: "Ip", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
@@ -2300,7 +2300,7 @@ extension Opsworks {
     public struct GrantAccessResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TemporaryCredential", required: false, type: .structure)
         ]
         /// A TemporaryCredential object that contains the data needed to log in to the instance by RDP clients, such as the Microsoft Remote Desktop Connection.
@@ -2324,7 +2324,7 @@ extension Opsworks {
     public struct AssignInstanceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LayerIds", required: true, type: .list), 
             AWSShapeProperty(label: "InstanceId", required: true, type: .string)
         ]
@@ -2349,7 +2349,7 @@ extension Opsworks {
     public struct AssociateElasticIpRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ElasticIp", required: true, type: .string), 
             AWSShapeProperty(label: "InstanceId", required: false, type: .string)
         ]
@@ -2373,7 +2373,7 @@ extension Opsworks {
     public struct UnassignVolumeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VolumeId", required: true, type: .string)
         ]
         /// The volume ID.
@@ -2392,7 +2392,7 @@ extension Opsworks {
     public struct VolumeConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NumberOfDisks", required: true, type: .integer), 
             AWSShapeProperty(label: "VolumeType", required: false, type: .string), 
             AWSShapeProperty(label: "Iops", required: false, type: .integer), 
@@ -2438,7 +2438,7 @@ extension Opsworks {
     public struct CreateAppResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AppId", required: false, type: .string)
         ]
         /// The app ID.
@@ -2456,7 +2456,7 @@ extension Opsworks {
     public struct DescribeUserProfilesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserProfiles", required: false, type: .list)
         ]
         /// A Users object that describes the specified users.
@@ -2478,7 +2478,7 @@ extension Opsworks {
     public struct SetLoadBasedAutoScalingRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DownScaling", required: false, type: .structure), 
             AWSShapeProperty(label: "Enable", required: false, type: .boolean), 
             AWSShapeProperty(label: "UpScaling", required: false, type: .structure), 
@@ -2512,7 +2512,7 @@ extension Opsworks {
     public struct DeleteStackRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackId", required: true, type: .string)
         ]
         /// The stack ID.
@@ -2531,7 +2531,7 @@ extension Opsworks {
     public struct UpdateMyUserProfileRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SshPublicKey", required: false, type: .string)
         ]
         /// The user's SSH public key.
@@ -2554,7 +2554,7 @@ extension Opsworks {
     public struct StopInstanceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceId", required: true, type: .string)
         ]
         /// The instance ID.
@@ -2573,7 +2573,7 @@ extension Opsworks {
     public struct DescribeInstancesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackId", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceIds", required: false, type: .list), 
             AWSShapeProperty(label: "LayerId", required: false, type: .string)
@@ -2601,7 +2601,7 @@ extension Opsworks {
     public struct DescribeLoadBasedAutoScalingResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LoadBasedAutoScalingConfigurations", required: false, type: .list)
         ]
         /// An array of LoadBasedAutoScalingConfiguration objects that describe each layer's configuration.
@@ -2623,7 +2623,7 @@ extension Opsworks {
     public struct DeploymentCommand: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: true, type: .enum), 
             AWSShapeProperty(label: "Args", required: false, type: .map)
         ]
@@ -2656,7 +2656,7 @@ extension Opsworks {
     public struct RegisterRdsDbInstanceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackId", required: true, type: .string), 
             AWSShapeProperty(label: "RdsDbInstanceArn", required: true, type: .string), 
             AWSShapeProperty(label: "DbPassword", required: true, type: .string), 
@@ -2693,7 +2693,7 @@ extension Opsworks {
     public struct CreateInstanceResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceId", required: false, type: .string)
         ]
         /// The instance ID.
@@ -2711,7 +2711,7 @@ extension Opsworks {
     public struct Deployment: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CompletedAt", required: false, type: .string), 
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "CreatedAt", required: false, type: .string), 
@@ -2783,7 +2783,7 @@ extension Opsworks {
     public struct RegisterInstanceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceIdentity", required: false, type: .structure), 
             AWSShapeProperty(label: "Hostname", required: false, type: .string), 
             AWSShapeProperty(label: "StackId", required: true, type: .string), 
@@ -2832,7 +2832,7 @@ extension Opsworks {
     public struct DescribeAppsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackId", required: false, type: .string), 
             AWSShapeProperty(label: "AppIds", required: false, type: .list)
         ]
@@ -2855,7 +2855,7 @@ extension Opsworks {
     public struct Source: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SshKey", required: false, type: .string), 
             AWSShapeProperty(label: "Username", required: false, type: .string), 
             AWSShapeProperty(label: "Password", required: false, type: .string), 
@@ -2898,7 +2898,7 @@ extension Opsworks {
     public struct DescribeRaidArraysResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RaidArrays", required: false, type: .list)
         ]
         /// A RaidArrays object that describes the specified RAID arrays.
@@ -2920,7 +2920,7 @@ extension Opsworks {
     public struct DescribeStacksResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Stacks", required: false, type: .list)
         ]
         /// An array of Stack objects that describe the stacks.
@@ -2942,7 +2942,7 @@ extension Opsworks {
     public struct DescribeServiceErrorsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackId", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
             AWSShapeProperty(label: "ServiceErrorIds", required: false, type: .list)
@@ -2970,7 +2970,7 @@ extension Opsworks {
     public struct DescribeVolumesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RaidArrayId", required: false, type: .string), 
             AWSShapeProperty(label: "VolumeIds", required: false, type: .list), 
             AWSShapeProperty(label: "StackId", required: false, type: .string), 
@@ -3003,7 +3003,7 @@ extension Opsworks {
     public struct AutoScalingThresholds: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MemoryThreshold", required: false, type: .double), 
             AWSShapeProperty(label: "CpuThreshold", required: false, type: .double), 
             AWSShapeProperty(label: "IgnoreMetricsTime", required: false, type: .integer), 
@@ -3080,7 +3080,7 @@ extension Opsworks {
     public struct DescribeEcsClustersRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EcsClusterArns", required: false, type: .list), 
             AWSShapeProperty(label: "StackId", required: false, type: .string), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
@@ -3113,7 +3113,7 @@ extension Opsworks {
     public struct UpdateLayerRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Shortname", required: false, type: .string), 
             AWSShapeProperty(label: "Packages", required: false, type: .list), 
             AWSShapeProperty(label: "LifecycleEventConfiguration", required: false, type: .structure), 
@@ -3214,7 +3214,7 @@ extension Opsworks {
     public struct DescribeStackProvisioningParametersResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Parameters", required: false, type: .map), 
             AWSShapeProperty(label: "AgentInstallerUrl", required: false, type: .string)
         ]
@@ -3241,7 +3241,7 @@ extension Opsworks {
     public struct UnassignInstanceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceId", required: true, type: .string)
         ]
         /// The instance ID.
@@ -3271,7 +3271,7 @@ extension Opsworks {
     public struct Stack: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DefaultOs", required: false, type: .string), 
             AWSShapeProperty(label: "UseOpsworksSecurityGroups", required: false, type: .boolean), 
             AWSShapeProperty(label: "Arn", required: false, type: .string), 
@@ -3397,7 +3397,7 @@ extension Opsworks {
     public struct StartStackRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackId", required: true, type: .string)
         ]
         /// The stack ID.
@@ -3416,7 +3416,7 @@ extension Opsworks {
     public struct ReportedOs: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Family", required: false, type: .string), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "Version", required: false, type: .string)
@@ -3444,7 +3444,7 @@ extension Opsworks {
     public struct Recipes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Undeploy", required: false, type: .list), 
             AWSShapeProperty(label: "Configure", required: false, type: .list), 
             AWSShapeProperty(label: "Setup", required: false, type: .list), 
@@ -3488,7 +3488,7 @@ extension Opsworks {
     public struct SetPermissionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Level", required: false, type: .string), 
             AWSShapeProperty(label: "IamUserArn", required: true, type: .string), 
             AWSShapeProperty(label: "AllowSsh", required: false, type: .boolean), 
@@ -3528,7 +3528,7 @@ extension Opsworks {
     public struct DescribeTimeBasedAutoScalingResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TimeBasedAutoScalingConfigurations", required: false, type: .list)
         ]
         /// An array of TimeBasedAutoScalingConfiguration objects that describe the configuration for the specified instances.
@@ -3550,7 +3550,7 @@ extension Opsworks {
     public struct DescribeElasticLoadBalancersRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackId", required: false, type: .string), 
             AWSShapeProperty(label: "LayerIds", required: false, type: .list)
         ]
@@ -3573,7 +3573,7 @@ extension Opsworks {
     public struct UpdateVolumeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MountPoint", required: false, type: .string), 
             AWSShapeProperty(label: "VolumeId", required: true, type: .string), 
             AWSShapeProperty(label: "Name", required: false, type: .string)
@@ -3602,7 +3602,7 @@ extension Opsworks {
     public struct RegisterVolumeResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VolumeId", required: false, type: .string)
         ]
         /// The volume ID.
@@ -3620,7 +3620,7 @@ extension Opsworks {
     public struct DescribeMyUserProfileResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserProfile", required: false, type: .structure)
         ]
         /// A UserProfile object that describes the user's SSH information.
@@ -3638,7 +3638,7 @@ extension Opsworks {
     public struct RegisterElasticIpRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ElasticIp", required: true, type: .string), 
             AWSShapeProperty(label: "StackId", required: true, type: .string)
         ]
@@ -3663,7 +3663,7 @@ extension Opsworks {
     public struct DescribeCommandsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CommandIds", required: false, type: .list), 
             AWSShapeProperty(label: "DeploymentId", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceId", required: false, type: .string)
@@ -3691,7 +3691,7 @@ extension Opsworks {
     public struct DescribeAgentVersionsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AgentVersions", required: false, type: .list)
         ]
         /// The agent versions for the specified stack or configuration manager. Note that this value is the complete version number, not the abbreviated number used by the console.
@@ -3721,7 +3721,7 @@ extension Opsworks {
     public struct CreateStackRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DefaultOs", required: false, type: .string), 
             AWSShapeProperty(label: "ChefConfiguration", required: false, type: .structure), 
             AWSShapeProperty(label: "ServiceRoleArn", required: true, type: .string), 
@@ -3836,7 +3836,7 @@ extension Opsworks {
     public struct DeleteLayerRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LayerId", required: true, type: .string)
         ]
         /// The layer ID.
@@ -3855,7 +3855,7 @@ extension Opsworks {
     public struct RegisterEcsClusterRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackId", required: true, type: .string), 
             AWSShapeProperty(label: "EcsClusterArn", required: true, type: .string)
         ]
@@ -3880,7 +3880,7 @@ extension Opsworks {
     public struct UpdateRdsDbInstanceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DbPassword", required: false, type: .string), 
             AWSShapeProperty(label: "DbUser", required: false, type: .string), 
             AWSShapeProperty(label: "RdsDbInstanceArn", required: true, type: .string)
@@ -3909,7 +3909,7 @@ extension Opsworks {
     public struct ChefConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ManageBerkshelf", required: false, type: .boolean), 
             AWSShapeProperty(label: "BerkshelfVersion", required: false, type: .string)
         ]
@@ -3932,7 +3932,7 @@ extension Opsworks {
     public struct DisassociateElasticIpRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ElasticIp", required: true, type: .string)
         ]
         /// The Elastic IP address.
@@ -3951,7 +3951,7 @@ extension Opsworks {
     public struct AttachElasticLoadBalancerRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LayerId", required: true, type: .string), 
             AWSShapeProperty(label: "ElasticLoadBalancerName", required: true, type: .string)
         ]
@@ -3976,7 +3976,7 @@ extension Opsworks {
     public struct EnvironmentVariable: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: true, type: .string), 
             AWSShapeProperty(label: "Key", required: true, type: .string), 
             AWSShapeProperty(label: "Secure", required: false, type: .boolean)
@@ -4006,7 +4006,7 @@ extension Opsworks {
     public struct DescribeLoadBasedAutoScalingRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LayerIds", required: true, type: .list)
         ]
         /// An array of layer IDs.
@@ -4032,7 +4032,7 @@ extension Opsworks {
     public struct RdsDbInstance: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackId", required: false, type: .string), 
             AWSShapeProperty(label: "Address", required: false, type: .string), 
             AWSShapeProperty(label: "DbUser", required: false, type: .string), 
@@ -4090,7 +4090,7 @@ extension Opsworks {
     public struct DescribeStackSummaryResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackSummary", required: false, type: .structure)
         ]
         /// A StackSummary object that contains the results.
@@ -4108,7 +4108,7 @@ extension Opsworks {
     public struct Volume: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Device", required: false, type: .string), 
             AWSShapeProperty(label: "VolumeId", required: false, type: .string), 
             AWSShapeProperty(label: "Region", required: false, type: .string), 
@@ -4186,7 +4186,7 @@ extension Opsworks {
     public struct SelfUserProfile: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IamUserArn", required: false, type: .string), 
             AWSShapeProperty(label: "SshPublicKey", required: false, type: .string), 
             AWSShapeProperty(label: "SshUsername", required: false, type: .string), 
@@ -4219,7 +4219,7 @@ extension Opsworks {
     public struct EcsCluster: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EcsClusterName", required: false, type: .string), 
             AWSShapeProperty(label: "RegisteredAt", required: false, type: .string), 
             AWSShapeProperty(label: "StackId", required: false, type: .string), 
@@ -4252,7 +4252,7 @@ extension Opsworks {
     public struct DescribeStackSummaryRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackId", required: true, type: .string)
         ]
         /// The stack ID.
@@ -4271,7 +4271,7 @@ extension Opsworks {
     public struct CreateLayerResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LayerId", required: false, type: .string)
         ]
         /// The layer ID.
@@ -4289,7 +4289,7 @@ extension Opsworks {
     public struct TemporaryCredential: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ValidForInMinutes", required: false, type: .integer), 
             AWSShapeProperty(label: "Password", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
@@ -4322,7 +4322,7 @@ extension Opsworks {
     public struct DeregisterElasticIpRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ElasticIp", required: true, type: .string)
         ]
         /// The Elastic IP address.
@@ -4341,7 +4341,7 @@ extension Opsworks {
     public struct CreateDeploymentRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LayerIds", required: false, type: .list), 
             AWSShapeProperty(label: "StackId", required: true, type: .string), 
             AWSShapeProperty(label: "Comment", required: false, type: .string), 
@@ -4391,7 +4391,7 @@ extension Opsworks {
     public struct DescribeTimeBasedAutoScalingRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceIds", required: true, type: .list)
         ]
         /// An array of instance IDs.
@@ -4410,7 +4410,7 @@ extension Opsworks {
     public struct StopStackRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackId", required: true, type: .string)
         ]
         /// The stack ID.
@@ -4429,7 +4429,7 @@ extension Opsworks {
     public struct DescribeRdsDbInstancesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RdsDbInstances", required: false, type: .list)
         ]
         /// An a array of RdsDbInstance objects that describe the instances.
@@ -4451,7 +4451,7 @@ extension Opsworks {
     public struct ServiceError: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CreatedAt", required: false, type: .string), 
             AWSShapeProperty(label: "Message", required: false, type: .string), 
             AWSShapeProperty(label: "StackId", required: false, type: .string), 
@@ -4494,7 +4494,7 @@ extension Opsworks {
     public struct RebootInstanceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceId", required: true, type: .string)
         ]
         /// The instance ID.
@@ -4513,7 +4513,7 @@ extension Opsworks {
     public struct CreateDeploymentResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DeploymentId", required: false, type: .string)
         ]
         /// The deployment ID, which can be used with other requests to identify the deployment.
@@ -4531,7 +4531,7 @@ extension Opsworks {
     public struct DescribeServiceErrorsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ServiceErrors", required: false, type: .list)
         ]
         /// An array of ServiceError objects that describe the specified service errors.
@@ -4553,7 +4553,7 @@ extension Opsworks {
     public struct DescribePermissionsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackId", required: false, type: .string), 
             AWSShapeProperty(label: "IamUserArn", required: false, type: .string)
         ]
@@ -4576,7 +4576,7 @@ extension Opsworks {
     public struct AgentVersion: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConfigurationManager", required: false, type: .structure), 
             AWSShapeProperty(label: "Version", required: false, type: .string)
         ]
@@ -4599,7 +4599,7 @@ extension Opsworks {
     public struct DataSource: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Type", required: false, type: .string), 
             AWSShapeProperty(label: "Arn", required: false, type: .string), 
             AWSShapeProperty(label: "DatabaseName", required: false, type: .string)
@@ -4627,7 +4627,7 @@ extension Opsworks {
     public struct DescribeElasticLoadBalancersResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ElasticLoadBalancers", required: false, type: .list)
         ]
         /// A list of ElasticLoadBalancer objects that describe the specified Elastic Load Balancing instances.
@@ -4649,7 +4649,7 @@ extension Opsworks {
     public struct TimeBasedAutoScalingConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
             AWSShapeProperty(label: "AutoScalingSchedule", required: false, type: .structure)
         ]
@@ -4680,7 +4680,7 @@ extension Opsworks {
     public struct GetHostnameSuggestionResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Hostname", required: false, type: .string), 
             AWSShapeProperty(label: "LayerId", required: false, type: .string)
         ]
@@ -4719,7 +4719,7 @@ extension Opsworks {
     public struct EbsBlockDevice: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SnapshotId", required: false, type: .string), 
             AWSShapeProperty(label: "VolumeSize", required: false, type: .integer), 
             AWSShapeProperty(label: "DeleteOnTermination", required: false, type: .boolean), 
@@ -4757,7 +4757,7 @@ extension Opsworks {
     public struct BlockDeviceMapping: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NoDevice", required: false, type: .string), 
             AWSShapeProperty(label: "VirtualName", required: false, type: .string), 
             AWSShapeProperty(label: "DeviceName", required: false, type: .string), 
@@ -4790,7 +4790,7 @@ extension Opsworks {
     public struct DeregisterRdsDbInstanceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RdsDbInstanceArn", required: true, type: .string)
         ]
         /// The Amazon RDS instance's ARN.
@@ -4809,7 +4809,7 @@ extension Opsworks {
     public struct UpdateStackRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DefaultOs", required: false, type: .string), 
             AWSShapeProperty(label: "ChefConfiguration", required: false, type: .structure), 
             AWSShapeProperty(label: "ServiceRoleArn", required: false, type: .string), 
@@ -4916,7 +4916,7 @@ extension Opsworks {
     public struct UpdateElasticIpRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ElasticIp", required: true, type: .string), 
             AWSShapeProperty(label: "Name", required: false, type: .string)
         ]
@@ -4940,7 +4940,7 @@ extension Opsworks {
     public struct InstanceIdentity: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Document", required: false, type: .string), 
             AWSShapeProperty(label: "Signature", required: false, type: .string)
         ]
@@ -4963,7 +4963,7 @@ extension Opsworks {
     public struct DescribeInstancesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Instances", required: false, type: .list)
         ]
         /// An array of Instance objects that describe the instances.
@@ -4985,7 +4985,7 @@ extension Opsworks {
     public struct LifecycleEventConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Shutdown", required: false, type: .structure)
         ]
         /// A ShutdownEventConfiguration object that specifies the Shutdown event configuration.
@@ -5003,7 +5003,7 @@ extension Opsworks {
     public struct DescribeStackProvisioningParametersRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackId", required: true, type: .string)
         ]
         /// The stack ID
@@ -5022,7 +5022,7 @@ extension Opsworks {
     public struct DeleteAppRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AppId", required: true, type: .string)
         ]
         /// The app ID.
@@ -5041,7 +5041,7 @@ extension Opsworks {
     public struct DescribeDeploymentsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Deployments", required: false, type: .list)
         ]
         /// An array of Deployment objects that describe the deployments.
@@ -5063,7 +5063,7 @@ extension Opsworks {
     public struct DescribePermissionsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Permissions", required: false, type: .list)
         ]
         /// An array of Permission objects that describe the stack permissions.   If the request object contains only a stack ID, the array contains a Permission object with permissions for each of the stack IAM ARNs.   If the request object contains only an IAM ARN, the array contains a Permission object with permissions for each of the user's stack IDs.   If the request contains a stack ID and an IAM ARN, the array contains a single Permission object with permissions for the specified stack and IAM ARN.  
@@ -5085,7 +5085,7 @@ extension Opsworks {
     public struct RegisterVolumeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackId", required: true, type: .string), 
             AWSShapeProperty(label: "Ec2VolumeId", required: false, type: .string)
         ]
@@ -5109,7 +5109,7 @@ extension Opsworks {
     public struct StartInstanceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceId", required: true, type: .string)
         ]
         /// The instance ID.
@@ -5128,7 +5128,7 @@ extension Opsworks {
     public struct Permission: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Level", required: false, type: .string), 
             AWSShapeProperty(label: "IamUserArn", required: false, type: .string), 
             AWSShapeProperty(label: "AllowSsh", required: false, type: .boolean), 
@@ -5166,7 +5166,7 @@ extension Opsworks {
     public struct AssignVolumeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
             AWSShapeProperty(label: "VolumeId", required: true, type: .string)
         ]
@@ -5190,7 +5190,7 @@ extension Opsworks {
     public struct DeleteUserProfileRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IamUserArn", required: true, type: .string)
         ]
         /// The user's IAM ARN. This can also be a federated user's ARN.
@@ -5209,7 +5209,7 @@ extension Opsworks {
     public struct ElasticLoadBalancer: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubnetIds", required: false, type: .list), 
             AWSShapeProperty(label: "AvailabilityZones", required: false, type: .list), 
             AWSShapeProperty(label: "StackId", required: false, type: .string), 
@@ -5267,7 +5267,7 @@ extension Opsworks {
     public struct DescribeElasticIpsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ElasticIps", required: false, type: .list)
         ]
         /// An ElasticIps object that describes the specified Elastic IP addresses.

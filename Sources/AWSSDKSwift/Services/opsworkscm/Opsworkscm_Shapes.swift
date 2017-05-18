@@ -32,7 +32,7 @@ extension Opsworkscm {
     public struct DescribeAccountAttributesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Attributes", required: false, type: .list)
         ]
         ///  The attributes that are currently set for the account. 
@@ -54,7 +54,7 @@ extension Opsworkscm {
     public struct DescribeEventsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ServerEvents", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -81,7 +81,7 @@ extension Opsworkscm {
     public struct AssociateNodeResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NodeAssociationStatusToken", required: false, type: .string)
         ]
         /// Contains a token which can be passed to the DescribeNodeAssociationStatus API call to get the status of the association request. 
@@ -99,7 +99,7 @@ extension Opsworkscm {
     public struct CreateServerRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EngineModel", required: false, type: .string), 
             AWSShapeProperty(label: "EngineAttributes", required: false, type: .list), 
             AWSShapeProperty(label: "BackupId", required: false, type: .string), 
@@ -205,7 +205,7 @@ extension Opsworkscm {
     public struct CreateBackupRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ServerName", required: true, type: .string), 
             AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
@@ -246,7 +246,7 @@ extension Opsworkscm {
     public struct UpdateServerEngineAttributesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AttributeName", required: true, type: .string), 
             AWSShapeProperty(label: "AttributeValue", required: false, type: .string), 
             AWSShapeProperty(label: "ServerName", required: true, type: .string)
@@ -276,7 +276,7 @@ extension Opsworkscm {
     public struct AssociateNodeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NodeName", required: true, type: .string), 
             AWSShapeProperty(label: "EngineAttributes", required: true, type: .list), 
             AWSShapeProperty(label: "ServerName", required: true, type: .string)
@@ -314,7 +314,7 @@ extension Opsworkscm {
     public struct AccountAttribute: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Maximum", required: false, type: .integer), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "Used", required: false, type: .integer)
@@ -342,7 +342,7 @@ extension Opsworkscm {
     public struct StartMaintenanceResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Server", required: false, type: .structure)
         ]
         /// Contains the response to a StartMaintenance request. 
@@ -360,7 +360,7 @@ extension Opsworkscm {
     public struct CreateBackupResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Backup", required: false, type: .structure)
         ]
         /// Backup created by request.
@@ -386,7 +386,7 @@ extension Opsworkscm {
     public struct DescribeNodeAssociationStatusRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NodeAssociationStatusToken", required: true, type: .string), 
             AWSShapeProperty(label: "ServerName", required: true, type: .string)
         ]
@@ -410,7 +410,7 @@ extension Opsworkscm {
     public struct StartMaintenanceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ServerName", required: true, type: .string)
         ]
         /// The name of the server on which to run maintenance. 
@@ -435,7 +435,7 @@ extension Opsworkscm {
     public struct UpdateServerResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Server", required: false, type: .structure)
         ]
         /// Contains the response to a UpdateServer request. 
@@ -453,7 +453,7 @@ extension Opsworkscm {
     public struct DisassociateNodeResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NodeAssociationStatusToken", required: false, type: .string)
         ]
         /// Contains a token which can be passed to the DescribeNodeAssociationStatus API call to get the status of the disassociation request. 
@@ -471,7 +471,7 @@ extension Opsworkscm {
     public struct DescribeServersRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "ServerName", required: false, type: .string)
@@ -499,7 +499,7 @@ extension Opsworkscm {
     public struct ServerEvent: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LogUrl", required: false, type: .string), 
             AWSShapeProperty(label: "CreatedAt", required: false, type: .timestamp), 
             AWSShapeProperty(label: "Message", required: false, type: .string), 
@@ -532,7 +532,7 @@ extension Opsworkscm {
     public struct DescribeBackupsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ServerName", required: false, type: .string), 
             AWSShapeProperty(label: "BackupId", required: false, type: .string), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
@@ -579,7 +579,7 @@ extension Opsworkscm {
     public struct Backup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EngineModel", required: false, type: .string), 
             AWSShapeProperty(label: "ServiceRoleArn", required: false, type: .string), 
             AWSShapeProperty(label: "S3DataSize", required: false, type: .integer), 
@@ -712,7 +712,7 @@ extension Opsworkscm {
     public struct DeleteServerRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ServerName", required: true, type: .string)
         ]
         /// The ID of the server to delete.
@@ -731,7 +731,7 @@ extension Opsworkscm {
     public struct DisassociateNodeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NodeName", required: true, type: .string), 
             AWSShapeProperty(label: "EngineAttributes", required: false, type: .list), 
             AWSShapeProperty(label: "ServerName", required: true, type: .string)
@@ -765,7 +765,7 @@ extension Opsworkscm {
     public struct Server: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ServerArn", required: false, type: .string), 
             AWSShapeProperty(label: "EngineModel", required: false, type: .string), 
             AWSShapeProperty(label: "EngineAttributes", required: false, type: .list), 
@@ -897,7 +897,7 @@ extension Opsworkscm {
     public struct DescribeEventsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "ServerName", required: true, type: .string)
@@ -926,7 +926,7 @@ extension Opsworkscm {
     public struct DescribeServersResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Servers", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -953,7 +953,7 @@ extension Opsworkscm {
     public struct RestoreServerRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ServerName", required: true, type: .string), 
             AWSShapeProperty(label: "InstanceType", required: false, type: .string), 
             AWSShapeProperty(label: "BackupId", required: true, type: .string), 
@@ -988,7 +988,7 @@ extension Opsworkscm {
     public struct DescribeBackupsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Backups", required: false, type: .list)
         ]
@@ -1023,7 +1023,7 @@ extension Opsworkscm {
     public struct DescribeNodeAssociationStatusResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NodeAssociationStatus", required: false, type: .enum)
         ]
         /// The status of the association or disassociation request.   Possible values:     SUCCESS: The association or disassociation succeeded.     FAILED: The association or disassociation failed.     IN_PROGRESS: The association or disassociation is still in progress.   
@@ -1041,7 +1041,7 @@ extension Opsworkscm {
     public struct DeleteBackupRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BackupId", required: true, type: .string)
         ]
         /// The ID of the backup to delete. Run the DescribeBackups command to get a list of backup IDs. Backup IDs are in the format ServerName-yyyyMMddHHmmssSSS. 
@@ -1060,7 +1060,7 @@ extension Opsworkscm {
     public struct EngineAttribute: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: false, type: .string), 
             AWSShapeProperty(label: "Name", required: false, type: .string)
         ]
@@ -1083,7 +1083,7 @@ extension Opsworkscm {
     public struct UpdateServerRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PreferredBackupWindow", required: false, type: .string), 
             AWSShapeProperty(label: "ServerName", required: true, type: .string), 
             AWSShapeProperty(label: "DisableAutomatedBackup", required: false, type: .boolean), 
@@ -1136,7 +1136,7 @@ extension Opsworkscm {
     public struct CreateServerResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Server", required: false, type: .structure)
         ]
         /// The server that is created by the request. 
@@ -1154,7 +1154,7 @@ extension Opsworkscm {
     public struct UpdateServerEngineAttributesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Server", required: false, type: .structure)
         ]
         /// Contains the response to an UpdateServerEngineAttributes request. 

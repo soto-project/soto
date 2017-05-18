@@ -38,7 +38,7 @@ extension Acm {
     public struct RemoveTagsFromCertificateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Tags", required: true, type: .list), 
             AWSShapeProperty(label: "CertificateArn", required: true, type: .string)
         ]
@@ -70,7 +70,7 @@ extension Acm {
     public struct ListCertificatesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "CertificateSummaryList", required: false, type: .list)
         ]
@@ -97,7 +97,7 @@ extension Acm {
     public struct RequestCertificateResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CertificateArn", required: false, type: .string)
         ]
         /// String that contains the ARN of the issued certificate. This must be of the form:  arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012 
@@ -126,7 +126,7 @@ extension Acm {
     public struct ImportCertificateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Certificate", required: true, type: .blob), 
             AWSShapeProperty(label: "CertificateArn", required: false, type: .string), 
             AWSShapeProperty(label: "PrivateKey", required: true, type: .blob), 
@@ -161,7 +161,7 @@ extension Acm {
     public struct ListTagsForCertificateResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Tags", required: false, type: .list)
         ]
         /// The key-value pairs that define the applied tags.
@@ -183,7 +183,7 @@ extension Acm {
     public struct Tag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: false, type: .string), 
             AWSShapeProperty(label: "Key", required: true, type: .string)
         ]
@@ -207,7 +207,7 @@ extension Acm {
     public struct GetCertificateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CertificateArn", required: true, type: .string)
         ]
         /// String that contains a certificate ARN in the following format:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
@@ -226,7 +226,7 @@ extension Acm {
     public struct DomainValidation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ValidationDomain", required: false, type: .string), 
             AWSShapeProperty(label: "ValidationStatus", required: false, type: .enum), 
             AWSShapeProperty(label: "DomainName", required: true, type: .string), 
@@ -268,7 +268,7 @@ extension Acm {
     public struct AddTagsToCertificateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Tags", required: true, type: .list), 
             AWSShapeProperty(label: "CertificateArn", required: true, type: .string)
         ]
@@ -293,7 +293,7 @@ extension Acm {
     public struct GetCertificateResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Certificate", required: false, type: .string), 
             AWSShapeProperty(label: "CertificateChain", required: false, type: .string)
         ]
@@ -316,7 +316,7 @@ extension Acm {
     public struct ResendValidationEmailRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ValidationDomain", required: true, type: .string), 
             AWSShapeProperty(label: "CertificateArn", required: true, type: .string), 
             AWSShapeProperty(label: "Domain", required: true, type: .string)
@@ -361,7 +361,7 @@ extension Acm {
     public struct RenewalSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DomainValidationOptions", required: true, type: .list), 
             AWSShapeProperty(label: "RenewalStatus", required: true, type: .enum)
         ]
@@ -386,7 +386,7 @@ extension Acm {
     public struct DomainValidationOption: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ValidationDomain", required: true, type: .string), 
             AWSShapeProperty(label: "DomainName", required: true, type: .string)
         ]
@@ -411,7 +411,7 @@ extension Acm {
     public struct CertificateSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CertificateArn", required: false, type: .string), 
             AWSShapeProperty(label: "DomainName", required: false, type: .string)
         ]
@@ -434,7 +434,7 @@ extension Acm {
     public struct DescribeCertificateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CertificateArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the ACM Certificate. The ARN must have the following form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
@@ -460,7 +460,7 @@ extension Acm {
     public struct ListCertificatesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CertificateStatuses", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer)
@@ -488,7 +488,7 @@ extension Acm {
     public struct DescribeCertificateResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Certificate", required: false, type: .structure)
         ]
         /// Metadata about an ACM certificate.
@@ -506,7 +506,7 @@ extension Acm {
     public struct RequestCertificateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DomainValidationOptions", required: false, type: .list), 
             AWSShapeProperty(label: "SubjectAlternativeNames", required: false, type: .list), 
             AWSShapeProperty(label: "DomainName", required: true, type: .string), 
@@ -544,7 +544,7 @@ extension Acm {
     public struct ImportCertificateResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CertificateArn", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the imported certificate.
@@ -562,7 +562,7 @@ extension Acm {
     public struct ListTagsForCertificateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CertificateArn", required: true, type: .string)
         ]
         /// String that contains the ARN of the ACM Certificate for which you want to list the tags. This has the following form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
@@ -581,7 +581,7 @@ extension Acm {
     public struct DeleteCertificateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CertificateArn", required: true, type: .string)
         ]
         /// String that contains the ARN of the ACM Certificate to be deleted. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
@@ -609,7 +609,7 @@ extension Acm {
     public struct CertificateDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FailureReason", required: false, type: .enum), 
             AWSShapeProperty(label: "IssuedAt", required: false, type: .timestamp), 
             AWSShapeProperty(label: "ImportedAt", required: false, type: .timestamp), 

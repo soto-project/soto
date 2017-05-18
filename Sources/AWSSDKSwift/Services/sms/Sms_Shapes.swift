@@ -40,7 +40,7 @@ extension Sms {
     public struct Connector: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "capabilityList", required: false, type: .structure), 
             AWSShapeProperty(label: "status", required: false, type: .enum), 
             AWSShapeProperty(label: "ipAddress", required: false, type: .string), 
@@ -93,7 +93,7 @@ extension Sms {
     public struct GetReplicationRunsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
             AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
             AWSShapeProperty(label: "replicationJobId", required: true, type: .string)
@@ -124,7 +124,7 @@ extension Sms {
     public struct GetConnectorsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
             AWSShapeProperty(label: "maxResults", required: false, type: .integer)
         ]
@@ -158,7 +158,7 @@ extension Sms {
     public struct GetServersResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "serverList", required: false, type: .structure), 
             AWSShapeProperty(label: "serverCatalogStatus", required: false, type: .enum), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
@@ -187,7 +187,7 @@ extension Sms {
     public struct GetReplicationJobsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
             AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
             AWSShapeProperty(label: "replicationJobId", required: false, type: .string)
@@ -229,7 +229,7 @@ extension Sms {
     public struct StartOnDemandReplicationRunResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "replicationRunId", required: false, type: .string)
         ]
         public let replicationRunId: String?
@@ -246,7 +246,7 @@ extension Sms {
     public struct UpdateReplicationJobRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "roleName", required: false, type: .string), 
             AWSShapeProperty(label: "nextReplicationRunStartTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "description", required: false, type: .string), 
@@ -284,7 +284,7 @@ extension Sms {
     public struct ConnectorCapabilityList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [ConnectorCapability]?
@@ -301,7 +301,7 @@ extension Sms {
     public struct ReplicationRun: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "state", required: false, type: .enum), 
             AWSShapeProperty(label: "replicationRunId", required: false, type: .string), 
             AWSShapeProperty(label: "completedTime", required: false, type: .timestamp), 
@@ -354,7 +354,7 @@ extension Sms {
     public struct ReplicationJob: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "state", required: false, type: .enum), 
             AWSShapeProperty(label: "replicationRunList", required: false, type: .structure), 
             AWSShapeProperty(label: "nextReplicationRunStartTime", required: false, type: .timestamp), 
@@ -442,7 +442,7 @@ extension Sms {
     public struct ServerList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [Server]?
@@ -471,7 +471,7 @@ extension Sms {
     public struct ReplicationJobList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [ReplicationJob]?
@@ -498,7 +498,7 @@ extension Sms {
     public struct GetConnectorsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
             AWSShapeProperty(label: "connectorList", required: false, type: .structure)
         ]
@@ -519,7 +519,7 @@ extension Sms {
     public struct CreateReplicationJobRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "seedReplicationTime", required: true, type: .timestamp), 
             AWSShapeProperty(label: "roleName", required: false, type: .string), 
             AWSShapeProperty(label: "serverId", required: true, type: .string), 
@@ -565,7 +565,7 @@ extension Sms {
     public struct VmServerAddress: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "vmId", required: false, type: .string), 
             AWSShapeProperty(label: "vmManagerId", required: false, type: .string)
         ]
@@ -586,7 +586,7 @@ extension Sms {
     public struct GetServersRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
             AWSShapeProperty(label: "maxResults", required: false, type: .integer)
         ]
@@ -612,7 +612,7 @@ extension Sms {
     public struct ConnectorList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [Connector]?
@@ -633,7 +633,7 @@ extension Sms {
     public struct VmServer: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "vmManagerName", required: false, type: .string), 
             AWSShapeProperty(label: "vmManagerType", required: false, type: .enum), 
             AWSShapeProperty(label: "vmName", required: false, type: .string), 
@@ -666,7 +666,7 @@ extension Sms {
     public struct Server: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "serverId", required: false, type: .string), 
             AWSShapeProperty(label: "replicationJobTerminated", required: false, type: .boolean), 
             AWSShapeProperty(label: "serverType", required: false, type: .enum), 
@@ -707,7 +707,7 @@ extension Sms {
     public struct CreateReplicationJobResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "replicationJobId", required: false, type: .string)
         ]
         public let replicationJobId: String?
@@ -724,7 +724,7 @@ extension Sms {
     public struct ReplicationRunList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [ReplicationRun]?
@@ -745,7 +745,7 @@ extension Sms {
     public struct StartOnDemandReplicationRunRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "description", required: false, type: .string), 
             AWSShapeProperty(label: "replicationJobId", required: true, type: .string)
         ]
@@ -776,7 +776,7 @@ extension Sms {
     public struct GetReplicationJobsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
             AWSShapeProperty(label: "replicationJobList", required: false, type: .structure)
         ]
@@ -797,7 +797,7 @@ extension Sms {
     public struct DisassociateConnectorRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "connectorId", required: true, type: .string)
         ]
         public let connectorId: String
@@ -815,7 +815,7 @@ extension Sms {
     public struct GetReplicationRunsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "replicationJob", required: false, type: .structure), 
             AWSShapeProperty(label: "replicationRunList", required: false, type: .structure), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string)
@@ -846,7 +846,7 @@ extension Sms {
     public struct DeleteReplicationJobRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "replicationJobId", required: true, type: .string)
         ]
         public let replicationJobId: String

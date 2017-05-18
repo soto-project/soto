@@ -32,7 +32,7 @@ extension Ssm {
     public struct DescribePatchBaselinesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Filters", required: false, type: .list), 
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
@@ -64,7 +64,7 @@ extension Ssm {
     public struct DescribeActivationsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ActivationList", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -91,7 +91,7 @@ extension Ssm {
     public struct FailedCreateAssociationList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FailedCreateAssociationEntry", required: false, type: .list)
         ]
         public let failedCreateAssociationEntry: [FailedCreateAssociation]?
@@ -112,7 +112,7 @@ extension Ssm {
     public struct DescribeEffectivePatchesForPatchBaselineResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "EffectivePatches", required: false, type: .list)
         ]
@@ -139,7 +139,7 @@ extension Ssm {
     public struct UpdateAssociationStatusRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: true, type: .string), 
             AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
             AWSShapeProperty(label: "AssociationStatus", required: true, type: .structure)
@@ -170,7 +170,7 @@ extension Ssm {
     public struct DeregisterTargetFromMaintenanceWindowResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WindowId", required: false, type: .string), 
             AWSShapeProperty(label: "WindowTargetId", required: false, type: .string)
         ]
@@ -193,7 +193,7 @@ extension Ssm {
     public struct InventoryItemList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         public let item: [InventoryItem]?
@@ -221,7 +221,7 @@ extension Ssm {
     public struct ParametersFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Key", required: false, type: .enum), 
             AWSShapeProperty(label: "Values", required: true, type: .list)
         ]
@@ -263,7 +263,7 @@ extension Ssm {
     public struct ResultAttribute: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TypeName", required: true, type: .string)
         ]
         /// Name of the inventory item type. Valid value: “AWS:InstanceInformation”. Default Value: “AWS:InstanceInformation”.
@@ -282,7 +282,7 @@ extension Ssm {
     public struct DescribePatchGroupsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Mappings", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -309,7 +309,7 @@ extension Ssm {
     public struct RegisterTargetWithMaintenanceWindowRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WindowId", required: true, type: .string), 
             AWSShapeProperty(label: "Targets", required: true, type: .list), 
             AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
@@ -350,7 +350,7 @@ extension Ssm {
     public struct GetDocumentRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: true, type: .string), 
             AWSShapeProperty(label: "DocumentVersion", required: false, type: .string)
         ]
@@ -374,7 +374,7 @@ extension Ssm {
     public struct DescribeMaintenanceWindowTargetsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WindowId", required: true, type: .string), 
             AWSShapeProperty(label: "Filters", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
@@ -412,7 +412,7 @@ extension Ssm {
     public struct ListAssociationsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AssociationFilterList", required: false, type: .structure), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
@@ -440,7 +440,7 @@ extension Ssm {
     public struct GetInventorySchemaRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TypeName", required: false, type: .string), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
@@ -468,7 +468,7 @@ extension Ssm {
     public struct CreatePatchBaselineRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
             AWSShapeProperty(label: "ApprovedPatches", required: false, type: .list), 
             AWSShapeProperty(label: "Name", required: true, type: .string), 
@@ -517,7 +517,7 @@ extension Ssm {
     public struct DescribeMaintenanceWindowExecutionTaskInvocationsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WindowExecutionId", required: true, type: .string), 
             AWSShapeProperty(label: "TaskId", required: true, type: .string), 
             AWSShapeProperty(label: "Filters", required: false, type: .list), 
@@ -561,7 +561,7 @@ extension Ssm {
     public struct DescribeInstancePatchesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Filters", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
@@ -599,7 +599,7 @@ extension Ssm {
     public struct DeregisterTargetFromMaintenanceWindowRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WindowId", required: true, type: .string), 
             AWSShapeProperty(label: "WindowTargetId", required: true, type: .string)
         ]
@@ -624,7 +624,7 @@ extension Ssm {
     public struct DescribeMaintenanceWindowExecutionTasksRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WindowExecutionId", required: true, type: .string), 
             AWSShapeProperty(label: "Filters", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
@@ -662,7 +662,7 @@ extension Ssm {
     public struct DescribeInstancePatchStatesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceIds", required: true, type: .list), 
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
@@ -691,7 +691,7 @@ extension Ssm {
     public struct SendCommandRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ServiceRoleArn", required: false, type: .string), 
             AWSShapeProperty(label: "OutputS3BucketName", required: false, type: .string), 
             AWSShapeProperty(label: "NotificationConfig", required: false, type: .structure), 
@@ -793,7 +793,7 @@ extension Ssm {
     public struct GetMaintenanceWindowExecutionTaskRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WindowExecutionId", required: true, type: .string), 
             AWSShapeProperty(label: "TaskId", required: true, type: .string)
         ]
@@ -818,7 +818,7 @@ extension Ssm {
     public struct CommandPlugin: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .enum), 
             AWSShapeProperty(label: "ResponseStartDateTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "ResponseFinishDateTime", required: false, type: .timestamp), 
@@ -891,7 +891,7 @@ extension Ssm {
     public struct GetDeployablePatchSnapshotForInstanceResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SnapshotId", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
             AWSShapeProperty(label: "SnapshotDownloadUrl", required: false, type: .string)
@@ -919,7 +919,7 @@ extension Ssm {
     public struct DocumentFilterList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DocumentFilter", required: false, type: .list)
         ]
         public let documentFilter: [DocumentFilter]?
@@ -948,7 +948,7 @@ extension Ssm {
     public struct DescribeParametersResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Parameters", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -975,7 +975,7 @@ extension Ssm {
     public struct DescribeDocumentRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: true, type: .string), 
             AWSShapeProperty(label: "DocumentVersion", required: false, type: .string)
         ]
@@ -999,7 +999,7 @@ extension Ssm {
     public struct DescribeInstanceAssociationsStatusResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceAssociationStatusInfos", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -1026,7 +1026,7 @@ extension Ssm {
     public struct DeletePatchBaselineRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BaselineId", required: true, type: .string)
         ]
         /// The ID of the patch baseline to delete.
@@ -1045,7 +1045,7 @@ extension Ssm {
     public struct GetInventoryResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Entities", required: false, type: .structure)
         ]
@@ -1068,7 +1068,7 @@ extension Ssm {
     public struct DescribeInstancePatchStatesForPatchGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "InstancePatchStates", required: false, type: .list)
         ]
@@ -1095,7 +1095,7 @@ extension Ssm {
     public struct InstanceInformationFilterValueSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceInformationFilterValue", required: false, type: .list)
         ]
         public let instanceInformationFilterValue: [String]?
@@ -1112,7 +1112,7 @@ extension Ssm {
     public struct Command: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OutputS3BucketName", required: false, type: .string), 
             AWSShapeProperty(label: "NotificationConfig", required: false, type: .structure), 
             AWSShapeProperty(label: "CompletedCount", required: false, type: .integer), 
@@ -1243,7 +1243,7 @@ extension Ssm {
     public struct CreateAssociationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Parameters", required: false, type: .map), 
             AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
             AWSShapeProperty(label: "Name", required: true, type: .string), 
@@ -1305,7 +1305,7 @@ extension Ssm {
     public struct ModifyDocumentPermissionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PermissionType", required: true, type: .enum), 
             AWSShapeProperty(label: "Name", required: true, type: .string), 
             AWSShapeProperty(label: "AccountIdsToRemove", required: false, type: .structure), 
@@ -1340,7 +1340,7 @@ extension Ssm {
     public struct RegisterDefaultPatchBaselineRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BaselineId", required: true, type: .string)
         ]
         /// The ID of the patch baseline that should be the default patch baseline.
@@ -1367,7 +1367,7 @@ extension Ssm {
     public struct PatchComplianceData: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Severity", required: true, type: .string), 
             AWSShapeProperty(label: "Classification", required: true, type: .string), 
             AWSShapeProperty(label: "InstalledTime", required: true, type: .timestamp), 
@@ -1416,7 +1416,7 @@ extension Ssm {
     public struct DeregisterTaskFromMaintenanceWindowResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WindowId", required: false, type: .string), 
             AWSShapeProperty(label: "WindowTaskId", required: false, type: .string)
         ]
@@ -1439,7 +1439,7 @@ extension Ssm {
     public struct PatchRuleGroup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PatchRules", required: true, type: .list)
         ]
         /// The rules that make up the rule group.
@@ -1458,7 +1458,7 @@ extension Ssm {
     public struct InstanceInformationStringFilterList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceInformationStringFilter", required: false, type: .list)
         ]
         public let instanceInformationStringFilter: [InstanceInformationStringFilter]?
@@ -1479,7 +1479,7 @@ extension Ssm {
     public struct DescribeMaintenanceWindowTasksRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WindowId", required: true, type: .string), 
             AWSShapeProperty(label: "Filters", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
@@ -1526,7 +1526,7 @@ extension Ssm {
     public struct DescribeAutomationExecutionsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Filters", required: false, type: .list), 
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
@@ -1558,7 +1558,7 @@ extension Ssm {
     public struct GetMaintenanceWindowResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WindowId", required: false, type: .string), 
             AWSShapeProperty(label: "ModifiedDate", required: false, type: .timestamp), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
@@ -1616,7 +1616,7 @@ extension Ssm {
     public struct LoggingInfo: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "S3KeyPrefix", required: false, type: .string), 
             AWSShapeProperty(label: "S3Region", required: true, type: .string), 
             AWSShapeProperty(label: "S3BucketName", required: true, type: .string)
@@ -1646,7 +1646,7 @@ extension Ssm {
     public struct InventoryResultItem: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CaptureTime", required: false, type: .string), 
             AWSShapeProperty(label: "Content", required: true, type: .list), 
             AWSShapeProperty(label: "SchemaVersion", required: true, type: .string), 
@@ -1687,7 +1687,7 @@ extension Ssm {
     public struct GetPatchBaselineRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BaselineId", required: true, type: .string)
         ]
         /// The ID of the patch baseline to retrieve.
@@ -1714,7 +1714,7 @@ extension Ssm {
     public struct AutomationExecutionMetadata: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ExecutedBy", required: false, type: .string), 
             AWSShapeProperty(label: "AutomationExecutionStatus", required: false, type: .enum), 
             AWSShapeProperty(label: "DocumentName", required: false, type: .string), 
@@ -1781,7 +1781,7 @@ extension Ssm {
     public struct DescribeAssociationResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AssociationDescription", required: false, type: .structure)
         ]
         /// Information about the association.
@@ -1799,7 +1799,7 @@ extension Ssm {
     public struct CreateAssociationBatchRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Entries", required: true, type: .structure)
         ]
         /// One or more associations.
@@ -1826,7 +1826,7 @@ extension Ssm {
     public struct MaintenanceWindowFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Key", required: false, type: .string), 
             AWSShapeProperty(label: "Values", required: false, type: .list)
         ]
@@ -1849,7 +1849,7 @@ extension Ssm {
     public struct InventoryItem: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CaptureTime", required: true, type: .string), 
             AWSShapeProperty(label: "Content", required: false, type: .list), 
             AWSShapeProperty(label: "SchemaVersion", required: true, type: .string), 
@@ -1900,7 +1900,7 @@ extension Ssm {
     public struct DeletePatchBaselineResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BaselineId", required: false, type: .string)
         ]
         /// The ID of the deleted patch baseline.
@@ -1918,7 +1918,7 @@ extension Ssm {
     public struct CancelCommandRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CommandId", required: true, type: .string), 
             AWSShapeProperty(label: "InstanceIds", required: false, type: .list)
         ]
@@ -1942,7 +1942,7 @@ extension Ssm {
     public struct InstanceInformation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LastSuccessfulAssociationExecutionDate", required: false, type: .timestamp), 
             AWSShapeProperty(label: "IsLatestVersion", required: false, type: .boolean), 
             AWSShapeProperty(label: "AssociationOverview", required: false, type: .structure), 
@@ -2068,7 +2068,7 @@ extension Ssm {
     public struct DescribeActivationsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Filters", required: false, type: .list), 
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
@@ -2100,7 +2100,7 @@ extension Ssm {
     public struct CreateMaintenanceWindowRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AllowUnassociatedTargets", required: true, type: .boolean), 
             AWSShapeProperty(label: "Schedule", required: true, type: .string), 
             AWSShapeProperty(label: "Cutoff", required: true, type: .integer), 
@@ -2158,7 +2158,7 @@ extension Ssm {
     public struct CommandInvocation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CommandPlugins", required: false, type: .list), 
             AWSShapeProperty(label: "NotificationConfig", required: false, type: .structure), 
             AWSShapeProperty(label: "Comment", required: false, type: .string), 
@@ -2252,7 +2252,7 @@ extension Ssm {
     public struct InventoryResultEntityList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Entity", required: false, type: .list)
         ]
         public let entity: [InventoryResultEntity]?
@@ -2273,7 +2273,7 @@ extension Ssm {
     public struct FailedCreateAssociation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Fault", required: false, type: .enum), 
             AWSShapeProperty(label: "Entry", required: false, type: .structure), 
             AWSShapeProperty(label: "Message", required: false, type: .string)
@@ -2301,7 +2301,7 @@ extension Ssm {
     public struct DocumentIdentifier: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SchemaVersion", required: false, type: .string), 
             AWSShapeProperty(label: "DocumentType", required: false, type: .enum), 
             AWSShapeProperty(label: "Owner", required: false, type: .string), 
@@ -2344,7 +2344,7 @@ extension Ssm {
     public struct GetInventorySchemaResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Schemas", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -2371,7 +2371,7 @@ extension Ssm {
     public struct DeleteMaintenanceWindowResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WindowId", required: false, type: .string)
         ]
         /// The ID of the deleted Maintenance Window.
@@ -2389,7 +2389,7 @@ extension Ssm {
     public struct GetParameterHistoryRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WithDecryption", required: false, type: .boolean), 
             AWSShapeProperty(label: "Name", required: true, type: .string), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
@@ -2423,7 +2423,7 @@ extension Ssm {
     public struct GetParameterHistoryResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Parameters", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -2450,7 +2450,7 @@ extension Ssm {
     public struct ListDocumentVersionsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Name", required: true, type: .string), 
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
@@ -2487,7 +2487,7 @@ extension Ssm {
     public struct Target: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Key", required: false, type: .string), 
             AWSShapeProperty(label: "Values", required: false, type: .list)
         ]
@@ -2523,7 +2523,7 @@ extension Ssm {
     public struct AssociationDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LastExecutionDate", required: false, type: .timestamp), 
             AWSShapeProperty(label: "LastUpdateAssociationDate", required: false, type: .timestamp), 
             AWSShapeProperty(label: "Targets", required: false, type: .list), 
@@ -2619,7 +2619,7 @@ extension Ssm {
     public struct InstanceAssociation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Content", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
             AWSShapeProperty(label: "AssociationId", required: false, type: .string)
@@ -2655,7 +2655,7 @@ extension Ssm {
     public struct InstanceInformationStringFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Key", required: true, type: .string), 
             AWSShapeProperty(label: "Values", required: true, type: .structure)
         ]
@@ -2680,7 +2680,7 @@ extension Ssm {
     public struct DeleteDocumentRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
         /// The name of the SSM document.
@@ -2699,7 +2699,7 @@ extension Ssm {
     public struct DescribeMaintenanceWindowTargetsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Targets", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -2726,7 +2726,7 @@ extension Ssm {
     public struct DescribePatchGroupStateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PatchGroup", required: true, type: .string)
         ]
         /// The name of the patch group whose patch snapshot should be retrieved.
@@ -2745,7 +2745,7 @@ extension Ssm {
     public struct UpdatePatchBaselineRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BaselineId", required: true, type: .string), 
             AWSShapeProperty(label: "ApprovedPatches", required: false, type: .list), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
@@ -2794,7 +2794,7 @@ extension Ssm {
     public struct InventoryFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Type", required: false, type: .enum), 
             AWSShapeProperty(label: "Key", required: true, type: .string), 
             AWSShapeProperty(label: "Values", required: true, type: .structure)
@@ -2824,7 +2824,7 @@ extension Ssm {
     public struct ListCommandsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Commands", required: false, type: .list)
         ]
@@ -2857,7 +2857,7 @@ extension Ssm {
     public struct GetPatchBaselineForPatchGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BaselineId", required: false, type: .string), 
             AWSShapeProperty(label: "PatchGroup", required: false, type: .string)
         ]
@@ -2880,7 +2880,7 @@ extension Ssm {
     public struct DescribeEffectivePatchesForPatchBaselineRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BaselineId", required: true, type: .string), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
@@ -2909,7 +2909,7 @@ extension Ssm {
     public struct DocumentIdentifierList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DocumentIdentifier", required: false, type: .list)
         ]
         public let documentIdentifier: [DocumentIdentifier]?
@@ -2930,7 +2930,7 @@ extension Ssm {
     public struct RegisterPatchBaselineForPatchGroupRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BaselineId", required: true, type: .string), 
             AWSShapeProperty(label: "PatchGroup", required: true, type: .string)
         ]
@@ -2962,7 +2962,7 @@ extension Ssm {
     public struct AssociationStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Message", required: true, type: .string), 
             AWSShapeProperty(label: "Name", required: true, type: .enum), 
             AWSShapeProperty(label: "Date", required: true, type: .timestamp), 
@@ -2998,7 +2998,7 @@ extension Ssm {
     public struct DescribeInstancePatchStatesForPatchGroupRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Filters", required: false, type: .list), 
             AWSShapeProperty(label: "PatchGroup", required: true, type: .string), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
@@ -3036,7 +3036,7 @@ extension Ssm {
     public struct DescribeMaintenanceWindowTasksResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Tasks", required: false, type: .list)
         ]
@@ -3071,7 +3071,7 @@ extension Ssm {
     public struct AutomationExecution: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Parameters", required: false, type: .map), 
             AWSShapeProperty(label: "AutomationExecutionStatus", required: false, type: .enum), 
             AWSShapeProperty(label: "DocumentName", required: false, type: .string), 
@@ -3156,7 +3156,7 @@ extension Ssm {
     public struct MaintenanceWindowTaskParameterValueExpression: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Values", required: false, type: .list)
         ]
         /// This field contains an array of 0 or more strings, each 1 to 255 characters in length.
@@ -3174,7 +3174,7 @@ extension Ssm {
     public struct AssociationFilterList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AssociationFilter", required: false, type: .list)
         ]
         public let associationFilter: [AssociationFilter]?
@@ -3195,7 +3195,7 @@ extension Ssm {
     public struct Patch: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Classification", required: false, type: .string), 
             AWSShapeProperty(label: "Product", required: false, type: .string), 
             AWSShapeProperty(label: "Language", required: false, type: .string), 
@@ -3273,7 +3273,7 @@ extension Ssm {
     public struct DescribeDocumentResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Document", required: false, type: .structure)
         ]
         /// Information about the SSM document.
@@ -3291,7 +3291,7 @@ extension Ssm {
     public struct DescribeAutomationExecutionsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "AutomationExecutionMetadataList", required: false, type: .list)
         ]
@@ -3318,7 +3318,7 @@ extension Ssm {
     public struct RegisterTaskWithMaintenanceWindowRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WindowId", required: true, type: .string), 
             AWSShapeProperty(label: "TaskArn", required: true, type: .string), 
             AWSShapeProperty(label: "ServiceRoleArn", required: true, type: .string), 
@@ -3402,7 +3402,7 @@ extension Ssm {
     public struct ResultAttributeList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResultAttribute", required: false, type: .list)
         ]
         public let resultAttribute: [ResultAttribute]?
@@ -3423,7 +3423,7 @@ extension Ssm {
     public struct CreateAssociationBatchRequestEntry: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Parameters", required: false, type: .map), 
             AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
             AWSShapeProperty(label: "Name", required: true, type: .string), 
@@ -3517,7 +3517,7 @@ extension Ssm {
     public struct InstanceInformationFilterList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceInformationFilter", required: false, type: .list)
         ]
         public let instanceInformationFilter: [InstanceInformationFilter]?
@@ -3538,7 +3538,7 @@ extension Ssm {
     public struct ParameterHistory: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "KeyId", required: false, type: .string), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "LastModifiedDate", required: false, type: .timestamp), 
@@ -3591,7 +3591,7 @@ extension Ssm {
     public struct PatchOrchestratorFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Key", required: false, type: .string), 
             AWSShapeProperty(label: "Values", required: false, type: .list)
         ]
@@ -3621,7 +3621,7 @@ extension Ssm {
     public struct UpdateDocumentResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DocumentDescription", required: false, type: .structure)
         ]
         /// A description of the document that was updated.
@@ -3639,7 +3639,7 @@ extension Ssm {
     public struct InventoryItemAttribute: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DataType", required: true, type: .enum), 
             AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
@@ -3664,7 +3664,7 @@ extension Ssm {
     public struct DocumentDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Sha1", required: false, type: .string), 
             AWSShapeProperty(label: "DefaultVersion", required: false, type: .string), 
             AWSShapeProperty(label: "CreatedDate", required: false, type: .timestamp), 
@@ -3752,7 +3752,7 @@ extension Ssm {
     public struct DeregisterPatchBaselineForPatchGroupRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BaselineId", required: true, type: .string), 
             AWSShapeProperty(label: "PatchGroup", required: true, type: .string)
         ]
@@ -3777,7 +3777,7 @@ extension Ssm {
     public struct InstanceInformationFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "key", required: true, type: .enum), 
             AWSShapeProperty(label: "valueSet", required: true, type: .structure)
         ]
@@ -3802,7 +3802,7 @@ extension Ssm {
     public struct DescribeEffectiveInstanceAssociationsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
@@ -3839,7 +3839,7 @@ extension Ssm {
     public struct PatchFilterGroup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PatchFilters", required: true, type: .list)
         ]
         /// The set of patch filters that make up the group.
@@ -3858,7 +3858,7 @@ extension Ssm {
     public struct DescribeDocumentPermissionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: true, type: .string), 
             AWSShapeProperty(label: "PermissionType", required: true, type: .enum)
         ]
@@ -3883,7 +3883,7 @@ extension Ssm {
     public struct RegisterPatchBaselineForPatchGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BaselineId", required: false, type: .string), 
             AWSShapeProperty(label: "PatchGroup", required: false, type: .string)
         ]
@@ -3906,7 +3906,7 @@ extension Ssm {
     public struct CommandFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "key", required: true, type: .enum), 
             AWSShapeProperty(label: "value", required: true, type: .string)
         ]
@@ -3936,7 +3936,7 @@ extension Ssm {
     public struct CreateDocumentRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Content", required: true, type: .string), 
             AWSShapeProperty(label: "Name", required: true, type: .string), 
             AWSShapeProperty(label: "DocumentType", required: false, type: .enum)
@@ -3966,7 +3966,7 @@ extension Ssm {
     public struct RegisterDefaultPatchBaselineResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BaselineId", required: false, type: .string)
         ]
         /// The ID of the default patch baseline.
@@ -3984,7 +3984,7 @@ extension Ssm {
     public struct GetDeployablePatchSnapshotForInstanceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SnapshotId", required: true, type: .string), 
             AWSShapeProperty(label: "InstanceId", required: true, type: .string)
         ]
@@ -4009,7 +4009,7 @@ extension Ssm {
     public struct SendCommandResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Command", required: false, type: .structure)
         ]
         /// The request as it was received by Systems Manager. Also provides the command ID which can be used future references to this request.
@@ -4027,7 +4027,7 @@ extension Ssm {
     public struct DeregisterTaskFromMaintenanceWindowRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WindowId", required: true, type: .string), 
             AWSShapeProperty(label: "WindowTaskId", required: true, type: .string)
         ]
@@ -4052,7 +4052,7 @@ extension Ssm {
     public struct GetParametersRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WithDecryption", required: false, type: .boolean), 
             AWSShapeProperty(label: "Names", required: true, type: .list)
         ]
@@ -4076,7 +4076,7 @@ extension Ssm {
     public struct ListCommandInvocationsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "CommandInvocations", required: false, type: .list)
         ]
@@ -4103,7 +4103,7 @@ extension Ssm {
     public struct DescribeMaintenanceWindowExecutionsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WindowId", required: true, type: .string), 
             AWSShapeProperty(label: "Filters", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
@@ -4148,7 +4148,7 @@ extension Ssm {
     public struct ListCommandsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Filters", required: false, type: .list), 
             AWSShapeProperty(label: "CommandId", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
@@ -4190,7 +4190,7 @@ extension Ssm {
     public struct ParameterMetadata: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LastModifiedDate", required: false, type: .timestamp), 
             AWSShapeProperty(label: "KeyId", required: false, type: .string), 
             AWSShapeProperty(label: "Type", required: false, type: .enum), 
@@ -4240,7 +4240,7 @@ extension Ssm {
     public struct DescribeMaintenanceWindowsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Filters", required: false, type: .list), 
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
@@ -4272,7 +4272,7 @@ extension Ssm {
     public struct PlatformTypeList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PlatformType", required: false, type: .list)
         ]
         public let platformType: [PlatformType]?
@@ -4289,7 +4289,7 @@ extension Ssm {
     public struct UpdatePatchBaselineResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BaselineId", required: false, type: .string), 
             AWSShapeProperty(label: "ApprovedPatches", required: false, type: .list), 
             AWSShapeProperty(label: "ModifiedDate", required: false, type: .timestamp), 
@@ -4347,7 +4347,7 @@ extension Ssm {
     public struct DescribeInstanceInformationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceInformationFilterList", required: false, type: .structure), 
             AWSShapeProperty(label: "Filters", required: false, type: .structure), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
@@ -4380,7 +4380,7 @@ extension Ssm {
     public struct GetInventoryRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Filters", required: false, type: .structure), 
             AWSShapeProperty(label: "ResultAttributes", required: false, type: .structure), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
@@ -4413,7 +4413,7 @@ extension Ssm {
     public struct DescribePatchBaselinesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BaselineIdentities", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -4440,7 +4440,7 @@ extension Ssm {
     public struct InstanceAggregatedAssociationOverview: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceAssociationStatusAggregatedCount", required: false, type: .map), 
             AWSShapeProperty(label: "DetailedStatus", required: false, type: .string)
         ]
@@ -4467,7 +4467,7 @@ extension Ssm {
     public struct GetCommandInvocationResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PluginName", required: false, type: .string), 
             AWSShapeProperty(label: "ExecutionElapsedTime", required: false, type: .string), 
             AWSShapeProperty(label: "Comment", required: false, type: .string), 
@@ -4555,7 +4555,7 @@ extension Ssm {
     public struct InstanceInformationList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceInformation", required: false, type: .list)
         ]
         public let instanceInformation: [InstanceInformation]?
@@ -4576,7 +4576,7 @@ extension Ssm {
     public struct InventoryItemSchema: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TypeName", required: true, type: .string), 
             AWSShapeProperty(label: "Attributes", required: true, type: .structure), 
             AWSShapeProperty(label: "Version", required: false, type: .string)
@@ -4606,7 +4606,7 @@ extension Ssm {
     public struct UpdateAssociationResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AssociationDescription", required: false, type: .structure)
         ]
         /// The description of the association that was updated.
@@ -4632,7 +4632,7 @@ extension Ssm {
     public struct DescribeInstanceInformationResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceInformationList", required: false, type: .structure)
         ]
@@ -4655,7 +4655,7 @@ extension Ssm {
     public struct PatchStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ApprovalDate", required: false, type: .timestamp), 
             AWSShapeProperty(label: "DeploymentStatus", required: false, type: .enum)
         ]
@@ -4678,7 +4678,7 @@ extension Ssm {
     public struct StartAutomationExecutionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Parameters", required: false, type: .map), 
             AWSShapeProperty(label: "DocumentName", required: true, type: .string), 
             AWSShapeProperty(label: "DocumentVersion", required: false, type: .string)
@@ -4716,7 +4716,7 @@ extension Ssm {
     public struct UpdateDocumentRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Content", required: true, type: .string), 
             AWSShapeProperty(label: "Name", required: true, type: .string), 
             AWSShapeProperty(label: "DocumentVersion", required: false, type: .string)
@@ -4746,7 +4746,7 @@ extension Ssm {
     public struct GetMaintenanceWindowExecutionResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "TaskIds", required: false, type: .list), 
             AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
@@ -4789,7 +4789,7 @@ extension Ssm {
     public struct DescribePatchGroupStateResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstancesWithMissingPatches", required: false, type: .integer), 
             AWSShapeProperty(label: "Instances", required: false, type: .integer), 
             AWSShapeProperty(label: "InstancesWithNotApplicablePatches", required: false, type: .integer), 
@@ -4832,7 +4832,7 @@ extension Ssm {
     public struct Tag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: true, type: .string), 
             AWSShapeProperty(label: "Key", required: true, type: .string)
         ]
@@ -4857,7 +4857,7 @@ extension Ssm {
     public struct RegisterTaskWithMaintenanceWindowResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WindowTaskId", required: false, type: .string)
         ]
         /// The id of the task in the Maintenance Window.
@@ -4875,7 +4875,7 @@ extension Ssm {
     public struct DescribeAssociationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
             AWSShapeProperty(label: "AssociationId", required: false, type: .string)
@@ -4903,7 +4903,7 @@ extension Ssm {
     public struct MaintenanceWindowIdentity: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WindowId", required: false, type: .string), 
             AWSShapeProperty(label: "Cutoff", required: false, type: .integer), 
             AWSShapeProperty(label: "Duration", required: false, type: .integer), 
@@ -4941,7 +4941,7 @@ extension Ssm {
     public struct DeregisterManagedInstanceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceId", required: true, type: .string)
         ]
         /// The ID assigned to the managed instance when you registered it using the activation process. 
@@ -4960,7 +4960,7 @@ extension Ssm {
     public struct DocumentDefaultVersionDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "DefaultVersion", required: false, type: .string)
         ]
@@ -4983,7 +4983,7 @@ extension Ssm {
     public struct AutomationExecutionFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Key", required: true, type: .enum), 
             AWSShapeProperty(label: "Values", required: true, type: .list)
         ]
@@ -5017,7 +5017,7 @@ extension Ssm {
     public struct CreateActivationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IamRole", required: true, type: .string), 
             AWSShapeProperty(label: "Description", required: false, type: .string), 
             AWSShapeProperty(label: "RegistrationLimit", required: false, type: .integer), 
@@ -5056,7 +5056,7 @@ extension Ssm {
     public struct AddTagsToResourceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
             AWSShapeProperty(label: "Tags", required: true, type: .list), 
             AWSShapeProperty(label: "ResourceType", required: true, type: .enum)
@@ -5087,7 +5087,7 @@ extension Ssm {
     public struct MaintenanceWindowTask: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WindowId", required: false, type: .string), 
             AWSShapeProperty(label: "TaskArn", required: false, type: .string), 
             AWSShapeProperty(label: "ServiceRoleArn", required: false, type: .string), 
@@ -5168,7 +5168,7 @@ extension Ssm {
     public struct DescribeMaintenanceWindowExecutionTaskInvocationsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WindowExecutionTaskInvocationIdentities", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -5195,7 +5195,7 @@ extension Ssm {
     public struct DocumentParameterList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DocumentParameter", required: false, type: .list)
         ]
         public let documentParameter: [DocumentParameter]?
@@ -5216,7 +5216,7 @@ extension Ssm {
     public struct DescribeInstancePatchesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Patches", required: false, type: .list)
         ]
@@ -5251,7 +5251,7 @@ extension Ssm {
     public struct PatchGroupPatchBaselineMapping: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PatchGroup", required: false, type: .string), 
             AWSShapeProperty(label: "BaselineIdentity", required: false, type: .structure)
         ]
@@ -5274,7 +5274,7 @@ extension Ssm {
     public struct CreatePatchBaselineResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BaselineId", required: false, type: .string)
         ]
         /// The ID of the created patch baseline.
@@ -5292,7 +5292,7 @@ extension Ssm {
     public struct DeleteMaintenanceWindowRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WindowId", required: true, type: .string)
         ]
         /// The ID of the Maintenance Window to delete.
@@ -5311,7 +5311,7 @@ extension Ssm {
     public struct DescribePatchGroupsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
@@ -5334,7 +5334,7 @@ extension Ssm {
     public struct GetPatchBaselineForPatchGroupRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PatchGroup", required: true, type: .string)
         ]
         /// The name of the patch group whose patch baseline should be retrieved.
@@ -5353,7 +5353,7 @@ extension Ssm {
     public struct DescribeActivationsFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FilterKey", required: false, type: .enum), 
             AWSShapeProperty(label: "FilterValues", required: false, type: .list)
         ]
@@ -5376,7 +5376,7 @@ extension Ssm {
     public struct ListTagsForResourceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
             AWSShapeProperty(label: "ResourceType", required: true, type: .enum)
         ]
@@ -5401,7 +5401,7 @@ extension Ssm {
     public struct GetAutomationExecutionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AutomationExecutionId", required: true, type: .string)
         ]
         /// The unique identifier for an existing automation execution to examine. The execution ID is returned by StartAutomationExecution when the execution of an Automation document is initiated.
@@ -5420,7 +5420,7 @@ extension Ssm {
     public struct Parameter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Type", required: false, type: .enum), 
             AWSShapeProperty(label: "Value", required: false, type: .string), 
             AWSShapeProperty(label: "Name", required: false, type: .string)
@@ -5448,7 +5448,7 @@ extension Ssm {
     public struct CreateActivationResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ActivationId", required: false, type: .string), 
             AWSShapeProperty(label: "ActivationCode", required: false, type: .string)
         ]
@@ -5471,7 +5471,7 @@ extension Ssm {
     public struct DescribeMaintenanceWindowExecutionTasksResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WindowExecutionTaskIdentities", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -5498,7 +5498,7 @@ extension Ssm {
     public struct DescribeInstanceAssociationsStatusRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
@@ -5535,7 +5535,7 @@ extension Ssm {
     public struct ListDocumentVersionsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DocumentVersions", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -5562,7 +5562,7 @@ extension Ssm {
     public struct ListInventoryEntriesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer), 
             AWSShapeProperty(label: "Filters", required: false, type: .structure), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
@@ -5614,7 +5614,7 @@ extension Ssm {
     public struct UpdateAssociationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OutputLocation", required: false, type: .structure), 
             AWSShapeProperty(label: "AssociationId", required: true, type: .string), 
             AWSShapeProperty(label: "Parameters", required: false, type: .map), 
@@ -5662,7 +5662,7 @@ extension Ssm {
     public struct GetCommandInvocationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CommandId", required: true, type: .string), 
             AWSShapeProperty(label: "PluginName", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceId", required: true, type: .string)
@@ -5692,7 +5692,7 @@ extension Ssm {
     public struct MaintenanceWindowExecutionTaskInvocationIdentity: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "Status", required: false, type: .enum), 
             AWSShapeProperty(label: "WindowExecutionId", required: false, type: .string), 
@@ -5768,7 +5768,7 @@ extension Ssm {
     public struct UpdateDocumentDefaultVersionResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Description", required: false, type: .structure)
         ]
         /// The description of a custom document that you want to set as the default version.
@@ -5793,7 +5793,7 @@ extension Ssm {
     public struct CreateAssociationBatchResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Successful", required: false, type: .structure), 
             AWSShapeProperty(label: "Failed", required: false, type: .structure)
         ]
@@ -5816,7 +5816,7 @@ extension Ssm {
     public struct AccountIdList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountId", required: false, type: .list)
         ]
         public let accountId: [String]?
@@ -5833,7 +5833,7 @@ extension Ssm {
     public struct InstancePatchState: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstalledOtherCount", required: false, type: .integer), 
             AWSShapeProperty(label: "FailedCount", required: false, type: .integer), 
             AWSShapeProperty(label: "OperationEndTime", required: true, type: .timestamp), 
@@ -5917,7 +5917,7 @@ extension Ssm {
     public struct MaintenanceWindowExecutionTaskIdentity: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "Status", required: false, type: .enum), 
             AWSShapeProperty(label: "WindowExecutionId", required: false, type: .string), 
@@ -5970,7 +5970,7 @@ extension Ssm {
     public struct MaintenanceWindowExecution: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "WindowId", required: false, type: .string), 
             AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
@@ -6034,7 +6034,7 @@ extension Ssm {
     public struct AssociationList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Association", required: false, type: .list)
         ]
         public let association: [Association]?
@@ -6063,7 +6063,7 @@ extension Ssm {
     public struct ListDocumentsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DocumentIdentifiers", required: false, type: .structure), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -6086,7 +6086,7 @@ extension Ssm {
     public struct DescribeAvailablePatchesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Filters", required: false, type: .list), 
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
@@ -6118,7 +6118,7 @@ extension Ssm {
     public struct ListTagsForResourceResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TagList", required: false, type: .list)
         ]
         /// A list of tags.
@@ -6140,7 +6140,7 @@ extension Ssm {
     public struct StepExecution: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ExecutionEndTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "StepName", required: false, type: .string), 
             AWSShapeProperty(label: "Action", required: false, type: .string), 
@@ -6216,7 +6216,7 @@ extension Ssm {
     public struct AssociationOverview: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "AssociationStatusAggregatedCount", required: false, type: .map), 
             AWSShapeProperty(label: "DetailedStatus", required: false, type: .string)
@@ -6248,7 +6248,7 @@ extension Ssm {
     public struct GetMaintenanceWindowExecutionTaskResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Priority", required: false, type: .integer), 
             AWSShapeProperty(label: "ServiceRole", required: false, type: .string), 
             AWSShapeProperty(label: "TaskExecutionId", required: false, type: .string), 
@@ -6338,7 +6338,7 @@ extension Ssm {
     public struct CreateDocumentResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DocumentDescription", required: false, type: .structure)
         ]
         /// Information about the SSM document.
@@ -6356,7 +6356,7 @@ extension Ssm {
     public struct DescribeMaintenanceWindowExecutionsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WindowExecutions", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -6383,7 +6383,7 @@ extension Ssm {
     public struct ListCommandInvocationsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Details", required: false, type: .boolean), 
             AWSShapeProperty(label: "Filters", required: false, type: .list), 
             AWSShapeProperty(label: "CommandId", required: false, type: .string), 
@@ -6430,7 +6430,7 @@ extension Ssm {
     public struct GetPatchBaselineResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BaselineId", required: false, type: .string), 
             AWSShapeProperty(label: "ApprovedPatches", required: false, type: .list), 
             AWSShapeProperty(label: "ModifiedDate", required: false, type: .timestamp), 
@@ -6493,7 +6493,7 @@ extension Ssm {
     public struct CreateAssociationResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AssociationDescription", required: false, type: .structure)
         ]
         /// Information about the association.
@@ -6511,7 +6511,7 @@ extension Ssm {
     public struct DescribeMaintenanceWindowsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "WindowIdentities", required: false, type: .list)
         ]
@@ -6538,7 +6538,7 @@ extension Ssm {
     public struct DescribeAvailablePatchesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Patches", required: false, type: .list)
         ]
@@ -6565,7 +6565,7 @@ extension Ssm {
     public struct InventoryResultEntity: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Id", required: false, type: .string), 
             AWSShapeProperty(label: "Data", required: false, type: .map)
         ]
@@ -6597,7 +6597,7 @@ extension Ssm {
     public struct UpdateMaintenanceWindowRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WindowId", required: true, type: .string), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "Enabled", required: false, type: .boolean), 
@@ -6646,7 +6646,7 @@ extension Ssm {
     public struct DescribeParametersRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Filters", required: false, type: .list), 
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
@@ -6678,7 +6678,7 @@ extension Ssm {
     public struct InstancePatchStateFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Type", required: true, type: .enum), 
             AWSShapeProperty(label: "Key", required: true, type: .string), 
             AWSShapeProperty(label: "Values", required: true, type: .list)
@@ -6709,7 +6709,7 @@ extension Ssm {
     public struct GetDocumentResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Content", required: false, type: .string), 
             AWSShapeProperty(label: "DocumentType", required: false, type: .enum), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
@@ -6742,7 +6742,7 @@ extension Ssm {
     public struct UpdateManagedInstanceRoleRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
             AWSShapeProperty(label: "IamRole", required: true, type: .string)
         ]
@@ -6767,7 +6767,7 @@ extension Ssm {
     public struct PatchRule: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PatchFilterGroup", required: true, type: .structure), 
             AWSShapeProperty(label: "ApproveAfterDays", required: true, type: .integer)
         ]
@@ -6800,7 +6800,7 @@ extension Ssm {
     public struct DeregisterPatchBaselineForPatchGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BaselineId", required: false, type: .string), 
             AWSShapeProperty(label: "PatchGroup", required: false, type: .string)
         ]
@@ -6823,7 +6823,7 @@ extension Ssm {
     public struct GetAutomationExecutionResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AutomationExecution", required: false, type: .structure)
         ]
         /// Detailed information about the current state of an automation execution.
@@ -6841,7 +6841,7 @@ extension Ssm {
     public struct AssociationDescriptionList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AssociationDescription", required: false, type: .list)
         ]
         public let associationDescription: [AssociationDescription]?
@@ -6862,7 +6862,7 @@ extension Ssm {
     public struct DescribeEffectiveInstanceAssociationsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Associations", required: false, type: .list)
         ]
@@ -6889,7 +6889,7 @@ extension Ssm {
     public struct UpdateAssociationStatusResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AssociationDescription", required: false, type: .structure)
         ]
         /// Information about the association.
@@ -6907,7 +6907,7 @@ extension Ssm {
     public struct InstanceAssociationOutputUrl: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "S3OutputUrl", required: false, type: .structure)
         ]
         /// The URL of Amazon S3 bucket where you want to store the results of this request.
@@ -6925,7 +6925,7 @@ extension Ssm {
     public struct InstanceAssociationStatusInfo: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "AssociationId", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
@@ -6988,7 +6988,7 @@ extension Ssm {
     public struct S3OutputUrl: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OutputUrl", required: false, type: .string)
         ]
         /// A URL for an Amazon S3 bucket where you want to store the results of this request.
@@ -7006,7 +7006,7 @@ extension Ssm {
     public struct GetMaintenanceWindowExecutionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WindowExecutionId", required: true, type: .string)
         ]
         /// The ID of the Maintenance Window execution that includes the task.
@@ -7025,7 +7025,7 @@ extension Ssm {
     public struct CreateAssociationBatchRequestEntries: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Entries", required: false, type: .list)
         ]
         public let entries: [CreateAssociationBatchRequestEntry]?
@@ -7046,7 +7046,7 @@ extension Ssm {
     public struct PatchFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Key", required: true, type: .enum), 
             AWSShapeProperty(label: "Values", required: true, type: .list)
         ]
@@ -7071,7 +7071,7 @@ extension Ssm {
     public struct GetParametersResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Parameters", required: false, type: .list), 
             AWSShapeProperty(label: "InvalidParameters", required: false, type: .list)
         ]
@@ -7098,7 +7098,7 @@ extension Ssm {
     public struct MaintenanceWindowTarget: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WindowId", required: false, type: .string), 
             AWSShapeProperty(label: "Targets", required: false, type: .list), 
             AWSShapeProperty(label: "WindowTargetId", required: false, type: .string), 
@@ -7140,7 +7140,7 @@ extension Ssm {
     public struct InventoryFilterList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InventoryFilter", required: false, type: .list)
         ]
         public let inventoryFilter: [InventoryFilter]?
@@ -7161,7 +7161,7 @@ extension Ssm {
     public struct UpdateDocumentDefaultVersionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: true, type: .string), 
             AWSShapeProperty(label: "DocumentVersion", required: true, type: .string)
         ]
@@ -7186,7 +7186,7 @@ extension Ssm {
     public struct ListAssociationsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Associations", required: false, type: .structure)
         ]
@@ -7209,7 +7209,7 @@ extension Ssm {
     public struct DescribeInstancePatchStatesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "InstancePatchStates", required: false, type: .list)
         ]
@@ -7243,7 +7243,7 @@ extension Ssm {
     public struct RemoveTagsFromResourceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
             AWSShapeProperty(label: "ResourceType", required: true, type: .enum), 
             AWSShapeProperty(label: "TagKeys", required: true, type: .list)
@@ -7274,7 +7274,7 @@ extension Ssm {
     public struct S3OutputLocation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OutputS3KeyPrefix", required: false, type: .string), 
             AWSShapeProperty(label: "OutputS3BucketName", required: false, type: .string), 
             AWSShapeProperty(label: "OutputS3Region", required: false, type: .string)
@@ -7302,7 +7302,7 @@ extension Ssm {
     public struct GetMaintenanceWindowRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WindowId", required: true, type: .string)
         ]
         /// The ID of the desired Maintenance Window.
@@ -7321,7 +7321,7 @@ extension Ssm {
     public struct UpdateMaintenanceWindowResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WindowId", required: false, type: .string), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "Enabled", required: false, type: .boolean), 
@@ -7381,7 +7381,7 @@ extension Ssm {
     public struct DeleteActivationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ActivationId", required: true, type: .string)
         ]
         /// The ID of the activation that you want to delete.
@@ -7400,7 +7400,7 @@ extension Ssm {
     public struct PutInventoryRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Items", required: true, type: .structure), 
             AWSShapeProperty(label: "InstanceId", required: true, type: .string)
         ]
@@ -7425,7 +7425,7 @@ extension Ssm {
     public struct DescribeDocumentPermissionResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountIds", required: false, type: .structure)
         ]
         /// The account IDs that have permission to use this document. The ID can be either an AWS account or All.
@@ -7443,7 +7443,7 @@ extension Ssm {
     public struct AssociationFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "key", required: true, type: .enum), 
             AWSShapeProperty(label: "value", required: true, type: .string)
         ]
@@ -7468,7 +7468,7 @@ extension Ssm {
     public struct NotificationConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NotificationArn", required: false, type: .string), 
             AWSShapeProperty(label: "NotificationType", required: false, type: .enum), 
             AWSShapeProperty(label: "NotificationEvents", required: false, type: .list)
@@ -7504,7 +7504,7 @@ extension Ssm {
     public struct PutParameterRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Description", required: false, type: .string), 
             AWSShapeProperty(label: "KeyId", required: false, type: .string), 
             AWSShapeProperty(label: "Type", required: true, type: .enum), 
@@ -7550,7 +7550,7 @@ extension Ssm {
     public struct PatchBaselineIdentity: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DefaultBaseline", required: false, type: .boolean), 
             AWSShapeProperty(label: "BaselineId", required: false, type: .string), 
             AWSShapeProperty(label: "BaselineName", required: false, type: .string), 
@@ -7583,7 +7583,7 @@ extension Ssm {
     public struct Association: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LastExecutionDate", required: false, type: .timestamp), 
             AWSShapeProperty(label: "AssociationId", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
@@ -7640,7 +7640,7 @@ extension Ssm {
     public struct Activation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IamRole", required: false, type: .string), 
             AWSShapeProperty(label: "Expired", required: false, type: .boolean), 
             AWSShapeProperty(label: "RegistrationLimit", required: false, type: .integer), 
@@ -7698,7 +7698,7 @@ extension Ssm {
     public struct StartAutomationExecutionResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AutomationExecutionId", required: false, type: .string)
         ]
         /// The unique ID of a newly scheduled automation execution.
@@ -7716,7 +7716,7 @@ extension Ssm {
     public struct ListDocumentsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DocumentFilterList", required: false, type: .structure), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
@@ -7744,7 +7744,7 @@ extension Ssm {
     public struct ListInventoryEntriesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CaptureTime", required: false, type: .string), 
             AWSShapeProperty(label: "Entries", required: false, type: .list), 
             AWSShapeProperty(label: "SchemaVersion", required: false, type: .string), 
@@ -7787,7 +7787,7 @@ extension Ssm {
     public struct InventoryFilterValueList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FilterValue", required: false, type: .list)
         ]
         public let filterValue: [String]?
@@ -7804,7 +7804,7 @@ extension Ssm {
     public struct DeleteAssociationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
             AWSShapeProperty(label: "AssociationId", required: false, type: .string)
@@ -7838,7 +7838,7 @@ extension Ssm {
     public struct EffectivePatch: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Patch", required: false, type: .structure), 
             AWSShapeProperty(label: "PatchStatus", required: false, type: .structure)
         ]
@@ -7861,7 +7861,7 @@ extension Ssm {
     public struct DocumentParameter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Type", required: false, type: .enum), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "DefaultValue", required: false, type: .string), 
@@ -7894,7 +7894,7 @@ extension Ssm {
     public struct InventoryItemAttributeList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Attribute", required: false, type: .list)
         ]
         public let attribute: [InventoryItemAttribute]?
@@ -7925,7 +7925,7 @@ extension Ssm {
     public struct DeleteParameterRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
         /// The name of the parameter to delete.
@@ -7944,7 +7944,7 @@ extension Ssm {
     public struct StopAutomationExecutionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AutomationExecutionId", required: true, type: .string)
         ]
         /// The execution ID of the Automation to stop.
@@ -7963,7 +7963,7 @@ extension Ssm {
     public struct DocumentFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "key", required: true, type: .enum), 
             AWSShapeProperty(label: "value", required: true, type: .string)
         ]
@@ -7988,7 +7988,7 @@ extension Ssm {
     public struct GetDefaultPatchBaselineResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BaselineId", required: false, type: .string)
         ]
         /// The ID of the default patch baseline.
@@ -8006,7 +8006,7 @@ extension Ssm {
     public struct InstanceAssociationOutputLocation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "S3Location", required: false, type: .structure)
         ]
         /// An Amazon S3 bucket where you want to store the results of this request.
@@ -8030,7 +8030,7 @@ extension Ssm {
     public struct RegisterTargetWithMaintenanceWindowResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WindowTargetId", required: false, type: .string)
         ]
         /// The ID of the target definition in this Maintenance Window.
@@ -8048,7 +8048,7 @@ extension Ssm {
     public struct CreateMaintenanceWindowResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WindowId", required: false, type: .string)
         ]
         /// The ID of the created Maintenance Window.
@@ -8066,7 +8066,7 @@ extension Ssm {
     public struct DocumentVersionInfo: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CreatedDate", required: false, type: .timestamp), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "IsDefaultVersion", required: false, type: .boolean), 

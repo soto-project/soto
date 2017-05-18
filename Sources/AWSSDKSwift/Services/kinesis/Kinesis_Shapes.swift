@@ -32,7 +32,7 @@ extension Kinesis {
     public struct CreateStreamInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StreamName", required: true, type: .string), 
             AWSShapeProperty(label: "ShardCount", required: true, type: .integer)
         ]
@@ -57,7 +57,7 @@ extension Kinesis {
     public struct AddTagsToStreamInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Tags", required: true, type: .map), 
             AWSShapeProperty(label: "StreamName", required: true, type: .string)
         ]
@@ -99,7 +99,7 @@ extension Kinesis {
     public struct DescribeStreamInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StreamName", required: true, type: .string), 
             AWSShapeProperty(label: "ExclusiveStartShardId", required: false, type: .string), 
             AWSShapeProperty(label: "Limit", required: false, type: .integer)
@@ -128,7 +128,7 @@ extension Kinesis {
     public struct UpdateShardCountOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TargetShardCount", required: false, type: .integer), 
             AWSShapeProperty(label: "CurrentShardCount", required: false, type: .integer), 
             AWSShapeProperty(label: "StreamName", required: false, type: .string)
@@ -156,7 +156,7 @@ extension Kinesis {
     public struct DecreaseStreamRetentionPeriodInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RetentionPeriodHours", required: true, type: .integer), 
             AWSShapeProperty(label: "StreamName", required: true, type: .string)
         ]
@@ -181,7 +181,7 @@ extension Kinesis {
     public struct IncreaseStreamRetentionPeriodInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RetentionPeriodHours", required: true, type: .integer), 
             AWSShapeProperty(label: "StreamName", required: true, type: .string)
         ]
@@ -206,7 +206,7 @@ extension Kinesis {
     public struct Shard: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ShardId", required: true, type: .string), 
             AWSShapeProperty(label: "SequenceNumberRange", required: true, type: .structure), 
             AWSShapeProperty(label: "AdjacentParentShardId", required: false, type: .string), 
@@ -247,7 +247,7 @@ extension Kinesis {
     public struct PutRecordsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FailedRecordCount", required: false, type: .integer), 
             AWSShapeProperty(label: "Records", required: true, type: .list)
         ]
@@ -271,7 +271,7 @@ extension Kinesis {
     public struct DescribeStreamOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StreamDescription", required: true, type: .structure)
         ]
         /// The current status of the stream, the stream ARN, an array of shard objects that comprise the stream, and whether there are more shards available.
@@ -290,7 +290,7 @@ extension Kinesis {
     public struct EnhancedMonitoringOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DesiredShardLevelMetrics", required: false, type: .list), 
             AWSShapeProperty(label: "StreamName", required: false, type: .string), 
             AWSShapeProperty(label: "CurrentShardLevelMetrics", required: false, type: .list)
@@ -318,7 +318,7 @@ extension Kinesis {
     public struct PutRecordOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SequenceNumber", required: true, type: .string), 
             AWSShapeProperty(label: "ShardId", required: true, type: .string)
         ]
@@ -343,7 +343,7 @@ extension Kinesis {
     public struct Record: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ApproximateArrivalTimestamp", required: false, type: .timestamp), 
             AWSShapeProperty(label: "SequenceNumber", required: true, type: .string), 
             AWSShapeProperty(label: "PartitionKey", required: true, type: .string), 
@@ -391,7 +391,7 @@ extension Kinesis {
     public struct DisableEnhancedMonitoringInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ShardLevelMetrics", required: true, type: .list), 
             AWSShapeProperty(label: "StreamName", required: true, type: .string)
         ]
@@ -416,7 +416,7 @@ extension Kinesis {
     public struct HashKeyRange: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StartingHashKey", required: true, type: .string), 
             AWSShapeProperty(label: "EndingHashKey", required: true, type: .string)
         ]
@@ -441,7 +441,7 @@ extension Kinesis {
     public struct SequenceNumberRange: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EndingSequenceNumber", required: false, type: .string), 
             AWSShapeProperty(label: "StartingSequenceNumber", required: true, type: .string)
         ]
@@ -465,7 +465,7 @@ extension Kinesis {
     public struct DescribeLimitsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ShardLimit", required: true, type: .integer), 
             AWSShapeProperty(label: "OpenShardCount", required: true, type: .integer)
         ]
@@ -490,7 +490,7 @@ extension Kinesis {
     public struct PutRecordsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Records", required: true, type: .list), 
             AWSShapeProperty(label: "StreamName", required: true, type: .string)
         ]
@@ -515,7 +515,7 @@ extension Kinesis {
     public struct GetShardIteratorInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StartingSequenceNumber", required: false, type: .string), 
             AWSShapeProperty(label: "Timestamp", required: false, type: .timestamp), 
             AWSShapeProperty(label: "ShardIteratorType", required: true, type: .enum), 
@@ -556,7 +556,7 @@ extension Kinesis {
     public struct ListTagsForStreamOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "HasMoreTags", required: true, type: .boolean), 
             AWSShapeProperty(label: "Tags", required: true, type: .list)
         ]
@@ -581,7 +581,7 @@ extension Kinesis {
     public struct PutRecordsRequestEntry: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Data", required: true, type: .blob), 
             AWSShapeProperty(label: "ExplicitHashKey", required: false, type: .string), 
             AWSShapeProperty(label: "PartitionKey", required: true, type: .string)
@@ -611,7 +611,7 @@ extension Kinesis {
     public struct GetRecordsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Limit", required: false, type: .integer), 
             AWSShapeProperty(label: "ShardIterator", required: true, type: .string)
         ]
@@ -635,7 +635,7 @@ extension Kinesis {
     public struct UpdateShardCountInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TargetShardCount", required: true, type: .integer), 
             AWSShapeProperty(label: "StreamName", required: true, type: .string), 
             AWSShapeProperty(label: "ScalingType", required: true, type: .enum)
@@ -666,7 +666,7 @@ extension Kinesis {
     public struct Tag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: false, type: .string), 
             AWSShapeProperty(label: "Key", required: true, type: .string)
         ]
@@ -690,7 +690,7 @@ extension Kinesis {
     public struct DeleteStreamInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StreamName", required: true, type: .string)
         ]
         /// The name of the stream to delete.
@@ -709,7 +709,7 @@ extension Kinesis {
     public struct GetShardIteratorOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ShardIterator", required: false, type: .string)
         ]
         /// The position in the shard from which to start reading data records sequentially. A shard iterator specifies this position using the sequence number of a data record in a shard.
@@ -727,7 +727,7 @@ extension Kinesis {
     public struct PutRecordInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PartitionKey", required: true, type: .string), 
             AWSShapeProperty(label: "ExplicitHashKey", required: false, type: .string), 
             AWSShapeProperty(label: "StreamName", required: true, type: .string), 
@@ -768,7 +768,7 @@ extension Kinesis {
     public struct PutRecordsResultEntry: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SequenceNumber", required: false, type: .string), 
             AWSShapeProperty(label: "ErrorMessage", required: false, type: .string), 
             AWSShapeProperty(label: "ErrorCode", required: false, type: .string), 
@@ -801,7 +801,7 @@ extension Kinesis {
     public struct ListTagsForStreamInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ExclusiveStartTagKey", required: false, type: .string), 
             AWSShapeProperty(label: "StreamName", required: true, type: .string), 
             AWSShapeProperty(label: "Limit", required: false, type: .integer)
@@ -830,7 +830,7 @@ extension Kinesis {
     public struct ListStreamsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StreamNames", required: true, type: .list), 
             AWSShapeProperty(label: "HasMoreStreams", required: true, type: .boolean)
         ]
@@ -855,7 +855,7 @@ extension Kinesis {
     public struct EnableEnhancedMonitoringInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ShardLevelMetrics", required: true, type: .list), 
             AWSShapeProperty(label: "StreamName", required: true, type: .string)
         ]
@@ -885,7 +885,7 @@ extension Kinesis {
     public struct MergeShardsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AdjacentShardToMerge", required: true, type: .string), 
             AWSShapeProperty(label: "ShardToMerge", required: true, type: .string), 
             AWSShapeProperty(label: "StreamName", required: true, type: .string)
@@ -916,7 +916,7 @@ extension Kinesis {
     public struct RemoveTagsFromStreamInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StreamName", required: true, type: .string), 
             AWSShapeProperty(label: "TagKeys", required: true, type: .list)
         ]
@@ -941,7 +941,7 @@ extension Kinesis {
     public struct ListStreamsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ExclusiveStartStreamName", required: false, type: .string), 
             AWSShapeProperty(label: "Limit", required: false, type: .integer)
         ]
@@ -964,7 +964,7 @@ extension Kinesis {
     public struct GetRecordsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextShardIterator", required: false, type: .string), 
             AWSShapeProperty(label: "MillisBehindLatest", required: false, type: .long), 
             AWSShapeProperty(label: "Records", required: true, type: .list)
@@ -993,7 +993,7 @@ extension Kinesis {
     public struct SplitShardInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StreamName", required: true, type: .string), 
             AWSShapeProperty(label: "ShardToSplit", required: true, type: .string), 
             AWSShapeProperty(label: "NewStartingHashKey", required: true, type: .string)
@@ -1024,7 +1024,7 @@ extension Kinesis {
     public struct EnhancedMetrics: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ShardLevelMetrics", required: false, type: .list)
         ]
         /// List of shard-level metrics. The following are the valid shard-level metrics. The value "ALL" enhances every metric.    IncomingBytes     IncomingRecords     OutgoingBytes     OutgoingRecords     WriteProvisionedThroughputExceeded     ReadProvisionedThroughputExceeded     IteratorAgeMilliseconds     ALL    For more information, see Monitoring the Amazon Kinesis Streams Service with Amazon CloudWatch in the Amazon Kinesis Streams Developer Guide.
@@ -1042,7 +1042,7 @@ extension Kinesis {
     public struct StreamDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StreamARN", required: true, type: .string), 
             AWSShapeProperty(label: "RetentionPeriodHours", required: true, type: .integer), 
             AWSShapeProperty(label: "EnhancedMonitoring", required: true, type: .list), 

@@ -32,7 +32,7 @@ extension Events {
     public struct InputTransformer: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InputTemplate", required: true, type: .string), 
             AWSShapeProperty(label: "InputPathsMap", required: false, type: .map)
         ]
@@ -60,7 +60,7 @@ extension Events {
     public struct PutTargetsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FailedEntryCount", required: false, type: .integer), 
             AWSShapeProperty(label: "FailedEntries", required: false, type: .list)
         ]
@@ -87,7 +87,7 @@ extension Events {
     public struct Rule: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Arn", required: false, type: .string), 
             AWSShapeProperty(label: "State", required: false, type: .enum), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
@@ -135,7 +135,7 @@ extension Events {
     public struct Target: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RunCommandParameters", required: false, type: .structure), 
             AWSShapeProperty(label: "InputTransformer", required: false, type: .structure), 
             AWSShapeProperty(label: "Arn", required: true, type: .string), 
@@ -195,7 +195,7 @@ extension Events {
     public struct DisableRuleRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
         /// The name of the rule.
@@ -214,7 +214,7 @@ extension Events {
     public struct TestEventPatternRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Event", required: true, type: .string), 
             AWSShapeProperty(label: "EventPattern", required: true, type: .string)
         ]
@@ -239,7 +239,7 @@ extension Events {
     public struct RunCommandTarget: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Key", required: true, type: .string), 
             AWSShapeProperty(label: "Values", required: true, type: .list)
         ]
@@ -264,7 +264,7 @@ extension Events {
     public struct ListRuleNamesByTargetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "TargetArn", required: true, type: .string), 
             AWSShapeProperty(label: "Limit", required: false, type: .integer)
@@ -293,7 +293,7 @@ extension Events {
     public struct PutRuleRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Description", required: false, type: .string), 
             AWSShapeProperty(label: "ScheduleExpression", required: false, type: .string), 
             AWSShapeProperty(label: "RoleArn", required: false, type: .string), 
@@ -337,7 +337,7 @@ extension Events {
     public struct RunCommandParameters: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RunCommandTargets", required: true, type: .list)
         ]
         /// Currently, we support including only one RunCommandTarget block, which specifies either an array of InstanceIds or a tag.
@@ -356,7 +356,7 @@ extension Events {
     public struct ListTargetsByRuleResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Targets", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -383,7 +383,7 @@ extension Events {
     public struct DeleteRuleRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
         /// The name of the rule.
@@ -402,7 +402,7 @@ extension Events {
     public struct DescribeRuleResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Arn", required: false, type: .string), 
             AWSShapeProperty(label: "State", required: false, type: .enum), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
@@ -450,7 +450,7 @@ extension Events {
     public struct PutEventsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Entries", required: true, type: .list)
         ]
         /// The entry that defines an event in your system. You can specify several parameters for the entry such as the source and type of the event, resources associated with the event, and so on.
@@ -469,7 +469,7 @@ extension Events {
     public struct RemoveTargetsResultEntry: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ErrorMessage", required: false, type: .string), 
             AWSShapeProperty(label: "ErrorCode", required: false, type: .string), 
             AWSShapeProperty(label: "TargetId", required: false, type: .string)
@@ -497,7 +497,7 @@ extension Events {
     public struct PutEventsRequestEntry: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Detail", required: false, type: .string), 
             AWSShapeProperty(label: "DetailType", required: false, type: .string), 
             AWSShapeProperty(label: "Source", required: false, type: .string), 
@@ -535,7 +535,7 @@ extension Events {
     public struct TestEventPatternResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Result", required: false, type: .boolean)
         ]
         /// Indicates whether the event matches the event pattern.
@@ -553,7 +553,7 @@ extension Events {
     public struct PutTargetsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Targets", required: true, type: .list), 
             AWSShapeProperty(label: "Rule", required: true, type: .string)
         ]
@@ -584,7 +584,7 @@ extension Events {
     public struct EnableRuleRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
         /// The name of the rule.
@@ -603,7 +603,7 @@ extension Events {
     public struct PutTargetsResultEntry: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ErrorMessage", required: false, type: .string), 
             AWSShapeProperty(label: "ErrorCode", required: false, type: .string), 
             AWSShapeProperty(label: "TargetId", required: false, type: .string)
@@ -631,7 +631,7 @@ extension Events {
     public struct ListRulesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Rules", required: false, type: .list)
         ]
@@ -658,7 +658,7 @@ extension Events {
     public struct RemoveTargetsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FailedEntryCount", required: false, type: .integer), 
             AWSShapeProperty(label: "FailedEntries", required: false, type: .list)
         ]
@@ -685,7 +685,7 @@ extension Events {
     public struct EcsParameters: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TaskCount", required: false, type: .integer), 
             AWSShapeProperty(label: "TaskDefinitionArn", required: true, type: .string)
         ]
@@ -709,7 +709,7 @@ extension Events {
     public struct DescribeRuleRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
         /// The name of the rule.
@@ -728,7 +728,7 @@ extension Events {
     public struct RemoveTargetsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Ids", required: true, type: .list), 
             AWSShapeProperty(label: "Rule", required: true, type: .string)
         ]
@@ -753,7 +753,7 @@ extension Events {
     public struct PutRuleResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RuleArn", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the rule.
@@ -771,7 +771,7 @@ extension Events {
     public struct ListRulesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NamePrefix", required: false, type: .string), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Limit", required: false, type: .integer)
@@ -799,7 +799,7 @@ extension Events {
     public struct ListRuleNamesByTargetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "RuleNames", required: false, type: .list)
         ]
@@ -822,7 +822,7 @@ extension Events {
     public struct ListTargetsByRuleRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Rule", required: true, type: .string), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Limit", required: false, type: .integer)
@@ -851,7 +851,7 @@ extension Events {
     public struct PutEventsResultEntry: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ErrorMessage", required: false, type: .string), 
             AWSShapeProperty(label: "EventId", required: false, type: .string), 
             AWSShapeProperty(label: "ErrorCode", required: false, type: .string)
@@ -879,7 +879,7 @@ extension Events {
     public struct PutEventsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FailedEntryCount", required: false, type: .integer), 
             AWSShapeProperty(label: "Entries", required: false, type: .list)
         ]
@@ -906,7 +906,7 @@ extension Events {
     public struct KinesisParameters: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PartitionKeyPath", required: true, type: .string)
         ]
         /// The JSON path to be extracted from the event and used as the partition key. For more information, see Amazon Kinesis Streams Key Concepts in the Amazon Kinesis Streams Developer Guide.

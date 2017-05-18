@@ -32,7 +32,7 @@ extension Swf {
     public struct RequestCancelWorkflowExecutionInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "runId", required: false, type: .string), 
             AWSShapeProperty(label: "workflowId", required: true, type: .string), 
             AWSShapeProperty(label: "domain", required: true, type: .string)
@@ -62,7 +62,7 @@ extension Swf {
     public struct CountClosedWorkflowExecutionsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "typeFilter", required: false, type: .structure), 
             AWSShapeProperty(label: "closeStatusFilter", required: false, type: .structure), 
             AWSShapeProperty(label: "tagFilter", required: false, type: .structure), 
@@ -111,7 +111,7 @@ extension Swf {
     public struct LambdaFunctionTimedOutEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "scheduledEventId", required: true, type: .long), 
             AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
             AWSShapeProperty(label: "timeoutType", required: false, type: .enum)
@@ -141,7 +141,7 @@ extension Swf {
     public struct ActivityType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "name", required: true, type: .string), 
             AWSShapeProperty(label: "version", required: true, type: .string)
         ]
@@ -166,7 +166,7 @@ extension Swf {
     public struct DecisionTask: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "previousStartedEventId", required: false, type: .long), 
             AWSShapeProperty(label: "taskToken", required: true, type: .string), 
             AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
@@ -225,7 +225,7 @@ extension Swf {
     public struct StartChildWorkflowExecutionFailedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
             AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
             AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
@@ -285,7 +285,7 @@ extension Swf {
     public struct WorkflowExecutionInfo: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "execution", required: true, type: .structure), 
             AWSShapeProperty(label: "startTimestamp", required: true, type: .timestamp), 
             AWSShapeProperty(label: "parent", required: false, type: .structure), 
@@ -347,7 +347,7 @@ extension Swf {
     public struct CancelWorkflowExecutionDecisionAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "details", required: false, type: .string)
         ]
         /// Optional. details of the cancellation.
@@ -371,7 +371,7 @@ extension Swf {
     public struct WorkflowType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "name", required: true, type: .string), 
             AWSShapeProperty(label: "version", required: true, type: .string)
         ]
@@ -396,7 +396,7 @@ extension Swf {
     public struct PollForDecisionTaskInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "identity", required: false, type: .string), 
             AWSShapeProperty(label: "maximumPageSize", required: false, type: .integer), 
             AWSShapeProperty(label: "taskList", required: true, type: .structure), 
@@ -441,7 +441,7 @@ extension Swf {
     public struct WorkflowTypeDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "typeInfo", required: true, type: .structure), 
             AWSShapeProperty(label: "configuration", required: true, type: .structure)
         ]
@@ -466,7 +466,7 @@ extension Swf {
     public struct DecisionTaskCompletedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "scheduledEventId", required: true, type: .long), 
             AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
             AWSShapeProperty(label: "executionContext", required: false, type: .string)
@@ -496,7 +496,7 @@ extension Swf {
     public struct DomainDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "domainInfo", required: true, type: .structure), 
             AWSShapeProperty(label: "configuration", required: true, type: .structure)
         ]
@@ -519,7 +519,7 @@ extension Swf {
     public struct RespondActivityTaskFailedInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "details", required: false, type: .string), 
             AWSShapeProperty(label: "taskToken", required: true, type: .string), 
             AWSShapeProperty(label: "reason", required: false, type: .string)
@@ -548,7 +548,7 @@ extension Swf {
     public struct CancelTimerFailedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
             AWSShapeProperty(label: "cause", required: true, type: .enum), 
             AWSShapeProperty(label: "timerId", required: true, type: .string)
@@ -579,7 +579,7 @@ extension Swf {
     public struct DescribeDomainInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "name", required: true, type: .string)
         ]
         /// The name of the domain to describe.
@@ -605,7 +605,7 @@ extension Swf {
     public struct StartTimerDecisionAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "timerId", required: true, type: .string), 
             AWSShapeProperty(label: "startToFireTimeout", required: true, type: .string), 
             AWSShapeProperty(label: "control", required: false, type: .string)
@@ -635,7 +635,7 @@ extension Swf {
     public struct DescribeWorkflowTypeInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "domain", required: true, type: .string), 
             AWSShapeProperty(label: "workflowType", required: true, type: .structure)
         ]
@@ -660,7 +660,7 @@ extension Swf {
     public struct ExecutionTimeFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "oldestDate", required: true, type: .timestamp), 
             AWSShapeProperty(label: "latestDate", required: false, type: .timestamp)
         ]
@@ -684,7 +684,7 @@ extension Swf {
     public struct PollForActivityTaskInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "identity", required: false, type: .string), 
             AWSShapeProperty(label: "domain", required: true, type: .string), 
             AWSShapeProperty(label: "taskList", required: true, type: .structure)
@@ -714,7 +714,7 @@ extension Swf {
     public struct ListClosedWorkflowExecutionsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "typeFilter", required: false, type: .structure), 
             AWSShapeProperty(label: "closeStatusFilter", required: false, type: .structure), 
             AWSShapeProperty(label: "tagFilter", required: false, type: .structure), 
@@ -778,7 +778,7 @@ extension Swf {
     public struct ActivityTask: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "taskToken", required: true, type: .string), 
             AWSShapeProperty(label: "input", required: false, type: .string), 
             AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
@@ -826,7 +826,7 @@ extension Swf {
     public struct DescribeActivityTypeInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "activityType", required: true, type: .structure), 
             AWSShapeProperty(label: "domain", required: true, type: .string)
         ]
@@ -851,7 +851,7 @@ extension Swf {
     public struct TagFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "tag", required: true, type: .string)
         ]
         /// Required. Specifies the tag that must be associated with the execution for it to meet the filter criteria.
@@ -870,7 +870,7 @@ extension Swf {
     public struct TaskList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "name", required: true, type: .string)
         ]
         /// The name of the task list.
@@ -895,7 +895,7 @@ extension Swf {
     public struct WorkflowExecutionTerminatedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "details", required: false, type: .string), 
             AWSShapeProperty(label: "reason", required: false, type: .string), 
             AWSShapeProperty(label: "childPolicy", required: true, type: .enum), 
@@ -935,7 +935,7 @@ extension Swf {
     public struct ScheduleActivityTaskFailedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
             AWSShapeProperty(label: "activityType", required: true, type: .structure), 
             AWSShapeProperty(label: "activityId", required: true, type: .string), 
@@ -972,7 +972,7 @@ extension Swf {
     public struct RequestCancelExternalWorkflowExecutionDecisionAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "runId", required: false, type: .string), 
             AWSShapeProperty(label: "workflowId", required: true, type: .string), 
             AWSShapeProperty(label: "control", required: false, type: .string)
@@ -1001,7 +1001,7 @@ extension Swf {
     public struct StartWorkflowExecutionInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "lambdaRole", required: false, type: .string), 
             AWSShapeProperty(label: "executionStartToCloseTimeout", required: false, type: .string), 
             AWSShapeProperty(label: "taskList", required: false, type: .structure), 
@@ -1072,7 +1072,7 @@ extension Swf {
     public struct ListWorkflowTypesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "maximumPageSize", required: false, type: .integer), 
             AWSShapeProperty(label: "name", required: false, type: .string), 
             AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
@@ -1117,7 +1117,7 @@ extension Swf {
     public struct ScheduleLambdaFunctionFailedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "name", required: true, type: .string), 
             AWSShapeProperty(label: "id", required: true, type: .string), 
             AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
@@ -1169,7 +1169,7 @@ extension Swf {
     public struct ChildWorkflowExecutionCanceledEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "details", required: false, type: .string), 
             AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
             AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
@@ -1211,7 +1211,7 @@ extension Swf {
     public struct ScheduleActivityTaskDecisionAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "taskList", required: false, type: .structure), 
             AWSShapeProperty(label: "activityId", required: true, type: .string), 
             AWSShapeProperty(label: "scheduleToCloseTimeout", required: false, type: .string), 
@@ -1276,7 +1276,7 @@ extension Swf {
     public struct ChildWorkflowExecutionTerminatedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
             AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
             AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
@@ -1313,7 +1313,7 @@ extension Swf {
     public struct StartChildWorkflowExecutionDecisionAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "lambdaRole", required: false, type: .string), 
             AWSShapeProperty(label: "taskList", required: false, type: .structure), 
             AWSShapeProperty(label: "workflowId", required: true, type: .string), 
@@ -1383,7 +1383,7 @@ extension Swf {
     public struct WorkflowExecutionOpenCounts: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "openLambdaFunctions", required: false, type: .integer), 
             AWSShapeProperty(label: "openActivityTasks", required: true, type: .integer), 
             AWSShapeProperty(label: "openTimers", required: true, type: .integer), 
@@ -1425,7 +1425,7 @@ extension Swf {
     public struct CountOpenWorkflowExecutionsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "typeFilter", required: false, type: .structure), 
             AWSShapeProperty(label: "executionFilter", required: false, type: .structure), 
             AWSShapeProperty(label: "startTimeFilter", required: true, type: .structure), 
@@ -1465,7 +1465,7 @@ extension Swf {
     public struct ChildWorkflowExecutionTimedOutEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
             AWSShapeProperty(label: "timeoutType", required: true, type: .enum), 
             AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
@@ -1508,7 +1508,7 @@ extension Swf {
     public struct LambdaFunctionScheduledEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "name", required: true, type: .string), 
             AWSShapeProperty(label: "input", required: false, type: .string), 
             AWSShapeProperty(label: "startToCloseTimeout", required: false, type: .string), 
@@ -1549,7 +1549,7 @@ extension Swf {
     public struct TimerFiredEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
             AWSShapeProperty(label: "timerId", required: true, type: .string)
         ]
@@ -1574,7 +1574,7 @@ extension Swf {
     public struct ChildWorkflowExecutionStartedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
             AWSShapeProperty(label: "workflowExecution", required: true, type: .structure), 
             AWSShapeProperty(label: "workflowType", required: true, type: .structure)
@@ -1613,7 +1613,7 @@ extension Swf {
     public struct DeprecateWorkflowTypeInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "domain", required: true, type: .string), 
             AWSShapeProperty(label: "workflowType", required: true, type: .structure)
         ]
@@ -1638,7 +1638,7 @@ extension Swf {
     public struct CloseStatusFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "status", required: true, type: .enum)
         ]
         /// Required. The close status that must match the close status of an execution for it to meet the criteria of this filter.
@@ -1662,7 +1662,7 @@ extension Swf {
     public struct WorkflowExecutionCancelRequestedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "externalWorkflowExecution", required: false, type: .structure), 
             AWSShapeProperty(label: "cause", required: false, type: .enum), 
             AWSShapeProperty(label: "externalInitiatedEventId", required: false, type: .long)
@@ -1690,7 +1690,7 @@ extension Swf {
     public struct ActivityTaskCancelRequestedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
             AWSShapeProperty(label: "activityId", required: true, type: .string)
         ]
@@ -1715,7 +1715,7 @@ extension Swf {
     public struct WorkflowExecutionCanceledEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "details", required: false, type: .string), 
             AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long)
         ]
@@ -1739,7 +1739,7 @@ extension Swf {
     public struct History: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
             AWSShapeProperty(label: "events", required: true, type: .list)
         ]
@@ -1763,7 +1763,7 @@ extension Swf {
     public struct DomainConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "workflowExecutionRetentionPeriodInDays", required: true, type: .string)
         ]
         /// The retention period for workflow executions in this domain.
@@ -1782,7 +1782,7 @@ extension Swf {
     public struct WorkflowExecutionStartedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "lambdaRole", required: false, type: .string), 
             AWSShapeProperty(label: "parentWorkflowExecution", required: false, type: .structure), 
             AWSShapeProperty(label: "executionStartToCloseTimeout", required: false, type: .string), 
@@ -1857,7 +1857,7 @@ extension Swf {
     public struct WorkflowExecutionConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "lambdaRole", required: false, type: .string), 
             AWSShapeProperty(label: "executionStartToCloseTimeout", required: true, type: .string), 
             AWSShapeProperty(label: "taskList", required: true, type: .structure), 
@@ -1904,7 +1904,7 @@ extension Swf {
     public struct WorkflowExecutionInfos: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
             AWSShapeProperty(label: "executionInfos", required: true, type: .list)
         ]
@@ -1936,7 +1936,7 @@ extension Swf {
     public struct ActivityTypeDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "typeInfo", required: true, type: .structure), 
             AWSShapeProperty(label: "configuration", required: true, type: .structure)
         ]
@@ -1961,7 +1961,7 @@ extension Swf {
     public struct RegisterWorkflowTypeInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "name", required: true, type: .string), 
             AWSShapeProperty(label: "defaultTaskStartToCloseTimeout", required: false, type: .string), 
             AWSShapeProperty(label: "defaultLambdaRole", required: false, type: .string), 
@@ -2085,7 +2085,7 @@ extension Swf {
     public struct CompleteWorkflowExecutionDecisionAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "result", required: false, type: .string)
         ]
         /// The result of the workflow execution. The form of the result is implementation defined.
@@ -2103,7 +2103,7 @@ extension Swf {
     public struct ActivityTypeInfo: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "description", required: false, type: .string), 
             AWSShapeProperty(label: "status", required: true, type: .enum), 
             AWSShapeProperty(label: "deprecationDate", required: false, type: .timestamp), 
@@ -2144,7 +2144,7 @@ extension Swf {
     public struct CompleteWorkflowExecutionFailedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
             AWSShapeProperty(label: "cause", required: true, type: .enum)
         ]
@@ -2169,7 +2169,7 @@ extension Swf {
     public struct TimerStartedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "timerId", required: true, type: .string), 
             AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
             AWSShapeProperty(label: "startToFireTimeout", required: true, type: .string), 
@@ -2205,7 +2205,7 @@ extension Swf {
     public struct ExternalWorkflowExecutionSignaledEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
             AWSShapeProperty(label: "workflowExecution", required: true, type: .structure)
         ]
@@ -2230,7 +2230,7 @@ extension Swf {
     public struct LambdaFunctionFailedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "details", required: false, type: .string), 
             AWSShapeProperty(label: "reason", required: false, type: .string), 
             AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
@@ -2265,7 +2265,7 @@ extension Swf {
     public struct DecisionTaskTimedOutEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "scheduledEventId", required: true, type: .long), 
             AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
             AWSShapeProperty(label: "timeoutType", required: true, type: .enum)
@@ -2296,7 +2296,7 @@ extension Swf {
     public struct RecordActivityTaskHeartbeatInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "details", required: false, type: .string), 
             AWSShapeProperty(label: "taskToken", required: true, type: .string)
         ]
@@ -2320,7 +2320,7 @@ extension Swf {
     public struct RequestCancelExternalWorkflowExecutionFailedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "runId", required: false, type: .string), 
             AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
             AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
@@ -2366,7 +2366,7 @@ extension Swf {
     public struct RespondActivityTaskCompletedInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "taskToken", required: true, type: .string), 
             AWSShapeProperty(label: "result", required: false, type: .string)
         ]
@@ -2390,7 +2390,7 @@ extension Swf {
     public struct ListOpenWorkflowExecutionsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "typeFilter", required: false, type: .structure), 
             AWSShapeProperty(label: "tagFilter", required: false, type: .structure), 
             AWSShapeProperty(label: "maximumPageSize", required: false, type: .integer), 
@@ -2445,7 +2445,7 @@ extension Swf {
     public struct CancelTimerDecisionAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "timerId", required: true, type: .string)
         ]
         /// Required. The unique ID of the timer to cancel.
@@ -2464,7 +2464,7 @@ extension Swf {
     public struct ActivityTaskStartedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "scheduledEventId", required: true, type: .long), 
             AWSShapeProperty(label: "identity", required: false, type: .string)
         ]
@@ -2488,7 +2488,7 @@ extension Swf {
     public struct RecordMarkerDecisionAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "details", required: false, type: .string), 
             AWSShapeProperty(label: "markerName", required: true, type: .string)
         ]
@@ -2512,7 +2512,7 @@ extension Swf {
     public struct LambdaFunctionStartedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "scheduledEventId", required: true, type: .long)
         ]
         /// The ID of the LambdaFunctionScheduled event that was recorded when this AWS Lambda function was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -2531,7 +2531,7 @@ extension Swf {
     public struct DomainInfo: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "description", required: false, type: .string), 
             AWSShapeProperty(label: "name", required: true, type: .string), 
             AWSShapeProperty(label: "status", required: true, type: .enum)
@@ -2561,7 +2561,7 @@ extension Swf {
     public struct WorkflowExecutionFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "workflowId", required: true, type: .string)
         ]
         /// The workflowId to pass of match the criteria of this filter.
@@ -2580,7 +2580,7 @@ extension Swf {
     public struct SignalExternalWorkflowExecutionDecisionAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "runId", required: false, type: .string), 
             AWSShapeProperty(label: "signalName", required: true, type: .string), 
             AWSShapeProperty(label: "input", required: false, type: .string), 
@@ -2620,7 +2620,7 @@ extension Swf {
     public struct ActivityTaskCompletedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "scheduledEventId", required: true, type: .long), 
             AWSShapeProperty(label: "result", required: false, type: .string), 
             AWSShapeProperty(label: "startedEventId", required: true, type: .long)
@@ -2650,7 +2650,7 @@ extension Swf {
     public struct RequestCancelActivityTaskFailedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
             AWSShapeProperty(label: "activityId", required: true, type: .string), 
             AWSShapeProperty(label: "cause", required: true, type: .enum)
@@ -2681,7 +2681,7 @@ extension Swf {
     public struct HistoryEvent: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "scheduleActivityTaskFailedEventAttributes", required: false, type: .structure), 
             AWSShapeProperty(label: "activityTaskCompletedEventAttributes", required: false, type: .structure), 
             AWSShapeProperty(label: "workflowExecutionFailedEventAttributes", required: false, type: .structure), 
@@ -2975,7 +2975,7 @@ extension Swf {
     public struct WorkflowExecution: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "runId", required: true, type: .string), 
             AWSShapeProperty(label: "workflowId", required: true, type: .string)
         ]
@@ -3000,7 +3000,7 @@ extension Swf {
     public struct Run: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "runId", required: false, type: .string)
         ]
         /// The runId of a workflow execution. This ID is generated by the service and can be used to uniquely identify the workflow execution within a domain.
@@ -3018,7 +3018,7 @@ extension Swf {
     public struct LambdaFunctionCompletedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "scheduledEventId", required: true, type: .long), 
             AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
             AWSShapeProperty(label: "result", required: false, type: .string)
@@ -3048,7 +3048,7 @@ extension Swf {
     public struct CountPendingActivityTasksInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "domain", required: true, type: .string), 
             AWSShapeProperty(label: "taskList", required: true, type: .structure)
         ]
@@ -3073,7 +3073,7 @@ extension Swf {
     public struct WorkflowExecutionFailedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "details", required: false, type: .string), 
             AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
             AWSShapeProperty(label: "reason", required: false, type: .string)
@@ -3112,7 +3112,7 @@ extension Swf {
     public struct RegisterDomainInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "description", required: false, type: .string), 
             AWSShapeProperty(label: "name", required: true, type: .string), 
             AWSShapeProperty(label: "workflowExecutionRetentionPeriodInDays", required: true, type: .string)
@@ -3142,7 +3142,7 @@ extension Swf {
     public struct WorkflowExecutionCompletedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
             AWSShapeProperty(label: "result", required: false, type: .string)
         ]
@@ -3166,7 +3166,7 @@ extension Swf {
     public struct RecordMarkerFailedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
             AWSShapeProperty(label: "markerName", required: true, type: .string), 
             AWSShapeProperty(label: "cause", required: true, type: .enum)
@@ -3197,7 +3197,7 @@ extension Swf {
     public struct DecisionTaskStartedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "scheduledEventId", required: true, type: .long), 
             AWSShapeProperty(label: "identity", required: false, type: .string)
         ]
@@ -3221,7 +3221,7 @@ extension Swf {
     public struct DeprecateDomainInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "name", required: true, type: .string)
         ]
         /// The name of the domain to deprecate.
@@ -3240,7 +3240,7 @@ extension Swf {
     public struct StartChildWorkflowExecutionInitiatedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "lambdaRole", required: false, type: .string), 
             AWSShapeProperty(label: "taskList", required: true, type: .structure), 
             AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
@@ -3318,7 +3318,7 @@ extension Swf {
     public struct RequestCancelExternalWorkflowExecutionInitiatedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "runId", required: false, type: .string), 
             AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
             AWSShapeProperty(label: "workflowId", required: true, type: .string), 
@@ -3353,7 +3353,7 @@ extension Swf {
     public struct ListDomainsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "maximumPageSize", required: false, type: .integer), 
             AWSShapeProperty(label: "reverseOrder", required: false, type: .boolean), 
             AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
@@ -3387,7 +3387,7 @@ extension Swf {
     public struct WorkflowTypeConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "defaultExecutionStartToCloseTimeout", required: false, type: .string), 
             AWSShapeProperty(label: "defaultTaskStartToCloseTimeout", required: false, type: .string), 
             AWSShapeProperty(label: "defaultTaskPriority", required: false, type: .string), 
@@ -3430,7 +3430,7 @@ extension Swf {
     public struct FailWorkflowExecutionFailedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
             AWSShapeProperty(label: "cause", required: true, type: .enum)
         ]
@@ -3467,7 +3467,7 @@ extension Swf {
     public struct RespondActivityTaskCanceledInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "details", required: false, type: .string), 
             AWSShapeProperty(label: "taskToken", required: true, type: .string)
         ]
@@ -3491,7 +3491,7 @@ extension Swf {
     public struct RegisterActivityTypeInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "name", required: true, type: .string), 
             AWSShapeProperty(label: "defaultTaskStartToCloseTimeout", required: false, type: .string), 
             AWSShapeProperty(label: "defaultTaskScheduleToStartTimeout", required: false, type: .string), 
@@ -3564,7 +3564,7 @@ extension Swf {
     public struct ActivityTaskTimedOutEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "details", required: false, type: .string), 
             AWSShapeProperty(label: "timeoutType", required: true, type: .enum), 
             AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
@@ -3600,7 +3600,7 @@ extension Swf {
     public struct ActivityTaskStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "cancelRequested", required: true, type: .boolean)
         ]
         /// Set to true if cancellation of the task is requested.
@@ -3625,7 +3625,7 @@ extension Swf {
     public struct ActivityTaskScheduledEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "taskList", required: true, type: .structure), 
             AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
             AWSShapeProperty(label: "activityId", required: true, type: .string), 
@@ -3697,7 +3697,7 @@ extension Swf {
     public struct TerminateWorkflowExecutionInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "runId", required: false, type: .string), 
             AWSShapeProperty(label: "details", required: false, type: .string), 
             AWSShapeProperty(label: "reason", required: false, type: .string), 
@@ -3742,7 +3742,7 @@ extension Swf {
     public struct ChildWorkflowExecutionFailedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "details", required: false, type: .string), 
             AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
             AWSShapeProperty(label: "reason", required: false, type: .string), 
@@ -3789,7 +3789,7 @@ extension Swf {
     public struct ChildWorkflowExecutionCompletedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
             AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
             AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
@@ -3852,7 +3852,7 @@ extension Swf {
     public struct RequestCancelActivityTaskDecisionAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "activityId", required: true, type: .string)
         ]
         /// The activityId of the activity task to be canceled.
@@ -3871,7 +3871,7 @@ extension Swf {
     public struct ContinueAsNewWorkflowExecutionDecisionAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "lambdaRole", required: false, type: .string), 
             AWSShapeProperty(label: "workflowTypeVersion", required: false, type: .string), 
             AWSShapeProperty(label: "taskList", required: false, type: .structure), 
@@ -3932,7 +3932,7 @@ extension Swf {
     public struct StartLambdaFunctionFailedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "scheduledEventId", required: false, type: .long), 
             AWSShapeProperty(label: "cause", required: false, type: .enum), 
             AWSShapeProperty(label: "message", required: false, type: .string)
@@ -3960,7 +3960,7 @@ extension Swf {
     public struct SignalExternalWorkflowExecutionInitiatedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "runId", required: false, type: .string), 
             AWSShapeProperty(label: "signalName", required: true, type: .string), 
             AWSShapeProperty(label: "input", required: false, type: .string), 
@@ -4006,7 +4006,7 @@ extension Swf {
     public struct WorkflowTypeFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "name", required: true, type: .string), 
             AWSShapeProperty(label: "version", required: false, type: .string)
         ]
@@ -4030,7 +4030,7 @@ extension Swf {
     public struct GetWorkflowExecutionHistoryInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "maximumPageSize", required: false, type: .integer), 
             AWSShapeProperty(label: "execution", required: true, type: .structure), 
             AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
@@ -4075,7 +4075,7 @@ extension Swf {
     public struct ActivityTypeConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "defaultTaskScheduleToStartTimeout", required: false, type: .string), 
             AWSShapeProperty(label: "defaultTaskStartToCloseTimeout", required: false, type: .string), 
             AWSShapeProperty(label: "defaultTaskPriority", required: false, type: .string), 
@@ -4118,7 +4118,7 @@ extension Swf {
     public struct TimerCanceledEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
             AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
             AWSShapeProperty(label: "timerId", required: true, type: .string)
@@ -4149,7 +4149,7 @@ extension Swf {
     public struct ListActivityTypesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "maximumPageSize", required: false, type: .integer), 
             AWSShapeProperty(label: "name", required: false, type: .string), 
             AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
@@ -4194,7 +4194,7 @@ extension Swf {
     public struct FailWorkflowExecutionDecisionAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "details", required: false, type: .string), 
             AWSShapeProperty(label: "reason", required: false, type: .string)
         ]
@@ -4217,7 +4217,7 @@ extension Swf {
     public struct PendingTaskCount: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "truncated", required: false, type: .boolean), 
             AWSShapeProperty(label: "count", required: true, type: .integer)
         ]
@@ -4241,7 +4241,7 @@ extension Swf {
     public struct WorkflowExecutionContinuedAsNewEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "lambdaRole", required: false, type: .string), 
             AWSShapeProperty(label: "taskList", required: true, type: .structure), 
             AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
@@ -4319,7 +4319,7 @@ extension Swf {
     public struct Decision: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "scheduleActivityTaskDecisionAttributes", required: false, type: .structure), 
             AWSShapeProperty(label: "requestCancelExternalWorkflowExecutionDecisionAttributes", required: false, type: .structure), 
             AWSShapeProperty(label: "cancelTimerDecisionAttributes", required: false, type: .structure), 
@@ -4402,7 +4402,7 @@ extension Swf {
     public struct WorkflowTypeInfo: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "description", required: false, type: .string), 
             AWSShapeProperty(label: "status", required: true, type: .enum), 
             AWSShapeProperty(label: "deprecationDate", required: false, type: .timestamp), 
@@ -4443,7 +4443,7 @@ extension Swf {
     public struct WorkflowExecutionSignaledEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "signalName", required: true, type: .string), 
             AWSShapeProperty(label: "input", required: false, type: .string), 
             AWSShapeProperty(label: "externalWorkflowExecution", required: false, type: .structure), 
@@ -4477,7 +4477,7 @@ extension Swf {
     public struct ActivityTypeInfos: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
             AWSShapeProperty(label: "typeInfos", required: true, type: .list)
         ]
@@ -4501,7 +4501,7 @@ extension Swf {
     public struct RespondDecisionTaskCompletedInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "taskToken", required: true, type: .string), 
             AWSShapeProperty(label: "executionContext", required: false, type: .string), 
             AWSShapeProperty(label: "decisions", required: false, type: .list)
@@ -4534,7 +4534,7 @@ extension Swf {
     public struct MarkerRecordedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "details", required: false, type: .string), 
             AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
             AWSShapeProperty(label: "markerName", required: true, type: .string)
@@ -4564,7 +4564,7 @@ extension Swf {
     public struct WorkflowExecutionTimedOutEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "childPolicy", required: true, type: .enum), 
             AWSShapeProperty(label: "timeoutType", required: true, type: .enum)
         ]
@@ -4589,7 +4589,7 @@ extension Swf {
     public struct ScheduleLambdaFunctionDecisionAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "name", required: true, type: .string), 
             AWSShapeProperty(label: "input", required: false, type: .string), 
             AWSShapeProperty(label: "startToCloseTimeout", required: false, type: .string), 
@@ -4646,7 +4646,7 @@ extension Swf {
     public struct DescribeWorkflowExecutionInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "execution", required: true, type: .structure), 
             AWSShapeProperty(label: "domain", required: true, type: .string)
         ]
@@ -4671,7 +4671,7 @@ extension Swf {
     public struct ContinueAsNewWorkflowExecutionFailedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
             AWSShapeProperty(label: "cause", required: true, type: .enum)
         ]
@@ -4696,7 +4696,7 @@ extension Swf {
     public struct WorkflowExecutionDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "openCounts", required: true, type: .structure), 
             AWSShapeProperty(label: "executionInfo", required: true, type: .structure), 
             AWSShapeProperty(label: "latestActivityTaskTimestamp", required: false, type: .timestamp), 
@@ -4737,7 +4737,7 @@ extension Swf {
     public struct ExternalWorkflowExecutionCancelRequestedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
             AWSShapeProperty(label: "workflowExecution", required: true, type: .structure)
         ]
@@ -4769,7 +4769,7 @@ extension Swf {
     public struct WorkflowTypeInfos: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
             AWSShapeProperty(label: "typeInfos", required: true, type: .list)
         ]
@@ -4793,7 +4793,7 @@ extension Swf {
     public struct CancelWorkflowExecutionFailedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
             AWSShapeProperty(label: "cause", required: true, type: .enum)
         ]
@@ -4818,7 +4818,7 @@ extension Swf {
     public struct ActivityTaskCanceledEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "details", required: false, type: .string), 
             AWSShapeProperty(label: "latestCancelRequestedEventId", required: false, type: .long), 
             AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
@@ -4853,7 +4853,7 @@ extension Swf {
     public struct WorkflowExecutionCount: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "truncated", required: false, type: .boolean), 
             AWSShapeProperty(label: "count", required: true, type: .integer)
         ]
@@ -4877,7 +4877,7 @@ extension Swf {
     public struct CountPendingDecisionTasksInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "domain", required: true, type: .string), 
             AWSShapeProperty(label: "taskList", required: true, type: .structure)
         ]
@@ -4902,7 +4902,7 @@ extension Swf {
     public struct DomainInfos: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
             AWSShapeProperty(label: "domainInfos", required: true, type: .list)
         ]
@@ -4926,7 +4926,7 @@ extension Swf {
     public struct SignalWorkflowExecutionInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "runId", required: false, type: .string), 
             AWSShapeProperty(label: "signalName", required: true, type: .string), 
             AWSShapeProperty(label: "input", required: false, type: .string), 
@@ -4967,7 +4967,7 @@ extension Swf {
     public struct SignalExternalWorkflowExecutionFailedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "runId", required: false, type: .string), 
             AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
             AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
@@ -5013,7 +5013,7 @@ extension Swf {
     public struct ActivityTaskFailedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "details", required: false, type: .string), 
             AWSShapeProperty(label: "reason", required: false, type: .string), 
             AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
@@ -5054,7 +5054,7 @@ extension Swf {
     public struct StartTimerFailedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
             AWSShapeProperty(label: "cause", required: true, type: .enum), 
             AWSShapeProperty(label: "timerId", required: true, type: .string)
@@ -5085,7 +5085,7 @@ extension Swf {
     public struct DecisionTaskScheduledEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "startToCloseTimeout", required: false, type: .string), 
             AWSShapeProperty(label: "taskPriority", required: false, type: .string), 
             AWSShapeProperty(label: "taskList", required: true, type: .structure)
@@ -5114,7 +5114,7 @@ extension Swf {
     public struct DeprecateActivityTypeInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "activityType", required: true, type: .structure), 
             AWSShapeProperty(label: "domain", required: true, type: .string)
         ]

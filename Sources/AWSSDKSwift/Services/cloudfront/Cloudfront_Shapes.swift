@@ -35,7 +35,7 @@ extension Cloudfront {
         public static var headerParams: [String: String] {
             return ["ETag": "ETag"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ETag", required: false, type: .string), 
             AWSShapeProperty(label: "StreamingDistribution", required: false, type: .structure)
         ]
@@ -61,7 +61,7 @@ extension Cloudfront {
         public static var queryParams: [String: String] {
             return ["Resource": "Resource"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Resource", required: true, type: .string), 
             AWSShapeProperty(label: "Tags", required: true, type: .structure)
         ]
@@ -86,7 +86,7 @@ extension Cloudfront {
     public struct CloudFrontOriginAccessIdentitySummaryList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CloudFrontOriginAccessIdentitySummary", required: false, type: .list)
         ]
         public let cloudFrontOriginAccessIdentitySummary: [CloudFrontOriginAccessIdentitySummary]?
@@ -107,7 +107,7 @@ extension Cloudfront {
     public struct Signer: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AwsAccountNumber", required: false, type: .string), 
             AWSShapeProperty(label: "KeyPairIds", required: false, type: .structure)
         ]
@@ -133,7 +133,7 @@ extension Cloudfront {
         public static var headerParams: [String: String] {
             return ["ETag": "ETag", "Location": "Location"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ETag", required: false, type: .string), 
             AWSShapeProperty(label: "Location", required: false, type: .string), 
             AWSShapeProperty(label: "StreamingDistribution", required: false, type: .structure)
@@ -163,7 +163,7 @@ extension Cloudfront {
         public static var headerParams: [String: String] {
             return ["ETag": "ETag"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ETag", required: false, type: .string), 
             AWSShapeProperty(label: "StreamingDistribution", required: false, type: .structure)
         ]
@@ -186,7 +186,7 @@ extension Cloudfront {
     public struct QueryStringCacheKeysList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: false, type: .list)
         ]
         public let name: [String]?
@@ -210,7 +210,7 @@ extension Cloudfront {
     public struct InvalidationSummaryList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InvalidationSummary", required: false, type: .list)
         ]
         public let invalidationSummary: [InvalidationSummary]?
@@ -231,7 +231,7 @@ extension Cloudfront {
     public struct InvalidationBatch: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CallerReference", required: true, type: .string), 
             AWSShapeProperty(label: "Paths", required: true, type: .structure)
         ]
@@ -256,7 +256,7 @@ extension Cloudfront {
     public struct TrustedSigners: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Items", required: false, type: .structure), 
             AWSShapeProperty(label: "Enabled", required: true, type: .boolean), 
             AWSShapeProperty(label: "Quantity", required: true, type: .integer)
@@ -286,7 +286,7 @@ extension Cloudfront {
     public struct ListCloudFrontOriginAccessIdentitiesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = "CloudFrontOriginAccessIdentityList"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CloudFrontOriginAccessIdentityList", required: false, type: .structure)
         ]
         /// The CloudFrontOriginAccessIdentityList type. 
@@ -304,7 +304,7 @@ extension Cloudfront {
     public struct Headers: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Items", required: false, type: .structure), 
             AWSShapeProperty(label: "Quantity", required: true, type: .integer)
         ]
@@ -328,7 +328,7 @@ extension Cloudfront {
     public struct CreateStreamingDistributionWithTagsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = "StreamingDistributionConfigWithTags"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StreamingDistributionConfigWithTags", required: true, type: .structure)
         ]
         ///  The streaming distribution's configuration information. 
@@ -347,7 +347,7 @@ extension Cloudfront {
     public struct QueryStringCacheKeys: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Items", required: false, type: .structure), 
             AWSShapeProperty(label: "Quantity", required: true, type: .integer)
         ]
@@ -371,7 +371,7 @@ extension Cloudfront {
     public struct LambdaFunctionAssociations: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Items", required: false, type: .structure), 
             AWSShapeProperty(label: "Quantity", required: true, type: .integer)
         ]
@@ -398,7 +398,7 @@ extension Cloudfront {
         public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
         /// The streaming distribution's ID.
@@ -417,7 +417,7 @@ extension Cloudfront {
     public struct Paths: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Items", required: false, type: .structure), 
             AWSShapeProperty(label: "Quantity", required: true, type: .integer)
         ]
@@ -441,7 +441,7 @@ extension Cloudfront {
     public struct SslProtocolsList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SslProtocol", required: false, type: .list)
         ]
         public let sslProtocol: [SslProtocol]?
@@ -458,7 +458,7 @@ extension Cloudfront {
     public struct DefaultCacheBehavior: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DefaultTTL", required: false, type: .long), 
             AWSShapeProperty(label: "TargetOriginId", required: true, type: .string), 
             AWSShapeProperty(label: "ForwardedValues", required: true, type: .structure), 
@@ -529,7 +529,7 @@ extension Cloudfront {
     public struct PathList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Path", required: false, type: .list)
         ]
         public let path: [String]?
@@ -546,7 +546,7 @@ extension Cloudfront {
     public struct Invalidation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InvalidationBatch", required: true, type: .structure), 
             AWSShapeProperty(label: "Status", required: true, type: .string), 
             AWSShapeProperty(label: "CreateTime", required: true, type: .timestamp), 
@@ -583,7 +583,7 @@ extension Cloudfront {
     public struct Tag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: false, type: .string), 
             AWSShapeProperty(label: "Key", required: true, type: .string)
         ]
@@ -607,7 +607,7 @@ extension Cloudfront {
     public struct CreateDistributionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = "DistributionConfig"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DistributionConfig", required: true, type: .structure)
         ]
         /// The distribution's configuration information.
@@ -629,7 +629,7 @@ extension Cloudfront {
         public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
         /// The identity's ID.
@@ -661,7 +661,7 @@ extension Cloudfront {
         public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Id", required: true, type: .string), 
             AWSShapeProperty(label: "CloudFrontOriginAccessIdentityConfig", required: true, type: .structure), 
             AWSShapeProperty(label: "If-Match", required: false, type: .string)
@@ -691,7 +691,7 @@ extension Cloudfront {
     public struct GetInvalidationResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = "Invalidation"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Invalidation", required: false, type: .structure)
         ]
         /// The invalidation's information. For more information, see Invalidation Complex Type. 
@@ -712,7 +712,7 @@ extension Cloudfront {
         public static var headerParams: [String: String] {
             return ["Location": "Location"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Location", required: false, type: .string), 
             AWSShapeProperty(label: "Invalidation", required: false, type: .structure)
         ]
@@ -735,7 +735,7 @@ extension Cloudfront {
     public struct StreamingDistributionSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LastModifiedTime", required: true, type: .timestamp), 
             AWSShapeProperty(label: "Status", required: true, type: .string), 
             AWSShapeProperty(label: "Id", required: true, type: .string), 
@@ -813,7 +813,7 @@ extension Cloudfront {
     public struct CacheBehavior: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TargetOriginId", required: true, type: .string), 
             AWSShapeProperty(label: "PathPattern", required: true, type: .string), 
             AWSShapeProperty(label: "AllowedMethods", required: false, type: .structure), 
@@ -891,7 +891,7 @@ extension Cloudfront {
     public struct DistributionConfigWithTags: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Tags", required: true, type: .structure), 
             AWSShapeProperty(label: "DistributionConfig", required: true, type: .structure)
         ]
@@ -916,7 +916,7 @@ extension Cloudfront {
     public struct ListStreamingDistributionsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = "StreamingDistributionList"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StreamingDistributionList", required: false, type: .structure)
         ]
         /// The StreamingDistributionList type. 
@@ -934,7 +934,7 @@ extension Cloudfront {
     public struct Origins: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Items", required: false, type: .structure), 
             AWSShapeProperty(label: "Quantity", required: true, type: .integer)
         ]
@@ -961,7 +961,7 @@ extension Cloudfront {
         public static var headerParams: [String: String] {
             return ["ETag": "ETag"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ETag", required: false, type: .string), 
             AWSShapeProperty(label: "DistributionConfig", required: false, type: .structure)
         ]
@@ -984,7 +984,7 @@ extension Cloudfront {
     public struct InvalidationList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxItems", required: true, type: .integer), 
             AWSShapeProperty(label: "IsTruncated", required: true, type: .boolean), 
             AWSShapeProperty(label: "NextMarker", required: false, type: .string), 
@@ -1034,7 +1034,7 @@ extension Cloudfront {
         public static var pathParams: [String: String] {
             return ["DistributionId": "DistributionId", "Id": "Id"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DistributionId", required: true, type: .string), 
             AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
@@ -1059,7 +1059,7 @@ extension Cloudfront {
     public struct ForwardedValues: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "QueryString", required: true, type: .boolean), 
             AWSShapeProperty(label: "Headers", required: false, type: .structure), 
             AWSShapeProperty(label: "Cookies", required: true, type: .structure), 
@@ -1101,7 +1101,7 @@ extension Cloudfront {
     public struct LocationList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Location", required: false, type: .list)
         ]
         public let location: [String]?
@@ -1118,7 +1118,7 @@ extension Cloudfront {
     public struct SignerList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Signer", required: false, type: .list)
         ]
         public let signer: [Signer]?
@@ -1145,7 +1145,7 @@ extension Cloudfront {
         public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Id", required: true, type: .string), 
             AWSShapeProperty(label: "If-Match", required: false, type: .string), 
             AWSShapeProperty(label: "DistributionConfig", required: true, type: .structure)
@@ -1175,7 +1175,7 @@ extension Cloudfront {
     public struct CacheBehaviorList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheBehavior", required: false, type: .list)
         ]
         public let cacheBehavior: [CacheBehavior]?
@@ -1196,7 +1196,7 @@ extension Cloudfront {
     public struct LambdaFunctionAssociation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EventType", required: false, type: .enum), 
             AWSShapeProperty(label: "LambdaFunctionARN", required: false, type: .string)
         ]
@@ -1222,7 +1222,7 @@ extension Cloudfront {
         public static var queryParams: [String: String] {
             return ["Resource": "Resource"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Resource", required: true, type: .string)
         ]
         ///  An ARN of a CloudFront resource.
@@ -1241,7 +1241,7 @@ extension Cloudfront {
     public struct OriginCustomHeader: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "HeaderName", required: true, type: .string), 
             AWSShapeProperty(label: "HeaderValue", required: true, type: .string)
         ]
@@ -1272,7 +1272,7 @@ extension Cloudfront {
         public static var pathParams: [String: String] {
             return ["DistributionId": "DistributionId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "MaxItems", required: false, type: .string), 
             AWSShapeProperty(label: "DistributionId", required: true, type: .string)
@@ -1301,7 +1301,7 @@ extension Cloudfront {
     public struct CacheBehaviors: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Items", required: false, type: .structure), 
             AWSShapeProperty(label: "Quantity", required: true, type: .integer)
         ]
@@ -1335,7 +1335,7 @@ extension Cloudfront {
         public static var headerParams: [String: String] {
             return ["ETag": "ETag", "Location": "Location"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ETag", required: false, type: .string), 
             AWSShapeProperty(label: "Location", required: false, type: .string), 
             AWSShapeProperty(label: "CloudFrontOriginAccessIdentity", required: false, type: .structure)
@@ -1363,7 +1363,7 @@ extension Cloudfront {
     public struct AllowedMethods: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Items", required: true, type: .structure), 
             AWSShapeProperty(label: "CachedMethods", required: false, type: .structure), 
             AWSShapeProperty(label: "Quantity", required: true, type: .integer)
@@ -1392,7 +1392,7 @@ extension Cloudfront {
     public struct CreateStreamingDistributionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = "StreamingDistributionConfig"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StreamingDistributionConfig", required: true, type: .structure)
         ]
         /// The streaming distribution's configuration information.
@@ -1414,7 +1414,7 @@ extension Cloudfront {
         public static var queryParams: [String: String] {
             return ["Marker": "Marker", "MaxItems": "MaxItems"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "MaxItems", required: false, type: .string)
         ]
@@ -1437,7 +1437,7 @@ extension Cloudfront {
     public struct ListDistributionsByWebACLIdResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = "DistributionList"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DistributionList", required: false, type: .structure)
         ]
         /// The DistributionList type. 
@@ -1461,7 +1461,7 @@ extension Cloudfront {
         public static var pathParams: [String: String] {
             return ["WebACLId": "WebACLId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "MaxItems", required: false, type: .string), 
             AWSShapeProperty(label: "WebACLId", required: true, type: .string)
@@ -1490,7 +1490,7 @@ extension Cloudfront {
     public struct S3OriginConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OriginAccessIdentity", required: true, type: .string)
         ]
         /// The CloudFront origin access identity to associate with the origin. Use an origin access identity to configure the origin so that viewers can only access objects in an Amazon S3 bucket through CloudFront. The format of the value is: origin-access-identity/CloudFront/ID-of-origin-access-identity  where  ID-of-origin-access-identity  is the value that CloudFront returned in the ID element when you created the origin access identity. If you want viewers to be able to access objects using either the CloudFront URL or the Amazon S3 URL, specify an empty OriginAccessIdentity element. To delete the origin access identity from an existing distribution, update the distribution configuration and include an empty OriginAccessIdentity element. To replace the origin access identity, update the distribution configuration and specify the new origin access identity. For more information about the origin access identity, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide.
@@ -1509,7 +1509,7 @@ extension Cloudfront {
     public struct CookiePreference: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Forward", required: true, type: .enum), 
             AWSShapeProperty(label: "WhitelistedNames", required: false, type: .structure)
         ]
@@ -1533,7 +1533,7 @@ extension Cloudfront {
     public struct OriginSslProtocols: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Items", required: true, type: .structure), 
             AWSShapeProperty(label: "Quantity", required: true, type: .integer)
         ]
@@ -1564,7 +1564,7 @@ extension Cloudfront {
     public struct CreateDistributionWithTagsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = "DistributionConfigWithTags"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DistributionConfigWithTags", required: true, type: .structure)
         ]
         /// The distribution's configuration information. 
@@ -1586,7 +1586,7 @@ extension Cloudfront {
         public static var headerParams: [String: String] {
             return ["ETag": "ETag", "Location": "Location"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ETag", required: false, type: .string), 
             AWSShapeProperty(label: "Location", required: false, type: .string), 
             AWSShapeProperty(label: "Distribution", required: false, type: .structure)
@@ -1617,7 +1617,7 @@ extension Cloudfront {
         public static var headerParams: [String: String] {
             return ["ETag": "ETag", "Location": "Location"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ETag", required: false, type: .string), 
             AWSShapeProperty(label: "Location", required: false, type: .string), 
             AWSShapeProperty(label: "Distribution", required: false, type: .structure)
@@ -1645,7 +1645,7 @@ extension Cloudfront {
     public struct ListDistributionsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = "DistributionList"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DistributionList", required: false, type: .structure)
         ]
         /// The DistributionList type. 
@@ -1663,7 +1663,7 @@ extension Cloudfront {
     public struct DistributionList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxItems", required: true, type: .integer), 
             AWSShapeProperty(label: "IsTruncated", required: true, type: .boolean), 
             AWSShapeProperty(label: "NextMarker", required: false, type: .string), 
@@ -1710,7 +1710,7 @@ extension Cloudfront {
     public struct TagKeys: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Items", required: false, type: .structure)
         ]
         ///  A complex type that contains Tag key elements.
@@ -1736,7 +1736,7 @@ extension Cloudfront {
     public struct LoggingConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Bucket", required: true, type: .string), 
             AWSShapeProperty(label: "Prefix", required: true, type: .string), 
             AWSShapeProperty(label: "Enabled", required: true, type: .boolean), 
@@ -1776,7 +1776,7 @@ extension Cloudfront {
         public static var queryParams: [String: String] {
             return ["Marker": "Marker", "MaxItems": "MaxItems"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "MaxItems", required: false, type: .string)
         ]
@@ -1799,7 +1799,7 @@ extension Cloudfront {
     public struct ListTagsForResourceResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = "Tags"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Tags", required: true, type: .structure)
         ]
         ///  A complex type that contains zero or more Tag elements.
@@ -1818,7 +1818,7 @@ extension Cloudfront {
     public struct HeaderList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: false, type: .list)
         ]
         public let name: [String]?
@@ -1838,7 +1838,7 @@ extension Cloudfront {
         public static var queryParams: [String: String] {
             return ["Marker": "Marker", "MaxItems": "MaxItems"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "MaxItems", required: false, type: .string)
         ]
@@ -1861,7 +1861,7 @@ extension Cloudfront {
     public struct DistributionConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "HttpVersion", required: false, type: .enum), 
             AWSShapeProperty(label: "DefaultRootObject", required: false, type: .string), 
             AWSShapeProperty(label: "CallerReference", required: true, type: .string), 
@@ -1957,7 +1957,7 @@ extension Cloudfront {
     public struct Restrictions: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "GeoRestriction", required: true, type: .structure)
         ]
         public let geoRestriction: GeoRestriction
@@ -1975,7 +1975,7 @@ extension Cloudfront {
     public struct ViewerCertificate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SSLSupportMethod", required: false, type: .enum), 
             AWSShapeProperty(label: "IAMCertificateId", required: false, type: .string), 
             AWSShapeProperty(label: "MinimumProtocolVersion", required: false, type: .enum), 
@@ -2023,7 +2023,7 @@ extension Cloudfront {
         public static var queryParams: [String: String] {
             return ["Resource": "Resource"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Resource", required: true, type: .string), 
             AWSShapeProperty(label: "TagKeys", required: true, type: .structure)
         ]
@@ -2051,7 +2051,7 @@ extension Cloudfront {
         public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
         /// The streaming distribution's ID.
@@ -2070,7 +2070,7 @@ extension Cloudfront {
     public struct StreamingDistribution: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LastModifiedTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "Status", required: true, type: .string), 
             AWSShapeProperty(label: "StreamingDistributionConfig", required: true, type: .structure), 
@@ -2123,7 +2123,7 @@ extension Cloudfront {
     public struct CustomHeaders: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Items", required: false, type: .structure), 
             AWSShapeProperty(label: "Quantity", required: true, type: .integer)
         ]
@@ -2147,7 +2147,7 @@ extension Cloudfront {
     public struct CachedMethods: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Items", required: true, type: .structure), 
             AWSShapeProperty(label: "Quantity", required: true, type: .integer)
         ]
@@ -2172,7 +2172,7 @@ extension Cloudfront {
     public struct DistributionSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "HttpVersion", required: true, type: .enum), 
             AWSShapeProperty(label: "CustomErrorResponses", required: true, type: .structure), 
             AWSShapeProperty(label: "Origins", required: true, type: .structure), 
@@ -2290,7 +2290,7 @@ extension Cloudfront {
     public struct CustomOriginConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "HTTPSPort", required: true, type: .integer), 
             AWSShapeProperty(label: "HTTPPort", required: true, type: .integer), 
             AWSShapeProperty(label: "OriginProtocolPolicy", required: true, type: .enum), 
@@ -2329,7 +2329,7 @@ extension Cloudfront {
         public static var headerParams: [String: String] {
             return ["ETag": "ETag", "Location": "Location"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ETag", required: false, type: .string), 
             AWSShapeProperty(label: "Location", required: false, type: .string), 
             AWSShapeProperty(label: "StreamingDistribution", required: false, type: .structure)
@@ -2357,7 +2357,7 @@ extension Cloudfront {
     public struct KeyPairIdList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "KeyPairId", required: false, type: .list)
         ]
         public let keyPairId: [String]?
@@ -2374,7 +2374,7 @@ extension Cloudfront {
     public struct CustomErrorResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResponseCode", required: false, type: .string), 
             AWSShapeProperty(label: "ErrorCachingMinTTL", required: false, type: .long), 
             AWSShapeProperty(label: "ErrorCode", required: true, type: .integer), 
@@ -2417,7 +2417,7 @@ extension Cloudfront {
         public static var headerParams: [String: String] {
             return ["ETag": "ETag"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ETag", required: false, type: .string), 
             AWSShapeProperty(label: "CloudFrontOriginAccessIdentityConfig", required: false, type: .structure)
         ]
@@ -2440,7 +2440,7 @@ extension Cloudfront {
     public struct CloudFrontOriginAccessIdentity: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "S3CanonicalUserId", required: true, type: .string), 
             AWSShapeProperty(label: "CloudFrontOriginAccessIdentityConfig", required: false, type: .structure), 
             AWSShapeProperty(label: "Id", required: true, type: .string)
@@ -2470,7 +2470,7 @@ extension Cloudfront {
     public struct TagList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Tag", required: false, type: .list)
         ]
         public let tag: [Tag]?
@@ -2494,7 +2494,7 @@ extension Cloudfront {
         public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
         /// The distribution's ID.
@@ -2521,7 +2521,7 @@ extension Cloudfront {
     public struct StreamingLoggingConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Bucket", required: true, type: .string), 
             AWSShapeProperty(label: "Enabled", required: true, type: .boolean), 
             AWSShapeProperty(label: "Prefix", required: true, type: .string)
@@ -2559,7 +2559,7 @@ extension Cloudfront {
     public struct GeoRestriction: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Items", required: false, type: .structure), 
             AWSShapeProperty(label: "RestrictionType", required: true, type: .enum), 
             AWSShapeProperty(label: "Quantity", required: true, type: .integer)
@@ -2589,7 +2589,7 @@ extension Cloudfront {
     public struct StreamingDistributionList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxItems", required: true, type: .integer), 
             AWSShapeProperty(label: "IsTruncated", required: true, type: .boolean), 
             AWSShapeProperty(label: "NextMarker", required: false, type: .string), 
@@ -2636,7 +2636,7 @@ extension Cloudfront {
     public struct S3Origin: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OriginAccessIdentity", required: true, type: .string), 
             AWSShapeProperty(label: "DomainName", required: true, type: .string)
         ]
@@ -2661,7 +2661,7 @@ extension Cloudfront {
     public struct AliasList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CNAME", required: false, type: .list)
         ]
         public let cNAME: [String]?
@@ -2678,7 +2678,7 @@ extension Cloudfront {
     public struct ListInvalidationsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = "InvalidationList"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InvalidationList", required: false, type: .structure)
         ]
         /// Information about invalidation batches. 
@@ -2696,7 +2696,7 @@ extension Cloudfront {
     public struct CustomErrorResponseList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CustomErrorResponse", required: false, type: .list)
         ]
         public let customErrorResponse: [CustomErrorResponse]?
@@ -2717,7 +2717,7 @@ extension Cloudfront {
     public struct DistributionSummaryList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DistributionSummary", required: false, type: .list)
         ]
         public let distributionSummary: [DistributionSummary]?
@@ -2738,7 +2738,7 @@ extension Cloudfront {
     public struct OriginCustomHeadersList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OriginCustomHeader", required: false, type: .list)
         ]
         public let originCustomHeader: [OriginCustomHeader]?
@@ -2765,7 +2765,7 @@ extension Cloudfront {
     public struct CloudFrontOriginAccessIdentitySummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Id", required: true, type: .string), 
             AWSShapeProperty(label: "S3CanonicalUserId", required: true, type: .string), 
             AWSShapeProperty(label: "Comment", required: true, type: .string)
@@ -2796,7 +2796,7 @@ extension Cloudfront {
     public struct InvalidationSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Id", required: true, type: .string), 
             AWSShapeProperty(label: "Status", required: true, type: .string), 
             AWSShapeProperty(label: "CreateTime", required: true, type: .timestamp)
@@ -2826,7 +2826,7 @@ extension Cloudfront {
     public struct ActiveTrustedSigners: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Items", required: false, type: .structure), 
             AWSShapeProperty(label: "Enabled", required: true, type: .boolean), 
             AWSShapeProperty(label: "Quantity", required: true, type: .integer)
@@ -2856,7 +2856,7 @@ extension Cloudfront {
     public struct StreamingDistributionConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Aliases", required: false, type: .structure), 
             AWSShapeProperty(label: "CallerReference", required: true, type: .string), 
             AWSShapeProperty(label: "Logging", required: false, type: .structure), 
@@ -2914,7 +2914,7 @@ extension Cloudfront {
     public struct MethodsList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Method", required: false, type: .list)
         ]
         public let method: [Method]?
@@ -2937,7 +2937,7 @@ extension Cloudfront {
         public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "If-Match", required: false, type: .string), 
             AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
@@ -2964,7 +2964,7 @@ extension Cloudfront {
         public static var pathParams: [String: String] {
             return ["DistributionId": "DistributionId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InvalidationBatch", required: true, type: .structure), 
             AWSShapeProperty(label: "DistributionId", required: true, type: .string)
         ]
@@ -2989,7 +2989,7 @@ extension Cloudfront {
     public struct TagKeyList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Key", required: false, type: .list)
         ]
         public let key: [String]?
@@ -3006,7 +3006,7 @@ extension Cloudfront {
     public struct OriginList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Origin", required: false, type: .list)
         ]
         public let origin: [Origin]?
@@ -3030,7 +3030,7 @@ extension Cloudfront {
         public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
         /// The distribution's ID.
@@ -3052,7 +3052,7 @@ extension Cloudfront {
         public static var headerParams: [String: String] {
             return ["ETag": "ETag"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ETag", required: false, type: .string), 
             AWSShapeProperty(label: "Distribution", required: false, type: .structure)
         ]
@@ -3085,7 +3085,7 @@ extension Cloudfront {
         public static var headerParams: [String: String] {
             return ["ETag": "ETag"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ETag", required: false, type: .string), 
             AWSShapeProperty(label: "StreamingDistributionConfig", required: false, type: .structure)
         ]
@@ -3108,7 +3108,7 @@ extension Cloudfront {
     public struct KeyPairIds: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Items", required: false, type: .structure), 
             AWSShapeProperty(label: "Quantity", required: true, type: .integer)
         ]
@@ -3132,7 +3132,7 @@ extension Cloudfront {
     public struct Origin: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CustomHeaders", required: false, type: .structure), 
             AWSShapeProperty(label: "CustomOriginConfig", required: false, type: .structure), 
             AWSShapeProperty(label: "DomainName", required: true, type: .string), 
@@ -3177,7 +3177,7 @@ extension Cloudfront {
     public struct Tags: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Items", required: false, type: .structure)
         ]
         ///  A complex type that contains Tag elements.
@@ -3195,7 +3195,7 @@ extension Cloudfront {
     public struct LambdaFunctionAssociationList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LambdaFunctionAssociation", required: false, type: .list)
         ]
         public let lambdaFunctionAssociation: [LambdaFunctionAssociation]?
@@ -3216,7 +3216,7 @@ extension Cloudfront {
     public struct StreamingDistributionSummaryList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StreamingDistributionSummary", required: false, type: .list)
         ]
         public let streamingDistributionSummary: [StreamingDistributionSummary]?
@@ -3240,7 +3240,7 @@ extension Cloudfront {
         public static var headerParams: [String: String] {
             return ["ETag": "ETag"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ETag", required: false, type: .string), 
             AWSShapeProperty(label: "CloudFrontOriginAccessIdentity", required: false, type: .structure)
         ]
@@ -3266,7 +3266,7 @@ extension Cloudfront {
         public static var headerParams: [String: String] {
             return ["ETag": "ETag"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ETag", required: false, type: .string), 
             AWSShapeProperty(label: "Distribution", required: false, type: .structure)
         ]
@@ -3295,7 +3295,7 @@ extension Cloudfront {
         public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "If-Match", required: false, type: .string), 
             AWSShapeProperty(label: "StreamingDistributionConfig", required: true, type: .structure), 
             AWSShapeProperty(label: "Id", required: true, type: .string)
@@ -3325,7 +3325,7 @@ extension Cloudfront {
     public struct CloudFrontOriginAccessIdentityList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxItems", required: true, type: .integer), 
             AWSShapeProperty(label: "IsTruncated", required: true, type: .boolean), 
             AWSShapeProperty(label: "NextMarker", required: false, type: .string), 
@@ -3375,7 +3375,7 @@ extension Cloudfront {
         public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
         /// The identity's ID. 
@@ -3394,7 +3394,7 @@ extension Cloudfront {
     public struct CreateCloudFrontOriginAccessIdentityRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = "CloudFrontOriginAccessIdentityConfig"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CloudFrontOriginAccessIdentityConfig", required: true, type: .structure)
         ]
         /// The current configuration information for the identity.
@@ -3413,7 +3413,7 @@ extension Cloudfront {
     public struct Distribution: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LastModifiedTime", required: true, type: .timestamp), 
             AWSShapeProperty(label: "Status", required: true, type: .string), 
             AWSShapeProperty(label: "ActiveTrustedSigners", required: true, type: .structure), 
@@ -3474,7 +3474,7 @@ extension Cloudfront {
     public struct StreamingDistributionConfigWithTags: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Tags", required: true, type: .structure), 
             AWSShapeProperty(label: "StreamingDistributionConfig", required: true, type: .structure)
         ]
@@ -3499,7 +3499,7 @@ extension Cloudfront {
     public struct CloudFrontOriginAccessIdentityConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CallerReference", required: true, type: .string), 
             AWSShapeProperty(label: "Comment", required: true, type: .string)
         ]
@@ -3527,7 +3527,7 @@ extension Cloudfront {
         public static var headerParams: [String: String] {
             return ["ETag": "ETag"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ETag", required: false, type: .string), 
             AWSShapeProperty(label: "CloudFrontOriginAccessIdentity", required: false, type: .structure)
         ]
@@ -3556,7 +3556,7 @@ extension Cloudfront {
         public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "If-Match", required: false, type: .string), 
             AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
@@ -3580,7 +3580,7 @@ extension Cloudfront {
     public struct CustomErrorResponses: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Items", required: false, type: .structure), 
             AWSShapeProperty(label: "Quantity", required: true, type: .integer)
         ]
@@ -3604,7 +3604,7 @@ extension Cloudfront {
     public struct CookieNames: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Items", required: false, type: .structure), 
             AWSShapeProperty(label: "Quantity", required: true, type: .integer)
         ]
@@ -3628,7 +3628,7 @@ extension Cloudfront {
     public struct CookieNameList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: false, type: .list)
         ]
         public let name: [String]?
@@ -3656,7 +3656,7 @@ extension Cloudfront {
     public struct AwsAccountNumberList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AwsAccountNumber", required: false, type: .list)
         ]
         public let awsAccountNumber: [String]?
@@ -3673,7 +3673,7 @@ extension Cloudfront {
     public struct Aliases: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Items", required: false, type: .structure), 
             AWSShapeProperty(label: "Quantity", required: true, type: .integer)
         ]
@@ -3703,7 +3703,7 @@ extension Cloudfront {
         public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "If-Match", required: false, type: .string), 
             AWSShapeProperty(label: "Id", required: true, type: .string)
         ]

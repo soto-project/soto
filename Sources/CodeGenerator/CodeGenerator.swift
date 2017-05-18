@@ -248,7 +248,7 @@ extension AWSService {
             return "\(indt(3))AWSShapeProperty(label: \"\(pathForLocation)\", required: \(member.required), type: \(hint.enumStyleDescription))"
         })
         if hints.count > 0 {
-            code += "\(indt(2))public static var parsingHints = ["
+            code += "\(indt(2))public static var parsingHints: [AWSShapeProperty] = ["
             code += "\n"
             code += hints.joined(separator: ", \n")
             code += "\n"

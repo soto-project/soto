@@ -32,7 +32,7 @@ extension Pinpoint {
     public struct EndpointBatchRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         /// List of items to update. Maximum 100 items
@@ -54,7 +54,7 @@ extension Pinpoint {
     public struct UpdateEndpointsBatchResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "MessageBody"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MessageBody", required: true, type: .structure)
         ]
         public let messageBody: MessageBody
@@ -78,7 +78,7 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["campaign-id": "CampaignId", "application-id": "ApplicationId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Page-size", required: false, type: .string), 
             AWSShapeProperty(label: "Campaign-id", required: true, type: .string), 
             AWSShapeProperty(label: "Application-id", required: true, type: .string), 
@@ -109,7 +109,7 @@ extension Pinpoint {
     public struct EndpointRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EndpointStatus", required: false, type: .string), 
             AWSShapeProperty(label: "OptOut", required: false, type: .string), 
             AWSShapeProperty(label: "Metrics", required: false, type: .map), 
@@ -189,7 +189,7 @@ extension Pinpoint {
     public struct UpdateApplicationSettingsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "ApplicationSettingsResource"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ApplicationSettingsResource", required: true, type: .structure)
         ]
         public let applicationSettingsResource: ApplicationSettingsResource
@@ -210,7 +210,7 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Application-id", required: true, type: .string)
         ]
         public let applicationId: String
@@ -234,7 +234,7 @@ extension Pinpoint {
     public struct GCMChannelRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ApiKey", required: false, type: .string)
         ]
         /// Platform credential API key from Google.
@@ -255,7 +255,7 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Application-id", required: true, type: .string), 
             AWSShapeProperty(label: "WriteCampaignRequest", required: true, type: .structure)
         ]
@@ -281,7 +281,7 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId", "segment-id": "SegmentId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Segment-id", required: true, type: .string), 
             AWSShapeProperty(label: "Application-id", required: true, type: .string)
         ]
@@ -304,7 +304,7 @@ extension Pinpoint {
     public struct QuietTime: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "End", required: false, type: .string), 
             AWSShapeProperty(label: "Start", required: false, type: .string)
         ]
@@ -330,7 +330,7 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Application-id", required: true, type: .string)
         ]
         public let applicationId: String
@@ -351,7 +351,7 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["campaign-id": "CampaignId", "application-id": "ApplicationId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Campaign-id", required: true, type: .string), 
             AWSShapeProperty(label: "Application-id", required: true, type: .string)
         ]
@@ -381,7 +381,7 @@ extension Pinpoint {
     public struct DeleteGcmChannelResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "GCMChannelResponse"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "GCMChannelResponse", required: true, type: .structure)
         ]
         public let gCMChannelResponse: GCMChannelResponse
@@ -405,7 +405,7 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Page-size", required: false, type: .string), 
             AWSShapeProperty(label: "Application-id", required: true, type: .string), 
             AWSShapeProperty(label: "Token", required: false, type: .string)
@@ -431,7 +431,7 @@ extension Pinpoint {
     public struct GetImportJobResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "ImportJobResponse"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ImportJobResponse", required: true, type: .structure)
         ]
         public let importJobResponse: ImportJobResponse
@@ -452,7 +452,7 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Application-id", required: true, type: .string), 
             AWSShapeProperty(label: "WriteSegmentRequest", required: true, type: .structure)
         ]
@@ -481,7 +481,7 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["segment-id": "SegmentId", "application-id": "ApplicationId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Page-size", required: false, type: .string), 
             AWSShapeProperty(label: "Token", required: false, type: .string), 
             AWSShapeProperty(label: "Application-id", required: true, type: .string), 
@@ -512,7 +512,7 @@ extension Pinpoint {
     public struct Message: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Action", required: false, type: .enum), 
             AWSShapeProperty(label: "Url", required: false, type: .string), 
             AWSShapeProperty(label: "MediaUrl", required: false, type: .string), 
@@ -573,7 +573,7 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Application-id", required: true, type: .string)
         ]
         public let applicationId: String
@@ -594,7 +594,7 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["segment-id": "SegmentId", "version": "Version", "application-id": "ApplicationId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Application-id", required: true, type: .string), 
             AWSShapeProperty(label: "Segment-id", required: true, type: .string), 
             AWSShapeProperty(label: "Version", required: true, type: .string)
@@ -622,7 +622,7 @@ extension Pinpoint {
     public struct SegmentLocation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Country", required: false, type: .structure)
         ]
         /// The country filter according to ISO 3166-1 Alpha-2 codes.
@@ -640,7 +640,7 @@ extension Pinpoint {
     public struct WriteCampaignRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TreatmentName", required: false, type: .string), 
             AWSShapeProperty(label: "SegmentVersion", required: false, type: .integer), 
             AWSShapeProperty(label: "AdditionalTreatments", required: false, type: .list), 
@@ -720,7 +720,7 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WriteApplicationSettingsRequest", required: true, type: .structure), 
             AWSShapeProperty(label: "Application-id", required: true, type: .string)
         ]
@@ -743,7 +743,7 @@ extension Pinpoint {
     public struct WriteTreatmentResource: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Schedule", required: false, type: .structure), 
             AWSShapeProperty(label: "TreatmentDescription", required: false, type: .string), 
             AWSShapeProperty(label: "MessageConfiguration", required: false, type: .structure), 
@@ -781,7 +781,7 @@ extension Pinpoint {
     public struct TreatmentResource: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TreatmentName", required: false, type: .string), 
             AWSShapeProperty(label: "TreatmentDescription", required: false, type: .string), 
             AWSShapeProperty(label: "SizePercent", required: false, type: .integer), 
@@ -829,7 +829,7 @@ extension Pinpoint {
     public struct EndpointResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "User", required: false, type: .structure), 
             AWSShapeProperty(label: "ShardId", required: false, type: .string), 
             AWSShapeProperty(label: "OptOut", required: false, type: .string), 
@@ -937,7 +937,7 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["job-id": "JobId", "application-id": "ApplicationId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Job-id", required: true, type: .string), 
             AWSShapeProperty(label: "Application-id", required: true, type: .string)
         ]
@@ -960,7 +960,7 @@ extension Pinpoint {
     public struct CampaignResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Limits", required: false, type: .structure), 
             AWSShapeProperty(label: "TreatmentName", required: false, type: .string), 
             AWSShapeProperty(label: "SegmentVersion", required: false, type: .integer), 
@@ -1082,7 +1082,7 @@ extension Pinpoint {
     public struct WriteApplicationSettingsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Limits", required: false, type: .structure), 
             AWSShapeProperty(label: "QuietTime", required: false, type: .structure)
         ]
@@ -1108,7 +1108,7 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["campaign-id": "CampaignId", "application-id": "ApplicationId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Campaign-id", required: true, type: .string), 
             AWSShapeProperty(label: "Application-id", required: true, type: .string)
         ]
@@ -1134,7 +1134,7 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId", "endpoint-id": "EndpointId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EndpointRequest", required: true, type: .structure), 
             AWSShapeProperty(label: "Endpoint-id", required: true, type: .string), 
             AWSShapeProperty(label: "Application-id", required: true, type: .string)
@@ -1162,7 +1162,7 @@ extension Pinpoint {
     public struct GetSegmentImportJobsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "ImportJobsResponse"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ImportJobsResponse", required: true, type: .structure)
         ]
         public let importJobsResponse: ImportJobsResponse
@@ -1180,7 +1180,7 @@ extension Pinpoint {
     public struct UpdateGcmChannelResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "GCMChannelResponse"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "GCMChannelResponse", required: true, type: .structure)
         ]
         public let gCMChannelResponse: GCMChannelResponse
@@ -1212,7 +1212,7 @@ extension Pinpoint {
     public struct EndpointBatchItem: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChannelType", required: false, type: .enum), 
             AWSShapeProperty(label: "User", required: false, type: .structure), 
             AWSShapeProperty(label: "EffectiveDate", required: false, type: .string), 
@@ -1302,7 +1302,7 @@ extension Pinpoint {
     public struct CampaignsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -1329,7 +1329,7 @@ extension Pinpoint {
     public struct GCMChannelResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Id", required: false, type: .string), 
             AWSShapeProperty(label: "Platform", required: false, type: .string), 
             AWSShapeProperty(label: "Version", required: false, type: .integer), 
@@ -1385,7 +1385,7 @@ extension Pinpoint {
     public struct ActivitiesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list)
         ]
         /// List of campaign activities
@@ -1407,7 +1407,7 @@ extension Pinpoint {
     public struct GetEndpointResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "EndpointResponse"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EndpointResponse", required: true, type: .structure)
         ]
         public let endpointResponse: EndpointResponse
@@ -1425,7 +1425,7 @@ extension Pinpoint {
     public struct EndpointLocation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Longitude", required: false, type: .double), 
             AWSShapeProperty(label: "Country", required: false, type: .string), 
             AWSShapeProperty(label: "PostalCode", required: false, type: .string), 
@@ -1471,7 +1471,7 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Application-id", required: true, type: .string)
         ]
         public let applicationId: String
@@ -1489,7 +1489,7 @@ extension Pinpoint {
     public struct RecencyDimension: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Duration", required: false, type: .enum), 
             AWSShapeProperty(label: "RecencyType", required: false, type: .enum)
         ]
@@ -1510,7 +1510,7 @@ extension Pinpoint {
     public struct Schedule: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StartTime", required: false, type: .string), 
             AWSShapeProperty(label: "EndTime", required: false, type: .string), 
             AWSShapeProperty(label: "Frequency", required: false, type: .enum), 
@@ -1584,7 +1584,7 @@ extension Pinpoint {
     public struct GetApnsChannelResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "APNSChannelResponse"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "APNSChannelResponse", required: true, type: .structure)
         ]
         public let aPNSChannelResponse: APNSChannelResponse
@@ -1602,7 +1602,7 @@ extension Pinpoint {
     public struct SegmentImportResource: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ExternalId", required: false, type: .string), 
             AWSShapeProperty(label: "Format", required: false, type: .enum), 
             AWSShapeProperty(label: "RoleArn", required: false, type: .string), 
@@ -1645,7 +1645,7 @@ extension Pinpoint {
     public struct ImportJobRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "S3Url", required: false, type: .string), 
             AWSShapeProperty(label: "DefineSegment", required: false, type: .boolean), 
             AWSShapeProperty(label: "Format", required: false, type: .enum), 
@@ -1705,7 +1705,7 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Page-size", required: false, type: .string), 
             AWSShapeProperty(label: "Application-id", required: true, type: .string), 
             AWSShapeProperty(label: "Token", required: false, type: .string)
@@ -1743,7 +1743,7 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ImportJobRequest", required: true, type: .structure), 
             AWSShapeProperty(label: "Application-id", required: true, type: .string)
         ]
@@ -1766,7 +1766,7 @@ extension Pinpoint {
     public struct ImportJobResource: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "S3Url", required: false, type: .string), 
             AWSShapeProperty(label: "DefineSegment", required: false, type: .boolean), 
             AWSShapeProperty(label: "Format", required: false, type: .enum), 
@@ -1820,7 +1820,7 @@ extension Pinpoint {
     public struct SetDimension: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DimensionType", required: false, type: .enum), 
             AWSShapeProperty(label: "Values", required: false, type: .list)
         ]
@@ -1841,7 +1841,7 @@ extension Pinpoint {
     public struct APNSChannelRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Certificate", required: false, type: .string), 
             AWSShapeProperty(label: "PrivateKey", required: false, type: .string)
         ]
@@ -1864,7 +1864,7 @@ extension Pinpoint {
     public struct GetCampaignVersionResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "CampaignResponse"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CampaignResponse", required: true, type: .structure)
         ]
         public let campaignResponse: CampaignResponse
@@ -1888,7 +1888,7 @@ extension Pinpoint {
     public struct EndpointUser: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserId", required: false, type: .string), 
             AWSShapeProperty(label: "UserAttributes", required: false, type: .map)
         ]
@@ -1930,7 +1930,7 @@ extension Pinpoint {
     public struct MessageBody: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RequestID", required: false, type: .string), 
             AWSShapeProperty(label: "Message", required: false, type: .string)
         ]
@@ -1951,7 +1951,7 @@ extension Pinpoint {
     public struct SegmentDimensions: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Demographic", required: false, type: .structure), 
             AWSShapeProperty(label: "Behavior", required: false, type: .structure), 
             AWSShapeProperty(label: "Attributes", required: false, type: .map), 
@@ -1993,7 +1993,7 @@ extension Pinpoint {
     public struct GetGcmChannelResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "GCMChannelResponse"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "GCMChannelResponse", required: true, type: .structure)
         ]
         public let gCMChannelResponse: GCMChannelResponse
@@ -2011,7 +2011,7 @@ extension Pinpoint {
     public struct GetSegmentVersionsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "SegmentsResponse"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SegmentsResponse", required: true, type: .structure)
         ]
         public let segmentsResponse: SegmentsResponse
@@ -2029,7 +2029,7 @@ extension Pinpoint {
     public struct ApplicationSettingsResource: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LastModifiedDate", required: false, type: .string), 
             AWSShapeProperty(label: "Limits", required: false, type: .structure), 
             AWSShapeProperty(label: "QuietTime", required: false, type: .structure), 
@@ -2062,7 +2062,7 @@ extension Pinpoint {
     public struct UpdateEndpointResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "MessageBody"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MessageBody", required: true, type: .structure)
         ]
         public let messageBody: MessageBody
@@ -2080,7 +2080,7 @@ extension Pinpoint {
     public struct GetCampaignActivitiesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "ActivitiesResponse"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ActivitiesResponse", required: true, type: .structure)
         ]
         public let activitiesResponse: ActivitiesResponse
@@ -2104,7 +2104,7 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["campaign-id": "CampaignId", "application-id": "ApplicationId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Page-size", required: false, type: .string), 
             AWSShapeProperty(label: "Campaign-id", required: true, type: .string), 
             AWSShapeProperty(label: "Application-id", required: true, type: .string), 
@@ -2135,7 +2135,7 @@ extension Pinpoint {
     public struct AttributeDimension: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AttributeType", required: false, type: .enum), 
             AWSShapeProperty(label: "Values", required: false, type: .list)
         ]
@@ -2159,7 +2159,7 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EndpointBatchRequest", required: true, type: .structure), 
             AWSShapeProperty(label: "Application-id", required: true, type: .string)
         ]
@@ -2182,7 +2182,7 @@ extension Pinpoint {
     public struct APNSChannelResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Id", required: false, type: .string), 
             AWSShapeProperty(label: "Platform", required: false, type: .string), 
             AWSShapeProperty(label: "Version", required: false, type: .integer), 
@@ -2233,7 +2233,7 @@ extension Pinpoint {
     public struct SegmentsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -2260,7 +2260,7 @@ extension Pinpoint {
     public struct SegmentResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Id", required: false, type: .string), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "Version", required: false, type: .integer), 
@@ -2317,7 +2317,7 @@ extension Pinpoint {
     public struct ImportJobResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CompletionDate", required: false, type: .string), 
             AWSShapeProperty(label: "Definition", required: false, type: .structure), 
             AWSShapeProperty(label: "FailedPieces", required: false, type: .integer), 
@@ -2393,7 +2393,7 @@ extension Pinpoint {
     public struct CreateImportJobResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "ImportJobResponse"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ImportJobResponse", required: true, type: .structure)
         ]
         public let importJobResponse: ImportJobResponse
@@ -2411,7 +2411,7 @@ extension Pinpoint {
     public struct GetApplicationSettingsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "ApplicationSettingsResource"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ApplicationSettingsResource", required: true, type: .structure)
         ]
         public let applicationSettingsResource: ApplicationSettingsResource
@@ -2429,7 +2429,7 @@ extension Pinpoint {
     public struct GetImportJobsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "ImportJobsResponse"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ImportJobsResponse", required: true, type: .structure)
         ]
         public let importJobsResponse: ImportJobsResponse
@@ -2447,7 +2447,7 @@ extension Pinpoint {
     public struct GetCampaignResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "CampaignResponse"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CampaignResponse", required: true, type: .structure)
         ]
         public let campaignResponse: CampaignResponse
@@ -2468,7 +2468,7 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["segment-id": "SegmentId", "application-id": "ApplicationId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Application-id", required: true, type: .string), 
             AWSShapeProperty(label: "Segment-id", required: true, type: .string), 
             AWSShapeProperty(label: "WriteSegmentRequest", required: true, type: .structure)
@@ -2499,7 +2499,7 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Application-id", required: true, type: .string)
         ]
         public let applicationId: String
@@ -2517,7 +2517,7 @@ extension Pinpoint {
     public struct UpdateApnsChannelResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "APNSChannelResponse"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "APNSChannelResponse", required: true, type: .structure)
         ]
         public let aPNSChannelResponse: APNSChannelResponse
@@ -2538,7 +2538,7 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "GCMChannelRequest", required: true, type: .structure), 
             AWSShapeProperty(label: "Application-id", required: true, type: .string)
         ]
@@ -2561,7 +2561,7 @@ extension Pinpoint {
     public struct DeleteCampaignResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "CampaignResponse"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CampaignResponse", required: true, type: .structure)
         ]
         public let campaignResponse: CampaignResponse
@@ -2579,7 +2579,7 @@ extension Pinpoint {
     public struct CampaignLimits: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Daily", required: false, type: .integer), 
             AWSShapeProperty(label: "Total", required: false, type: .integer)
         ]
@@ -2602,7 +2602,7 @@ extension Pinpoint {
     public struct SegmentDemographics: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Make", required: false, type: .structure), 
             AWSShapeProperty(label: "Platform", required: false, type: .structure), 
             AWSShapeProperty(label: "DeviceType", required: false, type: .structure), 
@@ -2640,7 +2640,7 @@ extension Pinpoint {
     public struct CreateCampaignResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "CampaignResponse"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CampaignResponse", required: true, type: .structure)
         ]
         public let campaignResponse: CampaignResponse
@@ -2658,7 +2658,7 @@ extension Pinpoint {
     public struct ActivityResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CampaignId", required: false, type: .string), 
             AWSShapeProperty(label: "ScheduledStart", required: false, type: .string), 
             AWSShapeProperty(label: "Start", required: false, type: .string), 
@@ -2728,7 +2728,7 @@ extension Pinpoint {
     public struct GetSegmentResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "SegmentResponse"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SegmentResponse", required: true, type: .structure)
         ]
         public let segmentResponse: SegmentResponse
@@ -2752,7 +2752,7 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["segment-id": "SegmentId", "application-id": "ApplicationId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Page-size", required: false, type: .string), 
             AWSShapeProperty(label: "Token", required: false, type: .string), 
             AWSShapeProperty(label: "Application-id", required: true, type: .string), 
@@ -2786,7 +2786,7 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "APNSChannelRequest", required: true, type: .structure), 
             AWSShapeProperty(label: "Application-id", required: true, type: .string)
         ]
@@ -2812,7 +2812,7 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["campaign-id": "CampaignId", "application-id": "ApplicationId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Application-id", required: true, type: .string), 
             AWSShapeProperty(label: "Campaign-id", required: true, type: .string), 
             AWSShapeProperty(label: "WriteCampaignRequest", required: true, type: .structure)
@@ -2840,7 +2840,7 @@ extension Pinpoint {
     public struct CreateSegmentResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "SegmentResponse"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SegmentResponse", required: true, type: .structure)
         ]
         public let segmentResponse: SegmentResponse
@@ -2858,7 +2858,7 @@ extension Pinpoint {
     public struct DeleteSegmentResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "SegmentResponse"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SegmentResponse", required: true, type: .structure)
         ]
         public let segmentResponse: SegmentResponse
@@ -2876,7 +2876,7 @@ extension Pinpoint {
     public struct GetSegmentsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "SegmentsResponse"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SegmentsResponse", required: true, type: .structure)
         ]
         public let segmentsResponse: SegmentsResponse
@@ -2894,7 +2894,7 @@ extension Pinpoint {
     public struct GetCampaignVersionsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "CampaignsResponse"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CampaignsResponse", required: true, type: .structure)
         ]
         public let campaignsResponse: CampaignsResponse
@@ -2912,7 +2912,7 @@ extension Pinpoint {
     public struct GetCampaignsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "CampaignsResponse"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CampaignsResponse", required: true, type: .structure)
         ]
         public let campaignsResponse: CampaignsResponse
@@ -2930,7 +2930,7 @@ extension Pinpoint {
     public struct GetSegmentVersionResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "SegmentResponse"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SegmentResponse", required: true, type: .structure)
         ]
         public let segmentResponse: SegmentResponse
@@ -2951,7 +2951,7 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId", "endpoint-id": "EndpointId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Endpoint-id", required: true, type: .string), 
             AWSShapeProperty(label: "Application-id", required: true, type: .string)
         ]
@@ -2977,7 +2977,7 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["campaign-id": "CampaignId", "version": "Version", "application-id": "ApplicationId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Application-id", required: true, type: .string), 
             AWSShapeProperty(label: "Campaign-id", required: true, type: .string), 
             AWSShapeProperty(label: "Version", required: true, type: .string)
@@ -3005,7 +3005,7 @@ extension Pinpoint {
     public struct UpdateCampaignResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "CampaignResponse"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CampaignResponse", required: true, type: .structure)
         ]
         public let campaignResponse: CampaignResponse
@@ -3023,7 +3023,7 @@ extension Pinpoint {
     public struct SegmentBehaviors: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Recency", required: false, type: .structure)
         ]
         /// The recency of use.
@@ -3041,7 +3041,7 @@ extension Pinpoint {
     public struct UpdateSegmentResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "SegmentResponse"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SegmentResponse", required: true, type: .structure)
         ]
         public let segmentResponse: SegmentResponse
@@ -3059,7 +3059,7 @@ extension Pinpoint {
     public struct CampaignState: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CampaignStatus", required: false, type: .enum)
         ]
         public let campaignStatus: CampaignStatus?
@@ -3076,7 +3076,7 @@ extension Pinpoint {
     public struct DeleteApnsChannelResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "APNSChannelResponse"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "APNSChannelResponse", required: true, type: .structure)
         ]
         public let aPNSChannelResponse: APNSChannelResponse
@@ -3097,7 +3097,7 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId", "segment-id": "SegmentId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Segment-id", required: true, type: .string), 
             AWSShapeProperty(label: "Application-id", required: true, type: .string)
         ]
@@ -3120,7 +3120,7 @@ extension Pinpoint {
     public struct ImportJobsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Item", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -3153,7 +3153,7 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Page-size", required: false, type: .string), 
             AWSShapeProperty(label: "Application-id", required: true, type: .string), 
             AWSShapeProperty(label: "Token", required: false, type: .string)
@@ -3179,7 +3179,7 @@ extension Pinpoint {
     public struct MessageConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "GCMMessage", required: false, type: .structure), 
             AWSShapeProperty(label: "APNSMessage", required: false, type: .structure), 
             AWSShapeProperty(label: "DefaultMessage", required: false, type: .structure)
@@ -3207,7 +3207,7 @@ extension Pinpoint {
     public struct EndpointDemographic: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Locale", required: false, type: .string), 
             AWSShapeProperty(label: "Platform", required: false, type: .string), 
             AWSShapeProperty(label: "Timezone", required: false, type: .string), 
@@ -3266,7 +3266,7 @@ extension Pinpoint {
     public struct WriteSegmentRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "Dimensions", required: false, type: .structure)
         ]

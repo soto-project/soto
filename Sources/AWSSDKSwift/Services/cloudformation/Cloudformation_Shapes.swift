@@ -39,7 +39,7 @@ extension Cloudformation {
     public struct DescribeStacksInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackName", required: false, type: .string), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -67,7 +67,7 @@ extension Cloudformation {
     public struct DeleteStackInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackName", required: true, type: .string), 
             AWSShapeProperty(label: "RetainResources", required: false, type: .list), 
             AWSShapeProperty(label: "RoleARN", required: false, type: .string)
@@ -112,7 +112,7 @@ extension Cloudformation {
     public struct GetStackPolicyOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackPolicyBody", required: false, type: .string)
         ]
         /// Structure containing the stack policy body. (For more information, go to  Prevent Updates to Stack Resources in the AWS CloudFormation User Guide.)
@@ -130,7 +130,7 @@ extension Cloudformation {
     public struct ResourceChange: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Details", required: false, type: .list), 
             AWSShapeProperty(label: "Action", required: false, type: .enum), 
             AWSShapeProperty(label: "LogicalResourceId", required: false, type: .string), 
@@ -182,7 +182,7 @@ extension Cloudformation {
     public struct StackSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LastUpdatedTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "DeletionTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "StackId", required: false, type: .string), 
@@ -238,7 +238,7 @@ extension Cloudformation {
     public struct CreateChangeSetOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackId", required: false, type: .string), 
             AWSShapeProperty(label: "Id", required: false, type: .string)
         ]
@@ -261,7 +261,7 @@ extension Cloudformation {
     public struct Stack: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackStatus", required: true, type: .enum), 
             AWSShapeProperty(label: "Tags", required: false, type: .list), 
             AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
@@ -369,7 +369,7 @@ extension Cloudformation {
     public struct UpdateStackInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackPolicyBody", required: false, type: .string), 
             AWSShapeProperty(label: "Tags", required: false, type: .list), 
             AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
@@ -461,7 +461,7 @@ extension Cloudformation {
     public struct ListExportsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// A string (provided by the ListExports response output) that identifies the next page of exported output values that you asked to retrieve.
@@ -479,7 +479,7 @@ extension Cloudformation {
     public struct ParameterDeclaration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ParameterType", required: false, type: .string), 
             AWSShapeProperty(label: "NoEcho", required: false, type: .boolean), 
             AWSShapeProperty(label: "ParameterConstraints", required: false, type: .structure), 
@@ -522,7 +522,7 @@ extension Cloudformation {
     public struct StackResourceDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Metadata", required: false, type: .string), 
             AWSShapeProperty(label: "ResourceStatus", required: true, type: .enum), 
             AWSShapeProperty(label: "StackId", required: false, type: .string), 
@@ -602,7 +602,7 @@ extension Cloudformation {
     public struct ListImportsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "ExportName", required: true, type: .string)
         ]
@@ -626,7 +626,7 @@ extension Cloudformation {
     public struct ListChangeSetsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Summaries", required: false, type: .list)
         ]
@@ -653,7 +653,7 @@ extension Cloudformation {
     public struct DescribeStacksOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Stacks", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -680,7 +680,7 @@ extension Cloudformation {
     public struct ExecuteChangeSetInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackName", required: false, type: .string), 
             AWSShapeProperty(label: "ChangeSetName", required: true, type: .string)
         ]
@@ -704,7 +704,7 @@ extension Cloudformation {
     public struct Tag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: false, type: .string), 
             AWSShapeProperty(label: "Key", required: false, type: .string)
         ]
@@ -727,7 +727,7 @@ extension Cloudformation {
     public struct ListStackResourcesOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackResourceSummaries", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -754,7 +754,7 @@ extension Cloudformation {
     public struct TemplateParameter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NoEcho", required: false, type: .boolean), 
             AWSShapeProperty(label: "DefaultValue", required: false, type: .string), 
             AWSShapeProperty(label: "ParameterKey", required: false, type: .string), 
@@ -787,7 +787,7 @@ extension Cloudformation {
     public struct DescribeAccountLimitsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// A string that identifies the next page of limits that you want to retrieve.
@@ -805,7 +805,7 @@ extension Cloudformation {
     public struct ValidateTemplateOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CapabilitiesReason", required: false, type: .string), 
             AWSShapeProperty(label: "DeclaredTransforms", required: false, type: .list), 
             AWSShapeProperty(label: "Parameters", required: false, type: .list), 
@@ -847,7 +847,7 @@ extension Cloudformation {
     public struct ResourceChangeDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Target", required: false, type: .structure), 
             AWSShapeProperty(label: "CausingEntity", required: false, type: .string), 
             AWSShapeProperty(label: "ChangeSource", required: false, type: .enum), 
@@ -889,7 +889,7 @@ extension Cloudformation {
     public struct ListStacksInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "StackStatusFilter", required: false, type: .list)
         ]
@@ -926,7 +926,7 @@ extension Cloudformation {
     public struct SignalResourceInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UniqueId", required: true, type: .string), 
             AWSShapeProperty(label: "Status", required: true, type: .enum), 
             AWSShapeProperty(label: "StackName", required: true, type: .string), 
@@ -977,7 +977,7 @@ extension Cloudformation {
     public struct DescribeStackResourceInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackName", required: true, type: .string), 
             AWSShapeProperty(label: "LogicalResourceId", required: true, type: .string)
         ]
@@ -1002,7 +1002,7 @@ extension Cloudformation {
     public struct DescribeStackEventsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackName", required: false, type: .string), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -1025,7 +1025,7 @@ extension Cloudformation {
     public struct GetTemplateSummaryInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackName", required: false, type: .string), 
             AWSShapeProperty(label: "TemplateURL", required: false, type: .string), 
             AWSShapeProperty(label: "TemplateBody", required: false, type: .string)
@@ -1053,7 +1053,7 @@ extension Cloudformation {
     public struct EstimateTemplateCostInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Parameters", required: false, type: .list), 
             AWSShapeProperty(label: "TemplateURL", required: false, type: .string), 
             AWSShapeProperty(label: "TemplateBody", required: false, type: .string)
@@ -1085,7 +1085,7 @@ extension Cloudformation {
     public struct DescribeChangeSetInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackName", required: false, type: .string), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "ChangeSetName", required: true, type: .string)
@@ -1114,7 +1114,7 @@ extension Cloudformation {
     public struct ValidateTemplateInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TemplateURL", required: false, type: .string), 
             AWSShapeProperty(label: "TemplateBody", required: false, type: .string)
         ]
@@ -1143,7 +1143,7 @@ extension Cloudformation {
     public struct Parameter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ParameterValue", required: false, type: .string), 
             AWSShapeProperty(label: "UsePreviousValue", required: false, type: .boolean), 
             AWSShapeProperty(label: "ParameterKey", required: false, type: .string)
@@ -1179,7 +1179,7 @@ extension Cloudformation {
     public struct ListExportsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Exports", required: false, type: .list)
         ]
@@ -1206,7 +1206,7 @@ extension Cloudformation {
     public struct ListImportsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Imports", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -1229,7 +1229,7 @@ extension Cloudformation {
     public struct CreateStackOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackId", required: false, type: .string)
         ]
         /// Unique identifier of the stack.
@@ -1247,7 +1247,7 @@ extension Cloudformation {
     public struct Change: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Type", required: false, type: .enum), 
             AWSShapeProperty(label: "ResourceChange", required: false, type: .structure)
         ]
@@ -1270,7 +1270,7 @@ extension Cloudformation {
     public struct ContinueUpdateRollbackInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackName", required: true, type: .string), 
             AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
             AWSShapeProperty(label: "ResourcesToSkip", required: false, type: .list)
@@ -1299,7 +1299,7 @@ extension Cloudformation {
     public struct CreateStackInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackPolicyBody", required: false, type: .string), 
             AWSShapeProperty(label: "Tags", required: false, type: .list), 
             AWSShapeProperty(label: "OnFailure", required: false, type: .enum), 
@@ -1401,7 +1401,7 @@ extension Cloudformation {
     public struct SetStackPolicyInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackName", required: true, type: .string), 
             AWSShapeProperty(label: "StackPolicyBody", required: false, type: .string), 
             AWSShapeProperty(label: "StackPolicyURL", required: false, type: .string)
@@ -1430,7 +1430,7 @@ extension Cloudformation {
     public struct DescribeStackResourcesOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackResources", required: false, type: .list)
         ]
         /// A list of StackResource structures.
@@ -1452,7 +1452,7 @@ extension Cloudformation {
     public struct Export: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ExportingStackId", required: false, type: .string), 
             AWSShapeProperty(label: "Value", required: false, type: .string), 
             AWSShapeProperty(label: "Name", required: false, type: .string)
@@ -1480,7 +1480,7 @@ extension Cloudformation {
     public struct GetTemplateSummaryOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Metadata", required: false, type: .string), 
             AWSShapeProperty(label: "CapabilitiesReason", required: false, type: .string), 
             AWSShapeProperty(label: "Parameters", required: false, type: .list), 
@@ -1537,7 +1537,7 @@ extension Cloudformation {
     public struct ListStacksOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "StackSummaries", required: false, type: .list)
         ]
@@ -1564,7 +1564,7 @@ extension Cloudformation {
     public struct AccountLimit: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: false, type: .integer), 
             AWSShapeProperty(label: "Name", required: false, type: .string)
         ]
@@ -1608,7 +1608,7 @@ extension Cloudformation {
     public struct DescribeStackResourcesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackName", required: false, type: .string), 
             AWSShapeProperty(label: "LogicalResourceId", required: false, type: .string), 
             AWSShapeProperty(label: "PhysicalResourceId", required: false, type: .string)
@@ -1636,7 +1636,7 @@ extension Cloudformation {
     public struct DescribeChangeSetOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ExecutionStatus", required: false, type: .enum), 
             AWSShapeProperty(label: "Changes", required: false, type: .list), 
             AWSShapeProperty(label: "Tags", required: false, type: .list), 
@@ -1736,7 +1736,7 @@ extension Cloudformation {
     public struct ListStackResourcesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackName", required: true, type: .string), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -1760,7 +1760,7 @@ extension Cloudformation {
     public struct EstimateTemplateCostOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Url", required: false, type: .string)
         ]
         /// An AWS Simple Monthly Calculator URL with a query string that describes the resources required to run the template.
@@ -1778,7 +1778,7 @@ extension Cloudformation {
     public struct UpdateStackOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackId", required: false, type: .string)
         ]
         /// Unique identifier of the stack.
@@ -1796,7 +1796,7 @@ extension Cloudformation {
     public struct CreateChangeSetInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
             AWSShapeProperty(label: "ChangeSetType", required: false, type: .enum), 
             AWSShapeProperty(label: "Tags", required: false, type: .list), 
@@ -1889,7 +1889,7 @@ extension Cloudformation {
     public struct ListChangeSetsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackName", required: true, type: .string), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -1934,7 +1934,7 @@ extension Cloudformation {
     public struct GetTemplateInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackName", required: false, type: .string), 
             AWSShapeProperty(label: "ChangeSetName", required: false, type: .string), 
             AWSShapeProperty(label: "TemplateStage", required: false, type: .enum)
@@ -1972,7 +1972,7 @@ extension Cloudformation {
     public struct DescribeStackEventsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "StackEvents", required: false, type: .list)
         ]
@@ -1999,7 +1999,7 @@ extension Cloudformation {
     public struct StackEvent: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Timestamp", required: true, type: .timestamp), 
             AWSShapeProperty(label: "ResourceStatus", required: false, type: .enum), 
             AWSShapeProperty(label: "StackId", required: true, type: .string), 
@@ -2066,7 +2066,7 @@ extension Cloudformation {
     public struct ChangeSetSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .enum), 
             AWSShapeProperty(label: "StatusReason", required: false, type: .string), 
             AWSShapeProperty(label: "ExecutionStatus", required: false, type: .enum), 
@@ -2130,7 +2130,7 @@ extension Cloudformation {
     public struct Output: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OutputValue", required: false, type: .string), 
             AWSShapeProperty(label: "OutputKey", required: false, type: .string), 
             AWSShapeProperty(label: "Description", required: false, type: .string)
@@ -2158,7 +2158,7 @@ extension Cloudformation {
     public struct ParameterConstraints: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AllowedValues", required: false, type: .list)
         ]
         /// A list of values that are permitted for a parameter.
@@ -2176,7 +2176,7 @@ extension Cloudformation {
     public struct ResourceTargetDefinition: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RequiresRecreation", required: false, type: .enum), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "Attribute", required: false, type: .enum)
@@ -2204,7 +2204,7 @@ extension Cloudformation {
     public struct StackResourceSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceType", required: true, type: .string), 
             AWSShapeProperty(label: "PhysicalResourceId", required: false, type: .string), 
             AWSShapeProperty(label: "ResourceStatusReason", required: false, type: .string), 
@@ -2251,7 +2251,7 @@ extension Cloudformation {
     public struct CancelUpdateStackInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackName", required: true, type: .string)
         ]
         /// The name or the unique stack ID that is associated with the stack.
@@ -2270,7 +2270,7 @@ extension Cloudformation {
     public struct GetStackPolicyInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackName", required: true, type: .string)
         ]
         /// The name or unique stack ID that is associated with the stack whose policy you want to get.
@@ -2289,7 +2289,7 @@ extension Cloudformation {
     public struct StackResource: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Timestamp", required: true, type: .timestamp), 
             AWSShapeProperty(label: "ResourceStatus", required: true, type: .enum), 
             AWSShapeProperty(label: "StackId", required: false, type: .string), 
@@ -2351,7 +2351,7 @@ extension Cloudformation {
     public struct DescribeAccountLimitsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "AccountLimits", required: false, type: .list)
         ]
@@ -2378,7 +2378,7 @@ extension Cloudformation {
     public struct DeleteChangeSetInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackName", required: false, type: .string), 
             AWSShapeProperty(label: "ChangeSetName", required: true, type: .string)
         ]
@@ -2402,7 +2402,7 @@ extension Cloudformation {
     public struct GetTemplateOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StagesAvailable", required: false, type: .list), 
             AWSShapeProperty(label: "TemplateBody", required: false, type: .string)
         ]
@@ -2425,7 +2425,7 @@ extension Cloudformation {
     public struct DescribeStackResourceOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackResourceDetail", required: false, type: .structure)
         ]
         /// A StackResourceDetail structure containing the description of the specified resource in the specified stack.

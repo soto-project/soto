@@ -32,7 +32,7 @@ extension Snowball {
     public struct S3Resource: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "KeyRange", required: false, type: .structure), 
             AWSShapeProperty(label: "BucketArn", required: false, type: .string)
         ]
@@ -55,7 +55,7 @@ extension Snowball {
     public struct UpdateJobRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ShippingOption", required: false, type: .enum), 
             AWSShapeProperty(label: "SnowballCapacityPreference", required: false, type: .enum), 
             AWSShapeProperty(label: "AddressId", required: false, type: .string), 
@@ -117,7 +117,7 @@ extension Snowball {
     public struct JobResource: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "S3Resources", required: false, type: .list), 
             AWSShapeProperty(label: "LambdaResources", required: false, type: .list)
         ]
@@ -148,7 +148,7 @@ extension Snowball {
     public struct CancelClusterRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterId", required: true, type: .string)
         ]
         /// The 39-character ID for the cluster that you want to cancel, for example CID123e4567-e89b-12d3-a456-426655440000.
@@ -167,7 +167,7 @@ extension Snowball {
     public struct ShippingDetails: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ShippingOption", required: false, type: .enum), 
             AWSShapeProperty(label: "InboundShipment", required: false, type: .structure), 
             AWSShapeProperty(label: "OutboundShipment", required: false, type: .structure)
@@ -195,7 +195,7 @@ extension Snowball {
     public struct ListClusterJobsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "ClusterId", required: true, type: .string), 
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
@@ -232,7 +232,7 @@ extension Snowball {
     public struct EventTriggerDefinition: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EventResourceARN", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) for any local Amazon S3 resource that is an AWS Lambda function's event trigger associated with this job.
@@ -250,7 +250,7 @@ extension Snowball {
     public struct GetJobUnlockCodeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "JobId", required: true, type: .string)
         ]
         /// The ID for the job that you want to get the UnlockCode value for, for example JID123e4567-e89b-12d3-a456-426655440000.
@@ -269,7 +269,7 @@ extension Snowball {
     public struct KeyRange: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BeginMarker", required: false, type: .string), 
             AWSShapeProperty(label: "EndMarker", required: false, type: .string)
         ]
@@ -298,7 +298,7 @@ extension Snowball {
     public struct DescribeClusterResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterMetadata", required: false, type: .structure)
         ]
         /// Information about a specific cluster, including shipping information, cluster status, and other important metadata.
@@ -316,7 +316,7 @@ extension Snowball {
     public struct Address: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Landmark", required: false, type: .string), 
             AWSShapeProperty(label: "PhoneNumber", required: false, type: .string), 
             AWSShapeProperty(label: "Country", required: false, type: .string), 
@@ -403,7 +403,7 @@ extension Snowball {
     public struct ListClustersResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterListEntries", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -462,7 +462,7 @@ extension Snowball {
     public struct CreateClusterResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterId", required: false, type: .string)
         ]
         /// The automatically generated ID for a cluster.
@@ -480,7 +480,7 @@ extension Snowball {
     public struct CreateClusterRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ShippingOption", required: true, type: .enum), 
             AWSShapeProperty(label: "AddressId", required: true, type: .string), 
             AWSShapeProperty(label: "KmsKeyARN", required: false, type: .string), 
@@ -543,7 +543,7 @@ extension Snowball {
     public struct DescribeClusterRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterId", required: true, type: .string)
         ]
         /// The automatically generated ID for a cluster.
@@ -562,7 +562,7 @@ extension Snowball {
     public struct ListClustersRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
@@ -585,7 +585,7 @@ extension Snowball {
     public struct CreateAddressRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Address", required: true, type: .structure)
         ]
         /// The address that you want the Snowball shipped to.
@@ -604,7 +604,7 @@ extension Snowball {
     public struct DescribeAddressesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Addresses", required: false, type: .list)
         ]
@@ -639,7 +639,7 @@ extension Snowball {
     public struct GetJobUnlockCodeResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UnlockCode", required: false, type: .string)
         ]
         /// The UnlockCode value for the specified job. The UnlockCode value can be accessed for up to 90 days after the job has been created.
@@ -657,7 +657,7 @@ extension Snowball {
     public struct DataTransfer: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ObjectsTransferred", required: false, type: .long), 
             AWSShapeProperty(label: "BytesTransferred", required: false, type: .long), 
             AWSShapeProperty(label: "TotalBytes", required: false, type: .long), 
@@ -698,7 +698,7 @@ extension Snowball {
     public struct GetJobManifestRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "JobId", required: true, type: .string)
         ]
         /// The ID for a job that you want to get the manifest file for, for example JID123e4567-e89b-12d3-a456-426655440000.
@@ -717,7 +717,7 @@ extension Snowball {
     public struct DescribeAddressRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AddressId", required: true, type: .string)
         ]
         /// The automatically generated ID for a specific address.
@@ -736,7 +736,7 @@ extension Snowball {
     public struct DescribeJobRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "JobId", required: true, type: .string)
         ]
         /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
@@ -755,7 +755,7 @@ extension Snowball {
     public struct ListJobsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "JobListEntries", required: false, type: .list)
         ]
@@ -782,7 +782,7 @@ extension Snowball {
     public struct CreateJobResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "JobId", required: false, type: .string)
         ]
         /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
@@ -800,7 +800,7 @@ extension Snowball {
     public struct DescribeAddressResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Address", required: false, type: .structure)
         ]
         /// The address that you want the Snowball or Snowballs associated with a specific job to be shipped to.
@@ -826,7 +826,7 @@ extension Snowball {
     public struct LambdaResource: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LambdaArn", required: false, type: .string), 
             AWSShapeProperty(label: "EventTriggers", required: false, type: .list)
         ]
@@ -853,7 +853,7 @@ extension Snowball {
     public struct ClusterMetadata: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterState", required: false, type: .enum), 
             AWSShapeProperty(label: "ShippingOption", required: false, type: .enum), 
             AWSShapeProperty(label: "AddressId", required: false, type: .string), 
@@ -926,7 +926,7 @@ extension Snowball {
     public struct Notification: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NotifyAll", required: false, type: .boolean), 
             AWSShapeProperty(label: "JobStatesToNotify", required: false, type: .list), 
             AWSShapeProperty(label: "SnsTopicARN", required: false, type: .string)
@@ -961,7 +961,7 @@ extension Snowball {
     public struct ListJobsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
@@ -984,7 +984,7 @@ extension Snowball {
     public struct Shipment: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "TrackingNumber", required: false, type: .string)
         ]
@@ -1007,7 +1007,7 @@ extension Snowball {
     public struct DescribeAddressesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
@@ -1030,7 +1030,7 @@ extension Snowball {
     public struct UpdateClusterRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ShippingOption", required: false, type: .enum), 
             AWSShapeProperty(label: "AddressId", required: false, type: .string), 
             AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
@@ -1079,7 +1079,7 @@ extension Snowball {
     public struct DescribeJobResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "JobMetadata", required: false, type: .structure), 
             AWSShapeProperty(label: "SubJobMetadata", required: false, type: .list)
         ]
@@ -1106,7 +1106,7 @@ extension Snowball {
     public struct JobListEntry: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IsMaster", required: false, type: .boolean), 
             AWSShapeProperty(label: "JobType", required: false, type: .enum), 
             AWSShapeProperty(label: "JobState", required: false, type: .enum), 
@@ -1154,7 +1154,7 @@ extension Snowball {
     public struct ListClusterJobsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "JobListEntries", required: false, type: .list)
         ]
@@ -1181,7 +1181,7 @@ extension Snowball {
     public struct CreateAddressResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AddressId", required: false, type: .string)
         ]
         /// The automatically generated ID for a specific address. You'll use this ID when you create a job to specify which address you want the Snowball for that job shipped to.
@@ -1199,7 +1199,7 @@ extension Snowball {
     public struct CancelJobRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "JobId", required: true, type: .string)
         ]
         /// The 39-character job ID for the job that you want to cancel, for example JID123e4567-e89b-12d3-a456-426655440000.
@@ -1218,7 +1218,7 @@ extension Snowball {
     public struct ClusterListEntry: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterState", required: false, type: .enum), 
             AWSShapeProperty(label: "CreationDate", required: false, type: .timestamp), 
             AWSShapeProperty(label: "ClusterId", required: false, type: .string), 
@@ -1251,7 +1251,7 @@ extension Snowball {
     public struct JobMetadata: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DataTransferProgress", required: false, type: .structure), 
             AWSShapeProperty(label: "SnowballCapacityPreference", required: false, type: .enum), 
             AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
@@ -1344,7 +1344,7 @@ extension Snowball {
     public struct JobLogs: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "JobFailureLogURI", required: false, type: .string), 
             AWSShapeProperty(label: "JobSuccessLogURI", required: false, type: .string), 
             AWSShapeProperty(label: "JobCompletionReportURI", required: false, type: .string)
@@ -1372,7 +1372,7 @@ extension Snowball {
     public struct GetSnowballUsageResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SnowballLimit", required: false, type: .integer), 
             AWSShapeProperty(label: "SnowballsInUse", required: false, type: .integer)
         ]
@@ -1395,7 +1395,7 @@ extension Snowball {
     public struct CreateJobRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ShippingOption", required: false, type: .enum), 
             AWSShapeProperty(label: "SnowballCapacityPreference", required: false, type: .enum), 
             AWSShapeProperty(label: "AddressId", required: false, type: .string), 
@@ -1463,7 +1463,7 @@ extension Snowball {
     public struct GetJobManifestResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ManifestURI", required: false, type: .string)
         ]
         /// The Amazon S3 presigned URL for the manifest file associated with the specified JobId value.

@@ -32,7 +32,7 @@ extension Health {
     public struct DescribeEntityAggregatesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "entityAggregates", required: false, type: .list)
         ]
         /// The number of entities that are affected by each of the specified events.
@@ -54,7 +54,7 @@ extension Health {
     public struct AffectedEntity: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "lastUpdatedTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "statusCode", required: false, type: .enum), 
             AWSShapeProperty(label: "entityArn", required: false, type: .string), 
@@ -106,7 +106,7 @@ extension Health {
     public struct EventDetailsErrorItem: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "eventArn", required: false, type: .string), 
             AWSShapeProperty(label: "errorMessage", required: false, type: .string), 
             AWSShapeProperty(label: "errorName", required: false, type: .string)
@@ -134,7 +134,7 @@ extension Health {
     public struct EventTypeFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "eventTypeCategories", required: false, type: .list), 
             AWSShapeProperty(label: "services", required: false, type: .list), 
             AWSShapeProperty(label: "eventTypeCodes", required: false, type: .list)
@@ -162,7 +162,7 @@ extension Health {
     public struct DescribeAffectedEntitiesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "entities", required: false, type: .list), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
@@ -196,7 +196,7 @@ extension Health {
     public struct Event: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "service", required: false, type: .string), 
             AWSShapeProperty(label: "availabilityZone", required: false, type: .string), 
             AWSShapeProperty(label: "lastUpdatedTime", required: false, type: .timestamp), 
@@ -259,7 +259,7 @@ extension Health {
     public struct DescribeEventDetailsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "failedSet", required: false, type: .list), 
             AWSShapeProperty(label: "successfulSet", required: false, type: .list)
         ]
@@ -290,7 +290,7 @@ extension Health {
     public struct DescribeEventDetailsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "eventArns", required: true, type: .list), 
             AWSShapeProperty(label: "locale", required: false, type: .string)
         ]
@@ -321,7 +321,7 @@ extension Health {
     public struct EventDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "latestDescription", required: false, type: .string)
         ]
         /// The most recent description of the event.
@@ -339,7 +339,7 @@ extension Health {
     public struct DescribeEventAggregatesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "eventAggregates", required: false, type: .list), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
@@ -366,7 +366,7 @@ extension Health {
     public struct DescribeEventAggregatesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
             AWSShapeProperty(label: "filter", required: false, type: .structure), 
             AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
@@ -400,7 +400,7 @@ extension Health {
     public struct EventFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "eventTypeCategories", required: false, type: .list), 
             AWSShapeProperty(label: "eventArns", required: false, type: .list), 
             AWSShapeProperty(label: "eventStatusCodes", required: false, type: .list), 
@@ -490,7 +490,7 @@ extension Health {
     public struct EventAggregate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "count", required: false, type: .integer), 
             AWSShapeProperty(label: "aggregateValue", required: false, type: .string)
         ]
@@ -518,7 +518,7 @@ extension Health {
     public struct EntityAggregate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "eventArn", required: false, type: .string), 
             AWSShapeProperty(label: "count", required: false, type: .integer)
         ]
@@ -541,7 +541,7 @@ extension Health {
     public struct EventType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "service", required: false, type: .string), 
             AWSShapeProperty(label: "category", required: false, type: .enum), 
             AWSShapeProperty(label: "code", required: false, type: .string)
@@ -569,7 +569,7 @@ extension Health {
     public struct DescribeEntityAggregatesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "eventArns", required: false, type: .list)
         ]
         /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331", "arn:aws:health:us-west-1::event/AWS_EBS_LOST_VOLUME_xyz" 
@@ -587,7 +587,7 @@ extension Health {
     public struct DescribeEventTypesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "eventTypes", required: false, type: .list), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
@@ -614,7 +614,7 @@ extension Health {
     public struct EventDetails: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "eventMetadata", required: false, type: .map), 
             AWSShapeProperty(label: "event", required: false, type: .structure), 
             AWSShapeProperty(label: "eventDescription", required: false, type: .structure)
@@ -646,7 +646,7 @@ extension Health {
     public struct DescribeAffectedEntitiesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
             AWSShapeProperty(label: "filter", required: true, type: .structure), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
@@ -680,7 +680,7 @@ extension Health {
     public struct DescribeEventsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
             AWSShapeProperty(label: "filter", required: false, type: .structure), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
@@ -713,7 +713,7 @@ extension Health {
     public struct DateTimeRange: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "to", required: false, type: .timestamp), 
             AWSShapeProperty(label: "from", required: false, type: .timestamp)
         ]
@@ -736,7 +736,7 @@ extension Health {
     public struct EntityFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "eventArns", required: true, type: .list), 
             AWSShapeProperty(label: "lastUpdatedTimes", required: false, type: .list), 
             AWSShapeProperty(label: "statusCodes", required: false, type: .list), 
@@ -791,7 +791,7 @@ extension Health {
     public struct DescribeEventTypesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
             AWSShapeProperty(label: "filter", required: false, type: .structure), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
@@ -824,7 +824,7 @@ extension Health {
     public struct DescribeEventsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "events", required: false, type: .list), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]

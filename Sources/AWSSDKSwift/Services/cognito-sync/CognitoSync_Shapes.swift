@@ -32,7 +32,7 @@ extension CognitoSync {
     public struct ListDatasetsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Datasets", required: false, type: .list), 
             AWSShapeProperty(label: "Count", required: false, type: .integer)
@@ -67,7 +67,7 @@ extension CognitoSync {
         public static var pathParams: [String: String] {
             return ["IdentityPoolId": "IdentityPoolId", "DatasetName": "DatasetName", "IdentityId": "IdentityId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string), 
             AWSShapeProperty(label: "DatasetName", required: true, type: .string), 
             AWSShapeProperty(label: "IdentityId", required: true, type: .string)
@@ -101,7 +101,7 @@ extension CognitoSync {
         public static var queryParams: [String: String] {
             return ["nextToken": "NextToken", "maxResults": "MaxResults"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
@@ -124,7 +124,7 @@ extension CognitoSync {
     public struct UpdateRecordsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Records", required: false, type: .list)
         ]
         /// A list of records that have been updated.
@@ -149,7 +149,7 @@ extension CognitoSync {
         public static var pathParams: [String: String] {
             return ["IdentityPoolId": "IdentityPoolId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string)
         ]
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
@@ -168,7 +168,7 @@ extension CognitoSync {
     public struct GetBulkPublishDetailsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BulkPublishStartTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "BulkPublishCompleteTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "BulkPublishStatus", required: false, type: .enum), 
@@ -209,7 +209,7 @@ extension CognitoSync {
         public static var pathParams: [String: String] {
             return ["IdentityPoolId": "IdentityPoolId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string)
         ]
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
@@ -228,7 +228,7 @@ extension CognitoSync {
     public struct RegisterDeviceResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DeviceId", required: false, type: .string)
         ]
         /// The unique ID generated for this device by Cognito.
@@ -252,7 +252,7 @@ extension CognitoSync {
         public static var pathParams: [String: String] {
             return ["IdentityPoolId": "IdentityPoolId", "IdentityId": "IdentityId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IdentityId", required: true, type: .string), 
             AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
@@ -290,7 +290,7 @@ extension CognitoSync {
         public static var pathParams: [String: String] {
             return ["IdentityPoolId": "IdentityPoolId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string)
         ]
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. This is the ID of the pool for which to return a configuration.
@@ -312,7 +312,7 @@ extension CognitoSync {
         public static var pathParams: [String: String] {
             return ["IdentityPoolId": "IdentityPoolId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string)
         ]
         /// The Cognito Identity Pool ID for the request
@@ -339,7 +339,7 @@ extension CognitoSync {
     public struct GetCognitoEventsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Events", required: false, type: .map)
         ]
         /// The Cognito Events returned from the GetCognitoEvents request
@@ -370,7 +370,7 @@ extension CognitoSync {
         public static var pathParams: [String: String] {
             return ["IdentityPoolId": "IdentityPoolId", "IdentityId": "IdentityId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Platform", required: true, type: .enum), 
             AWSShapeProperty(label: "Token", required: true, type: .string), 
             AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string), 
@@ -418,7 +418,7 @@ extension CognitoSync {
         public static var pathParams: [String: String] {
             return ["IdentityPoolId": "IdentityPoolId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string), 
             AWSShapeProperty(label: "PushSync", required: false, type: .structure), 
             AWSShapeProperty(label: "CognitoStreams", required: false, type: .structure)
@@ -447,7 +447,7 @@ extension CognitoSync {
     public struct CognitoStreams: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RoleArn", required: false, type: .string), 
             AWSShapeProperty(label: "StreamingStatus", required: false, type: .enum), 
             AWSShapeProperty(label: "StreamName", required: false, type: .string)
@@ -481,7 +481,7 @@ extension CognitoSync {
         public static var pathParams: [String: String] {
             return ["IdentityPoolId": "IdentityPoolId", "DatasetName": "DatasetName", "IdentityId": "IdentityId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SyncSessionToken", required: false, type: .string), 
             AWSShapeProperty(label: "DatasetName", required: true, type: .string), 
             AWSShapeProperty(label: "LastSyncCount", required: false, type: .long), 
@@ -532,7 +532,7 @@ extension CognitoSync {
     public struct DescribeDatasetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Dataset", required: false, type: .structure)
         ]
         /// Meta data for a collection of data for an identity. An identity can have multiple datasets. A dataset can be general or associated with a particular entity in an application (like a saved game). Datasets are automatically created if they don't exist. Data is synced by dataset, and a dataset can hold up to 1MB of key-value pairs.
@@ -553,7 +553,7 @@ extension CognitoSync {
         public static var pathParams: [String: String] {
             return ["DeviceId": "DeviceId", "IdentityId": "IdentityId", "IdentityPoolId": "IdentityPoolId", "DatasetName": "DatasetName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DeviceId", required: true, type: .string), 
             AWSShapeProperty(label: "IdentityId", required: true, type: .string), 
             AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string), 
@@ -590,7 +590,7 @@ extension CognitoSync {
     public struct PushSync: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RoleArn", required: false, type: .string), 
             AWSShapeProperty(label: "ApplicationArns", required: false, type: .list)
         ]
@@ -613,7 +613,7 @@ extension CognitoSync {
     public struct Record: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LastModifiedDate", required: false, type: .timestamp), 
             AWSShapeProperty(label: "DeviceLastModifiedDate", required: false, type: .timestamp), 
             AWSShapeProperty(label: "Key", required: false, type: .string), 
@@ -656,7 +656,7 @@ extension CognitoSync {
     public struct IdentityUsage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DatasetCount", required: false, type: .integer), 
             AWSShapeProperty(label: "LastModifiedDate", required: false, type: .timestamp), 
             AWSShapeProperty(label: "IdentityId", required: false, type: .string), 
@@ -697,7 +697,7 @@ extension CognitoSync {
         public static var pathParams: [String: String] {
             return ["IdentityPoolId": "IdentityPoolId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string)
         ]
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
@@ -716,7 +716,7 @@ extension CognitoSync {
     public struct Dataset: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NumRecords", required: false, type: .long), 
             AWSShapeProperty(label: "DatasetName", required: false, type: .string), 
             AWSShapeProperty(label: "LastModifiedDate", required: false, type: .timestamp), 
@@ -764,7 +764,7 @@ extension CognitoSync {
     public struct SetIdentityPoolConfigurationResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IdentityPoolId", required: false, type: .string), 
             AWSShapeProperty(label: "PushSync", required: false, type: .structure), 
             AWSShapeProperty(label: "CognitoStreams", required: false, type: .structure)
@@ -798,7 +798,7 @@ extension CognitoSync {
     public struct DescribeIdentityUsageResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IdentityUsage", required: false, type: .structure)
         ]
         /// Usage information for the identity.
@@ -816,7 +816,7 @@ extension CognitoSync {
     public struct GetIdentityPoolConfigurationResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IdentityPoolId", required: false, type: .string), 
             AWSShapeProperty(label: "PushSync", required: false, type: .structure), 
             AWSShapeProperty(label: "CognitoStreams", required: false, type: .structure)
@@ -844,7 +844,7 @@ extension CognitoSync {
     public struct ListIdentityPoolUsageResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "IdentityPoolUsages", required: false, type: .list), 
@@ -887,7 +887,7 @@ extension CognitoSync {
         public static var pathParams: [String: String] {
             return ["IdentityPoolId": "IdentityPoolId", "DatasetName": "DatasetName", "IdentityId": "IdentityId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DeviceId", required: false, type: .string), 
             AWSShapeProperty(label: "SyncSessionToken", required: true, type: .string), 
             AWSShapeProperty(label: "DatasetName", required: true, type: .string), 
@@ -946,7 +946,7 @@ extension CognitoSync {
         public static var pathParams: [String: String] {
             return ["DeviceId": "DeviceId", "IdentityId": "IdentityId", "IdentityPoolId": "IdentityPoolId", "DatasetName": "DatasetName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DeviceId", required: true, type: .string), 
             AWSShapeProperty(label: "IdentityId", required: true, type: .string), 
             AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string), 
@@ -983,7 +983,7 @@ extension CognitoSync {
     public struct IdentityPoolUsage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SyncSessionsCount", required: false, type: .long), 
             AWSShapeProperty(label: "LastModifiedDate", required: false, type: .timestamp), 
             AWSShapeProperty(label: "IdentityPoolId", required: false, type: .string), 
@@ -1016,7 +1016,7 @@ extension CognitoSync {
     public struct DescribeIdentityPoolUsageResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IdentityPoolUsage", required: false, type: .structure)
         ]
         /// Information about the usage of the identity pool.
@@ -1034,7 +1034,7 @@ extension CognitoSync {
     public struct ListRecordsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Records", required: false, type: .list), 
             AWSShapeProperty(label: "MergedDatasetNames", required: false, type: .list), 
             AWSShapeProperty(label: "SyncSessionToken", required: false, type: .string), 
@@ -1099,7 +1099,7 @@ extension CognitoSync {
         public static var pathParams: [String: String] {
             return ["IdentityPoolId": "IdentityPoolId", "DatasetName": "DatasetName", "IdentityId": "IdentityId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string), 
             AWSShapeProperty(label: "DatasetName", required: true, type: .string), 
             AWSShapeProperty(label: "IdentityId", required: true, type: .string)
@@ -1138,7 +1138,7 @@ extension CognitoSync {
     public struct DeleteDatasetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Dataset", required: false, type: .structure)
         ]
         /// A collection of data for an identity pool. An identity pool can have multiple datasets. A dataset is per identity and can be general or associated with a particular entity in an application (like a saved game). Datasets are automatically created if they don't exist. Data is synced by dataset, and a dataset can hold up to 1MB of key-value pairs.
@@ -1156,7 +1156,7 @@ extension CognitoSync {
     public struct RecordPatch: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Op", required: true, type: .enum), 
             AWSShapeProperty(label: "DeviceLastModifiedDate", required: false, type: .timestamp), 
             AWSShapeProperty(label: "Key", required: true, type: .string), 
@@ -1200,7 +1200,7 @@ extension CognitoSync {
         public static var pathParams: [String: String] {
             return ["IdentityPoolId": "IdentityPoolId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string), 
             AWSShapeProperty(label: "Events", required: true, type: .map)
         ]
@@ -1228,7 +1228,7 @@ extension CognitoSync {
         public static var pathParams: [String: String] {
             return ["IdentityPoolId": "IdentityPoolId", "IdentityId": "IdentityId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string), 
             AWSShapeProperty(label: "IdentityId", required: true, type: .string)
         ]
@@ -1261,7 +1261,7 @@ extension CognitoSync {
     public struct BulkPublishResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IdentityPoolId", required: false, type: .string)
         ]
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.

@@ -32,7 +32,7 @@ extension Logs {
     public struct CreateLogStreamRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "logGroupName", required: true, type: .string), 
             AWSShapeProperty(label: "logStreamName", required: true, type: .string)
         ]
@@ -57,7 +57,7 @@ extension Logs {
     public struct DescribeDestinationsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
             AWSShapeProperty(label: "destinations", required: false, type: .list)
         ]
@@ -83,7 +83,7 @@ extension Logs {
     public struct TestMetricFilterResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "matches", required: false, type: .list)
         ]
         /// The matched events.
@@ -111,7 +111,7 @@ extension Logs {
     public struct LogStream: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "storedBytes", required: false, type: .long), 
             AWSShapeProperty(label: "lastEventTimestamp", required: false, type: .long), 
             AWSShapeProperty(label: "logStreamName", required: false, type: .string), 
@@ -164,7 +164,7 @@ extension Logs {
     public struct InputLogEvent: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "timestamp", required: true, type: .long), 
             AWSShapeProperty(label: "message", required: true, type: .string)
         ]
@@ -189,7 +189,7 @@ extension Logs {
     public struct FilteredLogEvent: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "eventId", required: false, type: .string), 
             AWSShapeProperty(label: "message", required: false, type: .string), 
             AWSShapeProperty(label: "timestamp", required: false, type: .long), 
@@ -227,7 +227,7 @@ extension Logs {
     public struct PutLogEventsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "logEvents", required: true, type: .list), 
             AWSShapeProperty(label: "sequenceToken", required: false, type: .string), 
             AWSShapeProperty(label: "logStreamName", required: true, type: .string), 
@@ -263,7 +263,7 @@ extension Logs {
     public struct ExportTaskExecutionInfo: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "creationTime", required: false, type: .long), 
             AWSShapeProperty(label: "completionTime", required: false, type: .long)
         ]
@@ -286,7 +286,7 @@ extension Logs {
     public struct DescribeLogStreamsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
             AWSShapeProperty(label: "limit", required: false, type: .integer), 
             AWSShapeProperty(label: "descending", required: false, type: .boolean), 
@@ -330,7 +330,7 @@ extension Logs {
     public struct DescribeLogStreamsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "logStreams", required: false, type: .list), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
@@ -356,7 +356,7 @@ extension Logs {
     public struct DeleteRetentionPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "logGroupName", required: true, type: .string)
         ]
         /// The name of the log group.
@@ -375,7 +375,7 @@ extension Logs {
     public struct MetricTransformation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "metricValue", required: true, type: .string), 
             AWSShapeProperty(label: "defaultValue", required: false, type: .double), 
             AWSShapeProperty(label: "metricName", required: true, type: .string), 
@@ -411,7 +411,7 @@ extension Logs {
     public struct PutSubscriptionFilterRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "filterName", required: true, type: .string), 
             AWSShapeProperty(label: "destinationArn", required: true, type: .string), 
             AWSShapeProperty(label: "roleArn", required: false, type: .string), 
@@ -468,7 +468,7 @@ extension Logs {
     public struct RejectedLogEventsInfo: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "expiredLogEventEndIndex", required: false, type: .integer), 
             AWSShapeProperty(label: "tooOldLogEventEndIndex", required: false, type: .integer), 
             AWSShapeProperty(label: "tooNewLogEventStartIndex", required: false, type: .integer)
@@ -496,7 +496,7 @@ extension Logs {
     public struct DeleteDestinationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "destinationName", required: true, type: .string)
         ]
         /// The name of the destination.
@@ -515,7 +515,7 @@ extension Logs {
     public struct PutMetricFilterRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "filterName", required: true, type: .string), 
             AWSShapeProperty(label: "metricTransformations", required: true, type: .list), 
             AWSShapeProperty(label: "logGroupName", required: true, type: .string), 
@@ -552,7 +552,7 @@ extension Logs {
     public struct DescribeLogGroupsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "logGroups", required: false, type: .list), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
@@ -578,7 +578,7 @@ extension Logs {
     public struct PutDestinationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "destinationName", required: true, type: .string), 
             AWSShapeProperty(label: "roleArn", required: true, type: .string), 
             AWSShapeProperty(label: "targetArn", required: true, type: .string)
@@ -609,7 +609,7 @@ extension Logs {
     public struct OutputLogEvent: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "timestamp", required: false, type: .long), 
             AWSShapeProperty(label: "message", required: false, type: .string), 
             AWSShapeProperty(label: "ingestionTime", required: false, type: .long)
@@ -637,7 +637,7 @@ extension Logs {
     public struct DeleteLogStreamRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "logGroupName", required: true, type: .string), 
             AWSShapeProperty(label: "logStreamName", required: true, type: .string)
         ]
@@ -662,7 +662,7 @@ extension Logs {
     public struct DescribeSubscriptionFiltersRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "filterNamePrefix", required: false, type: .string), 
             AWSShapeProperty(label: "limit", required: false, type: .integer), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
@@ -696,7 +696,7 @@ extension Logs {
     public struct DescribeLogGroupsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "limit", required: false, type: .integer), 
             AWSShapeProperty(label: "logGroupNamePrefix", required: false, type: .string), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string)
@@ -724,7 +724,7 @@ extension Logs {
     public struct DescribeMetricFiltersRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "limit", required: false, type: .integer), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
             AWSShapeProperty(label: "filterNamePrefix", required: false, type: .string), 
@@ -767,7 +767,7 @@ extension Logs {
     public struct DeleteSubscriptionFilterRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "filterName", required: true, type: .string), 
             AWSShapeProperty(label: "logGroupName", required: true, type: .string)
         ]
@@ -792,7 +792,7 @@ extension Logs {
     public struct DescribeExportTasksRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
             AWSShapeProperty(label: "statusCode", required: false, type: .enum), 
             AWSShapeProperty(label: "taskId", required: false, type: .string), 
@@ -825,7 +825,7 @@ extension Logs {
     public struct CreateExportTaskRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "destinationPrefix", required: false, type: .string), 
             AWSShapeProperty(label: "destination", required: true, type: .string), 
             AWSShapeProperty(label: "from", required: true, type: .long), 
@@ -877,7 +877,7 @@ extension Logs {
     public struct MetricFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "metricTransformations", required: false, type: .list), 
             AWSShapeProperty(label: "filterName", required: false, type: .string), 
             AWSShapeProperty(label: "logGroupName", required: false, type: .string), 
@@ -918,7 +918,7 @@ extension Logs {
     public struct TestMetricFilterRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "filterPattern", required: true, type: .string), 
             AWSShapeProperty(label: "logEventMessages", required: true, type: .list)
         ]
@@ -942,7 +942,7 @@ extension Logs {
     public struct DeleteLogGroupRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "logGroupName", required: true, type: .string)
         ]
         /// The name of the log group.
@@ -961,7 +961,7 @@ extension Logs {
     public struct GetLogEventsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nextForwardToken", required: false, type: .string), 
             AWSShapeProperty(label: "nextBackwardToken", required: false, type: .string), 
             AWSShapeProperty(label: "events", required: false, type: .list)
@@ -993,7 +993,7 @@ extension Logs {
     public struct ExportTaskStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "code", required: false, type: .enum), 
             AWSShapeProperty(label: "message", required: false, type: .string)
         ]
@@ -1016,7 +1016,7 @@ extension Logs {
     public struct Destination: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "accessPolicy", required: false, type: .string), 
             AWSShapeProperty(label: "destinationName", required: false, type: .string), 
             AWSShapeProperty(label: "roleArn", required: false, type: .string), 
@@ -1059,7 +1059,7 @@ extension Logs {
     public struct CreateLogGroupRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "tags", required: false, type: .map), 
             AWSShapeProperty(label: "logGroupName", required: true, type: .string)
         ]
@@ -1087,7 +1087,7 @@ extension Logs {
     public struct DescribeExportTasksResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
             AWSShapeProperty(label: "exportTasks", required: false, type: .list)
         ]
@@ -1113,7 +1113,7 @@ extension Logs {
     public struct CancelExportTaskRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "taskId", required: true, type: .string)
         ]
         /// The ID of the export task.
@@ -1132,7 +1132,7 @@ extension Logs {
     public struct UntagLogGroupRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "tags", required: true, type: .list), 
             AWSShapeProperty(label: "logGroupName", required: true, type: .string)
         ]
@@ -1157,7 +1157,7 @@ extension Logs {
     public struct ListTagsLogGroupResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "tags", required: false, type: .map)
         ]
         /// The tags.
@@ -1179,7 +1179,7 @@ extension Logs {
     public struct DeleteMetricFilterRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "filterName", required: true, type: .string), 
             AWSShapeProperty(label: "logGroupName", required: true, type: .string)
         ]
@@ -1204,7 +1204,7 @@ extension Logs {
     public struct LogGroup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "storedBytes", required: false, type: .long), 
             AWSShapeProperty(label: "arn", required: false, type: .string), 
             AWSShapeProperty(label: "logGroupName", required: false, type: .string), 
@@ -1246,7 +1246,7 @@ extension Logs {
     public struct TagLogGroupRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "tags", required: true, type: .map), 
             AWSShapeProperty(label: "logGroupName", required: true, type: .string)
         ]
@@ -1271,7 +1271,7 @@ extension Logs {
     public struct DescribeSubscriptionFiltersResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "subscriptionFilters", required: false, type: .list), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
@@ -1303,7 +1303,7 @@ extension Logs {
     public struct GetLogEventsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
             AWSShapeProperty(label: "limit", required: false, type: .integer), 
             AWSShapeProperty(label: "logStreamName", required: true, type: .string), 
@@ -1353,7 +1353,7 @@ extension Logs {
     public struct FilterLogEventsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "searchedLogStreams", required: false, type: .list), 
             AWSShapeProperty(label: "events", required: false, type: .list), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string)
@@ -1389,7 +1389,7 @@ extension Logs {
     public struct PutDestinationPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "accessPolicy", required: true, type: .string), 
             AWSShapeProperty(label: "destinationName", required: true, type: .string)
         ]
@@ -1414,7 +1414,7 @@ extension Logs {
     public struct ListTagsLogGroupRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "logGroupName", required: true, type: .string)
         ]
         /// The name of the log group.
@@ -1433,7 +1433,7 @@ extension Logs {
     public struct SearchedLogStream: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "logStreamName", required: false, type: .string), 
             AWSShapeProperty(label: "searchedCompletely", required: false, type: .boolean)
         ]
@@ -1456,7 +1456,7 @@ extension Logs {
     public struct PutRetentionPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "logGroupName", required: true, type: .string), 
             AWSShapeProperty(label: "retentionInDays", required: true, type: .integer)
         ]
@@ -1480,7 +1480,7 @@ extension Logs {
     public struct FilterLogEventsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
             AWSShapeProperty(label: "limit", required: false, type: .integer), 
             AWSShapeProperty(label: "filterPattern", required: false, type: .string), 
@@ -1534,7 +1534,7 @@ extension Logs {
     public struct CreateExportTaskResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "taskId", required: false, type: .string)
         ]
         /// The ID of the export task.
@@ -1552,7 +1552,7 @@ extension Logs {
     public struct MetricFilterMatchRecord: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "extractedValues", required: false, type: .map), 
             AWSShapeProperty(label: "eventNumber", required: false, type: .long), 
             AWSShapeProperty(label: "eventMessage", required: false, type: .string)
@@ -1584,7 +1584,7 @@ extension Logs {
     public struct PutDestinationResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "destination", required: false, type: .structure)
         ]
         /// The destination.
@@ -1602,7 +1602,7 @@ extension Logs {
     public struct SubscriptionFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "distribution", required: false, type: .enum), 
             AWSShapeProperty(label: "roleArn", required: false, type: .string), 
             AWSShapeProperty(label: "destinationArn", required: false, type: .string), 
@@ -1648,7 +1648,7 @@ extension Logs {
     public struct DescribeMetricFiltersResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
             AWSShapeProperty(label: "metricFilters", required: false, type: .list)
         ]
@@ -1674,7 +1674,7 @@ extension Logs {
     public struct ExportTask: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "status", required: false, type: .structure), 
             AWSShapeProperty(label: "destination", required: false, type: .string), 
             AWSShapeProperty(label: "taskId", required: false, type: .string), 
@@ -1732,7 +1732,7 @@ extension Logs {
     public struct PutLogEventsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "rejectedLogEventsInfo", required: false, type: .structure), 
             AWSShapeProperty(label: "nextSequenceToken", required: false, type: .string)
         ]
@@ -1755,7 +1755,7 @@ extension Logs {
     public struct DescribeDestinationsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "limit", required: false, type: .integer), 
             AWSShapeProperty(label: "DestinationNamePrefix", required: false, type: .string), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string)

@@ -32,7 +32,7 @@ extension Dms {
     public struct ModifyReplicationSubnetGroupResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReplicationSubnetGroup", required: false, type: .structure)
         ]
         /// The modified replication subnet group.
@@ -50,7 +50,7 @@ extension Dms {
     public struct CreateReplicationTaskResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReplicationTask", required: false, type: .structure)
         ]
         /// The replication task that was created.
@@ -68,7 +68,7 @@ extension Dms {
     public struct CreateReplicationSubnetGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubnetIds", required: true, type: .structure), 
             AWSShapeProperty(label: "ReplicationSubnetGroupIdentifier", required: true, type: .string), 
             AWSShapeProperty(label: "ReplicationSubnetGroupDescription", required: true, type: .string), 
@@ -104,7 +104,7 @@ extension Dms {
     public struct ReplicationTaskList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReplicationTask", required: false, type: .list)
         ]
         public let replicationTask: [ReplicationTask]?
@@ -125,7 +125,7 @@ extension Dms {
     public struct ModifyEndpointResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Endpoint", required: false, type: .structure)
         ]
         /// The modified endpoint.
@@ -143,7 +143,7 @@ extension Dms {
     public struct FilterList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Filter", required: false, type: .list)
         ]
         public let filter: [Filter]?
@@ -164,7 +164,7 @@ extension Dms {
     public struct DescribeReplicationSubnetGroupsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "Filters", required: false, type: .structure)
@@ -192,7 +192,7 @@ extension Dms {
     public struct DescribeEndpointsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "Filters", required: false, type: .structure)
@@ -220,7 +220,7 @@ extension Dms {
     public struct DeleteEndpointMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EndpointArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
@@ -239,7 +239,7 @@ extension Dms {
     public struct ReplicationSubnetGroups: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReplicationSubnetGroup", required: false, type: .list)
         ]
         public let replicationSubnetGroup: [ReplicationSubnetGroup]?
@@ -260,7 +260,7 @@ extension Dms {
     public struct FilterValueList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: false, type: .list)
         ]
         public let value: [String]?
@@ -277,7 +277,7 @@ extension Dms {
     public struct Endpoint: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "KmsKeyId", required: false, type: .string), 
             AWSShapeProperty(label: "EndpointIdentifier", required: false, type: .string), 
             AWSShapeProperty(label: "Username", required: false, type: .string), 
@@ -355,7 +355,7 @@ extension Dms {
     public struct DescribeOrderableReplicationInstancesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OrderableReplicationInstances", required: false, type: .structure), 
             AWSShapeProperty(label: "Marker", required: false, type: .string)
         ]
@@ -378,7 +378,7 @@ extension Dms {
     public struct DescribeTableStatisticsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "TableStatistics", required: false, type: .list), 
             AWSShapeProperty(label: "ReplicationTaskArn", required: false, type: .string)
@@ -410,7 +410,7 @@ extension Dms {
     public struct DescribeEndpointTypesMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "Filters", required: false, type: .structure)
@@ -438,7 +438,7 @@ extension Dms {
     public struct VpcSecurityGroupMembershipList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcSecurityGroupMembership", required: false, type: .list)
         ]
         public let vpcSecurityGroupMembership: [VpcSecurityGroupMembership]?
@@ -459,7 +459,7 @@ extension Dms {
     public struct TagList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Tag", required: false, type: .list)
         ]
         public let tag: [Tag]?
@@ -488,7 +488,7 @@ extension Dms {
     public struct DeleteReplicationInstanceMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReplicationInstanceArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the replication instance to be deleted.
@@ -507,7 +507,7 @@ extension Dms {
     public struct SupportedEndpointType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EngineName", required: false, type: .string), 
             AWSShapeProperty(label: "EndpointType", required: false, type: .enum), 
             AWSShapeProperty(label: "SupportsCDC", required: false, type: .boolean)
@@ -542,7 +542,7 @@ extension Dms {
     public struct DescribeCertificatesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "Certificates", required: false, type: .structure)
         ]
@@ -573,7 +573,7 @@ extension Dms {
     public struct DescribeReplicationTasksMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "Filters", required: false, type: .structure)
@@ -601,7 +601,7 @@ extension Dms {
     public struct DeleteReplicationInstanceResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReplicationInstance", required: false, type: .structure)
         ]
         /// The replication instance that was deleted.
@@ -619,7 +619,7 @@ extension Dms {
     public struct Tag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: false, type: .string), 
             AWSShapeProperty(label: "Key", required: false, type: .string)
         ]
@@ -650,7 +650,7 @@ extension Dms {
     public struct ListTagsForResourceMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) string that uniquely identifies the AWS DMS resource.
@@ -669,7 +669,7 @@ extension Dms {
     public struct DescribeEndpointTypesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "SupportedEndpointTypes", required: false, type: .structure)
         ]
@@ -692,7 +692,7 @@ extension Dms {
     public struct StartReplicationTaskMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReplicationTaskArn", required: true, type: .string), 
             AWSShapeProperty(label: "CdcStartTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "StartReplicationTaskType", required: true, type: .enum)
@@ -722,7 +722,7 @@ extension Dms {
     public struct CreateReplicationInstanceMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MultiAZ", required: false, type: .boolean), 
             AWSShapeProperty(label: "Tags", required: false, type: .structure), 
             AWSShapeProperty(label: "AllocatedStorage", required: false, type: .integer), 
@@ -802,7 +802,7 @@ extension Dms {
     public struct DeleteCertificateResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Certificate", required: false, type: .structure)
         ]
         /// The Secure Sockets Layer (SSL) certificate.
@@ -820,7 +820,7 @@ extension Dms {
     public struct DescribeConnectionsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "Connections", required: false, type: .structure)
         ]
@@ -843,7 +843,7 @@ extension Dms {
     public struct VpcSecurityGroupIdList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcSecurityGroupId", required: false, type: .list)
         ]
         public let vpcSecurityGroupId: [String]?
@@ -860,7 +860,7 @@ extension Dms {
     public struct DescribeTableStatisticsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "ReplicationTaskArn", required: true, type: .string)
@@ -889,7 +889,7 @@ extension Dms {
     public struct DescribeRefreshSchemasStatusMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EndpointArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
@@ -908,7 +908,7 @@ extension Dms {
     public struct RemoveTagsFromResourceMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceArn", required: true, type: .string), 
             AWSShapeProperty(label: "TagKeys", required: true, type: .list)
         ]
@@ -933,7 +933,7 @@ extension Dms {
     public struct ModifyReplicationInstanceResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReplicationInstance", required: false, type: .structure)
         ]
         /// The modified replication instance.
@@ -951,7 +951,7 @@ extension Dms {
     public struct DescribeReplicationSubnetGroupsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "ReplicationSubnetGroups", required: false, type: .structure)
         ]
@@ -974,7 +974,7 @@ extension Dms {
     public struct DescribeAccountAttributesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountQuotas", required: false, type: .structure)
         ]
         /// Account quota information.
@@ -992,7 +992,7 @@ extension Dms {
     public struct ReplicationInstanceList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReplicationInstance", required: false, type: .list)
         ]
         public let replicationInstance: [ReplicationInstance]?
@@ -1020,7 +1020,7 @@ extension Dms {
     public struct DescribeSchemasResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "Schemas", required: false, type: .list)
         ]
@@ -1051,7 +1051,7 @@ extension Dms {
     public struct SubnetIdentifierList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubnetIdentifier", required: false, type: .list)
         ]
         public let subnetIdentifier: [String]?
@@ -1068,7 +1068,7 @@ extension Dms {
     public struct CertificateList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Certificate", required: false, type: .list)
         ]
         public let certificate: [Certificate]?
@@ -1089,7 +1089,7 @@ extension Dms {
     public struct Certificate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ValidFromDate", required: false, type: .timestamp), 
             AWSShapeProperty(label: "KeyLength", required: false, type: .integer), 
             AWSShapeProperty(label: "SigningAlgorithm", required: false, type: .string), 
@@ -1152,7 +1152,7 @@ extension Dms {
     public struct ListTagsForResourceResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TagList", required: false, type: .structure)
         ]
         /// A list of tags for the resource.
@@ -1170,7 +1170,7 @@ extension Dms {
     public struct Subnet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubnetIdentifier", required: false, type: .string), 
             AWSShapeProperty(label: "SubnetAvailabilityZone", required: false, type: .structure), 
             AWSShapeProperty(label: "SubnetStatus", required: false, type: .string)
@@ -1198,7 +1198,7 @@ extension Dms {
     public struct StartReplicationTaskResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReplicationTask", required: false, type: .structure)
         ]
         /// The replication task started.
@@ -1216,7 +1216,7 @@ extension Dms {
     public struct AvailabilityZone: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: false, type: .string)
         ]
         /// The name of the availability zone.
@@ -1234,7 +1234,7 @@ extension Dms {
     public struct ConnectionList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Connection", required: false, type: .list)
         ]
         public let connection: [Connection]?
@@ -1255,7 +1255,7 @@ extension Dms {
     public struct Connection: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LastFailureMessage", required: false, type: .string), 
             AWSShapeProperty(label: "ReplicationInstanceIdentifier", required: false, type: .string), 
             AWSShapeProperty(label: "ReplicationInstanceArn", required: false, type: .string), 
@@ -1298,7 +1298,7 @@ extension Dms {
     public struct RefreshSchemasStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LastFailureMessage", required: false, type: .string), 
             AWSShapeProperty(label: "ReplicationInstanceArn", required: false, type: .string), 
             AWSShapeProperty(label: "Status", required: false, type: .enum), 
@@ -1336,7 +1336,7 @@ extension Dms {
     public struct DeleteReplicationTaskMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReplicationTaskArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the replication task to be deleted.
@@ -1355,7 +1355,7 @@ extension Dms {
     public struct DescribeReplicationInstancesMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "Filters", required: false, type: .structure)
@@ -1383,7 +1383,7 @@ extension Dms {
     public struct RefreshSchemasMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReplicationInstanceArn", required: true, type: .string), 
             AWSShapeProperty(label: "EndpointArn", required: true, type: .string)
         ]
@@ -1408,7 +1408,7 @@ extension Dms {
     public struct ModifyReplicationInstanceMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AllowMajorVersionUpgrade", required: false, type: .boolean), 
             AWSShapeProperty(label: "ReplicationInstanceIdentifier", required: false, type: .string), 
             AWSShapeProperty(label: "MultiAZ", required: false, type: .boolean), 
@@ -1477,7 +1477,7 @@ extension Dms {
     public struct AccountQuota: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Max", required: false, type: .long), 
             AWSShapeProperty(label: "Used", required: false, type: .long), 
             AWSShapeProperty(label: "AccountQuotaName", required: false, type: .string)
@@ -1505,7 +1505,7 @@ extension Dms {
     public struct DescribeCertificatesMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "Filters", required: false, type: .structure)
@@ -1533,7 +1533,7 @@ extension Dms {
     public struct CreateEndpointMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "KmsKeyId", required: false, type: .string), 
             AWSShapeProperty(label: "EndpointIdentifier", required: true, type: .string), 
             AWSShapeProperty(label: "Tags", required: false, type: .structure), 
@@ -1614,7 +1614,7 @@ extension Dms {
     public struct ReplicationSubnetGroup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubnetGroupStatus", required: false, type: .string), 
             AWSShapeProperty(label: "Subnets", required: false, type: .structure), 
             AWSShapeProperty(label: "ReplicationSubnetGroupIdentifier", required: false, type: .string), 
@@ -1652,7 +1652,7 @@ extension Dms {
     public struct TestConnectionResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Connection", required: false, type: .structure)
         ]
         /// The connection tested.
@@ -1670,7 +1670,7 @@ extension Dms {
     public struct DeleteReplicationTaskResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReplicationTask", required: false, type: .structure)
         ]
         /// The deleted replication task.
@@ -1688,7 +1688,7 @@ extension Dms {
     public struct CreateReplicationSubnetGroupResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReplicationSubnetGroup", required: false, type: .structure)
         ]
         /// The replication subnet group that was created.
@@ -1706,7 +1706,7 @@ extension Dms {
     public struct TableStatistics: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Deletes", required: false, type: .long), 
             AWSShapeProperty(label: "Updates", required: false, type: .long), 
             AWSShapeProperty(label: "TableState", required: false, type: .string), 
@@ -1764,7 +1764,7 @@ extension Dms {
     public struct ImportCertificateMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CertificateWallet", required: false, type: .blob), 
             AWSShapeProperty(label: "CertificateIdentifier", required: true, type: .string), 
             AWSShapeProperty(label: "CertificatePem", required: false, type: .string)
@@ -1793,7 +1793,7 @@ extension Dms {
     public struct TestConnectionMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReplicationInstanceArn", required: true, type: .string), 
             AWSShapeProperty(label: "EndpointArn", required: true, type: .string)
         ]
@@ -1818,7 +1818,7 @@ extension Dms {
     public struct CreateEndpointResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Endpoint", required: false, type: .structure)
         ]
         /// The endpoint that was created.
@@ -1836,7 +1836,7 @@ extension Dms {
     public struct CreateReplicationInstanceResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReplicationInstance", required: false, type: .structure)
         ]
         /// The replication instance that was created.
@@ -1854,7 +1854,7 @@ extension Dms {
     public struct SubnetList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Subnet", required: false, type: .list)
         ]
         public let subnet: [Subnet]?
@@ -1875,7 +1875,7 @@ extension Dms {
     public struct EndpointList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Endpoint", required: false, type: .list)
         ]
         public let endpoint: [Endpoint]?
@@ -1896,7 +1896,7 @@ extension Dms {
     public struct ModifyReplicationTaskMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TableMappings", required: false, type: .string), 
             AWSShapeProperty(label: "ReplicationTaskArn", required: true, type: .string), 
             AWSShapeProperty(label: "ReplicationTaskIdentifier", required: false, type: .string), 
@@ -1940,7 +1940,7 @@ extension Dms {
     public struct ModifyReplicationSubnetGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubnetIds", required: true, type: .structure), 
             AWSShapeProperty(label: "ReplicationSubnetGroupIdentifier", required: true, type: .string), 
             AWSShapeProperty(label: "ReplicationSubnetGroupDescription", required: false, type: .string)
@@ -1970,7 +1970,7 @@ extension Dms {
     public struct OrderableReplicationInstance: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EngineVersion", required: false, type: .string), 
             AWSShapeProperty(label: "ReplicationInstanceClass", required: false, type: .string), 
             AWSShapeProperty(label: "DefaultAllocatedStorage", required: false, type: .integer), 
@@ -2018,7 +2018,7 @@ extension Dms {
     public struct ReplicationTaskStats: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TablesLoaded", required: false, type: .integer), 
             AWSShapeProperty(label: "ElapsedTimeMillis", required: false, type: .long), 
             AWSShapeProperty(label: "FullLoadProgressPercent", required: false, type: .integer), 
@@ -2061,7 +2061,7 @@ extension Dms {
     public struct ModifyReplicationTaskResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReplicationTask", required: false, type: .structure)
         ]
         /// The replication task that was modified.
@@ -2079,7 +2079,7 @@ extension Dms {
     public struct DeleteEndpointResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Endpoint", required: false, type: .structure)
         ]
         /// The endpoint that was deleted.
@@ -2097,7 +2097,7 @@ extension Dms {
     public struct StopReplicationTaskResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReplicationTask", required: false, type: .structure)
         ]
         /// The replication task stopped.
@@ -2115,7 +2115,7 @@ extension Dms {
     public struct ReplicationTask: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReplicationTaskStats", required: false, type: .structure), 
             AWSShapeProperty(label: "LastFailureMessage", required: false, type: .string), 
             AWSShapeProperty(label: "ReplicationTaskStartDate", required: false, type: .timestamp), 
@@ -2198,7 +2198,7 @@ extension Dms {
     public struct SupportedEndpointTypeList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SupportedEndpointType", required: false, type: .list)
         ]
         public let supportedEndpointType: [SupportedEndpointType]?
@@ -2219,7 +2219,7 @@ extension Dms {
     public struct RefreshSchemasResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RefreshSchemasStatus", required: false, type: .structure)
         ]
         /// The status of the refreshed schema.
@@ -2237,7 +2237,7 @@ extension Dms {
     public struct DeleteCertificateMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CertificateArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the deleted certificate.
@@ -2256,7 +2256,7 @@ extension Dms {
     public struct DescribeRefreshSchemasStatusResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RefreshSchemasStatus", required: false, type: .structure)
         ]
         /// The status of the schema.
@@ -2274,7 +2274,7 @@ extension Dms {
     public struct DescribeSchemasMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "EndpointArn", required: true, type: .string), 
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer)
@@ -2303,7 +2303,7 @@ extension Dms {
     public struct OrderableReplicationInstanceList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OrderableReplicationInstance", required: false, type: .list)
         ]
         public let orderableReplicationInstance: [OrderableReplicationInstance]?
@@ -2324,7 +2324,7 @@ extension Dms {
     public struct StopReplicationTaskMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReplicationTaskArn", required: true, type: .string)
         ]
         /// The Amazon Resource Number(ARN) of the replication task to be stopped.
@@ -2350,7 +2350,7 @@ extension Dms {
     public struct DescribeReplicationTasksResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "ReplicationTasks", required: false, type: .structure)
         ]
@@ -2373,7 +2373,7 @@ extension Dms {
     public struct AddTagsToResourceMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceArn", required: true, type: .string), 
             AWSShapeProperty(label: "Tags", required: true, type: .structure)
         ]
@@ -2398,7 +2398,7 @@ extension Dms {
     public struct DescribeConnectionsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "Filters", required: false, type: .structure)
@@ -2426,7 +2426,7 @@ extension Dms {
     public struct AccountQuotaList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountQuota", required: false, type: .list)
         ]
         public let accountQuota: [AccountQuota]?
@@ -2455,7 +2455,7 @@ extension Dms {
     public struct DeleteReplicationSubnetGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReplicationSubnetGroupIdentifier", required: true, type: .string)
         ]
         /// The subnet group name of the replication instance.
@@ -2474,7 +2474,7 @@ extension Dms {
     public struct ReplicationPendingModifiedValues: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MultiAZ", required: false, type: .boolean), 
             AWSShapeProperty(label: "EngineVersion", required: false, type: .string), 
             AWSShapeProperty(label: "ReplicationInstanceClass", required: false, type: .string), 
@@ -2507,7 +2507,7 @@ extension Dms {
     public struct ReplicationInstance: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceCreateTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "PendingModifiedValues", required: false, type: .structure), 
             AWSShapeProperty(label: "ReplicationInstanceStatus", required: false, type: .string), 
@@ -2625,7 +2625,7 @@ extension Dms {
     public struct ImportCertificateResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Certificate", required: false, type: .structure)
         ]
         /// The certificate to be uploaded.
@@ -2643,7 +2643,7 @@ extension Dms {
     public struct DescribeEndpointsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "Endpoints", required: false, type: .structure)
         ]
@@ -2666,7 +2666,7 @@ extension Dms {
     public struct ModifyEndpointMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EndpointType", required: false, type: .enum), 
             AWSShapeProperty(label: "ServerName", required: false, type: .string), 
             AWSShapeProperty(label: "EndpointIdentifier", required: false, type: .string), 
@@ -2740,7 +2740,7 @@ extension Dms {
     public struct DescribeOrderableReplicationInstancesMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "Marker", required: false, type: .string)
         ]
@@ -2763,7 +2763,7 @@ extension Dms {
     public struct VpcSecurityGroupMembership: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "VpcSecurityGroupId", required: false, type: .string)
         ]
@@ -2786,7 +2786,7 @@ extension Dms {
     public struct CreateReplicationTaskMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TableMappings", required: true, type: .string), 
             AWSShapeProperty(label: "SourceEndpointArn", required: true, type: .string), 
             AWSShapeProperty(label: "Tags", required: false, type: .structure), 
@@ -2856,7 +2856,7 @@ extension Dms {
     public struct Filter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: true, type: .string), 
             AWSShapeProperty(label: "Values", required: true, type: .structure)
         ]
@@ -2881,7 +2881,7 @@ extension Dms {
     public struct DescribeReplicationInstancesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "ReplicationInstances", required: false, type: .structure)
         ]

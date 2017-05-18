@@ -32,7 +32,7 @@ extension Sts {
     public struct GetSessionTokenRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TokenCode", required: false, type: .string), 
             AWSShapeProperty(label: "SerialNumber", required: false, type: .string), 
             AWSShapeProperty(label: "DurationSeconds", required: false, type: .integer)
@@ -60,7 +60,7 @@ extension Sts {
     public struct GetSessionTokenResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Credentials", required: false, type: .structure)
         ]
         /// The temporary security credentials, which include an access key ID, a secret access key, and a security (or session) token.  Note: The size of the security token that STS APIs return is not fixed. We strongly recommend that you make no assumptions about the maximum size. As of this writing, the typical size is less than 4096 bytes, but that can vary. Also, future updates to AWS might require larger sizes.
@@ -78,7 +78,7 @@ extension Sts {
     public struct DecodeAuthorizationMessageRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EncodedMessage", required: true, type: .string)
         ]
         /// The encoded message that was returned with the response.
@@ -97,7 +97,7 @@ extension Sts {
     public struct Credentials: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SessionToken", required: true, type: .string), 
             AWSShapeProperty(label: "AccessKeyId", required: true, type: .string), 
             AWSShapeProperty(label: "SecretAccessKey", required: true, type: .string), 
@@ -134,7 +134,7 @@ extension Sts {
     public struct AssumeRoleWithWebIdentityResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Audience", required: false, type: .string), 
             AWSShapeProperty(label: "Credentials", required: false, type: .structure), 
             AWSShapeProperty(label: "SubjectFromWebIdentityToken", required: false, type: .string), 
@@ -177,7 +177,7 @@ extension Sts {
     public struct GetFederationTokenResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Credentials", required: false, type: .structure), 
             AWSShapeProperty(label: "FederatedUser", required: false, type: .structure), 
             AWSShapeProperty(label: "PackedPolicySize", required: false, type: .integer)
@@ -205,7 +205,7 @@ extension Sts {
     public struct AssumeRoleWithWebIdentityRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ProviderId", required: false, type: .string), 
             AWSShapeProperty(label: "DurationSeconds", required: false, type: .integer), 
             AWSShapeProperty(label: "RoleArn", required: true, type: .string), 
@@ -251,7 +251,7 @@ extension Sts {
     public struct AssumedRoleUser: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Arn", required: true, type: .string), 
             AWSShapeProperty(label: "AssumedRoleId", required: true, type: .string)
         ]
@@ -276,7 +276,7 @@ extension Sts {
     public struct DecodeAuthorizationMessageResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DecodedMessage", required: false, type: .string)
         ]
         /// An XML document that contains the decoded message.
@@ -302,7 +302,7 @@ extension Sts {
     public struct AssumeRoleWithSAMLRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PrincipalArn", required: true, type: .string), 
             AWSShapeProperty(label: "DurationSeconds", required: false, type: .integer), 
             AWSShapeProperty(label: "RoleArn", required: true, type: .string), 
@@ -343,7 +343,7 @@ extension Sts {
     public struct AssumeRoleWithSAMLResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Credentials", required: false, type: .structure), 
             AWSShapeProperty(label: "AssumedRoleUser", required: false, type: .structure), 
             AWSShapeProperty(label: "SubjectType", required: false, type: .string), 
@@ -396,7 +396,7 @@ extension Sts {
     public struct GetFederationTokenRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Policy", required: false, type: .string), 
             AWSShapeProperty(label: "Name", required: true, type: .string), 
             AWSShapeProperty(label: "DurationSeconds", required: false, type: .integer)
@@ -425,7 +425,7 @@ extension Sts {
     public struct GetCallerIdentityResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Account", required: false, type: .string), 
             AWSShapeProperty(label: "UserId", required: false, type: .string), 
             AWSShapeProperty(label: "Arn", required: false, type: .string)
@@ -453,7 +453,7 @@ extension Sts {
     public struct AssumeRoleRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DurationSeconds", required: false, type: .integer), 
             AWSShapeProperty(label: "ExternalId", required: false, type: .string), 
             AWSShapeProperty(label: "TokenCode", required: false, type: .string), 
@@ -503,7 +503,7 @@ extension Sts {
     public struct AssumeRoleResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Credentials", required: false, type: .structure), 
             AWSShapeProperty(label: "AssumedRoleUser", required: false, type: .structure), 
             AWSShapeProperty(label: "PackedPolicySize", required: false, type: .integer)
@@ -531,7 +531,7 @@ extension Sts {
     public struct FederatedUser: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FederatedUserId", required: true, type: .string), 
             AWSShapeProperty(label: "Arn", required: true, type: .string)
         ]

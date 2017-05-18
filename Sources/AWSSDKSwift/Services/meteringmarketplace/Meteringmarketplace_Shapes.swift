@@ -32,7 +32,7 @@ extension Meteringmarketplace {
     public struct UsageRecord: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CustomerIdentifier", required: true, type: .string), 
             AWSShapeProperty(label: "Timestamp", required: true, type: .timestamp), 
             AWSShapeProperty(label: "Dimension", required: true, type: .string), 
@@ -69,7 +69,7 @@ extension Meteringmarketplace {
     public struct ResolveCustomerRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RegistrationToken", required: true, type: .string)
         ]
         /// When a buyer visits your website during the registration process, the buyer submits a registration token through the browser. The registration token is resolved to obtain a CustomerIdentifier and product code.
@@ -88,7 +88,7 @@ extension Meteringmarketplace {
     public struct MeterUsageRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Timestamp", required: true, type: .timestamp), 
             AWSShapeProperty(label: "DryRun", required: true, type: .boolean), 
             AWSShapeProperty(label: "UsageDimension", required: true, type: .string), 
@@ -138,7 +138,7 @@ extension Meteringmarketplace {
     public struct BatchMeterUsageResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UnprocessedRecords", required: false, type: .list), 
             AWSShapeProperty(label: "Results", required: false, type: .list)
         ]
@@ -169,7 +169,7 @@ extension Meteringmarketplace {
     public struct ResolveCustomerResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CustomerIdentifier", required: false, type: .string), 
             AWSShapeProperty(label: "ProductCode", required: false, type: .string)
         ]
@@ -192,7 +192,7 @@ extension Meteringmarketplace {
     public struct MeterUsageResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MeteringRecordId", required: false, type: .string)
         ]
         public let meteringRecordId: String?
@@ -209,7 +209,7 @@ extension Meteringmarketplace {
     public struct BatchMeterUsageRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ProductCode", required: true, type: .string), 
             AWSShapeProperty(label: "UsageRecords", required: true, type: .list)
         ]
@@ -234,7 +234,7 @@ extension Meteringmarketplace {
     public struct UsageRecordResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MeteringRecordId", required: false, type: .string), 
             AWSShapeProperty(label: "Status", required: false, type: .enum), 
             AWSShapeProperty(label: "UsageRecord", required: false, type: .structure)

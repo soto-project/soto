@@ -32,7 +32,7 @@ extension Kinesisanalytics {
     public struct ListApplicationsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "HasMoreApplications", required: true, type: .boolean), 
             AWSShapeProperty(label: "ApplicationSummaries", required: true, type: .list)
         ]
@@ -65,7 +65,7 @@ extension Kinesisanalytics {
     public struct InputParallelismUpdate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CountUpdate", required: false, type: .integer)
         ]
         /// Number of in-application streams to create for the specified streaming source.
@@ -91,7 +91,7 @@ extension Kinesisanalytics {
     public struct KinesisStreamsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceARN", required: true, type: .string), 
             AWSShapeProperty(label: "RoleARN", required: true, type: .string)
         ]
@@ -116,7 +116,7 @@ extension Kinesisanalytics {
     public struct InputUpdate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NamePrefixUpdate", required: false, type: .string), 
             AWSShapeProperty(label: "InputParallelismUpdate", required: false, type: .structure), 
             AWSShapeProperty(label: "InputId", required: true, type: .string), 
@@ -160,7 +160,7 @@ extension Kinesisanalytics {
     public struct KinesisFirehoseInputDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceARN", required: false, type: .string), 
             AWSShapeProperty(label: "RoleARN", required: false, type: .string)
         ]
@@ -183,7 +183,7 @@ extension Kinesisanalytics {
     public struct KinesisStreamsOutputUpdate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RoleARNUpdate", required: false, type: .string), 
             AWSShapeProperty(label: "ResourceARNUpdate", required: false, type: .string)
         ]
@@ -206,7 +206,7 @@ extension Kinesisanalytics {
     public struct AddApplicationReferenceDataSourceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CurrentApplicationVersionId", required: true, type: .long), 
             AWSShapeProperty(label: "ReferenceDataSource", required: true, type: .structure), 
             AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
@@ -237,7 +237,7 @@ extension Kinesisanalytics {
     public struct KinesisFirehoseInputUpdate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RoleARNUpdate", required: false, type: .string), 
             AWSShapeProperty(label: "ResourceARNUpdate", required: false, type: .string)
         ]
@@ -268,7 +268,7 @@ extension Kinesisanalytics {
     public struct CreateApplicationResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ApplicationSummary", required: true, type: .structure)
         ]
         /// In response to your CreateApplication request, Amazon Kinesis Analytics returns a response with a summary of the application it created, including the application Amazon Resource Name (ARN), name, and status.
@@ -297,7 +297,7 @@ extension Kinesisanalytics {
     public struct StartApplicationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InputConfigurations", required: true, type: .list), 
             AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
         ]
@@ -322,7 +322,7 @@ extension Kinesisanalytics {
     public struct StopApplicationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
         ]
         /// Name of the running application to stop.
@@ -341,7 +341,7 @@ extension Kinesisanalytics {
     public struct S3ReferenceDataSource: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReferenceRoleARN", required: true, type: .string), 
             AWSShapeProperty(label: "BucketARN", required: true, type: .string), 
             AWSShapeProperty(label: "FileKey", required: true, type: .string)
@@ -372,7 +372,7 @@ extension Kinesisanalytics {
     public struct KinesisFirehoseOutputUpdate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RoleARNUpdate", required: false, type: .string), 
             AWSShapeProperty(label: "ResourceARNUpdate", required: false, type: .string)
         ]
@@ -395,7 +395,7 @@ extension Kinesisanalytics {
     public struct InputStartingPositionConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InputStartingPosition", required: false, type: .enum)
         ]
         /// The starting position on the stream.    LATEST - Start reading just after the most recent record in the stream.    TRIM_HORIZON - Start reading at the last untrimmed record in the stream, which is the oldest record available in the stream. This option is not available for an Amazon Kinesis Firehose delivery stream.    LAST_STOPPED_POINT - Resume reading from where the application last stopped reading.  
@@ -413,7 +413,7 @@ extension Kinesisanalytics {
     public struct S3ReferenceDataSourceUpdate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BucketARNUpdate", required: false, type: .string), 
             AWSShapeProperty(label: "ReferenceRoleARNUpdate", required: false, type: .string), 
             AWSShapeProperty(label: "FileKeyUpdate", required: false, type: .string)
@@ -449,7 +449,7 @@ extension Kinesisanalytics {
     public struct RecordFormat: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RecordFormatType", required: true, type: .enum), 
             AWSShapeProperty(label: "MappingParameters", required: false, type: .structure)
         ]
@@ -472,7 +472,7 @@ extension Kinesisanalytics {
     public struct CreateApplicationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Inputs", required: false, type: .list), 
             AWSShapeProperty(label: "ApplicationName", required: true, type: .string), 
             AWSShapeProperty(label: "Outputs", required: false, type: .list), 
@@ -519,7 +519,7 @@ extension Kinesisanalytics {
     public struct DestinationSchema: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RecordFormatType", required: false, type: .enum)
         ]
         /// Specifies the format of the records on the output stream.
@@ -537,7 +537,7 @@ extension Kinesisanalytics {
     public struct DeleteApplicationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CreateTimestamp", required: true, type: .timestamp), 
             AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
         ]
@@ -570,7 +570,7 @@ extension Kinesisanalytics {
     public struct DiscoverInputSchemaRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceARN", required: true, type: .string), 
             AWSShapeProperty(label: "RoleARN", required: true, type: .string), 
             AWSShapeProperty(label: "InputStartingPositionConfiguration", required: true, type: .structure)
@@ -601,7 +601,7 @@ extension Kinesisanalytics {
     public struct DeleteApplicationOutputRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CurrentApplicationVersionId", required: true, type: .long), 
             AWSShapeProperty(label: "OutputId", required: true, type: .string), 
             AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
@@ -632,7 +632,7 @@ extension Kinesisanalytics {
     public struct InputDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "KinesisFirehoseInputDescription", required: false, type: .structure), 
             AWSShapeProperty(label: "KinesisStreamsInputDescription", required: false, type: .structure), 
             AWSShapeProperty(label: "InputParallelism", required: false, type: .structure), 
@@ -684,7 +684,7 @@ extension Kinesisanalytics {
     public struct ApplicationSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ApplicationARN", required: true, type: .string), 
             AWSShapeProperty(label: "ApplicationName", required: true, type: .string), 
             AWSShapeProperty(label: "ApplicationStatus", required: true, type: .enum)
@@ -715,7 +715,7 @@ extension Kinesisanalytics {
     public struct JSONMappingParameters: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RecordRowPath", required: true, type: .string)
         ]
         /// Path to the top-level parent that contains the records. For example, consider the following JSON record: In the RecordRowPath, "$" refers to the root and path "$.vehicle.Model" refers to the specific "Model" key in the JSON.
@@ -734,7 +734,7 @@ extension Kinesisanalytics {
     public struct AddApplicationOutputRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CurrentApplicationVersionId", required: true, type: .long), 
             AWSShapeProperty(label: "ApplicationName", required: true, type: .string), 
             AWSShapeProperty(label: "Output", required: true, type: .structure)
@@ -765,7 +765,7 @@ extension Kinesisanalytics {
     public struct CSVMappingParameters: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RecordRowDelimiter", required: true, type: .string), 
             AWSShapeProperty(label: "RecordColumnDelimiter", required: true, type: .string)
         ]
@@ -790,7 +790,7 @@ extension Kinesisanalytics {
     public struct KinesisStreamsInputDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceARN", required: false, type: .string), 
             AWSShapeProperty(label: "RoleARN", required: false, type: .string)
         ]
@@ -813,7 +813,7 @@ extension Kinesisanalytics {
     public struct Input: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "KinesisFirehoseInput", required: false, type: .structure), 
             AWSShapeProperty(label: "InputSchema", required: true, type: .structure), 
             AWSShapeProperty(label: "NamePrefix", required: true, type: .string), 
@@ -853,7 +853,7 @@ extension Kinesisanalytics {
     public struct KinesisFirehoseOutputDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceARN", required: false, type: .string), 
             AWSShapeProperty(label: "RoleARN", required: false, type: .string)
         ]
@@ -884,7 +884,7 @@ extension Kinesisanalytics {
     public struct SourceSchema: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RecordFormat", required: true, type: .structure), 
             AWSShapeProperty(label: "RecordEncoding", required: false, type: .string), 
             AWSShapeProperty(label: "RecordColumns", required: true, type: .list)
@@ -914,7 +914,7 @@ extension Kinesisanalytics {
     public struct KinesisFirehoseInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceARN", required: true, type: .string), 
             AWSShapeProperty(label: "RoleARN", required: true, type: .string)
         ]
@@ -939,7 +939,7 @@ extension Kinesisanalytics {
     public struct InputConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Id", required: true, type: .string), 
             AWSShapeProperty(label: "InputStartingPositionConfiguration", required: true, type: .structure)
         ]
@@ -964,7 +964,7 @@ extension Kinesisanalytics {
     public struct OutputDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "KinesisStreamsOutputDescription", required: false, type: .structure), 
             AWSShapeProperty(label: "DestinationSchema", required: false, type: .structure), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
@@ -1002,7 +1002,7 @@ extension Kinesisanalytics {
     public struct KinesisFirehoseOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceARN", required: true, type: .string), 
             AWSShapeProperty(label: "RoleARN", required: true, type: .string)
         ]
@@ -1027,7 +1027,7 @@ extension Kinesisanalytics {
     public struct KinesisStreamsInputUpdate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RoleARNUpdate", required: false, type: .string), 
             AWSShapeProperty(label: "ResourceARNUpdate", required: false, type: .string)
         ]
@@ -1050,7 +1050,7 @@ extension Kinesisanalytics {
     public struct DescribeApplicationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
         ]
         /// Name of the application.
@@ -1069,7 +1069,7 @@ extension Kinesisanalytics {
     public struct DiscoverInputSchemaResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InputSchema", required: false, type: .structure), 
             AWSShapeProperty(label: "ParsedInputRecords", required: false, type: .list), 
             AWSShapeProperty(label: "RawInputRecords", required: false, type: .list)
@@ -1097,7 +1097,7 @@ extension Kinesisanalytics {
     public struct ApplicationDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ApplicationDescription", required: false, type: .string), 
             AWSShapeProperty(label: "ApplicationStatus", required: true, type: .enum), 
             AWSShapeProperty(label: "InputDescriptions", required: false, type: .list), 
@@ -1181,7 +1181,7 @@ extension Kinesisanalytics {
     public struct InputSchemaUpdate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RecordColumnUpdates", required: false, type: .list), 
             AWSShapeProperty(label: "RecordEncodingUpdate", required: false, type: .string), 
             AWSShapeProperty(label: "RecordFormatUpdate", required: false, type: .structure)
@@ -1220,7 +1220,7 @@ extension Kinesisanalytics {
     public struct InputParallelism: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Count", required: false, type: .integer)
         ]
         /// Number of in-application streams to create. For more information, see Limits. 
@@ -1238,7 +1238,7 @@ extension Kinesisanalytics {
     public struct KinesisStreamsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceARN", required: true, type: .string), 
             AWSShapeProperty(label: "RoleARN", required: true, type: .string)
         ]
@@ -1271,7 +1271,7 @@ extension Kinesisanalytics {
     public struct ReferenceDataSourceDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "S3ReferenceDataSourceDescription", required: true, type: .structure), 
             AWSShapeProperty(label: "ReferenceId", required: true, type: .string), 
             AWSShapeProperty(label: "TableName", required: true, type: .string), 
@@ -1306,7 +1306,7 @@ extension Kinesisanalytics {
     public struct DeleteApplicationReferenceDataSourceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CurrentApplicationVersionId", required: true, type: .long), 
             AWSShapeProperty(label: "ReferenceId", required: true, type: .string), 
             AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
@@ -1343,7 +1343,7 @@ extension Kinesisanalytics {
     public struct ReferenceDataSourceUpdate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "S3ReferenceDataSourceUpdate", required: false, type: .structure), 
             AWSShapeProperty(label: "TableNameUpdate", required: false, type: .string), 
             AWSShapeProperty(label: "ReferenceSchemaUpdate", required: false, type: .structure), 
@@ -1376,7 +1376,7 @@ extension Kinesisanalytics {
     public struct Output: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "KinesisFirehoseOutput", required: false, type: .structure), 
             AWSShapeProperty(label: "DestinationSchema", required: true, type: .structure), 
             AWSShapeProperty(label: "Name", required: true, type: .string), 
@@ -1418,7 +1418,7 @@ extension Kinesisanalytics {
     public struct KinesisStreamsOutputDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceARN", required: false, type: .string), 
             AWSShapeProperty(label: "RoleARN", required: false, type: .string)
         ]
@@ -1441,7 +1441,7 @@ extension Kinesisanalytics {
     public struct S3ReferenceDataSourceDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReferenceRoleARN", required: true, type: .string), 
             AWSShapeProperty(label: "BucketARN", required: true, type: .string), 
             AWSShapeProperty(label: "FileKey", required: true, type: .string)
@@ -1472,7 +1472,7 @@ extension Kinesisanalytics {
     public struct ApplicationUpdate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OutputUpdates", required: false, type: .list), 
             AWSShapeProperty(label: "ReferenceDataSourceUpdates", required: false, type: .list), 
             AWSShapeProperty(label: "ApplicationCodeUpdate", required: false, type: .string), 
@@ -1517,7 +1517,7 @@ extension Kinesisanalytics {
     public struct MappingParameters: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CSVMappingParameters", required: false, type: .structure), 
             AWSShapeProperty(label: "JSONMappingParameters", required: false, type: .structure)
         ]
@@ -1540,7 +1540,7 @@ extension Kinesisanalytics {
     public struct OutputUpdate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NameUpdate", required: false, type: .string), 
             AWSShapeProperty(label: "KinesisStreamsOutputUpdate", required: false, type: .structure), 
             AWSShapeProperty(label: "KinesisFirehoseOutputUpdate", required: false, type: .structure), 
@@ -1578,7 +1578,7 @@ extension Kinesisanalytics {
     public struct ListApplicationsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Limit", required: false, type: .integer), 
             AWSShapeProperty(label: "ExclusiveStartApplicationName", required: false, type: .string)
         ]
@@ -1601,7 +1601,7 @@ extension Kinesisanalytics {
     public struct RecordColumn: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Mapping", required: false, type: .string), 
             AWSShapeProperty(label: "Name", required: true, type: .string), 
             AWSShapeProperty(label: "SqlType", required: true, type: .string)
@@ -1631,7 +1631,7 @@ extension Kinesisanalytics {
     public struct DescribeApplicationResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ApplicationDetail", required: true, type: .structure)
         ]
         /// Provides a description of the application, such as the application Amazon Resource Name (ARN), status, latest version, and input and output configuration details.
@@ -1650,7 +1650,7 @@ extension Kinesisanalytics {
     public struct ReferenceDataSource: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "S3ReferenceDataSource", required: false, type: .structure), 
             AWSShapeProperty(label: "ReferenceSchema", required: true, type: .structure), 
             AWSShapeProperty(label: "TableName", required: true, type: .string)
@@ -1678,7 +1678,7 @@ extension Kinesisanalytics {
     public struct UpdateApplicationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CurrentApplicationVersionId", required: true, type: .long), 
             AWSShapeProperty(label: "ApplicationUpdate", required: true, type: .structure), 
             AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
@@ -1717,7 +1717,7 @@ extension Kinesisanalytics {
     public struct AddApplicationInputRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CurrentApplicationVersionId", required: true, type: .long), 
             AWSShapeProperty(label: "Input", required: true, type: .structure), 
             AWSShapeProperty(label: "ApplicationName", required: true, type: .string)

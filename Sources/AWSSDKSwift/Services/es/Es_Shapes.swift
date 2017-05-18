@@ -32,7 +32,7 @@ extension Es {
     public struct InstanceCountLimits: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MinimumInstanceCount", required: false, type: .integer), 
             AWSShapeProperty(label: "MaximumInstanceCount", required: false, type: .integer)
         ]
@@ -53,7 +53,7 @@ extension Es {
     public struct DescribeElasticsearchDomainsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DomainNames", required: true, type: .list)
         ]
         /// The Elasticsearch domains for which you want information.
@@ -75,7 +75,7 @@ extension Es {
         public static var pathParams: [String: String] {
             return ["DomainName": "DomainName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DomainName", required: true, type: .string)
         ]
         /// The name of the Elasticsearch domain for which you want information.
@@ -94,7 +94,7 @@ extension Es {
     public struct AddTagsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ARN", required: true, type: .string), 
             AWSShapeProperty(label: "TagList", required: true, type: .list)
         ]
@@ -125,7 +125,7 @@ extension Es {
         public static var pathParams: [String: String] {
             return ["ElasticsearchVersion": "ElasticsearchVersion"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer), 
             AWSShapeProperty(label: "DomainName", required: false, type: .string), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
@@ -162,7 +162,7 @@ extension Es {
         public static var pathParams: [String: String] {
             return ["DomainName": "DomainName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SnapshotOptions", required: false, type: .structure), 
             AWSShapeProperty(label: "ElasticsearchClusterConfig", required: false, type: .structure), 
             AWSShapeProperty(label: "AdvancedOptions", required: false, type: .map), 
@@ -210,7 +210,7 @@ extension Es {
     public struct CreateElasticsearchDomainResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DomainStatus", required: false, type: .structure)
         ]
         /// The status of the newly created Elasticsearch domain. 
@@ -228,7 +228,7 @@ extension Es {
     public struct ElasticsearchClusterConfigStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Options", required: true, type: .structure), 
             AWSShapeProperty(label: "Status", required: true, type: .structure)
         ]
@@ -253,7 +253,7 @@ extension Es {
     public struct ListTagsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TagList", required: false, type: .list)
         ]
         ///  List of Tag for the requested Elasticsearch domain.
@@ -281,7 +281,7 @@ extension Es {
         public static var pathParams: [String: String] {
             return ["InstanceType": "InstanceType", "ElasticsearchVersion": "ElasticsearchVersion"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceType", required: true, type: .enum), 
             AWSShapeProperty(label: "DomainName", required: false, type: .string), 
             AWSShapeProperty(label: "ElasticsearchVersion", required: true, type: .string)
@@ -311,7 +311,7 @@ extension Es {
     public struct RemoveTagsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ARN", required: true, type: .string), 
             AWSShapeProperty(label: "TagKeys", required: true, type: .list)
         ]
@@ -336,7 +336,7 @@ extension Es {
     public struct OptionStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UpdateVersion", required: false, type: .integer), 
             AWSShapeProperty(label: "PendingDeletion", required: false, type: .boolean), 
             AWSShapeProperty(label: "CreationDate", required: true, type: .timestamp), 
@@ -377,7 +377,7 @@ extension Es {
     public struct DescribeElasticsearchInstanceTypeLimitsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LimitsByRole", required: false, type: .map)
         ]
         public let limitsByRole: [String: Limits]?
@@ -403,7 +403,7 @@ extension Es {
     public struct DescribeElasticsearchDomainResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DomainStatus", required: true, type: .structure)
         ]
         /// The current status of the Elasticsearch domain.
@@ -460,7 +460,7 @@ extension Es {
     public struct AdditionalLimit: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LimitName", required: false, type: .string), 
             AWSShapeProperty(label: "LimitValues", required: false, type: .list)
         ]
@@ -483,7 +483,7 @@ extension Es {
     public struct ListDomainNamesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DomainNames", required: false, type: .list)
         ]
         /// List of Elasticsearch domain names.
@@ -505,7 +505,7 @@ extension Es {
     public struct SnapshotOptions: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AutomatedSnapshotStartHour", required: false, type: .integer)
         ]
         /// Specifies the time, in UTC format, when the service takes a daily automated snapshot of the specified Elasticsearch domain. Default value is 0 hours.
@@ -523,7 +523,7 @@ extension Es {
     public struct EBSOptions: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VolumeSize", required: false, type: .integer), 
             AWSShapeProperty(label: "VolumeType", required: false, type: .enum), 
             AWSShapeProperty(label: "Iops", required: false, type: .integer), 
@@ -559,7 +559,7 @@ extension Es {
         public static var pathParams: [String: String] {
             return ["DomainName": "DomainName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DomainName", required: true, type: .string)
         ]
         /// The Elasticsearch domain that you want to get information about.
@@ -578,7 +578,7 @@ extension Es {
     public struct DescribeElasticsearchDomainConfigResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DomainConfig", required: true, type: .structure)
         ]
         /// The configuration information of the domain requested in the DescribeElasticsearchDomainConfig request.
@@ -600,7 +600,7 @@ extension Es {
         public static var queryParams: [String: String] {
             return ["nextToken": "NextToken", "maxResults": "MaxResults"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
@@ -622,7 +622,7 @@ extension Es {
     public struct ListElasticsearchInstanceTypesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ElasticsearchInstanceTypes", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -645,7 +645,7 @@ extension Es {
     public struct Tag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: true, type: .string), 
             AWSShapeProperty(label: "Key", required: true, type: .string)
         ]
@@ -670,7 +670,7 @@ extension Es {
     public struct SnapshotOptionsStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Options", required: true, type: .structure), 
             AWSShapeProperty(label: "Status", required: true, type: .structure)
         ]
@@ -695,7 +695,7 @@ extension Es {
     public struct DomainInfo: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DomainName", required: false, type: .string)
         ]
         ///  Specifies the DomainName.
@@ -713,7 +713,7 @@ extension Es {
     public struct DescribeElasticsearchDomainsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DomainStatusList", required: true, type: .list)
         ]
         /// The status of the domains requested in the DescribeElasticsearchDomains request.
@@ -732,7 +732,7 @@ extension Es {
     public struct UpdateElasticsearchDomainConfigResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DomainConfig", required: true, type: .structure)
         ]
         /// The status of the updated Elasticsearch domain. 
@@ -751,7 +751,7 @@ extension Es {
     public struct StorageTypeLimit: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LimitName", required: false, type: .string), 
             AWSShapeProperty(label: "LimitValues", required: false, type: .list)
         ]
@@ -774,7 +774,7 @@ extension Es {
     public struct ElasticsearchVersionStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Options", required: true, type: .string), 
             AWSShapeProperty(label: "Status", required: true, type: .structure)
         ]
@@ -799,7 +799,7 @@ extension Es {
     public struct ListElasticsearchVersionsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ElasticsearchVersions", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -820,7 +820,7 @@ extension Es {
     public struct InstanceLimits: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceCountLimits", required: false, type: .structure)
         ]
         public let instanceCountLimits: InstanceCountLimits?
@@ -840,7 +840,7 @@ extension Es {
         public static var pathParams: [String: String] {
             return ["DomainName": "DomainName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DomainName", required: true, type: .string)
         ]
         /// The name of the Elasticsearch domain that you want to permanently delete.
@@ -859,7 +859,7 @@ extension Es {
     public struct AdvancedOptionsStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Options", required: true, type: .map), 
             AWSShapeProperty(label: "Status", required: true, type: .structure)
         ]
@@ -884,7 +884,7 @@ extension Es {
     public struct Limits: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AdditionalLimits", required: false, type: .list), 
             AWSShapeProperty(label: "StorageTypes", required: false, type: .list), 
             AWSShapeProperty(label: "InstanceLimits", required: false, type: .structure)
@@ -919,7 +919,7 @@ extension Es {
     public struct ElasticsearchDomainConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SnapshotOptions", required: false, type: .structure), 
             AWSShapeProperty(label: "ElasticsearchClusterConfig", required: false, type: .structure), 
             AWSShapeProperty(label: "AccessPolicies", required: false, type: .structure), 
@@ -962,7 +962,7 @@ extension Es {
     public struct CreateElasticsearchDomainRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SnapshotOptions", required: false, type: .structure), 
             AWSShapeProperty(label: "ElasticsearchClusterConfig", required: false, type: .structure), 
             AWSShapeProperty(label: "EBSOptions", required: false, type: .structure), 
@@ -1015,7 +1015,7 @@ extension Es {
     public struct StorageType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StorageTypeLimits", required: false, type: .list), 
             AWSShapeProperty(label: "StorageSubTypeName", required: false, type: .string), 
             AWSShapeProperty(label: "StorageTypeName", required: false, type: .string)
@@ -1045,7 +1045,7 @@ extension Es {
     public struct DeleteElasticsearchDomainResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DomainStatus", required: false, type: .structure)
         ]
         /// The status of the Elasticsearch domain being deleted.
@@ -1063,7 +1063,7 @@ extension Es {
     public struct EBSOptionsStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Options", required: true, type: .structure), 
             AWSShapeProperty(label: "Status", required: true, type: .structure)
         ]
@@ -1098,7 +1098,7 @@ extension Es {
         public static var queryParams: [String: String] {
             return ["arn": "ARN"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Arn", required: true, type: .string)
         ]
         ///  Specify the ARN for the Elasticsearch domain to which the tags are attached that you want to view.
@@ -1117,7 +1117,7 @@ extension Es {
     public struct ElasticsearchClusterConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DedicatedMasterCount", required: false, type: .integer), 
             AWSShapeProperty(label: "InstanceCount", required: false, type: .integer), 
             AWSShapeProperty(label: "InstanceType", required: false, type: .enum), 
@@ -1167,7 +1167,7 @@ extension Es {
     public struct AccessPoliciesStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Options", required: true, type: .string), 
             AWSShapeProperty(label: "Status", required: true, type: .structure)
         ]
@@ -1192,7 +1192,7 @@ extension Es {
     public struct ElasticsearchDomainStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Processing", required: false, type: .boolean), 
             AWSShapeProperty(label: "ElasticsearchVersion", required: false, type: .string), 
             AWSShapeProperty(label: "Created", required: false, type: .boolean), 

@@ -32,7 +32,7 @@ extension Cloudtrail {
     public struct PublicKey: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ValidityEndTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "Fingerprint", required: false, type: .string), 
             AWSShapeProperty(label: "Value", required: false, type: .blob), 
@@ -65,7 +65,7 @@ extension Cloudtrail {
     public struct CreateTrailResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "KmsKeyId", required: false, type: .string), 
             AWSShapeProperty(label: "SnsTopicARN", required: false, type: .string), 
             AWSShapeProperty(label: "IncludeGlobalServiceEvents", required: false, type: .boolean), 
@@ -146,7 +146,7 @@ extension Cloudtrail {
     public struct AddTagsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
             AWSShapeProperty(label: "TagsList", required: false, type: .list)
         ]
@@ -182,7 +182,7 @@ extension Cloudtrail {
     public struct ListPublicKeysRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "StartTime", required: false, type: .timestamp)
@@ -210,7 +210,7 @@ extension Cloudtrail {
     public struct LookupEventsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "LookupAttributes", required: false, type: .list), 
@@ -252,7 +252,7 @@ extension Cloudtrail {
     public struct DataResource: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Type", required: false, type: .string), 
             AWSShapeProperty(label: "Values", required: false, type: .list)
         ]
@@ -275,7 +275,7 @@ extension Cloudtrail {
     public struct PutEventSelectorsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EventSelectors", required: false, type: .list), 
             AWSShapeProperty(label: "TrailName", required: false, type: .string)
         ]
@@ -302,7 +302,7 @@ extension Cloudtrail {
     public struct RemoveTagsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
             AWSShapeProperty(label: "TagsList", required: false, type: .list)
         ]
@@ -330,7 +330,7 @@ extension Cloudtrail {
     public struct ListTagsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceTagList", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -356,7 +356,7 @@ extension Cloudtrail {
     public struct UpdateTrailResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "KmsKeyId", required: false, type: .string), 
             AWSShapeProperty(label: "SnsTopicARN", required: false, type: .string), 
             AWSShapeProperty(label: "IncludeGlobalServiceEvents", required: false, type: .boolean), 
@@ -429,7 +429,7 @@ extension Cloudtrail {
     public struct Trail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "KmsKeyId", required: false, type: .string), 
             AWSShapeProperty(label: "LogFileValidationEnabled", required: false, type: .boolean), 
             AWSShapeProperty(label: "HomeRegion", required: false, type: .string), 
@@ -512,7 +512,7 @@ extension Cloudtrail {
     public struct GetTrailStatusResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LatestNotificationError", required: false, type: .string), 
             AWSShapeProperty(label: "LatestDeliveryTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "TimeLoggingStarted", required: false, type: .string), 
@@ -610,7 +610,7 @@ extension Cloudtrail {
     public struct GetEventSelectorsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EventSelectors", required: false, type: .list), 
             AWSShapeProperty(label: "TrailARN", required: false, type: .string)
         ]
@@ -637,7 +637,7 @@ extension Cloudtrail {
     public struct Event: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EventSource", required: false, type: .string), 
             AWSShapeProperty(label: "EventTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "Username", required: false, type: .string), 
@@ -689,7 +689,7 @@ extension Cloudtrail {
     public struct DescribeTrailsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "trailNameList", required: false, type: .list), 
             AWSShapeProperty(label: "includeShadowTrails", required: false, type: .boolean)
         ]
@@ -712,7 +712,7 @@ extension Cloudtrail {
     public struct PutEventSelectorsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EventSelectors", required: false, type: .list), 
             AWSShapeProperty(label: "TrailARN", required: false, type: .string)
         ]
@@ -739,7 +739,7 @@ extension Cloudtrail {
     public struct ListPublicKeysResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PublicKeyList", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -766,7 +766,7 @@ extension Cloudtrail {
     public struct Tag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: false, type: .string), 
             AWSShapeProperty(label: "Key", required: true, type: .string)
         ]
@@ -790,7 +790,7 @@ extension Cloudtrail {
     public struct LookupAttribute: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AttributeKey", required: true, type: .enum), 
             AWSShapeProperty(label: "AttributeValue", required: true, type: .string)
         ]
@@ -815,7 +815,7 @@ extension Cloudtrail {
     public struct UpdateTrailRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EnableLogFileValidation", required: false, type: .boolean), 
             AWSShapeProperty(label: "S3BucketName", required: false, type: .string), 
             AWSShapeProperty(label: "S3KeyPrefix", required: false, type: .string), 
@@ -879,7 +879,7 @@ extension Cloudtrail {
     public struct CreateTrailRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EnableLogFileValidation", required: false, type: .boolean), 
             AWSShapeProperty(label: "S3BucketName", required: true, type: .string), 
             AWSShapeProperty(label: "S3KeyPrefix", required: false, type: .string), 
@@ -952,7 +952,7 @@ extension Cloudtrail {
     public struct DeleteTrailRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
         /// Specifies the name or the CloudTrail ARN of the trail to be deleted. The format of a trail ARN is: arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
@@ -971,7 +971,7 @@ extension Cloudtrail {
     public struct GetEventSelectorsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TrailName", required: false, type: .string)
         ]
         /// Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are invalid.   Not be in IP address format (for example, 192.168.5.4)   If you specify a trail ARN, it must be in the format:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
@@ -999,7 +999,7 @@ extension Cloudtrail {
     public struct Resource: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceName", required: false, type: .string), 
             AWSShapeProperty(label: "ResourceType", required: false, type: .string)
         ]
@@ -1022,7 +1022,7 @@ extension Cloudtrail {
     public struct DescribeTrailsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "trailList", required: false, type: .list)
         ]
         /// The list of trail objects.
@@ -1044,7 +1044,7 @@ extension Cloudtrail {
     public struct StartLoggingRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
         /// Specifies the name or the CloudTrail ARN of the trail for which CloudTrail logs AWS API calls. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
@@ -1063,7 +1063,7 @@ extension Cloudtrail {
     public struct StopLoggingRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
         /// Specifies the name or the CloudTrail ARN of the trail for which CloudTrail will stop logging AWS API calls. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
@@ -1082,7 +1082,7 @@ extension Cloudtrail {
     public struct EventSelector: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReadWriteType", required: false, type: .enum), 
             AWSShapeProperty(label: "DataResources", required: false, type: .list), 
             AWSShapeProperty(label: "IncludeManagementEvents", required: false, type: .boolean)
@@ -1114,7 +1114,7 @@ extension Cloudtrail {
     public struct GetTrailStatusRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
         /// Specifies the name or the CloudTrail ARN of the trail for which you are requesting status. To get the status of a shadow trail (a replication of the trail in another region), you must specify its ARN. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
@@ -1133,7 +1133,7 @@ extension Cloudtrail {
     public struct ResourceTag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceId", required: false, type: .string), 
             AWSShapeProperty(label: "TagsList", required: false, type: .list)
         ]
@@ -1174,7 +1174,7 @@ extension Cloudtrail {
     public struct ListTagsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceIdList", required: true, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -1198,7 +1198,7 @@ extension Cloudtrail {
     public struct LookupEventsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Events", required: false, type: .list)
         ]

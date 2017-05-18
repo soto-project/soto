@@ -32,7 +32,7 @@ extension Rds {
     public struct DescribeDBParametersMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "Filters", required: false, type: .structure), 
             AWSShapeProperty(label: "Source", required: false, type: .string), 
@@ -71,7 +71,7 @@ extension Rds {
     public struct DBInstanceStatusInfoList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBInstanceStatusInfo", required: false, type: .list)
         ]
         public let dBInstanceStatusInfo: [DBInstanceStatusInfo]?
@@ -92,7 +92,7 @@ extension Rds {
     public struct EventsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "Events", required: false, type: .structure)
         ]
@@ -115,7 +115,7 @@ extension Rds {
     public struct CreateDBSubnetGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBSubnetGroup", required: false, type: .structure)
         ]
         public let dBSubnetGroup: DBSubnetGroup?
@@ -132,7 +132,7 @@ extension Rds {
     public struct ResetDBClusterParameterGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Parameters", required: false, type: .structure), 
             AWSShapeProperty(label: "ResetAllParameters", required: false, type: .boolean), 
             AWSShapeProperty(label: "DBClusterParameterGroupName", required: true, type: .string)
@@ -161,7 +161,7 @@ extension Rds {
     public struct DescribeEngineDefaultParametersResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EngineDefaults", required: false, type: .structure)
         ]
         public let engineDefaults: EngineDefaults?
@@ -178,7 +178,7 @@ extension Rds {
     public struct OptionsList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Option", required: false, type: .list)
         ]
         public let option: [Option]?
@@ -199,7 +199,7 @@ extension Rds {
     public struct RestoreDBClusterFromSnapshotResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBCluster", required: false, type: .structure)
         ]
         public let dBCluster: DBCluster?
@@ -216,7 +216,7 @@ extension Rds {
     public struct PromoteReadReplicaDBClusterMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBClusterIdentifier", required: true, type: .string)
         ]
         /// The identifier of the DB cluster Read Replica to promote. This parameter is not case-sensitive.  Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster-replica1 
@@ -235,7 +235,7 @@ extension Rds {
     public struct FilterList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Filter", required: false, type: .list)
         ]
         public let filter: [Filter]?
@@ -256,7 +256,7 @@ extension Rds {
     public struct CopyOptionGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TargetOptionGroupDescription", required: true, type: .string), 
             AWSShapeProperty(label: "TargetOptionGroupIdentifier", required: true, type: .string), 
             AWSShapeProperty(label: "Tags", required: false, type: .structure), 
@@ -291,7 +291,7 @@ extension Rds {
     public struct DBClusterMember: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBInstanceIdentifier", required: false, type: .string), 
             AWSShapeProperty(label: "PromotionTier", required: false, type: .integer), 
             AWSShapeProperty(label: "IsClusterWriter", required: false, type: .boolean), 
@@ -324,7 +324,7 @@ extension Rds {
     public struct OptionGroupOption: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PortRequired", required: false, type: .boolean), 
             AWSShapeProperty(label: "OptionsConflictsWith", required: false, type: .structure), 
             AWSShapeProperty(label: "MinimumRequiredMinorEngineVersion", required: false, type: .string), 
@@ -402,7 +402,7 @@ extension Rds {
     public struct CreateDBClusterParameterGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBParameterGroupFamily", required: true, type: .string), 
             AWSShapeProperty(label: "DBClusterParameterGroupName", required: true, type: .string), 
             AWSShapeProperty(label: "Tags", required: false, type: .structure), 
@@ -437,7 +437,7 @@ extension Rds {
     public struct DBClusterMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "DBClusters", required: false, type: .structure)
         ]
@@ -460,7 +460,7 @@ extension Rds {
     public struct Endpoint: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Address", required: false, type: .string), 
             AWSShapeProperty(label: "Port", required: false, type: .integer), 
             AWSShapeProperty(label: "HostedZoneId", required: false, type: .string)
@@ -488,7 +488,7 @@ extension Rds {
     public struct DeleteDBSubnetGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBSubnetGroupName", required: true, type: .string)
         ]
         /// The name of the database subnet group to delete.  You cannot delete the default subnet group.  Constraints: Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
@@ -507,7 +507,7 @@ extension Rds {
     public struct DBClusterSnapshotMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "DBClusterSnapshots", required: false, type: .structure)
         ]
@@ -530,7 +530,7 @@ extension Rds {
     public struct ModifyDBClusterResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBCluster", required: false, type: .structure)
         ]
         public let dBCluster: DBCluster?
@@ -547,7 +547,7 @@ extension Rds {
     public struct DescribeEngineDefaultClusterParametersResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EngineDefaults", required: false, type: .structure)
         ]
         public let engineDefaults: EngineDefaults?
@@ -564,7 +564,7 @@ extension Rds {
     public struct PurchaseReservedDBInstancesOfferingResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReservedDBInstance", required: false, type: .structure)
         ]
         public let reservedDBInstance: ReservedDBInstance?
@@ -581,7 +581,7 @@ extension Rds {
     public struct OptionSettingConfigurationList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OptionSetting", required: false, type: .list)
         ]
         public let optionSetting: [OptionSetting]?
@@ -602,7 +602,7 @@ extension Rds {
     public struct OptionsConflictsWith: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OptionConflictName", required: false, type: .list)
         ]
         public let optionConflictName: [String]?
@@ -619,7 +619,7 @@ extension Rds {
     public struct FailoverDBClusterResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBCluster", required: false, type: .structure)
         ]
         public let dBCluster: DBCluster?
@@ -636,7 +636,7 @@ extension Rds {
     public struct CreateDBClusterSnapshotMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Tags", required: false, type: .structure), 
             AWSShapeProperty(label: "DBClusterSnapshotIdentifier", required: true, type: .string), 
             AWSShapeProperty(label: "DBClusterIdentifier", required: true, type: .string)
@@ -666,7 +666,7 @@ extension Rds {
     public struct DBClusterSnapshotAttribute: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AttributeName", required: false, type: .string), 
             AWSShapeProperty(label: "AttributeValues", required: false, type: .structure)
         ]
@@ -689,7 +689,7 @@ extension Rds {
     public struct DomainMembership: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "IAMRoleName", required: false, type: .string), 
             AWSShapeProperty(label: "FQDN", required: false, type: .string), 
@@ -722,7 +722,7 @@ extension Rds {
     public struct RebootDBInstanceResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBInstance", required: false, type: .structure)
         ]
         public let dBInstance: DBInstance?
@@ -739,7 +739,7 @@ extension Rds {
     public struct ModifyOptionGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OptionGroup", required: false, type: .structure)
         ]
         public let optionGroup: OptionGroup?
@@ -756,7 +756,7 @@ extension Rds {
     public struct AttributeValueList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AttributeValue", required: false, type: .list)
         ]
         public let attributeValue: [String]?
@@ -773,7 +773,7 @@ extension Rds {
     public struct Tag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: false, type: .string), 
             AWSShapeProperty(label: "Key", required: false, type: .string)
         ]
@@ -796,7 +796,7 @@ extension Rds {
     public struct SupportedTimezonesList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Timezone", required: false, type: .list)
         ]
         public let timezone: [Timezone]?
@@ -817,7 +817,7 @@ extension Rds {
     public struct ListTagsForResourceMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Filters", required: false, type: .structure), 
             AWSShapeProperty(label: "ResourceName", required: true, type: .string)
         ]
@@ -841,7 +841,7 @@ extension Rds {
     public struct FailoverDBClusterMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TargetDBInstanceIdentifier", required: false, type: .string), 
             AWSShapeProperty(label: "DBClusterIdentifier", required: false, type: .string)
         ]
@@ -864,7 +864,7 @@ extension Rds {
     public struct CreateEventSubscriptionMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SnsTopicArn", required: true, type: .string), 
             AWSShapeProperty(label: "SubscriptionName", required: true, type: .string), 
             AWSShapeProperty(label: "SourceType", required: false, type: .string), 
@@ -913,7 +913,7 @@ extension Rds {
     public struct DescribeDBSnapshotAttributesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBSnapshotAttributesResult", required: false, type: .structure)
         ]
         public let dBSnapshotAttributesResult: DBSnapshotAttributesResult?
@@ -930,7 +930,7 @@ extension Rds {
     public struct CopyDBSnapshotMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CopyTags", required: false, type: .boolean), 
             AWSShapeProperty(label: "KmsKeyId", required: false, type: .string), 
             AWSShapeProperty(label: "TargetDBSnapshotIdentifier", required: true, type: .string), 
@@ -974,7 +974,7 @@ extension Rds {
     public struct EventCategoriesMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EventCategoriesMapList", required: false, type: .structure)
         ]
         /// A list of EventCategoriesMap data types.
@@ -992,7 +992,7 @@ extension Rds {
     public struct DBClusterParameterGroupDetails: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "Parameters", required: false, type: .structure)
         ]
@@ -1015,7 +1015,7 @@ extension Rds {
     public struct RecurringCharge: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RecurringChargeAmount", required: false, type: .double), 
             AWSShapeProperty(label: "RecurringChargeFrequency", required: false, type: .string)
         ]
@@ -1038,7 +1038,7 @@ extension Rds {
     public struct ModifyDBInstanceResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBInstance", required: false, type: .structure)
         ]
         public let dBInstance: DBInstance?
@@ -1055,7 +1055,7 @@ extension Rds {
     public struct OptionGroupMembership: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "OptionGroupName", required: false, type: .string)
         ]
@@ -1078,7 +1078,7 @@ extension Rds {
     public struct IPRangeList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IPRange", required: false, type: .list)
         ]
         public let iPRange: [IPRange]?
@@ -1099,7 +1099,7 @@ extension Rds {
     public struct DeleteDBClusterSnapshotMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBClusterSnapshotIdentifier", required: true, type: .string)
         ]
         /// The identifier of the DB cluster snapshot to delete. Constraints: Must be the name of an existing DB cluster snapshot in the available state.
@@ -1118,7 +1118,7 @@ extension Rds {
     public struct RestoreDBClusterToPointInTimeResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBCluster", required: false, type: .structure)
         ]
         public let dBCluster: DBCluster?
@@ -1135,7 +1135,7 @@ extension Rds {
     public struct DescribeEventsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
@@ -1193,7 +1193,7 @@ extension Rds {
     public struct CopyOptionGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OptionGroup", required: false, type: .structure)
         ]
         public let optionGroup: OptionGroup?
@@ -1210,7 +1210,7 @@ extension Rds {
     public struct AvailabilityZones: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AvailabilityZone", required: false, type: .list)
         ]
         public let availabilityZone: [String]?
@@ -1227,7 +1227,7 @@ extension Rds {
     public struct CreateDBInstanceReadReplicaResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBInstance", required: false, type: .structure)
         ]
         public let dBInstance: DBInstance?
@@ -1244,7 +1244,7 @@ extension Rds {
     public struct Option: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OptionSettings", required: false, type: .structure), 
             AWSShapeProperty(label: "OptionDescription", required: false, type: .string), 
             AWSShapeProperty(label: "OptionVersion", required: false, type: .string), 
@@ -1302,7 +1302,7 @@ extension Rds {
     public struct VpcSecurityGroupIdList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcSecurityGroupId", required: false, type: .list)
         ]
         public let vpcSecurityGroupId: [String]?
@@ -1319,7 +1319,7 @@ extension Rds {
     public struct RemoveTagsFromResourceMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceName", required: true, type: .string), 
             AWSShapeProperty(label: "TagKeys", required: true, type: .list)
         ]
@@ -1344,7 +1344,7 @@ extension Rds {
     public struct OptionsDependedOn: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OptionName", required: false, type: .list)
         ]
         public let optionName: [String]?
@@ -1361,7 +1361,7 @@ extension Rds {
     public struct DBClusterMemberList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBClusterMember", required: false, type: .list)
         ]
         public let dBClusterMember: [DBClusterMember]?
@@ -1382,7 +1382,7 @@ extension Rds {
     public struct EventList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Event", required: false, type: .list)
         ]
         public let event: [Event]?
@@ -1403,7 +1403,7 @@ extension Rds {
     public struct OptionGroup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Options", required: false, type: .structure), 
             AWSShapeProperty(label: "AllowsVpcAndNonVpcInstanceMemberships", required: false, type: .boolean), 
             AWSShapeProperty(label: "OptionGroupName", required: false, type: .string), 
@@ -1456,7 +1456,7 @@ extension Rds {
     public struct DBParameterGroupStatusList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBParameterGroup", required: false, type: .list)
         ]
         public let dBParameterGroup: [DBParameterGroupStatus]?
@@ -1477,7 +1477,7 @@ extension Rds {
     public struct RestoreDBInstanceFromDBSnapshotMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Port", required: false, type: .integer), 
             AWSShapeProperty(label: "Domain", required: false, type: .string), 
             AWSShapeProperty(label: "DBName", required: false, type: .string), 
@@ -1596,7 +1596,7 @@ extension Rds {
     public struct OrderableDBInstanceOptionsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "OrderableDBInstanceOptions", required: false, type: .structure)
         ]
@@ -1619,7 +1619,7 @@ extension Rds {
     public struct DescribeDBClusterSnapshotsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "DBClusterIdentifier", required: false, type: .string), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
@@ -1672,7 +1672,7 @@ extension Rds {
     public struct DBClusterSnapshot: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AvailabilityZones", required: false, type: .structure), 
             AWSShapeProperty(label: "AllocatedStorage", required: false, type: .integer), 
             AWSShapeProperty(label: "LicenseModel", required: false, type: .string), 
@@ -1775,7 +1775,7 @@ extension Rds {
     public struct DBSnapshotAttributeList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBSnapshotAttribute", required: false, type: .list)
         ]
         public let dBSnapshotAttribute: [DBSnapshotAttribute]?
@@ -1796,7 +1796,7 @@ extension Rds {
     public struct PromoteReadReplicaDBClusterResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBCluster", required: false, type: .structure)
         ]
         public let dBCluster: DBCluster?
@@ -1813,7 +1813,7 @@ extension Rds {
     public struct ModifyDBSubnetGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBSubnetGroup", required: false, type: .structure)
         ]
         public let dBSubnetGroup: DBSubnetGroup?
@@ -1830,7 +1830,7 @@ extension Rds {
     public struct DeleteEventSubscriptionMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubscriptionName", required: true, type: .string)
         ]
         /// The name of the RDS event notification subscription you want to delete.
@@ -1849,7 +1849,7 @@ extension Rds {
     public struct DeleteDBSnapshotMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBSnapshotIdentifier", required: true, type: .string)
         ]
         /// The DBSnapshot identifier. Constraints: Must be the name of an existing DB snapshot in the available state.
@@ -1868,7 +1868,7 @@ extension Rds {
     public struct DBInstanceStatusInfo: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "Message", required: false, type: .string), 
             AWSShapeProperty(label: "StatusType", required: false, type: .string), 
@@ -1901,7 +1901,7 @@ extension Rds {
     public struct SourceIdsList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SourceId", required: false, type: .list)
         ]
         public let sourceId: [String]?
@@ -1918,7 +1918,7 @@ extension Rds {
     public struct SubnetIdentifierList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubnetIdentifier", required: false, type: .list)
         ]
         public let subnetIdentifier: [String]?
@@ -1935,7 +1935,7 @@ extension Rds {
     public struct ReservedDBInstancesOfferingMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "ReservedDBInstancesOfferings", required: false, type: .structure)
         ]
@@ -1958,7 +1958,7 @@ extension Rds {
     public struct Subnet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubnetIdentifier", required: false, type: .string), 
             AWSShapeProperty(label: "SubnetAvailabilityZone", required: false, type: .structure), 
             AWSShapeProperty(label: "SubnetStatus", required: false, type: .string)
@@ -1985,7 +1985,7 @@ extension Rds {
     public struct EC2SecurityGroup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "EC2SecurityGroupId", required: false, type: .string), 
             AWSShapeProperty(label: "EC2SecurityGroupOwnerId", required: false, type: .string), 
@@ -2018,7 +2018,7 @@ extension Rds {
     public struct Parameter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ParameterValue", required: false, type: .string), 
             AWSShapeProperty(label: "AllowedValues", required: false, type: .string), 
             AWSShapeProperty(label: "DataType", required: false, type: .string), 
@@ -2081,7 +2081,7 @@ extension Rds {
     public struct ResetDBParameterGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Parameters", required: false, type: .structure), 
             AWSShapeProperty(label: "DBParameterGroupName", required: true, type: .string), 
             AWSShapeProperty(label: "ResetAllParameters", required: false, type: .boolean)
@@ -2110,7 +2110,7 @@ extension Rds {
     public struct OptionSettingsList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OptionSetting", required: false, type: .list)
         ]
         public let optionSetting: [OptionSetting]?
@@ -2131,7 +2131,7 @@ extension Rds {
     public struct OptionGroupOptionVersionsList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OptionVersion", required: false, type: .list)
         ]
         public let optionVersion: [OptionVersion]?
@@ -2152,7 +2152,7 @@ extension Rds {
     public struct DBInstanceList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBInstance", required: false, type: .list)
         ]
         public let dBInstance: [DBInstance]?
@@ -2173,7 +2173,7 @@ extension Rds {
     public struct SupportedCharacterSetsList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CharacterSet", required: false, type: .list)
         ]
         public let characterSet: [CharacterSet]?
@@ -2194,7 +2194,7 @@ extension Rds {
     public struct DescribeEngineDefaultClusterParametersMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBParameterGroupFamily", required: true, type: .string), 
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "Filters", required: false, type: .structure), 
@@ -2228,7 +2228,7 @@ extension Rds {
     public struct DBEngineVersion: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EngineVersion", required: false, type: .string), 
             AWSShapeProperty(label: "SupportedCharacterSets", required: false, type: .structure), 
             AWSShapeProperty(label: "DefaultCharacterSet", required: false, type: .structure), 
@@ -2286,7 +2286,7 @@ extension Rds {
     public struct OptionGroupMembershipList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OptionGroupMembership", required: false, type: .list)
         ]
         public let optionGroupMembership: [OptionGroupMembership]?
@@ -2307,7 +2307,7 @@ extension Rds {
     public struct ReadReplicaDBClusterIdentifierList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReadReplicaDBClusterIdentifier", required: false, type: .list)
         ]
         public let readReplicaDBClusterIdentifier: [String]?
@@ -2324,7 +2324,7 @@ extension Rds {
     public struct DBClusterSnapshotList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBClusterSnapshot", required: false, type: .list)
         ]
         public let dBClusterSnapshot: [DBClusterSnapshot]?
@@ -2345,7 +2345,7 @@ extension Rds {
     public struct DescribeDBLogFilesMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "DBInstanceIdentifier", required: true, type: .string), 
             AWSShapeProperty(label: "FileSize", required: false, type: .long), 
@@ -2394,7 +2394,7 @@ extension Rds {
     public struct AccountQuota: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Max", required: false, type: .long), 
             AWSShapeProperty(label: "Used", required: false, type: .long), 
             AWSShapeProperty(label: "AccountQuotaName", required: false, type: .string)
@@ -2422,7 +2422,7 @@ extension Rds {
     public struct DescribeDBEngineVersionsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "EngineVersion", required: false, type: .string), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
@@ -2480,7 +2480,7 @@ extension Rds {
     public struct DescribeDBLogFilesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "DescribeDBLogFiles", required: false, type: .structure)
         ]
@@ -2503,7 +2503,7 @@ extension Rds {
     public struct DescribePendingMaintenanceActionsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceIdentifier", required: false, type: .string), 
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "Filters", required: false, type: .structure), 
@@ -2536,7 +2536,7 @@ extension Rds {
     public struct Event: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SourceType", required: false, type: .enum), 
             AWSShapeProperty(label: "Message", required: false, type: .string), 
             AWSShapeProperty(label: "SourceIdentifier", required: false, type: .string), 
@@ -2579,7 +2579,7 @@ extension Rds {
     public struct DescribeDBClusterSnapshotAttributesMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBClusterSnapshotIdentifier", required: true, type: .string)
         ]
         /// The identifier for the DB cluster snapshot to describe the attributes for.
@@ -2598,7 +2598,7 @@ extension Rds {
     public struct DBSecurityGroup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBSecurityGroupDescription", required: false, type: .string), 
             AWSShapeProperty(label: "EC2SecurityGroups", required: false, type: .structure), 
             AWSShapeProperty(label: "DBSecurityGroupArn", required: false, type: .string), 
@@ -2646,7 +2646,7 @@ extension Rds {
     public struct DescribeEventSubscriptionsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "Filters", required: false, type: .structure), 
             AWSShapeProperty(label: "SubscriptionName", required: false, type: .string), 
@@ -2679,7 +2679,7 @@ extension Rds {
     public struct PromoteReadReplicaMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BackupRetentionPeriod", required: false, type: .integer), 
             AWSShapeProperty(label: "PreferredBackupWindow", required: false, type: .string), 
             AWSShapeProperty(label: "DBInstanceIdentifier", required: true, type: .string)
@@ -2708,7 +2708,7 @@ extension Rds {
     public struct EventCategoriesMap: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SourceType", required: false, type: .string), 
             AWSShapeProperty(label: "EventCategories", required: false, type: .structure)
         ]
@@ -2731,7 +2731,7 @@ extension Rds {
     public struct DescribeDBParameterGroupsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "Filters", required: false, type: .structure), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
@@ -2764,7 +2764,7 @@ extension Rds {
     public struct CopyDBSnapshotResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBSnapshot", required: false, type: .structure)
         ]
         public let dBSnapshot: DBSnapshot?
@@ -2781,7 +2781,7 @@ extension Rds {
     public struct DBClusterRoles: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBClusterRole", required: false, type: .list)
         ]
         public let dBClusterRole: [DBClusterRole]?
@@ -2802,7 +2802,7 @@ extension Rds {
     public struct ModifyEventSubscriptionResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EventSubscription", required: false, type: .structure)
         ]
         public let eventSubscription: EventSubscription?
@@ -2819,7 +2819,7 @@ extension Rds {
     public struct DBClusterList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBCluster", required: false, type: .list)
         ]
         public let dBCluster: [DBCluster]?
@@ -2840,7 +2840,7 @@ extension Rds {
     public struct ModifyOptionGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OptionGroupName", required: true, type: .string), 
             AWSShapeProperty(label: "OptionsToInclude", required: false, type: .structure), 
             AWSShapeProperty(label: "OptionsToRemove", required: false, type: .list), 
@@ -2874,7 +2874,7 @@ extension Rds {
     public struct DBParameterGroupStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBParameterGroupName", required: false, type: .string), 
             AWSShapeProperty(label: "ParameterApplyStatus", required: false, type: .string)
         ]
@@ -2897,7 +2897,7 @@ extension Rds {
     public struct DBClusterParameterGroupsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "DBClusterParameterGroups", required: false, type: .structure)
         ]
@@ -2920,7 +2920,7 @@ extension Rds {
     public struct DBSnapshotList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBSnapshot", required: false, type: .list)
         ]
         public let dBSnapshot: [DBSnapshot]?
@@ -2941,7 +2941,7 @@ extension Rds {
     public struct ReadReplicaDBInstanceIdentifierList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReadReplicaDBInstanceIdentifier", required: false, type: .list)
         ]
         public let readReplicaDBInstanceIdentifier: [String]?
@@ -2958,7 +2958,7 @@ extension Rds {
     public struct OptionGroups: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "OptionGroupsList", required: false, type: .structure)
         ]
@@ -2981,7 +2981,7 @@ extension Rds {
     public struct CreateDBSubnetGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubnetIds", required: true, type: .structure), 
             AWSShapeProperty(label: "DBSubnetGroupDescription", required: true, type: .string), 
             AWSShapeProperty(label: "DBSubnetGroupName", required: true, type: .string), 
@@ -3016,7 +3016,7 @@ extension Rds {
     public struct CreateOptionGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OptionGroup", required: false, type: .structure)
         ]
         public let optionGroup: OptionGroup?
@@ -3033,7 +3033,7 @@ extension Rds {
     public struct CopyDBClusterParameterGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SourceDBClusterParameterGroupIdentifier", required: true, type: .string), 
             AWSShapeProperty(label: "TargetDBClusterParameterGroupDescription", required: true, type: .string), 
             AWSShapeProperty(label: "TargetDBClusterParameterGroupIdentifier", required: true, type: .string), 
@@ -3068,7 +3068,7 @@ extension Rds {
     public struct RestoreDBInstanceFromDBSnapshotResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBInstance", required: false, type: .structure)
         ]
         public let dBInstance: DBInstance?
@@ -3085,7 +3085,7 @@ extension Rds {
     public struct CreateDBParameterGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBParameterGroup", required: false, type: .structure)
         ]
         public let dBParameterGroup: DBParameterGroup?
@@ -3102,7 +3102,7 @@ extension Rds {
     public struct OptionSetting: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Description", required: false, type: .string), 
             AWSShapeProperty(label: "AllowedValues", required: false, type: .string), 
             AWSShapeProperty(label: "DataType", required: false, type: .string), 
@@ -3160,7 +3160,7 @@ extension Rds {
     public struct ModifyDBSubnetGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubnetIds", required: true, type: .structure), 
             AWSShapeProperty(label: "DBSubnetGroupDescription", required: false, type: .string), 
             AWSShapeProperty(label: "DBSubnetGroupName", required: true, type: .string)
@@ -3190,7 +3190,7 @@ extension Rds {
     public struct DownloadDBLogFilePortionDetails: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AdditionalDataPending", required: false, type: .boolean), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "LogFileData", required: false, type: .string)
@@ -3218,7 +3218,7 @@ extension Rds {
     public struct DBSnapshotAttribute: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AttributeName", required: false, type: .string), 
             AWSShapeProperty(label: "AttributeValues", required: false, type: .structure)
         ]
@@ -3241,7 +3241,7 @@ extension Rds {
     public struct RemoveSourceIdentifierFromSubscriptionResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EventSubscription", required: false, type: .structure)
         ]
         public let eventSubscription: EventSubscription?
@@ -3258,7 +3258,7 @@ extension Rds {
     public struct DeleteOptionGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OptionGroupName", required: true, type: .string)
         ]
         /// The name of the option group to be deleted.  You cannot delete default option groups. 
@@ -3277,7 +3277,7 @@ extension Rds {
     public struct DeleteDBClusterResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBCluster", required: false, type: .structure)
         ]
         public let dBCluster: DBCluster?
@@ -3294,7 +3294,7 @@ extension Rds {
     public struct OrderableDBInstanceOptionsList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OrderableDBInstanceOption", required: false, type: .list)
         ]
         public let orderableDBInstanceOption: [OrderableDBInstanceOption]?
@@ -3315,7 +3315,7 @@ extension Rds {
     public struct AddTagsToResourceMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Tags", required: true, type: .structure), 
             AWSShapeProperty(label: "ResourceName", required: true, type: .string)
         ]
@@ -3340,7 +3340,7 @@ extension Rds {
     public struct DBClusterOptionGroupMemberships: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBClusterOptionGroup", required: false, type: .list)
         ]
         public let dBClusterOptionGroup: [DBClusterOptionGroupStatus]?
@@ -3361,7 +3361,7 @@ extension Rds {
     public struct PendingMaintenanceAction: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AutoAppliedAfterDate", required: false, type: .timestamp), 
             AWSShapeProperty(label: "OptInStatus", required: false, type: .string), 
             AWSShapeProperty(label: "Action", required: false, type: .string), 
@@ -3404,7 +3404,7 @@ extension Rds {
     public struct DeleteDBSnapshotResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBSnapshot", required: false, type: .structure)
         ]
         public let dBSnapshot: DBSnapshot?
@@ -3421,7 +3421,7 @@ extension Rds {
     public struct ModifyDBClusterSnapshotAttributeMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AttributeName", required: true, type: .string), 
             AWSShapeProperty(label: "ValuesToAdd", required: false, type: .structure), 
             AWSShapeProperty(label: "DBClusterSnapshotIdentifier", required: true, type: .string), 
@@ -3456,7 +3456,7 @@ extension Rds {
     public struct DBClusterSnapshotAttributeList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBClusterSnapshotAttribute", required: false, type: .list)
         ]
         public let dBClusterSnapshotAttribute: [DBClusterSnapshotAttribute]?
@@ -3477,7 +3477,7 @@ extension Rds {
     public struct DBEngineVersionList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBEngineVersion", required: false, type: .list)
         ]
         public let dBEngineVersion: [DBEngineVersion]?
@@ -3498,7 +3498,7 @@ extension Rds {
     public struct PendingMaintenanceActionDetails: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PendingMaintenanceAction", required: false, type: .list)
         ]
         public let pendingMaintenanceAction: [PendingMaintenanceAction]?
@@ -3519,7 +3519,7 @@ extension Rds {
     public struct EventSubscriptionsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EventSubscriptionsList", required: false, type: .structure), 
             AWSShapeProperty(label: "Marker", required: false, type: .string)
         ]
@@ -3542,7 +3542,7 @@ extension Rds {
     public struct DBClusterParameterGroupNameMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBClusterParameterGroupName", required: false, type: .string)
         ]
         /// The name of the DB cluster parameter group. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens    This value is stored as a lowercase string. 
@@ -3560,7 +3560,7 @@ extension Rds {
     public struct ModifyDBSnapshotMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBSnapshotIdentifier", required: true, type: .string), 
             AWSShapeProperty(label: "EngineVersion", required: false, type: .string)
         ]
@@ -3584,7 +3584,7 @@ extension Rds {
     public struct EventSubscriptionsList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EventSubscription", required: false, type: .list)
         ]
         public let eventSubscription: [EventSubscription]?
@@ -3605,7 +3605,7 @@ extension Rds {
     public struct ModifyDBClusterParameterGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Parameters", required: true, type: .structure), 
             AWSShapeProperty(label: "DBClusterParameterGroupName", required: true, type: .string)
         ]
@@ -3630,7 +3630,7 @@ extension Rds {
     public struct AddSourceIdentifierToSubscriptionMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SourceIdentifier", required: true, type: .string), 
             AWSShapeProperty(label: "SubscriptionName", required: true, type: .string)
         ]
@@ -3655,7 +3655,7 @@ extension Rds {
     public struct DescribeOptionGroupsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "Filters", required: false, type: .structure), 
             AWSShapeProperty(label: "OptionGroupName", required: false, type: .string), 
@@ -3698,7 +3698,7 @@ extension Rds {
     public struct CreateEventSubscriptionResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EventSubscription", required: false, type: .structure)
         ]
         public let eventSubscription: EventSubscription?
@@ -3715,7 +3715,7 @@ extension Rds {
     public struct DBParameterGroupDetails: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "Parameters", required: false, type: .structure)
         ]
@@ -3738,7 +3738,7 @@ extension Rds {
     public struct VpcSecurityGroupMembership: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "VpcSecurityGroupId", required: false, type: .string)
         ]
@@ -3761,7 +3761,7 @@ extension Rds {
     public struct PendingMaintenanceActionsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "PendingMaintenanceActions", required: false, type: .structure)
         ]
@@ -3784,7 +3784,7 @@ extension Rds {
     public struct CopyDBClusterSnapshotResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBClusterSnapshot", required: false, type: .structure)
         ]
         public let dBClusterSnapshot: DBClusterSnapshot?
@@ -3801,7 +3801,7 @@ extension Rds {
     public struct DBInstanceMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "DBInstances", required: false, type: .structure)
         ]
@@ -3824,7 +3824,7 @@ extension Rds {
     public struct PromoteReadReplicaResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBInstance", required: false, type: .structure)
         ]
         public let dBInstance: DBInstance?
@@ -3841,7 +3841,7 @@ extension Rds {
     public struct DescribeEngineDefaultParametersMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBParameterGroupFamily", required: true, type: .string), 
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "Filters", required: false, type: .structure), 
@@ -3875,7 +3875,7 @@ extension Rds {
     public struct DescribeReservedDBInstancesMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "MultiAZ", required: false, type: .boolean), 
             AWSShapeProperty(label: "ReservedDBInstanceId", required: false, type: .string), 
@@ -3938,7 +3938,7 @@ extension Rds {
     public struct EventCategoriesList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EventCategory", required: false, type: .list)
         ]
         public let eventCategory: [String]?
@@ -3955,7 +3955,7 @@ extension Rds {
     public struct DBSecurityGroups: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBSecurityGroup", required: false, type: .list)
         ]
         public let dBSecurityGroup: [DBSecurityGroup]?
@@ -3976,7 +3976,7 @@ extension Rds {
     public struct DeleteDBInstanceResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBInstance", required: false, type: .structure)
         ]
         public let dBInstance: DBInstance?
@@ -3993,7 +3993,7 @@ extension Rds {
     public struct OrderableDBInstanceOption: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SupportsIops", required: false, type: .boolean), 
             AWSShapeProperty(label: "AvailabilityZones", required: false, type: .structure), 
             AWSShapeProperty(label: "MultiAZCapable", required: false, type: .boolean), 
@@ -4066,7 +4066,7 @@ extension Rds {
     public struct RecurringChargeList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RecurringCharge", required: false, type: .list)
         ]
         public let recurringCharge: [RecurringCharge]?
@@ -4087,7 +4087,7 @@ extension Rds {
     public struct EngineDefaults: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBParameterGroupFamily", required: false, type: .string), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "Parameters", required: false, type: .structure)
@@ -4115,7 +4115,7 @@ extension Rds {
     public struct CopyDBParameterGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TargetDBParameterGroupIdentifier", required: true, type: .string), 
             AWSShapeProperty(label: "SourceDBParameterGroupIdentifier", required: true, type: .string), 
             AWSShapeProperty(label: "Tags", required: false, type: .structure), 
@@ -4150,7 +4150,7 @@ extension Rds {
     public struct DeleteDBClusterMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FinalDBSnapshotIdentifier", required: false, type: .string), 
             AWSShapeProperty(label: "SkipFinalSnapshot", required: false, type: .boolean), 
             AWSShapeProperty(label: "DBClusterIdentifier", required: true, type: .string)
@@ -4179,7 +4179,7 @@ extension Rds {
     public struct CreateDBInstanceReadReplicaMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "KmsKeyId", required: false, type: .string), 
             AWSShapeProperty(label: "DBInstanceClass", required: false, type: .string), 
             AWSShapeProperty(label: "DBInstanceIdentifier", required: true, type: .string), 
@@ -4278,7 +4278,7 @@ extension Rds {
     public struct DescribeDBClustersMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "DBClusterIdentifier", required: false, type: .string), 
             AWSShapeProperty(label: "Filters", required: false, type: .structure), 
@@ -4311,7 +4311,7 @@ extension Rds {
     public struct OptionGroupOptionsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "OptionGroupOptions", required: false, type: .structure)
         ]
@@ -4333,7 +4333,7 @@ extension Rds {
     public struct FilterValueList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: false, type: .list)
         ]
         public let value: [String]?
@@ -4350,7 +4350,7 @@ extension Rds {
     public struct DeleteEventSubscriptionResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EventSubscription", required: false, type: .structure)
         ]
         public let eventSubscription: EventSubscription?
@@ -4367,7 +4367,7 @@ extension Rds {
     public struct CreateDBParameterGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBParameterGroupFamily", required: true, type: .string), 
             AWSShapeProperty(label: "Tags", required: false, type: .structure), 
             AWSShapeProperty(label: "DBParameterGroupName", required: true, type: .string), 
@@ -4402,7 +4402,7 @@ extension Rds {
     public struct CreateDBSecurityGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBSecurityGroup", required: false, type: .structure)
         ]
         public let dBSecurityGroup: DBSecurityGroup?
@@ -4419,7 +4419,7 @@ extension Rds {
     public struct OptionGroupOptionSettingsList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OptionGroupOptionSetting", required: false, type: .list)
         ]
         public let optionGroupOptionSetting: [OptionGroupOptionSetting]?
@@ -4440,7 +4440,7 @@ extension Rds {
     public struct CopyDBParameterGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBParameterGroup", required: false, type: .structure)
         ]
         public let dBParameterGroup: DBParameterGroup?
@@ -4457,7 +4457,7 @@ extension Rds {
     public struct EventSubscription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "SnsTopicArn", required: false, type: .string), 
             AWSShapeProperty(label: "SourceIdsList", required: false, type: .structure), 
@@ -4520,7 +4520,7 @@ extension Rds {
     public struct AccountAttributesMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountQuotas", required: false, type: .structure)
         ]
         /// A list of AccountQuota objects. Within this list, each quota has a name, a count of usage toward the quota maximum, and a maximum value for the quota.
@@ -4538,7 +4538,7 @@ extension Rds {
     public struct VpcSecurityGroupMembershipList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcSecurityGroupMembership", required: false, type: .list)
         ]
         public let vpcSecurityGroupMembership: [VpcSecurityGroupMembership]?
@@ -4559,7 +4559,7 @@ extension Rds {
     public struct DBClusterRole: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RoleArn", required: false, type: .string), 
             AWSShapeProperty(label: "Status", required: false, type: .string)
         ]
@@ -4582,7 +4582,7 @@ extension Rds {
     public struct CreateDBInstanceMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBName", required: false, type: .string), 
             AWSShapeProperty(label: "TdeCredentialPassword", required: false, type: .string), 
             AWSShapeProperty(label: "MasterUserPassword", required: false, type: .string), 
@@ -4787,7 +4787,7 @@ extension Rds {
     public struct ApplyPendingMaintenanceActionMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceIdentifier", required: true, type: .string), 
             AWSShapeProperty(label: "OptInType", required: true, type: .string), 
             AWSShapeProperty(label: "ApplyAction", required: true, type: .string)
@@ -4818,7 +4818,7 @@ extension Rds {
     public struct TagList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Tag", required: false, type: .list)
         ]
         public let tag: [Tag]?
@@ -4839,7 +4839,7 @@ extension Rds {
     public struct CreateDBClusterParameterGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBClusterParameterGroup", required: false, type: .structure)
         ]
         public let dBClusterParameterGroup: DBClusterParameterGroup?
@@ -4856,7 +4856,7 @@ extension Rds {
     public struct ModifyDBSnapshotAttributeMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AttributeName", required: true, type: .string), 
             AWSShapeProperty(label: "ValuesToAdd", required: false, type: .structure), 
             AWSShapeProperty(label: "ValuesToRemove", required: false, type: .structure), 
@@ -4891,7 +4891,7 @@ extension Rds {
     public struct RestoreDBClusterToPointInTimeMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "KmsKeyId", required: false, type: .string), 
             AWSShapeProperty(label: "DBClusterIdentifier", required: true, type: .string), 
             AWSShapeProperty(label: "OptionGroupName", required: false, type: .string), 
@@ -4955,7 +4955,7 @@ extension Rds {
     public struct AvailabilityZoneList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AvailabilityZone", required: false, type: .list)
         ]
         public let availabilityZone: [AvailabilityZone]?
@@ -4976,7 +4976,7 @@ extension Rds {
     public struct DBCluster: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBClusterArn", required: false, type: .string), 
             AWSShapeProperty(label: "VpcSecurityGroups", required: false, type: .structure), 
             AWSShapeProperty(label: "ReadReplicaIdentifiers", required: false, type: .structure), 
@@ -5154,7 +5154,7 @@ extension Rds {
     public struct DescribeEventCategoriesMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SourceType", required: false, type: .string), 
             AWSShapeProperty(label: "Filters", required: false, type: .structure)
         ]
@@ -5177,7 +5177,7 @@ extension Rds {
     public struct CreateDBClusterSnapshotResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBClusterSnapshot", required: false, type: .structure)
         ]
         public let dBClusterSnapshot: DBClusterSnapshot?
@@ -5194,7 +5194,7 @@ extension Rds {
     public struct ModifyDBClusterSnapshotAttributeResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBClusterSnapshotAttributesResult", required: false, type: .structure)
         ]
         public let dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
@@ -5211,7 +5211,7 @@ extension Rds {
     public struct DescribeDBLogFilesList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DescribeDBLogFilesDetails", required: false, type: .list)
         ]
         public let describeDBLogFilesDetails: [DescribeDBLogFilesDetails]?
@@ -5232,7 +5232,7 @@ extension Rds {
     public struct AuthorizeDBSecurityGroupIngressResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBSecurityGroup", required: false, type: .structure)
         ]
         public let dBSecurityGroup: DBSecurityGroup?
@@ -5249,7 +5249,7 @@ extension Rds {
     public struct ReservedDBInstanceMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "ReservedDBInstances", required: false, type: .structure)
         ]
@@ -5272,7 +5272,7 @@ extension Rds {
     public struct DescribeDBClusterParametersMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "Filters", required: false, type: .structure), 
             AWSShapeProperty(label: "Source", required: false, type: .string), 
@@ -5311,7 +5311,7 @@ extension Rds {
     public struct DeleteDBParameterGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBParameterGroupName", required: true, type: .string)
         ]
         /// The name of the DB parameter group. Constraints:   Must be the name of an existing DB parameter group   You cannot delete a default DB parameter group   Cannot be associated with any DB instances  
@@ -5330,7 +5330,7 @@ extension Rds {
     public struct DBSecurityGroupMembership: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "DBSecurityGroupName", required: false, type: .string)
         ]
@@ -5353,7 +5353,7 @@ extension Rds {
     public struct OptionVersion: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IsDefault", required: false, type: .boolean), 
             AWSShapeProperty(label: "Version", required: false, type: .string)
         ]
@@ -5376,7 +5376,7 @@ extension Rds {
     public struct DBClusterParameterGroup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBParameterGroupFamily", required: false, type: .string), 
             AWSShapeProperty(label: "DBClusterParameterGroupArn", required: false, type: .string), 
             AWSShapeProperty(label: "DBClusterParameterGroupName", required: false, type: .string), 
@@ -5419,7 +5419,7 @@ extension Rds {
     public struct CreateDBSecurityGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Tags", required: false, type: .structure), 
             AWSShapeProperty(label: "DBSecurityGroupDescription", required: true, type: .string), 
             AWSShapeProperty(label: "DBSecurityGroupName", required: true, type: .string)
@@ -5448,7 +5448,7 @@ extension Rds {
     public struct OptionGroupOptionSetting: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SettingName", required: false, type: .string), 
             AWSShapeProperty(label: "AllowedValues", required: false, type: .string), 
             AWSShapeProperty(label: "IsModifiable", required: false, type: .boolean), 
@@ -5497,7 +5497,7 @@ extension Rds {
     public struct DBSecurityGroupNameList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBSecurityGroupName", required: false, type: .list)
         ]
         public let dBSecurityGroupName: [String]?
@@ -5514,7 +5514,7 @@ extension Rds {
     public struct DomainMembershipList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DomainMembership", required: false, type: .list)
         ]
         public let domainMembership: [DomainMembership]?
@@ -5535,7 +5535,7 @@ extension Rds {
     public struct CreateDBClusterResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBCluster", required: false, type: .structure)
         ]
         public let dBCluster: DBCluster?
@@ -5552,7 +5552,7 @@ extension Rds {
     public struct DeleteDBInstanceMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FinalDBSnapshotIdentifier", required: false, type: .string), 
             AWSShapeProperty(label: "SkipFinalSnapshot", required: false, type: .boolean), 
             AWSShapeProperty(label: "DBInstanceIdentifier", required: true, type: .string)
@@ -5581,7 +5581,7 @@ extension Rds {
     public struct Timezone: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TimezoneName", required: false, type: .string)
         ]
         /// The name of the time zone.
@@ -5599,7 +5599,7 @@ extension Rds {
     public struct RebootDBInstanceMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBInstanceIdentifier", required: true, type: .string), 
             AWSShapeProperty(label: "ForceFailover", required: false, type: .boolean)
         ]
@@ -5623,7 +5623,7 @@ extension Rds {
     public struct DescribeDBSnapshotsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "IncludePublic", required: false, type: .boolean), 
@@ -5676,7 +5676,7 @@ extension Rds {
     public struct ReservedDBInstanceList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReservedDBInstance", required: false, type: .list)
         ]
         public let reservedDBInstance: [ReservedDBInstance]?
@@ -5697,7 +5697,7 @@ extension Rds {
     public struct DeleteDBClusterSnapshotResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBClusterSnapshot", required: false, type: .structure)
         ]
         public let dBClusterSnapshot: DBClusterSnapshot?
@@ -5714,7 +5714,7 @@ extension Rds {
     public struct RestoreDBInstanceToPointInTimeResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBInstance", required: false, type: .structure)
         ]
         public let dBInstance: DBInstance?
@@ -5731,7 +5731,7 @@ extension Rds {
     public struct DBClusterSnapshotAttributesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBClusterSnapshotIdentifier", required: false, type: .string), 
             AWSShapeProperty(label: "DBClusterSnapshotAttributes", required: false, type: .structure)
         ]
@@ -5754,7 +5754,7 @@ extension Rds {
     public struct DescribeDBLogFilesDetails: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LastWritten", required: false, type: .long), 
             AWSShapeProperty(label: "Size", required: false, type: .long), 
             AWSShapeProperty(label: "LogFileName", required: false, type: .string)
@@ -5782,7 +5782,7 @@ extension Rds {
     public struct DBClusterOptionGroupStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "DBClusterOptionGroupName", required: false, type: .string)
         ]
@@ -5805,7 +5805,7 @@ extension Rds {
     public struct DBInstance: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcSecurityGroups", required: false, type: .structure), 
             AWSShapeProperty(label: "DBName", required: false, type: .string), 
             AWSShapeProperty(label: "EnhancedMonitoringResourceArn", required: false, type: .string), 
@@ -6058,7 +6058,7 @@ extension Rds {
     public struct ModifyDBSnapshotAttributeResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBSnapshotAttributesResult", required: false, type: .structure)
         ]
         public let dBSnapshotAttributesResult: DBSnapshotAttributesResult?
@@ -6075,7 +6075,7 @@ extension Rds {
     public struct RevokeDBSecurityGroupIngressResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBSecurityGroup", required: false, type: .structure)
         ]
         public let dBSecurityGroup: DBSecurityGroup?
@@ -6092,7 +6092,7 @@ extension Rds {
     public struct UpgradeTarget: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Engine", required: false, type: .string), 
             AWSShapeProperty(label: "Description", required: false, type: .string), 
             AWSShapeProperty(label: "EngineVersion", required: false, type: .string), 
@@ -6130,7 +6130,7 @@ extension Rds {
     public struct DBSecurityGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "DBSecurityGroups", required: false, type: .structure)
         ]
@@ -6153,7 +6153,7 @@ extension Rds {
     public struct ApplyPendingMaintenanceActionResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourcePendingMaintenanceActions", required: false, type: .structure)
         ]
         public let resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions?
@@ -6170,7 +6170,7 @@ extension Rds {
     public struct SourceRegionList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SourceRegion", required: false, type: .list)
         ]
         public let sourceRegion: [SourceRegion]?
@@ -6199,7 +6199,7 @@ extension Rds {
     public struct DescribeOptionGroupOptionsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "Filters", required: false, type: .structure), 
             AWSShapeProperty(label: "EngineName", required: true, type: .string), 
@@ -6238,7 +6238,7 @@ extension Rds {
     public struct CreateDBSnapshotMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Tags", required: false, type: .structure), 
             AWSShapeProperty(label: "DBSnapshotIdentifier", required: true, type: .string), 
             AWSShapeProperty(label: "DBInstanceIdentifier", required: true, type: .string)
@@ -6267,7 +6267,7 @@ extension Rds {
     public struct CreateOptionGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OptionGroupName", required: true, type: .string), 
             AWSShapeProperty(label: "EngineName", required: true, type: .string), 
             AWSShapeProperty(label: "Tags", required: false, type: .structure), 
@@ -6308,7 +6308,7 @@ extension Rds {
     public struct CertificateList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Certificate", required: false, type: .list)
         ]
         public let certificate: [Certificate]?
@@ -6329,7 +6329,7 @@ extension Rds {
     public struct DescribeDBClusterParameterGroupsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "Filters", required: false, type: .structure), 
             AWSShapeProperty(label: "DBClusterParameterGroupName", required: false, type: .string), 
@@ -6362,7 +6362,7 @@ extension Rds {
     public struct DescribeSourceRegionsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "Filters", required: false, type: .structure), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
@@ -6395,7 +6395,7 @@ extension Rds {
     public struct Certificate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CertificateArn", required: false, type: .string), 
             AWSShapeProperty(label: "Thumbprint", required: false, type: .string), 
             AWSShapeProperty(label: "ValidFrom", required: false, type: .timestamp), 
@@ -6438,7 +6438,7 @@ extension Rds {
     public struct ReservedDBInstancesOffering: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ProductDescription", required: false, type: .string), 
             AWSShapeProperty(label: "RecurringCharges", required: false, type: .structure), 
             AWSShapeProperty(label: "MultiAZ", required: false, type: .boolean), 
@@ -6501,7 +6501,7 @@ extension Rds {
     public struct AvailabilityZone: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: false, type: .string)
         ]
         /// The name of the availability zone.
@@ -6519,7 +6519,7 @@ extension Rds {
     public struct CharacterSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CharacterSetDescription", required: false, type: .string), 
             AWSShapeProperty(label: "CharacterSetName", required: false, type: .string)
         ]
@@ -6542,7 +6542,7 @@ extension Rds {
     public struct ModifyEventSubscriptionMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SnsTopicArn", required: false, type: .string), 
             AWSShapeProperty(label: "SubscriptionName", required: true, type: .string), 
             AWSShapeProperty(label: "SourceType", required: false, type: .string), 
@@ -6581,7 +6581,7 @@ extension Rds {
     public struct RestoreDBInstanceToPointInTimeMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Domain", required: false, type: .string), 
             AWSShapeProperty(label: "Port", required: false, type: .integer), 
             AWSShapeProperty(label: "DBName", required: false, type: .string), 
@@ -6710,7 +6710,7 @@ extension Rds {
     public struct CreateDBInstanceResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBInstance", required: false, type: .structure)
         ]
         public let dBInstance: DBInstance?
@@ -6727,7 +6727,7 @@ extension Rds {
     public struct ReservedDBInstance: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RecurringCharges", required: false, type: .structure), 
             AWSShapeProperty(label: "MultiAZ", required: false, type: .boolean), 
             AWSShapeProperty(label: "UsagePrice", required: false, type: .double), 
@@ -6815,7 +6815,7 @@ extension Rds {
     public struct ModifyDBParameterGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Parameters", required: true, type: .structure), 
             AWSShapeProperty(label: "DBParameterGroupName", required: true, type: .string)
         ]
@@ -6840,7 +6840,7 @@ extension Rds {
     public struct DescribeCertificatesMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "Filters", required: false, type: .structure), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
@@ -6873,7 +6873,7 @@ extension Rds {
     public struct DBSubnetGroups: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBSubnetGroup", required: false, type: .list)
         ]
         public let dBSubnetGroup: [DBSubnetGroup]?
@@ -6894,7 +6894,7 @@ extension Rds {
     public struct DeleteDBClusterParameterGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBClusterParameterGroupName", required: true, type: .string)
         ]
         /// The name of the DB cluster parameter group. Constraints:   Must be the name of an existing DB cluster parameter group.   You cannot delete a default DB cluster parameter group.   Cannot be associated with any DB clusters.  
@@ -6913,7 +6913,7 @@ extension Rds {
     public struct RemoveRoleFromDBClusterMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RoleArn", required: true, type: .string), 
             AWSShapeProperty(label: "DBClusterIdentifier", required: true, type: .string)
         ]
@@ -6938,7 +6938,7 @@ extension Rds {
     public struct DescribeDBSubnetGroupsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "Filters", required: false, type: .structure), 
             AWSShapeProperty(label: "DBSubnetGroupName", required: false, type: .string), 
@@ -6971,7 +6971,7 @@ extension Rds {
     public struct DescribeDBClusterSnapshotAttributesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBClusterSnapshotAttributesResult", required: false, type: .structure)
         ]
         public let dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
@@ -6988,7 +6988,7 @@ extension Rds {
     public struct OptionGroupOptionsList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OptionGroupOption", required: false, type: .list)
         ]
         public let optionGroupOption: [OptionGroupOption]?
@@ -7009,7 +7009,7 @@ extension Rds {
     public struct SourceRegion: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "Endpoint", required: false, type: .string), 
             AWSShapeProperty(label: "RegionName", required: false, type: .string)
@@ -7037,7 +7037,7 @@ extension Rds {
     public struct ResourcePendingMaintenanceActions: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceIdentifier", required: false, type: .string), 
             AWSShapeProperty(label: "PendingMaintenanceActionDetails", required: false, type: .structure)
         ]
@@ -7060,7 +7060,7 @@ extension Rds {
     public struct DeleteDBSecurityGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBSecurityGroupName", required: true, type: .string)
         ]
         /// The name of the DB security group to delete.  You cannot delete the default DB security group.  Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Must not be "Default"  
@@ -7079,7 +7079,7 @@ extension Rds {
     public struct CreateDBSnapshotResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBSnapshot", required: false, type: .structure)
         ]
         public let dBSnapshot: DBSnapshot?
@@ -7096,7 +7096,7 @@ extension Rds {
     public struct DBSubnetGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "DBSubnetGroups", required: false, type: .structure)
         ]
@@ -7119,7 +7119,7 @@ extension Rds {
     public struct RestoreDBClusterFromS3Result: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBCluster", required: false, type: .structure)
         ]
         public let dBCluster: DBCluster?
@@ -7136,7 +7136,7 @@ extension Rds {
     public struct DBSnapshotMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "DBSnapshots", required: false, type: .structure)
         ]
@@ -7159,7 +7159,7 @@ extension Rds {
     public struct CopyDBClusterParameterGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBClusterParameterGroup", required: false, type: .structure)
         ]
         public let dBClusterParameterGroup: DBClusterParameterGroup?
@@ -7176,7 +7176,7 @@ extension Rds {
     public struct DBSecurityGroupMembershipList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBSecurityGroup", required: false, type: .list)
         ]
         public let dBSecurityGroup: [DBSecurityGroupMembership]?
@@ -7197,7 +7197,7 @@ extension Rds {
     public struct DBParameterGroupList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBParameterGroup", required: false, type: .list)
         ]
         public let dBParameterGroup: [DBParameterGroup]?
@@ -7218,7 +7218,7 @@ extension Rds {
     public struct EC2SecurityGroupList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EC2SecurityGroup", required: false, type: .list)
         ]
         public let eC2SecurityGroup: [EC2SecurityGroup]?
@@ -7239,7 +7239,7 @@ extension Rds {
     public struct AddSourceIdentifierToSubscriptionResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EventSubscription", required: false, type: .structure)
         ]
         public let eventSubscription: EventSubscription?
@@ -7256,7 +7256,7 @@ extension Rds {
     public struct DBSnapshotAttributesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBSnapshotAttributes", required: false, type: .structure), 
             AWSShapeProperty(label: "DBSnapshotIdentifier", required: false, type: .string)
         ]
@@ -7279,7 +7279,7 @@ extension Rds {
     public struct AddRoleToDBClusterMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RoleArn", required: true, type: .string), 
             AWSShapeProperty(label: "DBClusterIdentifier", required: true, type: .string)
         ]
@@ -7304,7 +7304,7 @@ extension Rds {
     public struct ValidUpgradeTargetList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UpgradeTarget", required: false, type: .list)
         ]
         public let upgradeTarget: [UpgradeTarget]?
@@ -7325,7 +7325,7 @@ extension Rds {
     public struct DBSubnetGroup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBSubnetGroupArn", required: false, type: .string), 
             AWSShapeProperty(label: "SubnetGroupStatus", required: false, type: .string), 
             AWSShapeProperty(label: "DBSubnetGroupDescription", required: false, type: .string), 
@@ -7368,7 +7368,7 @@ extension Rds {
     public struct RemoveSourceIdentifierFromSubscriptionMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SourceIdentifier", required: true, type: .string), 
             AWSShapeProperty(label: "SubscriptionName", required: true, type: .string)
         ]
@@ -7393,7 +7393,7 @@ extension Rds {
     public struct SubnetList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Subnet", required: false, type: .list)
         ]
         public let subnet: [Subnet]?
@@ -7414,7 +7414,7 @@ extension Rds {
     public struct AuthorizeDBSecurityGroupIngressMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EC2SecurityGroupName", required: false, type: .string), 
             AWSShapeProperty(label: "DBSecurityGroupName", required: true, type: .string), 
             AWSShapeProperty(label: "EC2SecurityGroupId", required: false, type: .string), 
@@ -7453,7 +7453,7 @@ extension Rds {
     public struct ReadReplicaIdentifierList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReadReplicaIdentifier", required: false, type: .list)
         ]
         public let readReplicaIdentifier: [String]?
@@ -7470,7 +7470,7 @@ extension Rds {
     public struct RestoreDBClusterFromS3Message: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AvailabilityZones", required: false, type: .structure), 
             AWSShapeProperty(label: "KmsKeyId", required: false, type: .string), 
             AWSShapeProperty(label: "Tags", required: false, type: .structure), 
@@ -7610,7 +7610,7 @@ extension Rds {
     public struct ModifyDBClusterMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PreferredBackupWindow", required: false, type: .string), 
             AWSShapeProperty(label: "BackupRetentionPeriod", required: false, type: .integer), 
             AWSShapeProperty(label: "DBClusterIdentifier", required: true, type: .string), 
@@ -7679,7 +7679,7 @@ extension Rds {
     public struct CertificateMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "Certificates", required: false, type: .structure)
         ]
@@ -7702,7 +7702,7 @@ extension Rds {
     public struct TagListMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TagList", required: false, type: .structure)
         ]
         /// List of tags returned by the ListTagsForResource operation.
@@ -7720,7 +7720,7 @@ extension Rds {
     public struct DBClusterParameterGroupList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBClusterParameterGroup", required: false, type: .list)
         ]
         public let dBClusterParameterGroup: [DBClusterParameterGroup]?
@@ -7741,7 +7741,7 @@ extension Rds {
     public struct CopyDBClusterSnapshotMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SourceDBClusterSnapshotIdentifier", required: true, type: .string), 
             AWSShapeProperty(label: "CopyTags", required: false, type: .boolean), 
             AWSShapeProperty(label: "KmsKeyId", required: false, type: .string), 
@@ -7784,7 +7784,7 @@ extension Rds {
     public struct DescribeReservedDBInstancesOfferingsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "MultiAZ", required: false, type: .boolean), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
@@ -7842,7 +7842,7 @@ extension Rds {
     public struct DBEngineVersionMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "DBEngineVersions", required: false, type: .structure)
         ]
@@ -7865,7 +7865,7 @@ extension Rds {
     public struct DBParameterGroupsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "DBParameterGroups", required: false, type: .structure)
         ]
@@ -7888,7 +7888,7 @@ extension Rds {
     public struct ReservedDBInstancesOfferingList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReservedDBInstancesOffering", required: false, type: .list)
         ]
         public let reservedDBInstancesOffering: [ReservedDBInstancesOffering]?
@@ -7909,7 +7909,7 @@ extension Rds {
     public struct RevokeDBSecurityGroupIngressMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EC2SecurityGroupName", required: false, type: .string), 
             AWSShapeProperty(label: "DBSecurityGroupName", required: true, type: .string), 
             AWSShapeProperty(label: "EC2SecurityGroupId", required: false, type: .string), 
@@ -7948,7 +7948,7 @@ extension Rds {
     public struct OptionConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OptionSettings", required: false, type: .structure), 
             AWSShapeProperty(label: "OptionName", required: true, type: .string), 
             AWSShapeProperty(label: "DBSecurityGroupMemberships", required: false, type: .structure), 
@@ -7992,7 +7992,7 @@ extension Rds {
     public struct RestoreDBClusterFromSnapshotMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AvailabilityZones", required: false, type: .structure), 
             AWSShapeProperty(label: "DBClusterIdentifier", required: true, type: .string), 
             AWSShapeProperty(label: "DBSubnetGroupName", required: false, type: .string), 
@@ -8068,7 +8068,7 @@ extension Rds {
     public struct CreateDBClusterMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AvailabilityZones", required: false, type: .structure), 
             AWSShapeProperty(label: "Tags", required: false, type: .structure), 
             AWSShapeProperty(label: "VpcSecurityGroupIds", required: false, type: .structure), 
@@ -8187,7 +8187,7 @@ extension Rds {
     public struct DescribeDBInstancesMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "Filters", required: false, type: .structure), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
@@ -8220,7 +8220,7 @@ extension Rds {
     public struct OptionGroupsList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OptionGroup", required: false, type: .list)
         ]
         public let optionGroup: [OptionGroup]?
@@ -8241,7 +8241,7 @@ extension Rds {
     public struct DescribeOrderableDBInstanceOptionsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "EngineVersion", required: false, type: .string), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
@@ -8295,7 +8295,7 @@ extension Rds {
     public struct PendingModifiedValues: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBInstanceClass", required: false, type: .string), 
             AWSShapeProperty(label: "MultiAZ", required: false, type: .boolean), 
             AWSShapeProperty(label: "LicenseModel", required: false, type: .string), 
@@ -8373,7 +8373,7 @@ extension Rds {
     public struct ModifyDBSnapshotResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBSnapshot", required: false, type: .structure)
         ]
         public let dBSnapshot: DBSnapshot?
@@ -8390,7 +8390,7 @@ extension Rds {
     public struct SourceRegionMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "SourceRegions", required: false, type: .structure)
         ]
@@ -8413,7 +8413,7 @@ extension Rds {
     public struct AccountQuotaList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountQuota", required: false, type: .list)
         ]
         public let accountQuota: [AccountQuota]?
@@ -8434,7 +8434,7 @@ extension Rds {
     public struct ModifyDBInstanceMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AllowMajorVersionUpgrade", required: false, type: .boolean), 
             AWSShapeProperty(label: "TdeCredentialPassword", required: false, type: .string), 
             AWSShapeProperty(label: "DBPortNumber", required: false, type: .integer), 
@@ -8608,7 +8608,7 @@ extension Rds {
     public struct OptionConfigurationList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OptionConfiguration", required: false, type: .list)
         ]
         public let optionConfiguration: [OptionConfiguration]?
@@ -8629,7 +8629,7 @@ extension Rds {
     public struct IPRange: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "CIDRIP", required: false, type: .string)
         ]
@@ -8652,7 +8652,7 @@ extension Rds {
     public struct DBSnapshot: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Port", required: false, type: .integer), 
             AWSShapeProperty(label: "Encrypted", required: false, type: .boolean), 
             AWSShapeProperty(label: "Iops", required: false, type: .integer), 
@@ -8790,7 +8790,7 @@ extension Rds {
     public struct DBParameterGroup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBParameterGroupFamily", required: false, type: .string), 
             AWSShapeProperty(label: "DBParameterGroupArn", required: false, type: .string), 
             AWSShapeProperty(label: "DBParameterGroupName", required: false, type: .string), 
@@ -8823,7 +8823,7 @@ extension Rds {
     public struct PurchaseReservedDBInstancesOfferingMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReservedDBInstanceId", required: false, type: .string), 
             AWSShapeProperty(label: "ReservedDBInstancesOfferingId", required: true, type: .string), 
             AWSShapeProperty(label: "DBInstanceCount", required: false, type: .integer), 
@@ -8856,7 +8856,7 @@ extension Rds {
     public struct ParametersList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Parameter", required: false, type: .list)
         ]
         public let parameter: [Parameter]?
@@ -8877,7 +8877,7 @@ extension Rds {
     public struct DBParameterGroupNameMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBParameterGroupName", required: false, type: .string)
         ]
         /// Provides the name of the DB parameter group.
@@ -8895,7 +8895,7 @@ extension Rds {
     public struct DescribeDBSnapshotAttributesMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DBSnapshotIdentifier", required: true, type: .string)
         ]
         /// The identifier for the DB snapshot to describe the attributes for.
@@ -8914,7 +8914,7 @@ extension Rds {
     public struct DescribeDBSecurityGroupsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "Filters", required: false, type: .structure), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
@@ -8947,7 +8947,7 @@ extension Rds {
     public struct Filter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: true, type: .string), 
             AWSShapeProperty(label: "Values", required: true, type: .structure)
         ]
@@ -8972,7 +8972,7 @@ extension Rds {
     public struct DownloadDBLogFilePortionMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NumberOfLines", required: false, type: .integer), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "LogFileName", required: true, type: .string), 
@@ -9007,7 +9007,7 @@ extension Rds {
     public struct PendingMaintenanceActions: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourcePendingMaintenanceActions", required: false, type: .list)
         ]
         public let resourcePendingMaintenanceActions: [ResourcePendingMaintenanceActions]?
@@ -9028,7 +9028,7 @@ extension Rds {
     public struct EventCategoriesMapList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EventCategoriesMap", required: false, type: .list)
         ]
         public let eventCategoriesMap: [EventCategoriesMap]?

@@ -32,7 +32,7 @@ extension Elasticache {
     public struct DescribeEngineDefaultParametersResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EngineDefaults", required: false, type: .structure)
         ]
         public let engineDefaults: EngineDefaults?
@@ -49,7 +49,7 @@ extension Elasticache {
     public struct EventsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "Events", required: false, type: .structure)
         ]
@@ -72,7 +72,7 @@ extension Elasticache {
     public struct NodeGroupList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NodeGroup", required: false, type: .list)
         ]
         public let nodeGroup: [NodeGroup]?
@@ -93,7 +93,7 @@ extension Elasticache {
     public struct ReplicationGroup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PendingModifiedValues", required: false, type: .structure), 
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "ConfigurationEndpoint", required: false, type: .structure), 
@@ -161,7 +161,7 @@ extension Elasticache {
     public struct ReplicationGroupList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReplicationGroup", required: false, type: .list)
         ]
         public let replicationGroup: [ReplicationGroup]?
@@ -182,7 +182,7 @@ extension Elasticache {
     public struct CacheSubnetGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "CacheSubnetGroups", required: false, type: .structure)
         ]
@@ -205,7 +205,7 @@ extension Elasticache {
     public struct CreateCacheClusterResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheCluster", required: false, type: .structure)
         ]
         public let cacheCluster: CacheCluster?
@@ -222,7 +222,7 @@ extension Elasticache {
     public struct Endpoint: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Address", required: false, type: .string), 
             AWSShapeProperty(label: "Port", required: false, type: .integer)
         ]
@@ -245,7 +245,7 @@ extension Elasticache {
     public struct ReservedCacheNodesOfferingList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReservedCacheNodesOffering", required: false, type: .list)
         ]
         public let reservedCacheNodesOffering: [ReservedCacheNodesOffering]?
@@ -272,7 +272,7 @@ extension Elasticache {
     public struct ParameterNameValue: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ParameterName", required: false, type: .string), 
             AWSShapeProperty(label: "ParameterValue", required: false, type: .string)
         ]
@@ -295,7 +295,7 @@ extension Elasticache {
     public struct DeleteCacheSubnetGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheSubnetGroupName", required: true, type: .string)
         ]
         /// The name of the cache subnet group to delete. Constraints: Must contain no more than 255 alphanumeric characters or hyphens.
@@ -314,7 +314,7 @@ extension Elasticache {
     public struct CacheClusterMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "CacheClusters", required: false, type: .structure)
         ]
@@ -337,7 +337,7 @@ extension Elasticache {
     public struct SecurityGroupIdsList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SecurityGroupId", required: false, type: .list)
         ]
         public let securityGroupId: [String]?
@@ -354,7 +354,7 @@ extension Elasticache {
     public struct ReservedCacheNodeList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReservedCacheNode", required: false, type: .list)
         ]
         public let reservedCacheNode: [ReservedCacheNode]?
@@ -375,7 +375,7 @@ extension Elasticache {
     public struct DescribeCacheParametersMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "Source", required: false, type: .string), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
@@ -409,7 +409,7 @@ extension Elasticache {
     public struct ReservedCacheNode: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "CacheNodeCount", required: false, type: .integer), 
             AWSShapeProperty(label: "RecurringCharges", required: false, type: .structure), 
@@ -482,7 +482,7 @@ extension Elasticache {
     public struct Tag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: false, type: .string), 
             AWSShapeProperty(label: "Key", required: false, type: .string)
         ]
@@ -511,7 +511,7 @@ extension Elasticache {
     public struct ResetCacheParameterGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheParameterGroupName", required: true, type: .string), 
             AWSShapeProperty(label: "ParameterNameValues", required: false, type: .structure), 
             AWSShapeProperty(label: "ResetAllParameters", required: false, type: .boolean)
@@ -540,7 +540,7 @@ extension Elasticache {
     public struct CopySnapshotResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Snapshot", required: false, type: .structure)
         ]
         public let snapshot: Snapshot?
@@ -557,7 +557,7 @@ extension Elasticache {
     public struct ListTagsForResourceMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceName", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the resource for which you want the list of tags, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
@@ -576,7 +576,7 @@ extension Elasticache {
     public struct CacheEngineVersionList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheEngineVersion", required: false, type: .list)
         ]
         public let cacheEngineVersion: [CacheEngineVersion]?
@@ -597,7 +597,7 @@ extension Elasticache {
     public struct PreferredAvailabilityZoneList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PreferredAvailabilityZone", required: false, type: .list)
         ]
         public let preferredAvailabilityZone: [String]?
@@ -614,7 +614,7 @@ extension Elasticache {
     public struct ReservedCacheNodesOffering: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OfferingType", required: false, type: .string), 
             AWSShapeProperty(label: "RecurringCharges", required: false, type: .structure), 
             AWSShapeProperty(label: "UsagePrice", required: false, type: .double), 
@@ -667,7 +667,7 @@ extension Elasticache {
     public struct CacheSecurityGroupMembershipList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheSecurityGroup", required: false, type: .list)
         ]
         public let cacheSecurityGroup: [CacheSecurityGroupMembership]?
@@ -688,7 +688,7 @@ extension Elasticache {
     public struct RevokeCacheSecurityGroupIngressMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EC2SecurityGroupOwnerId", required: true, type: .string), 
             AWSShapeProperty(label: "CacheSecurityGroupName", required: true, type: .string), 
             AWSShapeProperty(label: "EC2SecurityGroupName", required: true, type: .string)
@@ -719,7 +719,7 @@ extension Elasticache {
     public struct RecurringCharge: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RecurringChargeAmount", required: false, type: .double), 
             AWSShapeProperty(label: "RecurringChargeFrequency", required: false, type: .string)
         ]
@@ -742,7 +742,7 @@ extension Elasticache {
     public struct CacheNodeTypeSpecificValueList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheNodeTypeSpecificValue", required: false, type: .list)
         ]
         public let cacheNodeTypeSpecificValue: [CacheNodeTypeSpecificValue]?
@@ -763,7 +763,7 @@ extension Elasticache {
     public struct CreateSnapshotMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheClusterId", required: false, type: .string), 
             AWSShapeProperty(label: "SnapshotName", required: true, type: .string), 
             AWSShapeProperty(label: "ReplicationGroupId", required: false, type: .string)
@@ -792,7 +792,7 @@ extension Elasticache {
     public struct CacheClusterList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheCluster", required: false, type: .list)
         ]
         public let cacheCluster: [CacheCluster]?
@@ -813,7 +813,7 @@ extension Elasticache {
     public struct DescribeEventsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
@@ -861,7 +861,7 @@ extension Elasticache {
     public struct CacheNode: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SourceCacheNodeId", required: false, type: .string), 
             AWSShapeProperty(label: "CustomerAvailabilityZone", required: false, type: .string), 
             AWSShapeProperty(label: "CacheNodeId", required: false, type: .string), 
@@ -909,7 +909,7 @@ extension Elasticache {
     public struct CreateCacheClusterMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AuthToken", required: false, type: .string), 
             AWSShapeProperty(label: "AZMode", required: false, type: .enum), 
             AWSShapeProperty(label: "SnapshotArns", required: false, type: .structure), 
@@ -1038,7 +1038,7 @@ extension Elasticache {
     public struct RemoveTagsFromResourceMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceName", required: true, type: .string), 
             AWSShapeProperty(label: "TagKeys", required: true, type: .list)
         ]
@@ -1063,7 +1063,7 @@ extension Elasticache {
     public struct DeleteReplicationGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReplicationGroup", required: false, type: .structure)
         ]
         public let replicationGroup: ReplicationGroup?
@@ -1080,7 +1080,7 @@ extension Elasticache {
     public struct CacheParameterGroupsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "CacheParameterGroups", required: false, type: .structure)
         ]
@@ -1103,7 +1103,7 @@ extension Elasticache {
     public struct EventList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Event", required: false, type: .list)
         ]
         public let event: [Event]?
@@ -1124,7 +1124,7 @@ extension Elasticache {
     public struct CacheEngineVersion: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheEngineDescription", required: false, type: .string), 
             AWSShapeProperty(label: "CacheParameterGroupFamily", required: false, type: .string), 
             AWSShapeProperty(label: "Engine", required: false, type: .string), 
@@ -1162,7 +1162,7 @@ extension Elasticache {
     public struct NodeGroupMemberList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NodeGroupMember", required: false, type: .list)
         ]
         public let nodeGroupMember: [NodeGroupMember]?
@@ -1183,7 +1183,7 @@ extension Elasticache {
     public struct CacheParameterGroupDetails: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheNodeTypeSpecificParameters", required: false, type: .structure), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "Parameters", required: false, type: .structure)
@@ -1211,7 +1211,7 @@ extension Elasticache {
     public struct DescribeSnapshotsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "ShowNodeGroupConfig", required: false, type: .boolean), 
             AWSShapeProperty(label: "ReplicationGroupId", required: false, type: .string), 
@@ -1259,7 +1259,7 @@ extension Elasticache {
     public struct RevokeCacheSecurityGroupIngressResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheSecurityGroup", required: false, type: .structure)
         ]
         public let cacheSecurityGroup: CacheSecurityGroup?
@@ -1276,7 +1276,7 @@ extension Elasticache {
     public struct SubnetIdentifierList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubnetIdentifier", required: false, type: .list)
         ]
         public let subnetIdentifier: [String]?
@@ -1293,7 +1293,7 @@ extension Elasticache {
     public struct EC2SecurityGroup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EC2SecurityGroupOwnerId", required: false, type: .string), 
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "EC2SecurityGroupName", required: false, type: .string)
@@ -1321,7 +1321,7 @@ extension Elasticache {
     public struct Subnet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubnetIdentifier", required: false, type: .string), 
             AWSShapeProperty(label: "SubnetAvailabilityZone", required: false, type: .structure)
         ]
@@ -1344,7 +1344,7 @@ extension Elasticache {
     public struct Parameter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ParameterValue", required: false, type: .string), 
             AWSShapeProperty(label: "AllowedValues", required: false, type: .string), 
             AWSShapeProperty(label: "DataType", required: false, type: .string), 
@@ -1402,7 +1402,7 @@ extension Elasticache {
     public struct CacheParameterGroupStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheParameterGroupName", required: false, type: .string), 
             AWSShapeProperty(label: "CacheNodeIdsToReboot", required: false, type: .structure), 
             AWSShapeProperty(label: "ParameterApplyStatus", required: false, type: .string)
@@ -1430,7 +1430,7 @@ extension Elasticache {
     public struct Event: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SourceIdentifier", required: false, type: .string), 
             AWSShapeProperty(label: "Message", required: false, type: .string), 
             AWSShapeProperty(label: "SourceType", required: false, type: .enum), 
@@ -1463,7 +1463,7 @@ extension Elasticache {
     public struct SnapshotList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Snapshot", required: false, type: .list)
         ]
         public let snapshot: [Snapshot]?
@@ -1484,7 +1484,7 @@ extension Elasticache {
     public struct DeleteCacheClusterResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheCluster", required: false, type: .structure)
         ]
         public let cacheCluster: CacheCluster?
@@ -1501,7 +1501,7 @@ extension Elasticache {
     public struct CacheNodeTypeSpecificValue: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: false, type: .string), 
             AWSShapeProperty(label: "CacheNodeType", required: false, type: .string)
         ]
@@ -1524,7 +1524,7 @@ extension Elasticache {
     public struct CacheCluster: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PendingModifiedValues", required: false, type: .structure), 
             AWSShapeProperty(label: "SnapshotRetentionLimit", required: false, type: .integer), 
             AWSShapeProperty(label: "CacheSubnetGroupName", required: false, type: .string), 
@@ -1647,7 +1647,7 @@ extension Elasticache {
     public struct CacheSecurityGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "CacheSecurityGroups", required: false, type: .structure)
         ]
@@ -1670,7 +1670,7 @@ extension Elasticache {
     public struct NodeGroupMember: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReadEndpoint", required: false, type: .structure), 
             AWSShapeProperty(label: "CurrentRole", required: false, type: .string), 
             AWSShapeProperty(label: "PreferredAvailabilityZone", required: false, type: .string), 
@@ -1707,7 +1707,7 @@ extension Elasticache {
     public struct PurchaseReservedCacheNodesOfferingMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReservedCacheNodeId", required: false, type: .string), 
             AWSShapeProperty(label: "CacheNodeCount", required: false, type: .integer), 
             AWSShapeProperty(label: "ReservedCacheNodesOfferingId", required: true, type: .string)
@@ -1736,7 +1736,7 @@ extension Elasticache {
     public struct DescribeSnapshotsListMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "Snapshots", required: false, type: .structure)
         ]
@@ -1759,7 +1759,7 @@ extension Elasticache {
     public struct CacheSecurityGroupMembership: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "CacheSecurityGroupName", required: false, type: .string)
         ]
@@ -1782,7 +1782,7 @@ extension Elasticache {
     public struct ModifyCacheParameterGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheParameterGroupName", required: true, type: .string), 
             AWSShapeProperty(label: "ParameterNameValues", required: true, type: .structure)
         ]
@@ -1807,7 +1807,7 @@ extension Elasticache {
     public struct AddTagsToResourceMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Tags", required: true, type: .structure), 
             AWSShapeProperty(label: "ResourceName", required: true, type: .string)
         ]
@@ -1832,7 +1832,7 @@ extension Elasticache {
     public struct CacheSubnetGroups: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheSubnetGroup", required: false, type: .list)
         ]
         public let cacheSubnetGroup: [CacheSubnetGroup]?
@@ -1861,7 +1861,7 @@ extension Elasticache {
     public struct CacheNodeList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheNode", required: false, type: .list)
         ]
         public let cacheNode: [CacheNode]?
@@ -1882,7 +1882,7 @@ extension Elasticache {
     public struct RebootCacheClusterResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheCluster", required: false, type: .structure)
         ]
         public let cacheCluster: CacheCluster?
@@ -1899,7 +1899,7 @@ extension Elasticache {
     public struct ModifyCacheSubnetGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheSubnetGroupName", required: true, type: .string), 
             AWSShapeProperty(label: "SubnetIds", required: false, type: .structure), 
             AWSShapeProperty(label: "CacheSubnetGroupDescription", required: false, type: .string)
@@ -1928,7 +1928,7 @@ extension Elasticache {
     public struct ModifyCacheClusterResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheCluster", required: false, type: .structure)
         ]
         public let cacheCluster: CacheCluster?
@@ -1945,7 +1945,7 @@ extension Elasticache {
     public struct ModifyCacheClusterMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheNodeIdsToRemove", required: false, type: .structure), 
             AWSShapeProperty(label: "CacheSecurityGroupNames", required: false, type: .structure), 
             AWSShapeProperty(label: "NumCacheNodes", required: false, type: .integer), 
@@ -2044,7 +2044,7 @@ extension Elasticache {
     public struct DescribeEngineDefaultParametersMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "CacheParameterGroupFamily", required: true, type: .string), 
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer)
@@ -2073,7 +2073,7 @@ extension Elasticache {
     public struct CopySnapshotMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TargetSnapshotName", required: true, type: .string), 
             AWSShapeProperty(label: "TargetBucket", required: false, type: .string), 
             AWSShapeProperty(label: "SourceSnapshotName", required: true, type: .string)
@@ -2103,7 +2103,7 @@ extension Elasticache {
     public struct ListAllowedNodeTypeModificationsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheClusterId", required: false, type: .string), 
             AWSShapeProperty(label: "ReplicationGroupId", required: false, type: .string)
         ]
@@ -2126,7 +2126,7 @@ extension Elasticache {
     public struct RecurringChargeList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RecurringCharge", required: false, type: .list)
         ]
         public let recurringCharge: [RecurringCharge]?
@@ -2147,7 +2147,7 @@ extension Elasticache {
     public struct EngineDefaults: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheParameterGroupFamily", required: false, type: .string), 
             AWSShapeProperty(label: "Parameters", required: false, type: .structure), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
@@ -2180,7 +2180,7 @@ extension Elasticache {
     public struct NotificationConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TopicStatus", required: false, type: .string), 
             AWSShapeProperty(label: "TopicArn", required: false, type: .string)
         ]
@@ -2203,7 +2203,7 @@ extension Elasticache {
     public struct DescribeReservedCacheNodesOfferingsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "CacheNodeType", required: false, type: .string), 
@@ -2251,7 +2251,7 @@ extension Elasticache {
     public struct CreateCacheParameterGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheParameterGroup", required: false, type: .structure)
         ]
         public let cacheParameterGroup: CacheParameterGroup?
@@ -2268,7 +2268,7 @@ extension Elasticache {
     public struct Snapshot: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Port", required: false, type: .integer), 
             AWSShapeProperty(label: "CacheClusterId", required: false, type: .string), 
             AWSShapeProperty(label: "CacheClusterCreateTime", required: false, type: .timestamp), 
@@ -2401,7 +2401,7 @@ extension Elasticache {
     public struct DeleteCacheClusterMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheClusterId", required: true, type: .string), 
             AWSShapeProperty(label: "FinalSnapshotIdentifier", required: false, type: .string)
         ]
@@ -2425,7 +2425,7 @@ extension Elasticache {
     public struct AllowedNodeTypeModificationsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ScaleUpModifications", required: false, type: .list)
         ]
         public let scaleUpModifications: [String]?
@@ -2442,7 +2442,7 @@ extension Elasticache {
     public struct DeleteSnapshotResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Snapshot", required: false, type: .structure)
         ]
         public let snapshot: Snapshot?
@@ -2459,7 +2459,7 @@ extension Elasticache {
     public struct TagList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Tag", required: false, type: .list)
         ]
         public let tag: [Tag]?
@@ -2480,7 +2480,7 @@ extension Elasticache {
     public struct ReplicationGroupPendingModifiedValues: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PrimaryClusterId", required: false, type: .string), 
             AWSShapeProperty(label: "AutomaticFailoverStatus", required: false, type: .enum)
         ]
@@ -2503,7 +2503,7 @@ extension Elasticache {
     public struct ClusterIdList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterId", required: false, type: .list)
         ]
         public let clusterId: [String]?
@@ -2520,7 +2520,7 @@ extension Elasticache {
     public struct ReplicationGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "ReplicationGroups", required: false, type: .structure)
         ]
@@ -2543,7 +2543,7 @@ extension Elasticache {
     public struct DescribeCacheSubnetGroupsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheSubnetGroupName", required: false, type: .string), 
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "Marker", required: false, type: .string)
@@ -2571,7 +2571,7 @@ extension Elasticache {
     public struct ReservedCacheNodesOfferingMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "ReservedCacheNodesOfferings", required: false, type: .structure)
         ]
@@ -2594,7 +2594,7 @@ extension Elasticache {
     public struct CacheNodeTypeSpecificParametersList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheNodeTypeSpecificParameter", required: false, type: .list)
         ]
         public let cacheNodeTypeSpecificParameter: [CacheNodeTypeSpecificParameter]?
@@ -2615,7 +2615,7 @@ extension Elasticache {
     public struct NodeGroupConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Slots", required: false, type: .string), 
             AWSShapeProperty(label: "ReplicaAvailabilityZones", required: false, type: .structure), 
             AWSShapeProperty(label: "PrimaryAvailabilityZone", required: false, type: .string), 
@@ -2648,7 +2648,7 @@ extension Elasticache {
     public struct CacheParameterGroupNameMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheParameterGroupName", required: false, type: .string)
         ]
         /// The name of the cache parameter group.
@@ -2666,7 +2666,7 @@ extension Elasticache {
     public struct CreateSnapshotResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Snapshot", required: false, type: .structure)
         ]
         public let snapshot: Snapshot?
@@ -2683,7 +2683,7 @@ extension Elasticache {
     public struct CreateCacheSecurityGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheSecurityGroupName", required: true, type: .string), 
             AWSShapeProperty(label: "Description", required: true, type: .string)
         ]
@@ -2717,7 +2717,7 @@ extension Elasticache {
     public struct DescribeReservedCacheNodesMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "CacheNodeType", required: false, type: .string), 
@@ -2776,7 +2776,7 @@ extension Elasticache {
     public struct DescribeCacheEngineVersionsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "CacheParameterGroupFamily", required: false, type: .string), 
             AWSShapeProperty(label: "Engine", required: false, type: .string), 
@@ -2819,7 +2819,7 @@ extension Elasticache {
     public struct ModifyCacheSubnetGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheSubnetGroup", required: false, type: .structure)
         ]
         public let cacheSubnetGroup: CacheSubnetGroup?
@@ -2836,7 +2836,7 @@ extension Elasticache {
     public struct NodeSnapshot: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NodeGroupConfiguration", required: false, type: .structure), 
             AWSShapeProperty(label: "CacheNodeId", required: false, type: .string), 
             AWSShapeProperty(label: "NodeGroupId", required: false, type: .string), 
@@ -2884,7 +2884,7 @@ extension Elasticache {
     public struct CreateReplicationGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SnapshotArns", required: false, type: .structure), 
             AWSShapeProperty(label: "CacheSecurityGroupNames", required: false, type: .structure), 
             AWSShapeProperty(label: "ReplicasPerNodeGroup", required: false, type: .integer), 
@@ -3029,7 +3029,7 @@ extension Elasticache {
     public struct CacheEngineVersionMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "CacheEngineVersions", required: false, type: .structure)
         ]
@@ -3052,7 +3052,7 @@ extension Elasticache {
     public struct CacheSecurityGroups: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheSecurityGroup", required: false, type: .list)
         ]
         public let cacheSecurityGroup: [CacheSecurityGroup]?
@@ -3073,7 +3073,7 @@ extension Elasticache {
     public struct SecurityGroupMembership: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SecurityGroupId", required: false, type: .string), 
             AWSShapeProperty(label: "Status", required: false, type: .string)
         ]
@@ -3096,7 +3096,7 @@ extension Elasticache {
     public struct DescribeCacheClustersMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "ShowCacheNodeInfo", required: false, type: .boolean), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
@@ -3129,7 +3129,7 @@ extension Elasticache {
     public struct CacheSubnetGroup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Subnets", required: false, type: .structure), 
             AWSShapeProperty(label: "CacheSubnetGroupDescription", required: false, type: .string), 
             AWSShapeProperty(label: "VpcId", required: false, type: .string), 
@@ -3162,7 +3162,7 @@ extension Elasticache {
     public struct RebootCacheClusterMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheClusterId", required: true, type: .string), 
             AWSShapeProperty(label: "CacheNodeIdsToReboot", required: true, type: .structure)
         ]
@@ -3187,7 +3187,7 @@ extension Elasticache {
     public struct AuthorizeCacheSecurityGroupIngressMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EC2SecurityGroupOwnerId", required: true, type: .string), 
             AWSShapeProperty(label: "CacheSecurityGroupName", required: true, type: .string), 
             AWSShapeProperty(label: "EC2SecurityGroupName", required: true, type: .string)
@@ -3218,7 +3218,7 @@ extension Elasticache {
     public struct CacheSecurityGroup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheSecurityGroupName", required: false, type: .string), 
             AWSShapeProperty(label: "EC2SecurityGroups", required: false, type: .structure), 
             AWSShapeProperty(label: "OwnerId", required: false, type: .string), 
@@ -3251,7 +3251,7 @@ extension Elasticache {
     public struct CacheParameterGroupList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheParameterGroup", required: false, type: .list)
         ]
         public let cacheParameterGroup: [CacheParameterGroup]?
@@ -3272,7 +3272,7 @@ extension Elasticache {
     public struct AvailabilityZone: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: false, type: .string)
         ]
         /// The name of the Availability Zone.
@@ -3290,7 +3290,7 @@ extension Elasticache {
     public struct DeleteCacheParameterGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheParameterGroupName", required: true, type: .string)
         ]
         /// The name of the cache parameter group to delete.  The specified cache security group must not be associated with any cache clusters. 
@@ -3309,7 +3309,7 @@ extension Elasticache {
     public struct SnapshotArnsList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SnapshotArn", required: false, type: .list)
         ]
         public let snapshotArn: [String]?
@@ -3326,7 +3326,7 @@ extension Elasticache {
     public struct CreateCacheSecurityGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheSecurityGroup", required: false, type: .structure)
         ]
         public let cacheSecurityGroup: CacheSecurityGroup?
@@ -3343,7 +3343,7 @@ extension Elasticache {
     public struct CreateReplicationGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReplicationGroup", required: false, type: .structure)
         ]
         public let replicationGroup: ReplicationGroup?
@@ -3360,7 +3360,7 @@ extension Elasticache {
     public struct AuthorizeCacheSecurityGroupIngressResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheSecurityGroup", required: false, type: .structure)
         ]
         public let cacheSecurityGroup: CacheSecurityGroup?
@@ -3377,7 +3377,7 @@ extension Elasticache {
     public struct EC2SecurityGroupList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EC2SecurityGroup", required: false, type: .list)
         ]
         public let eC2SecurityGroup: [EC2SecurityGroup]?
@@ -3398,7 +3398,7 @@ extension Elasticache {
     public struct ParameterNameValueList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ParameterNameValue", required: false, type: .list)
         ]
         public let parameterNameValue: [ParameterNameValue]?
@@ -3419,7 +3419,7 @@ extension Elasticache {
     public struct NodeSnapshotList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NodeSnapshot", required: false, type: .list)
         ]
         public let nodeSnapshot: [NodeSnapshot]?
@@ -3440,7 +3440,7 @@ extension Elasticache {
     public struct CacheParameterGroup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheParameterGroupFamily", required: false, type: .string), 
             AWSShapeProperty(label: "CacheParameterGroupName", required: false, type: .string), 
             AWSShapeProperty(label: "Description", required: false, type: .string)
@@ -3468,7 +3468,7 @@ extension Elasticache {
     public struct SubnetList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Subnet", required: false, type: .list)
         ]
         public let subnet: [Subnet]?
@@ -3489,7 +3489,7 @@ extension Elasticache {
     public struct CreateCacheParameterGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheParameterGroupFamily", required: true, type: .string), 
             AWSShapeProperty(label: "CacheParameterGroupName", required: true, type: .string), 
             AWSShapeProperty(label: "Description", required: true, type: .string)
@@ -3520,7 +3520,7 @@ extension Elasticache {
     public struct NodeGroup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NodeGroupMembers", required: false, type: .structure), 
             AWSShapeProperty(label: "Slots", required: false, type: .string), 
             AWSShapeProperty(label: "Status", required: false, type: .string), 
@@ -3558,7 +3558,7 @@ extension Elasticache {
     public struct DeleteSnapshotMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SnapshotName", required: true, type: .string)
         ]
         /// The name of the snapshot to be deleted.
@@ -3577,7 +3577,7 @@ extension Elasticache {
     public struct CacheSecurityGroupNameList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheSecurityGroupName", required: false, type: .list)
         ]
         public let cacheSecurityGroupName: [String]?
@@ -3594,7 +3594,7 @@ extension Elasticache {
     public struct TagListMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TagList", required: false, type: .structure)
         ]
         /// A list of cost allocation tags as key-value pairs.
@@ -3612,7 +3612,7 @@ extension Elasticache {
     public struct DeleteReplicationGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RetainPrimaryCluster", required: false, type: .boolean), 
             AWSShapeProperty(label: "FinalSnapshotIdentifier", required: false, type: .string), 
             AWSShapeProperty(label: "ReplicationGroupId", required: true, type: .string)
@@ -3641,7 +3641,7 @@ extension Elasticache {
     public struct AvailabilityZonesList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AvailabilityZone", required: false, type: .list)
         ]
         public let availabilityZone: [String]?
@@ -3658,7 +3658,7 @@ extension Elasticache {
     public struct ModifyReplicationGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReplicationGroup", required: false, type: .structure)
         ]
         public let replicationGroup: ReplicationGroup?
@@ -3675,7 +3675,7 @@ extension Elasticache {
     public struct ReservedCacheNodeMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "ReservedCacheNodes", required: false, type: .structure)
         ]
@@ -3698,7 +3698,7 @@ extension Elasticache {
     public struct DescribeReplicationGroupsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "ReplicationGroupId", required: false, type: .string)
@@ -3726,7 +3726,7 @@ extension Elasticache {
     public struct DeleteCacheSecurityGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheSecurityGroupName", required: true, type: .string)
         ]
         /// The name of the cache security group to delete.  You cannot delete the default security group. 
@@ -3745,7 +3745,7 @@ extension Elasticache {
     public struct CreateCacheSubnetGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheSubnetGroupName", required: true, type: .string), 
             AWSShapeProperty(label: "SubnetIds", required: true, type: .structure), 
             AWSShapeProperty(label: "CacheSubnetGroupDescription", required: true, type: .string)
@@ -3776,7 +3776,7 @@ extension Elasticache {
     public struct NodeGroupConfigurationList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NodeGroupConfiguration", required: false, type: .list)
         ]
         public let nodeGroupConfiguration: [NodeGroupConfiguration]?
@@ -3797,7 +3797,7 @@ extension Elasticache {
     public struct PendingModifiedValues: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheNodeType", required: false, type: .string), 
             AWSShapeProperty(label: "EngineVersion", required: false, type: .string), 
             AWSShapeProperty(label: "NumCacheNodes", required: false, type: .integer), 
@@ -3830,7 +3830,7 @@ extension Elasticache {
     public struct CacheNodeIdsList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheNodeId", required: false, type: .list)
         ]
         public let cacheNodeId: [String]?
@@ -3847,7 +3847,7 @@ extension Elasticache {
     public struct ModifyReplicationGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheSecurityGroupNames", required: false, type: .structure), 
             AWSShapeProperty(label: "NotificationTopicStatus", required: false, type: .string), 
             AWSShapeProperty(label: "SecurityGroupIds", required: false, type: .structure), 
@@ -3946,7 +3946,7 @@ extension Elasticache {
     public struct DescribeCacheSecurityGroupsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "CacheSecurityGroupName", required: false, type: .string)
@@ -3974,7 +3974,7 @@ extension Elasticache {
     public struct CacheNodeTypeSpecificParameter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheNodeTypeSpecificValues", required: false, type: .structure), 
             AWSShapeProperty(label: "AllowedValues", required: false, type: .string), 
             AWSShapeProperty(label: "DataType", required: false, type: .string), 
@@ -4032,7 +4032,7 @@ extension Elasticache {
     public struct PurchaseReservedCacheNodesOfferingResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReservedCacheNode", required: false, type: .structure)
         ]
         public let reservedCacheNode: ReservedCacheNode?
@@ -4049,7 +4049,7 @@ extension Elasticache {
     public struct DescribeCacheParameterGroupsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "CacheParameterGroupName", required: false, type: .string)
@@ -4077,7 +4077,7 @@ extension Elasticache {
     public struct ParametersList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Parameter", required: false, type: .list)
         ]
         public let parameter: [Parameter]?
@@ -4098,7 +4098,7 @@ extension Elasticache {
     public struct CreateCacheSubnetGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CacheSubnetGroup", required: false, type: .structure)
         ]
         public let cacheSubnetGroup: CacheSubnetGroup?

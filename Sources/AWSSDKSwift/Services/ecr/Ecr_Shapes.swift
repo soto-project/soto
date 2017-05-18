@@ -32,7 +32,7 @@ extension Ecr {
     public struct DescribeRepositoriesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
             AWSShapeProperty(label: "repositoryNames", required: false, type: .list), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
@@ -65,7 +65,7 @@ extension Ecr {
     public struct ListImagesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
             AWSShapeProperty(label: "imageIds", required: false, type: .list)
         ]
@@ -92,7 +92,7 @@ extension Ecr {
     public struct AuthorizationData: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "authorizationToken", required: false, type: .string), 
             AWSShapeProperty(label: "expiresAt", required: false, type: .timestamp), 
             AWSShapeProperty(label: "proxyEndpoint", required: false, type: .string)
@@ -120,7 +120,7 @@ extension Ecr {
     public struct BatchDeleteImageResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "failures", required: false, type: .list), 
             AWSShapeProperty(label: "imageIds", required: false, type: .list)
         ]
@@ -151,7 +151,7 @@ extension Ecr {
     public struct DescribeImagesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
             AWSShapeProperty(label: "imageDetails", required: false, type: .list)
         ]
@@ -178,7 +178,7 @@ extension Ecr {
     public struct DeleteRepositoryResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "repository", required: false, type: .structure)
         ]
         /// The repository that was deleted.
@@ -196,7 +196,7 @@ extension Ecr {
     public struct Layer: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "layerSize", required: false, type: .long), 
             AWSShapeProperty(label: "layerAvailability", required: false, type: .enum), 
             AWSShapeProperty(label: "mediaType", required: false, type: .string), 
@@ -229,7 +229,7 @@ extension Ecr {
     public struct DescribeImagesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
             AWSShapeProperty(label: "imageIds", required: false, type: .list), 
@@ -277,7 +277,7 @@ extension Ecr {
     public struct ImageIdentifier: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "imageTag", required: false, type: .string), 
             AWSShapeProperty(label: "imageDigest", required: false, type: .string)
         ]
@@ -300,7 +300,7 @@ extension Ecr {
     public struct DeleteRepositoryPolicyResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "policyText", required: false, type: .string), 
             AWSShapeProperty(label: "registryId", required: false, type: .string), 
             AWSShapeProperty(label: "repositoryName", required: false, type: .string)
@@ -328,7 +328,7 @@ extension Ecr {
     public struct LayerFailure: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "layerDigest", required: false, type: .string), 
             AWSShapeProperty(label: "failureCode", required: false, type: .enum), 
             AWSShapeProperty(label: "failureReason", required: false, type: .string)
@@ -356,7 +356,7 @@ extension Ecr {
     public struct ImageFailure: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "imageId", required: false, type: .structure), 
             AWSShapeProperty(label: "failureCode", required: false, type: .enum), 
             AWSShapeProperty(label: "failureReason", required: false, type: .string)
@@ -384,7 +384,7 @@ extension Ecr {
     public struct BatchGetImageResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "failures", required: false, type: .list), 
             AWSShapeProperty(label: "images", required: false, type: .list)
         ]
@@ -421,7 +421,7 @@ extension Ecr {
     public struct SetRepositoryPolicyResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "policyText", required: false, type: .string), 
             AWSShapeProperty(label: "registryId", required: false, type: .string), 
             AWSShapeProperty(label: "repositoryName", required: false, type: .string)
@@ -449,7 +449,7 @@ extension Ecr {
     public struct GetAuthorizationTokenRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "registryIds", required: false, type: .list)
         ]
         /// A list of AWS account IDs that are associated with the registries for which to get authorization tokens. If you do not specify a registry, the default registry is assumed.
@@ -473,7 +473,7 @@ extension Ecr {
     public struct ImageDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "imageSizeInBytes", required: false, type: .long), 
             AWSShapeProperty(label: "repositoryName", required: false, type: .string), 
             AWSShapeProperty(label: "imageDigest", required: false, type: .string), 
@@ -516,7 +516,7 @@ extension Ecr {
     public struct GetAuthorizationTokenResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "authorizationData", required: false, type: .list)
         ]
         /// A list of authorization token data objects that correspond to the registryIds values in the request.
@@ -538,7 +538,7 @@ extension Ecr {
     public struct InitiateLayerUploadResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "uploadId", required: false, type: .string), 
             AWSShapeProperty(label: "partSize", required: false, type: .long)
         ]
@@ -561,7 +561,7 @@ extension Ecr {
     public struct BatchGetImageRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "acceptedMediaTypes", required: false, type: .list), 
             AWSShapeProperty(label: "imageIds", required: true, type: .list), 
             AWSShapeProperty(label: "repositoryName", required: true, type: .string), 
@@ -596,7 +596,7 @@ extension Ecr {
     public struct DeleteRepositoryPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "registryId", required: false, type: .string), 
             AWSShapeProperty(label: "repositoryName", required: true, type: .string)
         ]
@@ -620,7 +620,7 @@ extension Ecr {
     public struct GetDownloadUrlForLayerResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "layerDigest", required: false, type: .string), 
             AWSShapeProperty(label: "downloadUrl", required: false, type: .string)
         ]
@@ -643,7 +643,7 @@ extension Ecr {
     public struct Image: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "imageManifest", required: false, type: .string), 
             AWSShapeProperty(label: "imageId", required: false, type: .structure), 
             AWSShapeProperty(label: "repositoryName", required: false, type: .string), 
@@ -676,7 +676,7 @@ extension Ecr {
     public struct CreateRepositoryRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "repositoryName", required: true, type: .string)
         ]
         /// The name to use for the repository. The repository name may be specified on its own (such as nginx-web-app) or it can be prepended with a namespace to group the repository into a category (such as project-a/nginx-web-app).
@@ -695,7 +695,7 @@ extension Ecr {
     public struct GetRepositoryPolicyResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "policyText", required: false, type: .string), 
             AWSShapeProperty(label: "registryId", required: false, type: .string), 
             AWSShapeProperty(label: "repositoryName", required: false, type: .string)
@@ -723,7 +723,7 @@ extension Ecr {
     public struct GetDownloadUrlForLayerRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "layerDigest", required: true, type: .string), 
             AWSShapeProperty(label: "registryId", required: false, type: .string), 
             AWSShapeProperty(label: "repositoryName", required: true, type: .string)
@@ -753,7 +753,7 @@ extension Ecr {
     public struct ListImagesFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "tagStatus", required: false, type: .enum)
         ]
         /// The tag status with which to filter your ListImages results. You can filter results based on whether they are TAGGED or UNTAGGED.
@@ -771,7 +771,7 @@ extension Ecr {
     public struct SetRepositoryPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "force", required: false, type: .boolean), 
             AWSShapeProperty(label: "policyText", required: true, type: .string), 
             AWSShapeProperty(label: "repositoryName", required: true, type: .string), 
@@ -806,7 +806,7 @@ extension Ecr {
     public struct CreateRepositoryResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "repository", required: false, type: .structure)
         ]
         /// The repository that was created.
@@ -824,7 +824,7 @@ extension Ecr {
     public struct BatchCheckLayerAvailabilityRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "layerDigests", required: true, type: .list), 
             AWSShapeProperty(label: "registryId", required: false, type: .string), 
             AWSShapeProperty(label: "repositoryName", required: true, type: .string)
@@ -854,7 +854,7 @@ extension Ecr {
     public struct GetRepositoryPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "registryId", required: false, type: .string), 
             AWSShapeProperty(label: "repositoryName", required: true, type: .string)
         ]
@@ -878,7 +878,7 @@ extension Ecr {
     public struct UploadLayerPartResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "uploadId", required: false, type: .string), 
             AWSShapeProperty(label: "repositoryName", required: false, type: .string), 
             AWSShapeProperty(label: "registryId", required: false, type: .string), 
@@ -911,7 +911,7 @@ extension Ecr {
     public struct BatchCheckLayerAvailabilityResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "failures", required: false, type: .list), 
             AWSShapeProperty(label: "layers", required: false, type: .list)
         ]
@@ -942,7 +942,7 @@ extension Ecr {
     public struct PutImageRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "imageTag", required: false, type: .string), 
             AWSShapeProperty(label: "imageManifest", required: true, type: .string), 
             AWSShapeProperty(label: "repositoryName", required: true, type: .string), 
@@ -977,7 +977,7 @@ extension Ecr {
     public struct DescribeRepositoriesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "repositories", required: false, type: .list), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
@@ -1004,7 +1004,7 @@ extension Ecr {
     public struct InitiateLayerUploadRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "registryId", required: false, type: .string), 
             AWSShapeProperty(label: "repositoryName", required: true, type: .string)
         ]
@@ -1037,7 +1037,7 @@ extension Ecr {
     public struct DeleteRepositoryRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "force", required: false, type: .boolean), 
             AWSShapeProperty(label: "registryId", required: false, type: .string), 
             AWSShapeProperty(label: "repositoryName", required: true, type: .string)
@@ -1066,7 +1066,7 @@ extension Ecr {
     public struct PutImageResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "image", required: false, type: .structure)
         ]
         /// Details of the image uploaded.
@@ -1084,7 +1084,7 @@ extension Ecr {
     public struct Repository: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "repositoryName", required: false, type: .string), 
             AWSShapeProperty(label: "repositoryUri", required: false, type: .string), 
             AWSShapeProperty(label: "registryId", required: false, type: .string), 
@@ -1122,7 +1122,7 @@ extension Ecr {
     public struct BatchDeleteImageRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "registryId", required: false, type: .string), 
             AWSShapeProperty(label: "imageIds", required: true, type: .list), 
             AWSShapeProperty(label: "repositoryName", required: true, type: .string)
@@ -1152,7 +1152,7 @@ extension Ecr {
     public struct CompleteLayerUploadResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "uploadId", required: false, type: .string), 
             AWSShapeProperty(label: "repositoryName", required: false, type: .string), 
             AWSShapeProperty(label: "registryId", required: false, type: .string), 
@@ -1185,7 +1185,7 @@ extension Ecr {
     public struct UploadLayerPartRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "uploadId", required: true, type: .string), 
             AWSShapeProperty(label: "layerPartBlob", required: true, type: .blob), 
             AWSShapeProperty(label: "repositoryName", required: true, type: .string), 
@@ -1233,7 +1233,7 @@ extension Ecr {
     public struct CompleteLayerUploadRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "uploadId", required: true, type: .string), 
             AWSShapeProperty(label: "repositoryName", required: true, type: .string), 
             AWSShapeProperty(label: "registryId", required: false, type: .string), 
@@ -1275,7 +1275,7 @@ extension Ecr {
     public struct DescribeImagesFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "tagStatus", required: false, type: .enum)
         ]
         /// The tag status with which to filter your DescribeImages results. You can filter results based on whether they are TAGGED or UNTAGGED.
@@ -1293,7 +1293,7 @@ extension Ecr {
     public struct ListImagesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "filter", required: false, type: .structure), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
             AWSShapeProperty(label: "maxResults", required: false, type: .integer), 

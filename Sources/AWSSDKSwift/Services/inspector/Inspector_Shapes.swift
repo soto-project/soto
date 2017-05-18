@@ -32,7 +32,7 @@ extension Inspector {
     public struct DescribeRulesPackagesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "rulesPackageArns", required: true, type: .list), 
             AWSShapeProperty(label: "locale", required: false, type: .enum)
         ]
@@ -65,7 +65,7 @@ extension Inspector {
     public struct RemoveAttributesFromFindingsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "failedItems", required: true, type: .map)
         ]
         /// Attributes details that cannot be described. An error code is provided for each failed item.
@@ -101,7 +101,7 @@ extension Inspector {
     public struct DescribeResourceGroupsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "resourceGroupArns", required: true, type: .list)
         ]
         /// The ARN that specifies the resource group that you want to describe.
@@ -120,7 +120,7 @@ extension Inspector {
     public struct ListFindingsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
             AWSShapeProperty(label: "filter", required: false, type: .structure), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
@@ -153,7 +153,7 @@ extension Inspector {
     public struct DescribeCrossAccountAccessRoleResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "valid", required: true, type: .boolean), 
             AWSShapeProperty(label: "roleArn", required: true, type: .string), 
             AWSShapeProperty(label: "registeredAt", required: true, type: .timestamp)
@@ -184,7 +184,7 @@ extension Inspector {
     public struct PreviewAgentsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "previewAgentsArn", required: true, type: .string), 
             AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string)
@@ -213,7 +213,7 @@ extension Inspector {
     public struct DescribeRulesPackagesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "rulesPackages", required: true, type: .list), 
             AWSShapeProperty(label: "failedItems", required: true, type: .map)
         ]
@@ -243,7 +243,7 @@ extension Inspector {
     public struct Subscription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "resourceArn", required: true, type: .string), 
             AWSShapeProperty(label: "eventSubscriptions", required: true, type: .list), 
             AWSShapeProperty(label: "topicArn", required: true, type: .string)
@@ -274,7 +274,7 @@ extension Inspector {
     public struct AssessmentTarget: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "resourceGroupArn", required: true, type: .string), 
             AWSShapeProperty(label: "name", required: true, type: .string), 
             AWSShapeProperty(label: "updatedAt", required: true, type: .timestamp), 
@@ -317,7 +317,7 @@ extension Inspector {
     public struct DescribeAssessmentTemplatesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "assessmentTemplateArns", required: true, type: .list)
         ]
         public let assessmentTemplateArns: [String]
@@ -335,7 +335,7 @@ extension Inspector {
     public struct AddAttributesToFindingsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "attributes", required: true, type: .list), 
             AWSShapeProperty(label: "findingArns", required: true, type: .list)
         ]
@@ -360,7 +360,7 @@ extension Inspector {
     public struct PreviewAgentsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
             AWSShapeProperty(label: "agentPreviews", required: true, type: .list)
         ]
@@ -384,7 +384,7 @@ extension Inspector {
     public struct DescribeAssessmentRunsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "failedItems", required: true, type: .map), 
             AWSShapeProperty(label: "assessmentRuns", required: true, type: .list)
         ]
@@ -414,7 +414,7 @@ extension Inspector {
     public struct EventSubscription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "event", required: true, type: .enum), 
             AWSShapeProperty(label: "subscribedAt", required: true, type: .timestamp)
         ]
@@ -439,7 +439,7 @@ extension Inspector {
     public struct CreateResourceGroupResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "resourceGroupArn", required: true, type: .string)
         ]
         /// The ARN that specifies the resource group that is created.
@@ -458,7 +458,7 @@ extension Inspector {
     public struct ResourceGroupTag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "key", required: true, type: .string), 
             AWSShapeProperty(label: "value", required: false, type: .string)
         ]
@@ -482,7 +482,7 @@ extension Inspector {
     public struct RemoveAttributesFromFindingsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "attributeKeys", required: true, type: .list), 
             AWSShapeProperty(label: "findingArns", required: true, type: .list)
         ]
@@ -507,7 +507,7 @@ extension Inspector {
     public struct DescribeAssessmentRunsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "assessmentRunArns", required: true, type: .list)
         ]
         /// The ARN that specifies the assessment run that you want to describe.
@@ -526,7 +526,7 @@ extension Inspector {
     public struct ListAssessmentTemplatesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "assessmentTemplateArns", required: true, type: .list), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
@@ -550,7 +550,7 @@ extension Inspector {
     public struct DescribeAssessmentTemplatesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "failedItems", required: true, type: .map), 
             AWSShapeProperty(label: "assessmentTemplates", required: true, type: .list)
         ]
@@ -585,7 +585,7 @@ extension Inspector {
     public struct StartAssessmentRunResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "assessmentRunArn", required: true, type: .string)
         ]
         /// The ARN of the assessment run that has been started.
@@ -604,7 +604,7 @@ extension Inspector {
     public struct Tag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "key", required: true, type: .string), 
             AWSShapeProperty(label: "value", required: false, type: .string)
         ]
@@ -637,7 +637,7 @@ extension Inspector {
     public struct ListAssessmentTargetsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
             AWSShapeProperty(label: "assessmentTargetArns", required: true, type: .list)
         ]
@@ -661,7 +661,7 @@ extension Inspector {
     public struct ResourceGroup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "tags", required: true, type: .list), 
             AWSShapeProperty(label: "createdAt", required: true, type: .timestamp), 
             AWSShapeProperty(label: "arn", required: true, type: .string)
@@ -692,7 +692,7 @@ extension Inspector {
     public struct UnsubscribeFromEventRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "resourceArn", required: true, type: .string), 
             AWSShapeProperty(label: "event", required: true, type: .enum), 
             AWSShapeProperty(label: "topicArn", required: true, type: .string)
@@ -723,7 +723,7 @@ extension Inspector {
     public struct Attribute: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "key", required: true, type: .string), 
             AWSShapeProperty(label: "value", required: false, type: .string)
         ]
@@ -747,7 +747,7 @@ extension Inspector {
     public struct DeleteAssessmentTemplateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "assessmentTemplateArn", required: true, type: .string)
         ]
         /// The ARN that specifies the assessment template that you want to delete.
@@ -766,7 +766,7 @@ extension Inspector {
     public struct DescribeAssessmentTargetsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "assessmentTargetArns", required: true, type: .list)
         ]
         /// The ARNs that specifies the assessment targets that you want to describe.
@@ -785,7 +785,7 @@ extension Inspector {
     public struct DeleteAssessmentRunRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "assessmentRunArn", required: true, type: .string)
         ]
         /// The ARN that specifies the assessment run that you want to delete.
@@ -804,7 +804,7 @@ extension Inspector {
     public struct FindingFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ruleNames", required: false, type: .list), 
             AWSShapeProperty(label: "severities", required: false, type: .list), 
             AWSShapeProperty(label: "attributes", required: false, type: .list), 
@@ -944,7 +944,7 @@ extension Inspector {
     public struct RulesPackage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "description", required: false, type: .string), 
             AWSShapeProperty(label: "name", required: true, type: .string), 
             AWSShapeProperty(label: "version", required: true, type: .string), 
@@ -986,7 +986,7 @@ extension Inspector {
     public struct AssessmentRunStateChange: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "state", required: true, type: .enum), 
             AWSShapeProperty(label: "stateChangedAt", required: true, type: .timestamp)
         ]
@@ -1011,7 +1011,7 @@ extension Inspector {
     public struct ListFindingsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
             AWSShapeProperty(label: "findingArns", required: true, type: .list)
         ]
@@ -1035,7 +1035,7 @@ extension Inspector {
     public struct ListAssessmentRunsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
             AWSShapeProperty(label: "filter", required: false, type: .structure), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
@@ -1068,7 +1068,7 @@ extension Inspector {
     public struct AgentPreview: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "autoScalingGroup", required: false, type: .string), 
             AWSShapeProperty(label: "agentId", required: true, type: .string)
         ]
@@ -1092,7 +1092,7 @@ extension Inspector {
     public struct ListRulesPackagesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
             AWSShapeProperty(label: "maxResults", required: false, type: .integer)
         ]
@@ -1115,7 +1115,7 @@ extension Inspector {
     public struct AssessmentRunFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "namePattern", required: false, type: .string), 
             AWSShapeProperty(label: "states", required: false, type: .list), 
             AWSShapeProperty(label: "startTimeRange", required: false, type: .structure), 
@@ -1163,7 +1163,7 @@ extension Inspector {
     public struct GetTelemetryMetadataRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "assessmentRunArn", required: true, type: .string)
         ]
         /// The ARN that specifies the assessment run that has the telemetry data that you want to obtain.
@@ -1182,7 +1182,7 @@ extension Inspector {
     public struct AssessmentTargetFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "assessmentTargetNamePattern", required: false, type: .string)
         ]
         /// For a record to match a filter, an explicit value or a string that contains a wildcard that is specified for this data type property must match the value of the assessmentTargetName property of the AssessmentTarget data type.
@@ -1200,7 +1200,7 @@ extension Inspector {
     public struct AssessmentRun: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "state", required: true, type: .enum), 
             AWSShapeProperty(label: "name", required: true, type: .string), 
             AWSShapeProperty(label: "createdAt", required: true, type: .timestamp), 
@@ -1295,7 +1295,7 @@ extension Inspector {
     public struct ListEventSubscriptionsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "subscriptions", required: true, type: .list), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
@@ -1319,7 +1319,7 @@ extension Inspector {
     public struct DeleteAssessmentTargetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "assessmentTargetArn", required: true, type: .string)
         ]
         /// The ARN that specifies the assessment target that you want to delete.
@@ -1344,7 +1344,7 @@ extension Inspector {
     public struct CreateAssessmentTemplateResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "assessmentTemplateArn", required: true, type: .string)
         ]
         /// The ARN that specifies the assessment template that is created.
@@ -1377,7 +1377,7 @@ extension Inspector {
     public struct Finding: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "assetType", required: false, type: .enum), 
             AWSShapeProperty(label: "schemaVersion", required: false, type: .integer), 
             AWSShapeProperty(label: "userAttributes", required: true, type: .list), 
@@ -1484,7 +1484,7 @@ extension Inspector {
     public struct ListAssessmentRunAgentsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
             AWSShapeProperty(label: "filter", required: false, type: .structure), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
@@ -1518,7 +1518,7 @@ extension Inspector {
     public struct ListTagsForResourceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "resourceArn", required: true, type: .string)
         ]
         /// The ARN that specifies the assessment template whose tags you want to list.
@@ -1537,7 +1537,7 @@ extension Inspector {
     public struct ListEventSubscriptionsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "resourceArn", required: false, type: .string), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
             AWSShapeProperty(label: "maxResults", required: false, type: .integer)
@@ -1565,7 +1565,7 @@ extension Inspector {
     public struct UpdateAssessmentTargetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "resourceGroupArn", required: true, type: .string), 
             AWSShapeProperty(label: "assessmentTargetArn", required: true, type: .string), 
             AWSShapeProperty(label: "assessmentTargetName", required: true, type: .string)
@@ -1596,7 +1596,7 @@ extension Inspector {
     public struct AddAttributesToFindingsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "failedItems", required: true, type: .map)
         ]
         /// Attribute details that cannot be described. An error code is provided for each failed item.
@@ -1631,7 +1631,7 @@ extension Inspector {
     public struct CreateAssessmentTargetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "assessmentTargetArn", required: true, type: .string)
         ]
         /// The ARN that specifies the assessment target that is created.
@@ -1650,7 +1650,7 @@ extension Inspector {
     public struct ListAssessmentRunsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
             AWSShapeProperty(label: "assessmentRunArns", required: true, type: .list)
         ]
@@ -1674,7 +1674,7 @@ extension Inspector {
     public struct AssessmentRunAgent: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "telemetryMetadata", required: true, type: .list), 
             AWSShapeProperty(label: "autoScalingGroup", required: false, type: .string), 
             AWSShapeProperty(label: "agentHealth", required: true, type: .enum), 
@@ -1727,7 +1727,7 @@ extension Inspector {
     public struct DescribeResourceGroupsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "failedItems", required: true, type: .map), 
             AWSShapeProperty(label: "resourceGroups", required: true, type: .list)
         ]
@@ -1757,7 +1757,7 @@ extension Inspector {
     public struct AssessmentTemplateFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "namePattern", required: false, type: .string), 
             AWSShapeProperty(label: "rulesPackageArns", required: false, type: .list), 
             AWSShapeProperty(label: "durationRange", required: false, type: .structure)
@@ -1785,7 +1785,7 @@ extension Inspector {
     public struct ListTagsForResourceResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "tags", required: true, type: .list)
         ]
         /// A collection of key and value pairs.
@@ -1804,7 +1804,7 @@ extension Inspector {
     public struct AgentAlreadyRunningAssessment: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "agentId", required: true, type: .string), 
             AWSShapeProperty(label: "assessmentRunArn", required: true, type: .string)
         ]
@@ -1829,7 +1829,7 @@ extension Inspector {
     public struct DurationRange: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "maxSeconds", required: false, type: .integer), 
             AWSShapeProperty(label: "minSeconds", required: false, type: .integer)
         ]
@@ -1872,7 +1872,7 @@ extension Inspector {
     public struct TimestampRange: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "beginDate", required: false, type: .timestamp), 
             AWSShapeProperty(label: "endDate", required: false, type: .timestamp)
         ]
@@ -1895,7 +1895,7 @@ extension Inspector {
     public struct TelemetryMetadata: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "dataSize", required: false, type: .long), 
             AWSShapeProperty(label: "count", required: true, type: .long), 
             AWSShapeProperty(label: "messageType", required: true, type: .string)
@@ -1925,7 +1925,7 @@ extension Inspector {
     public struct AssessmentTemplate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "assessmentTargetArn", required: true, type: .string), 
             AWSShapeProperty(label: "name", required: true, type: .string), 
             AWSShapeProperty(label: "createdAt", required: true, type: .timestamp), 
@@ -1980,7 +1980,7 @@ extension Inspector {
     public struct RegisterCrossAccountAccessRoleRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "roleArn", required: true, type: .string)
         ]
         /// The ARN of the IAM role that Amazon Inspector uses to list your EC2 instances during the assessment run or when you call the PreviewAgents action. 
@@ -1999,7 +1999,7 @@ extension Inspector {
     public struct AssetAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "autoScalingGroup", required: false, type: .string), 
             AWSShapeProperty(label: "hostname", required: false, type: .string), 
             AWSShapeProperty(label: "amiId", required: false, type: .string), 
@@ -2043,7 +2043,7 @@ extension Inspector {
     public struct ListAssessmentRunAgentsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
             AWSShapeProperty(label: "assessmentRunAgents", required: true, type: .list)
         ]
@@ -2067,7 +2067,7 @@ extension Inspector {
     public struct ListAssessmentTargetsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
             AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
             AWSShapeProperty(label: "filter", required: false, type: .structure)
@@ -2095,7 +2095,7 @@ extension Inspector {
     public struct GetTelemetryMetadataResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "telemetryMetadata", required: true, type: .list)
         ]
         /// Telemetry details.
@@ -2114,7 +2114,7 @@ extension Inspector {
     public struct CreateAssessmentTemplateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "assessmentTemplateName", required: true, type: .string), 
             AWSShapeProperty(label: "assessmentTargetArn", required: true, type: .string), 
             AWSShapeProperty(label: "durationInSeconds", required: true, type: .integer), 
@@ -2160,7 +2160,7 @@ extension Inspector {
     public struct StartAssessmentRunRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "assessmentRunName", required: false, type: .string), 
             AWSShapeProperty(label: "assessmentTemplateArn", required: true, type: .string)
         ]
@@ -2184,7 +2184,7 @@ extension Inspector {
     public struct AgentFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "agentHealthCodes", required: true, type: .list), 
             AWSShapeProperty(label: "agentHealths", required: true, type: .list)
         ]
@@ -2209,7 +2209,7 @@ extension Inspector {
     public struct SubscribeToEventRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "resourceArn", required: true, type: .string), 
             AWSShapeProperty(label: "event", required: true, type: .enum), 
             AWSShapeProperty(label: "topicArn", required: true, type: .string)
@@ -2248,7 +2248,7 @@ extension Inspector {
     public struct CreateResourceGroupRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "resourceGroupTags", required: true, type: .list)
         ]
         /// A collection of keys and an array of possible values, '[{"key":"key1","values":["Value1","Value2"]},{"key":"Key2","values":["Value3"]}]'. For example,'[{"key":"Name","values":["TestEC2Instance"]}]'.
@@ -2267,7 +2267,7 @@ extension Inspector {
     public struct DescribeFindingsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "findings", required: true, type: .list), 
             AWSShapeProperty(label: "failedItems", required: true, type: .map)
         ]
@@ -2297,7 +2297,7 @@ extension Inspector {
     public struct SetTagsForResourceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "resourceArn", required: true, type: .string), 
             AWSShapeProperty(label: "tags", required: false, type: .list)
         ]
@@ -2325,7 +2325,7 @@ extension Inspector {
     public struct FailedItemDetails: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "failureCode", required: true, type: .enum), 
             AWSShapeProperty(label: "retryable", required: true, type: .boolean)
         ]
@@ -2350,7 +2350,7 @@ extension Inspector {
     public struct AssessmentRunNotification: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "snsTopicArn", required: false, type: .string), 
             AWSShapeProperty(label: "snsPublishStatusCode", required: false, type: .enum), 
             AWSShapeProperty(label: "event", required: true, type: .enum), 
@@ -2395,7 +2395,7 @@ extension Inspector {
     public struct ListAssessmentTemplatesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
             AWSShapeProperty(label: "filter", required: false, type: .structure), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string), 
@@ -2428,7 +2428,7 @@ extension Inspector {
     public struct StopAssessmentRunRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "assessmentRunArn", required: true, type: .string)
         ]
         /// The ARN of the assessment run that you want to stop.
@@ -2447,7 +2447,7 @@ extension Inspector {
     public struct ListRulesPackagesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "rulesPackageArns", required: true, type: .list), 
             AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
@@ -2471,7 +2471,7 @@ extension Inspector {
     public struct CreateAssessmentTargetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "resourceGroupArn", required: true, type: .string), 
             AWSShapeProperty(label: "assessmentTargetName", required: true, type: .string)
         ]
@@ -2496,7 +2496,7 @@ extension Inspector {
     public struct InspectorServiceAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "schemaVersion", required: true, type: .integer), 
             AWSShapeProperty(label: "rulesPackageArn", required: false, type: .string), 
             AWSShapeProperty(label: "assessmentRunArn", required: false, type: .string)
@@ -2525,7 +2525,7 @@ extension Inspector {
     public struct DescribeAssessmentTargetsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "assessmentTargets", required: true, type: .list), 
             AWSShapeProperty(label: "failedItems", required: true, type: .map)
         ]
@@ -2555,7 +2555,7 @@ extension Inspector {
     public struct DescribeFindingsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "locale", required: false, type: .enum), 
             AWSShapeProperty(label: "findingArns", required: true, type: .list)
         ]

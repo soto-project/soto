@@ -32,7 +32,7 @@ extension Workspaces {
     public struct CreateTagsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
             AWSShapeProperty(label: "Tags", required: true, type: .list)
         ]
@@ -57,7 +57,7 @@ extension Workspaces {
     public struct TerminateWorkspacesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TerminateWorkspaceRequests", required: true, type: .list)
         ]
         /// An array of structures that specify the WorkSpaces to terminate.
@@ -83,7 +83,7 @@ extension Workspaces {
     public struct FailedCreateWorkspaceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ErrorMessage", required: false, type: .string), 
             AWSShapeProperty(label: "WorkspaceRequest", required: false, type: .structure), 
             AWSShapeProperty(label: "ErrorCode", required: false, type: .string)
@@ -111,7 +111,7 @@ extension Workspaces {
     public struct DescribeWorkspaceBundlesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Owner", required: false, type: .string), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "BundleIds", required: false, type: .list)
@@ -139,7 +139,7 @@ extension Workspaces {
     public struct UserStorage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Capacity", required: false, type: .string)
         ]
         /// The amount of user storage for the bundle.
@@ -157,7 +157,7 @@ extension Workspaces {
     public struct WorkspaceBundle: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Description", required: false, type: .string), 
             AWSShapeProperty(label: "ComputeType", required: false, type: .structure), 
             AWSShapeProperty(label: "UserStorage", required: false, type: .structure), 
@@ -200,7 +200,7 @@ extension Workspaces {
     public struct RebootWorkspacesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FailedRequests", required: false, type: .list)
         ]
         /// An array of structures representing any WorkSpaces that could not be rebooted.
@@ -222,7 +222,7 @@ extension Workspaces {
     public struct DescribeTagsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceId", required: true, type: .string)
         ]
         /// The resource ID of the request.
@@ -241,7 +241,7 @@ extension Workspaces {
     public struct CreateWorkspacesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FailedRequests", required: false, type: .list), 
             AWSShapeProperty(label: "PendingRequests", required: false, type: .list)
         ]
@@ -280,7 +280,7 @@ extension Workspaces {
     public struct RebootWorkspacesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RebootWorkspaceRequests", required: true, type: .list)
         ]
         /// An array of structures that specify the WorkSpaces to reboot.
@@ -299,7 +299,7 @@ extension Workspaces {
     public struct Tag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: false, type: .string), 
             AWSShapeProperty(label: "Key", required: true, type: .string)
         ]
@@ -331,7 +331,7 @@ extension Workspaces {
     public struct DescribeWorkspacesConnectionStatusResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WorkspacesConnectionStatus", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -373,7 +373,7 @@ extension Workspaces {
     public struct StartWorkspacesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StartWorkspaceRequests", required: true, type: .list)
         ]
         /// The requests.
@@ -410,7 +410,7 @@ extension Workspaces {
     public struct ComputeType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: false, type: .enum)
         ]
         /// The name of the compute type for the bundle.
@@ -428,7 +428,7 @@ extension Workspaces {
     public struct FailedWorkspaceChangeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ErrorMessage", required: false, type: .string), 
             AWSShapeProperty(label: "ErrorCode", required: false, type: .string), 
             AWSShapeProperty(label: "WorkspaceId", required: false, type: .string)
@@ -456,7 +456,7 @@ extension Workspaces {
     public struct StopRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WorkspaceId", required: false, type: .string)
         ]
         /// The ID of the WorkSpace.
@@ -474,7 +474,7 @@ extension Workspaces {
     public struct StartRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WorkspaceId", required: false, type: .string)
         ]
         /// The ID of the WorkSpace.
@@ -492,7 +492,7 @@ extension Workspaces {
     public struct DefaultWorkspaceCreationProperties: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DefaultOu", required: false, type: .string), 
             AWSShapeProperty(label: "CustomSecurityGroupId", required: false, type: .string), 
             AWSShapeProperty(label: "EnableInternetAccess", required: false, type: .boolean), 
@@ -530,7 +530,7 @@ extension Workspaces {
     public struct StopWorkspacesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StopWorkspaceRequests", required: true, type: .list)
         ]
         /// The requests.
@@ -549,7 +549,7 @@ extension Workspaces {
     public struct DescribeWorkspacesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DirectoryId", required: false, type: .string), 
             AWSShapeProperty(label: "UserName", required: false, type: .string), 
             AWSShapeProperty(label: "Limit", required: false, type: .integer), 
@@ -592,7 +592,7 @@ extension Workspaces {
     public struct RebuildWorkspacesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FailedRequests", required: false, type: .list)
         ]
         /// An array of structures representing any WorkSpaces that could not be rebuilt.
@@ -614,7 +614,7 @@ extension Workspaces {
     public struct RebootRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WorkspaceId", required: true, type: .string)
         ]
         /// The identifier of the WorkSpace to reboot.
@@ -633,7 +633,7 @@ extension Workspaces {
     public struct DescribeWorkspacesConnectionStatusRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WorkspaceIds", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -656,7 +656,7 @@ extension Workspaces {
     public struct WorkspaceConnectionStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WorkspaceId", required: false, type: .string), 
             AWSShapeProperty(label: "ConnectionState", required: false, type: .enum), 
             AWSShapeProperty(label: "LastKnownUserConnectionTimestamp", required: false, type: .timestamp), 
@@ -689,7 +689,7 @@ extension Workspaces {
     public struct DescribeTagsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TagList", required: false, type: .list)
         ]
         /// The list of tags.
@@ -718,7 +718,7 @@ extension Workspaces {
     public struct DescribeWorkspacesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Workspaces", required: false, type: .list)
         ]
@@ -745,7 +745,7 @@ extension Workspaces {
     public struct WorkspaceProperties: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RunningMode", required: false, type: .enum), 
             AWSShapeProperty(label: "RunningModeAutoStopTimeoutInMinutes", required: false, type: .integer)
         ]
@@ -768,7 +768,7 @@ extension Workspaces {
     public struct ModifyWorkspacePropertiesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WorkspaceId", required: true, type: .string), 
             AWSShapeProperty(label: "WorkspaceProperties", required: true, type: .structure)
         ]
@@ -793,7 +793,7 @@ extension Workspaces {
     public struct DescribeWorkspaceBundlesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Bundles", required: false, type: .list)
         ]
@@ -820,7 +820,7 @@ extension Workspaces {
     public struct DeleteTagsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
             AWSShapeProperty(label: "TagKeys", required: true, type: .list)
         ]
@@ -845,7 +845,7 @@ extension Workspaces {
     public struct Workspace: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubnetId", required: false, type: .string), 
             AWSShapeProperty(label: "UserName", required: false, type: .string), 
             AWSShapeProperty(label: "State", required: false, type: .enum), 
@@ -927,7 +927,7 @@ extension Workspaces {
     public struct RebuildWorkspacesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RebuildWorkspaceRequests", required: true, type: .list)
         ]
         /// An array of structures that specify the WorkSpaces to rebuild.
@@ -946,7 +946,7 @@ extension Workspaces {
     public struct DescribeWorkspaceDirectoriesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Directories", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -973,7 +973,7 @@ extension Workspaces {
     public struct TerminateWorkspacesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FailedRequests", required: false, type: .list)
         ]
         /// An array of structures representing any WorkSpaces that could not be terminated.
@@ -995,7 +995,7 @@ extension Workspaces {
     public struct StopWorkspacesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FailedRequests", required: false, type: .list)
         ]
         /// The failed requests.
@@ -1023,7 +1023,7 @@ extension Workspaces {
     public struct RebuildRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WorkspaceId", required: true, type: .string)
         ]
         /// The identifier of the WorkSpace to rebuild.
@@ -1042,7 +1042,7 @@ extension Workspaces {
     public struct CreateWorkspacesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Workspaces", required: true, type: .list)
         ]
         /// An array of structures that specify the WorkSpaces to create.
@@ -1061,7 +1061,7 @@ extension Workspaces {
     public struct WorkspaceDirectory: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubnetIds", required: false, type: .list), 
             AWSShapeProperty(label: "WorkspaceCreationProperties", required: false, type: .structure), 
             AWSShapeProperty(label: "DnsIpAddresses", required: false, type: .list), 
@@ -1134,7 +1134,7 @@ extension Workspaces {
     public struct WorkspaceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserName", required: true, type: .string), 
             AWSShapeProperty(label: "VolumeEncryptionKey", required: false, type: .string), 
             AWSShapeProperty(label: "Tags", required: false, type: .list), 
@@ -1193,7 +1193,7 @@ extension Workspaces {
     public struct StartWorkspacesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FailedRequests", required: false, type: .list)
         ]
         /// The failed requests.
@@ -1223,7 +1223,7 @@ extension Workspaces {
     public struct DescribeWorkspaceDirectoriesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "DirectoryIds", required: false, type: .list)
         ]
@@ -1246,7 +1246,7 @@ extension Workspaces {
     public struct TerminateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "WorkspaceId", required: true, type: .string)
         ]
         /// The identifier of the WorkSpace to terminate.

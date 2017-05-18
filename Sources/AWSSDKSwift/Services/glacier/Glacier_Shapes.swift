@@ -35,7 +35,7 @@ extension Glacier {
         public static var headerParams: [String: String] {
             return ["x-amz-capacity-id": "capacityId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "X-amz-capacity-id", required: false, type: .string)
         ]
         /// The ID that identifies the provisioned capacity unit.
@@ -56,7 +56,7 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Policy", required: false, type: .structure), 
             AWSShapeProperty(label: "AccountId", required: true, type: .string)
         ]
@@ -83,7 +83,7 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "uploadId": "uploadId", "vaultName": "vaultName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountId", required: true, type: .string), 
             AWSShapeProperty(label: "UploadId", required: true, type: .string), 
             AWSShapeProperty(label: "VaultName", required: true, type: .string)
@@ -117,7 +117,7 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountId", required: true, type: .string), 
             AWSShapeProperty(label: "VaultName", required: true, type: .string)
         ]
@@ -145,7 +145,7 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountId", required: true, type: .string), 
             AWSShapeProperty(label: "policy", required: false, type: .structure), 
             AWSShapeProperty(label: "VaultName", required: true, type: .string)
@@ -181,7 +181,7 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountId", required: true, type: .string), 
             AWSShapeProperty(label: "X-amz-archive-description", required: false, type: .string), 
             AWSShapeProperty(label: "VaultName", required: true, type: .string), 
@@ -216,7 +216,7 @@ extension Glacier {
     public struct ListMultipartUploadsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "UploadsList", required: false, type: .list)
         ]
@@ -243,7 +243,7 @@ extension Glacier {
     public struct PartListElement: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SHA256TreeHash", required: false, type: .string), 
             AWSShapeProperty(label: "RangeInBytes", required: false, type: .string)
         ]
@@ -272,7 +272,7 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountId", required: true, type: .string), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "Limit", required: false, type: .string), 
@@ -310,7 +310,7 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountId", required: true, type: .string), 
             AWSShapeProperty(label: "VaultName", required: true, type: .string)
         ]
@@ -338,7 +338,7 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountId", required: true, type: .string)
         ]
         /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID. 
@@ -363,7 +363,7 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName", "jobId": "jobId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountId", required: true, type: .string), 
             AWSShapeProperty(label: "Range", required: false, type: .string), 
             AWSShapeProperty(label: "VaultName", required: true, type: .string), 
@@ -402,7 +402,7 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountId", required: true, type: .string)
         ]
         /// The AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, don't include any hyphens ('-') in the ID. 
@@ -421,7 +421,7 @@ extension Glacier {
     public struct GetDataRetrievalPolicyOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Policy", required: false, type: .structure)
         ]
         /// Contains the returned data retrieval policy in JSON format.
@@ -445,7 +445,7 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountId", required: true, type: .string), 
             AWSShapeProperty(label: "X-amz-archive-description", required: false, type: .string), 
             AWSShapeProperty(label: "X-amz-sha256-tree-hash", required: false, type: .string), 
@@ -491,7 +491,7 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "uploadId": "uploadId", "vaultName": "vaultName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountId", required: true, type: .string), 
             AWSShapeProperty(label: "UploadId", required: true, type: .string), 
             AWSShapeProperty(label: "Content-Range", required: false, type: .string), 
@@ -540,7 +540,7 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "vaultNotificationConfig", required: false, type: .structure), 
             AWSShapeProperty(label: "AccountId", required: true, type: .string), 
             AWSShapeProperty(label: "VaultName", required: true, type: .string)
@@ -573,7 +573,7 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountId", required: true, type: .string), 
             AWSShapeProperty(label: "VaultName", required: true, type: .string)
         ]
@@ -598,7 +598,7 @@ extension Glacier {
     public struct DataRetrievalRule: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BytesPerHour", required: false, type: .long), 
             AWSShapeProperty(label: "Strategy", required: false, type: .string)
         ]
@@ -624,7 +624,7 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountId", required: true, type: .string), 
             AWSShapeProperty(label: "VaultName", required: true, type: .string), 
             AWSShapeProperty(label: "TagKeys", required: false, type: .list)
@@ -654,7 +654,7 @@ extension Glacier {
     public struct ListProvisionedCapacityOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ProvisionedCapacityList", required: false, type: .list)
         ]
         /// The response body contains the following JSON fields.
@@ -679,7 +679,7 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountId", required: true, type: .string), 
             AWSShapeProperty(label: "Tags", required: false, type: .map), 
             AWSShapeProperty(label: "VaultName", required: true, type: .string)
@@ -713,7 +713,7 @@ extension Glacier {
     public struct UploadListElement: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VaultARN", required: false, type: .string), 
             AWSShapeProperty(label: "CreationDate", required: false, type: .string), 
             AWSShapeProperty(label: "ArchiveDescription", required: false, type: .string), 
@@ -757,7 +757,7 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "uploadId": "uploadId", "vaultName": "vaultName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountId", required: true, type: .string), 
             AWSShapeProperty(label: "UploadId", required: true, type: .string), 
             AWSShapeProperty(label: "X-amz-archive-size", required: false, type: .string), 
@@ -804,7 +804,7 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountId", required: true, type: .string), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "Limit", required: false, type: .string), 
@@ -852,7 +852,7 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountId", required: true, type: .string), 
             AWSShapeProperty(label: "VaultName", required: true, type: .string)
         ]
@@ -880,7 +880,7 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountId", required: true, type: .string), 
             AWSShapeProperty(label: "VaultName", required: true, type: .string)
         ]
@@ -908,7 +908,7 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountId", required: true, type: .string), 
             AWSShapeProperty(label: "jobParameters", required: false, type: .structure), 
             AWSShapeProperty(label: "VaultName", required: true, type: .string)
@@ -941,7 +941,7 @@ extension Glacier {
         public static var headerParams: [String: String] {
             return ["Location": "location", "x-amz-archive-id": "archiveId", "x-amz-sha256-tree-hash": "checksum"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "X-amz-archive-id", required: false, type: .string), 
             AWSShapeProperty(label: "Location", required: false, type: .string), 
             AWSShapeProperty(label: "X-amz-sha256-tree-hash", required: false, type: .string)
@@ -969,7 +969,7 @@ extension Glacier {
     public struct ListTagsForVaultOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Tags", required: false, type: .map)
         ]
         /// The tags attached to the vault. Each tag is composed of a key and a value.
@@ -1001,7 +1001,7 @@ extension Glacier {
         public static var headerParams: [String: String] {
             return ["Location": "location"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Location", required: false, type: .string)
         ]
         /// The URI of the vault that was created.
@@ -1022,7 +1022,7 @@ extension Glacier {
         public static var headerParams: [String: String] {
             return ["x-amz-job-id": "jobId", "Location": "location"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "X-amz-job-id", required: false, type: .string), 
             AWSShapeProperty(label: "Location", required: false, type: .string)
         ]
@@ -1045,7 +1045,7 @@ extension Glacier {
     public struct ListVaultsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "VaultList", required: false, type: .list)
         ]
@@ -1072,7 +1072,7 @@ extension Glacier {
     public struct GlacierJobDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VaultARN", required: false, type: .string), 
             AWSShapeProperty(label: "CompletionDate", required: false, type: .string), 
             AWSShapeProperty(label: "InventorySizeInBytes", required: false, type: .long), 
@@ -1175,7 +1175,7 @@ extension Glacier {
     public struct ProvisionedCapacityDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StartDate", required: false, type: .string), 
             AWSShapeProperty(label: "CapacityId", required: false, type: .string), 
             AWSShapeProperty(label: "ExpirationDate", required: false, type: .string)
@@ -1203,7 +1203,7 @@ extension Glacier {
     public struct GetVaultLockOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CreationDate", required: false, type: .string), 
             AWSShapeProperty(label: "Policy", required: false, type: .string), 
             AWSShapeProperty(label: "State", required: false, type: .string), 
@@ -1236,7 +1236,7 @@ extension Glacier {
     public struct InventoryRetrievalJobDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Format", required: false, type: .string), 
             AWSShapeProperty(label: "StartDate", required: false, type: .string), 
             AWSShapeProperty(label: "Limit", required: false, type: .string), 
@@ -1277,7 +1277,7 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountId", required: true, type: .string), 
             AWSShapeProperty(label: "VaultName", required: true, type: .string)
         ]
@@ -1308,7 +1308,7 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "AccountId", required: true, type: .string), 
             AWSShapeProperty(label: "Limit", required: false, type: .string)
@@ -1337,7 +1337,7 @@ extension Glacier {
     public struct GetVaultAccessPolicyOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = "policy"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "policy", required: false, type: .structure)
         ]
         /// Contains the returned vault access policy as a JSON string.
@@ -1358,7 +1358,7 @@ extension Glacier {
         public static var headerParams: [String: String] {
             return ["Location": "location", "x-amz-multipart-upload-id": "uploadId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "X-amz-multipart-upload-id", required: false, type: .string), 
             AWSShapeProperty(label: "Location", required: false, type: .string)
         ]
@@ -1381,7 +1381,7 @@ extension Glacier {
     public struct ListPartsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VaultARN", required: false, type: .string), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "ArchiveDescription", required: false, type: .string), 
@@ -1439,7 +1439,7 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "uploadId": "uploadId", "vaultName": "vaultName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountId", required: true, type: .string), 
             AWSShapeProperty(label: "UploadId", required: true, type: .string), 
             AWSShapeProperty(label: "Limit", required: false, type: .string), 
@@ -1480,7 +1480,7 @@ extension Glacier {
     public struct VaultAccessPolicy: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Policy", required: false, type: .string)
         ]
         /// The vault access policy.
@@ -1501,7 +1501,7 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountId", required: true, type: .string), 
             AWSShapeProperty(label: "VaultName", required: true, type: .string)
         ]
@@ -1529,7 +1529,7 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountId", required: true, type: .string), 
             AWSShapeProperty(label: "VaultName", required: true, type: .string)
         ]
@@ -1557,7 +1557,7 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["archiveId": "archiveId", "accountId": "accountId", "vaultName": "vaultName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ArchiveId", required: true, type: .string), 
             AWSShapeProperty(label: "AccountId", required: true, type: .string), 
             AWSShapeProperty(label: "VaultName", required: true, type: .string)
@@ -1591,7 +1591,7 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountId", required: true, type: .string), 
             AWSShapeProperty(label: "policy", required: false, type: .structure), 
             AWSShapeProperty(label: "VaultName", required: true, type: .string)
@@ -1621,7 +1621,7 @@ extension Glacier {
     public struct VaultLockPolicy: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Policy", required: false, type: .string)
         ]
         /// The vault lock policy.
@@ -1648,7 +1648,7 @@ extension Glacier {
         public static var headerParams: [String: String] {
             return ["Content-Type": "contentType", "x-amz-archive-description": "archiveDescription", "Content-Range": "contentRange", "Accept-Ranges": "acceptRanges", "x-amz-sha256-tree-hash": "checksum"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Content-Range", required: false, type: .string), 
             AWSShapeProperty(label: "status", required: false, type: .integer), 
             AWSShapeProperty(label: "Content-Type", required: false, type: .string), 
@@ -1699,7 +1699,7 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountId", required: true, type: .string)
         ]
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, don't include any hyphens ('-') in the ID. 
@@ -1721,7 +1721,7 @@ extension Glacier {
         public static var headerParams: [String: String] {
             return ["x-amz-sha256-tree-hash": "checksum"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "X-amz-sha256-tree-hash", required: false, type: .string)
         ]
         /// The SHA256 tree hash that Amazon Glacier computed for the uploaded part.
@@ -1739,7 +1739,7 @@ extension Glacier {
     public struct VaultNotificationConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Events", required: false, type: .list), 
             AWSShapeProperty(label: "SNSTopic", required: false, type: .string)
         ]
@@ -1762,7 +1762,7 @@ extension Glacier {
     public struct ListJobsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "JobList", required: false, type: .list)
         ]
@@ -1789,7 +1789,7 @@ extension Glacier {
     public struct DataRetrievalPolicy: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Rules", required: false, type: .list)
         ]
         /// The policy rule. Although this is a list type, currently there must be only one rule, which contains a Strategy field and optionally a BytesPerHour field.
@@ -1811,7 +1811,7 @@ extension Glacier {
     public struct JobParameters: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InventoryRetrievalParameters", required: false, type: .structure), 
             AWSShapeProperty(label: "RetrievalByteRange", required: false, type: .string), 
             AWSShapeProperty(label: "Format", required: false, type: .string), 
@@ -1867,7 +1867,7 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountId", required: true, type: .string), 
             AWSShapeProperty(label: "VaultName", required: true, type: .string)
         ]
@@ -1895,7 +1895,7 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountId", required: true, type: .string), 
             AWSShapeProperty(label: "VaultName", required: true, type: .string)
         ]
@@ -1920,7 +1920,7 @@ extension Glacier {
     public struct GetVaultNotificationsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = "vaultNotificationConfig"
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "vaultNotificationConfig", required: false, type: .structure)
         ]
         /// Returns the notification configuration set on the vault.
@@ -1941,7 +1941,7 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "jobId": "jobId", "vaultName": "vaultName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountId", required: true, type: .string), 
             AWSShapeProperty(label: "JobId", required: true, type: .string), 
             AWSShapeProperty(label: "VaultName", required: true, type: .string)
@@ -1975,7 +1975,7 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "lockId": "lockId", "vaultName": "vaultName"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccountId", required: true, type: .string), 
             AWSShapeProperty(label: "LockId", required: true, type: .string), 
             AWSShapeProperty(label: "VaultName", required: true, type: .string)
@@ -2006,7 +2006,7 @@ extension Glacier {
     public struct InventoryRetrievalJobInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StartDate", required: false, type: .string), 
             AWSShapeProperty(label: "Limit", required: false, type: .string), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
@@ -2042,7 +2042,7 @@ extension Glacier {
         public static var headerParams: [String: String] {
             return ["x-amz-lock-id": "lockId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "X-amz-lock-id", required: false, type: .string)
         ]
         /// The lock ID, which is used to complete the vault locking process.
@@ -2060,7 +2060,7 @@ extension Glacier {
     public struct DescribeVaultOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SizeInBytes", required: false, type: .long), 
             AWSShapeProperty(label: "VaultARN", required: false, type: .string), 
             AWSShapeProperty(label: "NumberOfArchives", required: false, type: .long), 

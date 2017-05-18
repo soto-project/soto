@@ -32,7 +32,7 @@ extension Directconnect {
     public struct CreateLagRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "location", required: true, type: .string), 
             AWSShapeProperty(label: "connectionsBandwidth", required: true, type: .string), 
             AWSShapeProperty(label: "connectionId", required: false, type: .string), 
@@ -74,7 +74,7 @@ extension Directconnect {
     public struct DescribeTagsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "resourceTags", required: false, type: .list)
         ]
         /// Information about the tags.
@@ -96,7 +96,7 @@ extension Directconnect {
     public struct VirtualGateways: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "virtualGateways", required: false, type: .list)
         ]
         /// A list of virtual private gateways.
@@ -118,7 +118,7 @@ extension Directconnect {
     public struct TagResourceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "resourceArn", required: true, type: .string), 
             AWSShapeProperty(label: "tags", required: true, type: .list)
         ]
@@ -143,7 +143,7 @@ extension Directconnect {
     public struct AllocateHostedConnectionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ownerAccount", required: true, type: .string), 
             AWSShapeProperty(label: "connectionName", required: true, type: .string), 
             AWSShapeProperty(label: "connectionId", required: true, type: .string), 
@@ -186,7 +186,7 @@ extension Directconnect {
     public struct Lag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "connections", required: false, type: .list), 
             AWSShapeProperty(label: "location", required: false, type: .string), 
             AWSShapeProperty(label: "lagId", required: false, type: .string), 
@@ -259,7 +259,7 @@ extension Directconnect {
     public struct DeleteVirtualInterfaceResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "virtualInterfaceState", required: false, type: .enum)
         ]
         public let virtualInterfaceState: VirtualInterfaceState?
@@ -276,7 +276,7 @@ extension Directconnect {
     public struct AssociateVirtualInterfaceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "virtualInterfaceId", required: true, type: .string), 
             AWSShapeProperty(label: "connectionId", required: true, type: .string)
         ]
@@ -310,7 +310,7 @@ extension Directconnect {
     public struct CreateBGPPeerResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "virtualInterface", required: false, type: .structure)
         ]
         public let virtualInterface: VirtualInterface?
@@ -327,7 +327,7 @@ extension Directconnect {
     public struct DescribeLagsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "lagId", required: false, type: .string)
         ]
         /// The ID of the LAG. Example: dxlag-abc123 Default: None
@@ -345,7 +345,7 @@ extension Directconnect {
     public struct DescribeTagsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "resourceArns", required: true, type: .list)
         ]
         /// The Amazon Resource Names (ARNs) of the Direct Connect resources.
@@ -364,7 +364,7 @@ extension Directconnect {
     public struct DescribeConnectionLoaResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "loa", required: false, type: .structure)
         ]
         public let loa: Loa?
@@ -391,7 +391,7 @@ extension Directconnect {
     public struct NewPublicVirtualInterfaceAllocation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "customerAddress", required: false, type: .string), 
             AWSShapeProperty(label: "virtualInterfaceName", required: true, type: .string), 
             AWSShapeProperty(label: "authKey", required: false, type: .string), 
@@ -453,7 +453,7 @@ extension Directconnect {
     public struct Tag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "key", required: true, type: .string), 
             AWSShapeProperty(label: "value", required: false, type: .string)
         ]
@@ -477,7 +477,7 @@ extension Directconnect {
     public struct CreatePrivateVirtualInterfaceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "connectionId", required: true, type: .string), 
             AWSShapeProperty(label: "newPrivateVirtualInterface", required: true, type: .structure)
         ]
@@ -501,7 +501,7 @@ extension Directconnect {
     public struct AssociateHostedConnectionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "connectionId", required: true, type: .string), 
             AWSShapeProperty(label: "parentConnectionId", required: true, type: .string)
         ]
@@ -526,7 +526,7 @@ extension Directconnect {
     public struct DeleteInterconnectRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "interconnectId", required: true, type: .string)
         ]
         public let interconnectId: String
@@ -544,7 +544,7 @@ extension Directconnect {
     public struct DescribeInterconnectLoaRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "providerName", required: false, type: .string), 
             AWSShapeProperty(label: "loaContentType", required: false, type: .enum), 
             AWSShapeProperty(label: "interconnectId", required: true, type: .string)
@@ -571,7 +571,7 @@ extension Directconnect {
     public struct NewPublicVirtualInterface: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "customerAddress", required: false, type: .string), 
             AWSShapeProperty(label: "virtualInterfaceName", required: true, type: .string), 
             AWSShapeProperty(label: "authKey", required: false, type: .string), 
@@ -623,7 +623,7 @@ extension Directconnect {
     public struct Interconnects: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "interconnects", required: false, type: .list)
         ]
         /// A list of interconnects.
@@ -645,7 +645,7 @@ extension Directconnect {
     public struct AllocatePrivateVirtualInterfaceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "connectionId", required: true, type: .string), 
             AWSShapeProperty(label: "newPrivateVirtualInterfaceAllocation", required: true, type: .structure), 
             AWSShapeProperty(label: "ownerAccount", required: true, type: .string)
@@ -676,7 +676,7 @@ extension Directconnect {
     public struct DeleteLagRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "lagId", required: true, type: .string)
         ]
         /// The ID of the LAG to delete. Example: dxlag-abc123 Default: None
@@ -695,7 +695,7 @@ extension Directconnect {
     public struct UpdateLagRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "minimumLinks", required: false, type: .integer), 
             AWSShapeProperty(label: "lagId", required: true, type: .string), 
             AWSShapeProperty(label: "lagName", required: false, type: .string)
@@ -724,7 +724,7 @@ extension Directconnect {
     public struct NewPrivateVirtualInterface: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "customerAddress", required: false, type: .string), 
             AWSShapeProperty(label: "virtualInterfaceName", required: true, type: .string), 
             AWSShapeProperty(label: "authKey", required: false, type: .string), 
@@ -773,7 +773,7 @@ extension Directconnect {
     public struct DescribeHostedConnectionsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "connectionId", required: true, type: .string)
         ]
         /// The ID of the interconnect or LAG on which the hosted connections are provisioned. Example: dxcon-abc123 or dxlag-abc123 Default: None
@@ -792,7 +792,7 @@ extension Directconnect {
     public struct DeleteConnectionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "connectionId", required: true, type: .string)
         ]
         public let connectionId: String
@@ -810,7 +810,7 @@ extension Directconnect {
     public struct NewPrivateVirtualInterfaceAllocation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "customerAddress", required: false, type: .string), 
             AWSShapeProperty(label: "virtualInterfaceName", required: true, type: .string), 
             AWSShapeProperty(label: "authKey", required: false, type: .string), 
@@ -854,7 +854,7 @@ extension Directconnect {
     public struct CreatePublicVirtualInterfaceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "connectionId", required: true, type: .string), 
             AWSShapeProperty(label: "newPublicVirtualInterface", required: true, type: .structure)
         ]
@@ -890,7 +890,7 @@ extension Directconnect {
     public struct DescribeInterconnectsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "interconnectId", required: false, type: .string)
         ]
         public let interconnectId: String?
@@ -907,7 +907,7 @@ extension Directconnect {
     public struct ResourceTag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "resourceArn", required: false, type: .string), 
             AWSShapeProperty(label: "tags", required: false, type: .list)
         ]
@@ -934,7 +934,7 @@ extension Directconnect {
     public struct ConfirmConnectionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "connectionId", required: true, type: .string)
         ]
         public let connectionId: String
@@ -952,7 +952,7 @@ extension Directconnect {
     public struct AssociateConnectionWithLagRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "connectionId", required: true, type: .string), 
             AWSShapeProperty(label: "lagId", required: true, type: .string)
         ]
@@ -983,7 +983,7 @@ extension Directconnect {
     public struct AllocatePublicVirtualInterfaceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "newPublicVirtualInterfaceAllocation", required: true, type: .structure), 
             AWSShapeProperty(label: "connectionId", required: true, type: .string), 
             AWSShapeProperty(label: "ownerAccount", required: true, type: .string)
@@ -1014,7 +1014,7 @@ extension Directconnect {
     public struct ConfirmPublicVirtualInterfaceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "virtualInterfaceId", required: true, type: .string)
         ]
         public let virtualInterfaceId: String
@@ -1032,7 +1032,7 @@ extension Directconnect {
     public struct CreateInterconnectRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "location", required: true, type: .string), 
             AWSShapeProperty(label: "lagId", required: false, type: .string), 
             AWSShapeProperty(label: "interconnectName", required: true, type: .string), 
@@ -1067,7 +1067,7 @@ extension Directconnect {
     public struct Connections: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "connections", required: false, type: .list)
         ]
         /// A list of connections.
@@ -1089,7 +1089,7 @@ extension Directconnect {
     public struct DescribeInterconnectLoaResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "loa", required: false, type: .structure)
         ]
         public let loa: Loa?
@@ -1106,7 +1106,7 @@ extension Directconnect {
     public struct Connection: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "loaIssueTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "bandwidth", required: false, type: .string), 
             AWSShapeProperty(label: "location", required: false, type: .string), 
@@ -1172,7 +1172,7 @@ extension Directconnect {
     public struct DescribeConnectionsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "connectionId", required: false, type: .string)
         ]
         public let connectionId: String?
@@ -1189,7 +1189,7 @@ extension Directconnect {
     public struct Lags: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "lags", required: false, type: .list)
         ]
         /// A list of LAGs.
@@ -1211,7 +1211,7 @@ extension Directconnect {
     public struct DeleteInterconnectResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "interconnectState", required: false, type: .enum)
         ]
         public let interconnectState: InterconnectState?
@@ -1236,7 +1236,7 @@ extension Directconnect {
     public struct BGPPeer: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "bgpPeerState", required: false, type: .enum), 
             AWSShapeProperty(label: "customerAddress", required: false, type: .string), 
             AWSShapeProperty(label: "bgpStatus", required: false, type: .enum), 
@@ -1277,7 +1277,7 @@ extension Directconnect {
     public struct DisassociateConnectionFromLagRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "connectionId", required: true, type: .string), 
             AWSShapeProperty(label: "lagId", required: true, type: .string)
         ]
@@ -1302,7 +1302,7 @@ extension Directconnect {
     public struct CreateBGPPeerRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "virtualInterfaceId", required: false, type: .string), 
             AWSShapeProperty(label: "newBGPPeer", required: false, type: .structure)
         ]
@@ -1337,7 +1337,7 @@ extension Directconnect {
     public struct ConfirmPrivateVirtualInterfaceResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "virtualInterfaceState", required: false, type: .enum)
         ]
         public let virtualInterfaceState: VirtualInterfaceState?
@@ -1354,7 +1354,7 @@ extension Directconnect {
     public struct DeleteBGPPeerResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "virtualInterface", required: false, type: .structure)
         ]
         public let virtualInterface: VirtualInterface?
@@ -1371,7 +1371,7 @@ extension Directconnect {
     public struct DescribeVirtualInterfacesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "virtualInterfaceId", required: false, type: .string), 
             AWSShapeProperty(label: "connectionId", required: false, type: .string)
         ]
@@ -1392,7 +1392,7 @@ extension Directconnect {
     public struct DescribeLoaRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "providerName", required: false, type: .string), 
             AWSShapeProperty(label: "connectionId", required: true, type: .string), 
             AWSShapeProperty(label: "loaContentType", required: false, type: .enum)
@@ -1421,7 +1421,7 @@ extension Directconnect {
     public struct DeleteBGPPeerRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "virtualInterfaceId", required: false, type: .string), 
             AWSShapeProperty(label: "asn", required: false, type: .integer), 
             AWSShapeProperty(label: "customerAddress", required: false, type: .string)
@@ -1447,7 +1447,7 @@ extension Directconnect {
     public struct Interconnect: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "loaIssueTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "interconnectState", required: false, type: .enum), 
             AWSShapeProperty(label: "location", required: false, type: .string), 
@@ -1498,7 +1498,7 @@ extension Directconnect {
     public struct AllocateConnectionOnInterconnectRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "bandwidth", required: true, type: .string), 
             AWSShapeProperty(label: "connectionName", required: true, type: .string), 
             AWSShapeProperty(label: "interconnectId", required: true, type: .string), 
@@ -1541,7 +1541,7 @@ extension Directconnect {
     public struct DescribeConnectionsOnInterconnectRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "interconnectId", required: true, type: .string)
         ]
         /// ID of the interconnect on which a list of connection is provisioned. Example: dxcon-abc123 Default: None
@@ -1565,7 +1565,7 @@ extension Directconnect {
     public struct VirtualInterfaces: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "virtualInterfaces", required: false, type: .list)
         ]
         /// A list of virtual interfaces.
@@ -1601,7 +1601,7 @@ extension Directconnect {
     public struct Location: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "locationCode", required: false, type: .string), 
             AWSShapeProperty(label: "locationName", required: false, type: .string)
         ]
@@ -1624,7 +1624,7 @@ extension Directconnect {
     public struct Loa: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "loaContentType", required: false, type: .enum), 
             AWSShapeProperty(label: "loaContent", required: false, type: .blob)
         ]
@@ -1645,7 +1645,7 @@ extension Directconnect {
     public struct VirtualInterface: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "customerAddress", required: false, type: .string), 
             AWSShapeProperty(label: "virtualInterfaceType", required: false, type: .string), 
             AWSShapeProperty(label: "connectionId", required: false, type: .string), 
@@ -1736,7 +1736,7 @@ extension Directconnect {
     public struct ConfirmPublicVirtualInterfaceResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "virtualInterfaceState", required: false, type: .enum)
         ]
         public let virtualInterfaceState: VirtualInterfaceState?
@@ -1753,7 +1753,7 @@ extension Directconnect {
     public struct Locations: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "locations", required: false, type: .list)
         ]
         /// A list of colocation hubs where network providers have equipment. Most regions have multiple locations available.
@@ -1775,7 +1775,7 @@ extension Directconnect {
     public struct CreateConnectionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "connectionName", required: true, type: .string), 
             AWSShapeProperty(label: "location", required: true, type: .string), 
             AWSShapeProperty(label: "lagId", required: false, type: .string), 
@@ -1807,7 +1807,7 @@ extension Directconnect {
     public struct DescribeConnectionLoaRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "providerName", required: false, type: .string), 
             AWSShapeProperty(label: "connectionId", required: true, type: .string), 
             AWSShapeProperty(label: "loaContentType", required: false, type: .enum)
@@ -1834,7 +1834,7 @@ extension Directconnect {
     public struct ConfirmPrivateVirtualInterfaceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "virtualInterfaceId", required: true, type: .string), 
             AWSShapeProperty(label: "virtualGatewayId", required: true, type: .string)
         ]
@@ -1858,7 +1858,7 @@ extension Directconnect {
     public struct NewBGPPeer: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "amazonAddress", required: false, type: .string), 
             AWSShapeProperty(label: "customerAddress", required: false, type: .string), 
             AWSShapeProperty(label: "addressFamily", required: false, type: .enum), 
@@ -1891,7 +1891,7 @@ extension Directconnect {
     public struct ConfirmConnectionResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "connectionState", required: false, type: .enum)
         ]
         public let connectionState: ConnectionState?
@@ -1908,7 +1908,7 @@ extension Directconnect {
     public struct RouteFilterPrefix: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "cidr", required: false, type: .string)
         ]
         /// CIDR notation for the advertised route. Multiple routes are separated by commas. IPv6 CIDRs must be at least a /64 or shorter Example: 10.10.10.0/24,10.10.11.0/24,2001:db8::/64
@@ -1926,7 +1926,7 @@ extension Directconnect {
     public struct DeleteVirtualInterfaceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "virtualInterfaceId", required: true, type: .string)
         ]
         public let virtualInterfaceId: String
@@ -1944,7 +1944,7 @@ extension Directconnect {
     public struct UntagResourceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "resourceArn", required: true, type: .string), 
             AWSShapeProperty(label: "tagKeys", required: true, type: .list)
         ]
@@ -1969,7 +1969,7 @@ extension Directconnect {
     public struct VirtualGateway: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "virtualGatewayState", required: false, type: .string), 
             AWSShapeProperty(label: "virtualGatewayId", required: false, type: .string)
         ]

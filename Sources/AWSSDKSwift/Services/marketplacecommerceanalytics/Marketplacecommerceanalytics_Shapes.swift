@@ -62,7 +62,7 @@ extension Marketplacecommerceanalytics {
     public struct GenerateDataSetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "snsTopicArn", required: true, type: .string), 
             AWSShapeProperty(label: "dataSetType", required: true, type: .enum), 
             AWSShapeProperty(label: "destinationS3Prefix", required: false, type: .string), 
@@ -119,7 +119,7 @@ extension Marketplacecommerceanalytics {
     public struct StartSupportDataExportResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "dataSetRequestId", required: false, type: .string)
         ]
         /// A unique identifier representing a specific request to the StartSupportDataExport operation. This identifier can be used to correlate a request with notifications from the SNS topic.
@@ -137,7 +137,7 @@ extension Marketplacecommerceanalytics {
     public struct StartSupportDataExportRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "snsTopicArn", required: true, type: .string), 
             AWSShapeProperty(label: "dataSetType", required: true, type: .enum), 
             AWSShapeProperty(label: "destinationS3Prefix", required: false, type: .string), 
@@ -194,7 +194,7 @@ extension Marketplacecommerceanalytics {
     public struct GenerateDataSetResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "dataSetRequestId", required: false, type: .string)
         ]
         /// A unique identifier representing a specific request to the GenerateDataSet operation. This identifier can be used to correlate a request with notifications from the SNS topic.

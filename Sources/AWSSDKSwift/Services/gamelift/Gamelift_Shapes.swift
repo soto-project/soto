@@ -32,7 +32,7 @@ extension Gamelift {
     public struct DeleteFleetInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FleetId", required: true, type: .string)
         ]
         /// Unique identifier for a fleet to be deleted.
@@ -51,7 +51,7 @@ extension Gamelift {
     public struct UpdateFleetCapacityInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MinSize", required: false, type: .integer), 
             AWSShapeProperty(label: "MaxSize", required: false, type: .integer), 
             AWSShapeProperty(label: "DesiredInstances", required: false, type: .integer), 
@@ -85,7 +85,7 @@ extension Gamelift {
     public struct DescribePlayerSessionsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PlayerId", required: false, type: .string), 
             AWSShapeProperty(label: "Limit", required: false, type: .integer), 
             AWSShapeProperty(label: "GameSessionId", required: false, type: .string), 
@@ -128,7 +128,7 @@ extension Gamelift {
     public struct SearchGameSessionsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SortExpression", required: false, type: .string), 
             AWSShapeProperty(label: "Limit", required: false, type: .integer), 
             AWSShapeProperty(label: "FilterExpression", required: false, type: .string), 
@@ -171,7 +171,7 @@ extension Gamelift {
     public struct PutScalingPolicyOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: false, type: .string)
         ]
         /// Descriptive label that is associated with a scaling policy. Policy names do not need to be unique.
@@ -219,7 +219,7 @@ extension Gamelift {
     public struct ScalingPolicy: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Threshold", required: false, type: .double), 
             AWSShapeProperty(label: "Status", required: false, type: .enum), 
             AWSShapeProperty(label: "MetricName", required: false, type: .enum), 
@@ -277,7 +277,7 @@ extension Gamelift {
     public struct GetGameSessionLogUrlOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PreSignedUrl", required: false, type: .string)
         ]
         /// Location of the requested game session logs, available for download.
@@ -306,7 +306,7 @@ extension Gamelift {
     public struct Build: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .enum), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "Version", required: false, type: .string), 
@@ -354,7 +354,7 @@ extension Gamelift {
     public struct DescribeBuildInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BuildId", required: true, type: .string)
         ]
         /// Unique identifier for a build to retrieve properties for.
@@ -373,7 +373,7 @@ extension Gamelift {
     public struct DescribeFleetPortSettingsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FleetId", required: true, type: .string)
         ]
         /// Unique identifier for a fleet to retrieve port settings for.
@@ -392,7 +392,7 @@ extension Gamelift {
     public struct DescribeFleetUtilizationOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "FleetUtilization", required: false, type: .list)
         ]
@@ -419,7 +419,7 @@ extension Gamelift {
     public struct UpdateGameSessionOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "GameSession", required: false, type: .structure)
         ]
         /// Object that contains the updated game session metadata.
@@ -469,7 +469,7 @@ extension Gamelift {
     public struct ResolveAliasOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FleetId", required: false, type: .string)
         ]
         /// Fleet identifier that is associated with the requested alias.
@@ -487,7 +487,7 @@ extension Gamelift {
     public struct DescribeAliasInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AliasId", required: true, type: .string)
         ]
         /// Unique identifier for a fleet alias. Specify the alias you want to retrieve.
@@ -506,7 +506,7 @@ extension Gamelift {
     public struct UpdateGameSessionQueueInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Destinations", required: false, type: .list), 
             AWSShapeProperty(label: "Name", required: true, type: .string), 
             AWSShapeProperty(label: "TimeoutInSeconds", required: false, type: .integer)
@@ -551,7 +551,7 @@ extension Gamelift {
     public struct DescribeGameSessionPlacementOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "GameSessionPlacement", required: false, type: .structure)
         ]
         /// Object that describes the requested game session placement.
@@ -569,7 +569,7 @@ extension Gamelift {
     public struct GameSession: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TerminationTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "CreationTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "GameSessionId", required: false, type: .string), 
@@ -651,7 +651,7 @@ extension Gamelift {
     public struct ListBuildsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Builds", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -686,7 +686,7 @@ extension Gamelift {
     public struct DescribeScalingPoliciesOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "ScalingPolicies", required: false, type: .list)
         ]
@@ -713,7 +713,7 @@ extension Gamelift {
     public struct GameSessionPlacement: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "Status", required: false, type: .enum), 
             AWSShapeProperty(label: "GameSessionRegion", required: false, type: .string), 
@@ -789,7 +789,7 @@ extension Gamelift {
     public struct ListBuildsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .enum), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Limit", required: false, type: .integer)
@@ -817,7 +817,7 @@ extension Gamelift {
     public struct RuntimeConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ServerProcesses", required: false, type: .list)
         ]
         /// Collection of server process configurations describing what server processes to run on each instance in a fleet
@@ -839,7 +839,7 @@ extension Gamelift {
     public struct Instance: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .enum), 
             AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
             AWSShapeProperty(label: "IpAddress", required: false, type: .string), 
@@ -887,7 +887,7 @@ extension Gamelift {
     public struct EC2InstanceLimit: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CurrentInstances", required: false, type: .integer), 
             AWSShapeProperty(label: "EC2InstanceType", required: false, type: .enum), 
             AWSShapeProperty(label: "InstanceLimit", required: false, type: .integer)
@@ -923,7 +923,7 @@ extension Gamelift {
     public struct DescribeFleetAttributesOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FleetAttributes", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -950,7 +950,7 @@ extension Gamelift {
     public struct GetInstanceAccessOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceAccess", required: false, type: .structure)
         ]
         /// Object that contains connection information for a fleet instance, including IP address and access credentials.
@@ -968,7 +968,7 @@ extension Gamelift {
     public struct StartGameSessionPlacementOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "GameSessionPlacement", required: false, type: .structure)
         ]
         /// Object that describes the newly created game session placement. This object includes all the information provided in the request, as well as start/end time stamps and placement status. 
@@ -986,7 +986,7 @@ extension Gamelift {
     public struct CreateGameSessionOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "GameSession", required: false, type: .structure)
         ]
         /// Object that describes the newly created game session record.
@@ -1004,7 +1004,7 @@ extension Gamelift {
     public struct ListAliasesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RoutingStrategyType", required: false, type: .enum), 
             AWSShapeProperty(label: "Limit", required: false, type: .integer), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
@@ -1037,7 +1037,7 @@ extension Gamelift {
     public struct UpdateRuntimeConfigurationOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RuntimeConfiguration", required: false, type: .structure)
         ]
         /// The runtime configuration currently in force. If the update was successful, this object matches the one in the request.
@@ -1055,7 +1055,7 @@ extension Gamelift {
     public struct RequestUploadCredentialsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BuildId", required: true, type: .string)
         ]
         /// Unique identifier for a build to get credentials for.
@@ -1082,7 +1082,7 @@ extension Gamelift {
     public struct StopGameSessionPlacementInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PlacementId", required: true, type: .string)
         ]
         /// Unique identifier for a game session placement to cancel.
@@ -1101,7 +1101,7 @@ extension Gamelift {
     public struct CreateFleetInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceCreationLimitPolicy", required: false, type: .structure), 
             AWSShapeProperty(label: "EC2InstanceType", required: true, type: .enum), 
             AWSShapeProperty(label: "BuildId", required: true, type: .string), 
@@ -1176,7 +1176,7 @@ extension Gamelift {
     public struct UpdateBuildInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BuildId", required: true, type: .string), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "Version", required: false, type: .string)
@@ -1205,7 +1205,7 @@ extension Gamelift {
     public struct ResolveAliasInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AliasId", required: true, type: .string)
         ]
         /// Unique identifier for the alias you want to resolve.
@@ -1224,7 +1224,7 @@ extension Gamelift {
     public struct PlayerLatency: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PlayerId", required: false, type: .string), 
             AWSShapeProperty(label: "RegionIdentifier", required: false, type: .string), 
             AWSShapeProperty(label: "LatencyInMilliseconds", required: false, type: .float)
@@ -1252,7 +1252,7 @@ extension Gamelift {
     public struct CreatePlayerSessionsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "GameSessionId", required: true, type: .string), 
             AWSShapeProperty(label: "PlayerIds", required: true, type: .list), 
             AWSShapeProperty(label: "PlayerDataMap", required: false, type: .map)
@@ -1286,7 +1286,7 @@ extension Gamelift {
     public struct DescribeFleetPortSettingsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InboundPermissions", required: false, type: .list)
         ]
         /// Object that contains port settings for the requested fleet ID.
@@ -1308,7 +1308,7 @@ extension Gamelift {
     public struct DeleteAliasInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AliasId", required: true, type: .string)
         ]
         /// Unique identifier for a fleet alias. Specify the alias you want to delete.
@@ -1327,7 +1327,7 @@ extension Gamelift {
     public struct DescribeGameSessionQueuesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Names", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Limit", required: false, type: .integer)
@@ -1355,7 +1355,7 @@ extension Gamelift {
     public struct Alias: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LastUpdatedTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "RoutingStrategy", required: false, type: .structure), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
@@ -1403,7 +1403,7 @@ extension Gamelift {
     public struct CreatePlayerSessionInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "GameSessionId", required: true, type: .string), 
             AWSShapeProperty(label: "PlayerData", required: false, type: .string), 
             AWSShapeProperty(label: "PlayerId", required: true, type: .string)
@@ -1433,7 +1433,7 @@ extension Gamelift {
     public struct Event: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Message", required: false, type: .string), 
             AWSShapeProperty(label: "ResourceId", required: false, type: .string), 
             AWSShapeProperty(label: "EventCode", required: false, type: .enum), 
@@ -1471,7 +1471,7 @@ extension Gamelift {
     public struct UpdateGameSessionQueueOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "GameSessionQueue", required: false, type: .structure)
         ]
         /// Object that describes the newly updated game session queue.
@@ -1495,7 +1495,7 @@ extension Gamelift {
     public struct GameSessionQueueDestination: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DestinationArn", required: false, type: .string)
         ]
         /// Amazon Resource Name (ARN) assigned to fleet or fleet alias. ARNs, which include a fleet ID or alias ID and a region name, provide a unique identifier across all regions. 
@@ -1513,7 +1513,7 @@ extension Gamelift {
     public struct DesiredPlayerSession: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PlayerData", required: false, type: .string), 
             AWSShapeProperty(label: "PlayerId", required: false, type: .string)
         ]
@@ -1536,7 +1536,7 @@ extension Gamelift {
     public struct DescribeFleetUtilizationInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FleetIds", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Limit", required: false, type: .integer)
@@ -1564,7 +1564,7 @@ extension Gamelift {
     public struct CreateAliasInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RoutingStrategy", required: true, type: .structure), 
             AWSShapeProperty(label: "Name", required: true, type: .string), 
             AWSShapeProperty(label: "Description", required: false, type: .string)
@@ -1594,7 +1594,7 @@ extension Gamelift {
     public struct ResourceCreationLimitPolicy: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NewGameSessionsPerCreator", required: false, type: .integer), 
             AWSShapeProperty(label: "PolicyPeriodInMinutes", required: false, type: .integer)
         ]
@@ -1617,7 +1617,7 @@ extension Gamelift {
     public struct PutScalingPolicyInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Threshold", required: true, type: .double), 
             AWSShapeProperty(label: "MetricName", required: true, type: .enum), 
             AWSShapeProperty(label: "EvaluationPeriods", required: true, type: .integer), 
@@ -1678,7 +1678,7 @@ extension Gamelift {
     public struct DeleteBuildInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BuildId", required: true, type: .string)
         ]
         /// Unique identifier for a build to delete.
@@ -1703,7 +1703,7 @@ extension Gamelift {
     public struct UpdateFleetAttributesOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FleetId", required: false, type: .string)
         ]
         /// Unique identifier for a fleet that was updated.
@@ -1721,7 +1721,7 @@ extension Gamelift {
     public struct DescribeGameSessionsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StatusFilter", required: false, type: .string), 
             AWSShapeProperty(label: "Limit", required: false, type: .integer), 
             AWSShapeProperty(label: "GameSessionId", required: false, type: .string), 
@@ -1764,7 +1764,7 @@ extension Gamelift {
     public struct CreateFleetOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FleetAttributes", required: false, type: .structure)
         ]
         /// Properties for the newly created fleet.
@@ -1782,7 +1782,7 @@ extension Gamelift {
     public struct GameSessionQueue: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Destinations", required: false, type: .list), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "TimeoutInSeconds", required: false, type: .integer)
@@ -1814,7 +1814,7 @@ extension Gamelift {
     public struct DescribeFleetCapacityOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "FleetCapacity", required: false, type: .list)
         ]
@@ -1841,7 +1841,7 @@ extension Gamelift {
     public struct DescribeGameSessionDetailsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StatusFilter", required: false, type: .string), 
             AWSShapeProperty(label: "Limit", required: false, type: .integer), 
             AWSShapeProperty(label: "GameSessionId", required: false, type: .string), 
@@ -1884,7 +1884,7 @@ extension Gamelift {
     public struct UpdateFleetPortSettingsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InboundPermissionAuthorizations", required: false, type: .list), 
             AWSShapeProperty(label: "FleetId", required: true, type: .string), 
             AWSShapeProperty(label: "InboundPermissionRevocations", required: false, type: .list)
@@ -1921,7 +1921,7 @@ extension Gamelift {
     public struct DescribeFleetCapacityInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FleetIds", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Limit", required: false, type: .integer)
@@ -1949,7 +1949,7 @@ extension Gamelift {
     public struct InstanceCredentials: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "UserName", required: false, type: .string), 
             AWSShapeProperty(label: "Secret", required: false, type: .string)
         ]
@@ -1972,7 +1972,7 @@ extension Gamelift {
     public struct ServerProcess: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Parameters", required: false, type: .string), 
             AWSShapeProperty(label: "LaunchPath", required: true, type: .string), 
             AWSShapeProperty(label: "ConcurrentExecutions", required: true, type: .integer)
@@ -2002,7 +2002,7 @@ extension Gamelift {
     public struct RequestUploadCredentialsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StorageLocation", required: false, type: .structure), 
             AWSShapeProperty(label: "UploadCredentials", required: false, type: .structure)
         ]
@@ -2032,7 +2032,7 @@ extension Gamelift {
     public struct GameProperty: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: true, type: .string), 
             AWSShapeProperty(label: "Key", required: true, type: .string)
         ]
@@ -2064,7 +2064,7 @@ extension Gamelift {
     public struct UpdateBuildOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Build", required: false, type: .structure)
         ]
         /// Object that contains the updated build record.
@@ -2082,7 +2082,7 @@ extension Gamelift {
     public struct DescribeFleetAttributesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FleetIds", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Limit", required: false, type: .integer)
@@ -2110,7 +2110,7 @@ extension Gamelift {
     public struct DescribeEC2InstanceLimitsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EC2InstanceType", required: false, type: .enum)
         ]
         /// Name of an EC2 instance type that is supported in Amazon GameLift. A fleet instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. Amazon GameLift supports the following EC2 instance types. See Amazon EC2 Instance Types for detailed descriptions. Leave this parameter blank to retrieve limits for all types.
@@ -2128,7 +2128,7 @@ extension Gamelift {
     public struct CreatePlayerSessionsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PlayerSessions", required: false, type: .list)
         ]
         /// Collection of player session objects created for the added players.
@@ -2150,7 +2150,7 @@ extension Gamelift {
     public struct GetGameSessionLogUrlInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "GameSessionId", required: true, type: .string)
         ]
         /// Unique identifier for the game session to get logs for.
@@ -2169,7 +2169,7 @@ extension Gamelift {
     public struct DescribeEC2InstanceLimitsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EC2InstanceLimits", required: false, type: .list)
         ]
         /// Object that contains the maximum number of instances for the specified instance type.
@@ -2191,7 +2191,7 @@ extension Gamelift {
     public struct EC2InstanceCounts: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TERMINATING", required: false, type: .integer), 
             AWSShapeProperty(label: "MINIMUM", required: false, type: .integer), 
             AWSShapeProperty(label: "PENDING", required: false, type: .integer), 
@@ -2239,7 +2239,7 @@ extension Gamelift {
     public struct DescribePlayerSessionsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "PlayerSessions", required: false, type: .list)
         ]
@@ -2266,7 +2266,7 @@ extension Gamelift {
     public struct FleetCapacity: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceType", required: false, type: .enum), 
             AWSShapeProperty(label: "FleetId", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceCounts", required: false, type: .structure)
@@ -2294,7 +2294,7 @@ extension Gamelift {
     public struct GameSessionDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ProtectionPolicy", required: false, type: .enum), 
             AWSShapeProperty(label: "GameSession", required: false, type: .structure)
         ]
@@ -2317,7 +2317,7 @@ extension Gamelift {
     public struct CreateBuildInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OperatingSystem", required: false, type: .enum), 
             AWSShapeProperty(label: "StorageLocation", required: false, type: .structure), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
@@ -2350,7 +2350,7 @@ extension Gamelift {
     public struct DescribeInstancesOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Instances", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -2377,7 +2377,7 @@ extension Gamelift {
     public struct DescribeInstancesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Limit", required: false, type: .integer), 
             AWSShapeProperty(label: "FleetId", required: true, type: .string), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
@@ -2411,7 +2411,7 @@ extension Gamelift {
     public struct AwsCredentials: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AccessKeyId", required: false, type: .string), 
             AWSShapeProperty(label: "SecretAccessKey", required: false, type: .string), 
             AWSShapeProperty(label: "SessionToken", required: false, type: .string)
@@ -2439,7 +2439,7 @@ extension Gamelift {
     public struct ListFleetsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BuildId", required: false, type: .string), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Limit", required: false, type: .integer)
@@ -2467,7 +2467,7 @@ extension Gamelift {
     public struct DeleteScalingPolicyInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FleetId", required: true, type: .string), 
             AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
@@ -2501,7 +2501,7 @@ extension Gamelift {
     public struct PlayerSession: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .enum), 
             AWSShapeProperty(label: "PlayerSessionId", required: false, type: .string), 
             AWSShapeProperty(label: "IpAddress", required: false, type: .string), 
@@ -2564,7 +2564,7 @@ extension Gamelift {
     public struct FleetUtilization: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaximumPlayerSessionCount", required: false, type: .integer), 
             AWSShapeProperty(label: "ActiveServerProcessCount", required: false, type: .integer), 
             AWSShapeProperty(label: "ActiveGameSessionCount", required: false, type: .integer), 
@@ -2602,7 +2602,7 @@ extension Gamelift {
     public struct DescribeGameSessionQueuesOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "GameSessionQueues", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -2629,7 +2629,7 @@ extension Gamelift {
     public struct DescribeGameSessionsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "GameSessions", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -2662,7 +2662,7 @@ extension Gamelift {
     public struct DescribeFleetEventsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "Limit", required: false, type: .integer), 
@@ -2722,7 +2722,7 @@ extension Gamelift {
     public struct S3Location: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Bucket", required: false, type: .string), 
             AWSShapeProperty(label: "RoleArn", required: false, type: .string), 
             AWSShapeProperty(label: "Key", required: false, type: .string)
@@ -2750,7 +2750,7 @@ extension Gamelift {
     public struct CreateGameSessionInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FleetId", required: false, type: .string), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "CreatorId", required: false, type: .string), 
@@ -2803,7 +2803,7 @@ extension Gamelift {
     public struct UpdateGameSessionInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PlayerSessionCreationPolicy", required: false, type: .enum), 
             AWSShapeProperty(label: "ProtectionPolicy", required: false, type: .enum), 
             AWSShapeProperty(label: "GameSessionId", required: true, type: .string), 
@@ -2842,7 +2842,7 @@ extension Gamelift {
     public struct CreateBuildOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StorageLocation", required: false, type: .structure), 
             AWSShapeProperty(label: "UploadCredentials", required: false, type: .structure), 
             AWSShapeProperty(label: "Build", required: false, type: .structure)
@@ -2870,7 +2870,7 @@ extension Gamelift {
     public struct FleetAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TerminationTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "FleetArn", required: false, type: .string), 
             AWSShapeProperty(label: "CreationTime", required: false, type: .timestamp), 
@@ -2953,7 +2953,7 @@ extension Gamelift {
     public struct InstanceAccess: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OperatingSystem", required: false, type: .enum), 
             AWSShapeProperty(label: "Credentials", required: false, type: .structure), 
             AWSShapeProperty(label: "FleetId", required: false, type: .string), 
@@ -2991,7 +2991,7 @@ extension Gamelift {
     public struct StopGameSessionPlacementOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "GameSessionPlacement", required: false, type: .structure)
         ]
         /// Object that describes the cancelled game session placement, with cancelled status and an end time stamp. 
@@ -3015,7 +3015,7 @@ extension Gamelift {
     public struct CreateGameSessionQueueOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "GameSessionQueue", required: false, type: .structure)
         ]
         /// Object that describes the newly created game session queue.
@@ -3033,7 +3033,7 @@ extension Gamelift {
     public struct CreatePlayerSessionOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PlayerSession", required: false, type: .structure)
         ]
         /// Object that describes the newly created player session record.
@@ -3051,7 +3051,7 @@ extension Gamelift {
     public struct DescribeGameSessionDetailsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "GameSessionDetails", required: false, type: .list)
         ]
@@ -3078,7 +3078,7 @@ extension Gamelift {
     public struct StartGameSessionPlacementInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DesiredPlayerSessions", required: false, type: .list), 
             AWSShapeProperty(label: "PlacementId", required: true, type: .string), 
             AWSShapeProperty(label: "PlayerLatencies", required: false, type: .list), 
@@ -3141,7 +3141,7 @@ extension Gamelift {
     public struct CreateAliasOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Alias", required: false, type: .structure)
         ]
         /// Object that describes the newly created alias record.
@@ -3159,7 +3159,7 @@ extension Gamelift {
     public struct DescribeScalingPoliciesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StatusFilter", required: false, type: .enum), 
             AWSShapeProperty(label: "Limit", required: false, type: .integer), 
             AWSShapeProperty(label: "FleetId", required: true, type: .string), 
@@ -3193,7 +3193,7 @@ extension Gamelift {
     public struct DescribeBuildOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Build", required: false, type: .structure)
         ]
         /// Set of properties describing the requested build.
@@ -3211,7 +3211,7 @@ extension Gamelift {
     public struct UpdateFleetCapacityOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FleetId", required: false, type: .string)
         ]
         /// Unique identifier for a fleet that was updated.
@@ -3229,7 +3229,7 @@ extension Gamelift {
     public struct UpdateFleetAttributesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceCreationLimitPolicy", required: false, type: .structure), 
             AWSShapeProperty(label: "Description", required: false, type: .string), 
             AWSShapeProperty(label: "FleetId", required: true, type: .string), 
@@ -3268,7 +3268,7 @@ extension Gamelift {
     public struct DeleteGameSessionQueueInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
         /// Descriptive label that is associated with queue. Queue names must be unique within each region.
@@ -3287,7 +3287,7 @@ extension Gamelift {
     public struct ListAliasesOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Aliases", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -3314,7 +3314,7 @@ extension Gamelift {
     public struct IpPermission: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FromPort", required: true, type: .integer), 
             AWSShapeProperty(label: "ToPort", required: true, type: .integer), 
             AWSShapeProperty(label: "Protocol", required: true, type: .enum), 
@@ -3351,7 +3351,7 @@ extension Gamelift {
     public struct DescribeFleetEventsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Events", required: false, type: .list)
         ]
@@ -3378,7 +3378,7 @@ extension Gamelift {
     public struct DescribeAliasOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Alias", required: false, type: .structure)
         ]
         /// Object that contains the requested alias.
@@ -3396,7 +3396,7 @@ extension Gamelift {
     public struct GetInstanceAccessInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FleetId", required: true, type: .string), 
             AWSShapeProperty(label: "InstanceId", required: true, type: .string)
         ]
@@ -3428,7 +3428,7 @@ extension Gamelift {
     public struct DescribeRuntimeConfigurationInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FleetId", required: true, type: .string)
         ]
         /// Unique identifier for a fleet to get the runtime configuration for.
@@ -3453,7 +3453,7 @@ extension Gamelift {
     public struct DescribeGameSessionPlacementInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PlacementId", required: true, type: .string)
         ]
         /// Unique identifier for a game session placement to retrieve.
@@ -3472,7 +3472,7 @@ extension Gamelift {
     public struct RoutingStrategy: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Type", required: false, type: .enum), 
             AWSShapeProperty(label: "FleetId", required: false, type: .string), 
             AWSShapeProperty(label: "Message", required: false, type: .string)
@@ -3500,7 +3500,7 @@ extension Gamelift {
     public struct UpdateAliasInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Description", required: false, type: .string), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "AliasId", required: true, type: .string), 
@@ -3534,7 +3534,7 @@ extension Gamelift {
     public struct UpdateFleetPortSettingsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FleetId", required: false, type: .string)
         ]
         /// Unique identifier for a fleet that was updated.
@@ -3552,7 +3552,7 @@ extension Gamelift {
     public struct UpdateRuntimeConfigurationInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FleetId", required: true, type: .string), 
             AWSShapeProperty(label: "RuntimeConfiguration", required: true, type: .structure)
         ]
@@ -3577,7 +3577,7 @@ extension Gamelift {
     public struct CreateGameSessionQueueInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Destinations", required: false, type: .list), 
             AWSShapeProperty(label: "Name", required: true, type: .string), 
             AWSShapeProperty(label: "TimeoutInSeconds", required: false, type: .integer)
@@ -3610,7 +3610,7 @@ extension Gamelift {
     public struct SearchGameSessionsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "GameSessions", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -3637,7 +3637,7 @@ extension Gamelift {
     public struct UpdateAliasOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Alias", required: false, type: .structure)
         ]
         /// Object that contains the updated alias configuration.
@@ -3655,7 +3655,7 @@ extension Gamelift {
     public struct DescribeRuntimeConfigurationOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RuntimeConfiguration", required: false, type: .structure)
         ]
         /// Instructions describing how server processes should be launched and maintained on each instance in the fleet.
@@ -3673,7 +3673,7 @@ extension Gamelift {
     public struct ListFleetsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "FleetIds", required: false, type: .list)
         ]

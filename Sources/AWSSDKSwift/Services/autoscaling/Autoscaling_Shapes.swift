@@ -32,7 +32,7 @@ extension Autoscaling {
     public struct LaunchConfigurationsType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LaunchConfigurations", required: true, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -56,7 +56,7 @@ extension Autoscaling {
     public struct ActivityType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Activity", required: false, type: .structure)
         ]
         /// A scaling activity.
@@ -74,7 +74,7 @@ extension Autoscaling {
     public struct ProcessType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ProcessName", required: true, type: .string)
         ]
         /// One of the following processes:    Launch     Terminate     AddToLoadBalancer     AlarmNotification     AZRebalance     HealthCheck     ReplaceUnhealthy     ScheduledActions   
@@ -101,7 +101,7 @@ extension Autoscaling {
     public struct PutLifecycleHookType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NotificationTargetARN", required: false, type: .string), 
             AWSShapeProperty(label: "NotificationMetadata", required: false, type: .string), 
             AWSShapeProperty(label: "DefaultResult", required: false, type: .string), 
@@ -156,7 +156,7 @@ extension Autoscaling {
     public struct LaunchConfigurationNamesType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "LaunchConfigurationNames", required: false, type: .list)
@@ -184,7 +184,7 @@ extension Autoscaling {
     public struct DescribeNotificationConfigurationsAnswer: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "NotificationConfigurations", required: true, type: .list)
         ]
@@ -208,7 +208,7 @@ extension Autoscaling {
     public struct ScalingPolicy: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MinAdjustmentStep", required: false, type: .integer), 
             AWSShapeProperty(label: "PolicyType", required: false, type: .string), 
             AWSShapeProperty(label: "AdjustmentType", required: false, type: .string), 
@@ -294,7 +294,7 @@ extension Autoscaling {
     public struct DetachLoadBalancersType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LoadBalancerNames", required: true, type: .list), 
             AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string)
         ]
@@ -319,7 +319,7 @@ extension Autoscaling {
     public struct AdjustmentType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AdjustmentType", required: false, type: .string)
         ]
         /// The policy adjustment type. The valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity.
@@ -337,7 +337,7 @@ extension Autoscaling {
     public struct AutoScalingInstanceDetails: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LaunchConfigurationName", required: true, type: .string), 
             AWSShapeProperty(label: "LifecycleState", required: true, type: .string), 
             AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
@@ -392,7 +392,7 @@ extension Autoscaling {
     public struct PutScheduledUpdateGroupActionType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "MinSize", required: false, type: .integer), 
             AWSShapeProperty(label: "Time", required: false, type: .timestamp), 
@@ -452,7 +452,7 @@ extension Autoscaling {
     public struct AutoScalingGroupNamesType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "AutoScalingGroupNames", required: false, type: .list)
@@ -480,7 +480,7 @@ extension Autoscaling {
     public struct DescribeScheduledActionsType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "ScheduledActionNames", required: false, type: .list), 
@@ -523,7 +523,7 @@ extension Autoscaling {
     public struct LoadBalancerState: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LoadBalancerName", required: false, type: .string), 
             AWSShapeProperty(label: "State", required: false, type: .string)
         ]
@@ -546,7 +546,7 @@ extension Autoscaling {
     public struct ExecutePolicyType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PolicyName", required: true, type: .string), 
             AWSShapeProperty(label: "BreachThreshold", required: false, type: .double), 
             AWSShapeProperty(label: "AutoScalingGroupName", required: false, type: .string), 
@@ -585,7 +585,7 @@ extension Autoscaling {
     public struct DisableMetricsCollectionQuery: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Metrics", required: false, type: .list), 
             AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string)
         ]
@@ -609,7 +609,7 @@ extension Autoscaling {
     public struct DescribeAutoScalingNotificationTypesAnswer: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AutoScalingNotificationTypes", required: false, type: .list)
         ]
         /// The notification types.
@@ -627,7 +627,7 @@ extension Autoscaling {
     public struct Tag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Key", required: true, type: .string), 
             AWSShapeProperty(label: "PropagateAtLaunch", required: false, type: .boolean), 
             AWSShapeProperty(label: "Value", required: false, type: .string), 
@@ -666,7 +666,7 @@ extension Autoscaling {
     public struct AttachLoadBalancersType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LoadBalancerNames", required: true, type: .list), 
             AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string)
         ]
@@ -691,7 +691,7 @@ extension Autoscaling {
     public struct LoadBalancerTargetGroupState: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LoadBalancerTargetGroupARN", required: false, type: .string), 
             AWSShapeProperty(label: "State", required: false, type: .string)
         ]
@@ -714,7 +714,7 @@ extension Autoscaling {
     public struct TagDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Key", required: false, type: .string), 
             AWSShapeProperty(label: "PropagateAtLaunch", required: false, type: .boolean), 
             AWSShapeProperty(label: "Value", required: false, type: .string), 
@@ -752,7 +752,7 @@ extension Autoscaling {
     public struct CompleteLifecycleActionType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string), 
             AWSShapeProperty(label: "LifecycleHookName", required: true, type: .string), 
             AWSShapeProperty(label: "LifecycleActionToken", required: false, type: .string), 
@@ -793,7 +793,7 @@ extension Autoscaling {
     public struct StepAdjustment: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ScalingAdjustment", required: true, type: .integer), 
             AWSShapeProperty(label: "MetricIntervalUpperBound", required: false, type: .double), 
             AWSShapeProperty(label: "MetricIntervalLowerBound", required: false, type: .double)
@@ -830,7 +830,7 @@ extension Autoscaling {
     public struct Alarm: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AlarmName", required: false, type: .string), 
             AWSShapeProperty(label: "AlarmARN", required: false, type: .string)
         ]
@@ -853,7 +853,7 @@ extension Autoscaling {
     public struct Instance: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ProtectedFromScaleIn", required: true, type: .boolean), 
             AWSShapeProperty(label: "HealthStatus", required: true, type: .string), 
             AWSShapeProperty(label: "LaunchConfigurationName", required: true, type: .string), 
@@ -902,7 +902,7 @@ extension Autoscaling {
     public struct ScalingProcessQuery: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string), 
             AWSShapeProperty(label: "ScalingProcesses", required: false, type: .list)
         ]
@@ -926,7 +926,7 @@ extension Autoscaling {
     public struct ExitStandbyQuery: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceIds", required: false, type: .list), 
             AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string)
         ]
@@ -950,7 +950,7 @@ extension Autoscaling {
     public struct CreateAutoScalingGroupType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AvailabilityZones", required: false, type: .list), 
             AWSShapeProperty(label: "LaunchConfigurationName", required: false, type: .string), 
             AWSShapeProperty(label: "NewInstancesProtectedFromScaleIn", required: false, type: .boolean), 
@@ -1055,7 +1055,7 @@ extension Autoscaling {
     public struct TagsType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Tags", required: false, type: .list)
         ]
@@ -1082,7 +1082,7 @@ extension Autoscaling {
     public struct PutNotificationConfigurationType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NotificationTypes", required: true, type: .list), 
             AWSShapeProperty(label: "TopicARN", required: true, type: .string), 
             AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string)
@@ -1113,7 +1113,7 @@ extension Autoscaling {
     public struct EnabledMetric: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Granularity", required: false, type: .string), 
             AWSShapeProperty(label: "Metric", required: false, type: .string)
         ]
@@ -1136,7 +1136,7 @@ extension Autoscaling {
     public struct MetricGranularityType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Granularity", required: false, type: .string)
         ]
         /// The granularity. The only valid value is 1Minute.
@@ -1154,7 +1154,7 @@ extension Autoscaling {
     public struct ScheduledUpdateGroupAction: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "ScheduledActionARN", required: false, type: .string), 
             AWSShapeProperty(label: "Time", required: false, type: .timestamp), 
@@ -1217,7 +1217,7 @@ extension Autoscaling {
     public struct DeletePolicyType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AutoScalingGroupName", required: false, type: .string), 
             AWSShapeProperty(label: "PolicyName", required: true, type: .string)
         ]
@@ -1241,7 +1241,7 @@ extension Autoscaling {
     public struct ProcessesType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Processes", required: false, type: .list)
         ]
         /// The names of the process types.
@@ -1263,7 +1263,7 @@ extension Autoscaling {
     public struct AttachInstancesQuery: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceIds", required: false, type: .list), 
             AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string)
         ]
@@ -1287,7 +1287,7 @@ extension Autoscaling {
     public struct AutoScalingGroupsType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "AutoScalingGroups", required: true, type: .list)
         ]
@@ -1311,7 +1311,7 @@ extension Autoscaling {
     public struct AutoScalingGroup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AvailabilityZones", required: true, type: .list), 
             AWSShapeProperty(label: "EnabledMetrics", required: false, type: .list), 
             AWSShapeProperty(label: "LaunchConfigurationName", required: false, type: .string), 
@@ -1458,7 +1458,7 @@ extension Autoscaling {
     public struct DescribeLifecycleHookTypesAnswer: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LifecycleHookTypes", required: false, type: .list)
         ]
         /// The lifecycle hook types.
@@ -1476,7 +1476,7 @@ extension Autoscaling {
     public struct DescribeNotificationConfigurationsType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "AutoScalingGroupNames", required: false, type: .list)
@@ -1504,7 +1504,7 @@ extension Autoscaling {
     public struct Ebs: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SnapshotId", required: false, type: .string), 
             AWSShapeProperty(label: "DeleteOnTermination", required: false, type: .boolean), 
             AWSShapeProperty(label: "VolumeType", required: false, type: .string), 
@@ -1547,7 +1547,7 @@ extension Autoscaling {
     public struct DescribeLoadBalancerTargetGroupsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string)
@@ -1592,7 +1592,7 @@ extension Autoscaling {
     public struct DescribeScalingActivitiesType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "AutoScalingGroupName", required: false, type: .string), 
             AWSShapeProperty(label: "ActivityIds", required: false, type: .list), 
@@ -1625,7 +1625,7 @@ extension Autoscaling {
     public struct DetachInstancesQuery: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ShouldDecrementDesiredCapacity", required: true, type: .boolean), 
             AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string), 
             AWSShapeProperty(label: "InstanceIds", required: false, type: .list)
@@ -1655,7 +1655,7 @@ extension Autoscaling {
     public struct DescribePoliciesType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "AutoScalingGroupName", required: false, type: .string), 
             AWSShapeProperty(label: "PolicyTypes", required: false, type: .list), 
@@ -1693,7 +1693,7 @@ extension Autoscaling {
     public struct DeleteNotificationConfigurationType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TopicARN", required: true, type: .string), 
             AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string)
         ]
@@ -1718,7 +1718,7 @@ extension Autoscaling {
     public struct PoliciesType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "ScalingPolicies", required: false, type: .list)
         ]
@@ -1753,7 +1753,7 @@ extension Autoscaling {
     public struct LaunchConfigurationNameType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LaunchConfigurationName", required: true, type: .string)
         ]
         /// The name of the launch configuration.
@@ -1772,7 +1772,7 @@ extension Autoscaling {
     public struct DescribeAccountLimitsAnswer: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxNumberOfLaunchConfigurations", required: false, type: .integer), 
             AWSShapeProperty(label: "NumberOfLaunchConfigurations", required: false, type: .integer), 
             AWSShapeProperty(label: "NumberOfAutoScalingGroups", required: false, type: .integer), 
@@ -1813,7 +1813,7 @@ extension Autoscaling {
     public struct PolicyARNType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PolicyARN", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the policy.
@@ -1831,7 +1831,7 @@ extension Autoscaling {
     public struct SuspendedProcess: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ProcessName", required: false, type: .string), 
             AWSShapeProperty(label: "SuspensionReason", required: false, type: .string)
         ]
@@ -1854,7 +1854,7 @@ extension Autoscaling {
     public struct CreateLaunchConfigurationType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BlockDeviceMappings", required: false, type: .list), 
             AWSShapeProperty(label: "LaunchConfigurationName", required: true, type: .string), 
             AWSShapeProperty(label: "UserData", required: false, type: .string), 
@@ -1962,7 +1962,7 @@ extension Autoscaling {
     public struct DescribeLifecycleHooksAnswer: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LifecycleHooks", required: false, type: .list)
         ]
         /// The lifecycle hooks for the specified group.
@@ -1984,7 +1984,7 @@ extension Autoscaling {
     public struct DescribeAutoScalingInstancesType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceIds", required: false, type: .list)
@@ -2012,7 +2012,7 @@ extension Autoscaling {
     public struct AutoScalingInstancesType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AutoScalingInstances", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -2039,7 +2039,7 @@ extension Autoscaling {
     public struct NotificationConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TopicARN", required: false, type: .string), 
             AWSShapeProperty(label: "AutoScalingGroupName", required: false, type: .string), 
             AWSShapeProperty(label: "NotificationType", required: false, type: .string)
@@ -2067,7 +2067,7 @@ extension Autoscaling {
     public struct DescribeMetricCollectionTypesAnswer: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Granularities", required: false, type: .list), 
             AWSShapeProperty(label: "Metrics", required: false, type: .list)
         ]
@@ -2098,7 +2098,7 @@ extension Autoscaling {
     public struct DetachInstancesAnswer: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Activities", required: false, type: .list)
         ]
         /// The activities related to detaching the instances from the Auto Scaling group.
@@ -2136,7 +2136,7 @@ extension Autoscaling {
     public struct InstanceMonitoring: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Enabled", required: false, type: .boolean)
         ]
         /// If True, instance monitoring is enabled.
@@ -2154,7 +2154,7 @@ extension Autoscaling {
     public struct ExitStandbyAnswer: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Activities", required: false, type: .list)
         ]
         /// The activities related to moving instances out of Standby mode.
@@ -2176,7 +2176,7 @@ extension Autoscaling {
     public struct TerminateInstanceInAutoScalingGroupType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ShouldDecrementDesiredCapacity", required: true, type: .boolean), 
             AWSShapeProperty(label: "InstanceId", required: true, type: .string)
         ]
@@ -2201,7 +2201,7 @@ extension Autoscaling {
     public struct SetDesiredCapacityType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DesiredCapacity", required: true, type: .integer), 
             AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string), 
             AWSShapeProperty(label: "HonorCooldown", required: false, type: .boolean)
@@ -2231,7 +2231,7 @@ extension Autoscaling {
     public struct DescribeTerminationPolicyTypesAnswer: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TerminationPolicyTypes", required: false, type: .list)
         ]
         /// The termination policies supported by Auto Scaling (OldestInstance, OldestLaunchConfiguration, NewestInstance, ClosestToNextInstanceHour, and Default).
@@ -2257,7 +2257,7 @@ extension Autoscaling {
     public struct Activity: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StartTime", required: true, type: .timestamp), 
             AWSShapeProperty(label: "Details", required: false, type: .string), 
             AWSShapeProperty(label: "Progress", required: false, type: .integer), 
@@ -2325,7 +2325,7 @@ extension Autoscaling {
     public struct SetInstanceHealthQuery: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
             AWSShapeProperty(label: "HealthStatus", required: true, type: .string), 
             AWSShapeProperty(label: "ShouldRespectGracePeriod", required: false, type: .boolean)
@@ -2355,7 +2355,7 @@ extension Autoscaling {
     public struct DescribeAdjustmentTypesAnswer: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AdjustmentTypes", required: false, type: .list)
         ]
         /// The policy adjustment types.
@@ -2377,7 +2377,7 @@ extension Autoscaling {
     public struct ScheduledActionsType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "ScheduledUpdateGroupActions", required: false, type: .list)
         ]
@@ -2404,7 +2404,7 @@ extension Autoscaling {
     public struct ActivitiesType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Activities", required: true, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -2428,7 +2428,7 @@ extension Autoscaling {
     public struct EnterStandbyAnswer: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Activities", required: false, type: .list)
         ]
         /// The activities related to moving instances into Standby mode.
@@ -2450,7 +2450,7 @@ extension Autoscaling {
     public struct MetricCollectionType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Metric", required: false, type: .string)
         ]
         /// One of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances   
@@ -2468,7 +2468,7 @@ extension Autoscaling {
     public struct UpdateAutoScalingGroupType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AvailabilityZones", required: false, type: .list), 
             AWSShapeProperty(label: "LaunchConfigurationName", required: false, type: .string), 
             AWSShapeProperty(label: "NewInstancesProtectedFromScaleIn", required: false, type: .boolean), 
@@ -2547,7 +2547,7 @@ extension Autoscaling {
     public struct DeleteLifecycleHookType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LifecycleHookName", required: true, type: .string), 
             AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string)
         ]
@@ -2572,7 +2572,7 @@ extension Autoscaling {
     public struct DescribeLoadBalancersResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "LoadBalancers", required: false, type: .list)
         ]
@@ -2599,7 +2599,7 @@ extension Autoscaling {
     public struct DeleteTagsType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Tags", required: true, type: .list)
         ]
         /// One or more tags.
@@ -2618,7 +2618,7 @@ extension Autoscaling {
     public struct DescribeLoadBalancerTargetGroupsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LoadBalancerTargetGroups", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -2653,7 +2653,7 @@ extension Autoscaling {
     public struct EnterStandbyQuery: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ShouldDecrementDesiredCapacity", required: true, type: .boolean), 
             AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string), 
             AWSShapeProperty(label: "InstanceIds", required: false, type: .list)
@@ -2683,7 +2683,7 @@ extension Autoscaling {
     public struct DetachLoadBalancerTargetGroupsType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TargetGroupARNs", required: true, type: .list), 
             AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string)
         ]
@@ -2708,7 +2708,7 @@ extension Autoscaling {
     public struct AttachLoadBalancerTargetGroupsType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TargetGroupARNs", required: true, type: .list), 
             AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string)
         ]
@@ -2733,7 +2733,7 @@ extension Autoscaling {
     public struct DeleteScheduledActionType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ScheduledActionName", required: true, type: .string), 
             AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string)
         ]
@@ -2775,7 +2775,7 @@ extension Autoscaling {
     public struct LifecycleHook: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NotificationTargetARN", required: false, type: .string), 
             AWSShapeProperty(label: "NotificationMetadata", required: false, type: .string), 
             AWSShapeProperty(label: "DefaultResult", required: false, type: .string), 
@@ -2833,7 +2833,7 @@ extension Autoscaling {
     public struct EnableMetricsCollectionQuery: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Granularity", required: true, type: .string), 
             AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string), 
             AWSShapeProperty(label: "Metrics", required: false, type: .list)
@@ -2863,7 +2863,7 @@ extension Autoscaling {
     public struct LaunchConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LaunchConfigurationARN", required: false, type: .string), 
             AWSShapeProperty(label: "LaunchConfigurationName", required: true, type: .string), 
             AWSShapeProperty(label: "UserData", required: false, type: .string), 
@@ -2979,7 +2979,7 @@ extension Autoscaling {
     public struct DescribeTagsType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Filters", required: false, type: .list)
@@ -3011,7 +3011,7 @@ extension Autoscaling {
     public struct BlockDeviceMapping: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NoDevice", required: false, type: .boolean), 
             AWSShapeProperty(label: "VirtualName", required: false, type: .string), 
             AWSShapeProperty(label: "DeviceName", required: true, type: .string), 
@@ -3045,7 +3045,7 @@ extension Autoscaling {
     public struct DeleteAutoScalingGroupType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ForceDelete", required: false, type: .boolean), 
             AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string)
         ]
@@ -3069,7 +3069,7 @@ extension Autoscaling {
     public struct RecordLifecycleActionHeartbeatType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string), 
             AWSShapeProperty(label: "LifecycleHookName", required: true, type: .string), 
             AWSShapeProperty(label: "LifecycleActionToken", required: false, type: .string), 
@@ -3104,7 +3104,7 @@ extension Autoscaling {
     public struct DescribeLoadBalancersRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string)
@@ -3133,7 +3133,7 @@ extension Autoscaling {
     public struct PutScalingPolicyType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MinAdjustmentStep", required: false, type: .integer), 
             AWSShapeProperty(label: "MetricAggregationType", required: false, type: .string), 
             AWSShapeProperty(label: "StepAdjustments", required: false, type: .list), 
@@ -3208,7 +3208,7 @@ extension Autoscaling {
     public struct SetInstanceProtectionQuery: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ProtectedFromScaleIn", required: true, type: .boolean), 
             AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string), 
             AWSShapeProperty(label: "InstanceIds", required: true, type: .list)
@@ -3247,7 +3247,7 @@ extension Autoscaling {
     public struct Filter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "Values", required: false, type: .list)
         ]
@@ -3270,7 +3270,7 @@ extension Autoscaling {
     public struct DescribeLifecycleHooksType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LifecycleHookNames", required: false, type: .list), 
             AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string)
         ]
@@ -3294,7 +3294,7 @@ extension Autoscaling {
     public struct CreateOrUpdateTagsType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Tags", required: true, type: .list)
         ]
         /// One or more tags.

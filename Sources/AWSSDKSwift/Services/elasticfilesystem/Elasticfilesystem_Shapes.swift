@@ -32,7 +32,7 @@ extension Elasticfilesystem {
     public struct DescribeFileSystemsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FileSystems", required: false, type: .list), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "NextMarker", required: false, type: .string)
@@ -64,7 +64,7 @@ extension Elasticfilesystem {
     public struct DescribeTagsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "Tags", required: true, type: .list), 
             AWSShapeProperty(label: "NextMarker", required: false, type: .string)
@@ -96,7 +96,7 @@ extension Elasticfilesystem {
         public static var pathParams: [String: String] {
             return ["FileSystemId": "FileSystemId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FileSystemId", required: true, type: .string), 
             AWSShapeProperty(label: "Tags", required: true, type: .list)
         ]
@@ -124,7 +124,7 @@ extension Elasticfilesystem {
         public static var queryParams: [String: String] {
             return ["MaxItems": "MaxItems", "FileSystemId": "FileSystemId", "Marker": "Marker", "MountTargetId": "MountTargetId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
             AWSShapeProperty(label: "FileSystemId", required: false, type: .string), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
@@ -160,7 +160,7 @@ extension Elasticfilesystem {
         public static var queryParams: [String: String] {
             return ["MaxItems": "MaxItems", "FileSystemId": "FileSystemId", "Marker": "Marker", "CreationToken": "CreationToken"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
             AWSShapeProperty(label: "FileSystemId", required: false, type: .string), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
@@ -193,7 +193,7 @@ extension Elasticfilesystem {
     public struct DescribeMountTargetSecurityGroupsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SecurityGroups", required: true, type: .list)
         ]
         /// Array of security groups.
@@ -223,7 +223,7 @@ extension Elasticfilesystem {
         public static var pathParams: [String: String] {
             return ["FileSystemId": "FileSystemId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FileSystemId", required: true, type: .string), 
             AWSShapeProperty(label: "TagKeys", required: true, type: .list)
         ]
@@ -254,7 +254,7 @@ extension Elasticfilesystem {
         public static var pathParams: [String: String] {
             return ["FileSystemId": "FileSystemId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "FileSystemId", required: true, type: .string), 
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer)
@@ -286,7 +286,7 @@ extension Elasticfilesystem {
         public static var pathParams: [String: String] {
             return ["MountTargetId": "MountTargetId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MountTargetId", required: true, type: .string), 
             AWSShapeProperty(label: "SecurityGroups", required: false, type: .list)
         ]
@@ -310,7 +310,7 @@ extension Elasticfilesystem {
     public struct Tag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: true, type: .string), 
             AWSShapeProperty(label: "Key", required: true, type: .string)
         ]
@@ -335,7 +335,7 @@ extension Elasticfilesystem {
     public struct DescribeMountTargetsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "MountTargets", required: false, type: .list), 
             AWSShapeProperty(label: "NextMarker", required: false, type: .string)
@@ -370,7 +370,7 @@ extension Elasticfilesystem {
         public static var pathParams: [String: String] {
             return ["MountTargetId": "MountTargetId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MountTargetId", required: true, type: .string)
         ]
         /// ID of the mount target to delete (String).
@@ -392,7 +392,7 @@ extension Elasticfilesystem {
         public static var pathParams: [String: String] {
             return ["FileSystemId": "FileSystemId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FileSystemId", required: true, type: .string)
         ]
         /// ID of the file system you want to delete.
@@ -411,7 +411,7 @@ extension Elasticfilesystem {
     public struct CreateFileSystemRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PerformanceMode", required: false, type: .enum), 
             AWSShapeProperty(label: "CreationToken", required: true, type: .string)
         ]
@@ -435,7 +435,7 @@ extension Elasticfilesystem {
     public struct FileSystemSize: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: true, type: .long), 
             AWSShapeProperty(label: "Timestamp", required: false, type: .timestamp)
         ]
@@ -462,7 +462,7 @@ extension Elasticfilesystem {
         public static var pathParams: [String: String] {
             return ["MountTargetId": "MountTargetId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MountTargetId", required: true, type: .string)
         ]
         /// ID of the mount target whose security groups you want to retrieve.
@@ -487,7 +487,7 @@ extension Elasticfilesystem {
     public struct CreateMountTargetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SecurityGroups", required: false, type: .list), 
             AWSShapeProperty(label: "FileSystemId", required: true, type: .string), 
             AWSShapeProperty(label: "SubnetId", required: true, type: .string), 
@@ -522,7 +522,7 @@ extension Elasticfilesystem {
     public struct FileSystemDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "CreationToken", required: true, type: .string), 
             AWSShapeProperty(label: "SizeInBytes", required: true, type: .structure), 
@@ -588,7 +588,7 @@ extension Elasticfilesystem {
     public struct MountTargetDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubnetId", required: true, type: .string), 
             AWSShapeProperty(label: "NetworkInterfaceId", required: false, type: .string), 
             AWSShapeProperty(label: "MountTargetId", required: true, type: .string), 

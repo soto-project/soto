@@ -32,7 +32,7 @@ extension Polly {
     public struct Lexicon: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Content", required: false, type: .string), 
             AWSShapeProperty(label: "Name", required: false, type: .string)
         ]
@@ -58,7 +58,7 @@ extension Polly {
         public static var queryParams: [String: String] {
             return ["LanguageCode": "LanguageCode", "NextToken": "NextToken"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LanguageCode", required: false, type: .enum), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -169,7 +169,7 @@ extension Polly {
         public static var headerParams: [String: String] {
             return ["Content-Type": "ContentType", "x-amzn-RequestCharacters": "RequestCharacters"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Content-Type", required: false, type: .string), 
             AWSShapeProperty(label: "AudioStream", required: false, type: .blob), 
             AWSShapeProperty(label: "X-amzn-RequestCharacters", required: false, type: .integer)
@@ -200,7 +200,7 @@ extension Polly {
         public static var pathParams: [String: String] {
             return ["LexiconName": "Name"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Content", required: true, type: .string), 
             AWSShapeProperty(label: "LexiconName", required: true, type: .string)
         ]
@@ -225,7 +225,7 @@ extension Polly {
     public struct GetLexiconOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Lexicon", required: false, type: .structure), 
             AWSShapeProperty(label: "LexiconAttributes", required: false, type: .structure)
         ]
@@ -255,7 +255,7 @@ extension Polly {
     public struct ListLexiconsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Lexicons", required: false, type: .list)
         ]
@@ -285,7 +285,7 @@ extension Polly {
         public static var pathParams: [String: String] {
             return ["LexiconName": "Name"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LexiconName", required: true, type: .string)
         ]
         /// Name of the lexicon.
@@ -312,7 +312,7 @@ extension Polly {
     public struct SynthesizeSpeechInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OutputFormat", required: true, type: .enum), 
             AWSShapeProperty(label: "VoiceId", required: true, type: .enum), 
             AWSShapeProperty(label: "LexiconNames", required: false, type: .list), 
@@ -358,7 +358,7 @@ extension Polly {
     public struct DescribeVoicesOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Voices", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
@@ -388,7 +388,7 @@ extension Polly {
         public static var queryParams: [String: String] {
             return ["NextToken": "NextToken"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// An opaque pagination token returned from previous ListLexicons operation. If present, indicates where to continue the list of lexicons.
@@ -406,7 +406,7 @@ extension Polly {
     public struct LexiconAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LexiconArn", required: false, type: .string), 
             AWSShapeProperty(label: "LastModified", required: false, type: .timestamp), 
             AWSShapeProperty(label: "LexemesCount", required: false, type: .integer), 
@@ -449,7 +449,7 @@ extension Polly {
     public struct LexiconDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "Attributes", required: false, type: .structure)
         ]
@@ -489,7 +489,7 @@ extension Polly {
         public static var pathParams: [String: String] {
             return ["LexiconName": "Name"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LexiconName", required: true, type: .string)
         ]
         /// The name of the lexicon to delete. Must be an existing lexicon in the region.
@@ -508,7 +508,7 @@ extension Polly {
     public struct Voice: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LanguageName", required: false, type: .string), 
             AWSShapeProperty(label: "LanguageCode", required: false, type: .enum), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 

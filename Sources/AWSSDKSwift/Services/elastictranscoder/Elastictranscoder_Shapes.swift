@@ -38,7 +38,7 @@ extension Elastictranscoder {
         public static var pathParams: [String: String] {
             return ["PipelineId": "PipelineId"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Ascending", required: false, type: .string), 
             AWSShapeProperty(label: "PipelineId", required: true, type: .string), 
             AWSShapeProperty(label: "PageToken", required: false, type: .string)
@@ -70,7 +70,7 @@ extension Elastictranscoder {
         public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
         /// The identifier of the pipeline that you want to delete.
@@ -89,7 +89,7 @@ extension Elastictranscoder {
     public struct CaptionSource: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Label", required: false, type: .string), 
             AWSShapeProperty(label: "Key", required: false, type: .string), 
             AWSShapeProperty(label: "TimeOffset", required: false, type: .string), 
@@ -127,7 +127,7 @@ extension Elastictranscoder {
     public struct ReadPresetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Preset", required: false, type: .structure)
         ]
         /// A section of the response body that provides information about the preset.
@@ -145,7 +145,7 @@ extension Elastictranscoder {
     public struct JobAlbumArt: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MergePolicy", required: false, type: .string), 
             AWSShapeProperty(label: "Artwork", required: false, type: .list)
         ]
@@ -172,7 +172,7 @@ extension Elastictranscoder {
     public struct Preset: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Thumbnails", required: false, type: .structure), 
             AWSShapeProperty(label: "Id", required: false, type: .string), 
             AWSShapeProperty(label: "Arn", required: false, type: .string), 
@@ -230,7 +230,7 @@ extension Elastictranscoder {
     public struct JobInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TimeSpan", required: false, type: .structure), 
             AWSShapeProperty(label: "Interlaced", required: false, type: .string), 
             AWSShapeProperty(label: "DetectedProperties", required: false, type: .structure), 
@@ -296,7 +296,7 @@ extension Elastictranscoder {
         public static var queryParams: [String: String] {
             return ["Ascending": "Ascending", "PageToken": "PageToken"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Ascending", required: false, type: .string), 
             AWSShapeProperty(label: "PageToken", required: false, type: .string)
         ]
@@ -319,7 +319,7 @@ extension Elastictranscoder {
     public struct VideoParameters: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DisplayAspectRatio", required: false, type: .string), 
             AWSShapeProperty(label: "PaddingPolicy", required: false, type: .string), 
             AWSShapeProperty(label: "FixedGOP", required: false, type: .string), 
@@ -423,7 +423,7 @@ extension Elastictranscoder {
     public struct CreatePresetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Audio", required: false, type: .structure), 
             AWSShapeProperty(label: "Container", required: true, type: .string), 
             AWSShapeProperty(label: "Description", required: false, type: .string), 
@@ -468,7 +468,7 @@ extension Elastictranscoder {
     public struct ListJobsByStatusResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Jobs", required: false, type: .list), 
             AWSShapeProperty(label: "NextPageToken", required: false, type: .string)
         ]
@@ -503,7 +503,7 @@ extension Elastictranscoder {
     public struct ListPresetsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Presets", required: false, type: .list), 
             AWSShapeProperty(label: "NextPageToken", required: false, type: .string)
         ]
@@ -530,7 +530,7 @@ extension Elastictranscoder {
     public struct Playlist: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "HlsContentProtection", required: false, type: .structure), 
             AWSShapeProperty(label: "OutputKeys", required: false, type: .list), 
@@ -578,7 +578,7 @@ extension Elastictranscoder {
     public struct TimeSpan: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Duration", required: false, type: .string), 
             AWSShapeProperty(label: "StartTime", required: false, type: .string)
         ]
@@ -609,7 +609,7 @@ extension Elastictranscoder {
     public struct CreatePipelineRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InputBucket", required: true, type: .string), 
             AWSShapeProperty(label: "AwsKmsKeyArn", required: false, type: .string), 
             AWSShapeProperty(label: "ThumbnailConfig", required: false, type: .structure), 
@@ -668,7 +668,7 @@ extension Elastictranscoder {
         public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: true, type: .string), 
             AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
@@ -693,7 +693,7 @@ extension Elastictranscoder {
     public struct Thumbnails: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PaddingPolicy", required: false, type: .string), 
             AWSShapeProperty(label: "Interval", required: false, type: .string), 
             AWSShapeProperty(label: "AspectRatio", required: false, type: .string), 
@@ -746,7 +746,7 @@ extension Elastictranscoder {
     public struct Pipeline: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "InputBucket", required: false, type: .string), 
             AWSShapeProperty(label: "Arn", required: false, type: .string), 
@@ -814,7 +814,7 @@ extension Elastictranscoder {
     public struct TestRoleRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Role", required: true, type: .string), 
             AWSShapeProperty(label: "InputBucket", required: true, type: .string), 
             AWSShapeProperty(label: "Topics", required: true, type: .list), 
@@ -851,7 +851,7 @@ extension Elastictranscoder {
     public struct ListJobsByPipelineResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Jobs", required: false, type: .list), 
             AWSShapeProperty(label: "NextPageToken", required: false, type: .string)
         ]
@@ -881,7 +881,7 @@ extension Elastictranscoder {
         public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Notifications", required: true, type: .structure), 
             AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
@@ -906,7 +906,7 @@ extension Elastictranscoder {
     public struct PlayReadyDrm: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Format", required: false, type: .string), 
             AWSShapeProperty(label: "InitializationVector", required: false, type: .string), 
             AWSShapeProperty(label: "Key", required: false, type: .string), 
@@ -949,7 +949,7 @@ extension Elastictranscoder {
     public struct Captions: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MergePolicy", required: false, type: .string), 
             AWSShapeProperty(label: "CaptionSources", required: false, type: .list), 
             AWSShapeProperty(label: "CaptionFormats", required: false, type: .list)
@@ -985,7 +985,7 @@ extension Elastictranscoder {
     public struct CreateJobRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OutputKeyPrefix", required: false, type: .string), 
             AWSShapeProperty(label: "Input", required: false, type: .structure), 
             AWSShapeProperty(label: "Playlists", required: false, type: .list), 
@@ -1055,7 +1055,7 @@ extension Elastictranscoder {
     public struct Artwork: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PaddingPolicy", required: false, type: .string), 
             AWSShapeProperty(label: "InputKey", required: false, type: .string), 
             AWSShapeProperty(label: "Encryption", required: false, type: .structure), 
@@ -1103,7 +1103,7 @@ extension Elastictranscoder {
     public struct CreateJobResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Job", required: false, type: .structure)
         ]
         /// A section of the response body that provides information about the job that is created.
@@ -1121,7 +1121,7 @@ extension Elastictranscoder {
     public struct CreatePipelineResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Pipeline", required: false, type: .structure), 
             AWSShapeProperty(label: "Warnings", required: false, type: .list)
         ]
@@ -1151,7 +1151,7 @@ extension Elastictranscoder {
         public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
         /// The identifier of the preset for which you want to get detailed information.
@@ -1170,7 +1170,7 @@ extension Elastictranscoder {
     public struct ListPipelinesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Pipelines", required: false, type: .list), 
             AWSShapeProperty(label: "NextPageToken", required: false, type: .string)
         ]
@@ -1200,7 +1200,7 @@ extension Elastictranscoder {
         public static var queryParams: [String: String] {
             return ["Ascending": "Ascending", "PageToken": "PageToken"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Ascending", required: false, type: .string), 
             AWSShapeProperty(label: "PageToken", required: false, type: .string)
         ]
@@ -1223,7 +1223,7 @@ extension Elastictranscoder {
     public struct ReadJobResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Job", required: false, type: .structure)
         ]
         /// A section of the response body that provides information about the job.
@@ -1247,7 +1247,7 @@ extension Elastictranscoder {
         public static var pathParams: [String: String] {
             return ["Status": "Status"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: true, type: .string), 
             AWSShapeProperty(label: "Ascending", required: false, type: .string), 
             AWSShapeProperty(label: "PageToken", required: false, type: .string)
@@ -1279,7 +1279,7 @@ extension Elastictranscoder {
         public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InputBucket", required: false, type: .string), 
             AWSShapeProperty(label: "AwsKmsKeyArn", required: false, type: .string), 
             AWSShapeProperty(label: "ThumbnailConfig", required: false, type: .structure), 
@@ -1333,7 +1333,7 @@ extension Elastictranscoder {
     public struct HlsContentProtection: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InitializationVector", required: false, type: .string), 
             AWSShapeProperty(label: "KeyMd5", required: false, type: .string), 
             AWSShapeProperty(label: "KeyStoragePolicy", required: false, type: .string), 
@@ -1376,7 +1376,7 @@ extension Elastictranscoder {
     public struct JobOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PresetId", required: false, type: .string), 
             AWSShapeProperty(label: "Height", required: false, type: .integer), 
             AWSShapeProperty(label: "DurationMillis", required: false, type: .long), 
@@ -1502,7 +1502,7 @@ extension Elastictranscoder {
     public struct InputCaptions: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MergePolicy", required: false, type: .string), 
             AWSShapeProperty(label: "CaptionSources", required: false, type: .list)
         ]
@@ -1529,7 +1529,7 @@ extension Elastictranscoder {
     public struct PipelineOutputConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Permissions", required: false, type: .list), 
             AWSShapeProperty(label: "Bucket", required: false, type: .string), 
             AWSShapeProperty(label: "StorageClass", required: false, type: .string)
@@ -1561,7 +1561,7 @@ extension Elastictranscoder {
     public struct UpdatePipelineResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Pipeline", required: false, type: .structure), 
             AWSShapeProperty(label: "Warnings", required: false, type: .list)
         ]
@@ -1588,7 +1588,7 @@ extension Elastictranscoder {
     public struct CaptionFormat: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Pattern", required: false, type: .string), 
             AWSShapeProperty(label: "Encryption", required: false, type: .structure), 
             AWSShapeProperty(label: "Format", required: false, type: .string)
@@ -1619,7 +1619,7 @@ extension Elastictranscoder {
         public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
         /// The identifier of the preset for which you want to get detailed information.
@@ -1641,7 +1641,7 @@ extension Elastictranscoder {
         public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
         /// The identifier of the job for which you want to get detailed information.
@@ -1660,7 +1660,7 @@ extension Elastictranscoder {
     public struct PresetWatermark: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VerticalOffset", required: false, type: .string), 
             AWSShapeProperty(label: "Target", required: false, type: .string), 
             AWSShapeProperty(label: "HorizontalOffset", required: false, type: .string), 
@@ -1723,7 +1723,7 @@ extension Elastictranscoder {
     public struct JobWatermark: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PresetWatermarkId", required: false, type: .string), 
             AWSShapeProperty(label: "Encryption", required: false, type: .structure), 
             AWSShapeProperty(label: "InputKey", required: false, type: .string)
@@ -1751,7 +1751,7 @@ extension Elastictranscoder {
     public struct CreatePresetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Warning", required: false, type: .string), 
             AWSShapeProperty(label: "Preset", required: false, type: .structure)
         ]
@@ -1774,7 +1774,7 @@ extension Elastictranscoder {
     public struct TestRoleResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Success", required: false, type: .string), 
             AWSShapeProperty(label: "Messages", required: false, type: .list)
         ]
@@ -1797,7 +1797,7 @@ extension Elastictranscoder {
     public struct CreateJobPlaylist: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Format", required: false, type: .string), 
             AWSShapeProperty(label: "HlsContentProtection", required: false, type: .structure), 
             AWSShapeProperty(label: "PlayReadyDrm", required: false, type: .structure), 
@@ -1835,7 +1835,7 @@ extension Elastictranscoder {
     public struct CreateJobOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Captions", required: false, type: .structure), 
             AWSShapeProperty(label: "ThumbnailPattern", required: false, type: .string), 
             AWSShapeProperty(label: "PresetId", required: false, type: .string), 
@@ -1911,7 +1911,7 @@ extension Elastictranscoder {
     public struct DetectedProperties: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Height", required: false, type: .integer), 
             AWSShapeProperty(label: "DurationMillis", required: false, type: .long), 
             AWSShapeProperty(label: "FileSize", required: false, type: .long), 
@@ -1949,7 +1949,7 @@ extension Elastictranscoder {
     public struct ReadPipelineResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Pipeline", required: false, type: .structure), 
             AWSShapeProperty(label: "Warnings", required: false, type: .list)
         ]
@@ -1976,7 +1976,7 @@ extension Elastictranscoder {
     public struct Warning: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Code", required: false, type: .string), 
             AWSShapeProperty(label: "Message", required: false, type: .string)
         ]
@@ -1999,7 +1999,7 @@ extension Elastictranscoder {
     public struct UpdatePipelineNotificationsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Pipeline", required: false, type: .structure)
         ]
         /// A section of the response body that provides information about the pipeline associated with this notification.
@@ -2017,7 +2017,7 @@ extension Elastictranscoder {
     public struct AudioParameters: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CodecOptions", required: false, type: .structure), 
             AWSShapeProperty(label: "BitRate", required: false, type: .string), 
             AWSShapeProperty(label: "Codec", required: false, type: .string), 
@@ -2060,7 +2060,7 @@ extension Elastictranscoder {
     public struct Notifications: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Completed", required: false, type: .string), 
             AWSShapeProperty(label: "Error", required: false, type: .string), 
             AWSShapeProperty(label: "Warning", required: false, type: .string), 
@@ -2093,7 +2093,7 @@ extension Elastictranscoder {
     public struct AudioCodecOptions: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Signed", required: false, type: .string), 
             AWSShapeProperty(label: "Profile", required: false, type: .string), 
             AWSShapeProperty(label: "BitDepth", required: false, type: .string), 
@@ -2126,7 +2126,7 @@ extension Elastictranscoder {
     public struct UpdatePipelineStatusResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Pipeline", required: false, type: .structure)
         ]
         /// A section of the response body that provides information about the pipeline.
@@ -2147,7 +2147,7 @@ extension Elastictranscoder {
         public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
         /// The identifier of the job that you want to cancel. To get a list of the jobs (including their jobId) that have a status of Submitted, use the ListJobsByStatus API action.
@@ -2166,7 +2166,7 @@ extension Elastictranscoder {
     public struct Job: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Timing", required: false, type: .structure), 
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "Arn", required: false, type: .string), 
@@ -2255,7 +2255,7 @@ extension Elastictranscoder {
     public struct Permission: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "GranteeType", required: false, type: .string), 
             AWSShapeProperty(label: "Access", required: false, type: .list), 
             AWSShapeProperty(label: "Grantee", required: false, type: .string)
@@ -2283,7 +2283,7 @@ extension Elastictranscoder {
     public struct Encryption: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Mode", required: false, type: .string), 
             AWSShapeProperty(label: "InitializationVector", required: false, type: .string), 
             AWSShapeProperty(label: "Key", required: false, type: .string), 
@@ -2319,7 +2319,7 @@ extension Elastictranscoder {
         public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
         /// The identifier of the pipeline to read.
@@ -2338,7 +2338,7 @@ extension Elastictranscoder {
     public struct Clip: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TimeSpan", required: false, type: .structure)
         ]
         /// Settings that determine when a clip begins and how long it lasts.
@@ -2356,7 +2356,7 @@ extension Elastictranscoder {
     public struct Timing: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StartTimeMillis", required: false, type: .long), 
             AWSShapeProperty(label: "SubmitTimeMillis", required: false, type: .long), 
             AWSShapeProperty(label: "FinishTimeMillis", required: false, type: .long)

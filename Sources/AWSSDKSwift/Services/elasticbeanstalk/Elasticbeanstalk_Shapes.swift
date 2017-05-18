@@ -32,7 +32,7 @@ extension Elasticbeanstalk {
     public struct EventDescriptionsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Events", required: false, type: .list)
         ]
@@ -59,7 +59,7 @@ extension Elasticbeanstalk {
     public struct SolutionStackDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PermittedFileTypes", required: false, type: .list), 
             AWSShapeProperty(label: "SolutionStackName", required: false, type: .string)
         ]
@@ -82,7 +82,7 @@ extension Elasticbeanstalk {
     public struct RequestEnvironmentInfoMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
             AWSShapeProperty(label: "InfoType", required: true, type: .enum), 
             AWSShapeProperty(label: "EnvironmentId", required: false, type: .string)
@@ -117,7 +117,7 @@ extension Elasticbeanstalk {
     public struct PlatformProgrammingLanguage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "Version", required: false, type: .string)
         ]
@@ -140,7 +140,7 @@ extension Elasticbeanstalk {
     public struct ManagedAction: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ActionType", required: false, type: .enum), 
             AWSShapeProperty(label: "Status", required: false, type: .enum), 
             AWSShapeProperty(label: "ActionDescription", required: false, type: .string), 
@@ -178,7 +178,7 @@ extension Elasticbeanstalk {
     public struct RestartAppServerMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
             AWSShapeProperty(label: "EnvironmentId", required: false, type: .string)
         ]
@@ -201,7 +201,7 @@ extension Elasticbeanstalk {
     public struct CPUUtilization: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Nice", required: false, type: .double), 
             AWSShapeProperty(label: "IRQ", required: false, type: .double), 
             AWSShapeProperty(label: "SoftIRQ", required: false, type: .double), 
@@ -249,7 +249,7 @@ extension Elasticbeanstalk {
     public struct DescribeEnvironmentManagedActionHistoryResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "ManagedActionHistoryItems", required: false, type: .list)
         ]
@@ -276,7 +276,7 @@ extension Elasticbeanstalk {
     public struct TerminateEnvironmentMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
             AWSShapeProperty(label: "TerminateResources", required: false, type: .boolean), 
             AWSShapeProperty(label: "EnvironmentId", required: false, type: .string), 
@@ -309,7 +309,7 @@ extension Elasticbeanstalk {
     public struct CreateStorageLocationResultMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "S3Bucket", required: false, type: .string)
         ]
         /// The name of the Amazon S3 bucket created.
@@ -327,7 +327,7 @@ extension Elasticbeanstalk {
     public struct StatusCodes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status5xx", required: false, type: .integer), 
             AWSShapeProperty(label: "Status3xx", required: false, type: .integer), 
             AWSShapeProperty(label: "Status2xx", required: false, type: .integer), 
@@ -360,7 +360,7 @@ extension Elasticbeanstalk {
     public struct ApplyEnvironmentManagedActionResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ActionType", required: false, type: .enum), 
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "ActionDescription", required: false, type: .string), 
@@ -393,7 +393,7 @@ extension Elasticbeanstalk {
     public struct EventDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Severity", required: false, type: .enum), 
             AWSShapeProperty(label: "TemplateName", required: false, type: .string), 
             AWSShapeProperty(label: "Message", required: false, type: .string), 
@@ -451,7 +451,7 @@ extension Elasticbeanstalk {
     public struct Tag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Value", required: false, type: .string), 
             AWSShapeProperty(label: "Key", required: false, type: .string)
         ]
@@ -474,7 +474,7 @@ extension Elasticbeanstalk {
     public struct DescribeEnvironmentManagedActionsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ManagedActions", required: false, type: .list)
         ]
         /// A list of upcoming and in-progress managed actions.
@@ -496,7 +496,7 @@ extension Elasticbeanstalk {
     public struct PlatformSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OperatingSystemVersion", required: false, type: .string), 
             AWSShapeProperty(label: "PlatformStatus", required: false, type: .enum), 
             AWSShapeProperty(label: "PlatformArn", required: false, type: .string), 
@@ -559,7 +559,7 @@ extension Elasticbeanstalk {
     public struct DescribeEnvironmentManagedActionHistoryRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
             AWSShapeProperty(label: "EnvironmentId", required: false, type: .string), 
@@ -599,7 +599,7 @@ extension Elasticbeanstalk {
     public struct PlatformFramework: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "Version", required: false, type: .string)
         ]
@@ -622,7 +622,7 @@ extension Elasticbeanstalk {
     public struct DescribeEnvironmentHealthRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
             AWSShapeProperty(label: "EnvironmentId", required: false, type: .string), 
             AWSShapeProperty(label: "AttributeNames", required: false, type: .list)
@@ -650,7 +650,7 @@ extension Elasticbeanstalk {
     public struct Trigger: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: false, type: .string)
         ]
         /// The name of the trigger.
@@ -668,7 +668,7 @@ extension Elasticbeanstalk {
     public struct Instance: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Id", required: false, type: .string)
         ]
         /// The ID of the Amazon EC2 instance.
@@ -686,7 +686,7 @@ extension Elasticbeanstalk {
     public struct DescribeEventsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "TemplateName", required: false, type: .string), 
@@ -766,7 +766,7 @@ extension Elasticbeanstalk {
     public struct CreateApplicationVersionMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VersionLabel", required: true, type: .string), 
             AWSShapeProperty(label: "AutoCreateApplication", required: false, type: .boolean), 
             AWSShapeProperty(label: "BuildConfiguration", required: false, type: .structure), 
@@ -821,7 +821,7 @@ extension Elasticbeanstalk {
     public struct SwapEnvironmentCNAMEsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DestinationEnvironmentName", required: false, type: .string), 
             AWSShapeProperty(label: "SourceEnvironmentName", required: false, type: .string), 
             AWSShapeProperty(label: "SourceEnvironmentId", required: false, type: .string), 
@@ -860,7 +860,7 @@ extension Elasticbeanstalk {
     public struct ComposeEnvironmentsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VersionLabels", required: false, type: .list), 
             AWSShapeProperty(label: "ApplicationName", required: false, type: .string), 
             AWSShapeProperty(label: "GroupName", required: false, type: .string)
@@ -888,7 +888,7 @@ extension Elasticbeanstalk {
     public struct EnvironmentResourcesDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LoadBalancer", required: false, type: .structure)
         ]
         /// Describes the LoadBalancer.
@@ -906,7 +906,7 @@ extension Elasticbeanstalk {
     public struct CheckDNSAvailabilityMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CNAMEPrefix", required: true, type: .string)
         ]
         /// The prefix used when this CNAME is reserved.
@@ -925,7 +925,7 @@ extension Elasticbeanstalk {
     public struct BuildConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Image", required: true, type: .string), 
             AWSShapeProperty(label: "ComputeType", required: false, type: .enum), 
             AWSShapeProperty(label: "ArtifactName", required: false, type: .string), 
@@ -965,7 +965,7 @@ extension Elasticbeanstalk {
     public struct Latency: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "P95", required: false, type: .double), 
             AWSShapeProperty(label: "P10", required: false, type: .double), 
             AWSShapeProperty(label: "P90", required: false, type: .double), 
@@ -1018,7 +1018,7 @@ extension Elasticbeanstalk {
     public struct LoadBalancer: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: false, type: .string)
         ]
         /// The name of the LoadBalancer.
@@ -1036,7 +1036,7 @@ extension Elasticbeanstalk {
     public struct RebuildEnvironmentMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
             AWSShapeProperty(label: "EnvironmentId", required: false, type: .string)
         ]
@@ -1059,7 +1059,7 @@ extension Elasticbeanstalk {
     public struct ManagedActionHistoryItem: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ActionType", required: false, type: .enum), 
             AWSShapeProperty(label: "Status", required: false, type: .enum), 
             AWSShapeProperty(label: "FinishedTime", required: false, type: .timestamp), 
@@ -1112,7 +1112,7 @@ extension Elasticbeanstalk {
     public struct DescribePlatformVersionResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PlatformDescription", required: false, type: .structure)
         ]
         /// Detailed information about the version of the platform.
@@ -1130,7 +1130,7 @@ extension Elasticbeanstalk {
     public struct RetrieveEnvironmentInfoResultMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EnvironmentInfo", required: false, type: .list)
         ]
         ///  The EnvironmentInfoDescription of the environment. 
@@ -1152,7 +1152,7 @@ extension Elasticbeanstalk {
     public struct InstanceHealthSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Pending", required: false, type: .integer), 
             AWSShapeProperty(label: "Degraded", required: false, type: .integer), 
             AWSShapeProperty(label: "Warning", required: false, type: .integer), 
@@ -1205,7 +1205,7 @@ extension Elasticbeanstalk {
     public struct ApplicationDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConfigurationTemplates", required: false, type: .list), 
             AWSShapeProperty(label: "Description", required: false, type: .string), 
             AWSShapeProperty(label: "DateUpdated", required: false, type: .timestamp), 
@@ -1253,7 +1253,7 @@ extension Elasticbeanstalk {
     public struct Builder: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ARN", required: false, type: .string)
         ]
         /// The ARN of the builder.
@@ -1277,7 +1277,7 @@ extension Elasticbeanstalk {
     public struct DescribeInstancesHealthRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
             AWSShapeProperty(label: "EnvironmentId", required: false, type: .string), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
@@ -1310,7 +1310,7 @@ extension Elasticbeanstalk {
     public struct AutoScalingGroup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: false, type: .string)
         ]
         /// The name of the AutoScalingGroup . 
@@ -1328,7 +1328,7 @@ extension Elasticbeanstalk {
     public struct CreatePlatformVersionResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PlatformSummary", required: false, type: .structure), 
             AWSShapeProperty(label: "Builder", required: false, type: .structure)
         ]
@@ -1351,7 +1351,7 @@ extension Elasticbeanstalk {
     public struct EnvironmentDescriptionsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Environments", required: false, type: .list)
         ]
         ///  Returns an EnvironmentDescription list. 
@@ -1388,7 +1388,7 @@ extension Elasticbeanstalk {
     public struct SourceConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TemplateName", required: false, type: .string), 
             AWSShapeProperty(label: "ApplicationName", required: false, type: .string)
         ]
@@ -1411,7 +1411,7 @@ extension Elasticbeanstalk {
     public struct CreateConfigurationTemplateMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OptionSettings", required: false, type: .list), 
             AWSShapeProperty(label: "SourceConfiguration", required: false, type: .structure), 
             AWSShapeProperty(label: "TemplateName", required: true, type: .string), 
@@ -1470,7 +1470,7 @@ extension Elasticbeanstalk {
     public struct ConfigurationSettingsDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OptionSettings", required: false, type: .list), 
             AWSShapeProperty(label: "DateUpdated", required: false, type: .timestamp), 
             AWSShapeProperty(label: "TemplateName", required: false, type: .string), 
@@ -1537,7 +1537,7 @@ extension Elasticbeanstalk {
     public struct UpdateConfigurationTemplateMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OptionSettings", required: false, type: .list), 
             AWSShapeProperty(label: "ApplicationName", required: true, type: .string), 
             AWSShapeProperty(label: "OptionsToRemove", required: false, type: .list), 
@@ -1585,7 +1585,7 @@ extension Elasticbeanstalk {
     public struct EnvironmentDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TemplateName", required: false, type: .string), 
             AWSShapeProperty(label: "DateUpdated", required: false, type: .timestamp), 
             AWSShapeProperty(label: "VersionLabel", required: false, type: .string), 
@@ -1704,7 +1704,7 @@ extension Elasticbeanstalk {
     public struct ConfigurationOptionDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Regex", required: false, type: .structure), 
             AWSShapeProperty(label: "MaxValue", required: false, type: .integer), 
             AWSShapeProperty(label: "ChangeSeverity", required: false, type: .string), 
@@ -1772,7 +1772,7 @@ extension Elasticbeanstalk {
     public struct ConfigurationSettingsValidationMessages: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Messages", required: false, type: .list)
         ]
         ///  A list of ValidationMessage. 
@@ -1794,7 +1794,7 @@ extension Elasticbeanstalk {
     public struct SourceBuildInformation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SourceLocation", required: true, type: .string), 
             AWSShapeProperty(label: "SourceType", required: true, type: .enum), 
             AWSShapeProperty(label: "SourceRepository", required: true, type: .enum)
@@ -1825,7 +1825,7 @@ extension Elasticbeanstalk {
     public struct ApplicationResourceLifecycleDescriptionMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceLifecycleConfig", required: false, type: .structure), 
             AWSShapeProperty(label: "ApplicationName", required: false, type: .string)
         ]
@@ -1848,7 +1848,7 @@ extension Elasticbeanstalk {
     public struct ApplicationMetrics: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Latency", required: false, type: .structure), 
             AWSShapeProperty(label: "RequestCount", required: false, type: .integer), 
             AWSShapeProperty(label: "Duration", required: false, type: .integer), 
@@ -1881,7 +1881,7 @@ extension Elasticbeanstalk {
     public struct ApplicationDescriptionsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Applications", required: false, type: .list)
         ]
         /// This parameter contains a list of ApplicationDescription.
@@ -1903,7 +1903,7 @@ extension Elasticbeanstalk {
     public struct DescribeConfigurationOptionsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
             AWSShapeProperty(label: "Options", required: false, type: .list), 
             AWSShapeProperty(label: "ApplicationName", required: false, type: .string), 
@@ -1950,7 +1950,7 @@ extension Elasticbeanstalk {
     public struct UpdateApplicationMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ApplicationName", required: true, type: .string), 
             AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
@@ -1974,7 +1974,7 @@ extension Elasticbeanstalk {
     public struct OptionRestrictionRegex: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Pattern", required: false, type: .string), 
             AWSShapeProperty(label: "Label", required: false, type: .string)
         ]
@@ -1997,7 +1997,7 @@ extension Elasticbeanstalk {
     public struct Deployment: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DeploymentTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "DeploymentId", required: false, type: .long), 
             AWSShapeProperty(label: "Status", required: false, type: .string), 
@@ -2030,7 +2030,7 @@ extension Elasticbeanstalk {
     public struct ApplicationResourceLifecycleConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VersionLifecycleConfig", required: false, type: .structure), 
             AWSShapeProperty(label: "ServiceRole", required: false, type: .string)
         ]
@@ -2053,7 +2053,7 @@ extension Elasticbeanstalk {
     public struct DescribeApplicationsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ApplicationNames", required: false, type: .list)
         ]
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to only include those with the specified names.
@@ -2071,7 +2071,7 @@ extension Elasticbeanstalk {
     public struct EnvironmentResourceDescriptionsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EnvironmentResources", required: false, type: .structure)
         ]
         ///  A list of EnvironmentResourceDescription. 
@@ -2089,7 +2089,7 @@ extension Elasticbeanstalk {
     public struct SystemStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LoadAverage", required: false, type: .list), 
             AWSShapeProperty(label: "CPUUtilization", required: false, type: .structure)
         ]
@@ -2121,7 +2121,7 @@ extension Elasticbeanstalk {
     public struct ApplyEnvironmentManagedActionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
             AWSShapeProperty(label: "ActionId", required: true, type: .string), 
             AWSShapeProperty(label: "EnvironmentId", required: false, type: .string)
@@ -2150,7 +2150,7 @@ extension Elasticbeanstalk {
     public struct DescribePlatformVersionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PlatformArn", required: false, type: .string)
         ]
         /// The ARN of the version of the platform.
@@ -2168,7 +2168,7 @@ extension Elasticbeanstalk {
     public struct ConfigurationOptionsDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Options", required: false, type: .list), 
             AWSShapeProperty(label: "PlatformArn", required: false, type: .string), 
             AWSShapeProperty(label: "SolutionStackName", required: false, type: .string)
@@ -2200,7 +2200,7 @@ extension Elasticbeanstalk {
     public struct ApplicationVersionDescriptionsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "ApplicationVersions", required: false, type: .list)
         ]
@@ -2227,7 +2227,7 @@ extension Elasticbeanstalk {
     public struct ApplicationVersionDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Description", required: false, type: .string), 
             AWSShapeProperty(label: "Status", required: false, type: .enum), 
             AWSShapeProperty(label: "DateUpdated", required: false, type: .timestamp), 
@@ -2285,7 +2285,7 @@ extension Elasticbeanstalk {
     public struct DescribeConfigurationSettingsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
             AWSShapeProperty(label: "TemplateName", required: false, type: .string), 
             AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
@@ -2314,7 +2314,7 @@ extension Elasticbeanstalk {
     public struct OptionSpecification: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Namespace", required: false, type: .string), 
             AWSShapeProperty(label: "OptionName", required: false, type: .string), 
             AWSShapeProperty(label: "ResourceName", required: false, type: .string)
@@ -2342,7 +2342,7 @@ extension Elasticbeanstalk {
     public struct Listener: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Port", required: false, type: .integer), 
             AWSShapeProperty(label: "Protocol", required: false, type: .string)
         ]
@@ -2365,7 +2365,7 @@ extension Elasticbeanstalk {
     public struct ApplicationVersionLifecycleConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxCountRule", required: false, type: .structure), 
             AWSShapeProperty(label: "MaxAgeRule", required: false, type: .structure)
         ]
@@ -2388,7 +2388,7 @@ extension Elasticbeanstalk {
     public struct DescribeInstancesHealthResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InstanceHealthList", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "RefreshedAt", required: false, type: .timestamp)
@@ -2426,7 +2426,7 @@ extension Elasticbeanstalk {
     public struct ApplicationDescriptionMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Application", required: false, type: .structure)
         ]
         ///  The ApplicationDescription of the application. 
@@ -2452,7 +2452,7 @@ extension Elasticbeanstalk {
     public struct DescribeEnvironmentHealthResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", required: false, type: .enum), 
             AWSShapeProperty(label: "Color", required: false, type: .string), 
             AWSShapeProperty(label: "InstancesHealth", required: false, type: .structure), 
@@ -2505,7 +2505,7 @@ extension Elasticbeanstalk {
     public struct RetrieveEnvironmentInfoMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
             AWSShapeProperty(label: "InfoType", required: true, type: .enum), 
             AWSShapeProperty(label: "EnvironmentId", required: false, type: .string)
@@ -2534,7 +2534,7 @@ extension Elasticbeanstalk {
     public struct ConfigurationSettingsDescriptions: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConfigurationSettings", required: false, type: .list)
         ]
         ///  A list of ConfigurationSettingsDescription. 
@@ -2556,7 +2556,7 @@ extension Elasticbeanstalk {
     public struct AbortEnvironmentUpdateMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
             AWSShapeProperty(label: "EnvironmentId", required: false, type: .string)
         ]
@@ -2579,7 +2579,7 @@ extension Elasticbeanstalk {
     public struct MaxCountRule: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Enabled", required: true, type: .boolean), 
             AWSShapeProperty(label: "MaxCount", required: false, type: .integer), 
             AWSShapeProperty(label: "DeleteSourceFromS3", required: false, type: .boolean)
@@ -2617,7 +2617,7 @@ extension Elasticbeanstalk {
     public struct DescribeEnvironmentResourcesMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
             AWSShapeProperty(label: "EnvironmentId", required: false, type: .string)
         ]
@@ -2646,7 +2646,7 @@ extension Elasticbeanstalk {
     public struct ListAvailableSolutionStacksResultMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SolutionStackDetails", required: false, type: .list), 
             AWSShapeProperty(label: "SolutionStacks", required: false, type: .list)
         ]
@@ -2673,7 +2673,7 @@ extension Elasticbeanstalk {
     public struct S3Location: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "S3Bucket", required: false, type: .string), 
             AWSShapeProperty(label: "S3Key", required: false, type: .string)
         ]
@@ -2696,7 +2696,7 @@ extension Elasticbeanstalk {
     public struct ValidateConfigurationSettingsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
             AWSShapeProperty(label: "OptionSettings", required: true, type: .list), 
             AWSShapeProperty(label: "ApplicationName", required: true, type: .string), 
@@ -2739,7 +2739,7 @@ extension Elasticbeanstalk {
     public struct CreatePlatformVersionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PlatformVersion", required: true, type: .string), 
             AWSShapeProperty(label: "PlatformName", required: true, type: .string), 
             AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
@@ -2795,7 +2795,7 @@ extension Elasticbeanstalk {
     public struct CreateEnvironmentMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OptionSettings", required: false, type: .list), 
             AWSShapeProperty(label: "TemplateName", required: false, type: .string), 
             AWSShapeProperty(label: "GroupName", required: false, type: .string), 
@@ -2886,7 +2886,7 @@ extension Elasticbeanstalk {
     public struct DeletePlatformVersionResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PlatformSummary", required: false, type: .structure)
         ]
         /// Detailed information about the version of the custom platform.
@@ -2904,7 +2904,7 @@ extension Elasticbeanstalk {
     public struct CustomAmi: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VirtualizationType", required: false, type: .string), 
             AWSShapeProperty(label: "ImageId", required: false, type: .string)
         ]
@@ -2946,7 +2946,7 @@ extension Elasticbeanstalk {
     public struct CheckDNSAvailabilityResultMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "FullyQualifiedCNAME", required: false, type: .string), 
             AWSShapeProperty(label: "Available", required: false, type: .boolean)
         ]
@@ -2969,7 +2969,7 @@ extension Elasticbeanstalk {
     public struct DeleteConfigurationTemplateMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TemplateName", required: true, type: .string), 
             AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
         ]
@@ -2994,7 +2994,7 @@ extension Elasticbeanstalk {
     public struct PlatformFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Type", required: false, type: .string), 
             AWSShapeProperty(label: "Operator", required: false, type: .string), 
             AWSShapeProperty(label: "Values", required: false, type: .list)
@@ -3022,7 +3022,7 @@ extension Elasticbeanstalk {
     public struct PlatformDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DateUpdated", required: false, type: .timestamp), 
             AWSShapeProperty(label: "PlatformStatus", required: false, type: .enum), 
             AWSShapeProperty(label: "SupportedAddonList", required: false, type: .list), 
@@ -3137,7 +3137,7 @@ extension Elasticbeanstalk {
     public struct UpdateEnvironmentMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OptionSettings", required: false, type: .list), 
             AWSShapeProperty(label: "TemplateName", required: false, type: .string), 
             AWSShapeProperty(label: "GroupName", required: false, type: .string), 
@@ -3218,7 +3218,7 @@ extension Elasticbeanstalk {
     public struct DeleteApplicationMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ApplicationName", required: true, type: .string), 
             AWSShapeProperty(label: "TerminateEnvByForce", required: false, type: .boolean)
         ]
@@ -3242,7 +3242,7 @@ extension Elasticbeanstalk {
     public struct EnvironmentTier: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Type", required: false, type: .string), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "Version", required: false, type: .string)
@@ -3270,7 +3270,7 @@ extension Elasticbeanstalk {
     public struct ListPlatformVersionsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "PlatformSummaryList", required: false, type: .list)
         ]
@@ -3297,7 +3297,7 @@ extension Elasticbeanstalk {
     public struct ApplicationVersionDescriptionMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ApplicationVersion", required: false, type: .structure)
         ]
         ///  The ApplicationVersionDescription of the application version. 
@@ -3315,7 +3315,7 @@ extension Elasticbeanstalk {
     public struct EnvironmentLink: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
             AWSShapeProperty(label: "LinkName", required: false, type: .string)
         ]
@@ -3338,7 +3338,7 @@ extension Elasticbeanstalk {
     public struct LaunchConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: false, type: .string)
         ]
         /// The name of the launch configuration.
@@ -3356,7 +3356,7 @@ extension Elasticbeanstalk {
     public struct MaxAgeRule: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxAgeInDays", required: false, type: .integer), 
             AWSShapeProperty(label: "DeleteSourceFromS3", required: false, type: .boolean), 
             AWSShapeProperty(label: "Enabled", required: true, type: .boolean)
@@ -3385,7 +3385,7 @@ extension Elasticbeanstalk {
     public struct ListPlatformVersionsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Filters", required: false, type: .list)
@@ -3417,7 +3417,7 @@ extension Elasticbeanstalk {
     public struct UpdateApplicationVersionMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VersionLabel", required: true, type: .string), 
             AWSShapeProperty(label: "ApplicationName", required: true, type: .string), 
             AWSShapeProperty(label: "Description", required: false, type: .string)
@@ -3447,7 +3447,7 @@ extension Elasticbeanstalk {
     public struct DeleteEnvironmentConfigurationMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EnvironmentName", required: true, type: .string), 
             AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
         ]
@@ -3472,7 +3472,7 @@ extension Elasticbeanstalk {
     public struct EnvironmentInfoDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Message", required: false, type: .string), 
             AWSShapeProperty(label: "InfoType", required: false, type: .enum), 
             AWSShapeProperty(label: "Ec2InstanceId", required: false, type: .string), 
@@ -3505,7 +3505,7 @@ extension Elasticbeanstalk {
     public struct DeleteApplicationVersionMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VersionLabel", required: true, type: .string), 
             AWSShapeProperty(label: "DeleteSourceBundle", required: false, type: .boolean), 
             AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
@@ -3535,7 +3535,7 @@ extension Elasticbeanstalk {
     public struct ValidationMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Namespace", required: false, type: .string), 
             AWSShapeProperty(label: "Severity", required: false, type: .enum), 
             AWSShapeProperty(label: "Message", required: false, type: .string), 
@@ -3580,7 +3580,7 @@ extension Elasticbeanstalk {
     public struct Queue: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "URL", required: false, type: .string)
         ]
@@ -3612,7 +3612,7 @@ extension Elasticbeanstalk {
     public struct DescribeEnvironmentManagedActionsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
             AWSShapeProperty(label: "Status", required: false, type: .enum), 
             AWSShapeProperty(label: "EnvironmentId", required: false, type: .string)
@@ -3640,7 +3640,7 @@ extension Elasticbeanstalk {
     public struct DeletePlatformVersionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PlatformArn", required: false, type: .string)
         ]
         /// The ARN of the version of the custom platform.
@@ -3658,7 +3658,7 @@ extension Elasticbeanstalk {
     public struct ConfigurationOptionSetting: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Namespace", required: false, type: .string), 
             AWSShapeProperty(label: "OptionName", required: false, type: .string), 
             AWSShapeProperty(label: "Value", required: false, type: .string), 
@@ -3691,7 +3691,7 @@ extension Elasticbeanstalk {
     public struct CreateApplicationMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceLifecycleConfig", required: false, type: .structure), 
             AWSShapeProperty(label: "ApplicationName", required: true, type: .string), 
             AWSShapeProperty(label: "Description", required: false, type: .string)
@@ -3720,7 +3720,7 @@ extension Elasticbeanstalk {
     public struct LoadBalancerDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LoadBalancerName", required: false, type: .string), 
             AWSShapeProperty(label: "Domain", required: false, type: .string), 
             AWSShapeProperty(label: "Listeners", required: false, type: .list)
@@ -3752,7 +3752,7 @@ extension Elasticbeanstalk {
     public struct UpdateApplicationResourceLifecycleMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ResourceLifecycleConfig", required: true, type: .structure), 
             AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
         ]
@@ -3777,7 +3777,7 @@ extension Elasticbeanstalk {
     public struct SingleInstanceHealth: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Color", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
             AWSShapeProperty(label: "Deployment", required: false, type: .structure), 
@@ -3840,7 +3840,7 @@ extension Elasticbeanstalk {
     public struct EnvironmentResourceDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AutoScalingGroups", required: false, type: .list), 
             AWSShapeProperty(label: "LaunchConfigurations", required: false, type: .list), 
             AWSShapeProperty(label: "Triggers", required: false, type: .list), 
@@ -3912,7 +3912,7 @@ extension Elasticbeanstalk {
     public struct DescribeEnvironmentsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "IncludedDeletedBackTo", required: false, type: .timestamp), 
             AWSShapeProperty(label: "EnvironmentIds", required: false, type: .list), 
             AWSShapeProperty(label: "ApplicationName", required: false, type: .string), 
@@ -3955,7 +3955,7 @@ extension Elasticbeanstalk {
     public struct DescribeApplicationVersionsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var parsingHints = [
+        public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeProperty(label: "ApplicationName", required: false, type: .string), 
             AWSShapeProperty(label: "VersionLabels", required: false, type: .list), 
