@@ -184,8 +184,8 @@ public struct AWSClient {
             switch serviceProtocol {
             case .json, .restjson:
                 if let cType = response.contentType, cType.subtype.contains("hal+json") {
-                    var dictionary: [String: Any] = [:]
                     let representation = try Representation.from(json: data)
+                    var dictionary = representation.properties
                     for rel in representation.rels {
                         guard let representations = try Representation.from(json: data).representations(for: rel) else {
                             continue
