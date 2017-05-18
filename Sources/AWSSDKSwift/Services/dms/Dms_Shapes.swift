@@ -32,6 +32,9 @@ extension Dms {
     public struct ModifyReplicationSubnetGroupResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ReplicationSubnetGroup", required: false, type: .structure)
+        ]
         /// The modified replication subnet group.
         public let replicationSubnetGroup: ReplicationSubnetGroup?
 
@@ -47,6 +50,9 @@ extension Dms {
     public struct CreateReplicationTaskResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ReplicationTask", required: false, type: .structure)
+        ]
         /// The replication task that was created.
         public let replicationTask: ReplicationTask?
 
@@ -62,6 +68,12 @@ extension Dms {
     public struct CreateReplicationSubnetGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "SubnetIds", required: true, type: .structure), 
+            AWSShapeProperty(label: "ReplicationSubnetGroupIdentifier", required: true, type: .string), 
+            AWSShapeProperty(label: "ReplicationSubnetGroupDescription", required: true, type: .string), 
+            AWSShapeProperty(label: "Tags", required: false, type: .structure)
+        ]
         /// The EC2 subnet IDs for the subnet group.
         public let subnetIds: SubnetIdentifierList
         /// The name for the replication subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters, periods, spaces, underscores, or hyphens. Must not be "default". Example: mySubnetgroup 
@@ -92,6 +104,9 @@ extension Dms {
     public struct ReplicationTaskList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ReplicationTask", required: false, type: .list)
+        ]
         public let replicationTask: [ReplicationTask]?
 
         public init(replicationTask: [ReplicationTask]? = nil) {
@@ -110,6 +125,9 @@ extension Dms {
     public struct ModifyEndpointResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Endpoint", required: false, type: .structure)
+        ]
         /// The modified endpoint.
         public let endpoint: Endpoint?
 
@@ -125,6 +143,9 @@ extension Dms {
     public struct FilterList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Filter", required: false, type: .list)
+        ]
         public let filter: [Filter]?
 
         public init(filter: [Filter]? = nil) {
@@ -143,6 +164,11 @@ extension Dms {
     public struct DescribeReplicationSubnetGroupsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "Filters", required: false, type: .structure)
+        ]
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -166,6 +192,11 @@ extension Dms {
     public struct DescribeEndpointsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "Filters", required: false, type: .structure)
+        ]
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -189,6 +220,9 @@ extension Dms {
     public struct DeleteEndpointMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "EndpointArn", required: true, type: .string)
+        ]
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String
 
@@ -205,6 +239,9 @@ extension Dms {
     public struct ReplicationSubnetGroups: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ReplicationSubnetGroup", required: false, type: .list)
+        ]
         public let replicationSubnetGroup: [ReplicationSubnetGroup]?
 
         public init(replicationSubnetGroup: [ReplicationSubnetGroup]? = nil) {
@@ -223,6 +260,9 @@ extension Dms {
     public struct FilterValueList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Value", required: false, type: .list)
+        ]
         public let value: [String]?
 
         public init(value: [String]? = nil) {
@@ -237,6 +277,21 @@ extension Dms {
     public struct Endpoint: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeProperty(label: "EndpointIdentifier", required: false, type: .string), 
+            AWSShapeProperty(label: "Username", required: false, type: .string), 
+            AWSShapeProperty(label: "EndpointArn", required: false, type: .string), 
+            AWSShapeProperty(label: "Status", required: false, type: .string), 
+            AWSShapeProperty(label: "EndpointType", required: false, type: .enum), 
+            AWSShapeProperty(label: "ServerName", required: false, type: .string), 
+            AWSShapeProperty(label: "DatabaseName", required: false, type: .string), 
+            AWSShapeProperty(label: "SslMode", required: false, type: .enum), 
+            AWSShapeProperty(label: "CertificateArn", required: false, type: .string), 
+            AWSShapeProperty(label: "EngineName", required: false, type: .string), 
+            AWSShapeProperty(label: "Port", required: false, type: .integer), 
+            AWSShapeProperty(label: "ExtraConnectionAttributes", required: false, type: .string)
+        ]
         /// The KMS key identifier that will be used to encrypt the connection parameters. If you do not specify a value for the KmsKeyId parameter, then AWS DMS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
         public let kmsKeyId: String?
         /// The database endpoint identifier. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
@@ -300,6 +355,10 @@ extension Dms {
     public struct DescribeOrderableReplicationInstancesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "OrderableReplicationInstances", required: false, type: .structure), 
+            AWSShapeProperty(label: "Marker", required: false, type: .string)
+        ]
         /// The order-able replication instances available.
         public let orderableReplicationInstances: OrderableReplicationInstanceList?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -319,6 +378,11 @@ extension Dms {
     public struct DescribeTableStatisticsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "TableStatistics", required: false, type: .list), 
+            AWSShapeProperty(label: "ReplicationTaskArn", required: false, type: .string)
+        ]
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         /// The table statistics.
@@ -346,6 +410,11 @@ extension Dms {
     public struct DescribeEndpointTypesMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "Filters", required: false, type: .structure)
+        ]
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -369,6 +438,9 @@ extension Dms {
     public struct VpcSecurityGroupMembershipList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "VpcSecurityGroupMembership", required: false, type: .list)
+        ]
         public let vpcSecurityGroupMembership: [VpcSecurityGroupMembership]?
 
         public init(vpcSecurityGroupMembership: [VpcSecurityGroupMembership]? = nil) {
@@ -387,6 +459,9 @@ extension Dms {
     public struct TagList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Tag", required: false, type: .list)
+        ]
         public let tag: [Tag]?
 
         public init(tag: [Tag]? = nil) {
@@ -413,6 +488,9 @@ extension Dms {
     public struct DeleteReplicationInstanceMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ReplicationInstanceArn", required: true, type: .string)
+        ]
         /// The Amazon Resource Name (ARN) of the replication instance to be deleted.
         public let replicationInstanceArn: String
 
@@ -429,6 +507,11 @@ extension Dms {
     public struct SupportedEndpointType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "EngineName", required: false, type: .string), 
+            AWSShapeProperty(label: "EndpointType", required: false, type: .enum), 
+            AWSShapeProperty(label: "SupportsCDC", required: false, type: .boolean)
+        ]
         /// The database engine name. Valid values include MYSQL, ORACLE, POSTGRES, MARIADB, AURORA, REDSHIFT, SYBASE, and SQLSERVER.
         public let engineName: String?
         /// The type of endpoint.
@@ -459,6 +542,10 @@ extension Dms {
     public struct DescribeCertificatesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "Certificates", required: false, type: .structure)
+        ]
         /// The pagination token.
         public let marker: String?
         /// The Secure Sockets Layer (SSL) certificates associated with the replication instance.
@@ -486,6 +573,11 @@ extension Dms {
     public struct DescribeReplicationTasksMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "Filters", required: false, type: .structure)
+        ]
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -509,6 +601,9 @@ extension Dms {
     public struct DeleteReplicationInstanceResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ReplicationInstance", required: false, type: .structure)
+        ]
         /// The replication instance that was deleted.
         public let replicationInstance: ReplicationInstance?
 
@@ -524,6 +619,10 @@ extension Dms {
     public struct Tag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Value", required: false, type: .string), 
+            AWSShapeProperty(label: "Key", required: false, type: .string)
+        ]
         /// A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and cannot be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         public let value: String?
         /// A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and cannot be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
@@ -551,6 +650,9 @@ extension Dms {
     public struct ListTagsForResourceMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ResourceArn", required: true, type: .string)
+        ]
         /// The Amazon Resource Name (ARN) string that uniquely identifies the AWS DMS resource.
         public let resourceArn: String
 
@@ -567,6 +669,10 @@ extension Dms {
     public struct DescribeEndpointTypesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "SupportedEndpointTypes", required: false, type: .structure)
+        ]
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         /// The type of endpoints that are supported.
@@ -586,6 +692,11 @@ extension Dms {
     public struct StartReplicationTaskMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ReplicationTaskArn", required: true, type: .string), 
+            AWSShapeProperty(label: "CdcStartTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "StartReplicationTaskType", required: true, type: .enum)
+        ]
         /// The Amazon Resource Number (ARN) of the replication task to be started.
         public let replicationTaskArn: String
         /// The start time for the Change Data Capture (CDC) operation.
@@ -611,6 +722,21 @@ extension Dms {
     public struct CreateReplicationInstanceMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "MultiAZ", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Tags", required: false, type: .structure), 
+            AWSShapeProperty(label: "AllocatedStorage", required: false, type: .integer), 
+            AWSShapeProperty(label: "VpcSecurityGroupIds", required: false, type: .structure), 
+            AWSShapeProperty(label: "AvailabilityZone", required: false, type: .string), 
+            AWSShapeProperty(label: "PubliclyAccessible", required: false, type: .boolean), 
+            AWSShapeProperty(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
+            AWSShapeProperty(label: "ReplicationInstanceIdentifier", required: true, type: .string), 
+            AWSShapeProperty(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeProperty(label: "ReplicationInstanceClass", required: true, type: .string), 
+            AWSShapeProperty(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeProperty(label: "ReplicationSubnetGroupIdentifier", required: false, type: .string), 
+            AWSShapeProperty(label: "KmsKeyId", required: false, type: .string)
+        ]
         ///  Specifies if the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true. 
         public let multiAZ: Bool?
         /// Tags to be associated with the replication instance.
@@ -676,6 +802,9 @@ extension Dms {
     public struct DeleteCertificateResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Certificate", required: false, type: .structure)
+        ]
         /// The Secure Sockets Layer (SSL) certificate.
         public let certificate: Certificate?
 
@@ -691,6 +820,10 @@ extension Dms {
     public struct DescribeConnectionsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "Connections", required: false, type: .structure)
+        ]
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         /// A description of the connections.
@@ -710,6 +843,9 @@ extension Dms {
     public struct VpcSecurityGroupIdList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "VpcSecurityGroupId", required: false, type: .list)
+        ]
         public let vpcSecurityGroupId: [String]?
 
         public init(vpcSecurityGroupId: [String]? = nil) {
@@ -724,6 +860,11 @@ extension Dms {
     public struct DescribeTableStatisticsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeProperty(label: "ReplicationTaskArn", required: true, type: .string)
+        ]
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
@@ -748,6 +889,9 @@ extension Dms {
     public struct DescribeRefreshSchemasStatusMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "EndpointArn", required: true, type: .string)
+        ]
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String
 
@@ -764,6 +908,10 @@ extension Dms {
     public struct RemoveTagsFromResourceMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeProperty(label: "TagKeys", required: true, type: .list)
+        ]
         /// &gt;The Amazon Resource Name (ARN) of the AWS DMS resource the tag is to be removed from.
         public let resourceArn: String
         /// The tag key (name) of the tag to be removed.
@@ -785,6 +933,9 @@ extension Dms {
     public struct ModifyReplicationInstanceResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ReplicationInstance", required: false, type: .structure)
+        ]
         /// The modified replication instance.
         public let replicationInstance: ReplicationInstance?
 
@@ -800,6 +951,10 @@ extension Dms {
     public struct DescribeReplicationSubnetGroupsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "ReplicationSubnetGroups", required: false, type: .structure)
+        ]
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         /// A description of the replication subnet groups.
@@ -819,6 +974,9 @@ extension Dms {
     public struct DescribeAccountAttributesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AccountQuotas", required: false, type: .structure)
+        ]
         /// Account quota information.
         public let accountQuotas: AccountQuotaList?
 
@@ -834,6 +992,9 @@ extension Dms {
     public struct ReplicationInstanceList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ReplicationInstance", required: false, type: .list)
+        ]
         public let replicationInstance: [ReplicationInstance]?
 
         public init(replicationInstance: [ReplicationInstance]? = nil) {
@@ -859,6 +1020,10 @@ extension Dms {
     public struct DescribeSchemasResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "Schemas", required: false, type: .list)
+        ]
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         /// The described schema.
@@ -886,6 +1051,9 @@ extension Dms {
     public struct SubnetIdentifierList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "SubnetIdentifier", required: false, type: .list)
+        ]
         public let subnetIdentifier: [String]?
 
         public init(subnetIdentifier: [String]? = nil) {
@@ -900,6 +1068,9 @@ extension Dms {
     public struct CertificateList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Certificate", required: false, type: .list)
+        ]
         public let certificate: [Certificate]?
 
         public init(certificate: [Certificate]? = nil) {
@@ -918,6 +1089,18 @@ extension Dms {
     public struct Certificate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ValidFromDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "KeyLength", required: false, type: .integer), 
+            AWSShapeProperty(label: "SigningAlgorithm", required: false, type: .string), 
+            AWSShapeProperty(label: "CertificateWallet", required: false, type: .blob), 
+            AWSShapeProperty(label: "CertificateArn", required: false, type: .string), 
+            AWSShapeProperty(label: "CertificatePem", required: false, type: .string), 
+            AWSShapeProperty(label: "ValidToDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "CertificateOwner", required: false, type: .string), 
+            AWSShapeProperty(label: "CertificateIdentifier", required: false, type: .string), 
+            AWSShapeProperty(label: "CertificateCreationDate", required: false, type: .timestamp)
+        ]
         /// The beginning date that the certificate is valid.
         public let validFromDate: Date?
         /// The key length of the cryptographic algorithm being used.
@@ -969,6 +1152,9 @@ extension Dms {
     public struct ListTagsForResourceResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "TagList", required: false, type: .structure)
+        ]
         /// A list of tags for the resource.
         public let tagList: TagList?
 
@@ -984,6 +1170,11 @@ extension Dms {
     public struct Subnet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "SubnetIdentifier", required: false, type: .string), 
+            AWSShapeProperty(label: "SubnetAvailabilityZone", required: false, type: .structure), 
+            AWSShapeProperty(label: "SubnetStatus", required: false, type: .string)
+        ]
         /// The subnet identifier.
         public let subnetIdentifier: String?
         /// The Availability Zone of the subnet.
@@ -1007,6 +1198,9 @@ extension Dms {
     public struct StartReplicationTaskResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ReplicationTask", required: false, type: .structure)
+        ]
         /// The replication task started.
         public let replicationTask: ReplicationTask?
 
@@ -1022,6 +1216,9 @@ extension Dms {
     public struct AvailabilityZone: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Name", required: false, type: .string)
+        ]
         /// The name of the availability zone.
         public let name: String?
 
@@ -1037,6 +1234,9 @@ extension Dms {
     public struct ConnectionList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Connection", required: false, type: .list)
+        ]
         public let connection: [Connection]?
 
         public init(connection: [Connection]? = nil) {
@@ -1055,6 +1255,14 @@ extension Dms {
     public struct Connection: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "LastFailureMessage", required: false, type: .string), 
+            AWSShapeProperty(label: "ReplicationInstanceIdentifier", required: false, type: .string), 
+            AWSShapeProperty(label: "ReplicationInstanceArn", required: false, type: .string), 
+            AWSShapeProperty(label: "Status", required: false, type: .string), 
+            AWSShapeProperty(label: "EndpointIdentifier", required: false, type: .string), 
+            AWSShapeProperty(label: "EndpointArn", required: false, type: .string)
+        ]
         /// The error message when the connection last failed.
         public let lastFailureMessage: String?
         /// The replication instance identifier. This parameter is stored as a lowercase string.
@@ -1090,6 +1298,13 @@ extension Dms {
     public struct RefreshSchemasStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "LastFailureMessage", required: false, type: .string), 
+            AWSShapeProperty(label: "ReplicationInstanceArn", required: false, type: .string), 
+            AWSShapeProperty(label: "Status", required: false, type: .enum), 
+            AWSShapeProperty(label: "EndpointArn", required: false, type: .string), 
+            AWSShapeProperty(label: "LastRefreshDate", required: false, type: .timestamp)
+        ]
         /// The last failure message for the schema.
         public let lastFailureMessage: String?
         /// The Amazon Resource Name (ARN) of the replication instance.
@@ -1121,6 +1336,9 @@ extension Dms {
     public struct DeleteReplicationTaskMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ReplicationTaskArn", required: true, type: .string)
+        ]
         /// The Amazon Resource Name (ARN) of the replication task to be deleted.
         public let replicationTaskArn: String
 
@@ -1137,6 +1355,11 @@ extension Dms {
     public struct DescribeReplicationInstancesMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "Filters", required: false, type: .structure)
+        ]
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -1160,6 +1383,10 @@ extension Dms {
     public struct RefreshSchemasMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ReplicationInstanceArn", required: true, type: .string), 
+            AWSShapeProperty(label: "EndpointArn", required: true, type: .string)
+        ]
         /// The Amazon Resource Name (ARN) of the replication instance.
         public let replicationInstanceArn: String
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
@@ -1181,6 +1408,19 @@ extension Dms {
     public struct ModifyReplicationInstanceMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AllowMajorVersionUpgrade", required: false, type: .boolean), 
+            AWSShapeProperty(label: "ReplicationInstanceIdentifier", required: false, type: .string), 
+            AWSShapeProperty(label: "MultiAZ", required: false, type: .boolean), 
+            AWSShapeProperty(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeProperty(label: "ReplicationInstanceClass", required: false, type: .string), 
+            AWSShapeProperty(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeProperty(label: "AllocatedStorage", required: false, type: .integer), 
+            AWSShapeProperty(label: "VpcSecurityGroupIds", required: false, type: .structure), 
+            AWSShapeProperty(label: "ReplicationInstanceArn", required: true, type: .string), 
+            AWSShapeProperty(label: "ApplyImmediately", required: false, type: .boolean), 
+            AWSShapeProperty(label: "AutoMinorVersionUpgrade", required: false, type: .boolean)
+        ]
         /// Indicates that major version upgrades are allowed. Changing this parameter does not result in an outage and the change is asynchronously applied as soon as possible. Constraints: This parameter must be set to true when specifying a value for the EngineVersion parameter that is a different major version than the replication instance's current version.
         public let allowMajorVersionUpgrade: Bool?
         /// The replication instance identifier. This parameter is stored as a lowercase string.
@@ -1237,6 +1477,11 @@ extension Dms {
     public struct AccountQuota: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Max", required: false, type: .long), 
+            AWSShapeProperty(label: "Used", required: false, type: .long), 
+            AWSShapeProperty(label: "AccountQuotaName", required: false, type: .string)
+        ]
         /// The maximum allowed value for the quota.
         public let max: Int64?
         /// The amount currently used toward the quota maximum.
@@ -1260,6 +1505,11 @@ extension Dms {
     public struct DescribeCertificatesMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "Filters", required: false, type: .structure)
+        ]
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 10
         public let maxRecords: Int32?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -1283,6 +1533,21 @@ extension Dms {
     public struct CreateEndpointMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeProperty(label: "EndpointIdentifier", required: true, type: .string), 
+            AWSShapeProperty(label: "Tags", required: false, type: .structure), 
+            AWSShapeProperty(label: "Username", required: false, type: .string), 
+            AWSShapeProperty(label: "EndpointType", required: true, type: .enum), 
+            AWSShapeProperty(label: "ServerName", required: false, type: .string), 
+            AWSShapeProperty(label: "DatabaseName", required: false, type: .string), 
+            AWSShapeProperty(label: "SslMode", required: false, type: .enum), 
+            AWSShapeProperty(label: "CertificateArn", required: false, type: .string), 
+            AWSShapeProperty(label: "EngineName", required: true, type: .string), 
+            AWSShapeProperty(label: "Password", required: false, type: .string), 
+            AWSShapeProperty(label: "Port", required: false, type: .integer), 
+            AWSShapeProperty(label: "ExtraConnectionAttributes", required: false, type: .string)
+        ]
         /// The KMS key identifier that will be used to encrypt the connection parameters. If you do not specify a value for the KmsKeyId parameter, then AWS DMS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
         public let kmsKeyId: String?
         /// The database endpoint identifier. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
@@ -1349,6 +1614,13 @@ extension Dms {
     public struct ReplicationSubnetGroup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "SubnetGroupStatus", required: false, type: .string), 
+            AWSShapeProperty(label: "Subnets", required: false, type: .structure), 
+            AWSShapeProperty(label: "ReplicationSubnetGroupIdentifier", required: false, type: .string), 
+            AWSShapeProperty(label: "ReplicationSubnetGroupDescription", required: false, type: .string), 
+            AWSShapeProperty(label: "VpcId", required: false, type: .string)
+        ]
         /// The status of the subnet group.
         public let subnetGroupStatus: String?
         /// The subnets that are in the subnet group.
@@ -1380,6 +1652,9 @@ extension Dms {
     public struct TestConnectionResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Connection", required: false, type: .structure)
+        ]
         /// The connection tested.
         public let connection: Connection?
 
@@ -1395,6 +1670,9 @@ extension Dms {
     public struct DeleteReplicationTaskResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ReplicationTask", required: false, type: .structure)
+        ]
         /// The deleted replication task.
         public let replicationTask: ReplicationTask?
 
@@ -1410,6 +1688,9 @@ extension Dms {
     public struct CreateReplicationSubnetGroupResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ReplicationSubnetGroup", required: false, type: .structure)
+        ]
         /// The replication subnet group that was created.
         public let replicationSubnetGroup: ReplicationSubnetGroup?
 
@@ -1425,6 +1706,17 @@ extension Dms {
     public struct TableStatistics: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Deletes", required: false, type: .long), 
+            AWSShapeProperty(label: "Updates", required: false, type: .long), 
+            AWSShapeProperty(label: "TableState", required: false, type: .string), 
+            AWSShapeProperty(label: "SchemaName", required: false, type: .string), 
+            AWSShapeProperty(label: "FullLoadRows", required: false, type: .long), 
+            AWSShapeProperty(label: "Inserts", required: false, type: .long), 
+            AWSShapeProperty(label: "TableName", required: false, type: .string), 
+            AWSShapeProperty(label: "LastUpdateTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Ddls", required: false, type: .long)
+        ]
         /// The number of delete actions performed on a table.
         public let deletes: Int64?
         /// The number of update actions performed on a table.
@@ -1472,6 +1764,11 @@ extension Dms {
     public struct ImportCertificateMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "CertificateWallet", required: false, type: .blob), 
+            AWSShapeProperty(label: "CertificateIdentifier", required: true, type: .string), 
+            AWSShapeProperty(label: "CertificatePem", required: false, type: .string)
+        ]
         /// The location of the imported Oracle Wallet certificate for use with SSL.
         public let certificateWallet: Data?
         /// The customer-assigned name of the certificate. Valid characters are A-z and 0-9.
@@ -1496,6 +1793,10 @@ extension Dms {
     public struct TestConnectionMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ReplicationInstanceArn", required: true, type: .string), 
+            AWSShapeProperty(label: "EndpointArn", required: true, type: .string)
+        ]
         /// The Amazon Resource Name (ARN) of the replication instance.
         public let replicationInstanceArn: String
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
@@ -1517,6 +1818,9 @@ extension Dms {
     public struct CreateEndpointResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Endpoint", required: false, type: .structure)
+        ]
         /// The endpoint that was created.
         public let endpoint: Endpoint?
 
@@ -1532,6 +1836,9 @@ extension Dms {
     public struct CreateReplicationInstanceResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ReplicationInstance", required: false, type: .structure)
+        ]
         /// The replication instance that was created.
         public let replicationInstance: ReplicationInstance?
 
@@ -1547,6 +1854,9 @@ extension Dms {
     public struct SubnetList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Subnet", required: false, type: .list)
+        ]
         public let subnet: [Subnet]?
 
         public init(subnet: [Subnet]? = nil) {
@@ -1565,6 +1875,9 @@ extension Dms {
     public struct EndpointList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Endpoint", required: false, type: .list)
+        ]
         public let endpoint: [Endpoint]?
 
         public init(endpoint: [Endpoint]? = nil) {
@@ -1583,6 +1896,14 @@ extension Dms {
     public struct ModifyReplicationTaskMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "TableMappings", required: false, type: .string), 
+            AWSShapeProperty(label: "ReplicationTaskArn", required: true, type: .string), 
+            AWSShapeProperty(label: "ReplicationTaskIdentifier", required: false, type: .string), 
+            AWSShapeProperty(label: "MigrationType", required: false, type: .enum), 
+            AWSShapeProperty(label: "CdcStartTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "ReplicationTaskSettings", required: false, type: .string)
+        ]
         /// The path of the JSON file that contains the table mappings. Preceed the path with "file://". For example, --table-mappings file://mappingfile.json
         public let tableMappings: String?
         /// The Amazon Resource Name (ARN) of the replication task.
@@ -1619,6 +1940,11 @@ extension Dms {
     public struct ModifyReplicationSubnetGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "SubnetIds", required: true, type: .structure), 
+            AWSShapeProperty(label: "ReplicationSubnetGroupIdentifier", required: true, type: .string), 
+            AWSShapeProperty(label: "ReplicationSubnetGroupDescription", required: false, type: .string)
+        ]
         /// A list of subnet IDs.
         public let subnetIds: SubnetIdentifierList
         /// The name of the replication instance subnet group.
@@ -1644,6 +1970,15 @@ extension Dms {
     public struct OrderableReplicationInstance: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeProperty(label: "ReplicationInstanceClass", required: false, type: .string), 
+            AWSShapeProperty(label: "DefaultAllocatedStorage", required: false, type: .integer), 
+            AWSShapeProperty(label: "StorageType", required: false, type: .string), 
+            AWSShapeProperty(label: "MinAllocatedStorage", required: false, type: .integer), 
+            AWSShapeProperty(label: "IncludedAllocatedStorage", required: false, type: .integer), 
+            AWSShapeProperty(label: "MaxAllocatedStorage", required: false, type: .integer)
+        ]
         /// The version of the replication engine.
         public let engineVersion: String?
         /// The compute and memory capacity of the replication instance.  Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge  
@@ -1683,6 +2018,14 @@ extension Dms {
     public struct ReplicationTaskStats: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "TablesLoaded", required: false, type: .integer), 
+            AWSShapeProperty(label: "ElapsedTimeMillis", required: false, type: .long), 
+            AWSShapeProperty(label: "FullLoadProgressPercent", required: false, type: .integer), 
+            AWSShapeProperty(label: "TablesQueued", required: false, type: .integer), 
+            AWSShapeProperty(label: "TablesErrored", required: false, type: .integer), 
+            AWSShapeProperty(label: "TablesLoading", required: false, type: .integer)
+        ]
         /// The number of tables loaded for this task.
         public let tablesLoaded: Int32?
         /// The elapsed time of the task, in milliseconds.
@@ -1718,6 +2061,9 @@ extension Dms {
     public struct ModifyReplicationTaskResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ReplicationTask", required: false, type: .structure)
+        ]
         /// The replication task that was modified.
         public let replicationTask: ReplicationTask?
 
@@ -1733,6 +2079,9 @@ extension Dms {
     public struct DeleteEndpointResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Endpoint", required: false, type: .structure)
+        ]
         /// The endpoint that was deleted.
         public let endpoint: Endpoint?
 
@@ -1748,6 +2097,9 @@ extension Dms {
     public struct StopReplicationTaskResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ReplicationTask", required: false, type: .structure)
+        ]
         /// The replication task stopped.
         public let replicationTask: ReplicationTask?
 
@@ -1763,6 +2115,22 @@ extension Dms {
     public struct ReplicationTask: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ReplicationTaskStats", required: false, type: .structure), 
+            AWSShapeProperty(label: "LastFailureMessage", required: false, type: .string), 
+            AWSShapeProperty(label: "ReplicationTaskStartDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "ReplicationTaskCreationDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "SourceEndpointArn", required: false, type: .string), 
+            AWSShapeProperty(label: "TableMappings", required: false, type: .string), 
+            AWSShapeProperty(label: "ReplicationTaskArn", required: false, type: .string), 
+            AWSShapeProperty(label: "Status", required: false, type: .string), 
+            AWSShapeProperty(label: "StopReason", required: false, type: .string), 
+            AWSShapeProperty(label: "ReplicationInstanceArn", required: false, type: .string), 
+            AWSShapeProperty(label: "ReplicationTaskIdentifier", required: false, type: .string), 
+            AWSShapeProperty(label: "MigrationType", required: false, type: .enum), 
+            AWSShapeProperty(label: "TargetEndpointArn", required: false, type: .string), 
+            AWSShapeProperty(label: "ReplicationTaskSettings", required: false, type: .string)
+        ]
         /// The statistics for the task, including elapsed time, tables loaded, and table errors.
         public let replicationTaskStats: ReplicationTaskStats?
         /// The last error (failure) message generated for the replication instance.
@@ -1830,6 +2198,9 @@ extension Dms {
     public struct SupportedEndpointTypeList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "SupportedEndpointType", required: false, type: .list)
+        ]
         public let supportedEndpointType: [SupportedEndpointType]?
 
         public init(supportedEndpointType: [SupportedEndpointType]? = nil) {
@@ -1848,6 +2219,9 @@ extension Dms {
     public struct RefreshSchemasResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "RefreshSchemasStatus", required: false, type: .structure)
+        ]
         /// The status of the refreshed schema.
         public let refreshSchemasStatus: RefreshSchemasStatus?
 
@@ -1863,6 +2237,9 @@ extension Dms {
     public struct DeleteCertificateMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "CertificateArn", required: true, type: .string)
+        ]
         /// The Amazon Resource Name (ARN) of the deleted certificate.
         public let certificateArn: String
 
@@ -1879,6 +2256,9 @@ extension Dms {
     public struct DescribeRefreshSchemasStatusResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "RefreshSchemasStatus", required: false, type: .structure)
+        ]
         /// The status of the schema.
         public let refreshSchemasStatus: RefreshSchemasStatus?
 
@@ -1894,6 +2274,11 @@ extension Dms {
     public struct DescribeSchemasMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "EndpointArn", required: true, type: .string), 
+            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer)
+        ]
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
@@ -1918,6 +2303,9 @@ extension Dms {
     public struct OrderableReplicationInstanceList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "OrderableReplicationInstance", required: false, type: .list)
+        ]
         public let orderableReplicationInstance: [OrderableReplicationInstance]?
 
         public init(orderableReplicationInstance: [OrderableReplicationInstance]? = nil) {
@@ -1936,6 +2324,9 @@ extension Dms {
     public struct StopReplicationTaskMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ReplicationTaskArn", required: true, type: .string)
+        ]
         /// The Amazon Resource Number(ARN) of the replication task to be stopped.
         public let replicationTaskArn: String
 
@@ -1959,6 +2350,10 @@ extension Dms {
     public struct DescribeReplicationTasksResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "ReplicationTasks", required: false, type: .structure)
+        ]
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         /// A description of the replication tasks.
@@ -1978,6 +2373,10 @@ extension Dms {
     public struct AddTagsToResourceMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeProperty(label: "Tags", required: true, type: .structure)
+        ]
         /// The Amazon Resource Name (ARN) of the AWS DMS resource the tag is to be added to. AWS DMS resources include a replication instance, endpoint, and a replication task.
         public let resourceArn: String
         /// The tag to be assigned to the DMS resource.
@@ -1999,6 +2398,11 @@ extension Dms {
     public struct DescribeConnectionsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "Filters", required: false, type: .structure)
+        ]
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -2022,6 +2426,9 @@ extension Dms {
     public struct AccountQuotaList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AccountQuota", required: false, type: .list)
+        ]
         public let accountQuota: [AccountQuota]?
 
         public init(accountQuota: [AccountQuota]? = nil) {
@@ -2048,6 +2455,9 @@ extension Dms {
     public struct DeleteReplicationSubnetGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ReplicationSubnetGroupIdentifier", required: true, type: .string)
+        ]
         /// The subnet group name of the replication instance.
         public let replicationSubnetGroupIdentifier: String
 
@@ -2064,6 +2474,12 @@ extension Dms {
     public struct ReplicationPendingModifiedValues: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "MultiAZ", required: false, type: .boolean), 
+            AWSShapeProperty(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeProperty(label: "ReplicationInstanceClass", required: false, type: .string), 
+            AWSShapeProperty(label: "AllocatedStorage", required: false, type: .integer)
+        ]
         ///  Specifies if the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true. 
         public let multiAZ: Bool?
         /// The engine version number of the replication instance.
@@ -2091,6 +2507,29 @@ extension Dms {
     public struct ReplicationInstance: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "InstanceCreateTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "PendingModifiedValues", required: false, type: .structure), 
+            AWSShapeProperty(label: "ReplicationInstanceStatus", required: false, type: .string), 
+            AWSShapeProperty(label: "VpcSecurityGroups", required: false, type: .structure), 
+            AWSShapeProperty(label: "MultiAZ", required: false, type: .boolean), 
+            AWSShapeProperty(label: "ReplicationInstancePublicIpAddresses", required: false, type: .list), 
+            AWSShapeProperty(label: "AllocatedStorage", required: false, type: .integer), 
+            AWSShapeProperty(label: "ReplicationSubnetGroup", required: false, type: .structure), 
+            AWSShapeProperty(label: "ReplicationInstancePrivateIpAddress", required: false, type: .string), 
+            AWSShapeProperty(label: "AvailabilityZone", required: false, type: .string), 
+            AWSShapeProperty(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
+            AWSShapeProperty(label: "PubliclyAccessible", required: false, type: .boolean), 
+            AWSShapeProperty(label: "ReplicationInstanceIdentifier", required: false, type: .string), 
+            AWSShapeProperty(label: "ReplicationInstancePrivateIpAddresses", required: false, type: .list), 
+            AWSShapeProperty(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeProperty(label: "ReplicationInstanceClass", required: false, type: .string), 
+            AWSShapeProperty(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeProperty(label: "ReplicationInstanceArn", required: false, type: .string), 
+            AWSShapeProperty(label: "ReplicationInstancePublicIpAddress", required: false, type: .string), 
+            AWSShapeProperty(label: "SecondaryAvailabilityZone", required: false, type: .string), 
+            AWSShapeProperty(label: "KmsKeyId", required: false, type: .string)
+        ]
         /// The time the replication instance was created.
         public let instanceCreateTime: Date?
         /// The pending modification values.
@@ -2186,6 +2625,9 @@ extension Dms {
     public struct ImportCertificateResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Certificate", required: false, type: .structure)
+        ]
         /// The certificate to be uploaded.
         public let certificate: Certificate?
 
@@ -2201,6 +2643,10 @@ extension Dms {
     public struct DescribeEndpointsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "Endpoints", required: false, type: .structure)
+        ]
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         /// Endpoint description.
@@ -2220,6 +2666,20 @@ extension Dms {
     public struct ModifyEndpointMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "EndpointType", required: false, type: .enum), 
+            AWSShapeProperty(label: "ServerName", required: false, type: .string), 
+            AWSShapeProperty(label: "EndpointIdentifier", required: false, type: .string), 
+            AWSShapeProperty(label: "DatabaseName", required: false, type: .string), 
+            AWSShapeProperty(label: "Username", required: false, type: .string), 
+            AWSShapeProperty(label: "EndpointArn", required: true, type: .string), 
+            AWSShapeProperty(label: "SslMode", required: false, type: .enum), 
+            AWSShapeProperty(label: "CertificateArn", required: false, type: .string), 
+            AWSShapeProperty(label: "EngineName", required: false, type: .string), 
+            AWSShapeProperty(label: "Password", required: false, type: .string), 
+            AWSShapeProperty(label: "Port", required: false, type: .integer), 
+            AWSShapeProperty(label: "ExtraConnectionAttributes", required: false, type: .string)
+        ]
         /// The type of endpoint.
         public let endpointType: ReplicationEndpointTypeValue?
         /// The name of the server where the endpoint database resides.
@@ -2280,6 +2740,10 @@ extension Dms {
     public struct DescribeOrderableReplicationInstancesMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeProperty(label: "Marker", required: false, type: .string)
+        ]
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -2299,6 +2763,10 @@ extension Dms {
     public struct VpcSecurityGroupMembership: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Status", required: false, type: .string), 
+            AWSShapeProperty(label: "VpcSecurityGroupId", required: false, type: .string)
+        ]
         /// The status of the VPC security group.
         public let status: String?
         /// The VPC security group Id.
@@ -2318,6 +2786,17 @@ extension Dms {
     public struct CreateReplicationTaskMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "TableMappings", required: true, type: .string), 
+            AWSShapeProperty(label: "SourceEndpointArn", required: true, type: .string), 
+            AWSShapeProperty(label: "Tags", required: false, type: .structure), 
+            AWSShapeProperty(label: "ReplicationInstanceArn", required: true, type: .string), 
+            AWSShapeProperty(label: "ReplicationTaskIdentifier", required: true, type: .string), 
+            AWSShapeProperty(label: "MigrationType", required: true, type: .enum), 
+            AWSShapeProperty(label: "TargetEndpointArn", required: true, type: .string), 
+            AWSShapeProperty(label: "CdcStartTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "ReplicationTaskSettings", required: false, type: .string)
+        ]
         /// The path of the JSON file that contains the table mappings. Preceed the path with "file://". For example, --table-mappings file://mappingfile.json
         public let tableMappings: String
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
@@ -2377,6 +2856,10 @@ extension Dms {
     public struct Filter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "Values", required: true, type: .structure)
+        ]
         /// The name of the filter.
         public let name: String
         /// The filter value.
@@ -2398,6 +2881,10 @@ extension Dms {
     public struct DescribeReplicationInstancesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "ReplicationInstances", required: false, type: .structure)
+        ]
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         /// The replication instances described.

@@ -32,6 +32,9 @@ extension Opsworkscm {
     public struct DescribeAccountAttributesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Attributes", required: false, type: .list)
+        ]
         ///  The attributes that are currently set for the account. 
         public let attributes: [AccountAttribute]?
 
@@ -51,6 +54,10 @@ extension Opsworkscm {
     public struct DescribeEventsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ServerEvents", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        ]
         /// Contains the response to a DescribeEvents request. 
         public let serverEvents: [ServerEvent]?
         /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeEvents again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur. 
@@ -74,6 +81,9 @@ extension Opsworkscm {
     public struct AssociateNodeResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "NodeAssociationStatusToken", required: false, type: .string)
+        ]
         /// Contains a token which can be passed to the DescribeNodeAssociationStatus API call to get the status of the association request. 
         public let nodeAssociationStatusToken: String?
 
@@ -89,6 +99,25 @@ extension Opsworkscm {
     public struct CreateServerRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "EngineModel", required: false, type: .string), 
+            AWSShapeProperty(label: "EngineAttributes", required: false, type: .list), 
+            AWSShapeProperty(label: "BackupId", required: false, type: .string), 
+            AWSShapeProperty(label: "ServiceRoleArn", required: true, type: .string), 
+            AWSShapeProperty(label: "SecurityGroupIds", required: false, type: .list), 
+            AWSShapeProperty(label: "InstanceType", required: true, type: .string), 
+            AWSShapeProperty(label: "BackupRetentionCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "SubnetIds", required: false, type: .list), 
+            AWSShapeProperty(label: "PreferredBackupWindow", required: false, type: .string), 
+            AWSShapeProperty(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceProfileArn", required: true, type: .string), 
+            AWSShapeProperty(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeProperty(label: "ServerName", required: true, type: .string), 
+            AWSShapeProperty(label: "Engine", required: false, type: .string), 
+            AWSShapeProperty(label: "DisableAutomatedBackup", required: false, type: .boolean), 
+            AWSShapeProperty(label: "KeyPair", required: false, type: .string), 
+            AWSShapeProperty(label: "AssociatePublicIpAddress", required: false, type: .boolean)
+        ]
         ///  The engine model, or option. Valid values include Single. 
         public let engineModel: String?
         /// Optional engine attributes on a specified server.   Attributes accepted in a createServer request:     CHEF_PIVOTAL_KEY: A base64-encoded RSA private key that is not stored by AWS OpsWorks for Chef. This private key is required to access the Chef API. When no CHEF_PIVOTAL_KEY is set, one is generated and returned in the response.     CHEF_DELIVERY_ADMIN_PASSWORD: The password for the administrative user in the Chef Automate GUI. The password length is a minimum of eight characters, and a maximum of 32. The password can contain letters, numbers, and special characters (!/@#$%^&amp;+=_). The password must contain at least one lower case letter, one upper case letter, one number, and one special character. When no CHEF_DELIVERY_ADMIN_PASSWORD is set, one is generated and returned in the response.  
@@ -176,6 +205,10 @@ extension Opsworkscm {
     public struct CreateBackupRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ServerName", required: true, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
+        ]
         /// The name of the server that you want to back up. 
         public let serverName: String
         ///  A user-defined description of the backup. 
@@ -213,6 +246,11 @@ extension Opsworkscm {
     public struct UpdateServerEngineAttributesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AttributeName", required: true, type: .string), 
+            AWSShapeProperty(label: "AttributeValue", required: false, type: .string), 
+            AWSShapeProperty(label: "ServerName", required: true, type: .string)
+        ]
         /// The name of the engine attribute to update. 
         public let attributeName: String
         /// The value to set for the attribute. 
@@ -238,6 +276,11 @@ extension Opsworkscm {
     public struct AssociateNodeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "NodeName", required: true, type: .string), 
+            AWSShapeProperty(label: "EngineAttributes", required: true, type: .list), 
+            AWSShapeProperty(label: "ServerName", required: true, type: .string)
+        ]
         /// The name of the Chef client node. 
         public let nodeName: String
         /// Engine attributes used for associating the node.   Attributes accepted in a AssociateNode request:     CHEF_ORGANIZATION: The Chef organization with which the node is associated. By default only one organization named default can exist.     CHEF_NODE_PUBLIC_KEY: A PEM-formatted public key. This key is required for the chef-client agent to access the Chef API.   
@@ -271,6 +314,11 @@ extension Opsworkscm {
     public struct AccountAttribute: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Maximum", required: false, type: .integer), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "Used", required: false, type: .integer)
+        ]
         ///  The maximum allowed value. 
         public let maximum: Int32?
         ///  The attribute name. The following are supported attribute names.     ServerLimit: The number of current servers/maximum number of servers allowed. By default, you can have a maximum of 10 servers.     ManualBackupLimit: The number of current manual backups/maximum number of backups allowed. By default, you can have a maximum of 50 manual backups saved.   
@@ -294,6 +342,9 @@ extension Opsworkscm {
     public struct StartMaintenanceResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Server", required: false, type: .structure)
+        ]
         /// Contains the response to a StartMaintenance request. 
         public let server: Server?
 
@@ -309,6 +360,9 @@ extension Opsworkscm {
     public struct CreateBackupResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Backup", required: false, type: .structure)
+        ]
         /// Backup created by request.
         public let backup: Backup?
 
@@ -332,6 +386,10 @@ extension Opsworkscm {
     public struct DescribeNodeAssociationStatusRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "NodeAssociationStatusToken", required: true, type: .string), 
+            AWSShapeProperty(label: "ServerName", required: true, type: .string)
+        ]
         public let nodeAssociationStatusToken: String
         /// The name of the server from which to disassociate the node. 
         public let serverName: String
@@ -352,6 +410,9 @@ extension Opsworkscm {
     public struct StartMaintenanceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ServerName", required: true, type: .string)
+        ]
         /// The name of the server on which to run maintenance. 
         public let serverName: String
 
@@ -374,6 +435,9 @@ extension Opsworkscm {
     public struct UpdateServerResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Server", required: false, type: .structure)
+        ]
         /// Contains the response to a UpdateServer request. 
         public let server: Server?
 
@@ -389,6 +453,9 @@ extension Opsworkscm {
     public struct DisassociateNodeResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "NodeAssociationStatusToken", required: false, type: .string)
+        ]
         /// Contains a token which can be passed to the DescribeNodeAssociationStatus API call to get the status of the disassociation request. 
         public let nodeAssociationStatusToken: String?
 
@@ -404,6 +471,11 @@ extension Opsworkscm {
     public struct DescribeServersRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "ServerName", required: false, type: .string)
+        ]
         /// To receive a paginated response, use this parameter to specify the maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results. 
         public let maxResults: Int32?
         /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeServers again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur. 
@@ -427,6 +499,12 @@ extension Opsworkscm {
     public struct ServerEvent: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "LogUrl", required: false, type: .string), 
+            AWSShapeProperty(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Message", required: false, type: .string), 
+            AWSShapeProperty(label: "ServerName", required: false, type: .string)
+        ]
         /// The Amazon S3 URL of the event's log file.
         public let logUrl: String?
         /// The time when the event occurred. 
@@ -454,6 +532,12 @@ extension Opsworkscm {
     public struct DescribeBackupsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ServerName", required: false, type: .string), 
+            AWSShapeProperty(label: "BackupId", required: false, type: .string), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        ]
         /// Returns backups for the server with the specified ServerName. 
         public let serverName: String?
         /// Describes a single backup. 
@@ -495,6 +579,32 @@ extension Opsworkscm {
     public struct Backup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "EngineModel", required: false, type: .string), 
+            AWSShapeProperty(label: "ServiceRoleArn", required: false, type: .string), 
+            AWSShapeProperty(label: "S3DataSize", required: false, type: .integer), 
+            AWSShapeProperty(label: "BackupId", required: false, type: .string), 
+            AWSShapeProperty(label: "SecurityGroupIds", required: false, type: .list), 
+            AWSShapeProperty(label: "ToolsVersion", required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceType", required: false, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string), 
+            AWSShapeProperty(label: "PreferredBackupWindow", required: false, type: .string), 
+            AWSShapeProperty(label: "Status", required: false, type: .enum), 
+            AWSShapeProperty(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceProfileArn", required: false, type: .string), 
+            AWSShapeProperty(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeProperty(label: "ServerName", required: false, type: .string), 
+            AWSShapeProperty(label: "SubnetIds", required: false, type: .list), 
+            AWSShapeProperty(label: "BackupType", required: false, type: .enum), 
+            AWSShapeProperty(label: "Engine", required: false, type: .string), 
+            AWSShapeProperty(label: "S3DataUrl", required: false, type: .string), 
+            AWSShapeProperty(label: "S3LogUrl", required: false, type: .string), 
+            AWSShapeProperty(label: "UserArn", required: false, type: .string), 
+            AWSShapeProperty(label: "StatusDescription", required: false, type: .string), 
+            AWSShapeProperty(label: "BackupArn", required: false, type: .string), 
+            AWSShapeProperty(label: "KeyPair", required: false, type: .string)
+        ]
         ///  The engine model that is obtained from the server when the backup is created. 
         public let engineModel: String?
         ///  The service role ARN that is obtained from the server when the backup is created. 
@@ -602,6 +712,9 @@ extension Opsworkscm {
     public struct DeleteServerRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ServerName", required: true, type: .string)
+        ]
         /// The ID of the server to delete.
         public let serverName: String
 
@@ -618,6 +731,11 @@ extension Opsworkscm {
     public struct DisassociateNodeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "NodeName", required: true, type: .string), 
+            AWSShapeProperty(label: "EngineAttributes", required: false, type: .list), 
+            AWSShapeProperty(label: "ServerName", required: true, type: .string)
+        ]
         /// The name of the Chef client node. 
         public let nodeName: String
         /// Engine attributes used for disassociating the node.   Attributes accepted in a DisassociateNode request:     CHEF_ORGANIZATION: The Chef organization with which the node was associated. By default only one organization named default can exist.   
@@ -647,6 +765,31 @@ extension Opsworkscm {
     public struct Server: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ServerArn", required: false, type: .string), 
+            AWSShapeProperty(label: "EngineModel", required: false, type: .string), 
+            AWSShapeProperty(label: "EngineAttributes", required: false, type: .list), 
+            AWSShapeProperty(label: "ServiceRoleArn", required: false, type: .string), 
+            AWSShapeProperty(label: "SecurityGroupIds", required: false, type: .list), 
+            AWSShapeProperty(label: "InstanceType", required: false, type: .string), 
+            AWSShapeProperty(label: "BackupRetentionCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "SubnetIds", required: false, type: .list), 
+            AWSShapeProperty(label: "PreferredBackupWindow", required: false, type: .string), 
+            AWSShapeProperty(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceProfileArn", required: false, type: .string), 
+            AWSShapeProperty(label: "StatusReason", required: false, type: .string), 
+            AWSShapeProperty(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeProperty(label: "ServerName", required: false, type: .string), 
+            AWSShapeProperty(label: "Engine", required: false, type: .string), 
+            AWSShapeProperty(label: "MaintenanceStatus", required: false, type: .enum), 
+            AWSShapeProperty(label: "CloudFormationStackArn", required: false, type: .string), 
+            AWSShapeProperty(label: "Status", required: false, type: .enum), 
+            AWSShapeProperty(label: "DisableAutomatedBackup", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Endpoint", required: false, type: .string), 
+            AWSShapeProperty(label: "AssociatePublicIpAddress", required: false, type: .boolean), 
+            AWSShapeProperty(label: "KeyPair", required: false, type: .string)
+        ]
         /// The ARN of the server. 
         public let serverArn: String?
         /// The engine model of the server. The valid value in this release is Single. 
@@ -754,6 +897,11 @@ extension Opsworkscm {
     public struct DescribeEventsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "ServerName", required: true, type: .string)
+        ]
         /// To receive a paginated response, use this parameter to specify the maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results. 
         public let maxResults: Int32?
         /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeEvents again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur. 
@@ -778,6 +926,10 @@ extension Opsworkscm {
     public struct DescribeServersResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Servers", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        ]
         /// Contains the response to a DescribeServers request. 
         public let servers: [Server]?
         /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeServers again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur. 
@@ -801,6 +953,12 @@ extension Opsworkscm {
     public struct RestoreServerRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ServerName", required: true, type: .string), 
+            AWSShapeProperty(label: "InstanceType", required: false, type: .string), 
+            AWSShapeProperty(label: "BackupId", required: true, type: .string), 
+            AWSShapeProperty(label: "KeyPair", required: false, type: .string)
+        ]
         ///  The name of the server that you want to restore. 
         public let serverName: String
         ///  The type of the instance to create. Valid values must be specified in the following format: ^([cm][34]|t2).* For example, m4.large. Valid values are t2.medium, m4.large, and m4.2xlarge. If you do not specify this parameter, RestoreServer uses the instance type from the specified backup. 
@@ -830,6 +988,10 @@ extension Opsworkscm {
     public struct DescribeBackupsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Backups", required: false, type: .list)
+        ]
         /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeBackups again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur. 
         public let nextToken: String?
         /// Contains the response to a DescribeBackups request. 
@@ -861,6 +1023,9 @@ extension Opsworkscm {
     public struct DescribeNodeAssociationStatusResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "NodeAssociationStatus", required: false, type: .enum)
+        ]
         /// The status of the association or disassociation request.   Possible values:     SUCCESS: The association or disassociation succeeded.     FAILED: The association or disassociation failed.     IN_PROGRESS: The association or disassociation is still in progress.   
         public let nodeAssociationStatus: NodeAssociationStatus?
 
@@ -876,6 +1041,9 @@ extension Opsworkscm {
     public struct DeleteBackupRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "BackupId", required: true, type: .string)
+        ]
         /// The ID of the backup to delete. Run the DescribeBackups command to get a list of backup IDs. Backup IDs are in the format ServerName-yyyyMMddHHmmssSSS. 
         public let backupId: String
 
@@ -892,6 +1060,10 @@ extension Opsworkscm {
     public struct EngineAttribute: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Value", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: false, type: .string)
+        ]
         /// The value of the engine attribute. 
         public let value: String?
         /// The name of the engine attribute. 
@@ -911,6 +1083,13 @@ extension Opsworkscm {
     public struct UpdateServerRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "PreferredBackupWindow", required: false, type: .string), 
+            AWSShapeProperty(label: "ServerName", required: true, type: .string), 
+            AWSShapeProperty(label: "DisableAutomatedBackup", required: false, type: .boolean), 
+            AWSShapeProperty(label: "BackupRetentionCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "PreferredMaintenanceWindow", required: false, type: .string)
+        ]
         public let preferredBackupWindow: String?
         /// The name of the server to update. 
         public let serverName: String
@@ -957,6 +1136,9 @@ extension Opsworkscm {
     public struct CreateServerResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Server", required: false, type: .structure)
+        ]
         /// The server that is created by the request. 
         public let server: Server?
 
@@ -972,6 +1154,9 @@ extension Opsworkscm {
     public struct UpdateServerEngineAttributesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Server", required: false, type: .structure)
+        ]
         /// Contains the response to an UpdateServerEngineAttributes request. 
         public let server: Server?
 

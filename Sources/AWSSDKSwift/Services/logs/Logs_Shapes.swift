@@ -32,6 +32,10 @@ extension Logs {
     public struct CreateLogStreamRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "logGroupName", required: true, type: .string), 
+            AWSShapeProperty(label: "logStreamName", required: true, type: .string)
+        ]
         /// The name of the log group.
         public let logGroupName: String
         /// The name of the log stream.
@@ -53,6 +57,10 @@ extension Logs {
     public struct DescribeDestinationsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "destinations", required: false, type: .list)
+        ]
         public let nextToken: String?
         /// The destinations.
         public let destinations: [Destination]?
@@ -75,6 +83,9 @@ extension Logs {
     public struct TestMetricFilterResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "matches", required: false, type: .list)
+        ]
         /// The matched events.
         public let matches: [MetricFilterMatchRecord]?
 
@@ -100,6 +111,16 @@ extension Logs {
     public struct LogStream: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "storedBytes", required: false, type: .long), 
+            AWSShapeProperty(label: "lastEventTimestamp", required: false, type: .long), 
+            AWSShapeProperty(label: "logStreamName", required: false, type: .string), 
+            AWSShapeProperty(label: "creationTime", required: false, type: .long), 
+            AWSShapeProperty(label: "lastIngestionTime", required: false, type: .long), 
+            AWSShapeProperty(label: "firstEventTimestamp", required: false, type: .long), 
+            AWSShapeProperty(label: "uploadSequenceToken", required: false, type: .string), 
+            AWSShapeProperty(label: "arn", required: false, type: .string)
+        ]
         /// The number of bytes stored.
         public let storedBytes: Int64?
         /// The time of the last event, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
@@ -143,6 +164,10 @@ extension Logs {
     public struct InputLogEvent: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "timestamp", required: true, type: .long), 
+            AWSShapeProperty(label: "message", required: true, type: .string)
+        ]
         /// The time the event occurred, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
         public let timestamp: Int64
         /// The raw event message.
@@ -164,6 +189,13 @@ extension Logs {
     public struct FilteredLogEvent: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "eventId", required: false, type: .string), 
+            AWSShapeProperty(label: "message", required: false, type: .string), 
+            AWSShapeProperty(label: "timestamp", required: false, type: .long), 
+            AWSShapeProperty(label: "logStreamName", required: false, type: .string), 
+            AWSShapeProperty(label: "ingestionTime", required: false, type: .long)
+        ]
         /// The ID of the event.
         public let eventId: String?
         /// The data contained in the log event.
@@ -195,6 +227,12 @@ extension Logs {
     public struct PutLogEventsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "logEvents", required: true, type: .list), 
+            AWSShapeProperty(label: "sequenceToken", required: false, type: .string), 
+            AWSShapeProperty(label: "logStreamName", required: true, type: .string), 
+            AWSShapeProperty(label: "logGroupName", required: true, type: .string)
+        ]
         /// The log events.
         public let logEvents: [InputLogEvent]
         /// The sequence token.
@@ -225,6 +263,10 @@ extension Logs {
     public struct ExportTaskExecutionInfo: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "creationTime", required: false, type: .long), 
+            AWSShapeProperty(label: "completionTime", required: false, type: .long)
+        ]
         /// The creation time of the export task.
         public let creationTime: Int64?
         /// The completion time of the export task.
@@ -244,6 +286,14 @@ extension Logs {
     public struct DescribeLogStreamsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "descending", required: false, type: .boolean), 
+            AWSShapeProperty(label: "logStreamNamePrefix", required: false, type: .string), 
+            AWSShapeProperty(label: "orderBy", required: false, type: .enum), 
+            AWSShapeProperty(label: "logGroupName", required: true, type: .string)
+        ]
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
@@ -280,6 +330,10 @@ extension Logs {
     public struct DescribeLogStreamsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "logStreams", required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        ]
         /// The log streams.
         public let logStreams: [LogStream]?
         public let nextToken: String?
@@ -302,6 +356,9 @@ extension Logs {
     public struct DeleteRetentionPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "logGroupName", required: true, type: .string)
+        ]
         /// The name of the log group.
         public let logGroupName: String
 
@@ -318,6 +375,12 @@ extension Logs {
     public struct MetricTransformation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "metricValue", required: true, type: .string), 
+            AWSShapeProperty(label: "defaultValue", required: false, type: .double), 
+            AWSShapeProperty(label: "metricName", required: true, type: .string), 
+            AWSShapeProperty(label: "metricNamespace", required: true, type: .string)
+        ]
         /// The value to publish to the CloudWatch metric when a filter pattern matches a log event.
         public let metricValue: String
         /// (Optional) The value to emit when a filter pattern does not match a log event. This value can be null.
@@ -348,6 +411,14 @@ extension Logs {
     public struct PutSubscriptionFilterRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "filterName", required: true, type: .string), 
+            AWSShapeProperty(label: "destinationArn", required: true, type: .string), 
+            AWSShapeProperty(label: "roleArn", required: false, type: .string), 
+            AWSShapeProperty(label: "distribution", required: false, type: .enum), 
+            AWSShapeProperty(label: "logGroupName", required: true, type: .string), 
+            AWSShapeProperty(label: "filterPattern", required: true, type: .string)
+        ]
         /// A name for the subscription filter.
         public let filterName: String
         /// The ARN of the destination to deliver matching log events to. Currently, the supported destinations are:   An Amazon Kinesis stream belonging to the same account as the subscription filter, for same-account delivery.   A logical destination (specified using an ARN) belonging to a different account, for cross-account delivery.   An Amazon Kinesis Firehose stream belonging to the same account as the subscription filter, for same-account delivery.   An AWS Lambda function belonging to the same account as the subscription filter, for same-account delivery.  
@@ -397,6 +468,11 @@ extension Logs {
     public struct RejectedLogEventsInfo: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "expiredLogEventEndIndex", required: false, type: .integer), 
+            AWSShapeProperty(label: "tooOldLogEventEndIndex", required: false, type: .integer), 
+            AWSShapeProperty(label: "tooNewLogEventStartIndex", required: false, type: .integer)
+        ]
         /// The expired log events.
         public let expiredLogEventEndIndex: Int32?
         /// The log events that are too old.
@@ -420,6 +496,9 @@ extension Logs {
     public struct DeleteDestinationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "destinationName", required: true, type: .string)
+        ]
         /// The name of the destination.
         public let destinationName: String
 
@@ -436,6 +515,12 @@ extension Logs {
     public struct PutMetricFilterRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "filterName", required: true, type: .string), 
+            AWSShapeProperty(label: "metricTransformations", required: true, type: .list), 
+            AWSShapeProperty(label: "logGroupName", required: true, type: .string), 
+            AWSShapeProperty(label: "filterPattern", required: true, type: .string)
+        ]
         /// A name for the metric filter.
         public let filterName: String
         /// A collection of information needed to define how metric data gets emitted.
@@ -467,6 +552,10 @@ extension Logs {
     public struct DescribeLogGroupsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "logGroups", required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        ]
         /// The log groups.
         public let logGroups: [LogGroup]?
         public let nextToken: String?
@@ -489,6 +578,11 @@ extension Logs {
     public struct PutDestinationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "destinationName", required: true, type: .string), 
+            AWSShapeProperty(label: "roleArn", required: true, type: .string), 
+            AWSShapeProperty(label: "targetArn", required: true, type: .string)
+        ]
         /// A name for the destination.
         public let destinationName: String
         /// The ARN of an IAM role that grants CloudWatch Logs permissions to call Amazon Kinesis PutRecord on the destination stream.
@@ -515,6 +609,11 @@ extension Logs {
     public struct OutputLogEvent: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "timestamp", required: false, type: .long), 
+            AWSShapeProperty(label: "message", required: false, type: .string), 
+            AWSShapeProperty(label: "ingestionTime", required: false, type: .long)
+        ]
         /// The time the event occurred, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
         public let timestamp: Int64?
         /// The data contained in the log event.
@@ -538,6 +637,10 @@ extension Logs {
     public struct DeleteLogStreamRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "logGroupName", required: true, type: .string), 
+            AWSShapeProperty(label: "logStreamName", required: true, type: .string)
+        ]
         /// The name of the log group.
         public let logGroupName: String
         /// The name of the log stream.
@@ -559,6 +662,12 @@ extension Logs {
     public struct DescribeSubscriptionFiltersRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "filterNamePrefix", required: false, type: .string), 
+            AWSShapeProperty(label: "limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "logGroupName", required: true, type: .string)
+        ]
         /// The prefix to match. If you don't specify a value, no prefix filter is applied.
         public let filterNamePrefix: String?
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
@@ -587,6 +696,11 @@ extension Logs {
     public struct DescribeLogGroupsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "logGroupNamePrefix", required: false, type: .string), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        ]
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
         public let limit: Int32?
         /// The prefix to match.
@@ -610,6 +724,14 @@ extension Logs {
     public struct DescribeMetricFiltersRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "filterNamePrefix", required: false, type: .string), 
+            AWSShapeProperty(label: "logGroupName", required: false, type: .string), 
+            AWSShapeProperty(label: "metricName", required: false, type: .string), 
+            AWSShapeProperty(label: "metricNamespace", required: false, type: .string)
+        ]
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
         public let limit: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
@@ -645,6 +767,10 @@ extension Logs {
     public struct DeleteSubscriptionFilterRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "filterName", required: true, type: .string), 
+            AWSShapeProperty(label: "logGroupName", required: true, type: .string)
+        ]
         /// The name of the subscription filter.
         public let filterName: String
         /// The name of the log group.
@@ -666,6 +792,12 @@ extension Logs {
     public struct DescribeExportTasksRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "statusCode", required: false, type: .enum), 
+            AWSShapeProperty(label: "taskId", required: false, type: .string), 
+            AWSShapeProperty(label: "limit", required: false, type: .integer)
+        ]
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
         /// The status code of the export task. Specifying a status code filters the results to zero or more export tasks.
@@ -693,6 +825,15 @@ extension Logs {
     public struct CreateExportTaskRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "destinationPrefix", required: false, type: .string), 
+            AWSShapeProperty(label: "destination", required: true, type: .string), 
+            AWSShapeProperty(label: "from", required: true, type: .long), 
+            AWSShapeProperty(label: "taskName", required: false, type: .string), 
+            AWSShapeProperty(label: "logGroupName", required: true, type: .string), 
+            AWSShapeProperty(label: "to", required: true, type: .long), 
+            AWSShapeProperty(label: "logStreamNamePrefix", required: false, type: .string)
+        ]
         /// The prefix used as the start of the key for every object exported. If you don't specify a value, the default is exportedlogs.
         public let destinationPrefix: String?
         /// The name of S3 bucket for the exported log data. The bucket must be in the same AWS region.
@@ -736,6 +877,13 @@ extension Logs {
     public struct MetricFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "metricTransformations", required: false, type: .list), 
+            AWSShapeProperty(label: "filterName", required: false, type: .string), 
+            AWSShapeProperty(label: "logGroupName", required: false, type: .string), 
+            AWSShapeProperty(label: "creationTime", required: false, type: .long), 
+            AWSShapeProperty(label: "filterPattern", required: false, type: .string)
+        ]
         /// The metric transformations.
         public let metricTransformations: [MetricTransformation]?
         /// The name of the metric filter.
@@ -770,6 +918,10 @@ extension Logs {
     public struct TestMetricFilterRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "filterPattern", required: true, type: .string), 
+            AWSShapeProperty(label: "logEventMessages", required: true, type: .list)
+        ]
         public let filterPattern: String
         /// The log event messages to test.
         public let logEventMessages: [String]
@@ -790,6 +942,9 @@ extension Logs {
     public struct DeleteLogGroupRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "logGroupName", required: true, type: .string)
+        ]
         /// The name of the log group.
         public let logGroupName: String
 
@@ -806,6 +961,11 @@ extension Logs {
     public struct GetLogEventsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "nextForwardToken", required: false, type: .string), 
+            AWSShapeProperty(label: "nextBackwardToken", required: false, type: .string), 
+            AWSShapeProperty(label: "events", required: false, type: .list)
+        ]
         /// The token for the next set of items in the forward direction. The token expires after 24 hours.
         public let nextForwardToken: String?
         /// The token for the next set of items in the backward direction. The token expires after 24 hours.
@@ -833,6 +993,10 @@ extension Logs {
     public struct ExportTaskStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "code", required: false, type: .enum), 
+            AWSShapeProperty(label: "message", required: false, type: .string)
+        ]
         /// The status code of the export task.
         public let code: ExportTaskStatusCode?
         /// The status message related to the status code.
@@ -852,6 +1016,14 @@ extension Logs {
     public struct Destination: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "accessPolicy", required: false, type: .string), 
+            AWSShapeProperty(label: "destinationName", required: false, type: .string), 
+            AWSShapeProperty(label: "roleArn", required: false, type: .string), 
+            AWSShapeProperty(label: "creationTime", required: false, type: .long), 
+            AWSShapeProperty(label: "targetArn", required: false, type: .string), 
+            AWSShapeProperty(label: "arn", required: false, type: .string)
+        ]
         /// An IAM policy document that governs which AWS accounts can create subscription filters against this destination.
         public let accessPolicy: String?
         /// The name of the destination.
@@ -887,6 +1059,10 @@ extension Logs {
     public struct CreateLogGroupRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "tags", required: false, type: .map), 
+            AWSShapeProperty(label: "logGroupName", required: true, type: .string)
+        ]
         /// The key-value pairs to use for the tags.
         public let tags: [String: String]?
         /// The name of the log group.
@@ -911,6 +1087,10 @@ extension Logs {
     public struct DescribeExportTasksResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "exportTasks", required: false, type: .list)
+        ]
         public let nextToken: String?
         /// The export tasks.
         public let exportTasks: [ExportTask]?
@@ -933,6 +1113,9 @@ extension Logs {
     public struct CancelExportTaskRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "taskId", required: true, type: .string)
+        ]
         /// The ID of the export task.
         public let taskId: String
 
@@ -949,6 +1132,10 @@ extension Logs {
     public struct UntagLogGroupRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "tags", required: true, type: .list), 
+            AWSShapeProperty(label: "logGroupName", required: true, type: .string)
+        ]
         /// The tag keys. The corresponding tags are removed from the log group.
         public let tags: [String]
         /// The name of the log group.
@@ -970,6 +1157,9 @@ extension Logs {
     public struct ListTagsLogGroupResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "tags", required: false, type: .map)
+        ]
         /// The tags.
         public let tags: [String: String]?
 
@@ -989,6 +1179,10 @@ extension Logs {
     public struct DeleteMetricFilterRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "filterName", required: true, type: .string), 
+            AWSShapeProperty(label: "logGroupName", required: true, type: .string)
+        ]
         /// The name of the metric filter.
         public let filterName: String
         /// The name of the log group.
@@ -1010,6 +1204,14 @@ extension Logs {
     public struct LogGroup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "storedBytes", required: false, type: .long), 
+            AWSShapeProperty(label: "arn", required: false, type: .string), 
+            AWSShapeProperty(label: "logGroupName", required: false, type: .string), 
+            AWSShapeProperty(label: "creationTime", required: false, type: .long), 
+            AWSShapeProperty(label: "retentionInDays", required: false, type: .integer), 
+            AWSShapeProperty(label: "metricFilterCount", required: false, type: .integer)
+        ]
         /// The number of bytes stored.
         public let storedBytes: Int64?
         /// The Amazon Resource Name (ARN) of the log group.
@@ -1044,6 +1246,10 @@ extension Logs {
     public struct TagLogGroupRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "tags", required: true, type: .map), 
+            AWSShapeProperty(label: "logGroupName", required: true, type: .string)
+        ]
         /// The key-value pairs to use for the tags.
         public let tags: [String: String]
         /// The name of the log group.
@@ -1065,6 +1271,10 @@ extension Logs {
     public struct DescribeSubscriptionFiltersResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "subscriptionFilters", required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        ]
         /// The subscription filters.
         public let subscriptionFilters: [SubscriptionFilter]?
         public let nextToken: String?
@@ -1093,6 +1303,15 @@ extension Logs {
     public struct GetLogEventsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "logStreamName", required: true, type: .string), 
+            AWSShapeProperty(label: "startFromHead", required: false, type: .boolean), 
+            AWSShapeProperty(label: "endTime", required: false, type: .long), 
+            AWSShapeProperty(label: "logGroupName", required: true, type: .string), 
+            AWSShapeProperty(label: "startTime", required: false, type: .long)
+        ]
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
         /// The maximum number of log events returned. If you don't specify a value, the maximum is as many log events as can fit in a response size of 1MB, up to 10,000 log events.
@@ -1134,6 +1353,11 @@ extension Logs {
     public struct FilterLogEventsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "searchedLogStreams", required: false, type: .list), 
+            AWSShapeProperty(label: "events", required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        ]
         /// Indicates which log streams have been searched and whether each has been searched completely.
         public let searchedLogStreams: [SearchedLogStream]?
         /// The matched events.
@@ -1165,6 +1389,10 @@ extension Logs {
     public struct PutDestinationPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "accessPolicy", required: true, type: .string), 
+            AWSShapeProperty(label: "destinationName", required: true, type: .string)
+        ]
         /// An IAM policy document that authorizes cross-account users to deliver their log events to the associated destination.
         public let accessPolicy: String
         /// A name for an existing destination.
@@ -1186,6 +1414,9 @@ extension Logs {
     public struct ListTagsLogGroupRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "logGroupName", required: true, type: .string)
+        ]
         /// The name of the log group.
         public let logGroupName: String
 
@@ -1202,6 +1433,10 @@ extension Logs {
     public struct SearchedLogStream: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "logStreamName", required: false, type: .string), 
+            AWSShapeProperty(label: "searchedCompletely", required: false, type: .boolean)
+        ]
         /// The name of the log stream.
         public let logStreamName: String?
         /// Indicates whether all the events in this log stream were searched.
@@ -1221,6 +1456,10 @@ extension Logs {
     public struct PutRetentionPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "logGroupName", required: true, type: .string), 
+            AWSShapeProperty(label: "retentionInDays", required: true, type: .integer)
+        ]
         /// The name of the log group.
         public let logGroupName: String
         public let retentionInDays: Int32
@@ -1241,6 +1480,16 @@ extension Logs {
     public struct FilterLogEventsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "filterPattern", required: false, type: .string), 
+            AWSShapeProperty(label: "endTime", required: false, type: .long), 
+            AWSShapeProperty(label: "logGroupName", required: true, type: .string), 
+            AWSShapeProperty(label: "logStreamNames", required: false, type: .list), 
+            AWSShapeProperty(label: "startTime", required: false, type: .long), 
+            AWSShapeProperty(label: "interleaved", required: false, type: .boolean)
+        ]
         /// The token for the next set of events to return. (You received this token from a previous call.)
         public let nextToken: String?
         /// The maximum number of events to return. The default is 10,000 events.
@@ -1285,6 +1534,9 @@ extension Logs {
     public struct CreateExportTaskResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "taskId", required: false, type: .string)
+        ]
         /// The ID of the export task.
         public let taskId: String?
 
@@ -1300,6 +1552,11 @@ extension Logs {
     public struct MetricFilterMatchRecord: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "extractedValues", required: false, type: .map), 
+            AWSShapeProperty(label: "eventNumber", required: false, type: .long), 
+            AWSShapeProperty(label: "eventMessage", required: false, type: .string)
+        ]
         /// The values extracted from the event data by the filter.
         public let extractedValues: [String: String]?
         /// The event number.
@@ -1327,6 +1584,9 @@ extension Logs {
     public struct PutDestinationResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "destination", required: false, type: .structure)
+        ]
         /// The destination.
         public let destination: Destination?
 
@@ -1342,6 +1602,15 @@ extension Logs {
     public struct SubscriptionFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "distribution", required: false, type: .enum), 
+            AWSShapeProperty(label: "roleArn", required: false, type: .string), 
+            AWSShapeProperty(label: "destinationArn", required: false, type: .string), 
+            AWSShapeProperty(label: "creationTime", required: false, type: .long), 
+            AWSShapeProperty(label: "filterPattern", required: false, type: .string), 
+            AWSShapeProperty(label: "filterName", required: false, type: .string), 
+            AWSShapeProperty(label: "logGroupName", required: false, type: .string)
+        ]
         /// The method used to distribute log data to the destination, when the destination is an Amazon Kinesis stream.
         public let distribution: Distribution?
         public let roleArn: String?
@@ -1379,6 +1648,10 @@ extension Logs {
     public struct DescribeMetricFiltersResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "metricFilters", required: false, type: .list)
+        ]
         public let nextToken: String?
         /// The metric filters.
         public let metricFilters: [MetricFilter]?
@@ -1401,6 +1674,17 @@ extension Logs {
     public struct ExportTask: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "status", required: false, type: .structure), 
+            AWSShapeProperty(label: "destination", required: false, type: .string), 
+            AWSShapeProperty(label: "taskId", required: false, type: .string), 
+            AWSShapeProperty(label: "destinationPrefix", required: false, type: .string), 
+            AWSShapeProperty(label: "from", required: false, type: .long), 
+            AWSShapeProperty(label: "taskName", required: false, type: .string), 
+            AWSShapeProperty(label: "executionInfo", required: false, type: .structure), 
+            AWSShapeProperty(label: "logGroupName", required: false, type: .string), 
+            AWSShapeProperty(label: "to", required: false, type: .long)
+        ]
         /// The status of the export task.
         public let status: ExportTaskStatus?
         /// The name of Amazon S3 bucket to which the log data was exported.
@@ -1448,6 +1732,10 @@ extension Logs {
     public struct PutLogEventsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "rejectedLogEventsInfo", required: false, type: .structure), 
+            AWSShapeProperty(label: "nextSequenceToken", required: false, type: .string)
+        ]
         /// The rejected events.
         public let rejectedLogEventsInfo: RejectedLogEventsInfo?
         /// The next sequence token.
@@ -1467,6 +1755,11 @@ extension Logs {
     public struct DescribeDestinationsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "DestinationNamePrefix", required: false, type: .string), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        ]
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
         public let limit: Int32?
         /// The prefix to match. If you don't specify a value, no prefix filter is applied.

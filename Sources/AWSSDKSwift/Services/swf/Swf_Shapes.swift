@@ -32,6 +32,11 @@ extension Swf {
     public struct RequestCancelWorkflowExecutionInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "runId", required: false, type: .string), 
+            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
+            AWSShapeProperty(label: "domain", required: true, type: .string)
+        ]
         /// The runId of the workflow execution to cancel.
         public let runId: String?
         /// The workflowId of the workflow execution to cancel.
@@ -57,6 +62,15 @@ extension Swf {
     public struct CountClosedWorkflowExecutionsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "typeFilter", required: false, type: .structure), 
+            AWSShapeProperty(label: "closeStatusFilter", required: false, type: .structure), 
+            AWSShapeProperty(label: "tagFilter", required: false, type: .structure), 
+            AWSShapeProperty(label: "executionFilter", required: false, type: .structure), 
+            AWSShapeProperty(label: "closeTimeFilter", required: false, type: .structure), 
+            AWSShapeProperty(label: "startTimeFilter", required: false, type: .structure), 
+            AWSShapeProperty(label: "domain", required: true, type: .string)
+        ]
         /// If specified, indicates the type of the workflow executions to be counted. closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
         public let typeFilter: WorkflowTypeFilter?
         /// If specified, only workflow executions that match this close status are counted. This filter has an affect only if executionStatus is specified as CLOSED. closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
@@ -97,6 +111,11 @@ extension Swf {
     public struct LambdaFunctionTimedOutEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "scheduledEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "timeoutType", required: false, type: .enum)
+        ]
         /// The ID of the LambdaFunctionScheduled event that was recorded when this AWS Lambda function was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let scheduledEventId: Int64
         /// The ID of the LambdaFunctionStarted event recorded in the history.
@@ -122,6 +141,10 @@ extension Swf {
     public struct ActivityType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "name", required: true, type: .string), 
+            AWSShapeProperty(label: "version", required: true, type: .string)
+        ]
         /// The name of this activity. The combination of activity type name and version must be unique within a domain.
         public let name: String
         /// The version of this activity. The combination of activity type name and version must be unique with in a domain.
@@ -143,6 +166,15 @@ extension Swf {
     public struct DecisionTask: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "previousStartedEventId", required: false, type: .long), 
+            AWSShapeProperty(label: "taskToken", required: true, type: .string), 
+            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
+            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "events", required: true, type: .list), 
+            AWSShapeProperty(label: "workflowExecution", required: true, type: .structure), 
+            AWSShapeProperty(label: "nextPageToken", required: false, type: .string)
+        ]
         /// The ID of the DecisionTaskStarted event of the previous decision task of this workflow execution that was processed by the decider. This can be used to determine the events in the history new since the last decision task received by the decider.
         public let previousStartedEventId: Int64?
         /// The opaque string used as a handle on the task. This token is used by workers to communicate progress and response information back to the system about the task.
@@ -193,6 +225,14 @@ extension Swf {
     public struct StartChildWorkflowExecutionFailedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
+            AWSShapeProperty(label: "cause", required: true, type: .enum), 
+            AWSShapeProperty(label: "control", required: false, type: .string)
+        ]
         /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let initiatedEventId: Int64
         /// The workflow type provided in the StartChildWorkflowExecution decision that failed.
@@ -245,6 +285,17 @@ extension Swf {
     public struct WorkflowExecutionInfo: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "execution", required: true, type: .structure), 
+            AWSShapeProperty(label: "startTimestamp", required: true, type: .timestamp), 
+            AWSShapeProperty(label: "parent", required: false, type: .structure), 
+            AWSShapeProperty(label: "tagList", required: false, type: .list), 
+            AWSShapeProperty(label: "cancelRequested", required: false, type: .boolean), 
+            AWSShapeProperty(label: "closeTimestamp", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "closeStatus", required: false, type: .enum), 
+            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
+            AWSShapeProperty(label: "executionStatus", required: true, type: .enum)
+        ]
         /// The workflow execution this information is about.
         public let execution: WorkflowExecution
         /// The time when the execution was started.
@@ -296,6 +347,9 @@ extension Swf {
     public struct CancelWorkflowExecutionDecisionAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "details", required: false, type: .string)
+        ]
         /// Optional. details of the cancellation.
         public let details: String?
 
@@ -317,6 +371,10 @@ extension Swf {
     public struct WorkflowType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "name", required: true, type: .string), 
+            AWSShapeProperty(label: "version", required: true, type: .string)
+        ]
         /// Required. The name of the workflow type. The combination of workflow type name and version must be unique with in a domain.
         public let name: String
         /// Required. The version of the workflow type. The combination of workflow type name and version must be unique with in a domain.
@@ -338,6 +396,14 @@ extension Swf {
     public struct PollForDecisionTaskInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "identity", required: false, type: .string), 
+            AWSShapeProperty(label: "maximumPageSize", required: false, type: .integer), 
+            AWSShapeProperty(label: "taskList", required: true, type: .structure), 
+            AWSShapeProperty(label: "reverseOrder", required: false, type: .boolean), 
+            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeProperty(label: "domain", required: true, type: .string)
+        ]
         /// Identity of the decider making the request, which is recorded in the DecisionTaskStarted event in the workflow history. This enables diagnostic tracing when problems arise. The form of this identity is user defined.
         public let identity: String?
         /// The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
@@ -375,6 +441,10 @@ extension Swf {
     public struct WorkflowTypeDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "typeInfo", required: true, type: .structure), 
+            AWSShapeProperty(label: "configuration", required: true, type: .structure)
+        ]
         /// General information about the workflow type. The status of the workflow type (returned in the WorkflowTypeInfo structure) can be one of the following.   REGISTERED: The type is registered and available. Workers supporting this type should be running.  DEPRECATED: The type was deprecated using DeprecateWorkflowType, but is still in use. You should keep workers supporting this type running. You cannot create new workflow executions of this type. 
         public let typeInfo: WorkflowTypeInfo
         /// Configuration settings of the workflow type registered through RegisterWorkflowType
@@ -396,6 +466,11 @@ extension Swf {
     public struct DecisionTaskCompletedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "scheduledEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "executionContext", required: false, type: .string)
+        ]
         /// The ID of the DecisionTaskScheduled event that was recorded when this decision task was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let scheduledEventId: Int64
         /// The ID of the DecisionTaskStarted event recorded when this decision task was started. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -421,6 +496,10 @@ extension Swf {
     public struct DomainDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "domainInfo", required: true, type: .structure), 
+            AWSShapeProperty(label: "configuration", required: true, type: .structure)
+        ]
         public let domainInfo: DomainInfo
         public let configuration: DomainConfiguration
 
@@ -440,6 +519,11 @@ extension Swf {
     public struct RespondActivityTaskFailedInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "details", required: false, type: .string), 
+            AWSShapeProperty(label: "taskToken", required: true, type: .string), 
+            AWSShapeProperty(label: "reason", required: false, type: .string)
+        ]
         /// Optional. Detailed information about the failure.
         public let details: String?
         /// The taskToken of the ActivityTask.  taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results.
@@ -464,6 +548,11 @@ extension Swf {
     public struct CancelTimerFailedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "cause", required: true, type: .enum), 
+            AWSShapeProperty(label: "timerId", required: true, type: .string)
+        ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the CancelTimer decision to cancel this timer. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
         /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows.
@@ -490,6 +579,9 @@ extension Swf {
     public struct DescribeDomainInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "name", required: true, type: .string)
+        ]
         /// The name of the domain to describe.
         public let name: String
 
@@ -513,6 +605,11 @@ extension Swf {
     public struct StartTimerDecisionAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "timerId", required: true, type: .string), 
+            AWSShapeProperty(label: "startToFireTimeout", required: true, type: .string), 
+            AWSShapeProperty(label: "control", required: false, type: .string)
+        ]
         /// Required. The unique ID of the timer. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
         public let timerId: String
         /// Required. The duration to wait before firing the timer. The duration is specified in seconds; an integer greater than or equal to 0.
@@ -538,6 +635,10 @@ extension Swf {
     public struct DescribeWorkflowTypeInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "domain", required: true, type: .string), 
+            AWSShapeProperty(label: "workflowType", required: true, type: .structure)
+        ]
         /// The name of the domain in which this workflow type is registered.
         public let domain: String
         /// The workflow type to describe.
@@ -559,6 +660,10 @@ extension Swf {
     public struct ExecutionTimeFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "oldestDate", required: true, type: .timestamp), 
+            AWSShapeProperty(label: "latestDate", required: false, type: .timestamp)
+        ]
         /// Specifies the oldest start or close date and time to return.
         public let oldestDate: Date
         /// Specifies the latest start or close date and time to return.
@@ -579,6 +684,11 @@ extension Swf {
     public struct PollForActivityTaskInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "identity", required: false, type: .string), 
+            AWSShapeProperty(label: "domain", required: true, type: .string), 
+            AWSShapeProperty(label: "taskList", required: true, type: .structure)
+        ]
         /// Identity of the worker making the request, recorded in the ActivityTaskStarted event in the workflow history. This enables diagnostic tracing when problems arise. The form of this identity is user defined.
         public let identity: String?
         /// The name of the domain that contains the task lists being polled.
@@ -604,6 +714,18 @@ extension Swf {
     public struct ListClosedWorkflowExecutionsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "typeFilter", required: false, type: .structure), 
+            AWSShapeProperty(label: "closeStatusFilter", required: false, type: .structure), 
+            AWSShapeProperty(label: "tagFilter", required: false, type: .structure), 
+            AWSShapeProperty(label: "maximumPageSize", required: false, type: .integer), 
+            AWSShapeProperty(label: "executionFilter", required: false, type: .structure), 
+            AWSShapeProperty(label: "closeTimeFilter", required: false, type: .structure), 
+            AWSShapeProperty(label: "startTimeFilter", required: false, type: .structure), 
+            AWSShapeProperty(label: "reverseOrder", required: false, type: .boolean), 
+            AWSShapeProperty(label: "domain", required: true, type: .string), 
+            AWSShapeProperty(label: "nextPageToken", required: false, type: .string)
+        ]
         /// If specified, only executions of the type specified in the filter are returned. closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
         public let typeFilter: WorkflowTypeFilter?
         /// If specified, only workflow executions that match this close status are listed. For example, if TERMINATED is specified, then only TERMINATED workflow executions are listed. closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
@@ -656,6 +778,14 @@ extension Swf {
     public struct ActivityTask: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "taskToken", required: true, type: .string), 
+            AWSShapeProperty(label: "input", required: false, type: .string), 
+            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "workflowExecution", required: true, type: .structure), 
+            AWSShapeProperty(label: "activityId", required: true, type: .string), 
+            AWSShapeProperty(label: "activityType", required: true, type: .structure)
+        ]
         /// The opaque string used as a handle on the task. This token is used by workers to communicate progress and response information back to the system about the task.
         public let taskToken: String
         /// The inputs provided when the activity task was scheduled. The form of the input is user defined and should be meaningful to the activity implementation.
@@ -696,6 +826,10 @@ extension Swf {
     public struct DescribeActivityTypeInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "activityType", required: true, type: .structure), 
+            AWSShapeProperty(label: "domain", required: true, type: .string)
+        ]
         /// The activity type to get information about. Activity types are identified by the name and version that were supplied when the activity was registered.
         public let activityType: ActivityType
         /// The name of the domain in which the activity type is registered.
@@ -717,6 +851,9 @@ extension Swf {
     public struct TagFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "tag", required: true, type: .string)
+        ]
         /// Required. Specifies the tag that must be associated with the execution for it to meet the filter criteria.
         public let tag: String
 
@@ -733,6 +870,9 @@ extension Swf {
     public struct TaskList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "name", required: true, type: .string)
+        ]
         /// The name of the task list.
         public let name: String
 
@@ -755,6 +895,12 @@ extension Swf {
     public struct WorkflowExecutionTerminatedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "details", required: false, type: .string), 
+            AWSShapeProperty(label: "reason", required: false, type: .string), 
+            AWSShapeProperty(label: "childPolicy", required: true, type: .enum), 
+            AWSShapeProperty(label: "cause", required: false, type: .enum)
+        ]
         /// The details provided for the termination (if any).
         public let details: String?
         /// The reason provided for the termination (if any).
@@ -789,6 +935,12 @@ extension Swf {
     public struct ScheduleActivityTaskFailedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "activityType", required: true, type: .structure), 
+            AWSShapeProperty(label: "activityId", required: true, type: .string), 
+            AWSShapeProperty(label: "cause", required: true, type: .enum)
+        ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision that resulted in the scheduling of this activity task. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
         /// The activity type provided in the ScheduleActivityTask decision that failed.
@@ -820,6 +972,11 @@ extension Swf {
     public struct RequestCancelExternalWorkflowExecutionDecisionAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "runId", required: false, type: .string), 
+            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
+            AWSShapeProperty(label: "control", required: false, type: .string)
+        ]
         /// The runId of the external workflow execution to cancel.
         public let runId: String?
         /// Required. The workflowId of the external workflow execution to cancel.
@@ -844,6 +1001,19 @@ extension Swf {
     public struct StartWorkflowExecutionInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "lambdaRole", required: false, type: .string), 
+            AWSShapeProperty(label: "executionStartToCloseTimeout", required: false, type: .string), 
+            AWSShapeProperty(label: "taskList", required: false, type: .structure), 
+            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
+            AWSShapeProperty(label: "taskPriority", required: false, type: .string), 
+            AWSShapeProperty(label: "tagList", required: false, type: .list), 
+            AWSShapeProperty(label: "input", required: false, type: .string), 
+            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
+            AWSShapeProperty(label: "taskStartToCloseTimeout", required: false, type: .string), 
+            AWSShapeProperty(label: "childPolicy", required: false, type: .enum), 
+            AWSShapeProperty(label: "domain", required: true, type: .string)
+        ]
         /// The ARN of an IAM role that authorizes Amazon SWF to invoke AWS Lambda functions. In order for this workflow execution to invoke AWS Lambda functions, an appropriate IAM role must be specified either as a default for the workflow type or through this field.
         public let lambdaRole: String?
         /// The total duration for this workflow execution. This overrides the defaultExecutionStartToCloseTimeout specified when registering the workflow type. The duration is specified in seconds; an integer greater than or equal to 0. Exceeding this limit will cause the workflow execution to time out. Unlike some of the other timeout parameters in Amazon SWF, you cannot specify a value of "NONE" for this timeout; there is a one-year max limit on the time that a workflow execution can run.  An execution start-to-close timeout must be specified either through this parameter or as a default when the workflow type is registered. If neither this parameter nor a default execution start-to-close timeout is specified, a fault is returned.
@@ -902,6 +1072,14 @@ extension Swf {
     public struct ListWorkflowTypesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "maximumPageSize", required: false, type: .integer), 
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeProperty(label: "reverseOrder", required: false, type: .boolean), 
+            AWSShapeProperty(label: "domain", required: true, type: .string), 
+            AWSShapeProperty(label: "registrationStatus", required: true, type: .enum)
+        ]
         /// The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
         public let maximumPageSize: Int32?
         /// If specified, lists the workflow type with this name.
@@ -939,6 +1117,12 @@ extension Swf {
     public struct ScheduleLambdaFunctionFailedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "name", required: true, type: .string), 
+            AWSShapeProperty(label: "id", required: true, type: .string), 
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "cause", required: true, type: .enum)
+        ]
         /// The name of the scheduled AWS Lambda function.
         public let name: String
         /// The unique Amazon SWF ID of the AWS Lambda task.
@@ -985,6 +1169,13 @@ extension Swf {
     public struct ChildWorkflowExecutionCanceledEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "details", required: false, type: .string), 
+            AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
+            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "workflowExecution", required: true, type: .structure)
+        ]
         /// Details of the cancellation (if provided).
         public let details: String?
         /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -1020,6 +1211,18 @@ extension Swf {
     public struct ScheduleActivityTaskDecisionAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "taskList", required: false, type: .structure), 
+            AWSShapeProperty(label: "activityId", required: true, type: .string), 
+            AWSShapeProperty(label: "scheduleToCloseTimeout", required: false, type: .string), 
+            AWSShapeProperty(label: "scheduleToStartTimeout", required: false, type: .string), 
+            AWSShapeProperty(label: "taskPriority", required: false, type: .string), 
+            AWSShapeProperty(label: "startToCloseTimeout", required: false, type: .string), 
+            AWSShapeProperty(label: "input", required: false, type: .string), 
+            AWSShapeProperty(label: "control", required: false, type: .string), 
+            AWSShapeProperty(label: "heartbeatTimeout", required: false, type: .string), 
+            AWSShapeProperty(label: "activityType", required: true, type: .structure)
+        ]
         /// If set, specifies the name of the task list in which to schedule the activity task. If not specified, the defaultTaskList registered with the activity type will be used. A task list for this activity task must be specified either as a default for the activity type or through this field. If neither this field is set nor a default task list was specified at registration time then a fault will be returned. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
         public let taskList: TaskList?
         /// Required. The activityId of the activity task. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
@@ -1073,6 +1276,12 @@ extension Swf {
     public struct ChildWorkflowExecutionTerminatedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
+            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "workflowExecution", required: true, type: .structure)
+        ]
         /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let initiatedEventId: Int64
         /// The type of the child workflow execution.
@@ -1104,6 +1313,19 @@ extension Swf {
     public struct StartChildWorkflowExecutionDecisionAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "lambdaRole", required: false, type: .string), 
+            AWSShapeProperty(label: "taskList", required: false, type: .structure), 
+            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
+            AWSShapeProperty(label: "taskPriority", required: false, type: .string), 
+            AWSShapeProperty(label: "control", required: false, type: .string), 
+            AWSShapeProperty(label: "tagList", required: false, type: .list), 
+            AWSShapeProperty(label: "input", required: false, type: .string), 
+            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
+            AWSShapeProperty(label: "childPolicy", required: false, type: .enum), 
+            AWSShapeProperty(label: "taskStartToCloseTimeout", required: false, type: .string), 
+            AWSShapeProperty(label: "executionStartToCloseTimeout", required: false, type: .string)
+        ]
         /// The ARN of an IAM role that authorizes Amazon SWF to invoke AWS Lambda functions. In order for this workflow execution to invoke AWS Lambda functions, an appropriate IAM role must be specified either as a default for the workflow type or through this field.
         public let lambdaRole: String?
         /// The name of the task list to be used for decision tasks of the child workflow execution. A task list for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default task list was specified at registration time then a fault will be returned. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
@@ -1161,6 +1383,13 @@ extension Swf {
     public struct WorkflowExecutionOpenCounts: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "openLambdaFunctions", required: false, type: .integer), 
+            AWSShapeProperty(label: "openActivityTasks", required: true, type: .integer), 
+            AWSShapeProperty(label: "openTimers", required: true, type: .integer), 
+            AWSShapeProperty(label: "openChildWorkflowExecutions", required: true, type: .integer), 
+            AWSShapeProperty(label: "openDecisionTasks", required: true, type: .integer)
+        ]
         /// The count of AWS Lambda functions that are currently executing.
         public let openLambdaFunctions: Int32?
         /// The count of activity tasks whose status is OPEN.
@@ -1196,6 +1425,13 @@ extension Swf {
     public struct CountOpenWorkflowExecutionsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "typeFilter", required: false, type: .structure), 
+            AWSShapeProperty(label: "executionFilter", required: false, type: .structure), 
+            AWSShapeProperty(label: "startTimeFilter", required: true, type: .structure), 
+            AWSShapeProperty(label: "tagFilter", required: false, type: .structure), 
+            AWSShapeProperty(label: "domain", required: true, type: .string)
+        ]
         /// Specifies the type of the workflow executions to be counted. executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
         public let typeFilter: WorkflowTypeFilter?
         /// If specified, only workflow executions matching the WorkflowId in the filter are counted. executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
@@ -1229,6 +1465,13 @@ extension Swf {
     public struct ChildWorkflowExecutionTimedOutEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "timeoutType", required: true, type: .enum), 
+            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
+            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "workflowExecution", required: true, type: .structure)
+        ]
         /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let initiatedEventId: Int64
         /// The type of the timeout that caused the child workflow execution to time out.
@@ -1265,6 +1508,13 @@ extension Swf {
     public struct LambdaFunctionScheduledEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "name", required: true, type: .string), 
+            AWSShapeProperty(label: "input", required: false, type: .string), 
+            AWSShapeProperty(label: "startToCloseTimeout", required: false, type: .string), 
+            AWSShapeProperty(label: "id", required: true, type: .string), 
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long)
+        ]
         /// The name of the scheduled AWS Lambda function.
         public let name: String
         /// Input provided to the AWS Lambda function.
@@ -1299,6 +1549,10 @@ extension Swf {
     public struct TimerFiredEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "timerId", required: true, type: .string)
+        ]
         /// The ID of the TimerStarted event that was recorded when this timer was started. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let startedEventId: Int64
         /// The unique ID of the timer that fired.
@@ -1320,6 +1574,11 @@ extension Swf {
     public struct ChildWorkflowExecutionStartedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "workflowExecution", required: true, type: .structure), 
+            AWSShapeProperty(label: "workflowType", required: true, type: .structure)
+        ]
         /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let initiatedEventId: Int64
         /// The child workflow execution that was started.
@@ -1354,6 +1613,10 @@ extension Swf {
     public struct DeprecateWorkflowTypeInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "domain", required: true, type: .string), 
+            AWSShapeProperty(label: "workflowType", required: true, type: .structure)
+        ]
         /// The name of the domain in which the workflow type is registered.
         public let domain: String
         /// The workflow type to deprecate.
@@ -1375,6 +1638,9 @@ extension Swf {
     public struct CloseStatusFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "status", required: true, type: .enum)
+        ]
         /// Required. The close status that must match the close status of an execution for it to meet the criteria of this filter.
         public let status: CloseStatus
 
@@ -1396,6 +1662,11 @@ extension Swf {
     public struct WorkflowExecutionCancelRequestedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "externalWorkflowExecution", required: false, type: .structure), 
+            AWSShapeProperty(label: "cause", required: false, type: .enum), 
+            AWSShapeProperty(label: "externalInitiatedEventId", required: false, type: .long)
+        ]
         /// The external workflow execution for which the cancellation was requested.
         public let externalWorkflowExecution: WorkflowExecution?
         /// If set, indicates that the request to cancel the workflow execution was automatically generated, and specifies the cause. This happens if the parent workflow execution times out or is terminated, and the child policy is set to cancel child executions.
@@ -1419,6 +1690,10 @@ extension Swf {
     public struct ActivityTaskCancelRequestedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "activityId", required: true, type: .string)
+        ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the RequestCancelActivityTask decision for this cancellation request. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
         /// The unique ID of the task.
@@ -1440,6 +1715,10 @@ extension Swf {
     public struct WorkflowExecutionCanceledEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "details", required: false, type: .string), 
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long)
+        ]
         /// Details for the cancellation (if any).
         public let details: String?
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the CancelWorkflowExecution decision for this cancellation request. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -1460,6 +1739,10 @@ extension Swf {
     public struct History: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeProperty(label: "events", required: true, type: .list)
+        ]
         /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.
         public let nextPageToken: String?
         /// The list of history events.
@@ -1480,6 +1763,9 @@ extension Swf {
     public struct DomainConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "workflowExecutionRetentionPeriodInDays", required: true, type: .string)
+        ]
         /// The retention period for workflow executions in this domain.
         public let workflowExecutionRetentionPeriodInDays: String
 
@@ -1496,6 +1782,20 @@ extension Swf {
     public struct WorkflowExecutionStartedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "lambdaRole", required: false, type: .string), 
+            AWSShapeProperty(label: "parentWorkflowExecution", required: false, type: .structure), 
+            AWSShapeProperty(label: "executionStartToCloseTimeout", required: false, type: .string), 
+            AWSShapeProperty(label: "taskList", required: true, type: .structure), 
+            AWSShapeProperty(label: "taskPriority", required: false, type: .string), 
+            AWSShapeProperty(label: "tagList", required: false, type: .list), 
+            AWSShapeProperty(label: "parentInitiatedEventId", required: false, type: .long), 
+            AWSShapeProperty(label: "input", required: false, type: .string), 
+            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
+            AWSShapeProperty(label: "childPolicy", required: true, type: .enum), 
+            AWSShapeProperty(label: "taskStartToCloseTimeout", required: false, type: .string), 
+            AWSShapeProperty(label: "continuedExecutionRunId", required: false, type: .string)
+        ]
         /// The IAM role attached to this workflow execution to use when invoking AWS Lambda functions.
         public let lambdaRole: String?
         /// The source workflow execution that started this workflow execution. The member is not set if the workflow execution was not started by a workflow.
@@ -1557,6 +1857,14 @@ extension Swf {
     public struct WorkflowExecutionConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "lambdaRole", required: false, type: .string), 
+            AWSShapeProperty(label: "executionStartToCloseTimeout", required: true, type: .string), 
+            AWSShapeProperty(label: "taskList", required: true, type: .structure), 
+            AWSShapeProperty(label: "taskStartToCloseTimeout", required: true, type: .string), 
+            AWSShapeProperty(label: "taskPriority", required: false, type: .string), 
+            AWSShapeProperty(label: "childPolicy", required: true, type: .enum)
+        ]
         /// The IAM role used by this workflow execution when invoking AWS Lambda functions.
         public let lambdaRole: String?
         /// The total duration for this workflow execution. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
@@ -1596,6 +1904,10 @@ extension Swf {
     public struct WorkflowExecutionInfos: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeProperty(label: "executionInfos", required: true, type: .list)
+        ]
         /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.
         public let nextPageToken: String?
         /// The list of workflow information structures.
@@ -1624,6 +1936,10 @@ extension Swf {
     public struct ActivityTypeDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "typeInfo", required: true, type: .structure), 
+            AWSShapeProperty(label: "configuration", required: true, type: .structure)
+        ]
         /// General information about the activity type. The status of activity type (returned in the ActivityTypeInfo structure) can be one of the following.   REGISTERED: The type is registered and available. Workers supporting this type should be running.   DEPRECATED: The type was deprecated using DeprecateActivityType, but is still in use. You should keep workers supporting this type running. You cannot create new tasks of this type.  
         public let typeInfo: ActivityTypeInfo
         /// The configuration settings registered with the activity type.
@@ -1645,6 +1961,18 @@ extension Swf {
     public struct RegisterWorkflowTypeInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "name", required: true, type: .string), 
+            AWSShapeProperty(label: "defaultTaskStartToCloseTimeout", required: false, type: .string), 
+            AWSShapeProperty(label: "defaultLambdaRole", required: false, type: .string), 
+            AWSShapeProperty(label: "defaultExecutionStartToCloseTimeout", required: false, type: .string), 
+            AWSShapeProperty(label: "version", required: true, type: .string), 
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "defaultTaskPriority", required: false, type: .string), 
+            AWSShapeProperty(label: "defaultTaskList", required: false, type: .structure), 
+            AWSShapeProperty(label: "domain", required: true, type: .string), 
+            AWSShapeProperty(label: "defaultChildPolicy", required: false, type: .enum)
+        ]
         /// The name of the workflow type. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
         public let name: String
         /// If set, specifies the default maximum duration of decision tasks for this workflow type. This default can be overridden when starting a workflow execution using the StartWorkflowExecution action or the StartChildWorkflowExecution decision. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
@@ -1757,6 +2085,9 @@ extension Swf {
     public struct CompleteWorkflowExecutionDecisionAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "result", required: false, type: .string)
+        ]
         /// The result of the workflow execution. The form of the result is implementation defined.
         public let result: String?
 
@@ -1772,6 +2103,13 @@ extension Swf {
     public struct ActivityTypeInfo: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "status", required: true, type: .enum), 
+            AWSShapeProperty(label: "deprecationDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "creationDate", required: true, type: .timestamp), 
+            AWSShapeProperty(label: "activityType", required: true, type: .structure)
+        ]
         /// The description of the activity type provided in RegisterActivityType.
         public let description: String?
         /// The current status of the activity type.
@@ -1806,6 +2144,10 @@ extension Swf {
     public struct CompleteWorkflowExecutionFailedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "cause", required: true, type: .enum)
+        ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the CompleteWorkflowExecution decision to complete this execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
         /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows.
@@ -1827,6 +2169,12 @@ extension Swf {
     public struct TimerStartedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "timerId", required: true, type: .string), 
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "startToFireTimeout", required: true, type: .string), 
+            AWSShapeProperty(label: "control", required: false, type: .string)
+        ]
         /// The unique ID of the timer that was started.
         public let timerId: String
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the StartTimer decision for this activity task. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -1857,6 +2205,10 @@ extension Swf {
     public struct ExternalWorkflowExecutionSignaledEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "workflowExecution", required: true, type: .structure)
+        ]
         /// The ID of the SignalExternalWorkflowExecutionInitiated event corresponding to the SignalExternalWorkflowExecution decision to request this signal. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let initiatedEventId: Int64
         ///  The external workflow execution that the signal was delivered to.
@@ -1878,6 +2230,12 @@ extension Swf {
     public struct LambdaFunctionFailedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "details", required: false, type: .string), 
+            AWSShapeProperty(label: "reason", required: false, type: .string), 
+            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "scheduledEventId", required: true, type: .long)
+        ]
         /// The details of the failure (if any).
         public let details: String?
         /// The reason provided for the failure (if any).
@@ -1907,6 +2265,11 @@ extension Swf {
     public struct DecisionTaskTimedOutEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "scheduledEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "timeoutType", required: true, type: .enum)
+        ]
         /// The ID of the DecisionTaskScheduled event that was recorded when this decision task was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let scheduledEventId: Int64
         /// The ID of the DecisionTaskStarted event recorded when this decision task was started. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -1933,6 +2296,10 @@ extension Swf {
     public struct RecordActivityTaskHeartbeatInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "details", required: false, type: .string), 
+            AWSShapeProperty(label: "taskToken", required: true, type: .string)
+        ]
         /// If specified, contains details about the progress of the task.
         public let details: String?
         /// The taskToken of the ActivityTask.  taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results. 
@@ -1953,6 +2320,14 @@ extension Swf {
     public struct RequestCancelExternalWorkflowExecutionFailedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "runId", required: false, type: .string), 
+            AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
+            AWSShapeProperty(label: "cause", required: true, type: .enum), 
+            AWSShapeProperty(label: "control", required: false, type: .string)
+        ]
         /// The runId of the external workflow execution.
         public let runId: String?
         /// The ID of the RequestCancelExternalWorkflowExecutionInitiated event corresponding to the RequestCancelExternalWorkflowExecution decision to cancel this external workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -1991,6 +2366,10 @@ extension Swf {
     public struct RespondActivityTaskCompletedInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "taskToken", required: true, type: .string), 
+            AWSShapeProperty(label: "result", required: false, type: .string)
+        ]
         /// The taskToken of the ActivityTask.  taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results.
         public let taskToken: String
         /// The result of the activity task. It is a free form string that is implementation specific.
@@ -2011,6 +2390,16 @@ extension Swf {
     public struct ListOpenWorkflowExecutionsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "typeFilter", required: false, type: .structure), 
+            AWSShapeProperty(label: "tagFilter", required: false, type: .structure), 
+            AWSShapeProperty(label: "maximumPageSize", required: false, type: .integer), 
+            AWSShapeProperty(label: "executionFilter", required: false, type: .structure), 
+            AWSShapeProperty(label: "startTimeFilter", required: true, type: .structure), 
+            AWSShapeProperty(label: "reverseOrder", required: false, type: .boolean), 
+            AWSShapeProperty(label: "domain", required: true, type: .string), 
+            AWSShapeProperty(label: "nextPageToken", required: false, type: .string)
+        ]
         /// If specified, only executions of the type specified in the filter are returned. executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
         public let typeFilter: WorkflowTypeFilter?
         /// If specified, only executions that have the matching tag are listed. executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
@@ -2056,6 +2445,9 @@ extension Swf {
     public struct CancelTimerDecisionAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "timerId", required: true, type: .string)
+        ]
         /// Required. The unique ID of the timer to cancel.
         public let timerId: String
 
@@ -2072,6 +2464,10 @@ extension Swf {
     public struct ActivityTaskStartedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "scheduledEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "identity", required: false, type: .string)
+        ]
         /// The ID of the ActivityTaskScheduled event that was recorded when this activity task was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let scheduledEventId: Int64
         /// Identity of the worker that was assigned this task. This aids diagnostics when problems arise. The form of this identity is user defined.
@@ -2092,6 +2488,10 @@ extension Swf {
     public struct RecordMarkerDecisionAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "details", required: false, type: .string), 
+            AWSShapeProperty(label: "markerName", required: true, type: .string)
+        ]
         /// Optional. details of the marker.
         public let details: String?
         /// Required. The name of the marker.
@@ -2112,6 +2512,9 @@ extension Swf {
     public struct LambdaFunctionStartedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "scheduledEventId", required: true, type: .long)
+        ]
         /// The ID of the LambdaFunctionScheduled event that was recorded when this AWS Lambda function was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let scheduledEventId: Int64
 
@@ -2128,6 +2531,11 @@ extension Swf {
     public struct DomainInfo: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "name", required: true, type: .string), 
+            AWSShapeProperty(label: "status", required: true, type: .enum)
+        ]
         /// The description of the domain provided through RegisterDomain.
         public let description: String?
         /// The name of the domain. This name is unique within the account.
@@ -2153,6 +2561,9 @@ extension Swf {
     public struct WorkflowExecutionFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "workflowId", required: true, type: .string)
+        ]
         /// The workflowId to pass of match the criteria of this filter.
         public let workflowId: String
 
@@ -2169,6 +2580,13 @@ extension Swf {
     public struct SignalExternalWorkflowExecutionDecisionAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "runId", required: false, type: .string), 
+            AWSShapeProperty(label: "signalName", required: true, type: .string), 
+            AWSShapeProperty(label: "input", required: false, type: .string), 
+            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
+            AWSShapeProperty(label: "control", required: false, type: .string)
+        ]
         /// The runId of the workflow execution to be signaled.
         public let runId: String?
         /// Required. The name of the signal.The target workflow execution will use the signal name and input to process the signal.
@@ -2202,6 +2620,11 @@ extension Swf {
     public struct ActivityTaskCompletedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "scheduledEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "result", required: false, type: .string), 
+            AWSShapeProperty(label: "startedEventId", required: true, type: .long)
+        ]
         /// The ID of the ActivityTaskScheduled event that was recorded when this activity task was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let scheduledEventId: Int64
         /// The results of the activity task (if any).
@@ -2227,6 +2650,11 @@ extension Swf {
     public struct RequestCancelActivityTaskFailedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "activityId", required: true, type: .string), 
+            AWSShapeProperty(label: "cause", required: true, type: .enum)
+        ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the RequestCancelActivityTask decision for this cancellation request. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
         /// The activityId provided in the RequestCancelActivityTask decision that failed.
@@ -2253,6 +2681,65 @@ extension Swf {
     public struct HistoryEvent: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "scheduleActivityTaskFailedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "activityTaskCompletedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "workflowExecutionFailedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "activityTaskTimedOutEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "workflowExecutionTerminatedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "decisionTaskStartedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "eventId", required: true, type: .long), 
+            AWSShapeProperty(label: "timerFiredEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "startChildWorkflowExecutionFailedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "externalWorkflowExecutionSignaledEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "activityTaskCancelRequestedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "requestCancelExternalWorkflowExecutionInitiatedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "workflowExecutionCancelRequestedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "lambdaFunctionScheduledEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "workflowExecutionTimedOutEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "workflowExecutionCanceledEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "signalExternalWorkflowExecutionInitiatedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "lambdaFunctionFailedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "childWorkflowExecutionCompletedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "workflowExecutionContinuedAsNewEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "failWorkflowExecutionFailedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "markerRecordedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "childWorkflowExecutionTimedOutEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "timerCanceledEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "recordMarkerFailedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "completeWorkflowExecutionFailedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "cancelWorkflowExecutionFailedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "signalExternalWorkflowExecutionFailedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "startLambdaFunctionFailedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "activityTaskCanceledEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "lambdaFunctionStartedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "workflowExecutionCompletedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "childWorkflowExecutionFailedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "continueAsNewWorkflowExecutionFailedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "eventType", required: true, type: .enum), 
+            AWSShapeProperty(label: "lambdaFunctionTimedOutEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "startChildWorkflowExecutionInitiatedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "decisionTaskTimedOutEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "lambdaFunctionCompletedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "workflowExecutionSignaledEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "childWorkflowExecutionTerminatedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "childWorkflowExecutionCanceledEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "workflowExecutionStartedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "childWorkflowExecutionStartedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "activityTaskScheduledEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "requestCancelActivityTaskFailedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "externalWorkflowExecutionCancelRequestedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "decisionTaskScheduledEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "timerStartedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "activityTaskFailedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "startTimerFailedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "activityTaskStartedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "cancelTimerFailedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "decisionTaskCompletedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "requestCancelExternalWorkflowExecutionFailedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "scheduleLambdaFunctionFailedEventAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "eventTimestamp", required: true, type: .timestamp)
+        ]
         /// If the event is of type ScheduleActivityTaskFailed then this member is set and provides detailed information about the event. It is not set for other event types.
         public let scheduleActivityTaskFailedEventAttributes: ScheduleActivityTaskFailedEventAttributes?
         /// If the event is of type ActivityTaskCompleted then this member is set and provides detailed information about the event. It is not set for other event types.
@@ -2488,6 +2975,10 @@ extension Swf {
     public struct WorkflowExecution: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "runId", required: true, type: .string), 
+            AWSShapeProperty(label: "workflowId", required: true, type: .string)
+        ]
         /// A system-generated unique identifier for the workflow execution.
         public let runId: String
         /// The user defined identifier associated with the workflow execution.
@@ -2509,6 +3000,9 @@ extension Swf {
     public struct Run: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "runId", required: false, type: .string)
+        ]
         /// The runId of a workflow execution. This ID is generated by the service and can be used to uniquely identify the workflow execution within a domain.
         public let runId: String?
 
@@ -2524,6 +3018,11 @@ extension Swf {
     public struct LambdaFunctionCompletedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "scheduledEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "result", required: false, type: .string)
+        ]
         /// The ID of the LambdaFunctionScheduled event that was recorded when this AWS Lambda function was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let scheduledEventId: Int64
         /// The ID of the LambdaFunctionStarted event recorded in the history.
@@ -2549,6 +3048,10 @@ extension Swf {
     public struct CountPendingActivityTasksInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "domain", required: true, type: .string), 
+            AWSShapeProperty(label: "taskList", required: true, type: .structure)
+        ]
         /// The name of the domain that contains the task list.
         public let domain: String
         /// The name of the task list.
@@ -2570,6 +3073,11 @@ extension Swf {
     public struct WorkflowExecutionFailedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "details", required: false, type: .string), 
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "reason", required: false, type: .string)
+        ]
         /// The details of the failure (if any).
         public let details: String?
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the FailWorkflowExecution decision to fail this execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -2604,6 +3112,11 @@ extension Swf {
     public struct RegisterDomainInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "name", required: true, type: .string), 
+            AWSShapeProperty(label: "workflowExecutionRetentionPeriodInDays", required: true, type: .string)
+        ]
         /// A text description of the domain.
         public let description: String?
         /// Name of the domain to register. The name must be unique in the region that the domain is registered in. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
@@ -2629,6 +3142,10 @@ extension Swf {
     public struct WorkflowExecutionCompletedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "result", required: false, type: .string)
+        ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the CompleteWorkflowExecution decision to complete this execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
         /// The result produced by the workflow execution upon successful completion.
@@ -2649,6 +3166,11 @@ extension Swf {
     public struct RecordMarkerFailedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "markerName", required: true, type: .string), 
+            AWSShapeProperty(label: "cause", required: true, type: .enum)
+        ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the RecordMarkerFailed decision for this cancellation request. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
         /// The marker's name.
@@ -2675,6 +3197,10 @@ extension Swf {
     public struct DecisionTaskStartedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "scheduledEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "identity", required: false, type: .string)
+        ]
         /// The ID of the DecisionTaskScheduled event that was recorded when this decision task was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let scheduledEventId: Int64
         /// Identity of the decider making the request. This enables diagnostic tracing when problems arise. The form of this identity is user defined.
@@ -2695,6 +3221,9 @@ extension Swf {
     public struct DeprecateDomainInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "name", required: true, type: .string)
+        ]
         /// The name of the domain to deprecate.
         public let name: String
 
@@ -2711,6 +3240,20 @@ extension Swf {
     public struct StartChildWorkflowExecutionInitiatedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "lambdaRole", required: false, type: .string), 
+            AWSShapeProperty(label: "taskList", required: true, type: .structure), 
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
+            AWSShapeProperty(label: "taskPriority", required: false, type: .string), 
+            AWSShapeProperty(label: "control", required: false, type: .string), 
+            AWSShapeProperty(label: "tagList", required: false, type: .list), 
+            AWSShapeProperty(label: "input", required: false, type: .string), 
+            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
+            AWSShapeProperty(label: "childPolicy", required: true, type: .enum), 
+            AWSShapeProperty(label: "taskStartToCloseTimeout", required: false, type: .string), 
+            AWSShapeProperty(label: "executionStartToCloseTimeout", required: false, type: .string)
+        ]
         /// The IAM role attached to this workflow execution to use when invoking AWS Lambda functions.
         public let lambdaRole: String?
         /// The name of the task list used for the decision tasks of the child workflow execution.
@@ -2775,6 +3318,12 @@ extension Swf {
     public struct RequestCancelExternalWorkflowExecutionInitiatedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "runId", required: false, type: .string), 
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
+            AWSShapeProperty(label: "control", required: false, type: .string)
+        ]
         /// The runId of the external workflow execution to be canceled.
         public let runId: String?
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the RequestCancelExternalWorkflowExecution decision for this cancellation request. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -2804,6 +3353,12 @@ extension Swf {
     public struct ListDomainsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "maximumPageSize", required: false, type: .integer), 
+            AWSShapeProperty(label: "reverseOrder", required: false, type: .boolean), 
+            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeProperty(label: "registrationStatus", required: true, type: .enum)
+        ]
         /// The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
         public let maximumPageSize: Int32?
         /// When set to true, returns the results in reverse order. By default, the results are returned in ascending alphabetical order by name of the domains.
@@ -2832,6 +3387,14 @@ extension Swf {
     public struct WorkflowTypeConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "defaultExecutionStartToCloseTimeout", required: false, type: .string), 
+            AWSShapeProperty(label: "defaultTaskStartToCloseTimeout", required: false, type: .string), 
+            AWSShapeProperty(label: "defaultTaskPriority", required: false, type: .string), 
+            AWSShapeProperty(label: "defaultTaskList", required: false, type: .structure), 
+            AWSShapeProperty(label: "defaultLambdaRole", required: false, type: .string), 
+            AWSShapeProperty(label: "defaultChildPolicy", required: false, type: .enum)
+        ]
         /// Optional. The default maximum duration, specified when registering the workflow type, for executions of this workflow type. This default can be overridden when starting a workflow execution using the StartWorkflowExecution action or the StartChildWorkflowExecution decision. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
         public let defaultExecutionStartToCloseTimeout: String?
         /// Optional. The default maximum duration, specified when registering the workflow type, that a decision task for executions of this workflow type might take before returning completion or failure. If the task does not close in the specified time then the task is automatically timed out and rescheduled. If the decider eventually reports a completion or failure, it is ignored. This default can be overridden when starting a workflow execution using the StartWorkflowExecution action or the StartChildWorkflowExecution decision. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
@@ -2867,6 +3430,10 @@ extension Swf {
     public struct FailWorkflowExecutionFailedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "cause", required: true, type: .enum)
+        ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the FailWorkflowExecution decision to fail this execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
         /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows.
@@ -2900,6 +3467,10 @@ extension Swf {
     public struct RespondActivityTaskCanceledInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "details", required: false, type: .string), 
+            AWSShapeProperty(label: "taskToken", required: true, type: .string)
+        ]
         /// Optional. Information about the cancellation.
         public let details: String?
         /// The taskToken of the ActivityTask. taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results.
@@ -2920,6 +3491,18 @@ extension Swf {
     public struct RegisterActivityTypeInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "name", required: true, type: .string), 
+            AWSShapeProperty(label: "defaultTaskStartToCloseTimeout", required: false, type: .string), 
+            AWSShapeProperty(label: "defaultTaskScheduleToStartTimeout", required: false, type: .string), 
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "version", required: true, type: .string), 
+            AWSShapeProperty(label: "defaultTaskHeartbeatTimeout", required: false, type: .string), 
+            AWSShapeProperty(label: "defaultTaskPriority", required: false, type: .string), 
+            AWSShapeProperty(label: "defaultTaskList", required: false, type: .structure), 
+            AWSShapeProperty(label: "domain", required: true, type: .string), 
+            AWSShapeProperty(label: "defaultTaskScheduleToCloseTimeout", required: false, type: .string)
+        ]
         /// The name of the activity type within the domain. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
         public let name: String
         /// If set, specifies the default maximum duration that a worker can take to process tasks of this activity type. This default can be overridden when scheduling an activity task using the ScheduleActivityTask decision. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
@@ -2981,6 +3564,12 @@ extension Swf {
     public struct ActivityTaskTimedOutEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "details", required: false, type: .string), 
+            AWSShapeProperty(label: "timeoutType", required: true, type: .enum), 
+            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "scheduledEventId", required: true, type: .long)
+        ]
         /// Contains the content of the details parameter for the last call made by the activity to RecordActivityTaskHeartbeat.
         public let details: String?
         /// The type of the timeout that caused this event.
@@ -3011,6 +3600,9 @@ extension Swf {
     public struct ActivityTaskStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "cancelRequested", required: true, type: .boolean)
+        ]
         /// Set to true if cancellation of the task is requested.
         public let cancelRequested: Bool
 
@@ -3033,6 +3625,19 @@ extension Swf {
     public struct ActivityTaskScheduledEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "taskList", required: true, type: .structure), 
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "activityId", required: true, type: .string), 
+            AWSShapeProperty(label: "scheduleToCloseTimeout", required: false, type: .string), 
+            AWSShapeProperty(label: "scheduleToStartTimeout", required: false, type: .string), 
+            AWSShapeProperty(label: "taskPriority", required: false, type: .string), 
+            AWSShapeProperty(label: "startToCloseTimeout", required: false, type: .string), 
+            AWSShapeProperty(label: "input", required: false, type: .string), 
+            AWSShapeProperty(label: "control", required: false, type: .string), 
+            AWSShapeProperty(label: "heartbeatTimeout", required: false, type: .string), 
+            AWSShapeProperty(label: "activityType", required: true, type: .structure)
+        ]
         /// The task list in which the activity task has been scheduled.
         public let taskList: TaskList
         /// The ID of the DecisionTaskCompleted event corresponding to the decision that resulted in the scheduling of this activity task. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -3092,6 +3697,14 @@ extension Swf {
     public struct TerminateWorkflowExecutionInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "runId", required: false, type: .string), 
+            AWSShapeProperty(label: "details", required: false, type: .string), 
+            AWSShapeProperty(label: "reason", required: false, type: .string), 
+            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
+            AWSShapeProperty(label: "domain", required: true, type: .string), 
+            AWSShapeProperty(label: "childPolicy", required: false, type: .enum)
+        ]
         /// The runId of the workflow execution to terminate.
         public let runId: String?
         /// Optional. Details for terminating the workflow execution.
@@ -3129,6 +3742,14 @@ extension Swf {
     public struct ChildWorkflowExecutionFailedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "details", required: false, type: .string), 
+            AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "reason", required: false, type: .string), 
+            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
+            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "workflowExecution", required: true, type: .structure)
+        ]
         /// The details of the failure (if provided).
         public let details: String?
         /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -3168,6 +3789,13 @@ extension Swf {
     public struct ChildWorkflowExecutionCompletedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
+            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "result", required: false, type: .string), 
+            AWSShapeProperty(label: "workflowExecution", required: true, type: .structure)
+        ]
         /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let initiatedEventId: Int64
         /// The type of the child workflow execution.
@@ -3224,6 +3852,9 @@ extension Swf {
     public struct RequestCancelActivityTaskDecisionAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "activityId", required: true, type: .string)
+        ]
         /// The activityId of the activity task to be canceled.
         public let activityId: String
 
@@ -3240,6 +3871,17 @@ extension Swf {
     public struct ContinueAsNewWorkflowExecutionDecisionAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "lambdaRole", required: false, type: .string), 
+            AWSShapeProperty(label: "workflowTypeVersion", required: false, type: .string), 
+            AWSShapeProperty(label: "taskList", required: false, type: .structure), 
+            AWSShapeProperty(label: "taskPriority", required: false, type: .string), 
+            AWSShapeProperty(label: "tagList", required: false, type: .list), 
+            AWSShapeProperty(label: "input", required: false, type: .string), 
+            AWSShapeProperty(label: "childPolicy", required: false, type: .enum), 
+            AWSShapeProperty(label: "taskStartToCloseTimeout", required: false, type: .string), 
+            AWSShapeProperty(label: "executionStartToCloseTimeout", required: false, type: .string)
+        ]
         /// The ARN of an IAM role that authorizes Amazon SWF to invoke AWS Lambda functions. In order for this workflow execution to invoke AWS Lambda functions, an appropriate IAM role must be specified either as a default for the workflow type or through this field.
         public let lambdaRole: String?
         public let workflowTypeVersion: String?
@@ -3290,6 +3932,11 @@ extension Swf {
     public struct StartLambdaFunctionFailedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "scheduledEventId", required: false, type: .long), 
+            AWSShapeProperty(label: "cause", required: false, type: .enum), 
+            AWSShapeProperty(label: "message", required: false, type: .string)
+        ]
         /// The ID of the LambdaFunctionScheduled event that was recorded when this AWS Lambda function was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let scheduledEventId: Int64?
         /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows.
@@ -3313,6 +3960,14 @@ extension Swf {
     public struct SignalExternalWorkflowExecutionInitiatedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "runId", required: false, type: .string), 
+            AWSShapeProperty(label: "signalName", required: true, type: .string), 
+            AWSShapeProperty(label: "input", required: false, type: .string), 
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
+            AWSShapeProperty(label: "control", required: false, type: .string)
+        ]
         /// The runId of the external workflow execution to send the signal to.
         public let runId: String?
         /// The name of the signal.
@@ -3351,6 +4006,10 @@ extension Swf {
     public struct WorkflowTypeFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "name", required: true, type: .string), 
+            AWSShapeProperty(label: "version", required: false, type: .string)
+        ]
         /// Required. Name of the workflow type.
         public let name: String
         /// Version of the workflow type.
@@ -3371,6 +4030,13 @@ extension Swf {
     public struct GetWorkflowExecutionHistoryInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "maximumPageSize", required: false, type: .integer), 
+            AWSShapeProperty(label: "execution", required: true, type: .structure), 
+            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeProperty(label: "reverseOrder", required: false, type: .boolean), 
+            AWSShapeProperty(label: "domain", required: true, type: .string)
+        ]
         /// The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
         public let maximumPageSize: Int32?
         /// Specifies the workflow execution for which to return the history.
@@ -3409,6 +4075,14 @@ extension Swf {
     public struct ActivityTypeConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "defaultTaskScheduleToStartTimeout", required: false, type: .string), 
+            AWSShapeProperty(label: "defaultTaskStartToCloseTimeout", required: false, type: .string), 
+            AWSShapeProperty(label: "defaultTaskPriority", required: false, type: .string), 
+            AWSShapeProperty(label: "defaultTaskList", required: false, type: .structure), 
+            AWSShapeProperty(label: "defaultTaskScheduleToCloseTimeout", required: false, type: .string), 
+            AWSShapeProperty(label: "defaultTaskHeartbeatTimeout", required: false, type: .string)
+        ]
         /// Optional. The default maximum duration, specified when registering the activity type, that a task of an activity type can wait before being assigned to a worker. You can override this default when scheduling a task through the ScheduleActivityTask decision. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
         public let defaultTaskScheduleToStartTimeout: String?
         /// Optional. The default maximum duration for tasks of an activity type specified when registering the activity type. You can override this default when scheduling a task through the ScheduleActivityTask decision. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
@@ -3444,6 +4118,11 @@ extension Swf {
     public struct TimerCanceledEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "timerId", required: true, type: .string)
+        ]
         /// The ID of the TimerStarted event that was recorded when this timer was started. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let startedEventId: Int64
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the CancelTimer decision to cancel this timer. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -3470,6 +4149,14 @@ extension Swf {
     public struct ListActivityTypesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "maximumPageSize", required: false, type: .integer), 
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeProperty(label: "reverseOrder", required: false, type: .boolean), 
+            AWSShapeProperty(label: "domain", required: true, type: .string), 
+            AWSShapeProperty(label: "registrationStatus", required: true, type: .enum)
+        ]
         /// The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
         public let maximumPageSize: Int32?
         /// If specified, only lists the activity types that have this name.
@@ -3507,6 +4194,10 @@ extension Swf {
     public struct FailWorkflowExecutionDecisionAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "details", required: false, type: .string), 
+            AWSShapeProperty(label: "reason", required: false, type: .string)
+        ]
         /// Optional. Details of the failure.
         public let details: String?
         /// A descriptive reason for the failure that may help in diagnostics.
@@ -3526,6 +4217,10 @@ extension Swf {
     public struct PendingTaskCount: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "truncated", required: false, type: .boolean), 
+            AWSShapeProperty(label: "count", required: true, type: .integer)
+        ]
         /// If set to true, indicates that the actual count was more than the maximum supported by this API and the count returned is the truncated value.
         public let truncated: Bool?
         /// The number of tasks in the task list.
@@ -3546,6 +4241,19 @@ extension Swf {
     public struct WorkflowExecutionContinuedAsNewEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "lambdaRole", required: false, type: .string), 
+            AWSShapeProperty(label: "taskList", required: true, type: .structure), 
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "newExecutionRunId", required: true, type: .string), 
+            AWSShapeProperty(label: "taskPriority", required: false, type: .string), 
+            AWSShapeProperty(label: "tagList", required: false, type: .list), 
+            AWSShapeProperty(label: "input", required: false, type: .string), 
+            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
+            AWSShapeProperty(label: "childPolicy", required: true, type: .enum), 
+            AWSShapeProperty(label: "taskStartToCloseTimeout", required: false, type: .string), 
+            AWSShapeProperty(label: "executionStartToCloseTimeout", required: false, type: .string)
+        ]
         /// The IAM role attached to this workflow execution to use when invoking AWS Lambda functions.
         public let lambdaRole: String?
         public let taskList: TaskList
@@ -3611,6 +4319,22 @@ extension Swf {
     public struct Decision: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "scheduleActivityTaskDecisionAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "requestCancelExternalWorkflowExecutionDecisionAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "cancelTimerDecisionAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "signalExternalWorkflowExecutionDecisionAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "requestCancelActivityTaskDecisionAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "recordMarkerDecisionAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "failWorkflowExecutionDecisionAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "cancelWorkflowExecutionDecisionAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "decisionType", required: true, type: .enum), 
+            AWSShapeProperty(label: "continueAsNewWorkflowExecutionDecisionAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "startTimerDecisionAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "startChildWorkflowExecutionDecisionAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "completeWorkflowExecutionDecisionAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "scheduleLambdaFunctionDecisionAttributes", required: false, type: .structure)
+        ]
         /// Provides details of the ScheduleActivityTask decision. It is not set for other decision types.
         public let scheduleActivityTaskDecisionAttributes: ScheduleActivityTaskDecisionAttributes?
         /// Provides details of the RequestCancelExternalWorkflowExecution decision. It is not set for other decision types.
@@ -3678,6 +4402,13 @@ extension Swf {
     public struct WorkflowTypeInfo: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "status", required: true, type: .enum), 
+            AWSShapeProperty(label: "deprecationDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "creationDate", required: true, type: .timestamp), 
+            AWSShapeProperty(label: "workflowType", required: true, type: .structure)
+        ]
         /// The description of the type registered through RegisterWorkflowType.
         public let description: String?
         /// The current status of the workflow type.
@@ -3712,6 +4443,12 @@ extension Swf {
     public struct WorkflowExecutionSignaledEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "signalName", required: true, type: .string), 
+            AWSShapeProperty(label: "input", required: false, type: .string), 
+            AWSShapeProperty(label: "externalWorkflowExecution", required: false, type: .structure), 
+            AWSShapeProperty(label: "externalInitiatedEventId", required: false, type: .long)
+        ]
         /// The name of the signal received. The decider can use the signal name and inputs to determine how to the process the signal.
         public let signalName: String
         /// Inputs provided with the signal (if any). The decider can use the signal name and inputs to determine how to process the signal.
@@ -3740,6 +4477,10 @@ extension Swf {
     public struct ActivityTypeInfos: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeProperty(label: "typeInfos", required: true, type: .list)
+        ]
         /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.
         public let nextPageToken: String?
         /// List of activity type information.
@@ -3760,6 +4501,11 @@ extension Swf {
     public struct RespondDecisionTaskCompletedInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "taskToken", required: true, type: .string), 
+            AWSShapeProperty(label: "executionContext", required: false, type: .string), 
+            AWSShapeProperty(label: "decisions", required: false, type: .list)
+        ]
         /// The taskToken from the DecisionTask. taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results.
         public let taskToken: String
         /// User defined context to add to workflow execution.
@@ -3788,6 +4534,11 @@ extension Swf {
     public struct MarkerRecordedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "details", required: false, type: .string), 
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "markerName", required: true, type: .string)
+        ]
         /// Details of the marker (if any).
         public let details: String?
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the RecordMarker decision that requested this marker. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -3813,6 +4564,10 @@ extension Swf {
     public struct WorkflowExecutionTimedOutEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "childPolicy", required: true, type: .enum), 
+            AWSShapeProperty(label: "timeoutType", required: true, type: .enum)
+        ]
         /// The policy used for the child workflow executions of this workflow execution. The supported child policies are:  TERMINATE: the child executions will be terminated. REQUEST_CANCEL: a request to cancel will be attempted for each child execution by recording a WorkflowExecutionCancelRequested event in its history. It is up to the decider to take appropriate actions when it receives an execution history with this event. ABANDON: no action will be taken. The child executions will continue to run. 
         public let childPolicy: ChildPolicy
         /// The type of timeout that caused this event.
@@ -3834,6 +4589,12 @@ extension Swf {
     public struct ScheduleLambdaFunctionDecisionAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "name", required: true, type: .string), 
+            AWSShapeProperty(label: "input", required: false, type: .string), 
+            AWSShapeProperty(label: "startToCloseTimeout", required: false, type: .string), 
+            AWSShapeProperty(label: "id", required: true, type: .string)
+        ]
         /// Required. The name of the AWS Lambda function to invoke.
         public let name: String
         /// The input provided to the AWS Lambda function.
@@ -3885,6 +4646,10 @@ extension Swf {
     public struct DescribeWorkflowExecutionInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "execution", required: true, type: .structure), 
+            AWSShapeProperty(label: "domain", required: true, type: .string)
+        ]
         /// The workflow execution to describe.
         public let execution: WorkflowExecution
         /// The name of the domain containing the workflow execution.
@@ -3906,6 +4671,10 @@ extension Swf {
     public struct ContinueAsNewWorkflowExecutionFailedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "cause", required: true, type: .enum)
+        ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the ContinueAsNewWorkflowExecution decision that started this execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
         /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows.
@@ -3927,6 +4696,13 @@ extension Swf {
     public struct WorkflowExecutionDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "openCounts", required: true, type: .structure), 
+            AWSShapeProperty(label: "executionInfo", required: true, type: .structure), 
+            AWSShapeProperty(label: "latestActivityTaskTimestamp", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "executionConfiguration", required: true, type: .structure), 
+            AWSShapeProperty(label: "latestExecutionContext", required: false, type: .string)
+        ]
         /// The number of tasks for this workflow execution. This includes open and closed tasks of all types.
         public let openCounts: WorkflowExecutionOpenCounts
         /// Information about the workflow execution.
@@ -3961,6 +4737,10 @@ extension Swf {
     public struct ExternalWorkflowExecutionCancelRequestedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "workflowExecution", required: true, type: .structure)
+        ]
         /// The ID of the RequestCancelExternalWorkflowExecutionInitiated event corresponding to the RequestCancelExternalWorkflowExecution decision to cancel this external workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let initiatedEventId: Int64
         /// The external workflow execution to which the cancellation request was delivered.
@@ -3989,6 +4769,10 @@ extension Swf {
     public struct WorkflowTypeInfos: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeProperty(label: "typeInfos", required: true, type: .list)
+        ]
         /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.
         public let nextPageToken: String?
         /// The list of workflow type information.
@@ -4009,6 +4793,10 @@ extension Swf {
     public struct CancelWorkflowExecutionFailedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "cause", required: true, type: .enum)
+        ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the CancelWorkflowExecution decision for this cancellation request. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
         /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows.
@@ -4030,6 +4818,12 @@ extension Swf {
     public struct ActivityTaskCanceledEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "details", required: false, type: .string), 
+            AWSShapeProperty(label: "latestCancelRequestedEventId", required: false, type: .long), 
+            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "scheduledEventId", required: true, type: .long)
+        ]
         /// Details of the cancellation (if any).
         public let details: String?
         /// If set, contains the ID of the last ActivityTaskCancelRequested event recorded for this activity task. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -4059,6 +4853,10 @@ extension Swf {
     public struct WorkflowExecutionCount: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "truncated", required: false, type: .boolean), 
+            AWSShapeProperty(label: "count", required: true, type: .integer)
+        ]
         /// If set to true, indicates that the actual count was more than the maximum supported by this API and the count returned is the truncated value.
         public let truncated: Bool?
         /// The number of workflow executions.
@@ -4079,6 +4877,10 @@ extension Swf {
     public struct CountPendingDecisionTasksInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "domain", required: true, type: .string), 
+            AWSShapeProperty(label: "taskList", required: true, type: .structure)
+        ]
         /// The name of the domain that contains the task list.
         public let domain: String
         /// The name of the task list.
@@ -4100,6 +4902,10 @@ extension Swf {
     public struct DomainInfos: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeProperty(label: "domainInfos", required: true, type: .list)
+        ]
         /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.
         public let nextPageToken: String?
         /// A list of DomainInfo structures.
@@ -4120,6 +4926,13 @@ extension Swf {
     public struct SignalWorkflowExecutionInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "runId", required: false, type: .string), 
+            AWSShapeProperty(label: "signalName", required: true, type: .string), 
+            AWSShapeProperty(label: "input", required: false, type: .string), 
+            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
+            AWSShapeProperty(label: "domain", required: true, type: .string)
+        ]
         /// The runId of the workflow execution to signal.
         public let runId: String?
         /// The name of the signal. This name must be meaningful to the target workflow.
@@ -4154,6 +4967,14 @@ extension Swf {
     public struct SignalExternalWorkflowExecutionFailedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "runId", required: false, type: .string), 
+            AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
+            AWSShapeProperty(label: "cause", required: true, type: .enum), 
+            AWSShapeProperty(label: "control", required: false, type: .string)
+        ]
         /// The runId of the external workflow execution that the signal was being delivered to.
         public let runId: String?
         /// The ID of the SignalExternalWorkflowExecutionInitiated event corresponding to the SignalExternalWorkflowExecution decision to request this signal. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -4192,6 +5013,12 @@ extension Swf {
     public struct ActivityTaskFailedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "details", required: false, type: .string), 
+            AWSShapeProperty(label: "reason", required: false, type: .string), 
+            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "scheduledEventId", required: true, type: .long)
+        ]
         /// The details of the failure (if any).
         public let details: String?
         /// The reason provided for the failure (if any).
@@ -4227,6 +5054,11 @@ extension Swf {
     public struct StartTimerFailedEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeProperty(label: "cause", required: true, type: .enum), 
+            AWSShapeProperty(label: "timerId", required: true, type: .string)
+        ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the StartTimer decision for this activity task. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
         /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows.
@@ -4253,6 +5085,11 @@ extension Swf {
     public struct DecisionTaskScheduledEventAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "startToCloseTimeout", required: false, type: .string), 
+            AWSShapeProperty(label: "taskPriority", required: false, type: .string), 
+            AWSShapeProperty(label: "taskList", required: true, type: .structure)
+        ]
         /// The maximum duration for this decision task. The task is considered timed out if it does not completed within this duration. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
         public let startToCloseTimeout: String?
         /// Optional. A task priority that, if set, specifies the priority for this decision task. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the Amazon Simple Workflow Developer Guide.
@@ -4277,6 +5114,10 @@ extension Swf {
     public struct DeprecateActivityTypeInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "activityType", required: true, type: .structure), 
+            AWSShapeProperty(label: "domain", required: true, type: .string)
+        ]
         /// The activity type to deprecate.
         public let activityType: ActivityType
         /// The name of the domain in which the activity type is registered.

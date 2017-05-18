@@ -32,6 +32,13 @@ extension Runtimelex {
     public struct GenericAttachment: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "attachmentLinkUrl", required: false, type: .string), 
+            AWSShapeProperty(label: "title", required: false, type: .string), 
+            AWSShapeProperty(label: "imageUrl", required: false, type: .string), 
+            AWSShapeProperty(label: "buttons", required: false, type: .list), 
+            AWSShapeProperty(label: "subTitle", required: false, type: .string)
+        ]
         public let attachmentLinkUrl: String?
         /// Title of the option.
         public let title: String?
@@ -66,6 +73,11 @@ extension Runtimelex {
     public struct ResponseCard: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "genericAttachments", required: false, type: .list), 
+            AWSShapeProperty(label: "version", required: false, type: .string), 
+            AWSShapeProperty(label: "contentType", required: false, type: .enum)
+        ]
         /// An array of attachment objects representing options.
         public let genericAttachments: [GenericAttachment]?
         /// Version of response card format.
@@ -103,6 +115,15 @@ extension Runtimelex {
     public struct PostTextResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "slotToElicit", required: false, type: .string), 
+            AWSShapeProperty(label: "slots", required: false, type: .map), 
+            AWSShapeProperty(label: "sessionAttributes", required: false, type: .map), 
+            AWSShapeProperty(label: "message", required: false, type: .string), 
+            AWSShapeProperty(label: "dialogState", required: false, type: .enum), 
+            AWSShapeProperty(label: "intentName", required: false, type: .string), 
+            AWSShapeProperty(label: "responseCard", required: false, type: .structure)
+        ]
         /// If dialogState value is ElicitSlot, returns the name of the slot for which Amazon Lex is eliciting a value. 
         public let slotToElicit: String?
         ///  Intent slots (name/value pairs) Amazon Lex detected so far from the user input in the conversation. 
@@ -153,6 +174,13 @@ extension Runtimelex {
         public static var pathParams: [String: String] {
             return ["botAlias": "botAlias", "userId": "userId", "botName": "botName"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "BotAlias", required: true, type: .string), 
+            AWSShapeProperty(label: "sessionAttributes", required: false, type: .map), 
+            AWSShapeProperty(label: "UserId", required: true, type: .string), 
+            AWSShapeProperty(label: "inputText", required: true, type: .string), 
+            AWSShapeProperty(label: "BotName", required: true, type: .string)
+        ]
         /// Alias of the Amazon Lex bot.
         public let botAlias: String
         ///  A session represents the dialog between a user and Amazon Lex. At runtime, a client application can pass contextual information (session attributes) in the request. For example, "FirstName" : "Joe". Amazon Lex passes these session attributes to the AWS Lambda functions configured for the intent (see dialogCodeHook and fulfillmentActivity.codeHook in CreateIntent).  In your Lambda function, you can use the session attributes for customization. Some examples are:    In a pizza ordering application, if you can pass user location as a session attribute (for example, "Location" : "111 Maple street"), your Lambda function might use this information to determine the closest pizzeria to place the order.     Use session attributes to personalize prompts. For example, you pass in user name as a session attribute ("FirstName" : "Joe"), you might configure subsequent prompts to refer to this attribute, as $session.FirstName". At runtime, Amazon Lex substitutes a real value when it generates a prompt, such as "Hello Joe, what would you like to order?"      Amazon Lex does not persist session attributes.   If the intent is configured without a Lambda function to process the intent (that is, the client application to process the intent), Amazon Lex simply returns the session attributes back to the client application.   If the intent is configured with a Lambda function to process the intent, Amazon Lex passes the incoming session attributes to the Lambda function. The Lambda function must return these session attributes if you want Amazon Lex to return them back to the client.  
@@ -197,6 +225,10 @@ extension Runtimelex {
     public struct Button: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "text", required: true, type: .string), 
+            AWSShapeProperty(label: "value", required: true, type: .string)
+        ]
         /// Text visible to the user on the button.
         public let text: String
         /// Value sent to Amazon Lex when user clicks the button. For example, consider button text "NYC". When the user clicks the button, the value sent can be "New York City".

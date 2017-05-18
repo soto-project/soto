@@ -32,6 +32,9 @@ extension Elasticloadbalancingv2 {
     public struct ModifyTargetGroupAttributesOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Attributes", required: false, type: .list)
+        ]
         /// Information about the attributes.
         public let attributes: [TargetGroupAttribute]?
 
@@ -57,6 +60,13 @@ extension Elasticloadbalancingv2 {
     public struct Rule: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Priority", required: false, type: .string), 
+            AWSShapeProperty(label: "IsDefault", required: false, type: .boolean), 
+            AWSShapeProperty(label: "RuleArn", required: false, type: .string), 
+            AWSShapeProperty(label: "Actions", required: false, type: .list), 
+            AWSShapeProperty(label: "Conditions", required: false, type: .list)
+        ]
         /// The priority.
         public let priority: String?
         /// Indicates whether this is the default rule.
@@ -96,6 +106,11 @@ extension Elasticloadbalancingv2 {
     public struct TargetHealthDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "TargetHealth", required: false, type: .structure), 
+            AWSShapeProperty(label: "Target", required: false, type: .structure), 
+            AWSShapeProperty(label: "HealthCheckPort", required: false, type: .string)
+        ]
         /// The health information for the target.
         public let targetHealth: TargetHealth?
         /// The description of the target.
@@ -119,6 +134,10 @@ extension Elasticloadbalancingv2 {
     public struct Action: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Type", required: true, type: .enum), 
+            AWSShapeProperty(label: "TargetGroupArn", required: true, type: .string)
+        ]
         /// The type of action.
         public let `type`: ActionTypeEnum
         /// The Amazon Resource Name (ARN) of the target group.
@@ -140,6 +159,9 @@ extension Elasticloadbalancingv2 {
     public struct DeleteListenerInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ListenerArn", required: true, type: .string)
+        ]
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String
 
@@ -164,6 +186,9 @@ extension Elasticloadbalancingv2 {
     public struct DescribeTargetGroupAttributesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "TargetGroupArn", required: true, type: .string)
+        ]
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String
 
@@ -180,6 +205,10 @@ extension Elasticloadbalancingv2 {
     public struct ModifyTargetGroupAttributesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Attributes", required: true, type: .list), 
+            AWSShapeProperty(label: "TargetGroupArn", required: true, type: .string)
+        ]
         /// The attributes.
         public let attributes: [TargetGroupAttribute]
         /// The Amazon Resource Name (ARN) of the target group.
@@ -201,6 +230,10 @@ extension Elasticloadbalancingv2 {
     public struct ModifyLoadBalancerAttributesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "LoadBalancerArn", required: true, type: .string), 
+            AWSShapeProperty(label: "Attributes", required: true, type: .list)
+        ]
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
         /// The load balancer attributes.
@@ -230,6 +263,14 @@ extension Elasticloadbalancingv2 {
     public struct CreateListenerInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Protocol", required: true, type: .enum), 
+            AWSShapeProperty(label: "SslPolicy", required: false, type: .string), 
+            AWSShapeProperty(label: "Certificates", required: false, type: .list), 
+            AWSShapeProperty(label: "DefaultActions", required: true, type: .list), 
+            AWSShapeProperty(label: "LoadBalancerArn", required: true, type: .string), 
+            AWSShapeProperty(label: "Port", required: true, type: .integer)
+        ]
         /// The protocol for connections from clients to the load balancer.
         public let `protocol`: ProtocolEnum
         /// The security policy that defines which ciphers and protocols are supported. The default is the current predefined security policy.
@@ -287,6 +328,10 @@ extension Elasticloadbalancingv2 {
     public struct DescribeLoadBalancersOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string), 
+            AWSShapeProperty(label: "LoadBalancers", required: false, type: .list)
+        ]
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let nextMarker: String?
         /// Information about the load balancers.
@@ -310,6 +355,10 @@ extension Elasticloadbalancingv2 {
     public struct LoadBalancerState: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Reason", required: false, type: .string), 
+            AWSShapeProperty(label: "Code", required: false, type: .enum)
+        ]
         /// A description of the state.
         public let reason: String?
         /// The state code. The initial state of the load balancer is provisioning. After the load balancer is fully set up and ready to route traffic, its state is active. If the load balancer could not be set up, its state is failed.
@@ -329,6 +378,22 @@ extension Elasticloadbalancingv2 {
     public struct TargetGroup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "TargetGroupArn", required: false, type: .string), 
+            AWSShapeProperty(label: "LoadBalancerArns", required: false, type: .list), 
+            AWSShapeProperty(label: "Matcher", required: false, type: .structure), 
+            AWSShapeProperty(label: "HealthCheckIntervalSeconds", required: false, type: .integer), 
+            AWSShapeProperty(label: "HealthCheckTimeoutSeconds", required: false, type: .integer), 
+            AWSShapeProperty(label: "UnhealthyThresholdCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "TargetGroupName", required: false, type: .string), 
+            AWSShapeProperty(label: "HealthCheckProtocol", required: false, type: .enum), 
+            AWSShapeProperty(label: "VpcId", required: false, type: .string), 
+            AWSShapeProperty(label: "HealthyThresholdCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "Protocol", required: false, type: .enum), 
+            AWSShapeProperty(label: "HealthCheckPath", required: false, type: .string), 
+            AWSShapeProperty(label: "HealthCheckPort", required: false, type: .string), 
+            AWSShapeProperty(label: "Port", required: false, type: .integer)
+        ]
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String?
         /// The Amazon Resource Names (ARN) of the load balancers that route traffic to this target group.
@@ -396,6 +461,10 @@ extension Elasticloadbalancingv2 {
     public struct Tag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Value", required: false, type: .string), 
+            AWSShapeProperty(label: "Key", required: true, type: .string)
+        ]
         /// The value of the tag.
         public let value: String?
         /// The key of the tag.
@@ -416,6 +485,10 @@ extension Elasticloadbalancingv2 {
     public struct TagDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ResourceArn", required: false, type: .string), 
+            AWSShapeProperty(label: "Tags", required: false, type: .list)
+        ]
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String?
         /// Information about the tags.
@@ -439,6 +512,10 @@ extension Elasticloadbalancingv2 {
     public struct RuleCondition: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Field", required: false, type: .string), 
+            AWSShapeProperty(label: "Values", required: false, type: .list)
+        ]
         /// The only possible value is path-pattern.
         public let field: String?
         /// The path pattern. You can specify a single path pattern. A path pattern is case sensitive, can be up to 128 characters in length, and can contain any of the following characters. Note that you can include up to three wildcard characters in a path pattern.   A-Z, a-z, 0-9   _ - . $ / ~ " ' @ : +   &amp; (using &amp;amp;)   * (matches 0 or more characters)   ? (matches exactly 1 character)  
@@ -458,6 +535,15 @@ extension Elasticloadbalancingv2 {
     public struct Listener: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Certificates", required: false, type: .list), 
+            AWSShapeProperty(label: "ListenerArn", required: false, type: .string), 
+            AWSShapeProperty(label: "Protocol", required: false, type: .enum), 
+            AWSShapeProperty(label: "SslPolicy", required: false, type: .string), 
+            AWSShapeProperty(label: "DefaultActions", required: false, type: .list), 
+            AWSShapeProperty(label: "LoadBalancerArn", required: false, type: .string), 
+            AWSShapeProperty(label: "Port", required: false, type: .integer)
+        ]
         /// The SSL server certificate. You must provide a certificate if the protocol is HTTPS.
         public let certificates: [Certificate]?
         /// The Amazon Resource Name (ARN) of the listener.
@@ -514,6 +600,9 @@ extension Elasticloadbalancingv2 {
     public struct CreateListenerOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Listeners", required: false, type: .list)
+        ]
         /// Information about the listener.
         public let listeners: [Listener]?
 
@@ -533,6 +622,9 @@ extension Elasticloadbalancingv2 {
     public struct SetIpAddressTypeOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "IpAddressType", required: false, type: .enum)
+        ]
         /// The IP address type.
         public let ipAddressType: IpAddressType?
 
@@ -548,6 +640,17 @@ extension Elasticloadbalancingv2 {
     public struct ModifyTargetGroupInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "HealthCheckProtocol", required: false, type: .enum), 
+            AWSShapeProperty(label: "HealthyThresholdCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "TargetGroupArn", required: true, type: .string), 
+            AWSShapeProperty(label: "Matcher", required: false, type: .structure), 
+            AWSShapeProperty(label: "HealthCheckIntervalSeconds", required: false, type: .integer), 
+            AWSShapeProperty(label: "HealthCheckTimeoutSeconds", required: false, type: .integer), 
+            AWSShapeProperty(label: "HealthCheckPort", required: false, type: .string), 
+            AWSShapeProperty(label: "HealthCheckPath", required: false, type: .string), 
+            AWSShapeProperty(label: "UnhealthyThresholdCount", required: false, type: .integer)
+        ]
         /// The protocol to use to connect with the target.
         public let healthCheckProtocol: ProtocolEnum?
         /// The number of consecutive health checks successes required before considering an unhealthy target healthy.
@@ -596,6 +699,14 @@ extension Elasticloadbalancingv2 {
     public struct CreateLoadBalancerInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Subnets", required: true, type: .list), 
+            AWSShapeProperty(label: "SecurityGroups", required: false, type: .list), 
+            AWSShapeProperty(label: "Scheme", required: false, type: .enum), 
+            AWSShapeProperty(label: "Tags", required: false, type: .list), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "IpAddressType", required: false, type: .enum)
+        ]
         /// The IDs of the subnets to attach to the load balancer. You can specify only one subnet per Availability Zone. You must specify subnets from at least two Availability Zones.
         public let subnets: [String]
         /// The IDs of the security groups to assign to the load balancer.
@@ -637,6 +748,10 @@ extension Elasticloadbalancingv2 {
     public struct DeregisterTargetsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Targets", required: true, type: .list), 
+            AWSShapeProperty(label: "TargetGroupArn", required: true, type: .string)
+        ]
         /// The targets. If you specified a port override when you registered a target, you must specify both the target ID and the port when you deregister it.
         public let targets: [TargetDescription]
         /// The Amazon Resource Name (ARN) of the target group.
@@ -658,6 +773,10 @@ extension Elasticloadbalancingv2 {
     public struct SetSecurityGroupsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "SecurityGroups", required: true, type: .list), 
+            AWSShapeProperty(label: "LoadBalancerArn", required: true, type: .string)
+        ]
         /// The IDs of the security groups.
         public let securityGroups: [String]
         /// The Amazon Resource Name (ARN) of the load balancer.
@@ -679,6 +798,9 @@ extension Elasticloadbalancingv2 {
     public struct DescribeRulesOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Rules", required: false, type: .list)
+        ]
         /// Information about the rules.
         public let rules: [Rule]?
 
@@ -698,6 +820,9 @@ extension Elasticloadbalancingv2 {
     public struct CreateRuleOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Rules", required: false, type: .list)
+        ]
         /// Information about the rule.
         public let rules: [Rule]?
 
@@ -717,6 +842,10 @@ extension Elasticloadbalancingv2 {
     public struct LoadBalancerAttribute: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Value", required: false, type: .string), 
+            AWSShapeProperty(label: "Key", required: false, type: .string)
+        ]
         /// The value of the attribute.
         public let value: String?
         /// The name of the attribute.    access_logs.s3.enabled - Indicates whether access logs stored in Amazon S3 are enabled. The value is true or false.    access_logs.s3.bucket - The name of the S3 bucket for the access logs. This attribute is required if access logs in Amazon S3 are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permission to write to the bucket.    access_logs.s3.prefix - The prefix for the location in the S3 bucket. If you don't specify a prefix, the access logs are stored in the root of the bucket.    deletion_protection.enabled - Indicates whether deletion protection is enabled. The value is true or false.    idle_timeout.timeout_seconds - The idle timeout value, in seconds. The valid range is 1-3600. The default is 60 seconds.  
@@ -736,6 +865,9 @@ extension Elasticloadbalancingv2 {
     public struct DescribeLoadBalancerAttributesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "LoadBalancerArn", required: true, type: .string)
+        ]
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
 
@@ -752,6 +884,9 @@ extension Elasticloadbalancingv2 {
     public struct DescribeTagsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "TagDescriptions", required: false, type: .list)
+        ]
         /// Information about the tags.
         public let tagDescriptions: [TagDescription]?
 
@@ -771,6 +906,12 @@ extension Elasticloadbalancingv2 {
     public struct DescribeListenersInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "PageSize", required: false, type: .integer), 
+            AWSShapeProperty(label: "ListenerArns", required: false, type: .list), 
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "LoadBalancerArn", required: false, type: .string)
+        ]
         /// The maximum number of results to return with this call.
         public let pageSize: Int32?
         /// The Amazon Resource Names (ARN) of the listeners.
@@ -814,6 +955,10 @@ extension Elasticloadbalancingv2 {
     public struct RulePriorityPair: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Priority", required: false, type: .integer), 
+            AWSShapeProperty(label: "RuleArn", required: false, type: .string)
+        ]
         /// The rule priority.
         public let priority: Int32?
         /// The Amazon Resource Name (ARN) of the rule.
@@ -833,6 +978,9 @@ extension Elasticloadbalancingv2 {
     public struct ModifyRuleOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Rules", required: false, type: .list)
+        ]
         /// Information about the rule.
         public let rules: [Rule]?
 
@@ -852,6 +1000,10 @@ extension Elasticloadbalancingv2 {
     public struct DescribeSSLPoliciesOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "SslPolicies", required: false, type: .list), 
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+        ]
         /// Information about the policies.
         public let sslPolicies: [SslPolicy]?
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
@@ -875,6 +1027,11 @@ extension Elasticloadbalancingv2 {
     public struct SslPolicy: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "SslProtocols", required: false, type: .list), 
+            AWSShapeProperty(label: "Ciphers", required: false, type: .list), 
+            AWSShapeProperty(label: "Name", required: false, type: .string)
+        ]
         /// The protocols.
         public let sslProtocols: [String]?
         /// The ciphers.
@@ -902,6 +1059,9 @@ extension Elasticloadbalancingv2 {
     public struct CreateTargetGroupOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "TargetGroups", required: false, type: .list)
+        ]
         /// Information about the target group.
         public let targetGroups: [TargetGroup]?
 
@@ -921,6 +1081,9 @@ extension Elasticloadbalancingv2 {
     public struct ModifyLoadBalancerAttributesOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Attributes", required: false, type: .list)
+        ]
         /// Information about the load balancer attributes.
         public let attributes: [LoadBalancerAttribute]?
 
@@ -940,6 +1103,20 @@ extension Elasticloadbalancingv2 {
     public struct LoadBalancer: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AvailabilityZones", required: false, type: .list), 
+            AWSShapeProperty(label: "SecurityGroups", required: false, type: .list), 
+            AWSShapeProperty(label: "LoadBalancerArn", required: false, type: .string), 
+            AWSShapeProperty(label: "VpcId", required: false, type: .string), 
+            AWSShapeProperty(label: "State", required: false, type: .structure), 
+            AWSShapeProperty(label: "IpAddressType", required: false, type: .enum), 
+            AWSShapeProperty(label: "CanonicalHostedZoneId", required: false, type: .string), 
+            AWSShapeProperty(label: "DNSName", required: false, type: .string), 
+            AWSShapeProperty(label: "LoadBalancerName", required: false, type: .string), 
+            AWSShapeProperty(label: "Scheme", required: false, type: .enum), 
+            AWSShapeProperty(label: "Type", required: false, type: .enum), 
+            AWSShapeProperty(label: "CreatedTime", required: false, type: .timestamp)
+        ]
         /// The Availability Zones for the load balancer.
         public let availabilityZones: [AvailabilityZone]?
         /// The IDs of the security groups for the load balancer.
@@ -1003,6 +1180,9 @@ extension Elasticloadbalancingv2 {
     public struct SetSecurityGroupsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "SecurityGroupIds", required: false, type: .list)
+        ]
         /// The IDs of the security groups associated with the load balancer.
         public let securityGroupIds: [String]?
 
@@ -1018,6 +1198,13 @@ extension Elasticloadbalancingv2 {
     public struct DescribeTargetGroupsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "PageSize", required: false, type: .integer), 
+            AWSShapeProperty(label: "TargetGroupArns", required: false, type: .list), 
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "Names", required: false, type: .list), 
+            AWSShapeProperty(label: "LoadBalancerArn", required: false, type: .string)
+        ]
         /// The maximum number of results to return with this call.
         public let pageSize: Int32?
         /// The Amazon Resource Names (ARN) of the target groups.
@@ -1049,6 +1236,10 @@ extension Elasticloadbalancingv2 {
     public struct DescribeTargetGroupsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "TargetGroups", required: false, type: .list), 
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+        ]
         /// Information about the target groups.
         public let targetGroups: [TargetGroup]?
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
@@ -1072,6 +1263,9 @@ extension Elasticloadbalancingv2 {
     public struct Certificate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "CertificateArn", required: false, type: .string)
+        ]
         /// The Amazon Resource Name (ARN) of the certificate.
         public let certificateArn: String?
 
@@ -1087,6 +1281,10 @@ extension Elasticloadbalancingv2 {
     public struct AvailabilityZone: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ZoneName", required: false, type: .string), 
+            AWSShapeProperty(label: "SubnetId", required: false, type: .string)
+        ]
         /// The name of the Availability Zone.
         public let zoneName: String?
         /// The ID of the subnet.
@@ -1106,6 +1304,10 @@ extension Elasticloadbalancingv2 {
     public struct RegisterTargetsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Targets", required: true, type: .list), 
+            AWSShapeProperty(label: "TargetGroupArn", required: true, type: .string)
+        ]
         /// The targets. The default port for a target is the port for the target group. You can specify a port override. If a target is already registered, you can register it again using a different port.
         public let targets: [TargetDescription]
         /// The Amazon Resource Name (ARN) of the target group.
@@ -1127,6 +1329,9 @@ extension Elasticloadbalancingv2 {
     public struct DeleteTargetGroupInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "TargetGroupArn", required: true, type: .string)
+        ]
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String
 
@@ -1143,6 +1348,12 @@ extension Elasticloadbalancingv2 {
     public struct CreateRuleInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Priority", required: true, type: .integer), 
+            AWSShapeProperty(label: "Actions", required: true, type: .list), 
+            AWSShapeProperty(label: "Conditions", required: true, type: .list), 
+            AWSShapeProperty(label: "ListenerArn", required: true, type: .string)
+        ]
         /// The priority for the rule. A listener can't have multiple rules with the same priority.
         public let priority: Int32
         /// An action. Each action has the type forward and specifies a target group.
@@ -1174,6 +1385,11 @@ extension Elasticloadbalancingv2 {
     public struct TargetHealth: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Reason", required: false, type: .enum), 
+            AWSShapeProperty(label: "State", required: false, type: .enum), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
+        ]
         /// The reason code. If the target state is healthy, a reason code is not provided. If the target state is initial, the reason code can be one of the following values:    Elb.RegistrationInProgress - The target is in the process of being registered with the load balancer.    Elb.InitialHealthChecking - The load balancer is still sending the target the minimum number of health checks required to determine its health status.   If the target state is unhealthy, the reason code can be one of the following values:    Target.ResponseCodeMismatch - The health checks did not return an expected HTTP code.    Target.Timeout - The health check requests timed out.    Target.FailedHealthChecks - The health checks failed because the connection to the target timed out, the target response was malformed, or the target failed the health check for an unknown reason.    Elb.InternalError - The health checks failed due to an internal error.   If the target state is unused, the reason code can be one of the following values:    Target.NotRegistered - The target is not registered with the target group.    Target.NotInUse - The target group is not used by any load balancer or the target is in an Availability Zone that is not enabled for its load balancer.    Target.InvalidState - The target is in the stopped or terminated state.   If the target state is draining, the reason code can be the following value:    Target.DeregistrationInProgress - The target is in the process of being deregistered and the deregistration delay period has not expired.  
         public let reason: TargetHealthReasonEnum?
         /// The state of the target.
@@ -1203,6 +1419,14 @@ extension Elasticloadbalancingv2 {
     public struct ModifyListenerInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Protocol", required: false, type: .enum), 
+            AWSShapeProperty(label: "SslPolicy", required: false, type: .string), 
+            AWSShapeProperty(label: "Certificates", required: false, type: .list), 
+            AWSShapeProperty(label: "DefaultActions", required: false, type: .list), 
+            AWSShapeProperty(label: "ListenerArn", required: true, type: .string), 
+            AWSShapeProperty(label: "Port", required: false, type: .integer)
+        ]
         /// The protocol for connections from clients to the load balancer.
         public let `protocol`: ProtocolEnum?
         /// The security policy that defines which ciphers and protocols are supported.
@@ -1247,6 +1471,10 @@ extension Elasticloadbalancingv2 {
     public struct SetSubnetsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Subnets", required: true, type: .list), 
+            AWSShapeProperty(label: "LoadBalancerArn", required: true, type: .string)
+        ]
         /// The IDs of the subnets. You must specify at least two subnets. You can add only one subnet per Availability Zone.
         public let subnets: [String]
         /// The Amazon Resource Name (ARN) of the load balancer.
@@ -1276,6 +1504,10 @@ extension Elasticloadbalancingv2 {
     public struct DescribeTargetHealthInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Targets", required: false, type: .list), 
+            AWSShapeProperty(label: "TargetGroupArn", required: true, type: .string)
+        ]
         /// The targets.
         public let targets: [TargetDescription]?
         /// The Amazon Resource Name (ARN) of the target group.
@@ -1300,6 +1532,10 @@ extension Elasticloadbalancingv2 {
     public struct Cipher: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Priority", required: false, type: .integer), 
+            AWSShapeProperty(label: "Name", required: false, type: .string)
+        ]
         /// The priority of the cipher.
         public let priority: Int32?
         /// The name of the cipher.
@@ -1319,6 +1555,10 @@ extension Elasticloadbalancingv2 {
     public struct TargetGroupAttribute: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Value", required: false, type: .string), 
+            AWSShapeProperty(label: "Key", required: false, type: .string)
+        ]
         /// The value of the attribute.
         public let value: String?
         /// The name of the attribute.    deregistration_delay.timeout_seconds - The amount time for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused. The range is 0-3600 seconds. The default value is 300 seconds.    stickiness.enabled - Indicates whether sticky sessions are enabled. The value is true or false.    stickiness.type - The type of sticky sessions. The possible value is lb_cookie.    stickiness.lb_cookie.duration_seconds - The time period, in seconds, during which requests from a client should be routed to the same target. After this time period expires, the load balancer-generated cookie is considered stale. The range is 1 second to 1 week (604800 seconds). The default value is 1 day (86400 seconds).  
@@ -1338,6 +1578,9 @@ extension Elasticloadbalancingv2 {
     public struct SetRulePrioritiesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "RulePriorities", required: true, type: .list)
+        ]
         /// The rule priorities.
         public let rulePriorities: [RulePriorityPair]
 
@@ -1354,6 +1597,9 @@ extension Elasticloadbalancingv2 {
     public struct Matcher: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "HttpCode", required: true, type: .string)
+        ]
         /// The HTTP codes. The default value is 200. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299").
         public let httpCode: String
 
@@ -1370,6 +1616,9 @@ extension Elasticloadbalancingv2 {
     public struct DeleteRuleInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "RuleArn", required: true, type: .string)
+        ]
         /// The Amazon Resource Name (ARN) of the rule.
         public let ruleArn: String
 
@@ -1386,6 +1635,11 @@ extension Elasticloadbalancingv2 {
     public struct DescribeSSLPoliciesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "PageSize", required: false, type: .integer), 
+            AWSShapeProperty(label: "Names", required: false, type: .list)
+        ]
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
         /// The maximum number of results to return with this call.
@@ -1409,6 +1663,9 @@ extension Elasticloadbalancingv2 {
     public struct DescribeTagsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ResourceArns", required: true, type: .list)
+        ]
         /// The Amazon Resource Names (ARN) of the resources.
         public let resourceArns: [String]
 
@@ -1430,6 +1687,9 @@ extension Elasticloadbalancingv2 {
     public struct DescribeLoadBalancerAttributesOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Attributes", required: false, type: .list)
+        ]
         /// Information about the load balancer attributes.
         public let attributes: [LoadBalancerAttribute]?
 
@@ -1455,6 +1715,9 @@ extension Elasticloadbalancingv2 {
     public struct DescribeTargetGroupAttributesOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Attributes", required: false, type: .list)
+        ]
         /// Information about the target group attributes
         public let attributes: [TargetGroupAttribute]?
 
@@ -1474,6 +1737,12 @@ extension Elasticloadbalancingv2 {
     public struct DescribeLoadBalancersInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "PageSize", required: false, type: .integer), 
+            AWSShapeProperty(label: "LoadBalancerArns", required: false, type: .list), 
+            AWSShapeProperty(label: "Names", required: false, type: .list), 
+            AWSShapeProperty(label: "Marker", required: false, type: .string)
+        ]
         /// The maximum number of results to return with this call.
         public let pageSize: Int32?
         /// The Amazon Resource Names (ARN) of the load balancers.
@@ -1509,6 +1778,9 @@ extension Elasticloadbalancingv2 {
     public struct SetRulePrioritiesOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Rules", required: false, type: .list)
+        ]
         /// Information about the rules.
         public let rules: [Rule]?
 
@@ -1528,6 +1800,11 @@ extension Elasticloadbalancingv2 {
     public struct ModifyRuleInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Actions", required: false, type: .list), 
+            AWSShapeProperty(label: "Conditions", required: false, type: .list), 
+            AWSShapeProperty(label: "RuleArn", required: true, type: .string)
+        ]
         /// The actions.
         public let actions: [Action]?
         /// The conditions.
@@ -1568,6 +1845,10 @@ extension Elasticloadbalancingv2 {
     public struct TargetDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Port", required: false, type: .integer), 
+            AWSShapeProperty(label: "Id", required: true, type: .string)
+        ]
         /// The port on which the target is listening.
         public let port: Int32?
         /// The ID of the target.
@@ -1588,6 +1869,10 @@ extension Elasticloadbalancingv2 {
     public struct DescribeListenersOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Listeners", required: false, type: .list), 
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+        ]
         /// Information about the listeners.
         public let listeners: [Listener]?
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
@@ -1611,6 +1896,10 @@ extension Elasticloadbalancingv2 {
     public struct AddTagsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ResourceArns", required: true, type: .list), 
+            AWSShapeProperty(label: "Tags", required: true, type: .list)
+        ]
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArns: [String]
         /// The tags. Each resource can have a maximum of 10 tags.
@@ -1632,6 +1921,10 @@ extension Elasticloadbalancingv2 {
     public struct DescribeRulesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "RuleArns", required: false, type: .list), 
+            AWSShapeProperty(label: "ListenerArn", required: false, type: .string)
+        ]
         /// The Amazon Resource Names (ARN) of the rules.
         public let ruleArns: [String]?
         /// The Amazon Resource Name (ARN) of the listener.
@@ -1651,6 +1944,9 @@ extension Elasticloadbalancingv2 {
     public struct DescribeTargetHealthOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "TargetHealthDescriptions", required: false, type: .list)
+        ]
         /// Information about the health of the targets.
         public let targetHealthDescriptions: [TargetHealthDescription]?
 
@@ -1675,6 +1971,9 @@ extension Elasticloadbalancingv2 {
     public struct ModifyListenerOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Listeners", required: false, type: .list)
+        ]
         /// Information about the modified listeners.
         public let listeners: [Listener]?
 
@@ -1694,6 +1993,9 @@ extension Elasticloadbalancingv2 {
     public struct SetSubnetsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AvailabilityZones", required: false, type: .list)
+        ]
         /// Information about the subnet and Availability Zone.
         public let availabilityZones: [AvailabilityZone]?
 
@@ -1713,6 +2015,10 @@ extension Elasticloadbalancingv2 {
     public struct SetIpAddressTypeInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "LoadBalancerArn", required: true, type: .string), 
+            AWSShapeProperty(label: "IpAddressType", required: true, type: .enum)
+        ]
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
         /// The IP address type. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). Internal load balancers must use ipv4.
@@ -1734,6 +2040,20 @@ extension Elasticloadbalancingv2 {
     public struct CreateTargetGroupInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "UnhealthyThresholdCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "HealthyThresholdCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "VpcId", required: true, type: .string), 
+            AWSShapeProperty(label: "HealthCheckProtocol", required: false, type: .enum), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "Protocol", required: true, type: .enum), 
+            AWSShapeProperty(label: "Matcher", required: false, type: .structure), 
+            AWSShapeProperty(label: "HealthCheckIntervalSeconds", required: false, type: .integer), 
+            AWSShapeProperty(label: "HealthCheckPath", required: false, type: .string), 
+            AWSShapeProperty(label: "HealthCheckPort", required: false, type: .string), 
+            AWSShapeProperty(label: "HealthCheckTimeoutSeconds", required: false, type: .integer), 
+            AWSShapeProperty(label: "Port", required: true, type: .integer)
+        ]
         /// The number of consecutive health check failures required before considering a target unhealthy. The default is 2.
         public let unhealthyThresholdCount: Int32?
         /// The number of consecutive health checks successes required before considering an unhealthy target healthy. The default is 5.
@@ -1812,6 +2132,9 @@ extension Elasticloadbalancingv2 {
     public struct DeleteLoadBalancerInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "LoadBalancerArn", required: true, type: .string)
+        ]
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
 
@@ -1828,6 +2151,9 @@ extension Elasticloadbalancingv2 {
     public struct ModifyTargetGroupOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "TargetGroups", required: false, type: .list)
+        ]
         /// Information about the target group.
         public let targetGroups: [TargetGroup]?
 
@@ -1847,6 +2173,9 @@ extension Elasticloadbalancingv2 {
     public struct CreateLoadBalancerOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "LoadBalancers", required: false, type: .list)
+        ]
         /// Information about the load balancer.
         public let loadBalancers: [LoadBalancer]?
 
@@ -1866,6 +2195,10 @@ extension Elasticloadbalancingv2 {
     public struct RemoveTagsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ResourceArns", required: true, type: .list), 
+            AWSShapeProperty(label: "TagKeys", required: true, type: .list)
+        ]
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArns: [String]
         /// The tag keys for the tags to remove.

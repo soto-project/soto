@@ -32,6 +32,12 @@ extension Cloudtrail {
     public struct PublicKey: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ValidityEndTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Fingerprint", required: false, type: .string), 
+            AWSShapeProperty(label: "Value", required: false, type: .blob), 
+            AWSShapeProperty(label: "ValidityStartTime", required: false, type: .timestamp)
+        ]
         /// The ending time of validity of the public key.
         public let validityEndTime: Date?
         /// The fingerprint of the public key.
@@ -59,6 +65,20 @@ extension Cloudtrail {
     public struct CreateTrailResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeProperty(label: "SnsTopicARN", required: false, type: .string), 
+            AWSShapeProperty(label: "IncludeGlobalServiceEvents", required: false, type: .boolean), 
+            AWSShapeProperty(label: "S3KeyPrefix", required: false, type: .string), 
+            AWSShapeProperty(label: "IsMultiRegionTrail", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "CloudWatchLogsLogGroupArn", required: false, type: .string), 
+            AWSShapeProperty(label: "S3BucketName", required: false, type: .string), 
+            AWSShapeProperty(label: "SnsTopicName", required: false, type: .string), 
+            AWSShapeProperty(label: "CloudWatchLogsRoleArn", required: false, type: .string), 
+            AWSShapeProperty(label: "TrailARN", required: false, type: .string), 
+            AWSShapeProperty(label: "LogFileValidationEnabled", required: false, type: .boolean)
+        ]
         /// Specifies the KMS key ID that encrypts the logs delivered by CloudTrail. The value is a fully specified ARN to a KMS key in the format:  arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012 
         public let kmsKeyId: String?
         /// Specifies the ARN of the Amazon SNS topic that CloudTrail uses to send notifications when log files are delivered. The format of a topic ARN is:  arn:aws:sns:us-east-1:123456789012:MyTopic 
@@ -126,6 +146,10 @@ extension Cloudtrail {
     public struct AddTagsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
+            AWSShapeProperty(label: "TagsList", required: false, type: .list)
+        ]
         /// Specifies the ARN of the trail to which one or more tags will be added. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
         public let resourceId: String
         /// Contains a list of CloudTrail tags, up to a limit of 50
@@ -158,6 +182,11 @@ extension Cloudtrail {
     public struct ListPublicKeysRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp)
+        ]
         /// Optionally specifies, in UTC, the end of the time range to look up public keys for CloudTrail digest files. If not specified, the current time is used.
         public let endTime: Date?
         /// Reserved for future use.
@@ -181,6 +210,13 @@ extension Cloudtrail {
     public struct LookupEventsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "LookupAttributes", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        ]
         /// Specifies that only events that occur after or at the specified time are returned. If the specified start time is after the specified end time, an error is returned.
         public let startTime: Date?
         /// Specifies that only events that occur before or at the specified time are returned. If the specified end time is before the specified start time, an error is returned.
@@ -216,6 +252,10 @@ extension Cloudtrail {
     public struct DataResource: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Type", required: false, type: .string), 
+            AWSShapeProperty(label: "Values", required: false, type: .list)
+        ]
         /// The resource type in which you want to log data events. You can specify only the following value: AWS::S3::Object.
         public let `type`: String?
         /// A list of ARN-like strings for the specified S3 objects. To log data events for all objects in an S3 bucket, specify the bucket and an empty object prefix such as arn:aws:s3:::bucket-1/. The trail logs data events for all objects in this S3 bucket. To log data events for specific objects, specify the S3 bucket and object prefix such as arn:aws:s3:::bucket-1/example-images. The trail logs data events for objects in this S3 bucket that match the prefix.
@@ -235,6 +275,10 @@ extension Cloudtrail {
     public struct PutEventSelectorsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "EventSelectors", required: false, type: .list), 
+            AWSShapeProperty(label: "TrailName", required: false, type: .string)
+        ]
         /// Specifies the settings for your event selectors. You can configure up to five event selectors for a trail.
         public let eventSelectors: [EventSelector]?
         /// Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are invalid.   Not be in IP address format (for example, 192.168.5.4)   If you specify a trail ARN, it must be in the format:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
@@ -258,6 +302,10 @@ extension Cloudtrail {
     public struct RemoveTagsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
+            AWSShapeProperty(label: "TagsList", required: false, type: .list)
+        ]
         /// Specifies the ARN of the trail from which tags should be removed. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
         public let resourceId: String
         /// Specifies a list of tags to be removed.
@@ -282,6 +330,10 @@ extension Cloudtrail {
     public struct ListTagsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ResourceTagList", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        ]
         public let resourceTagList: [ResourceTag]?
         /// Reserved for future use.
         public let nextToken: String?
@@ -304,6 +356,20 @@ extension Cloudtrail {
     public struct UpdateTrailResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeProperty(label: "SnsTopicARN", required: false, type: .string), 
+            AWSShapeProperty(label: "IncludeGlobalServiceEvents", required: false, type: .boolean), 
+            AWSShapeProperty(label: "S3KeyPrefix", required: false, type: .string), 
+            AWSShapeProperty(label: "IsMultiRegionTrail", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "CloudWatchLogsLogGroupArn", required: false, type: .string), 
+            AWSShapeProperty(label: "S3BucketName", required: false, type: .string), 
+            AWSShapeProperty(label: "SnsTopicName", required: false, type: .string), 
+            AWSShapeProperty(label: "CloudWatchLogsRoleArn", required: false, type: .string), 
+            AWSShapeProperty(label: "TrailARN", required: false, type: .string), 
+            AWSShapeProperty(label: "LogFileValidationEnabled", required: false, type: .boolean)
+        ]
         /// Specifies the KMS key ID that encrypts the logs delivered by CloudTrail. The value is a fully specified ARN to a KMS key in the format:  arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012 
         public let kmsKeyId: String?
         /// Specifies the ARN of the Amazon SNS topic that CloudTrail uses to send notifications when log files are delivered. The format of a topic ARN is:  arn:aws:sns:us-east-1:123456789012:MyTopic 
@@ -363,6 +429,22 @@ extension Cloudtrail {
     public struct Trail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeProperty(label: "LogFileValidationEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "HomeRegion", required: false, type: .string), 
+            AWSShapeProperty(label: "TrailARN", required: false, type: .string), 
+            AWSShapeProperty(label: "IncludeGlobalServiceEvents", required: false, type: .boolean), 
+            AWSShapeProperty(label: "S3KeyPrefix", required: false, type: .string), 
+            AWSShapeProperty(label: "IsMultiRegionTrail", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "CloudWatchLogsLogGroupArn", required: false, type: .string), 
+            AWSShapeProperty(label: "S3BucketName", required: false, type: .string), 
+            AWSShapeProperty(label: "SnsTopicName", required: false, type: .string), 
+            AWSShapeProperty(label: "CloudWatchLogsRoleArn", required: false, type: .string), 
+            AWSShapeProperty(label: "HasCustomEventSelectors", required: false, type: .boolean), 
+            AWSShapeProperty(label: "SnsTopicARN", required: false, type: .string)
+        ]
         /// Specifies the KMS key ID that encrypts the logs delivered by CloudTrail. The value is a fully specified ARN to a KMS key in the format:  arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012 
         public let kmsKeyId: String?
         /// Specifies whether log file validation is enabled.
@@ -430,6 +512,25 @@ extension Cloudtrail {
     public struct GetTrailStatusResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "LatestNotificationError", required: false, type: .string), 
+            AWSShapeProperty(label: "LatestDeliveryTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "TimeLoggingStarted", required: false, type: .string), 
+            AWSShapeProperty(label: "TimeLoggingStopped", required: false, type: .string), 
+            AWSShapeProperty(label: "LatestDigestDeliveryError", required: false, type: .string), 
+            AWSShapeProperty(label: "LatestDeliveryAttemptSucceeded", required: false, type: .string), 
+            AWSShapeProperty(label: "LatestCloudWatchLogsDeliveryTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "LatestNotificationTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "LatestNotificationAttemptSucceeded", required: false, type: .string), 
+            AWSShapeProperty(label: "LatestDigestDeliveryTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "IsLogging", required: false, type: .boolean), 
+            AWSShapeProperty(label: "LatestDeliveryAttemptTime", required: false, type: .string), 
+            AWSShapeProperty(label: "LatestNotificationAttemptTime", required: false, type: .string), 
+            AWSShapeProperty(label: "LatestDeliveryError", required: false, type: .string), 
+            AWSShapeProperty(label: "StopLoggingTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "StartLoggingTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "LatestCloudWatchLogsDeliveryError", required: false, type: .string)
+        ]
         /// Displays any Amazon SNS error that CloudTrail encountered when attempting to send a notification. For more information about Amazon SNS errors, see the Amazon SNS Developer Guide. 
         public let latestNotificationError: String?
         /// Specifies the date and time that CloudTrail last delivered log files to an account's Amazon S3 bucket.
@@ -509,6 +610,10 @@ extension Cloudtrail {
     public struct GetEventSelectorsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "EventSelectors", required: false, type: .list), 
+            AWSShapeProperty(label: "TrailARN", required: false, type: .string)
+        ]
         /// The event selectors that are configured for the trail.
         public let eventSelectors: [EventSelector]?
         /// The specified trail ARN that has the event selectors.
@@ -532,6 +637,15 @@ extension Cloudtrail {
     public struct Event: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "EventSource", required: false, type: .string), 
+            AWSShapeProperty(label: "EventTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Username", required: false, type: .string), 
+            AWSShapeProperty(label: "EventId", required: false, type: .string), 
+            AWSShapeProperty(label: "EventName", required: false, type: .string), 
+            AWSShapeProperty(label: "Resources", required: false, type: .list), 
+            AWSShapeProperty(label: "CloudTrailEvent", required: false, type: .string)
+        ]
         /// The AWS service that the request was made to.
         public let eventSource: String?
         /// The date and time of the event returned.
@@ -575,6 +689,10 @@ extension Cloudtrail {
     public struct DescribeTrailsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "trailNameList", required: false, type: .list), 
+            AWSShapeProperty(label: "includeShadowTrails", required: false, type: .boolean)
+        ]
         /// Specifies a list of trail names, trail ARNs, or both, of the trails to describe. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail  If an empty list is specified, information for the trail in the current region is returned.   If an empty list is specified and IncludeShadowTrails is false, then information for all trails in the current region is returned.   If an empty list is specified and IncludeShadowTrails is null or true, then information for all trails in the current region and any associated shadow trails in other regions is returned.    If one or more trail names are specified, information is returned only if the names match the names of trails belonging only to the current region. To return information about a trail in another region, you must specify its trail ARN. 
         public let trailNameList: [String]?
         /// Specifies whether to include shadow trails in the response. A shadow trail is the replication in a region of a trail that was created in a different region. The default is true.
@@ -594,6 +712,10 @@ extension Cloudtrail {
     public struct PutEventSelectorsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "EventSelectors", required: false, type: .list), 
+            AWSShapeProperty(label: "TrailARN", required: false, type: .string)
+        ]
         /// Specifies the event selectors configured for your trail.
         public let eventSelectors: [EventSelector]?
         /// Specifies the ARN of the trail that was updated with event selectors. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
@@ -617,6 +739,10 @@ extension Cloudtrail {
     public struct ListPublicKeysResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "PublicKeyList", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        ]
         /// Contains an array of PublicKey objects.  The returned public keys may have validity time ranges that overlap. 
         public let publicKeyList: [PublicKey]?
         /// Reserved for future use.
@@ -640,6 +766,10 @@ extension Cloudtrail {
     public struct Tag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Value", required: false, type: .string), 
+            AWSShapeProperty(label: "Key", required: true, type: .string)
+        ]
         /// The value in a key-value pair of a tag. The value must be no longer than 256 Unicode characters.
         public let value: String?
         /// The key in a key-value pair. The key must be must be no longer than 128 Unicode characters. The key must be unique for the resource to which it applies.
@@ -660,6 +790,10 @@ extension Cloudtrail {
     public struct LookupAttribute: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AttributeKey", required: true, type: .enum), 
+            AWSShapeProperty(label: "AttributeValue", required: true, type: .string)
+        ]
         /// Specifies an attribute on which to filter the events returned.
         public let attributeKey: LookupAttributeKey
         /// Specifies a value for the specified AttributeKey.
@@ -681,6 +815,18 @@ extension Cloudtrail {
     public struct UpdateTrailRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "EnableLogFileValidation", required: false, type: .boolean), 
+            AWSShapeProperty(label: "S3BucketName", required: false, type: .string), 
+            AWSShapeProperty(label: "S3KeyPrefix", required: false, type: .string), 
+            AWSShapeProperty(label: "IncludeGlobalServiceEvents", required: false, type: .boolean), 
+            AWSShapeProperty(label: "IsMultiRegionTrail", required: false, type: .boolean), 
+            AWSShapeProperty(label: "CloudWatchLogsLogGroupArn", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "CloudWatchLogsRoleArn", required: false, type: .string), 
+            AWSShapeProperty(label: "SnsTopicName", required: false, type: .string), 
+            AWSShapeProperty(label: "KmsKeyId", required: false, type: .string)
+        ]
         /// Specifies whether log file validation is enabled. The default is false.  When you disable log file integrity validation, the chain of digest files is broken after one hour. CloudTrail will not create digest files for log files that were delivered during a period in which log file integrity validation was disabled. For example, if you enable log file integrity validation at noon on January 1, disable it at noon on January 2, and re-enable it at noon on January 10, digest files will not be created for the log files delivered from noon on January 2 to noon on January 10. The same applies whenever you stop CloudTrail logging or delete a trail. 
         public let enableLogFileValidation: Bool?
         /// Specifies the name of the Amazon S3 bucket designated for publishing log files. See Amazon S3 Bucket Naming Requirements.
@@ -733,6 +879,18 @@ extension Cloudtrail {
     public struct CreateTrailRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "EnableLogFileValidation", required: false, type: .boolean), 
+            AWSShapeProperty(label: "S3BucketName", required: true, type: .string), 
+            AWSShapeProperty(label: "S3KeyPrefix", required: false, type: .string), 
+            AWSShapeProperty(label: "IncludeGlobalServiceEvents", required: false, type: .boolean), 
+            AWSShapeProperty(label: "IsMultiRegionTrail", required: false, type: .boolean), 
+            AWSShapeProperty(label: "CloudWatchLogsLogGroupArn", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "CloudWatchLogsRoleArn", required: false, type: .string), 
+            AWSShapeProperty(label: "SnsTopicName", required: false, type: .string), 
+            AWSShapeProperty(label: "KmsKeyId", required: false, type: .string)
+        ]
         /// Specifies whether log file integrity validation is enabled. The default is false.  When you disable log file integrity validation, the chain of digest files is broken after one hour. CloudTrail will not create digest files for log files that were delivered during a period in which log file integrity validation was disabled. For example, if you enable log file integrity validation at noon on January 1, disable it at noon on January 2, and re-enable it at noon on January 10, digest files will not be created for the log files delivered from noon on January 2 to noon on January 10. The same applies whenever you stop CloudTrail logging or delete a trail. 
         public let enableLogFileValidation: Bool?
         /// Specifies the name of the Amazon S3 bucket designated for publishing log files. See Amazon S3 Bucket Naming Requirements.
@@ -794,6 +952,9 @@ extension Cloudtrail {
     public struct DeleteTrailRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Name", required: true, type: .string)
+        ]
         /// Specifies the name or the CloudTrail ARN of the trail to be deleted. The format of a trail ARN is: arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
         public let name: String
 
@@ -810,6 +971,9 @@ extension Cloudtrail {
     public struct GetEventSelectorsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "TrailName", required: false, type: .string)
+        ]
         /// Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are invalid.   Not be in IP address format (for example, 192.168.5.4)   If you specify a trail ARN, it must be in the format:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
         public let trailName: String?
 
@@ -835,6 +999,10 @@ extension Cloudtrail {
     public struct Resource: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ResourceName", required: false, type: .string), 
+            AWSShapeProperty(label: "ResourceType", required: false, type: .string)
+        ]
         /// The name of the resource referenced by the event returned. These are user-created names whose values will depend on the environment. For example, the resource name might be "auto-scaling-test-group" for an Auto Scaling Group or "i-1234567" for an EC2 Instance.
         public let resourceName: String?
         /// The type of a resource referenced by the event returned. When the resource type cannot be determined, null is returned. Some examples of resource types are: Instance for EC2, Trail for CloudTrail, DBInstance for RDS, and AccessKey for IAM. For a list of resource types supported for event lookup, see Resource Types Supported for Event Lookup.
@@ -854,6 +1022,9 @@ extension Cloudtrail {
     public struct DescribeTrailsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "trailList", required: false, type: .list)
+        ]
         /// The list of trail objects.
         public let trailList: [Trail]?
 
@@ -873,6 +1044,9 @@ extension Cloudtrail {
     public struct StartLoggingRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Name", required: true, type: .string)
+        ]
         /// Specifies the name or the CloudTrail ARN of the trail for which CloudTrail logs AWS API calls. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
         public let name: String
 
@@ -889,6 +1063,9 @@ extension Cloudtrail {
     public struct StopLoggingRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Name", required: true, type: .string)
+        ]
         /// Specifies the name or the CloudTrail ARN of the trail for which CloudTrail will stop logging AWS API calls. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
         public let name: String
 
@@ -905,6 +1082,11 @@ extension Cloudtrail {
     public struct EventSelector: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ReadWriteType", required: false, type: .enum), 
+            AWSShapeProperty(label: "DataResources", required: false, type: .list), 
+            AWSShapeProperty(label: "IncludeManagementEvents", required: false, type: .boolean)
+        ]
         /// Specify if you want your trail to log read-only events, write-only events, or all. For example, the EC2 GetConsoleOutput is a read-only API operation and RunInstances is a write-only API operation.  By default, the value is All.
         public let readWriteType: ReadWriteType?
         /// CloudTrail supports logging only data events for S3 objects. You can specify up to 250 S3 buckets and object prefixes for a trail. For more information, see Data Events in the AWS CloudTrail User Guide.
@@ -932,6 +1114,9 @@ extension Cloudtrail {
     public struct GetTrailStatusRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Name", required: true, type: .string)
+        ]
         /// Specifies the name or the CloudTrail ARN of the trail for which you are requesting status. To get the status of a shadow trail (a replication of the trail in another region), you must specify its ARN. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
         public let name: String
 
@@ -948,6 +1133,10 @@ extension Cloudtrail {
     public struct ResourceTag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ResourceId", required: false, type: .string), 
+            AWSShapeProperty(label: "TagsList", required: false, type: .list)
+        ]
         /// Specifies the ARN of the resource.
         public let resourceId: String?
         public let tagsList: [Tag]?
@@ -985,6 +1174,10 @@ extension Cloudtrail {
     public struct ListTagsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ResourceIdList", required: true, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        ]
         /// Specifies a list of trail ARNs whose tags will be listed. The list has a limit of 20 ARNs. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
         public let resourceIdList: [String]
         /// Reserved for future use.
@@ -1005,6 +1198,10 @@ extension Cloudtrail {
     public struct LookupEventsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Events", required: false, type: .list)
+        ]
         /// The token to use to get the next page of results after a previous API call. If the token does not appear, there are no more results to return. The token must be passed in with the same parameters as the previous call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
         public let nextToken: String?
         /// A list of events returned based on the lookup attributes specified and the CloudTrail event. The events list is sorted by time. The most recent event is listed first.

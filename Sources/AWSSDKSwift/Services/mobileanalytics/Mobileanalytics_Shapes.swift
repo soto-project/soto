@@ -32,6 +32,14 @@ extension Mobileanalytics {
     public struct Event: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "metrics", required: false, type: .map), 
+            AWSShapeProperty(label: "session", required: false, type: .structure), 
+            AWSShapeProperty(label: "attributes", required: false, type: .map), 
+            AWSShapeProperty(label: "timestamp", required: true, type: .string), 
+            AWSShapeProperty(label: "eventType", required: true, type: .string), 
+            AWSShapeProperty(label: "version", required: false, type: .string)
+        ]
         /// A collection of key-value pairs that gives additional, measurable context to the event. The key-value pairs are specified by the developer. This collection can be empty or the attribute object can be omitted.
         public let metrics: [String: Double]?
         /// The session the event occured within. 
@@ -77,6 +85,12 @@ extension Mobileanalytics {
     public struct Session: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "startTimestamp", required: false, type: .string), 
+            AWSShapeProperty(label: "id", required: false, type: .string), 
+            AWSShapeProperty(label: "stopTimestamp", required: false, type: .string), 
+            AWSShapeProperty(label: "duration", required: false, type: .long)
+        ]
         /// The time the event started in ISO 8601 standard date time format. For example, 2014-06-30T19:07:47.885Z
         public let startTimestamp: String?
         /// A unique identifier for the session
@@ -107,6 +121,11 @@ extension Mobileanalytics {
         public static var headerParams: [String: String] {
             return ["x-amz-Client-Context-Encoding": "clientContextEncoding", "x-amz-Client-Context": "clientContext"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "X-amz-Client-Context", required: true, type: .string), 
+            AWSShapeProperty(label: "X-amz-Client-Context-Encoding", required: false, type: .string), 
+            AWSShapeProperty(label: "events", required: true, type: .list)
+        ]
         /// The client context including the client ID, app title, app version and package name.
         public let clientContext: String
         /// The encoding used for the client context.

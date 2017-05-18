@@ -38,6 +38,13 @@ extension Workdocs {
         public static var pathParams: [String: String] {
             return ["DocumentId": "DocumentId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Fields", required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "DocumentId", required: true, type: .string), 
+            AWSShapeProperty(label: "Include", required: false, type: .string)
+        ]
         /// Specify "SOURCE" to include initialized versions and a URL for the source document.
         public let fields: String?
         /// The maximum number of versions to return with this call.
@@ -80,6 +87,12 @@ extension Workdocs {
         public static var pathParams: [String: String] {
             return ["OrganizationId": "OrganizationId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "OrganizationId", required: true, type: .string), 
+            AWSShapeProperty(label: "SubscriptionType", required: true, type: .enum), 
+            AWSShapeProperty(label: "Protocol", required: true, type: .enum), 
+            AWSShapeProperty(label: "Endpoint", required: true, type: .string)
+        ]
         /// The ID of the organization.
         public let organizationId: String
         /// The notification type.
@@ -111,6 +124,13 @@ extension Workdocs {
     public struct ShareResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Role", required: false, type: .enum), 
+            AWSShapeProperty(label: "Status", required: false, type: .enum), 
+            AWSShapeProperty(label: "PrincipalId", required: false, type: .string), 
+            AWSShapeProperty(label: "StatusMessage", required: false, type: .string), 
+            AWSShapeProperty(label: "ShareId", required: false, type: .string)
+        ]
         /// The role.
         public let role: RoleType?
         /// The status.
@@ -148,6 +168,11 @@ extension Workdocs {
         public static var pathParams: [String: String] {
             return ["VersionId": "VersionId", "DocumentId": "DocumentId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Fields", required: false, type: .string), 
+            AWSShapeProperty(label: "VersionId", required: true, type: .string), 
+            AWSShapeProperty(label: "DocumentId", required: true, type: .string)
+        ]
         /// A comma-separated list of values. Specify "SOURCE" to include a URL for the source document.
         public let fields: String?
         /// The version ID of the document.
@@ -173,6 +198,10 @@ extension Workdocs {
     public struct PermissionInfo: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Type", required: false, type: .enum), 
+            AWSShapeProperty(label: "Role", required: false, type: .enum)
+        ]
         /// The type of permissions.
         public let `type`: RolePermissionType?
         /// The role of the user.
@@ -192,6 +221,9 @@ extension Workdocs {
     public struct UpdateUserResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "User", required: false, type: .structure)
+        ]
         /// The user information.
         public let user: User?
 
@@ -207,6 +239,11 @@ extension Workdocs {
     public struct DescribeUsersResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "Users", required: false, type: .list), 
+            AWSShapeProperty(label: "TotalNumberOfUsers", required: false, type: .long)
+        ]
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let marker: String?
         /// The users.
@@ -243,6 +280,11 @@ extension Workdocs {
     public struct Subscription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "SubscriptionId", required: false, type: .string), 
+            AWSShapeProperty(label: "EndPoint", required: false, type: .string), 
+            AWSShapeProperty(label: "Protocol", required: false, type: .enum)
+        ]
         /// The ID of the subscription.
         public let subscriptionId: String?
         /// The endpoint of the subscription.
@@ -266,6 +308,11 @@ extension Workdocs {
     public struct DescribeFolderContentsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "Documents", required: false, type: .list), 
+            AWSShapeProperty(label: "Folders", required: false, type: .list)
+        ]
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let marker: String?
         /// The documents in the specified folder.
@@ -297,6 +344,10 @@ extension Workdocs {
     public struct ResourcePathComponent: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "Id", required: false, type: .string)
+        ]
         /// The name of the resource path.
         public let name: String?
         /// The ID of the resource path.
@@ -322,6 +373,10 @@ extension Workdocs {
     public struct DescribeResourcePermissionsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "Principals", required: false, type: .list)
+        ]
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let marker: String?
         /// The principals.
@@ -348,6 +403,9 @@ extension Workdocs {
         public static var pathParams: [String: String] {
             return ["DocumentId": "DocumentId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "DocumentId", required: true, type: .string)
+        ]
         /// The ID of the document.
         public let documentId: String
 
@@ -367,6 +425,12 @@ extension Workdocs {
         public static var pathParams: [String: String] {
             return ["DocumentId": "DocumentId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ParentFolderId", required: false, type: .string), 
+            AWSShapeProperty(label: "ResourceState", required: false, type: .enum), 
+            AWSShapeProperty(label: "DocumentId", required: true, type: .string), 
+            AWSShapeProperty(label: "Name", required: false, type: .string)
+        ]
         /// The ID of the parent folder.
         public let parentFolderId: String?
         /// The resource state of the document. Note that only ACTIVE and RECYCLED are supported.
@@ -398,6 +462,9 @@ extension Workdocs {
         public static var pathParams: [String: String] {
             return ["DocumentId": "DocumentId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "DocumentId", required: true, type: .string)
+        ]
         /// The ID of the document object.
         public let documentId: String
 
@@ -414,6 +481,15 @@ extension Workdocs {
     public struct InitiateDocumentVersionUploadRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Id", required: false, type: .string), 
+            AWSShapeProperty(label: "ContentModifiedTimestamp", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "ContentType", required: false, type: .string), 
+            AWSShapeProperty(label: "ParentFolderId", required: true, type: .string), 
+            AWSShapeProperty(label: "ContentCreatedTimestamp", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "DocumentSizeInBytes", required: false, type: .long)
+        ]
         /// The ID of the document.
         public let id: String?
         /// The time stamp when the content of the document was modified.
@@ -460,6 +536,9 @@ extension Workdocs {
     public struct AddResourcePermissionsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ShareResults", required: false, type: .list)
+        ]
         /// The share results.
         public let shareResults: [ShareResult]?
 
@@ -479,6 +558,16 @@ extension Workdocs {
     public struct FolderMetadata: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Signature", required: false, type: .string), 
+            AWSShapeProperty(label: "ResourceState", required: false, type: .enum), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "CreatorId", required: false, type: .string), 
+            AWSShapeProperty(label: "ModifiedTimestamp", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "ParentFolderId", required: false, type: .string), 
+            AWSShapeProperty(label: "CreatedTimestamp", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Id", required: false, type: .string)
+        ]
         /// The unique identifier created from the subfolders and documents of the folder.
         public let signature: String?
         /// The resource state of the folder.
@@ -522,6 +611,21 @@ extension Workdocs {
     public struct DocumentVersionMetadata: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ContentModifiedTimestamp", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Signature", required: false, type: .string), 
+            AWSShapeProperty(label: "ModifiedTimestamp", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Source", required: false, type: .map), 
+            AWSShapeProperty(label: "CreatedTimestamp", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Id", required: false, type: .string), 
+            AWSShapeProperty(label: "Status", required: false, type: .enum), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "Size", required: false, type: .long), 
+            AWSShapeProperty(label: "ContentType", required: false, type: .string), 
+            AWSShapeProperty(label: "CreatorId", required: false, type: .string), 
+            AWSShapeProperty(label: "Thumbnail", required: false, type: .map), 
+            AWSShapeProperty(label: "ContentCreatedTimestamp", required: false, type: .timestamp)
+        ]
         /// The time stamp when the content of the document was modified.
         public let contentModifiedTimestamp: Date?
         /// The signature of the document.
@@ -593,6 +697,10 @@ extension Workdocs {
     public struct UserStorageMetadata: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "StorageRule", required: false, type: .structure), 
+            AWSShapeProperty(label: "StorageUtilizedInBytes", required: false, type: .long)
+        ]
         /// The storage for a user.
         public let storageRule: StorageRuleType?
         /// The amount of storage utilized, in bytes.
@@ -612,6 +720,9 @@ extension Workdocs {
     public struct GetFolderPathResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Path", required: false, type: .structure)
+        ]
         /// The path information.
         public let path: ResourcePath?
 
@@ -627,6 +738,9 @@ extension Workdocs {
     public struct GetFolderResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Metadata", required: false, type: .structure)
+        ]
         /// The metadata of the folder.
         public let metadata: FolderMetadata?
 
@@ -653,6 +767,15 @@ extension Workdocs {
     public struct CreateUserRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "TimeZoneId", required: false, type: .string), 
+            AWSShapeProperty(label: "GivenName", required: true, type: .string), 
+            AWSShapeProperty(label: "Username", required: true, type: .string), 
+            AWSShapeProperty(label: "Surname", required: true, type: .string), 
+            AWSShapeProperty(label: "OrganizationId", required: false, type: .string), 
+            AWSShapeProperty(label: "Password", required: true, type: .string), 
+            AWSShapeProperty(label: "StorageRule", required: false, type: .structure)
+        ]
         /// The time zone ID of the user.
         public let timeZoneId: String?
         /// The given name of the user.
@@ -696,6 +819,9 @@ extension Workdocs {
     public struct ActivateUserResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "User", required: false, type: .structure)
+        ]
         /// The user information.
         public let user: User?
 
@@ -714,6 +840,9 @@ extension Workdocs {
         public static var pathParams: [String: String] {
             return ["FolderId": "FolderId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "FolderId", required: true, type: .string)
+        ]
         /// The ID of the folder.
         public let folderId: String
 
@@ -730,6 +859,9 @@ extension Workdocs {
     public struct GetDocumentResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Metadata", required: false, type: .structure)
+        ]
         /// The document object.
         public let metadata: DocumentMetadata?
 
@@ -748,6 +880,10 @@ extension Workdocs {
         public static var pathParams: [String: String] {
             return ["ResourceId": "ResourceId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
+            AWSShapeProperty(label: "Principals", required: true, type: .list)
+        ]
         /// The ID of the resource.
         public let resourceId: String
         /// The users, groups, or organization being granted permission.
@@ -778,6 +914,9 @@ extension Workdocs {
         public static var pathParams: [String: String] {
             return ["UserId": "UserId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "UserId", required: true, type: .string)
+        ]
         /// The ID of the user.
         public let userId: String
 
@@ -794,6 +933,10 @@ extension Workdocs {
     public struct UploadMetadata: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "UploadUrl", required: false, type: .string), 
+            AWSShapeProperty(label: "SignedHeaders", required: false, type: .map)
+        ]
         /// The URL of the upload.
         public let uploadUrl: String?
         /// The signed headers.
@@ -817,6 +960,9 @@ extension Workdocs {
     public struct CreateNotificationSubscriptionResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Subscription", required: false, type: .structure)
+        ]
         /// The subscription.
         public let subscription: Subscription?
 
@@ -835,6 +981,12 @@ extension Workdocs {
         public static var pathParams: [String: String] {
             return ["FolderId": "FolderId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ParentFolderId", required: false, type: .string), 
+            AWSShapeProperty(label: "FolderId", required: true, type: .string), 
+            AWSShapeProperty(label: "ResourceState", required: false, type: .enum), 
+            AWSShapeProperty(label: "Name", required: false, type: .string)
+        ]
         /// The ID of the parent folder.
         public let parentFolderId: String?
         /// The ID of the folder.
@@ -869,6 +1021,11 @@ extension Workdocs {
         public static var pathParams: [String: String] {
             return ["OrganizationId": "OrganizationId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "OrganizationId", required: true, type: .string), 
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        ]
         /// The ID of the organization.
         public let organizationId: String
         /// The marker for the next set of results. (You received this marker from a previous call.)
@@ -911,6 +1068,9 @@ extension Workdocs {
         public static var pathParams: [String: String] {
             return ["ResourceId": "ResourceId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ResourceId", required: true, type: .string)
+        ]
         /// The ID of the resource.
         public let resourceId: String
 
@@ -927,6 +1087,9 @@ extension Workdocs {
     public struct GetDocumentPathResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Path", required: false, type: .structure)
+        ]
         /// The path information.
         public let path: ResourcePath?
 
@@ -945,6 +1108,15 @@ extension Workdocs {
         public static var pathParams: [String: String] {
             return ["UserId": "UserId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Locale", required: false, type: .enum), 
+            AWSShapeProperty(label: "UserId", required: true, type: .string), 
+            AWSShapeProperty(label: "GivenName", required: false, type: .string), 
+            AWSShapeProperty(label: "TimeZoneId", required: false, type: .string), 
+            AWSShapeProperty(label: "Surname", required: false, type: .string), 
+            AWSShapeProperty(label: "Type", required: false, type: .enum), 
+            AWSShapeProperty(label: "StorageRule", required: false, type: .structure)
+        ]
         /// The locale of the user.
         public let locale: LocaleType?
         /// The ID of the user.
@@ -988,6 +1160,9 @@ extension Workdocs {
         public static var pathParams: [String: String] {
             return ["FolderId": "FolderId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "FolderId", required: true, type: .string)
+        ]
         /// The ID of the folder.
         public let folderId: String
 
@@ -1004,6 +1179,10 @@ extension Workdocs {
     public struct CreateFolderRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "ParentFolderId", required: true, type: .string)
+        ]
         /// The name of the new folder.
         public let name: String?
         /// The ID of the parent folder.
@@ -1032,6 +1211,15 @@ extension Workdocs {
     public struct DocumentMetadata: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ResourceState", required: false, type: .enum), 
+            AWSShapeProperty(label: "CreatorId", required: false, type: .string), 
+            AWSShapeProperty(label: "ModifiedTimestamp", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "ParentFolderId", required: false, type: .string), 
+            AWSShapeProperty(label: "LatestVersionMetadata", required: false, type: .structure), 
+            AWSShapeProperty(label: "CreatedTimestamp", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Id", required: false, type: .string)
+        ]
         /// The resource state.
         public let resourceState: ResourceStateType?
         /// The ID of the creator.
@@ -1082,6 +1270,11 @@ extension Workdocs {
         public static var pathParams: [String: String] {
             return ["ResourceId": "ResourceId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        ]
         /// The ID of the resource.
         public let resourceId: String
         /// The marker for the next set of results. (You received this marker from a previous call)
@@ -1121,6 +1314,11 @@ extension Workdocs {
     public struct Principal: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Type", required: false, type: .enum), 
+            AWSShapeProperty(label: "Roles", required: false, type: .list), 
+            AWSShapeProperty(label: "Id", required: false, type: .string)
+        ]
         /// The type of resource.
         public let `type`: PrincipalType?
         /// The permission information for the resource.
@@ -1148,6 +1346,10 @@ extension Workdocs {
     public struct DescribeNotificationSubscriptionsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "Subscriptions", required: false, type: .list)
+        ]
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let marker: String?
         /// The subscriptions.
@@ -1180,6 +1382,11 @@ extension Workdocs {
         public static var pathParams: [String: String] {
             return ["VersionId": "VersionId", "DocumentId": "DocumentId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "VersionStatus", required: false, type: .enum), 
+            AWSShapeProperty(label: "VersionId", required: true, type: .string), 
+            AWSShapeProperty(label: "DocumentId", required: true, type: .string)
+        ]
         /// The status of the version.
         public let versionStatus: DocumentVersionStatus?
         /// The version ID of the document.
@@ -1224,6 +1431,12 @@ extension Workdocs {
         public static var pathParams: [String: String] {
             return ["DocumentId": "DocumentId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Fields", required: false, type: .string), 
+            AWSShapeProperty(label: "DocumentId", required: true, type: .string), 
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        ]
         /// A comma-separated list of values. Specify "NAME" to include the names of the parent folders.
         public let fields: String?
         /// The ID of the document.
@@ -1258,6 +1471,11 @@ extension Workdocs {
         public static var pathParams: [String: String] {
             return ["ResourceId": "ResourceId", "PrincipalId": "PrincipalId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
+            AWSShapeProperty(label: "Type", required: false, type: .enum), 
+            AWSShapeProperty(label: "PrincipalId", required: true, type: .string)
+        ]
         /// The ID of the resource.
         public let resourceId: String
         /// The principal type of the resource.
@@ -1283,6 +1501,9 @@ extension Workdocs {
     public struct CreateUserResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "User", required: false, type: .structure)
+        ]
         /// The user information.
         public let user: User?
 
@@ -1304,6 +1525,10 @@ extension Workdocs {
     public struct DescribeDocumentVersionsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "DocumentVersions", required: false, type: .list), 
+            AWSShapeProperty(label: "Marker", required: false, type: .string)
+        ]
         /// The document versions.
         public let documentVersions: [DocumentVersionMetadata]?
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
@@ -1333,6 +1558,23 @@ extension Workdocs {
     public struct User: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "EmailAddress", required: false, type: .string), 
+            AWSShapeProperty(label: "RecycleBinFolderId", required: false, type: .string), 
+            AWSShapeProperty(label: "Username", required: false, type: .string), 
+            AWSShapeProperty(label: "ModifiedTimestamp", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "OrganizationId", required: false, type: .string), 
+            AWSShapeProperty(label: "CreatedTimestamp", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Id", required: false, type: .string), 
+            AWSShapeProperty(label: "TimeZoneId", required: false, type: .string), 
+            AWSShapeProperty(label: "Locale", required: false, type: .enum), 
+            AWSShapeProperty(label: "Status", required: false, type: .enum), 
+            AWSShapeProperty(label: "GivenName", required: false, type: .string), 
+            AWSShapeProperty(label: "Storage", required: false, type: .structure), 
+            AWSShapeProperty(label: "Surname", required: false, type: .string), 
+            AWSShapeProperty(label: "RootFolderId", required: false, type: .string), 
+            AWSShapeProperty(label: "Type", required: false, type: .enum)
+        ]
         /// The email address of the user.
         public let emailAddress: String?
         /// The ID of the recycle bin folder.
@@ -1409,6 +1651,10 @@ extension Workdocs {
     public struct StorageRuleType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "StorageType", required: false, type: .enum), 
+            AWSShapeProperty(label: "StorageAllocatedInBytes", required: false, type: .long)
+        ]
         /// The type of storage.
         public let storageType: StorageType?
         /// The amount of storage allocated, in bytes.
@@ -1428,6 +1674,9 @@ extension Workdocs {
     public struct CreateFolderResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Metadata", required: false, type: .structure)
+        ]
         /// The metadata of the folder.
         public let metadata: FolderMetadata?
 
@@ -1443,6 +1692,11 @@ extension Workdocs {
     public struct SharePrincipal: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Role", required: true, type: .enum), 
+            AWSShapeProperty(label: "Type", required: true, type: .enum), 
+            AWSShapeProperty(label: "Id", required: true, type: .string)
+        ]
         /// The role of the recipient.
         public let role: RoleType
         /// The type of the recipient.
@@ -1475,6 +1729,12 @@ extension Workdocs {
         public static var pathParams: [String: String] {
             return ["FolderId": "FolderId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Fields", required: false, type: .string), 
+            AWSShapeProperty(label: "FolderId", required: true, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "Marker", required: false, type: .string)
+        ]
         /// A comma-separated list of values. Specify "NAME" to include the names of the parent folders.
         public let fields: String?
         /// The ID of the folder.
@@ -1506,6 +1766,9 @@ extension Workdocs {
         public static var pathParams: [String: String] {
             return ["UserId": "UserId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "UserId", required: true, type: .string)
+        ]
         /// The ID of the user.
         public let userId: String
 
@@ -1522,6 +1785,9 @@ extension Workdocs {
     public struct ResourcePath: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Components", required: false, type: .list)
+        ]
         /// The components of the resource path.
         public let components: [ResourcePathComponent]?
 
@@ -1544,6 +1810,9 @@ extension Workdocs {
         public static var pathParams: [String: String] {
             return ["FolderId": "FolderId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "FolderId", required: true, type: .string)
+        ]
         /// The ID of the folder.
         public let folderId: String
 
@@ -1563,6 +1832,17 @@ extension Workdocs {
         public static var queryParams: [String: String] {
             return ["fields": "Fields", "marker": "Marker", "userIds": "UserIds", "limit": "Limit", "organizationId": "OrganizationId", "sort": "Sort", "include": "Include", "query": "Query", "order": "Order"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Fields", required: false, type: .string), 
+            AWSShapeProperty(label: "UserIds", required: false, type: .string), 
+            AWSShapeProperty(label: "Sort", required: false, type: .enum), 
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "Query", required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "OrganizationId", required: false, type: .string), 
+            AWSShapeProperty(label: "Order", required: false, type: .enum), 
+            AWSShapeProperty(label: "Include", required: false, type: .enum)
+        ]
         /// A comma-separated list of values. Specify "STORAGE_METADATA" to include the user storage quota and utilization information.
         public let fields: String?
         /// The IDs of the users.
@@ -1610,6 +1890,10 @@ extension Workdocs {
     public struct InitiateDocumentVersionUploadResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Metadata", required: false, type: .structure), 
+            AWSShapeProperty(label: "UploadMetadata", required: false, type: .structure)
+        ]
         /// The document metadata.
         public let metadata: DocumentMetadata?
         /// The upload metadata.
@@ -1635,6 +1919,15 @@ extension Workdocs {
         public static var pathParams: [String: String] {
             return ["FolderId": "FolderId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Sort", required: false, type: .enum), 
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "FolderId", required: true, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "Order", required: false, type: .enum), 
+            AWSShapeProperty(label: "Type", required: false, type: .enum), 
+            AWSShapeProperty(label: "Include", required: false, type: .string)
+        ]
         /// The sorting criteria.
         public let sort: ResourceSortType?
         /// The marker for the next set of results. (You received this marker from a previous call.)
@@ -1687,6 +1980,10 @@ extension Workdocs {
         public static var pathParams: [String: String] {
             return ["VersionId": "VersionId", "DocumentId": "DocumentId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "VersionId", required: true, type: .string), 
+            AWSShapeProperty(label: "DocumentId", required: true, type: .string)
+        ]
         /// The ID of the version.
         public let versionId: String
         /// The ID of the document.
@@ -1708,6 +2005,9 @@ extension Workdocs {
     public struct GetDocumentVersionResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Metadata", required: false, type: .structure)
+        ]
         /// The version metadata.
         public let metadata: DocumentVersionMetadata?
 
@@ -1732,6 +2032,10 @@ extension Workdocs {
         public static var pathParams: [String: String] {
             return ["OrganizationId": "OrganizationId", "SubscriptionId": "SubscriptionId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "OrganizationId", required: true, type: .string), 
+            AWSShapeProperty(label: "SubscriptionId", required: true, type: .string)
+        ]
         /// The ID of the organization.
         public let organizationId: String
         /// The ID of the subscription.
@@ -1756,6 +2060,9 @@ extension Workdocs {
         public static var pathParams: [String: String] {
             return ["UserId": "UserId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "UserId", required: true, type: .string)
+        ]
         /// The ID of the user.
         public let userId: String
 

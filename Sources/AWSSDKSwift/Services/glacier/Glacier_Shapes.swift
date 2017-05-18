@@ -35,6 +35,9 @@ extension Glacier {
         public static var headerParams: [String: String] {
             return ["x-amz-capacity-id": "capacityId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "X-amz-capacity-id", required: false, type: .string)
+        ]
         /// The ID that identifies the provisioned capacity unit.
         public let capacityId: String?
 
@@ -53,6 +56,10 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Policy", required: false, type: .structure), 
+            AWSShapeProperty(label: "AccountId", required: true, type: .string)
+        ]
         /// The data retrieval policy in JSON format.
         public let policy: DataRetrievalPolicy?
         /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
@@ -76,6 +83,11 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "uploadId": "uploadId", "vaultName": "vaultName"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "UploadId", required: true, type: .string), 
+            AWSShapeProperty(label: "VaultName", required: true, type: .string)
+        ]
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
         /// The upload ID of the multipart upload to delete.
@@ -105,6 +117,10 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "VaultName", required: true, type: .string)
+        ]
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. 
         public let accountId: String
         /// The name of the vault.
@@ -129,6 +145,11 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "policy", required: false, type: .structure), 
+            AWSShapeProperty(label: "VaultName", required: true, type: .string)
+        ]
         /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
         /// The vault lock policy as a JSON string, which uses "\" as an escape character.
@@ -160,6 +181,12 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "X-amz-archive-description", required: false, type: .string), 
+            AWSShapeProperty(label: "VaultName", required: true, type: .string), 
+            AWSShapeProperty(label: "X-amz-part-size", required: false, type: .string)
+        ]
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. 
         public let accountId: String
         /// The archive description that you are uploading in parts. The part size must be a megabyte (1024 KB) multiplied by a power of 2, for example 1048576 (1 MB), 2097152 (2 MB), 4194304 (4 MB), 8388608 (8 MB), and so on. The minimum allowable part size is 1 MB, and the maximum is 4 GB (4096 MB).
@@ -189,6 +216,10 @@ extension Glacier {
     public struct ListMultipartUploadsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "UploadsList", required: false, type: .list)
+        ]
         /// An opaque string that represents where to continue pagination of the results. You use the marker in a new List Multipart Uploads request to obtain more uploads in the list. If there are no more uploads, this value is null.
         public let marker: String?
         /// A list of in-progress multipart uploads.
@@ -212,6 +243,10 @@ extension Glacier {
     public struct PartListElement: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "SHA256TreeHash", required: false, type: .string), 
+            AWSShapeProperty(label: "RangeInBytes", required: false, type: .string)
+        ]
         /// The SHA256 tree hash value that Amazon Glacier calculated for the part. This field is never null.
         public let sHA256TreeHash: String?
         /// The byte range of a part, inclusive of the upper value of the range.
@@ -237,6 +272,12 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .string), 
+            AWSShapeProperty(label: "VaultName", required: true, type: .string)
+        ]
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. 
         public let accountId: String
         /// An opaque string used for pagination. This value specifies the upload at which the listing of uploads should begin. Get the marker value from a previous List Uploads response. You need only include the marker if you are continuing the pagination of results started in a previous List Uploads request.
@@ -269,6 +310,10 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "VaultName", required: true, type: .string)
+        ]
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
         /// The name of the vault.
@@ -293,6 +338,9 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string)
+        ]
         /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID. 
         public let accountId: String
 
@@ -315,6 +363,12 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName", "jobId": "jobId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "Range", required: false, type: .string), 
+            AWSShapeProperty(label: "VaultName", required: true, type: .string), 
+            AWSShapeProperty(label: "JobId", required: true, type: .string)
+        ]
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
         /// The range of bytes to retrieve from the output. For example, if you want to download the first 1,048,576 bytes, specify the range as bytes=0-1048575. By default, this operation downloads the entire output. If the job output is large, then you can use a range to retrieve a portion of the output. This allows you to download the entire output in smaller chunks of bytes. For example, suppose you have 1 GB of job output you want to download and you decide to download 128 MB chunks of data at a time, which is a total of eight Get Job Output requests. You use the following process to download the job output:   Download a 128 MB chunk of output by specifying the appropriate byte range. Verify that all 128 MB of data was received.   Along with the data, the response includes a SHA256 tree hash of the payload. You compute the checksum of the payload on the client and compare it with the checksum you received in the response to ensure you received all the expected data.   Repeat steps 1 and 2 for all the eight 128 MB chunks of output data, each time specifying the appropriate byte range.   After downloading all the parts of the job output, you have a list of eight checksum values. Compute the tree hash of these values to find the checksum of the entire output. Using the DescribeJob API, obtain job information of the job that provided you the output. The response includes the checksum of the entire archive stored in Amazon Glacier. You compare this value with the checksum you computed to ensure you have downloaded the entire archive content with no errors.   
@@ -348,6 +402,9 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string)
+        ]
         /// The AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, don't include any hyphens ('-') in the ID. 
         public let accountId: String
 
@@ -364,6 +421,9 @@ extension Glacier {
     public struct GetDataRetrievalPolicyOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Policy", required: false, type: .structure)
+        ]
         /// Contains the returned data retrieval policy in JSON format.
         public let policy: DataRetrievalPolicy?
 
@@ -385,6 +445,13 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "X-amz-archive-description", required: false, type: .string), 
+            AWSShapeProperty(label: "X-amz-sha256-tree-hash", required: false, type: .string), 
+            AWSShapeProperty(label: "VaultName", required: true, type: .string), 
+            AWSShapeProperty(label: "body", required: false, type: .blob)
+        ]
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. 
         public let accountId: String
         /// The optional description of the archive you are uploading.
@@ -424,6 +491,14 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "uploadId": "uploadId", "vaultName": "vaultName"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "UploadId", required: true, type: .string), 
+            AWSShapeProperty(label: "Content-Range", required: false, type: .string), 
+            AWSShapeProperty(label: "X-amz-sha256-tree-hash", required: false, type: .string), 
+            AWSShapeProperty(label: "VaultName", required: true, type: .string), 
+            AWSShapeProperty(label: "body", required: false, type: .blob)
+        ]
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. 
         public let accountId: String
         /// The upload ID of the multipart upload.
@@ -465,6 +540,11 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "vaultNotificationConfig", required: false, type: .structure), 
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "VaultName", required: true, type: .string)
+        ]
         /// Provides options for specifying notification configuration.
         public let vaultNotificationConfig: VaultNotificationConfig?
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
@@ -493,6 +573,10 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "VaultName", required: true, type: .string)
+        ]
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
         /// The name of the vault.
@@ -514,6 +598,10 @@ extension Glacier {
     public struct DataRetrievalRule: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "BytesPerHour", required: false, type: .long), 
+            AWSShapeProperty(label: "Strategy", required: false, type: .string)
+        ]
         /// The maximum number of bytes that can be retrieved in an hour. This field is required only if the value of the Strategy field is BytesPerHour. Your PUT operation will be rejected if the Strategy field is not set to BytesPerHour and you set this field.
         public let bytesPerHour: Int64?
         /// The type of data retrieval policy to set. Valid values: BytesPerHour|FreeTier|None
@@ -536,6 +624,11 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "VaultName", required: true, type: .string), 
+            AWSShapeProperty(label: "TagKeys", required: false, type: .list)
+        ]
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
         /// The name of the vault.
@@ -561,6 +654,9 @@ extension Glacier {
     public struct ListProvisionedCapacityOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ProvisionedCapacityList", required: false, type: .list)
+        ]
         /// The response body contains the following JSON fields.
         public let provisionedCapacityList: [ProvisionedCapacityDescription]?
 
@@ -583,6 +679,11 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "Tags", required: false, type: .map), 
+            AWSShapeProperty(label: "VaultName", required: true, type: .string)
+        ]
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
         /// The tags to add to the vault. Each tag is composed of a key and a value. The value can be an empty string.
@@ -612,6 +713,13 @@ extension Glacier {
     public struct UploadListElement: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "VaultARN", required: false, type: .string), 
+            AWSShapeProperty(label: "CreationDate", required: false, type: .string), 
+            AWSShapeProperty(label: "ArchiveDescription", required: false, type: .string), 
+            AWSShapeProperty(label: "PartSizeInBytes", required: false, type: .long), 
+            AWSShapeProperty(label: "MultipartUploadId", required: false, type: .string)
+        ]
         /// The Amazon Resource Name (ARN) of the vault that contains the archive.
         public let vaultARN: String?
         /// The UTC time at which the multipart upload was initiated.
@@ -649,6 +757,13 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "uploadId": "uploadId", "vaultName": "vaultName"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "UploadId", required: true, type: .string), 
+            AWSShapeProperty(label: "X-amz-archive-size", required: false, type: .string), 
+            AWSShapeProperty(label: "X-amz-sha256-tree-hash", required: false, type: .string), 
+            AWSShapeProperty(label: "VaultName", required: true, type: .string)
+        ]
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
         /// The upload ID of the multipart upload.
@@ -689,6 +804,14 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .string), 
+            AWSShapeProperty(label: "VaultName", required: true, type: .string), 
+            AWSShapeProperty(label: "Statuscode", required: false, type: .string), 
+            AWSShapeProperty(label: "Completed", required: false, type: .string)
+        ]
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. 
         public let accountId: String
         /// An opaque string used for pagination. This value specifies the job at which the listing of jobs should begin. Get the marker value from a previous List Jobs response. You only need to include the marker if you are continuing the pagination of results started in a previous List Jobs request.
@@ -729,6 +852,10 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "VaultName", required: true, type: .string)
+        ]
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
         /// The name of the vault.
@@ -753,6 +880,10 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "VaultName", required: true, type: .string)
+        ]
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. 
         public let accountId: String
         /// The name of the vault.
@@ -777,6 +908,11 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "jobParameters", required: false, type: .structure), 
+            AWSShapeProperty(label: "VaultName", required: true, type: .string)
+        ]
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
         /// Provides options for specifying job information.
@@ -805,6 +941,11 @@ extension Glacier {
         public static var headerParams: [String: String] {
             return ["Location": "location", "x-amz-archive-id": "archiveId", "x-amz-sha256-tree-hash": "checksum"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "X-amz-archive-id", required: false, type: .string), 
+            AWSShapeProperty(label: "Location", required: false, type: .string), 
+            AWSShapeProperty(label: "X-amz-sha256-tree-hash", required: false, type: .string)
+        ]
         /// The ID of the archive. This value is also included as part of the location.
         public let archiveId: String?
         /// The relative URI path of the newly added archive resource.
@@ -828,6 +969,9 @@ extension Glacier {
     public struct ListTagsForVaultOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Tags", required: false, type: .map)
+        ]
         /// The tags attached to the vault. Each tag is composed of a key and a value.
         public let tags: [String: String]?
 
@@ -857,6 +1001,9 @@ extension Glacier {
         public static var headerParams: [String: String] {
             return ["Location": "location"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Location", required: false, type: .string)
+        ]
         /// The URI of the vault that was created.
         public let location: String?
 
@@ -875,6 +1022,10 @@ extension Glacier {
         public static var headerParams: [String: String] {
             return ["x-amz-job-id": "jobId", "Location": "location"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "X-amz-job-id", required: false, type: .string), 
+            AWSShapeProperty(label: "Location", required: false, type: .string)
+        ]
         /// The ID of the job.
         public let jobId: String?
         /// The relative URI path of the job.
@@ -894,6 +1045,10 @@ extension Glacier {
     public struct ListVaultsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "VaultList", required: false, type: .list)
+        ]
         /// The vault ARN at which to continue pagination of the results. You use the marker in another List Vaults request to obtain more vaults in the list.
         public let marker: String?
         /// List of vaults.
@@ -917,6 +1072,26 @@ extension Glacier {
     public struct GlacierJobDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "VaultARN", required: false, type: .string), 
+            AWSShapeProperty(label: "CompletionDate", required: false, type: .string), 
+            AWSShapeProperty(label: "InventorySizeInBytes", required: false, type: .long), 
+            AWSShapeProperty(label: "CreationDate", required: false, type: .string), 
+            AWSShapeProperty(label: "ArchiveId", required: false, type: .string), 
+            AWSShapeProperty(label: "SNSTopic", required: false, type: .string), 
+            AWSShapeProperty(label: "ArchiveSHA256TreeHash", required: false, type: .string), 
+            AWSShapeProperty(label: "JobId", required: false, type: .string), 
+            AWSShapeProperty(label: "SHA256TreeHash", required: false, type: .string), 
+            AWSShapeProperty(label: "Action", required: false, type: .enum), 
+            AWSShapeProperty(label: "RetrievalByteRange", required: false, type: .string), 
+            AWSShapeProperty(label: "InventoryRetrievalParameters", required: false, type: .structure), 
+            AWSShapeProperty(label: "StatusCode", required: false, type: .enum), 
+            AWSShapeProperty(label: "ArchiveSizeInBytes", required: false, type: .long), 
+            AWSShapeProperty(label: "Completed", required: false, type: .boolean), 
+            AWSShapeProperty(label: "JobDescription", required: false, type: .string), 
+            AWSShapeProperty(label: "StatusMessage", required: false, type: .string), 
+            AWSShapeProperty(label: "Tier", required: false, type: .string)
+        ]
         /// The Amazon Resource Name (ARN) of the vault from which the archive retrieval was requested.
         public let vaultARN: String?
         /// The UTC time that the archive retrieval request completed. While the job is in progress, the value will be null.
@@ -1000,6 +1175,11 @@ extension Glacier {
     public struct ProvisionedCapacityDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "StartDate", required: false, type: .string), 
+            AWSShapeProperty(label: "CapacityId", required: false, type: .string), 
+            AWSShapeProperty(label: "ExpirationDate", required: false, type: .string)
+        ]
         /// The date that the provisioned capacity unit was purchased, in Universal Coordinated Time (UTC).
         public let startDate: String?
         /// The ID that identifies the provisioned capacity unit.
@@ -1023,6 +1203,12 @@ extension Glacier {
     public struct GetVaultLockOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "CreationDate", required: false, type: .string), 
+            AWSShapeProperty(label: "Policy", required: false, type: .string), 
+            AWSShapeProperty(label: "State", required: false, type: .string), 
+            AWSShapeProperty(label: "ExpirationDate", required: false, type: .string)
+        ]
         /// The UTC date and time at which the vault lock was put into the InProgress state.
         public let creationDate: String?
         /// The vault lock policy as a JSON string, which uses "\" as an escape character.
@@ -1050,6 +1236,13 @@ extension Glacier {
     public struct InventoryRetrievalJobDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Format", required: false, type: .string), 
+            AWSShapeProperty(label: "StartDate", required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .string), 
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "EndDate", required: false, type: .string)
+        ]
         /// The output format for the vault inventory list, which is set by the InitiateJob request when initiating a job to retrieve a vault inventory. Valid values are CSV and JSON.
         public let format: String?
         /// The start of the date range in Universal Coordinated Time (UTC) for vault inventory retrieval that includes archives created on or after this date. This value should be a string in the ISO 8601 date format, for example 2013-03-20T17:03:43Z.
@@ -1084,6 +1277,10 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "VaultName", required: true, type: .string)
+        ]
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
         /// The name of the vault.
@@ -1111,6 +1308,11 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .string)
+        ]
         /// A string used for pagination. The marker specifies the vault ARN after which the listing of vaults should begin.
         public let marker: String?
         /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
@@ -1135,6 +1337,9 @@ extension Glacier {
     public struct GetVaultAccessPolicyOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = "policy"
+        public static var parsingHints = [
+            AWSShapeProperty(label: "policy", required: false, type: .structure)
+        ]
         /// Contains the returned vault access policy as a JSON string.
         public let policy: VaultAccessPolicy?
 
@@ -1153,6 +1358,10 @@ extension Glacier {
         public static var headerParams: [String: String] {
             return ["Location": "location", "x-amz-multipart-upload-id": "uploadId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "X-amz-multipart-upload-id", required: false, type: .string), 
+            AWSShapeProperty(label: "Location", required: false, type: .string)
+        ]
         /// The ID of the multipart upload. This value is also included as part of the location.
         public let uploadId: String?
         /// The relative URI path of the multipart upload ID Amazon Glacier created.
@@ -1172,6 +1381,15 @@ extension Glacier {
     public struct ListPartsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "VaultARN", required: false, type: .string), 
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "ArchiveDescription", required: false, type: .string), 
+            AWSShapeProperty(label: "PartSizeInBytes", required: false, type: .long), 
+            AWSShapeProperty(label: "MultipartUploadId", required: false, type: .string), 
+            AWSShapeProperty(label: "CreationDate", required: false, type: .string), 
+            AWSShapeProperty(label: "Parts", required: false, type: .list)
+        ]
         /// The Amazon Resource Name (ARN) of the vault to which the multipart upload was initiated.
         public let vaultARN: String?
         /// An opaque string that represents where to continue pagination of the results. You use the marker in a new List Parts request to obtain more jobs in the list. If there are no more parts, this value is null.
@@ -1221,6 +1439,13 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "uploadId": "uploadId", "vaultName": "vaultName"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "UploadId", required: true, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .string), 
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "VaultName", required: true, type: .string)
+        ]
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. 
         public let accountId: String
         /// The upload ID of the multipart upload.
@@ -1255,6 +1480,9 @@ extension Glacier {
     public struct VaultAccessPolicy: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Policy", required: false, type: .string)
+        ]
         /// The vault access policy.
         public let policy: String?
 
@@ -1273,6 +1501,10 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "VaultName", required: true, type: .string)
+        ]
         /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
         /// The name of the vault.
@@ -1297,6 +1529,10 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "VaultName", required: true, type: .string)
+        ]
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. 
         public let accountId: String
         /// The name of the vault.
@@ -1321,6 +1557,11 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["archiveId": "archiveId", "accountId": "accountId", "vaultName": "vaultName"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ArchiveId", required: true, type: .string), 
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "VaultName", required: true, type: .string)
+        ]
         /// The ID of the archive to delete.
         public let archiveId: String
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
@@ -1350,6 +1591,11 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "policy", required: false, type: .structure), 
+            AWSShapeProperty(label: "VaultName", required: true, type: .string)
+        ]
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
         /// The vault access policy as a JSON string.
@@ -1375,6 +1621,9 @@ extension Glacier {
     public struct VaultLockPolicy: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Policy", required: false, type: .string)
+        ]
         /// The vault lock policy.
         public let policy: String?
 
@@ -1399,6 +1648,15 @@ extension Glacier {
         public static var headerParams: [String: String] {
             return ["Content-Type": "contentType", "x-amz-archive-description": "archiveDescription", "Content-Range": "contentRange", "Accept-Ranges": "acceptRanges", "x-amz-sha256-tree-hash": "checksum"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Content-Range", required: false, type: .string), 
+            AWSShapeProperty(label: "status", required: false, type: .integer), 
+            AWSShapeProperty(label: "Content-Type", required: false, type: .string), 
+            AWSShapeProperty(label: "Accept-Ranges", required: false, type: .string), 
+            AWSShapeProperty(label: "body", required: false, type: .blob), 
+            AWSShapeProperty(label: "X-amz-archive-description", required: false, type: .string), 
+            AWSShapeProperty(label: "X-amz-sha256-tree-hash", required: false, type: .string)
+        ]
         /// The range of bytes returned by Amazon Glacier. If only partial output is downloaded, the response provides the range of bytes Amazon Glacier returned. For example, bytes 0-1048575/8388608 returns the first 1 MB from 8 MB.
         public let contentRange: String?
         /// The HTTP response code for a job output request. The value depends on whether a range was specified in the request.
@@ -1441,6 +1699,9 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string)
+        ]
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, don't include any hyphens ('-') in the ID. 
         public let accountId: String
 
@@ -1460,6 +1721,9 @@ extension Glacier {
         public static var headerParams: [String: String] {
             return ["x-amz-sha256-tree-hash": "checksum"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "X-amz-sha256-tree-hash", required: false, type: .string)
+        ]
         /// The SHA256 tree hash that Amazon Glacier computed for the uploaded part.
         public let checksum: String?
 
@@ -1475,6 +1739,10 @@ extension Glacier {
     public struct VaultNotificationConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Events", required: false, type: .list), 
+            AWSShapeProperty(label: "SNSTopic", required: false, type: .string)
+        ]
         /// A list of one or more events for which Amazon Glacier will send a notification to the specified Amazon SNS topic.
         public let events: [String]?
         /// The Amazon Simple Notification Service (Amazon SNS) topic Amazon Resource Name (ARN).
@@ -1494,6 +1762,10 @@ extension Glacier {
     public struct ListJobsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "JobList", required: false, type: .list)
+        ]
         ///  An opaque string used for pagination that specifies the job at which the listing of jobs should begin. You get the marker value from a previous List Jobs response. You only need to include the marker if you are continuing the pagination of the results started in a previous List Jobs request. 
         public let marker: String?
         /// A list of job objects. Each job object contains metadata describing the job.
@@ -1517,6 +1789,9 @@ extension Glacier {
     public struct DataRetrievalPolicy: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Rules", required: false, type: .list)
+        ]
         /// The policy rule. Although this is a list type, currently there must be only one rule, which contains a Strategy field and optionally a BytesPerHour field.
         public let rules: [DataRetrievalRule]?
 
@@ -1536,6 +1811,16 @@ extension Glacier {
     public struct JobParameters: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "InventoryRetrievalParameters", required: false, type: .structure), 
+            AWSShapeProperty(label: "RetrievalByteRange", required: false, type: .string), 
+            AWSShapeProperty(label: "Format", required: false, type: .string), 
+            AWSShapeProperty(label: "ArchiveId", required: false, type: .string), 
+            AWSShapeProperty(label: "SNSTopic", required: false, type: .string), 
+            AWSShapeProperty(label: "Type", required: false, type: .string), 
+            AWSShapeProperty(label: "Tier", required: false, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
+        ]
         /// Input parameters used for range inventory retrieval.
         public let inventoryRetrievalParameters: InventoryRetrievalJobInput?
         /// The byte range to retrieve for an archive retrieval. in the form "StartByteValue-EndByteValue" If not specified, the whole archive is retrieved. If specified, the byte range must be megabyte (1024*1024) aligned which means that StartByteValue must be divisible by 1 MB and EndByteValue plus 1 must be divisible by 1 MB or be the end of the archive specified as the archive byte size value minus 1. If RetrievalByteRange is not megabyte aligned, this operation returns a 400 response.  An error occurs if you specify this field for an inventory retrieval job request.
@@ -1582,6 +1867,10 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "VaultName", required: true, type: .string)
+        ]
         /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
         /// The name of the vault.
@@ -1606,6 +1895,10 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "vaultName": "vaultName"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "VaultName", required: true, type: .string)
+        ]
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
         /// The name of the vault.
@@ -1627,6 +1920,9 @@ extension Glacier {
     public struct GetVaultNotificationsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = "vaultNotificationConfig"
+        public static var parsingHints = [
+            AWSShapeProperty(label: "vaultNotificationConfig", required: false, type: .structure)
+        ]
         /// Returns the notification configuration set on the vault.
         public let vaultNotificationConfig: VaultNotificationConfig?
 
@@ -1645,6 +1941,11 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "jobId": "jobId", "vaultName": "vaultName"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "JobId", required: true, type: .string), 
+            AWSShapeProperty(label: "VaultName", required: true, type: .string)
+        ]
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. 
         public let accountId: String
         /// The ID of the job to describe.
@@ -1674,6 +1975,11 @@ extension Glacier {
         public static var pathParams: [String: String] {
             return ["accountId": "accountId", "lockId": "lockId", "vaultName": "vaultName"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "LockId", required: true, type: .string), 
+            AWSShapeProperty(label: "VaultName", required: true, type: .string)
+        ]
         /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
         /// The lockId value is the lock ID obtained from a InitiateVaultLock request.
@@ -1700,6 +2006,12 @@ extension Glacier {
     public struct InventoryRetrievalJobInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "StartDate", required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .string), 
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "EndDate", required: false, type: .string)
+        ]
         /// The start of the date range in UTC for vault inventory retrieval that includes archives created on or after this date. This value should be a string in the ISO 8601 date format, for example 2013-03-20T17:03:43Z.
         public let startDate: String?
         /// Specifies the maximum number of inventory items returned per vault inventory retrieval request. Valid values are greater than or equal to 1.
@@ -1730,6 +2042,9 @@ extension Glacier {
         public static var headerParams: [String: String] {
             return ["x-amz-lock-id": "lockId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "X-amz-lock-id", required: false, type: .string)
+        ]
         /// The lock ID, which is used to complete the vault locking process.
         public let lockId: String?
 
@@ -1745,6 +2060,14 @@ extension Glacier {
     public struct DescribeVaultOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "SizeInBytes", required: false, type: .long), 
+            AWSShapeProperty(label: "VaultARN", required: false, type: .string), 
+            AWSShapeProperty(label: "NumberOfArchives", required: false, type: .long), 
+            AWSShapeProperty(label: "VaultName", required: false, type: .string), 
+            AWSShapeProperty(label: "CreationDate", required: false, type: .string), 
+            AWSShapeProperty(label: "LastInventoryDate", required: false, type: .string)
+        ]
         /// Total size, in bytes, of the archives in the vault as of the last inventory date. This field will return null if an inventory has not yet run on the vault, for example if you just created the vault.
         public let sizeInBytes: Int64?
         /// The Amazon Resource Name (ARN) of the vault.

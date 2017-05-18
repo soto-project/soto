@@ -35,6 +35,10 @@ extension Cloudfront {
         public static var headerParams: [String: String] {
             return ["ETag": "ETag"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ETag", required: false, type: .string), 
+            AWSShapeProperty(label: "StreamingDistribution", required: false, type: .structure)
+        ]
         /// The current version of the streaming distribution's information. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
         /// The streaming distribution's information.
@@ -57,6 +61,10 @@ extension Cloudfront {
         public static var queryParams: [String: String] {
             return ["Resource": "Resource"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Resource", required: true, type: .string), 
+            AWSShapeProperty(label: "Tags", required: true, type: .structure)
+        ]
         ///  An ARN of a CloudFront resource.
         public let resource: String
         ///  A complex type that contains zero or more Tag elements.
@@ -78,6 +86,9 @@ extension Cloudfront {
     public struct CloudFrontOriginAccessIdentitySummaryList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "CloudFrontOriginAccessIdentitySummary", required: false, type: .list)
+        ]
         public let cloudFrontOriginAccessIdentitySummary: [CloudFrontOriginAccessIdentitySummary]?
 
         public init(cloudFrontOriginAccessIdentitySummary: [CloudFrontOriginAccessIdentitySummary]? = nil) {
@@ -96,6 +107,10 @@ extension Cloudfront {
     public struct Signer: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AwsAccountNumber", required: false, type: .string), 
+            AWSShapeProperty(label: "KeyPairIds", required: false, type: .structure)
+        ]
         /// An AWS account that is included in the TrustedSigners complex type for this RTMP distribution. Valid values include:    self, which is the AWS account used to create the distribution.   An AWS account number.  
         public let awsAccountNumber: String?
         /// A complex type that lists the active CloudFront key pairs, if any, that are associated with AwsAccountNumber.
@@ -118,6 +133,11 @@ extension Cloudfront {
         public static var headerParams: [String: String] {
             return ["ETag": "ETag", "Location": "Location"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ETag", required: false, type: .string), 
+            AWSShapeProperty(label: "Location", required: false, type: .string), 
+            AWSShapeProperty(label: "StreamingDistribution", required: false, type: .structure)
+        ]
         public let eTag: String?
         /// The fully qualified URI of the new streaming distribution resource just created. For example: https://cloudfront.amazonaws.com/2010-11-01/streaming-distribution/EGTXBD79H29TRA8.
         public let location: String?
@@ -143,6 +163,10 @@ extension Cloudfront {
         public static var headerParams: [String: String] {
             return ["ETag": "ETag"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ETag", required: false, type: .string), 
+            AWSShapeProperty(label: "StreamingDistribution", required: false, type: .structure)
+        ]
         /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
         /// The streaming distribution's information.
@@ -162,6 +186,9 @@ extension Cloudfront {
     public struct QueryStringCacheKeysList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Name", required: false, type: .list)
+        ]
         public let name: [String]?
 
         public init(name: [String]? = nil) {
@@ -183,6 +210,9 @@ extension Cloudfront {
     public struct InvalidationSummaryList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "InvalidationSummary", required: false, type: .list)
+        ]
         public let invalidationSummary: [InvalidationSummary]?
 
         public init(invalidationSummary: [InvalidationSummary]? = nil) {
@@ -201,6 +231,10 @@ extension Cloudfront {
     public struct InvalidationBatch: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "CallerReference", required: true, type: .string), 
+            AWSShapeProperty(label: "Paths", required: true, type: .structure)
+        ]
         /// A value that you specify to uniquely identify an invalidation request. CloudFront uses the value to prevent you from accidentally resubmitting an identical request. Whenever you create a new invalidation request, you must specify a new value for CallerReference and change other values in the request as applicable. One way to ensure that the value of CallerReference is unique is to use a timestamp, for example, 20120301090000. If you make a second invalidation request with the same value for CallerReference, and if the rest of the request is the same, CloudFront doesn't create a new invalidation request. Instead, CloudFront returns information about the invalidation request that you previously created with the same CallerReference. If CallerReference is a value you already sent in a previous invalidation batch request but the content of any Path is different from the original request, CloudFront returns an InvalidationBatchAlreadyExists error.
         public let callerReference: String
         /// A complex type that contains information about the objects that you want to invalidate. For more information, see Specifying the Objects to Invalidate in the Amazon CloudFront Developer Guide. 
@@ -222,6 +256,11 @@ extension Cloudfront {
     public struct TrustedSigners: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Items", required: false, type: .structure), 
+            AWSShapeProperty(label: "Enabled", required: true, type: .boolean), 
+            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        ]
         ///  Optional: A complex type that contains trusted signers for this cache behavior. If Quantity is 0, you can omit Items.
         public let items: AwsAccountNumberList?
         /// Specifies whether you want to require viewers to use signed URLs to access the files specified by PathPattern and TargetOriginId.
@@ -247,6 +286,9 @@ extension Cloudfront {
     public struct ListCloudFrontOriginAccessIdentitiesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = "CloudFrontOriginAccessIdentityList"
+        public static var parsingHints = [
+            AWSShapeProperty(label: "CloudFrontOriginAccessIdentityList", required: false, type: .structure)
+        ]
         /// The CloudFrontOriginAccessIdentityList type. 
         public let cloudFrontOriginAccessIdentityList: CloudFrontOriginAccessIdentityList?
 
@@ -262,6 +304,10 @@ extension Cloudfront {
     public struct Headers: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Items", required: false, type: .structure), 
+            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        ]
         /// A complex type that contains one Name element for each header that you want CloudFront to forward to the origin and to vary on for this cache behavior. If Quantity is 0, omit Items.
         public let items: HeaderList?
         /// The number of different headers that you want CloudFront to forward to the origin for this cache behavior. You can configure each cache behavior in a web distribution to do one of the following:    Forward all headers to your origin: Specify 1 for Quantity and * for Name.  If you configure CloudFront to forward all headers to your origin, CloudFront doesn't cache the objects associated with this cache behavior. Instead, it sends every request to the origin.     Forward a whitelist of headers you specify: Specify the number of headers that you want to forward, and specify the header names in Name elements. CloudFront caches your objects based on the values in all of the specified headers. CloudFront also forwards the headers that it forwards by default, but it caches your objects based only on the headers that you specify.     Forward only the default headers: Specify 0 for Quantity and omit Items. In this configuration, CloudFront doesn't cache based on the values in the request headers.  
@@ -282,6 +328,9 @@ extension Cloudfront {
     public struct CreateStreamingDistributionWithTagsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = "StreamingDistributionConfigWithTags"
+        public static var parsingHints = [
+            AWSShapeProperty(label: "StreamingDistributionConfigWithTags", required: true, type: .structure)
+        ]
         ///  The streaming distribution's configuration information. 
         public let streamingDistributionConfigWithTags: StreamingDistributionConfigWithTags
 
@@ -298,6 +347,10 @@ extension Cloudfront {
     public struct QueryStringCacheKeys: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Items", required: false, type: .structure), 
+            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        ]
         /// (Optional) A list that contains the query string parameters that you want CloudFront to use as a basis for caching for this cache behavior. If Quantity is 0, you can omit Items. 
         public let items: QueryStringCacheKeysList?
         /// The number of whitelisted query string parameters for this cache behavior.
@@ -318,6 +371,10 @@ extension Cloudfront {
     public struct LambdaFunctionAssociations: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Items", required: false, type: .structure), 
+            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        ]
         ///  Optional: A complex type that contains LambdaFunctionAssociation items for this cache behavior. If Quantity is 0, you can omit Items.
         public let items: LambdaFunctionAssociationList?
         /// The number of Lambda function associations for this cache behavior.
@@ -341,6 +398,9 @@ extension Cloudfront {
         public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Id", required: true, type: .string)
+        ]
         /// The streaming distribution's ID.
         public let id: String
 
@@ -357,6 +417,10 @@ extension Cloudfront {
     public struct Paths: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Items", required: false, type: .structure), 
+            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        ]
         /// A complex type that contains a list of the paths that you want to invalidate.
         public let items: PathList?
         /// The number of objects that you want to invalidate.
@@ -377,6 +441,9 @@ extension Cloudfront {
     public struct SslProtocolsList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "SslProtocol", required: false, type: .list)
+        ]
         public let sslProtocol: [SslProtocol]?
 
         public init(sslProtocol: [SslProtocol]? = nil) {
@@ -391,6 +458,19 @@ extension Cloudfront {
     public struct DefaultCacheBehavior: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "DefaultTTL", required: false, type: .long), 
+            AWSShapeProperty(label: "TargetOriginId", required: true, type: .string), 
+            AWSShapeProperty(label: "ForwardedValues", required: true, type: .structure), 
+            AWSShapeProperty(label: "TrustedSigners", required: true, type: .structure), 
+            AWSShapeProperty(label: "Compress", required: false, type: .boolean), 
+            AWSShapeProperty(label: "SmoothStreaming", required: false, type: .boolean), 
+            AWSShapeProperty(label: "MaxTTL", required: false, type: .long), 
+            AWSShapeProperty(label: "LambdaFunctionAssociations", required: false, type: .structure), 
+            AWSShapeProperty(label: "MinTTL", required: true, type: .long), 
+            AWSShapeProperty(label: "ViewerProtocolPolicy", required: true, type: .enum), 
+            AWSShapeProperty(label: "AllowedMethods", required: false, type: .structure)
+        ]
         /// The default amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin does not add HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
         public let defaultTTL: Int64?
         /// The value of ID for the origin that you want CloudFront to route requests to when a request matches the path pattern either for a cache behavior or for the default cache behavior.
@@ -449,6 +529,9 @@ extension Cloudfront {
     public struct PathList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Path", required: false, type: .list)
+        ]
         public let path: [String]?
 
         public init(path: [String]? = nil) {
@@ -463,6 +546,12 @@ extension Cloudfront {
     public struct Invalidation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "InvalidationBatch", required: true, type: .structure), 
+            AWSShapeProperty(label: "Status", required: true, type: .string), 
+            AWSShapeProperty(label: "CreateTime", required: true, type: .timestamp), 
+            AWSShapeProperty(label: "Id", required: true, type: .string)
+        ]
         /// The current invalidation information for the batch request. 
         public let invalidationBatch: InvalidationBatch
         /// The status of the invalidation request. When the invalidation batch is finished, the status is Completed.
@@ -494,6 +583,10 @@ extension Cloudfront {
     public struct Tag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Value", required: false, type: .string), 
+            AWSShapeProperty(label: "Key", required: true, type: .string)
+        ]
         ///  A string that contains an optional Tag value. The string length should be between 0 and 256 characters. Valid characters include a-z, A-Z, 0-9, space, and the special characters _ - . : / = + @.
         public let value: String?
         ///  A string that contains Tag key. The string length should be between 1 and 128 characters. Valid characters include a-z, A-Z, 0-9, space, and the special characters _ - . : / = + @.
@@ -514,6 +607,9 @@ extension Cloudfront {
     public struct CreateDistributionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = "DistributionConfig"
+        public static var parsingHints = [
+            AWSShapeProperty(label: "DistributionConfig", required: true, type: .structure)
+        ]
         /// The distribution's configuration information.
         public let distributionConfig: DistributionConfig
 
@@ -533,6 +629,9 @@ extension Cloudfront {
         public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Id", required: true, type: .string)
+        ]
         /// The identity's ID.
         public let id: String
 
@@ -562,6 +661,11 @@ extension Cloudfront {
         public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Id", required: true, type: .string), 
+            AWSShapeProperty(label: "CloudFrontOriginAccessIdentityConfig", required: true, type: .structure), 
+            AWSShapeProperty(label: "If-Match", required: false, type: .string)
+        ]
         /// The identity's id.
         public let id: String
         /// The identity's configuration information.
@@ -587,6 +691,9 @@ extension Cloudfront {
     public struct GetInvalidationResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = "Invalidation"
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Invalidation", required: false, type: .structure)
+        ]
         /// The invalidation's information. For more information, see Invalidation Complex Type. 
         public let invalidation: Invalidation?
 
@@ -605,6 +712,10 @@ extension Cloudfront {
         public static var headerParams: [String: String] {
             return ["Location": "Location"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Location", required: false, type: .string), 
+            AWSShapeProperty(label: "Invalidation", required: false, type: .structure)
+        ]
         /// The fully qualified URI of the distribution and invalidation batch request, including the Invalidation ID.
         public let location: String?
         /// The invalidation's information.
@@ -624,6 +735,19 @@ extension Cloudfront {
     public struct StreamingDistributionSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "LastModifiedTime", required: true, type: .timestamp), 
+            AWSShapeProperty(label: "Status", required: true, type: .string), 
+            AWSShapeProperty(label: "Id", required: true, type: .string), 
+            AWSShapeProperty(label: "Aliases", required: true, type: .structure), 
+            AWSShapeProperty(label: "TrustedSigners", required: true, type: .structure), 
+            AWSShapeProperty(label: "S3Origin", required: true, type: .structure), 
+            AWSShapeProperty(label: "Comment", required: true, type: .string), 
+            AWSShapeProperty(label: "Enabled", required: true, type: .boolean), 
+            AWSShapeProperty(label: "ARN", required: true, type: .string), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
+            AWSShapeProperty(label: "PriceClass", required: true, type: .enum)
+        ]
         /// The date and time the distribution was last modified.
         public let lastModifiedTime: Date
         ///  Indicates the current status of the distribution. When the status is Deployed, the distribution's information is fully propagated throughout the Amazon CloudFront system.
@@ -689,6 +813,20 @@ extension Cloudfront {
     public struct CacheBehavior: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "TargetOriginId", required: true, type: .string), 
+            AWSShapeProperty(label: "PathPattern", required: true, type: .string), 
+            AWSShapeProperty(label: "AllowedMethods", required: false, type: .structure), 
+            AWSShapeProperty(label: "ForwardedValues", required: true, type: .structure), 
+            AWSShapeProperty(label: "TrustedSigners", required: true, type: .structure), 
+            AWSShapeProperty(label: "Compress", required: false, type: .boolean), 
+            AWSShapeProperty(label: "LambdaFunctionAssociations", required: false, type: .structure), 
+            AWSShapeProperty(label: "MaxTTL", required: false, type: .long), 
+            AWSShapeProperty(label: "SmoothStreaming", required: false, type: .boolean), 
+            AWSShapeProperty(label: "MinTTL", required: true, type: .long), 
+            AWSShapeProperty(label: "ViewerProtocolPolicy", required: true, type: .enum), 
+            AWSShapeProperty(label: "DefaultTTL", required: false, type: .long)
+        ]
         /// The value of ID for the origin that you want CloudFront to route requests to when a request matches the path pattern either for a cache behavior or for the default cache behavior.
         public let targetOriginId: String
         /// The pattern (for example, images/*.jpg) that specifies which requests to apply the behavior to. When CloudFront receives a viewer request, the requested path is compared with path patterns in the order in which cache behaviors are listed in the distribution.  You can optionally include a slash (/) at the beginning of the path pattern. For example, /images/*.jpg. CloudFront behavior is the same with or without the leading /.  The path pattern for the default cache behavior is * and cannot be changed. If the request for an object does not match the path pattern for any cache behaviors, CloudFront applies the behavior in the default cache behavior. For more information, see Path Pattern in the  Amazon CloudFront Developer Guide.
@@ -753,6 +891,10 @@ extension Cloudfront {
     public struct DistributionConfigWithTags: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Tags", required: true, type: .structure), 
+            AWSShapeProperty(label: "DistributionConfig", required: true, type: .structure)
+        ]
         /// A complex type that contains zero or more Tag elements.
         public let tags: Tags
         /// A distribution configuration.
@@ -774,6 +916,9 @@ extension Cloudfront {
     public struct ListStreamingDistributionsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = "StreamingDistributionList"
+        public static var parsingHints = [
+            AWSShapeProperty(label: "StreamingDistributionList", required: false, type: .structure)
+        ]
         /// The StreamingDistributionList type. 
         public let streamingDistributionList: StreamingDistributionList?
 
@@ -789,6 +934,10 @@ extension Cloudfront {
     public struct Origins: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Items", required: false, type: .structure), 
+            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        ]
         /// A complex type that contains origins for this distribution.
         public let items: OriginList?
         /// The number of origins for this distribution.
@@ -812,6 +961,10 @@ extension Cloudfront {
         public static var headerParams: [String: String] {
             return ["ETag": "ETag"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ETag", required: false, type: .string), 
+            AWSShapeProperty(label: "DistributionConfig", required: false, type: .structure)
+        ]
         /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
         /// The distribution's configuration information.
@@ -831,6 +984,14 @@ extension Cloudfront {
     public struct InvalidationList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "MaxItems", required: true, type: .integer), 
+            AWSShapeProperty(label: "IsTruncated", required: true, type: .boolean), 
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string), 
+            AWSShapeProperty(label: "Marker", required: true, type: .string), 
+            AWSShapeProperty(label: "Items", required: false, type: .structure), 
+            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        ]
         /// The value that you provided for the MaxItems request parameter.
         public let maxItems: Int32
         /// A flag that indicates whether more invalidation batch requests remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more invalidation batches in the list.
@@ -873,6 +1034,10 @@ extension Cloudfront {
         public static var pathParams: [String: String] {
             return ["DistributionId": "DistributionId", "Id": "Id"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "DistributionId", required: true, type: .string), 
+            AWSShapeProperty(label: "Id", required: true, type: .string)
+        ]
         /// The distribution's ID.
         public let distributionId: String
         /// The identifier for the invalidation request, for example, IDFDVBD632BHDS5.
@@ -894,6 +1059,12 @@ extension Cloudfront {
     public struct ForwardedValues: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "QueryString", required: true, type: .boolean), 
+            AWSShapeProperty(label: "Headers", required: false, type: .structure), 
+            AWSShapeProperty(label: "Cookies", required: true, type: .structure), 
+            AWSShapeProperty(label: "QueryStringCacheKeys", required: false, type: .structure)
+        ]
         /// Indicates whether you want CloudFront to forward query strings to the origin that is associated with this cache behavior and cache based on the query string parameters. CloudFront behavior depends on the value of QueryString and on the values that you specify for QueryStringCacheKeys, if any: If you specify true for QueryString and you don't specify any values for QueryStringCacheKeys, CloudFront forwards all query string parameters to the origin and caches based on all query string parameters. Depending on how many query string parameters and values you have, this can adversely affect performance because CloudFront must forward more requests to the origin. If you specify true for QueryString and you specify one or more values for QueryStringCacheKeys, CloudFront forwards all query string parameters to the origin, but it only caches based on the query string parameters that you specify. If you specify false for QueryString, CloudFront doesn't forward any query string parameters to the origin, and doesn't cache based on query string parameters. For more information, see Configuring CloudFront to Cache Based on Query String Parameters in the Amazon CloudFront Developer Guide.
         public let queryString: Bool
         /// A complex type that specifies the Headers, if any, that you want CloudFront to vary upon for this cache behavior. 
@@ -930,6 +1101,9 @@ extension Cloudfront {
     public struct LocationList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Location", required: false, type: .list)
+        ]
         public let location: [String]?
 
         public init(location: [String]? = nil) {
@@ -944,6 +1118,9 @@ extension Cloudfront {
     public struct SignerList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Signer", required: false, type: .list)
+        ]
         public let signer: [Signer]?
 
         public init(signer: [Signer]? = nil) {
@@ -968,6 +1145,11 @@ extension Cloudfront {
         public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Id", required: true, type: .string), 
+            AWSShapeProperty(label: "If-Match", required: false, type: .string), 
+            AWSShapeProperty(label: "DistributionConfig", required: true, type: .structure)
+        ]
         /// The distribution's id.
         public let id: String
         /// The value of the ETag header that you received when retrieving the distribution's configuration. For example: E2QWRUHAPOMQZL.
@@ -993,6 +1175,9 @@ extension Cloudfront {
     public struct CacheBehaviorList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "CacheBehavior", required: false, type: .list)
+        ]
         public let cacheBehavior: [CacheBehavior]?
 
         public init(cacheBehavior: [CacheBehavior]? = nil) {
@@ -1011,6 +1196,10 @@ extension Cloudfront {
     public struct LambdaFunctionAssociation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "EventType", required: false, type: .enum), 
+            AWSShapeProperty(label: "LambdaFunctionARN", required: false, type: .string)
+        ]
         /// Specifies the event type that triggers a Lambda function invocation. Valid values are:    viewer-request     origin-request     viewer-response     origin-response   
         public let eventType: EventType?
         /// The ARN of the Lambda function.
@@ -1033,6 +1222,9 @@ extension Cloudfront {
         public static var queryParams: [String: String] {
             return ["Resource": "Resource"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Resource", required: true, type: .string)
+        ]
         ///  An ARN of a CloudFront resource.
         public let resource: String
 
@@ -1049,6 +1241,10 @@ extension Cloudfront {
     public struct OriginCustomHeader: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "HeaderName", required: true, type: .string), 
+            AWSShapeProperty(label: "HeaderValue", required: true, type: .string)
+        ]
         /// The name of a header that you want CloudFront to forward to your origin. For more information, see Forwarding Custom Headers to Your Origin (Web Distributions Only) in the Amazon Amazon CloudFront Developer Guide.
         public let headerName: String
         /// The value for the header that you specified in the HeaderName field.
@@ -1076,6 +1272,11 @@ extension Cloudfront {
         public static var pathParams: [String: String] {
             return ["DistributionId": "DistributionId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxItems", required: false, type: .string), 
+            AWSShapeProperty(label: "DistributionId", required: true, type: .string)
+        ]
         /// Use this parameter when paginating results to indicate where to begin in your list of invalidation batches. Because the results are returned in decreasing order from most recent to oldest, the most recent results are on the first page, the second page will contain earlier results, and so on. To get the next page of results, set Marker to the value of the NextMarker from the current page's response. This value is the same as the ID of the last invalidation batch on that page. 
         public let marker: String?
         /// The maximum number of invalidation batches that you want in the response body.
@@ -1100,6 +1301,10 @@ extension Cloudfront {
     public struct CacheBehaviors: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Items", required: false, type: .structure), 
+            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        ]
         /// Optional: A complex type that contains cache behaviors for this distribution. If Quantity is 0, you can omit Items.
         public let items: CacheBehaviorList?
         /// The number of cache behaviors for this distribution. 
@@ -1130,6 +1335,11 @@ extension Cloudfront {
         public static var headerParams: [String: String] {
             return ["ETag": "ETag", "Location": "Location"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ETag", required: false, type: .string), 
+            AWSShapeProperty(label: "Location", required: false, type: .string), 
+            AWSShapeProperty(label: "CloudFrontOriginAccessIdentity", required: false, type: .structure)
+        ]
         /// The current version of the origin access identity created.
         public let eTag: String?
         /// The fully qualified URI of the new origin access identity just created. For example: https://cloudfront.amazonaws.com/2010-11-01/origin-access-identity/cloudfront/E74FTE3AJFJ256A.
@@ -1153,6 +1363,11 @@ extension Cloudfront {
     public struct AllowedMethods: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Items", required: true, type: .structure), 
+            AWSShapeProperty(label: "CachedMethods", required: false, type: .structure), 
+            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        ]
         /// A complex type that contains the HTTP methods that you want CloudFront to process and forward to your origin.
         public let items: MethodsList
         public let cachedMethods: CachedMethods?
@@ -1177,6 +1392,9 @@ extension Cloudfront {
     public struct CreateStreamingDistributionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = "StreamingDistributionConfig"
+        public static var parsingHints = [
+            AWSShapeProperty(label: "StreamingDistributionConfig", required: true, type: .structure)
+        ]
         /// The streaming distribution's configuration information.
         public let streamingDistributionConfig: StreamingDistributionConfig
 
@@ -1196,6 +1414,10 @@ extension Cloudfront {
         public static var queryParams: [String: String] {
             return ["Marker": "Marker", "MaxItems": "MaxItems"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxItems", required: false, type: .string)
+        ]
         /// The value that you provided for the Marker request parameter.
         public let marker: String?
         /// The value that you provided for the MaxItems request parameter.
@@ -1215,6 +1437,9 @@ extension Cloudfront {
     public struct ListDistributionsByWebACLIdResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = "DistributionList"
+        public static var parsingHints = [
+            AWSShapeProperty(label: "DistributionList", required: false, type: .structure)
+        ]
         /// The DistributionList type. 
         public let distributionList: DistributionList?
 
@@ -1236,6 +1461,11 @@ extension Cloudfront {
         public static var pathParams: [String: String] {
             return ["WebACLId": "WebACLId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxItems", required: false, type: .string), 
+            AWSShapeProperty(label: "WebACLId", required: true, type: .string)
+        ]
         /// Use Marker and MaxItems to control pagination of results. If you have more than MaxItems distributions that satisfy the request, the response includes a NextMarker element. To get the next page of results, submit another request. For the value of Marker, specify the value of NextMarker from the last response. (For the first request, omit Marker.) 
         public let marker: String?
         /// The maximum number of distributions that you want CloudFront to return in the response body. The maximum and default values are both 100.
@@ -1260,6 +1490,9 @@ extension Cloudfront {
     public struct S3OriginConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "OriginAccessIdentity", required: true, type: .string)
+        ]
         /// The CloudFront origin access identity to associate with the origin. Use an origin access identity to configure the origin so that viewers can only access objects in an Amazon S3 bucket through CloudFront. The format of the value is: origin-access-identity/CloudFront/ID-of-origin-access-identity  where  ID-of-origin-access-identity  is the value that CloudFront returned in the ID element when you created the origin access identity. If you want viewers to be able to access objects using either the CloudFront URL or the Amazon S3 URL, specify an empty OriginAccessIdentity element. To delete the origin access identity from an existing distribution, update the distribution configuration and include an empty OriginAccessIdentity element. To replace the origin access identity, update the distribution configuration and specify the new origin access identity. For more information about the origin access identity, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide.
         public let originAccessIdentity: String
 
@@ -1276,6 +1509,10 @@ extension Cloudfront {
     public struct CookiePreference: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Forward", required: true, type: .enum), 
+            AWSShapeProperty(label: "WhitelistedNames", required: false, type: .structure)
+        ]
         /// Specifies which cookies to forward to the origin for this cache behavior: all, none, or the list of cookies specified in the WhitelistedNames complex type. Amazon S3 doesn't process cookies. When the cache behavior is forwarding requests to an Amazon S3 origin, specify none for the Forward element. 
         public let forward: ItemSelection
         /// Required if you specify whitelist for the value of Forward:. A complex type that specifies how many different cookies you want CloudFront to forward to the origin for this cache behavior and, if you want to forward selected cookies, the names of those cookies. If you specify all or none for the value of Forward, omit WhitelistedNames. If you change the value of Forward from whitelist to all or none and you don't delete the WhitelistedNames element and its child elements, CloudFront deletes them automatically. For the current limit on the number of cookie names that you can whitelist for each cache behavior, see Amazon CloudFront Limits in the AWS General Reference.
@@ -1296,6 +1533,10 @@ extension Cloudfront {
     public struct OriginSslProtocols: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Items", required: true, type: .structure), 
+            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        ]
         /// A list that contains allowed SSL/TLS protocols for this distribution.
         public let items: SslProtocolsList
         /// The number of SSL/TLS protocols that you want to allow CloudFront to use when establishing an HTTPS connection with this origin. 
@@ -1323,6 +1564,9 @@ extension Cloudfront {
     public struct CreateDistributionWithTagsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = "DistributionConfigWithTags"
+        public static var parsingHints = [
+            AWSShapeProperty(label: "DistributionConfigWithTags", required: true, type: .structure)
+        ]
         /// The distribution's configuration information. 
         public let distributionConfigWithTags: DistributionConfigWithTags
 
@@ -1342,6 +1586,11 @@ extension Cloudfront {
         public static var headerParams: [String: String] {
             return ["ETag": "ETag", "Location": "Location"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ETag", required: false, type: .string), 
+            AWSShapeProperty(label: "Location", required: false, type: .string), 
+            AWSShapeProperty(label: "Distribution", required: false, type: .structure)
+        ]
         /// The current version of the distribution created.
         public let eTag: String?
         /// The fully qualified URI of the new distribution resource just created. For example: https://cloudfront.amazonaws.com/2010-11-01/distribution/EDFDVBD632BHDS5. 
@@ -1368,6 +1617,11 @@ extension Cloudfront {
         public static var headerParams: [String: String] {
             return ["ETag": "ETag", "Location": "Location"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ETag", required: false, type: .string), 
+            AWSShapeProperty(label: "Location", required: false, type: .string), 
+            AWSShapeProperty(label: "Distribution", required: false, type: .structure)
+        ]
         /// The current version of the distribution created.
         public let eTag: String?
         /// The fully qualified URI of the new distribution resource just created. For example: https://cloudfront.amazonaws.com/2010-11-01/distribution/EDFDVBD632BHDS5.
@@ -1391,6 +1645,9 @@ extension Cloudfront {
     public struct ListDistributionsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = "DistributionList"
+        public static var parsingHints = [
+            AWSShapeProperty(label: "DistributionList", required: false, type: .structure)
+        ]
         /// The DistributionList type. 
         public let distributionList: DistributionList?
 
@@ -1406,6 +1663,14 @@ extension Cloudfront {
     public struct DistributionList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "MaxItems", required: true, type: .integer), 
+            AWSShapeProperty(label: "IsTruncated", required: true, type: .boolean), 
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string), 
+            AWSShapeProperty(label: "Marker", required: true, type: .string), 
+            AWSShapeProperty(label: "Items", required: false, type: .structure), 
+            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        ]
         /// The value you provided for the MaxItems request parameter.
         public let maxItems: Int32
         /// A flag that indicates whether more distributions remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more distributions in the list.
@@ -1445,6 +1710,9 @@ extension Cloudfront {
     public struct TagKeys: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Items", required: false, type: .structure)
+        ]
         ///  A complex type that contains Tag key elements.
         public let items: TagKeyList?
 
@@ -1468,6 +1736,12 @@ extension Cloudfront {
     public struct LoggingConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "Prefix", required: true, type: .string), 
+            AWSShapeProperty(label: "Enabled", required: true, type: .boolean), 
+            AWSShapeProperty(label: "IncludeCookies", required: true, type: .boolean)
+        ]
         /// The Amazon S3 bucket to store the access logs in, for example, myawslogbucket.s3.amazonaws.com.
         public let bucket: String
         /// An optional string that you want CloudFront to prefix to the access log filenames for this distribution, for example, myprefix/. If you want to enable logging, but you do not want to specify a prefix, you still must include an empty Prefix element in the Logging element.
@@ -1502,6 +1776,10 @@ extension Cloudfront {
         public static var queryParams: [String: String] {
             return ["Marker": "Marker", "MaxItems": "MaxItems"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxItems", required: false, type: .string)
+        ]
         /// Use this when paginating results to indicate where to begin in your list of origin access identities. The results include identities in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last identity on that page).
         public let marker: String?
         /// The maximum number of origin access identities you want in the response body. 
@@ -1521,6 +1799,9 @@ extension Cloudfront {
     public struct ListTagsForResourceResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = "Tags"
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Tags", required: true, type: .structure)
+        ]
         ///  A complex type that contains zero or more Tag elements.
         public let tags: Tags
 
@@ -1537,6 +1818,9 @@ extension Cloudfront {
     public struct HeaderList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Name", required: false, type: .list)
+        ]
         public let name: [String]?
 
         public init(name: [String]? = nil) {
@@ -1554,6 +1838,10 @@ extension Cloudfront {
         public static var queryParams: [String: String] {
             return ["Marker": "Marker", "MaxItems": "MaxItems"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxItems", required: false, type: .string)
+        ]
         /// Use this when paginating results to indicate where to begin in your list of distributions. The results include distributions in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last distribution on that page).
         public let marker: String?
         /// The maximum number of distributions you want in the response body.
@@ -1573,6 +1861,24 @@ extension Cloudfront {
     public struct DistributionConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "HttpVersion", required: false, type: .enum), 
+            AWSShapeProperty(label: "DefaultRootObject", required: false, type: .string), 
+            AWSShapeProperty(label: "CallerReference", required: true, type: .string), 
+            AWSShapeProperty(label: "CustomErrorResponses", required: false, type: .structure), 
+            AWSShapeProperty(label: "Origins", required: true, type: .structure), 
+            AWSShapeProperty(label: "WebACLId", required: false, type: .string), 
+            AWSShapeProperty(label: "Comment", required: true, type: .string), 
+            AWSShapeProperty(label: "Enabled", required: true, type: .boolean), 
+            AWSShapeProperty(label: "IsIPV6Enabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "PriceClass", required: false, type: .enum), 
+            AWSShapeProperty(label: "ViewerCertificate", required: false, type: .structure), 
+            AWSShapeProperty(label: "Restrictions", required: false, type: .structure), 
+            AWSShapeProperty(label: "Aliases", required: false, type: .structure), 
+            AWSShapeProperty(label: "Logging", required: false, type: .structure), 
+            AWSShapeProperty(label: "CacheBehaviors", required: false, type: .structure), 
+            AWSShapeProperty(label: "DefaultCacheBehavior", required: true, type: .structure)
+        ]
         /// (Optional) Specify the maximum HTTP version that you want viewers to use to communicate with CloudFront. The default value for new web distributions is http2. Viewers that don't support HTTP/2 automatically use an earlier HTTP version. For viewers and CloudFront to use HTTP/2, viewers must support TLS 1.2 or later, and must support Server Name Identification (SNI). In general, configuring CloudFront to communicate with viewers using HTTP/2 reduces latency. You can improve performance by optimizing for HTTP/2. For more information, do an Internet search for "http/2 optimization." 
         public let httpVersion: HttpVersion?
         /// The object that you want CloudFront to request from your origin (for example, index.html) when a viewer requests the root URL for your distribution (http://www.example.com) instead of an object in your distribution (http://www.example.com/product-description.html). Specifying a default root object avoids exposing the contents of your distribution. Specify only the object name, for example, index.html. Do not add a / before the object name. If you don't want to specify a default root object when you create a distribution, include an empty DefaultRootObject element. To delete the default root object from an existing distribution, update the distribution configuration and include an empty DefaultRootObject element. To replace the default root object, update the distribution configuration and specify the new object. For more information about the default root object, see Creating a Default Root Object in the Amazon CloudFront Developer Guide.
@@ -1651,6 +1957,9 @@ extension Cloudfront {
     public struct Restrictions: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "GeoRestriction", required: true, type: .structure)
+        ]
         public let geoRestriction: GeoRestriction
 
         public init(geoRestriction: GeoRestriction) {
@@ -1666,6 +1975,15 @@ extension Cloudfront {
     public struct ViewerCertificate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "SSLSupportMethod", required: false, type: .enum), 
+            AWSShapeProperty(label: "IAMCertificateId", required: false, type: .string), 
+            AWSShapeProperty(label: "MinimumProtocolVersion", required: false, type: .enum), 
+            AWSShapeProperty(label: "ACMCertificateArn", required: false, type: .string), 
+            AWSShapeProperty(label: "Certificate", required: false, type: .string), 
+            AWSShapeProperty(label: "CloudFrontDefaultCertificate", required: false, type: .boolean), 
+            AWSShapeProperty(label: "CertificateSource", required: false, type: .enum)
+        ]
         /// If you specify a value for ACMCertificateArn or for IAMCertificateId, you must also specify how you want CloudFront to serve HTTPS requests: using a method that works for all clients or one that works for most clients:    vip: CloudFront uses dedicated IP addresses for your content and can respond to HTTPS requests from any viewer. However, you must request permission to use this feature, and you incur additional monthly charges.    sni-only: CloudFront can respond to HTTPS requests from viewers that support Server Name Indication (SNI). All modern browsers support SNI, but some browsers still in use don't support SNI. If some of your users' browsers don't support SNI, we recommend that you do one of the following:   Use the vip option (dedicated IP addresses) instead of sni-only.   Use the CloudFront SSL/TLS certificate instead of a custom certificate. This requires that you use the CloudFront domain name of your distribution in the URLs for your objects, for example, https://d111111abcdef8.cloudfront.net/logo.png.   If you can control which browser your users use, upgrade the browser to one that supports SNI.   Use HTTP instead of HTTPS.     Do not specify a value for SSLSupportMethod if you specified &lt;CloudFrontDefaultCertificate&gt;true&lt;CloudFrontDefaultCertificate&gt;. For more information, see Using Alternate Domain Names and HTTPS in the Amazon CloudFront Developer Guide.
         public let sSLSupportMethod: SSLSupportMethod?
         public let iAMCertificateId: String?
@@ -1705,6 +2023,10 @@ extension Cloudfront {
         public static var queryParams: [String: String] {
             return ["Resource": "Resource"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Resource", required: true, type: .string), 
+            AWSShapeProperty(label: "TagKeys", required: true, type: .structure)
+        ]
         ///  An ARN of a CloudFront resource.
         public let resource: String
         ///  A complex type that contains zero or more Tag key elements.
@@ -1729,6 +2051,9 @@ extension Cloudfront {
         public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Id", required: true, type: .string)
+        ]
         /// The streaming distribution's ID.
         public let id: String
 
@@ -1745,6 +2070,15 @@ extension Cloudfront {
     public struct StreamingDistribution: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "LastModifiedTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Status", required: true, type: .string), 
+            AWSShapeProperty(label: "StreamingDistributionConfig", required: true, type: .structure), 
+            AWSShapeProperty(label: "ActiveTrustedSigners", required: true, type: .structure), 
+            AWSShapeProperty(label: "ARN", required: true, type: .string), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
+            AWSShapeProperty(label: "Id", required: true, type: .string)
+        ]
         /// The date and time that the distribution was last modified. 
         public let lastModifiedTime: Date?
         /// The current status of the RTMP distribution. When the status is Deployed, the distribution's information is propagated to all CloudFront edge locations.
@@ -1789,6 +2123,10 @@ extension Cloudfront {
     public struct CustomHeaders: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Items", required: false, type: .structure), 
+            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        ]
         ///  Optional: A list that contains one OriginCustomHeader element for each custom header that you want CloudFront to forward to the origin. If Quantity is 0, omit Items.
         public let items: OriginCustomHeadersList?
         /// The number of custom headers, if any, for this distribution.
@@ -1809,6 +2147,10 @@ extension Cloudfront {
     public struct CachedMethods: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Items", required: true, type: .structure), 
+            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        ]
         /// A complex type that contains the HTTP methods that you want CloudFront to cache responses to.
         public let items: MethodsList
         /// The number of HTTP methods for which you want CloudFront to cache responses. Valid values are 2 (for caching responses to GET and HEAD requests) and 3 (for caching responses to GET, HEAD, and OPTIONS requests).
@@ -1830,6 +2172,26 @@ extension Cloudfront {
     public struct DistributionSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "HttpVersion", required: true, type: .enum), 
+            AWSShapeProperty(label: "CustomErrorResponses", required: true, type: .structure), 
+            AWSShapeProperty(label: "Origins", required: true, type: .structure), 
+            AWSShapeProperty(label: "Comment", required: true, type: .string), 
+            AWSShapeProperty(label: "Enabled", required: true, type: .boolean), 
+            AWSShapeProperty(label: "WebACLId", required: true, type: .string), 
+            AWSShapeProperty(label: "ARN", required: true, type: .string), 
+            AWSShapeProperty(label: "IsIPV6Enabled", required: true, type: .boolean), 
+            AWSShapeProperty(label: "Restrictions", required: true, type: .structure), 
+            AWSShapeProperty(label: "LastModifiedTime", required: true, type: .timestamp), 
+            AWSShapeProperty(label: "ViewerCertificate", required: true, type: .structure), 
+            AWSShapeProperty(label: "Id", required: true, type: .string), 
+            AWSShapeProperty(label: "Status", required: true, type: .string), 
+            AWSShapeProperty(label: "Aliases", required: true, type: .structure), 
+            AWSShapeProperty(label: "PriceClass", required: true, type: .enum), 
+            AWSShapeProperty(label: "CacheBehaviors", required: true, type: .structure), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
+            AWSShapeProperty(label: "DefaultCacheBehavior", required: true, type: .structure)
+        ]
         ///  Specify the maximum HTTP version that you want viewers to use to communicate with CloudFront. The default value for new web distributions is http2. Viewers that don't support HTTP/2 will automatically use an earlier version.
         public let httpVersion: HttpVersion
         /// A complex type that contains zero or more CustomErrorResponses elements.
@@ -1928,6 +2290,12 @@ extension Cloudfront {
     public struct CustomOriginConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "HTTPSPort", required: true, type: .integer), 
+            AWSShapeProperty(label: "HTTPPort", required: true, type: .integer), 
+            AWSShapeProperty(label: "OriginProtocolPolicy", required: true, type: .enum), 
+            AWSShapeProperty(label: "OriginSslProtocols", required: false, type: .structure)
+        ]
         /// The HTTPS port the custom origin listens on.
         public let hTTPSPort: Int32
         /// The HTTP port the custom origin listens on.
@@ -1961,6 +2329,11 @@ extension Cloudfront {
         public static var headerParams: [String: String] {
             return ["ETag": "ETag", "Location": "Location"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ETag", required: false, type: .string), 
+            AWSShapeProperty(label: "Location", required: false, type: .string), 
+            AWSShapeProperty(label: "StreamingDistribution", required: false, type: .structure)
+        ]
         /// The current version of the streaming distribution created.
         public let eTag: String?
         /// The fully qualified URI of the new streaming distribution resource just created. For example: https://cloudfront.amazonaws.com/2010-11-01/streaming-distribution/EGTXBD79H29TRA8.
@@ -1984,6 +2357,9 @@ extension Cloudfront {
     public struct KeyPairIdList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "KeyPairId", required: false, type: .list)
+        ]
         public let keyPairId: [String]?
 
         public init(keyPairId: [String]? = nil) {
@@ -1998,6 +2374,12 @@ extension Cloudfront {
     public struct CustomErrorResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ResponseCode", required: false, type: .string), 
+            AWSShapeProperty(label: "ErrorCachingMinTTL", required: false, type: .long), 
+            AWSShapeProperty(label: "ErrorCode", required: true, type: .integer), 
+            AWSShapeProperty(label: "ResponsePagePath", required: false, type: .string)
+        ]
         /// The HTTP status code that you want CloudFront to return to the viewer along with the custom error page. There are a variety of reasons that you might want CloudFront to return a status code different from the status code that your origin returned to CloudFront, for example:   Some Internet devices (some firewalls and corporate proxies, for example) intercept HTTP 4xx and 5xx and prevent the response from being returned to the viewer. If you substitute 200, the response typically won't be intercepted.   If you don't care about distinguishing among different client errors or server errors, you can specify 400 or 500 as the ResponseCode for all 4xx or 5xx errors.   You might want to return a 200 status code (OK) and static website so your customers don't know that your website is down.   If you specify a value for ResponseCode, you must also specify a value for ResponsePagePath. If you don't want to specify a value, include an empty element, &lt;ResponseCode&gt;, in the XML document.
         public let responseCode: String?
         /// The minimum amount of time, in seconds, that you want CloudFront to cache the HTTP status code specified in ErrorCode. When this time period has elapsed, CloudFront queries your origin to see whether the problem that caused the error has been resolved and the requested object is now available. If you don't want to specify a value, include an empty element, &lt;ErrorCachingMinTTL&gt;, in the XML document. For more information, see Customizing Error Responses in the Amazon CloudFront Developer Guide.
@@ -2035,6 +2417,10 @@ extension Cloudfront {
         public static var headerParams: [String: String] {
             return ["ETag": "ETag"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ETag", required: false, type: .string), 
+            AWSShapeProperty(label: "CloudFrontOriginAccessIdentityConfig", required: false, type: .structure)
+        ]
         /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
         /// The origin access identity's configuration information. 
@@ -2054,6 +2440,11 @@ extension Cloudfront {
     public struct CloudFrontOriginAccessIdentity: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "S3CanonicalUserId", required: true, type: .string), 
+            AWSShapeProperty(label: "CloudFrontOriginAccessIdentityConfig", required: false, type: .structure), 
+            AWSShapeProperty(label: "Id", required: true, type: .string)
+        ]
         /// The Amazon S3 canonical user ID for the origin access identity, used when giving the origin access identity read permission to an object in Amazon S3. 
         public let s3CanonicalUserId: String
         /// The current configuration information for the identity. 
@@ -2079,6 +2470,9 @@ extension Cloudfront {
     public struct TagList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Tag", required: false, type: .list)
+        ]
         public let tag: [Tag]?
 
         public init(tag: [Tag]? = nil) {
@@ -2100,6 +2494,9 @@ extension Cloudfront {
         public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Id", required: true, type: .string)
+        ]
         /// The distribution's ID.
         public let id: String
 
@@ -2124,6 +2521,11 @@ extension Cloudfront {
     public struct StreamingLoggingConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "Enabled", required: true, type: .boolean), 
+            AWSShapeProperty(label: "Prefix", required: true, type: .string)
+        ]
         /// The Amazon S3 bucket to store the access logs in, for example, myawslogbucket.s3.amazonaws.com.
         public let bucket: String
         /// Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you do not want to enable logging when you create a streaming distribution or if you want to disable logging for an existing streaming distribution, specify false for Enabled, and specify empty Bucket and Prefix elements. If you specify false for Enabled but you specify values for Bucket and Prefix, the values are automatically deleted. 
@@ -2157,6 +2559,11 @@ extension Cloudfront {
     public struct GeoRestriction: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Items", required: false, type: .structure), 
+            AWSShapeProperty(label: "RestrictionType", required: true, type: .enum), 
+            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        ]
         ///  A complex type that contains a Location element for each country in which you want CloudFront either to distribute your content (whitelist) or not distribute your content (blacklist). The Location element is a two-letter, uppercase country code for a country that you want to include in your blacklist or whitelist. Include one Location element for each country. CloudFront and MaxMind both use ISO 3166 country codes. For the current list of countries and the corresponding codes, see ISO 3166-1-alpha-2 code on the International Organization for Standardization website. You can also refer to the country list in the CloudFront console, which includes both country names and codes.
         public let items: LocationList?
         /// The method that you want to use to restrict distribution of your content by country:    none: No geo restriction is enabled, meaning access to content is not restricted by client geo location.    blacklist: The Location elements specify the countries in which you do not want CloudFront to distribute your content.    whitelist: The Location elements specify the countries in which you want CloudFront to distribute your content.  
@@ -2182,6 +2589,14 @@ extension Cloudfront {
     public struct StreamingDistributionList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "MaxItems", required: true, type: .integer), 
+            AWSShapeProperty(label: "IsTruncated", required: true, type: .boolean), 
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string), 
+            AWSShapeProperty(label: "Marker", required: true, type: .string), 
+            AWSShapeProperty(label: "Items", required: false, type: .structure), 
+            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        ]
         /// The value you provided for the MaxItems request parameter. 
         public let maxItems: Int32
         /// A flag that indicates whether more streaming distributions remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more distributions in the list. 
@@ -2221,6 +2636,10 @@ extension Cloudfront {
     public struct S3Origin: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "OriginAccessIdentity", required: true, type: .string), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        ]
         /// The CloudFront origin access identity to associate with the RTMP distribution. Use an origin access identity to configure the distribution so that end users can only access objects in an Amazon S3 bucket through CloudFront. If you want end users to be able to access objects using either the CloudFront URL or the Amazon S3 URL, specify an empty OriginAccessIdentity element. To delete the origin access identity from an existing distribution, update the distribution configuration and include an empty OriginAccessIdentity element. To replace the origin access identity, update the distribution configuration and specify the new origin access identity. For more information, see Using an Origin Access Identity to Restrict Access to Your Amazon S3 Content in the Amazon Amazon CloudFront Developer Guide.
         public let originAccessIdentity: String
         /// The DNS name of the Amazon S3 origin. 
@@ -2242,6 +2661,9 @@ extension Cloudfront {
     public struct AliasList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "CNAME", required: false, type: .list)
+        ]
         public let cNAME: [String]?
 
         public init(cNAME: [String]? = nil) {
@@ -2256,6 +2678,9 @@ extension Cloudfront {
     public struct ListInvalidationsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = "InvalidationList"
+        public static var parsingHints = [
+            AWSShapeProperty(label: "InvalidationList", required: false, type: .structure)
+        ]
         /// Information about invalidation batches. 
         public let invalidationList: InvalidationList?
 
@@ -2271,6 +2696,9 @@ extension Cloudfront {
     public struct CustomErrorResponseList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "CustomErrorResponse", required: false, type: .list)
+        ]
         public let customErrorResponse: [CustomErrorResponse]?
 
         public init(customErrorResponse: [CustomErrorResponse]? = nil) {
@@ -2289,6 +2717,9 @@ extension Cloudfront {
     public struct DistributionSummaryList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "DistributionSummary", required: false, type: .list)
+        ]
         public let distributionSummary: [DistributionSummary]?
 
         public init(distributionSummary: [DistributionSummary]? = nil) {
@@ -2307,6 +2738,9 @@ extension Cloudfront {
     public struct OriginCustomHeadersList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "OriginCustomHeader", required: false, type: .list)
+        ]
         public let originCustomHeader: [OriginCustomHeader]?
 
         public init(originCustomHeader: [OriginCustomHeader]? = nil) {
@@ -2331,6 +2765,11 @@ extension Cloudfront {
     public struct CloudFrontOriginAccessIdentitySummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Id", required: true, type: .string), 
+            AWSShapeProperty(label: "S3CanonicalUserId", required: true, type: .string), 
+            AWSShapeProperty(label: "Comment", required: true, type: .string)
+        ]
         /// The ID for the origin access identity. For example: E74FTE3AJFJ256A.
         public let id: String
         /// The Amazon S3 canonical user ID for the origin access identity, which you use when giving the origin access identity read permission to an object in Amazon S3.
@@ -2357,6 +2796,11 @@ extension Cloudfront {
     public struct InvalidationSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Id", required: true, type: .string), 
+            AWSShapeProperty(label: "Status", required: true, type: .string), 
+            AWSShapeProperty(label: "CreateTime", required: true, type: .timestamp)
+        ]
         /// The unique ID for an invalidation request.
         public let id: String
         /// The status of an invalidation request.
@@ -2382,6 +2826,11 @@ extension Cloudfront {
     public struct ActiveTrustedSigners: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Items", required: false, type: .structure), 
+            AWSShapeProperty(label: "Enabled", required: true, type: .boolean), 
+            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        ]
         /// A complex type that contains one Signer complex type for each trusted signer that is specified in the TrustedSigners complex type. For more information, see ActiveTrustedSigners. 
         public let items: SignerList?
         /// Enabled is true if any of the AWS accounts listed in the TrustedSigners complex type for this RTMP distribution have active CloudFront key pairs. If not, Enabled is false. For more information, see ActiveTrustedSigners.
@@ -2407,6 +2856,16 @@ extension Cloudfront {
     public struct StreamingDistributionConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Aliases", required: false, type: .structure), 
+            AWSShapeProperty(label: "CallerReference", required: true, type: .string), 
+            AWSShapeProperty(label: "Logging", required: false, type: .structure), 
+            AWSShapeProperty(label: "S3Origin", required: true, type: .structure), 
+            AWSShapeProperty(label: "Enabled", required: true, type: .boolean), 
+            AWSShapeProperty(label: "Comment", required: true, type: .string), 
+            AWSShapeProperty(label: "TrustedSigners", required: true, type: .structure), 
+            AWSShapeProperty(label: "PriceClass", required: false, type: .enum)
+        ]
         /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this streaming distribution. 
         public let aliases: Aliases?
         /// A unique number that ensures that the request can't be replayed. If the CallerReference is new (no matter the content of the StreamingDistributionConfig object), a new streaming distribution is created. If the CallerReference is a value that you already sent in a previous request to create a streaming distribution, and the content of the StreamingDistributionConfig is identical to the original request (ignoring white space), the response includes the same information returned to the original request. If the CallerReference is a value that you already sent in a previous request to create a streaming distribution but the content of the StreamingDistributionConfig is different from the original request, CloudFront returns a DistributionAlreadyExists error. 
@@ -2455,6 +2914,9 @@ extension Cloudfront {
     public struct MethodsList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Method", required: false, type: .list)
+        ]
         public let method: [Method]?
 
         public init(method: [Method]? = nil) {
@@ -2475,6 +2937,10 @@ extension Cloudfront {
         public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "If-Match", required: false, type: .string), 
+            AWSShapeProperty(label: "Id", required: true, type: .string)
+        ]
         /// The value of the ETag header you received from a previous GET or PUT request. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
         /// The origin access identity's ID.
@@ -2498,6 +2964,10 @@ extension Cloudfront {
         public static var pathParams: [String: String] {
             return ["DistributionId": "DistributionId"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "InvalidationBatch", required: true, type: .structure), 
+            AWSShapeProperty(label: "DistributionId", required: true, type: .string)
+        ]
         /// The batch information for the invalidation.
         public let invalidationBatch: InvalidationBatch
         /// The distribution's id.
@@ -2519,6 +2989,9 @@ extension Cloudfront {
     public struct TagKeyList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Key", required: false, type: .list)
+        ]
         public let key: [String]?
 
         public init(key: [String]? = nil) {
@@ -2533,6 +3006,9 @@ extension Cloudfront {
     public struct OriginList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Origin", required: false, type: .list)
+        ]
         public let origin: [Origin]?
 
         public init(origin: [Origin]? = nil) {
@@ -2554,6 +3030,9 @@ extension Cloudfront {
         public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Id", required: true, type: .string)
+        ]
         /// The distribution's ID.
         public let id: String
 
@@ -2573,6 +3052,10 @@ extension Cloudfront {
         public static var headerParams: [String: String] {
             return ["ETag": "ETag"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ETag", required: false, type: .string), 
+            AWSShapeProperty(label: "Distribution", required: false, type: .structure)
+        ]
         /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
         /// The distribution's information.
@@ -2602,6 +3085,10 @@ extension Cloudfront {
         public static var headerParams: [String: String] {
             return ["ETag": "ETag"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ETag", required: false, type: .string), 
+            AWSShapeProperty(label: "StreamingDistributionConfig", required: false, type: .structure)
+        ]
         /// The current version of the configuration. For example: E2QWRUHAPOMQZL. 
         public let eTag: String?
         /// The streaming distribution's configuration information.
@@ -2621,6 +3108,10 @@ extension Cloudfront {
     public struct KeyPairIds: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Items", required: false, type: .structure), 
+            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        ]
         /// A complex type that lists the active CloudFront key pairs, if any, that are associated with AwsAccountNumber. For more information, see ActiveTrustedSigners.
         public let items: KeyPairIdList?
         /// The number of active CloudFront key pairs for AwsAccountNumber. For more information, see ActiveTrustedSigners.
@@ -2641,6 +3132,14 @@ extension Cloudfront {
     public struct Origin: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "CustomHeaders", required: false, type: .structure), 
+            AWSShapeProperty(label: "CustomOriginConfig", required: false, type: .structure), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
+            AWSShapeProperty(label: "OriginPath", required: false, type: .string), 
+            AWSShapeProperty(label: "S3OriginConfig", required: false, type: .structure), 
+            AWSShapeProperty(label: "Id", required: true, type: .string)
+        ]
         /// A complex type that contains names and values for the custom headers that you want.
         public let customHeaders: CustomHeaders?
         /// A complex type that contains information about a custom origin. If the origin is an Amazon S3 bucket, use the S3OriginConfig element instead.
@@ -2678,6 +3177,9 @@ extension Cloudfront {
     public struct Tags: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Items", required: false, type: .structure)
+        ]
         ///  A complex type that contains Tag elements.
         public let items: TagList?
 
@@ -2693,6 +3195,9 @@ extension Cloudfront {
     public struct LambdaFunctionAssociationList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "LambdaFunctionAssociation", required: false, type: .list)
+        ]
         public let lambdaFunctionAssociation: [LambdaFunctionAssociation]?
 
         public init(lambdaFunctionAssociation: [LambdaFunctionAssociation]? = nil) {
@@ -2711,6 +3216,9 @@ extension Cloudfront {
     public struct StreamingDistributionSummaryList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "StreamingDistributionSummary", required: false, type: .list)
+        ]
         public let streamingDistributionSummary: [StreamingDistributionSummary]?
 
         public init(streamingDistributionSummary: [StreamingDistributionSummary]? = nil) {
@@ -2732,6 +3240,10 @@ extension Cloudfront {
         public static var headerParams: [String: String] {
             return ["ETag": "ETag"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ETag", required: false, type: .string), 
+            AWSShapeProperty(label: "CloudFrontOriginAccessIdentity", required: false, type: .structure)
+        ]
         /// The current version of the origin access identity's information. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
         /// The origin access identity's information.
@@ -2754,6 +3266,10 @@ extension Cloudfront {
         public static var headerParams: [String: String] {
             return ["ETag": "ETag"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ETag", required: false, type: .string), 
+            AWSShapeProperty(label: "Distribution", required: false, type: .structure)
+        ]
         /// The current version of the distribution's information. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
         /// The distribution's information.
@@ -2779,6 +3295,11 @@ extension Cloudfront {
         public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "If-Match", required: false, type: .string), 
+            AWSShapeProperty(label: "StreamingDistributionConfig", required: true, type: .structure), 
+            AWSShapeProperty(label: "Id", required: true, type: .string)
+        ]
         /// The value of the ETag header that you received when retrieving the streaming distribution's configuration. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
         /// The streaming distribution's configuration information.
@@ -2804,6 +3325,14 @@ extension Cloudfront {
     public struct CloudFrontOriginAccessIdentityList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "MaxItems", required: true, type: .integer), 
+            AWSShapeProperty(label: "IsTruncated", required: true, type: .boolean), 
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string), 
+            AWSShapeProperty(label: "Marker", required: true, type: .string), 
+            AWSShapeProperty(label: "Items", required: false, type: .structure), 
+            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        ]
         /// The maximum number of origin access identities you want in the response body. 
         public let maxItems: Int32
         /// A flag that indicates whether more origin access identities remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more items in the list.
@@ -2846,6 +3375,9 @@ extension Cloudfront {
         public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Id", required: true, type: .string)
+        ]
         /// The identity's ID. 
         public let id: String
 
@@ -2862,6 +3394,9 @@ extension Cloudfront {
     public struct CreateCloudFrontOriginAccessIdentityRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = "CloudFrontOriginAccessIdentityConfig"
+        public static var parsingHints = [
+            AWSShapeProperty(label: "CloudFrontOriginAccessIdentityConfig", required: true, type: .structure)
+        ]
         /// The current configuration information for the identity.
         public let cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig
 
@@ -2878,6 +3413,16 @@ extension Cloudfront {
     public struct Distribution: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "LastModifiedTime", required: true, type: .timestamp), 
+            AWSShapeProperty(label: "Status", required: true, type: .string), 
+            AWSShapeProperty(label: "ActiveTrustedSigners", required: true, type: .structure), 
+            AWSShapeProperty(label: "ARN", required: true, type: .string), 
+            AWSShapeProperty(label: "DistributionConfig", required: true, type: .structure), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
+            AWSShapeProperty(label: "InProgressInvalidationBatches", required: true, type: .integer), 
+            AWSShapeProperty(label: "Id", required: true, type: .string)
+        ]
         /// The date and time the distribution was last modified. 
         public let lastModifiedTime: Date
         /// This response element indicates the current status of the distribution. When the status is Deployed, the distribution's information is fully propagated to all CloudFront edge locations. 
@@ -2929,6 +3474,10 @@ extension Cloudfront {
     public struct StreamingDistributionConfigWithTags: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Tags", required: true, type: .structure), 
+            AWSShapeProperty(label: "StreamingDistributionConfig", required: true, type: .structure)
+        ]
         /// A complex type that contains zero or more Tag elements.
         public let tags: Tags
         /// A streaming distribution Configuration.
@@ -2950,6 +3499,10 @@ extension Cloudfront {
     public struct CloudFrontOriginAccessIdentityConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "CallerReference", required: true, type: .string), 
+            AWSShapeProperty(label: "Comment", required: true, type: .string)
+        ]
         /// A unique number that ensures the request can't be replayed. If the CallerReference is new (no matter the content of the CloudFrontOriginAccessIdentityConfig object), a new origin access identity is created. If the CallerReference is a value already sent in a previous identity request, and the content of the CloudFrontOriginAccessIdentityConfig is identical to the original request (ignoring white space), the response includes the same information returned to the original request.  If the CallerReference is a value you already sent in a previous request to create an identity, but the content of the CloudFrontOriginAccessIdentityConfig is different from the original request, CloudFront returns a CloudFrontOriginAccessIdentityAlreadyExists error. 
         public let callerReference: String
         /// Any comments you want to include about the origin access identity. 
@@ -2974,6 +3527,10 @@ extension Cloudfront {
         public static var headerParams: [String: String] {
             return ["ETag": "ETag"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ETag", required: false, type: .string), 
+            AWSShapeProperty(label: "CloudFrontOriginAccessIdentity", required: false, type: .structure)
+        ]
         /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
         /// The origin access identity's information.
@@ -2999,6 +3556,10 @@ extension Cloudfront {
         public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "If-Match", required: false, type: .string), 
+            AWSShapeProperty(label: "Id", required: true, type: .string)
+        ]
         /// The value of the ETag header that you received when you disabled the streaming distribution. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
         /// The distribution ID. 
@@ -3019,6 +3580,10 @@ extension Cloudfront {
     public struct CustomErrorResponses: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Items", required: false, type: .structure), 
+            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        ]
         /// A complex type that contains a CustomErrorResponse element for each HTTP status code for which you want to specify a custom error page and/or a caching duration. 
         public let items: CustomErrorResponseList?
         /// The number of HTTP status codes for which you want to specify a custom error page and/or a caching duration. If Quantity is 0, you can omit Items.
@@ -3039,6 +3604,10 @@ extension Cloudfront {
     public struct CookieNames: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Items", required: false, type: .structure), 
+            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        ]
         /// A complex type that contains one Name element for each cookie that you want CloudFront to forward to the origin for this cache behavior.
         public let items: CookieNameList?
         /// The number of different cookies that you want CloudFront to forward to the origin for this cache behavior.
@@ -3059,6 +3628,9 @@ extension Cloudfront {
     public struct CookieNameList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Name", required: false, type: .list)
+        ]
         public let name: [String]?
 
         public init(name: [String]? = nil) {
@@ -3084,6 +3656,9 @@ extension Cloudfront {
     public struct AwsAccountNumberList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "AwsAccountNumber", required: false, type: .list)
+        ]
         public let awsAccountNumber: [String]?
 
         public init(awsAccountNumber: [String]? = nil) {
@@ -3098,6 +3673,10 @@ extension Cloudfront {
     public struct Aliases: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Items", required: false, type: .structure), 
+            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        ]
         /// A complex type that contains the CNAME aliases, if any, that you want to associate with this distribution.
         public let items: AliasList?
         /// The number of CNAME aliases, if any, that you want to associate with this distribution.
@@ -3124,6 +3703,10 @@ extension Cloudfront {
         public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
+        public static var parsingHints = [
+            AWSShapeProperty(label: "If-Match", required: false, type: .string), 
+            AWSShapeProperty(label: "Id", required: true, type: .string)
+        ]
         /// The value of the ETag header that you received when you disabled the distribution. For example: E2QWRUHAPOMQZL. 
         public let ifMatch: String?
         /// The distribution ID. 

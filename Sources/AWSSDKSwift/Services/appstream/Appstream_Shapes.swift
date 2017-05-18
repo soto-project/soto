@@ -32,6 +32,10 @@ extension Appstream {
     public struct DescribeSessionsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Sessions", required: false, type: .list)
+        ]
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
         /// The list of streaming sessions.
@@ -55,6 +59,10 @@ extension Appstream {
     public struct ListAssociatedFleetsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "StackName", required: true, type: .string), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        ]
         /// The name of the stack whose associated fleets are listed.
         public let stackName: String
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
@@ -75,6 +83,10 @@ extension Appstream {
     public struct DescribeStacksResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Stacks", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        ]
         /// The list of stack details.
         public let stacks: [Stack]?
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
@@ -106,6 +118,9 @@ extension Appstream {
     public struct ComputeCapacity: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "DesiredInstances", required: true, type: .integer)
+        ]
         /// The desired number of streaming instances.
         public let desiredInstances: Int32
 
@@ -122,6 +137,9 @@ extension Appstream {
     public struct DescribeImagesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Names", required: false, type: .list)
+        ]
         /// A specific list of images to describe.
         public let names: [String]?
 
@@ -137,6 +155,9 @@ extension Appstream {
     public struct DescribeImagesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Images", required: false, type: .list)
+        ]
         /// The list of images.
         public let images: [Image]?
 
@@ -156,6 +177,13 @@ extension Appstream {
     public struct DescribeSessionsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "UserId", required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "StackName", required: true, type: .string), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "FleetName", required: true, type: .string)
+        ]
         /// The user for whom to list sessions. Use null to describe all the sessions for the stack and fleet.
         public let userId: String?
         /// The size of each page of results. The default value is 20 and the maximum supported value is 50.
@@ -189,6 +217,13 @@ extension Appstream {
     public struct Session: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "UserId", required: true, type: .string), 
+            AWSShapeProperty(label: "StackName", required: true, type: .string), 
+            AWSShapeProperty(label: "State", required: true, type: .enum), 
+            AWSShapeProperty(label: "FleetName", required: true, type: .string), 
+            AWSShapeProperty(label: "Id", required: true, type: .string)
+        ]
         /// The identifier of the user for whom the session was created.
         public let userId: String
         /// The name of the stack for which the streaming session was created.
@@ -225,6 +260,10 @@ extension Appstream {
     public struct ListAssociatedFleetsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Names", required: false, type: .list)
+        ]
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
         /// The names of associated fleets.
@@ -252,6 +291,10 @@ extension Appstream {
     public struct DescribeFleetsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Names", required: false, type: .list)
+        ]
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
         /// The fleet names to describe. Use null to describe all the fleets for the AWS account.
@@ -276,6 +319,10 @@ extension Appstream {
     public struct FleetError: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeProperty(label: "ErrorCode", required: false, type: .enum)
+        ]
         /// The error message generated when the fleet has errors.
         public let errorMessage: String?
         /// The error code for the fleet error.
@@ -295,6 +342,10 @@ extension Appstream {
     public struct ListAssociatedStacksResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Names", required: false, type: .list)
+        ]
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
         /// The names of associated stacks.
@@ -314,6 +365,9 @@ extension Appstream {
     public struct UpdateFleetResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Fleet", required: false, type: .structure)
+        ]
         /// A list of fleet details.
         public let fleet: Fleet?
 
@@ -353,6 +407,17 @@ extension Appstream {
     public struct CreateFleetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "ComputeCapacity", required: true, type: .structure), 
+            AWSShapeProperty(label: "VpcConfig", required: false, type: .structure), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "DisplayName", required: false, type: .string), 
+            AWSShapeProperty(label: "ImageName", required: true, type: .string), 
+            AWSShapeProperty(label: "DisconnectTimeoutInSeconds", required: false, type: .integer), 
+            AWSShapeProperty(label: "MaxUserDurationInSeconds", required: false, type: .integer), 
+            AWSShapeProperty(label: "InstanceType", required: true, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
+        ]
         /// The parameters for the capacity allocated to the fleet.
         public let computeCapacity: ComputeCapacity
         /// The VPC configuration for the fleet.
@@ -404,6 +469,13 @@ extension Appstream {
     public struct Stack: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Description", required: false, type: .string), 
+            AWSShapeProperty(label: "Arn", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "DisplayName", required: false, type: .string)
+        ]
         /// A meaningful description for the stack.
         public let description: String?
         /// The ARN of the stack.
@@ -436,6 +508,9 @@ extension Appstream {
     public struct UpdateStackResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Stack", required: false, type: .structure)
+        ]
         /// A list of stack details.
         public let stack: Stack?
 
@@ -451,6 +526,18 @@ extension Appstream {
     public struct UpdateFleetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "DeleteVpcConfig", required: false, type: .boolean), 
+            AWSShapeProperty(label: "ComputeCapacity", required: false, type: .structure), 
+            AWSShapeProperty(label: "VpcConfig", required: false, type: .structure), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "DisplayName", required: false, type: .string), 
+            AWSShapeProperty(label: "ImageName", required: false, type: .string), 
+            AWSShapeProperty(label: "DisconnectTimeoutInSeconds", required: false, type: .integer), 
+            AWSShapeProperty(label: "MaxUserDurationInSeconds", required: false, type: .integer), 
+            AWSShapeProperty(label: "InstanceType", required: false, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
+        ]
         /// Delete the VPC association for the specified fleet.
         public let deleteVpcConfig: Bool?
         /// The parameters for the capacity allocated to the fleet. 
@@ -503,6 +590,10 @@ extension Appstream {
     public struct DisassociateFleetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "StackName", required: true, type: .string), 
+            AWSShapeProperty(label: "FleetName", required: true, type: .string)
+        ]
         /// The name of the stack with which the fleet is associated.
         public let stackName: String
         /// The name of the fleet to disassociate.
@@ -524,6 +615,15 @@ extension Appstream {
     public struct Application: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Metadata", required: false, type: .map), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "DisplayName", required: false, type: .string), 
+            AWSShapeProperty(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "LaunchPath", required: false, type: .string), 
+            AWSShapeProperty(label: "LaunchParameters", required: false, type: .string), 
+            AWSShapeProperty(label: "IconURL", required: false, type: .string)
+        ]
         /// Additional attributes that describes the application.
         public let metadata: [String: String]?
         /// The unique identifier for the application.
@@ -567,6 +667,21 @@ extension Appstream {
     public struct Fleet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Arn", required: true, type: .string), 
+            AWSShapeProperty(label: "VpcConfig", required: false, type: .structure), 
+            AWSShapeProperty(label: "State", required: true, type: .enum), 
+            AWSShapeProperty(label: "ComputeCapacityStatus", required: true, type: .structure), 
+            AWSShapeProperty(label: "DisplayName", required: false, type: .string), 
+            AWSShapeProperty(label: "FleetErrors", required: false, type: .list), 
+            AWSShapeProperty(label: "ImageName", required: true, type: .string), 
+            AWSShapeProperty(label: "InstanceType", required: true, type: .string), 
+            AWSShapeProperty(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Description", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "DisconnectTimeoutInSeconds", required: false, type: .integer), 
+            AWSShapeProperty(label: "MaxUserDurationInSeconds", required: false, type: .integer)
+        ]
         /// The ARN for the fleet.
         public let arn: String
         /// The VPC configuration for the fleet.
@@ -640,6 +755,9 @@ extension Appstream {
     public struct StartFleetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Name", required: true, type: .string)
+        ]
         /// The name of the fleet to start.
         public let name: String
 
@@ -664,6 +782,9 @@ extension Appstream {
     public struct VpcConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "SubnetIds", required: true, type: .list)
+        ]
         /// The list of subnets to which a network interface is established from the fleet instance.
         public let subnetIds: [String]
 
@@ -680,6 +801,10 @@ extension Appstream {
     public struct DescribeStacksRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Names", required: false, type: .list)
+        ]
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
         /// The stack names to describe. Use null to describe all the stacks for the AWS account.
@@ -699,6 +824,10 @@ extension Appstream {
     public struct ImageStateChangeReason: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Code", required: false, type: .enum), 
+            AWSShapeProperty(label: "Message", required: false, type: .string)
+        ]
         /// The state change reason code of the image.
         public let code: ImageStateChangeReasonCode?
         /// The state change reason message to the end user.
@@ -724,6 +853,10 @@ extension Appstream {
     public struct ListAssociatedStacksRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "FleetName", required: true, type: .string)
+        ]
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
         /// The name of the fleet whose associated stacks are listed.
@@ -744,6 +877,11 @@ extension Appstream {
     public struct CreateStackRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "DisplayName", required: false, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
+        ]
         /// The unique identifier for this stack.
         public let name: String
         /// The name displayed to end users on the AppStream 2.0 portal.
@@ -768,6 +906,11 @@ extension Appstream {
     public struct UpdateStackRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "DisplayName", required: false, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
+        ]
         /// The name of the stack to update.
         public let name: String
         /// The name displayed to end users on the AppStream 2.0 portal.
@@ -792,6 +935,9 @@ extension Appstream {
     public struct StopFleetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Name", required: true, type: .string)
+        ]
         /// The name of the fleet to stop.
         public let name: String
 
@@ -814,6 +960,9 @@ extension Appstream {
     public struct ExpireSessionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "SessionId", required: true, type: .string)
+        ]
         /// The unique identifier of the streaming session to be stopped.
         public let sessionId: String
 
@@ -830,6 +979,9 @@ extension Appstream {
     public struct CreateFleetResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Fleet", required: false, type: .structure)
+        ]
         /// The details for the created fleet.
         public let fleet: Fleet?
 
@@ -845,6 +997,14 @@ extension Appstream {
     public struct CreateStreamingURLRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Validity", required: false, type: .long), 
+            AWSShapeProperty(label: "UserId", required: true, type: .string), 
+            AWSShapeProperty(label: "ApplicationId", required: false, type: .string), 
+            AWSShapeProperty(label: "SessionContext", required: false, type: .string), 
+            AWSShapeProperty(label: "StackName", required: true, type: .string), 
+            AWSShapeProperty(label: "FleetName", required: true, type: .string)
+        ]
         /// The validity duration of the URL in seconds. After this duration, the URL returned by this operation becomes invalid.
         public let validity: Int64?
         /// A unique user ID for whom the URL is generated.
@@ -883,6 +1043,12 @@ extension Appstream {
     public struct ComputeCapacityStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Available", required: false, type: .integer), 
+            AWSShapeProperty(label: "InUse", required: false, type: .integer), 
+            AWSShapeProperty(label: "Desired", required: true, type: .integer), 
+            AWSShapeProperty(label: "Running", required: false, type: .integer)
+        ]
         /// The number of currently available instances that can be used to stream sessions.
         public let available: Int32?
         /// The number of instances that are being used for streaming.
@@ -911,6 +1077,10 @@ extension Appstream {
     public struct CreateStreamingURLResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "StreamingURL", required: false, type: .string), 
+            AWSShapeProperty(label: "Expires", required: false, type: .timestamp)
+        ]
         /// The URL to start the AppStream 2.0 streaming session.
         public let streamingURL: String?
         /// Elapsed seconds after the Unix epoch, at which time this URL expires.
@@ -930,6 +1100,10 @@ extension Appstream {
     public struct AssociateFleetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "StackName", required: true, type: .string), 
+            AWSShapeProperty(label: "FleetName", required: true, type: .string)
+        ]
         /// The name of the stack to which the fleet is associated.
         public let stackName: String
         /// The name of the fleet to associate.
@@ -966,6 +1140,10 @@ extension Appstream {
     public struct DescribeFleetsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Fleets", required: false, type: .list)
+        ]
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
         /// The list of fleet details.
@@ -989,6 +1167,19 @@ extension Appstream {
     public struct Image: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "StateChangeReason", required: false, type: .structure), 
+            AWSShapeProperty(label: "Arn", required: false, type: .string), 
+            AWSShapeProperty(label: "Platform", required: false, type: .enum), 
+            AWSShapeProperty(label: "State", required: false, type: .enum), 
+            AWSShapeProperty(label: "DisplayName", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "BaseImageArn", required: false, type: .string), 
+            AWSShapeProperty(label: "Applications", required: false, type: .list), 
+            AWSShapeProperty(label: "Visibility", required: false, type: .enum), 
+            AWSShapeProperty(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
+        ]
         /// The reason why the last state change occurred.
         public let stateChangeReason: ImageStateChangeReason?
         /// The ARN for the image.
@@ -1049,6 +1240,9 @@ extension Appstream {
     public struct DeleteStackRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Name", required: true, type: .string)
+        ]
         /// The name of the stack to delete.
         public let name: String
 
@@ -1080,6 +1274,9 @@ extension Appstream {
     public struct CreateStackResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Stack", required: false, type: .structure)
+        ]
         /// The details for the created stack.
         public let stack: Stack?
 
@@ -1103,6 +1300,9 @@ extension Appstream {
     public struct DeleteFleetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "Name", required: true, type: .string)
+        ]
         /// The name of the fleet to be deleted.
         public let name: String
 

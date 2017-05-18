@@ -62,6 +62,15 @@ extension Marketplacecommerceanalytics {
     public struct GenerateDataSetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "snsTopicArn", required: true, type: .string), 
+            AWSShapeProperty(label: "dataSetType", required: true, type: .enum), 
+            AWSShapeProperty(label: "destinationS3Prefix", required: false, type: .string), 
+            AWSShapeProperty(label: "customerDefinedValues", required: false, type: .map), 
+            AWSShapeProperty(label: "destinationS3BucketName", required: true, type: .string), 
+            AWSShapeProperty(label: "roleNameArn", required: true, type: .string), 
+            AWSShapeProperty(label: "dataSetPublicationDate", required: true, type: .timestamp)
+        ]
         /// Amazon Resource Name (ARN) for the SNS Topic that will be notified when the data set has been published or if an error has occurred.
         public let snsTopicArn: String
         /// The desired data set type.   customer_subscriber_hourly_monthly_subscriptions - Available daily by 5:00 PM Pacific Time since 2014-07-21. customer_subscriber_annual_subscriptions - Available daily by 5:00 PM Pacific Time since 2014-07-21. daily_business_usage_by_instance_type - Available daily by 5:00 PM Pacific Time since 2015-01-26. daily_business_fees - Available daily by 5:00 PM Pacific Time since 2015-01-26. daily_business_free_trial_conversions - Available daily by 5:00 PM Pacific Time since 2015-01-26. daily_business_new_instances - Available daily by 5:00 PM Pacific Time since 2015-01-26. daily_business_new_product_subscribers - Available daily by 5:00 PM Pacific Time since 2015-01-26. daily_business_canceled_product_subscribers - Available daily by 5:00 PM Pacific Time since 2015-01-26. monthly_revenue_billing_and_revenue_data - Available monthly on the 4th day of the month by 5:00 PM Pacific Time since 2015-02. monthly_revenue_annual_subscriptions - Available monthly on the 4th day of the month by 5:00 PM Pacific Time since 2015-02. disbursed_amount_by_product - Available every 30 days by 5:00 PM Pacific Time since 2015-01-26. disbursed_amount_by_product_with_uncollected_funds -This data set is only available from 2012-04-19 until 2015-01-25. After 2015-01-25, this data set was split into three data sets: disbursed_amount_by_product, disbursed_amount_by_age_of_uncollected_funds, and disbursed_amount_by_age_of_disbursed_funds.  disbursed_amount_by_instance_hours - Available every 30 days by 5:00 PM Pacific Time since 2012-09-04. disbursed_amount_by_customer_geo - Available every 30 days by 5:00 PM Pacific Time since 2012-04-19. disbursed_amount_by_age_of_uncollected_funds - Available every 30 days by 5:00 PM Pacific Time since 2015-01-26. disbursed_amount_by_age_of_disbursed_funds - Available every 30 days by 5:00 PM Pacific Time since 2015-01-26. customer_profile_by_industry - Available daily by 5:00 PM Pacific Time since 2015-10-01. customer_profile_by_revenue - Available daily by 5:00 PM Pacific Time since 2015-10-01. customer_profile_by_geography - Available daily by 5:00 PM Pacific Time since 2015-10-01. sales_compensation_billed_revenue - Available monthly on the 4th day of the month by 5:00 PM Pacific Time since 2016-12.  
@@ -110,6 +119,9 @@ extension Marketplacecommerceanalytics {
     public struct StartSupportDataExportResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "dataSetRequestId", required: false, type: .string)
+        ]
         /// A unique identifier representing a specific request to the StartSupportDataExport operation. This identifier can be used to correlate a request with notifications from the SNS topic.
         public let dataSetRequestId: String?
 
@@ -125,6 +137,15 @@ extension Marketplacecommerceanalytics {
     public struct StartSupportDataExportRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "snsTopicArn", required: true, type: .string), 
+            AWSShapeProperty(label: "dataSetType", required: true, type: .enum), 
+            AWSShapeProperty(label: "destinationS3Prefix", required: false, type: .string), 
+            AWSShapeProperty(label: "customerDefinedValues", required: false, type: .map), 
+            AWSShapeProperty(label: "destinationS3BucketName", required: true, type: .string), 
+            AWSShapeProperty(label: "fromDate", required: true, type: .timestamp), 
+            AWSShapeProperty(label: "roleNameArn", required: true, type: .string)
+        ]
         /// Amazon Resource Name (ARN) for the SNS Topic that will be notified when the data set has been published or if an error has occurred.
         public let snsTopicArn: String
         ///  Specifies the data set type to be written to the output csv file. The data set types customer_support_contacts_data and test_customer_support_contacts_data both result in a csv file containing the following fields: Product Id, Product Code, Customer Guid, Subscription Guid, Subscription Start Date, Organization, AWS Account Id, Given Name, Surname, Telephone Number, Email, Title, Country Code, ZIP Code, Operation Type, and Operation Time.    customer_support_contacts_data Customer support contact data. The data set will contain all changes (Creates, Updates, and Deletes) to customer support contact data from the date specified in the from_date parameter. test_customer_support_contacts_data An example data set containing static test data in the same format as customer_support_contacts_data  
@@ -173,6 +194,9 @@ extension Marketplacecommerceanalytics {
     public struct GenerateDataSetResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints = [
+            AWSShapeProperty(label: "dataSetRequestId", required: false, type: .string)
+        ]
         /// A unique identifier representing a specific request to the GenerateDataSet operation. This identifier can be used to correlate a request with notifications from the SNS topic.
         public let dataSetRequestId: String?
 
