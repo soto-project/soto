@@ -38,6 +38,11 @@ extension Shield {
     public struct Protection: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ResourceArn", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "Id", required: false, type: .string)
+        ]
         /// The ARN (Amazon Resource Name) of the AWS resource that is protected.
         public let resourceArn: String?
         /// The friendly name of the protection. For example, My CloudFront distributions.
@@ -69,6 +74,13 @@ extension Shield {
     public struct AttackSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "ResourceArn", required: false, type: .string), 
+            AWSShapeProperty(label: "AttackVectors", required: false, type: .list), 
+            AWSShapeProperty(label: "AttackId", required: false, type: .string)
+        ]
         /// The start time of the attack, in the format 2016-12-16T13:50Z.
         public let startTime: Date?
         /// The end time of the attack, in the format 2016-12-16T13:50Z.
@@ -104,6 +116,10 @@ extension Shield {
     public struct Subscription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "TimeCommitmentInSeconds", required: false, type: .long)
+        ]
         /// The start time of the subscription, in the format "2016-12-16T13:50Z".
         public let startTime: Date?
         /// The length, in seconds, of the AWS Shield Advanced subscription for the account.
@@ -123,6 +139,15 @@ extension Shield {
     public struct AttackDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Mitigations", required: false, type: .list), 
+            AWSShapeProperty(label: "ResourceArn", required: false, type: .string), 
+            AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "SubResources", required: false, type: .list), 
+            AWSShapeProperty(label: "AttackCounters", required: false, type: .list), 
+            AWSShapeProperty(label: "AttackId", required: false, type: .string)
+        ]
         /// The time the attack started, in the format 2016-12-16T13:50Z.
         public let startTime: Date?
         /// List of mitigation actions taken for the attack.
@@ -174,6 +199,10 @@ extension Shield {
     public struct ListAttacksResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "AttackSummaries", required: false, type: .list)
+        ]
         /// The token returned by a previous call to indicate that there is more data available. If not null, more results are available. Pass this value for the NextMarker parameter in a subsequent call to ListAttacks to retrieve the next set of items.
         public let nextToken: String?
         /// The attack information for the specified time range.
@@ -197,6 +226,9 @@ extension Shield {
     public struct DescribeAttackResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Attack", required: false, type: .structure)
+        ]
         /// The attack that is described.
         public let attack: AttackDetail?
 
@@ -212,6 +244,10 @@ extension Shield {
     public struct ListProtectionsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Protections", required: false, type: .list)
+        ]
         /// If you specify a value for MaxResults and you have more Protections than the value of MaxResults, AWS Shield Advanced returns a NextToken value in the response that allows you to list another group of Protections. For the second and subsequent ListProtections requests, specify the value of NextToken from the previous response to get information about another batch of Protections.
         public let nextToken: String?
         /// The array of enabled Protection objects.
@@ -235,6 +271,14 @@ extension Shield {
     public struct SummarizedCounter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Unit", required: false, type: .string), 
+            AWSShapeProperty(label: "Average", required: false, type: .double), 
+            AWSShapeProperty(label: "N", required: false, type: .integer), 
+            AWSShapeProperty(label: "Max", required: false, type: .double), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "Sum", required: false, type: .double)
+        ]
         /// The unit of the counters.
         public let unit: String?
         /// The average value of the counter for a specified time period.
@@ -270,6 +314,10 @@ extension Shield {
     public struct CreateProtectionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "ResourceArn", required: true, type: .string)
+        ]
         /// Friendly name for the Protection you are creating.
         public let name: String
         /// The ARN (Amazon Resource Name) of the resource to be protected.
@@ -291,6 +339,9 @@ extension Shield {
     public struct DescribeProtectionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ProtectionId", required: true, type: .string)
+        ]
         /// The unique identifier (ID) for the Protection object that is described.
         public let protectionId: String
 
@@ -307,6 +358,9 @@ extension Shield {
     public struct DescribeAttackRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AttackId", required: true, type: .string)
+        ]
         /// The unique identifier (ID) for the attack that to be described.
         public let attackId: String
 
@@ -323,6 +377,9 @@ extension Shield {
     public struct DescribeProtectionResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Protection", required: false, type: .structure)
+        ]
         /// The Protection object that is described.
         public let protection: Protection?
 
@@ -338,6 +395,9 @@ extension Shield {
     public struct DeleteProtectionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ProtectionId", required: true, type: .string)
+        ]
         /// The unique identifier (ID) for the Protection object to be deleted.
         public let protectionId: String
 
@@ -362,6 +422,10 @@ extension Shield {
     public struct TimeRange: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ToExclusive", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "FromInclusive", required: false, type: .timestamp)
+        ]
         /// The end time, in the format 2016-12-16T15:50Z.
         public let toExclusive: Date?
         /// The start time, in the format 2016-12-16T13:50Z.
@@ -389,6 +453,9 @@ extension Shield {
     public struct CreateProtectionResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ProtectionId", required: false, type: .string)
+        ]
         /// The unique identifier (ID) for the Protection object that is created.
         public let protectionId: String?
 
@@ -404,6 +471,10 @@ extension Shield {
     public struct SummarizedAttackVector: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "VectorCounters", required: false, type: .list), 
+            AWSShapeProperty(label: "VectorType", required: true, type: .string)
+        ]
         /// The list of counters that describe the details of the attack.
         public let vectorCounters: [SummarizedCounter]?
         /// The attack type, for example, SNMP reflection or SYN flood.
@@ -428,6 +499,9 @@ extension Shield {
     public struct Mitigation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "MitigationName", required: false, type: .string)
+        ]
         /// The name of the mitigation taken for this attack.
         public let mitigationName: String?
 
@@ -443,6 +517,9 @@ extension Shield {
     public struct DescribeSubscriptionResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Subscription", required: false, type: .structure)
+        ]
         /// The AWS Shield Advanced subscription details for an account.
         public let subscription: Subscription?
 
@@ -466,6 +543,13 @@ extension Shield {
     public struct ListAttacksRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "StartTime", required: false, type: .structure), 
+            AWSShapeProperty(label: "ResourceArns", required: false, type: .list), 
+            AWSShapeProperty(label: "EndTime", required: false, type: .structure), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        ]
         /// The time period for the attacks.
         public let startTime: TimeRange?
         /// The ARN (Amazon Resource Name) of the resource that was attacked. If this is left blank, all applicable resources for this account will be included.
@@ -497,6 +581,9 @@ extension Shield {
     public struct AttackVectorDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "VectorType", required: true, type: .string)
+        ]
         /// The attack type, for example, SNMP reflection or SYN flood.
         public let vectorType: String
 
@@ -513,6 +600,12 @@ extension Shield {
     public struct SubResourceSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Counters", required: false, type: .list), 
+            AWSShapeProperty(label: "Type", required: false, type: .enum), 
+            AWSShapeProperty(label: "AttackVectors", required: false, type: .list), 
+            AWSShapeProperty(label: "Id", required: false, type: .string)
+        ]
         /// The counters that describe the details of the attack.
         public let counters: [SummarizedCounter]?
         /// The SubResource type.
@@ -548,6 +641,10 @@ extension Shield {
     public struct ListProtectionsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        ]
         /// The ListProtectionsRequest.NextToken value from a previous call to ListProtections. Pass null if this is the first call.
         public let nextToken: String?
         /// The maximum number of Protection objects to be returned. If this is left blank the first 20 results will be returned.

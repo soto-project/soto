@@ -32,6 +32,10 @@ extension Budgets {
     public struct DeleteBudgetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "BudgetName", required: true, type: .string)
+        ]
         public let accountId: String
         public let budgetName: String
 
@@ -51,6 +55,10 @@ extension Budgets {
     public struct DescribeBudgetsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Budgets", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        ]
         public let budgets: [Budget]?
         public let nextToken: String?
 
@@ -72,6 +80,10 @@ extension Budgets {
     public struct DescribeBudgetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "BudgetName", required: true, type: .string)
+        ]
         public let accountId: String
         public let budgetName: String
 
@@ -91,6 +103,9 @@ extension Budgets {
     public struct DescribeBudgetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Budget", required: false, type: .structure)
+        ]
         public let budget: Budget?
 
         public init(budget: Budget? = nil) {
@@ -105,6 +120,11 @@ extension Budgets {
     public struct DeleteNotificationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "Notification", required: true, type: .structure), 
+            AWSShapeProperty(label: "BudgetName", required: true, type: .string)
+        ]
         public let accountId: String
         public let notification: Notification
         public let budgetName: String
@@ -128,6 +148,10 @@ extension Budgets {
     public struct NotificationWithSubscribers: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Subscribers", required: true, type: .list), 
+            AWSShapeProperty(label: "Notification", required: true, type: .structure)
+        ]
         public let subscribers: [Subscriber]
         public let notification: Notification
 
@@ -147,6 +171,13 @@ extension Budgets {
     public struct UpdateSubscriberRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "Notification", required: true, type: .structure), 
+            AWSShapeProperty(label: "OldSubscriber", required: true, type: .structure), 
+            AWSShapeProperty(label: "BudgetName", required: true, type: .string), 
+            AWSShapeProperty(label: "NewSubscriber", required: true, type: .structure)
+        ]
         public let accountId: String
         public let notification: Notification
         public let oldSubscriber: Subscriber
@@ -192,6 +223,12 @@ extension Budgets {
     public struct CreateNotificationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "Notification", required: true, type: .structure), 
+            AWSShapeProperty(label: "Subscribers", required: true, type: .list), 
+            AWSShapeProperty(label: "BudgetName", required: true, type: .string)
+        ]
         public let accountId: String
         public let notification: Notification
         public let subscribers: [Subscriber]
@@ -227,6 +264,10 @@ extension Budgets {
     public struct DescribeNotificationsForBudgetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Notifications", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        ]
         public let notifications: [Notification]?
         public let nextToken: String?
 
@@ -248,6 +289,12 @@ extension Budgets {
     public struct DeleteSubscriberRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "Subscriber", required: true, type: .structure), 
+            AWSShapeProperty(label: "Notification", required: true, type: .structure), 
+            AWSShapeProperty(label: "BudgetName", required: true, type: .string)
+        ]
         public let accountId: String
         public let subscriber: Subscriber
         public let notification: Notification
@@ -283,6 +330,11 @@ extension Budgets {
     public struct CostTypes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "IncludeSubscription", required: true, type: .boolean), 
+            AWSShapeProperty(label: "UseBlended", required: true, type: .boolean), 
+            AWSShapeProperty(label: "IncludeTax", required: true, type: .boolean)
+        ]
         public let includeSubscription: Bool
         public let useBlended: Bool
         public let includeTax: Bool
@@ -314,6 +366,11 @@ extension Budgets {
     public struct DescribeBudgetsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        ]
         public let accountId: String
         public let nextToken: String?
         public let maxResults: Int32?
@@ -343,6 +400,11 @@ extension Budgets {
     public struct CreateBudgetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "Budget", required: true, type: .structure), 
+            AWSShapeProperty(label: "NotificationsWithSubscribers", required: false, type: .list)
+        ]
         public let accountId: String
         public let budget: Budget
         public let notificationsWithSubscribers: [NotificationWithSubscribers]?
@@ -377,6 +439,12 @@ extension Budgets {
     public struct UpdateNotificationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "OldNotification", required: true, type: .structure), 
+            AWSShapeProperty(label: "NewNotification", required: true, type: .structure), 
+            AWSShapeProperty(label: "BudgetName", required: true, type: .string)
+        ]
         public let accountId: String
         public let oldNotification: Notification
         public let newNotification: Notification
@@ -426,6 +494,13 @@ extension Budgets {
     public struct DescribeSubscribersForNotificationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "Notification", required: true, type: .structure), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "BudgetName", required: true, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        ]
         public let accountId: String
         public let notification: Notification
         public let nextToken: String?
@@ -455,6 +530,12 @@ extension Budgets {
     public struct CreateSubscriberRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "Subscriber", required: true, type: .structure), 
+            AWSShapeProperty(label: "Notification", required: true, type: .structure), 
+            AWSShapeProperty(label: "BudgetName", required: true, type: .string)
+        ]
         public let accountId: String
         public let subscriber: Subscriber
         public let notification: Notification
@@ -490,6 +571,11 @@ extension Budgets {
     public struct Notification: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ComparisonOperator", required: true, type: .enum), 
+            AWSShapeProperty(label: "Threshold", required: true, type: .double), 
+            AWSShapeProperty(label: "NotificationType", required: true, type: .enum)
+        ]
         public let comparisonOperator: ComparisonOperator
         public let threshold: Double
         public let notificationType: NotificationType
@@ -513,6 +599,10 @@ extension Budgets {
     public struct Subscriber: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Address", required: true, type: .string), 
+            AWSShapeProperty(label: "SubscriptionType", required: true, type: .enum)
+        ]
         public let address: String
         public let subscriptionType: SubscriptionType
 
@@ -532,6 +622,12 @@ extension Budgets {
     public struct DescribeNotificationsForBudgetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "BudgetName", required: true, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        ]
         public let accountId: String
         public let nextToken: String?
         public let budgetName: String
@@ -557,6 +653,10 @@ extension Budgets {
     public struct UpdateBudgetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "NewBudget", required: true, type: .structure)
+        ]
         public let accountId: String
         public let newBudget: Budget
 
@@ -583,6 +683,16 @@ extension Budgets {
     public struct Budget: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TimeUnit", required: true, type: .enum), 
+            AWSShapeProperty(label: "BudgetLimit", required: true, type: .structure), 
+            AWSShapeProperty(label: "BudgetName", required: true, type: .string), 
+            AWSShapeProperty(label: "TimePeriod", required: true, type: .structure), 
+            AWSShapeProperty(label: "BudgetType", required: true, type: .enum), 
+            AWSShapeProperty(label: "CostFilters", required: false, type: .map), 
+            AWSShapeProperty(label: "CalculatedSpend", required: false, type: .structure), 
+            AWSShapeProperty(label: "CostTypes", required: true, type: .structure)
+        ]
         public let timeUnit: TimeUnit
         public let budgetLimit: Spend
         public let budgetName: String
@@ -633,6 +743,10 @@ extension Budgets {
     public struct TimePeriod: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Start", required: true, type: .timestamp), 
+            AWSShapeProperty(label: "End", required: true, type: .timestamp)
+        ]
         public let start: Date
         public let end: Date
 
@@ -652,6 +766,10 @@ extension Budgets {
     public struct CalculatedSpend: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ForecastedSpend", required: false, type: .structure), 
+            AWSShapeProperty(label: "ActualSpend", required: true, type: .structure)
+        ]
         public let forecastedSpend: Spend?
         public let actualSpend: Spend
 
@@ -670,6 +788,10 @@ extension Budgets {
     public struct Spend: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Unit", required: true, type: .string), 
+            AWSShapeProperty(label: "Amount", required: true, type: .string)
+        ]
         public let unit: String
         public let amount: String
 
@@ -689,6 +811,10 @@ extension Budgets {
     public struct DescribeSubscribersForNotificationResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Subscribers", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        ]
         public let subscribers: [Subscriber]?
         public let nextToken: String?
 

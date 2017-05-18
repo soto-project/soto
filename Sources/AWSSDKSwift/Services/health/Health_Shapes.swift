@@ -32,6 +32,9 @@ extension Health {
     public struct DescribeEntityAggregatesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "entityAggregates", required: false, type: .list)
+        ]
         /// The number of entities that are affected by each of the specified events.
         public let entityAggregates: [EntityAggregate]?
 
@@ -51,6 +54,15 @@ extension Health {
     public struct AffectedEntity: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "lastUpdatedTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "statusCode", required: false, type: .enum), 
+            AWSShapeProperty(label: "entityArn", required: false, type: .string), 
+            AWSShapeProperty(label: "tags", required: false, type: .map), 
+            AWSShapeProperty(label: "awsAccountId", required: false, type: .string), 
+            AWSShapeProperty(label: "eventArn", required: false, type: .string), 
+            AWSShapeProperty(label: "entityValue", required: false, type: .string)
+        ]
         /// The most recent time that the entity was updated.
         public let lastUpdatedTime: Date?
         /// The most recent status of the entity affected by the event. The possible values are IMPAIRED, UNIMPAIRED, and UNKNOWN.
@@ -94,6 +106,11 @@ extension Health {
     public struct EventDetailsErrorItem: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "eventArn", required: false, type: .string), 
+            AWSShapeProperty(label: "errorMessage", required: false, type: .string), 
+            AWSShapeProperty(label: "errorName", required: false, type: .string)
+        ]
         /// The unique identifier for the event. Format: arn:aws:health:event-region::event/EVENT_TYPE_PLUS_ID . Example: arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331 
         public let eventArn: String?
         /// A message that describes the error.
@@ -117,6 +134,11 @@ extension Health {
     public struct EventTypeFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "eventTypeCategories", required: false, type: .list), 
+            AWSShapeProperty(label: "services", required: false, type: .list), 
+            AWSShapeProperty(label: "eventTypeCodes", required: false, type: .list)
+        ]
         /// A list of event type category codes (issue, scheduledChange, or accountNotification).
         public let eventTypeCategories: [EventTypeCategory]?
         /// The AWS services associated with the event. For example, EC2, RDS.
@@ -140,6 +162,10 @@ extension Health {
     public struct DescribeAffectedEntitiesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "entities", required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        ]
         /// The entities that match the filter criteria.
         public let entities: [AffectedEntity]?
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -170,6 +196,18 @@ extension Health {
     public struct Event: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "service", required: false, type: .string), 
+            AWSShapeProperty(label: "availabilityZone", required: false, type: .string), 
+            AWSShapeProperty(label: "lastUpdatedTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "statusCode", required: false, type: .enum), 
+            AWSShapeProperty(label: "eventTypeCategory", required: false, type: .enum), 
+            AWSShapeProperty(label: "region", required: false, type: .string), 
+            AWSShapeProperty(label: "endTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "eventTypeCode", required: false, type: .string), 
+            AWSShapeProperty(label: "startTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "arn", required: false, type: .string)
+        ]
         /// The AWS service that is affected by the event. For example, EC2, RDS.
         public let service: String?
         /// The AWS Availability Zone of the event. For example, us-east-1a.
@@ -221,6 +259,10 @@ extension Health {
     public struct DescribeEventDetailsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "failedSet", required: false, type: .list), 
+            AWSShapeProperty(label: "successfulSet", required: false, type: .list)
+        ]
         /// Error messages for any events that could not be retrieved.
         public let failedSet: [EventDetailsErrorItem]?
         /// Information about the events that could be retrieved.
@@ -248,6 +290,10 @@ extension Health {
     public struct DescribeEventDetailsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "eventArns", required: true, type: .list), 
+            AWSShapeProperty(label: "locale", required: false, type: .string)
+        ]
         /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331", "arn:aws:health:us-west-1::event/AWS_EBS_LOST_VOLUME_xyz" 
         public let eventArns: [String]
         /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
@@ -275,6 +321,9 @@ extension Health {
     public struct EventDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "latestDescription", required: false, type: .string)
+        ]
         /// The most recent description of the event.
         public let latestDescription: String?
 
@@ -290,6 +339,10 @@ extension Health {
     public struct DescribeEventAggregatesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "eventAggregates", required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        ]
         /// The number of events in each category that meet the optional filter criteria.
         public let eventAggregates: [EventAggregate]?
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -313,6 +366,12 @@ extension Health {
     public struct DescribeEventAggregatesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "filter", required: false, type: .structure), 
+            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
+            AWSShapeProperty(label: "aggregateField", required: true, type: .enum)
+        ]
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
         /// Values to narrow the results returned.
@@ -341,6 +400,21 @@ extension Health {
     public struct EventFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "eventTypeCategories", required: false, type: .list), 
+            AWSShapeProperty(label: "eventArns", required: false, type: .list), 
+            AWSShapeProperty(label: "eventStatusCodes", required: false, type: .list), 
+            AWSShapeProperty(label: "lastUpdatedTimes", required: false, type: .list), 
+            AWSShapeProperty(label: "tags", required: false, type: .list), 
+            AWSShapeProperty(label: "eventTypeCodes", required: false, type: .list), 
+            AWSShapeProperty(label: "entityArns", required: false, type: .list), 
+            AWSShapeProperty(label: "entityValues", required: false, type: .list), 
+            AWSShapeProperty(label: "availabilityZones", required: false, type: .list), 
+            AWSShapeProperty(label: "services", required: false, type: .list), 
+            AWSShapeProperty(label: "endTimes", required: false, type: .list), 
+            AWSShapeProperty(label: "regions", required: false, type: .list), 
+            AWSShapeProperty(label: "startTimes", required: false, type: .list)
+        ]
         /// A list of event type category codes (issue, scheduledChange, or accountNotification).
         public let eventTypeCategories: [EventTypeCategory]?
         /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331", "arn:aws:health:us-west-1::event/AWS_EBS_LOST_VOLUME_xyz" 
@@ -416,6 +490,10 @@ extension Health {
     public struct EventAggregate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "count", required: false, type: .integer), 
+            AWSShapeProperty(label: "aggregateValue", required: false, type: .string)
+        ]
         /// The number of events of the associated issue type.
         public let count: Int32?
         /// The issue type for the associated count.
@@ -440,6 +518,10 @@ extension Health {
     public struct EntityAggregate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "eventArn", required: false, type: .string), 
+            AWSShapeProperty(label: "count", required: false, type: .integer)
+        ]
         /// The unique identifier for the event. Format: arn:aws:health:event-region::event/EVENT_TYPE_PLUS_ID . Example: arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331 
         public let eventArn: String?
         /// The number entities that match the criteria for the specified events.
@@ -459,6 +541,11 @@ extension Health {
     public struct EventType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "service", required: false, type: .string), 
+            AWSShapeProperty(label: "category", required: false, type: .enum), 
+            AWSShapeProperty(label: "code", required: false, type: .string)
+        ]
         /// The AWS service that is affected by the event. For example, EC2, RDS.
         public let service: String?
         /// A list of event type category codes (issue, scheduledChange, or accountNotification).
@@ -482,6 +569,9 @@ extension Health {
     public struct DescribeEntityAggregatesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "eventArns", required: false, type: .list)
+        ]
         /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331", "arn:aws:health:us-west-1::event/AWS_EBS_LOST_VOLUME_xyz" 
         public let eventArns: [String]?
 
@@ -497,6 +587,10 @@ extension Health {
     public struct DescribeEventTypesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "eventTypes", required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        ]
         /// A list of event types that match the filter criteria. Event types have a category (issue, accountNotification, or scheduledChange), a service (for example, EC2, RDS, DATAPIPELINE, BILLING), and a code (in the format AWS_SERVICE_DESCRIPTION ; for example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT).
         public let eventTypes: [EventType]?
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -520,6 +614,11 @@ extension Health {
     public struct EventDetails: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "eventMetadata", required: false, type: .map), 
+            AWSShapeProperty(label: "event", required: false, type: .structure), 
+            AWSShapeProperty(label: "eventDescription", required: false, type: .structure)
+        ]
         /// Additional metadata about the event.
         public let eventMetadata: [String: String]?
         /// Summary information about the event.
@@ -547,6 +646,12 @@ extension Health {
     public struct DescribeAffectedEntitiesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
+            AWSShapeProperty(label: "filter", required: true, type: .structure), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "locale", required: false, type: .string)
+        ]
         /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
         public let maxResults: Int32?
         /// Values to narrow the results returned. At least one event ARN is required. 
@@ -575,6 +680,12 @@ extension Health {
     public struct DescribeEventsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
+            AWSShapeProperty(label: "filter", required: false, type: .structure), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "locale", required: false, type: .string)
+        ]
         /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
         public let maxResults: Int32?
         /// Values to narrow the results returned.
@@ -602,6 +713,10 @@ extension Health {
     public struct DateTimeRange: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "to", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "from", required: false, type: .timestamp)
+        ]
         /// The ending date and time of a time range.
         public let to: Date?
         /// The starting date and time of a time range.
@@ -621,6 +736,14 @@ extension Health {
     public struct EntityFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "eventArns", required: true, type: .list), 
+            AWSShapeProperty(label: "lastUpdatedTimes", required: false, type: .list), 
+            AWSShapeProperty(label: "statusCodes", required: false, type: .list), 
+            AWSShapeProperty(label: "tags", required: false, type: .list), 
+            AWSShapeProperty(label: "entityArns", required: false, type: .list), 
+            AWSShapeProperty(label: "entityValues", required: false, type: .list)
+        ]
         /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331", "arn:aws:health:us-west-1::event/AWS_EBS_LOST_VOLUME_xyz" 
         public let eventArns: [String]
         /// A list of the most recent dates and times that the entity was updated.
@@ -668,6 +791,12 @@ extension Health {
     public struct DescribeEventTypesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
+            AWSShapeProperty(label: "filter", required: false, type: .structure), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "locale", required: false, type: .string)
+        ]
         /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
         public let maxResults: Int32?
         /// Values to narrow the results returned.
@@ -695,6 +824,10 @@ extension Health {
     public struct DescribeEventsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "events", required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        ]
         /// The events that match the specified filter criteria.
         public let events: [Event]?
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.

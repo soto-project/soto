@@ -32,6 +32,10 @@ extension ApplicationAutoscaling {
     public struct DescribeScalingActivitiesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "ScalingActivities", required: false, type: .list)
+        ]
         /// The token required to get the next set of results. This value is null if there are no more results to return.
         public let nextToken: String?
         /// A list of scaling activity objects.
@@ -55,6 +59,10 @@ extension ApplicationAutoscaling {
     public struct DescribeScalableTargetsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ScalableTargets", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        ]
         /// The list of scalable targets that matches the request parameters.
         public let scalableTargets: [ScalableTarget]?
         /// The token required to get the next set of results. This value is null if there are no more results to return.
@@ -93,6 +101,17 @@ extension ApplicationAutoscaling {
     public struct ScalingPolicy: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "StepScalingPolicyConfiguration", required: false, type: .structure), 
+            AWSShapeProperty(label: "PolicyType", required: true, type: .enum), 
+            AWSShapeProperty(label: "ServiceNamespace", required: true, type: .enum), 
+            AWSShapeProperty(label: "PolicyARN", required: true, type: .string), 
+            AWSShapeProperty(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeProperty(label: "ScalableDimension", required: true, type: .enum), 
+            AWSShapeProperty(label: "Alarms", required: false, type: .list), 
+            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
+            AWSShapeProperty(label: "PolicyName", required: true, type: .string)
+        ]
         /// The configuration for the step scaling policy.
         public let stepScalingPolicyConfiguration: StepScalingPolicyConfiguration?
         /// The scaling policy type.
@@ -158,6 +177,12 @@ extension ApplicationAutoscaling {
     public struct DeleteScalingPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "PolicyName", required: true, type: .string), 
+            AWSShapeProperty(label: "ScalableDimension", required: true, type: .enum), 
+            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
+            AWSShapeProperty(label: "ServiceNamespace", required: true, type: .enum)
+        ]
         /// The name of the scaling policy.
         public let policyName: String
         /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.  
@@ -196,6 +221,14 @@ extension ApplicationAutoscaling {
     public struct PutScalingPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "StepScalingPolicyConfiguration", required: false, type: .structure), 
+            AWSShapeProperty(label: "ServiceNamespace", required: true, type: .enum), 
+            AWSShapeProperty(label: "ScalableDimension", required: true, type: .enum), 
+            AWSShapeProperty(label: "PolicyType", required: false, type: .enum), 
+            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
+            AWSShapeProperty(label: "PolicyName", required: true, type: .string)
+        ]
         /// The configuration for the step scaling policy. If you are creating a new policy, this parameter is required. If you are updating a policy, this parameter is not required. For more information, see StepScalingPolicyConfiguration and StepAdjustment.
         public let stepScalingPolicyConfiguration: StepScalingPolicyConfiguration?
         /// The namespace of the AWS service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
@@ -235,6 +268,15 @@ extension ApplicationAutoscaling {
     public struct ScalableTarget: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ServiceNamespace", required: true, type: .enum), 
+            AWSShapeProperty(label: "RoleARN", required: true, type: .string), 
+            AWSShapeProperty(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeProperty(label: "ScalableDimension", required: true, type: .enum), 
+            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
+            AWSShapeProperty(label: "MaxCapacity", required: true, type: .integer), 
+            AWSShapeProperty(label: "MinCapacity", required: true, type: .integer)
+        ]
         /// The namespace of the AWS service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
         /// The ARN of an IAM role that allows Application Auto Scaling to modify the scalable target on your behalf.
@@ -281,6 +323,11 @@ extension ApplicationAutoscaling {
     public struct DeregisterScalableTargetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
+            AWSShapeProperty(label: "ScalableDimension", required: true, type: .enum), 
+            AWSShapeProperty(label: "ServiceNamespace", required: true, type: .enum)
+        ]
         /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.  
         public let resourceId: String
         /// The scalable dimension associated with the scalable target. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.  
@@ -314,6 +361,10 @@ extension ApplicationAutoscaling {
     public struct DescribeScalingPoliciesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "ScalingPolicies", required: false, type: .list)
+        ]
         /// The token required to get the next set of results. This value is null if there are no more results to return.
         public let nextToken: String?
         /// A list of scaling policy objects.
@@ -337,6 +388,13 @@ extension ApplicationAutoscaling {
     public struct DescribeScalableTargetsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ServiceNamespace", required: true, type: .enum), 
+            AWSShapeProperty(label: "ResourceIds", required: false, type: .list), 
+            AWSShapeProperty(label: "ScalableDimension", required: false, type: .enum), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        ]
         /// The namespace of the AWS service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
         /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier. If you specify a scalable dimension, you must also specify a resource ID.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.  
@@ -377,6 +435,11 @@ extension ApplicationAutoscaling {
     public struct StepAdjustment: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ScalingAdjustment", required: true, type: .integer), 
+            AWSShapeProperty(label: "MetricIntervalUpperBound", required: false, type: .double), 
+            AWSShapeProperty(label: "MetricIntervalLowerBound", required: false, type: .double)
+        ]
         /// The amount by which to scale, based on the specified adjustment type. A positive value adds to the current scalable dimension while a negative number removes from the current scalable dimension.
         public let scalingAdjustment: Int32
         /// The upper bound for the difference between the alarm threshold and the CloudWatch metric. If the metric value is above the breach threshold, the upper bound is exclusive (the metric must be less than the threshold plus the upper bound). Otherwise, it is inclusive (the metric must be less than or equal to the threshold plus the upper bound). A null value indicates positive infinity. The upper bound must be greater than the lower bound.
@@ -411,6 +474,10 @@ extension ApplicationAutoscaling {
     public struct Alarm: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AlarmName", required: true, type: .string), 
+            AWSShapeProperty(label: "AlarmARN", required: true, type: .string)
+        ]
         /// The name of the alarm.
         public let alarmName: String
         /// The Amazon Resource Name (ARN) of the alarm.
@@ -432,6 +499,13 @@ extension ApplicationAutoscaling {
     public struct StepScalingPolicyConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "MetricAggregationType", required: false, type: .enum), 
+            AWSShapeProperty(label: "Cooldown", required: false, type: .integer), 
+            AWSShapeProperty(label: "MinAdjustmentMagnitude", required: false, type: .integer), 
+            AWSShapeProperty(label: "StepAdjustments", required: false, type: .list), 
+            AWSShapeProperty(label: "AdjustmentType", required: false, type: .enum)
+        ]
         /// The aggregation type for the CloudWatch metrics. Valid values are Minimum, Maximum, and Average.
         public let metricAggregationType: MetricAggregationType?
         /// The amount of time, in seconds, after a scaling activity completes where previous trigger-related scaling activities can influence future scaling events. For scale out policies, while Cooldown is in effect, the capacity that has been added by the previous scale out event that initiated the Cooldown is calculated as part of the desired capacity for the next scale out. The intention is to continuously (but not excessively) scale out. For example, an alarm triggers a step scaling policy to scale out an Amazon ECS service by 2 tasks, the scaling activity completes successfully, and a Cooldown period of 5 minutes starts. During the Cooldown period, if the alarm triggers the same policy again but at a more aggressive step adjustment to scale out the service by 3 tasks, the 2 tasks that were added in the previous scale out event are considered part of that capacity and only 1 additional task is added to the desired count. For scale in policies, the Cooldown period is used to block subsequent scale in requests until it has expired. The intention is to scale in conservatively to protect your application's availability. However, if another alarm triggers a scale out policy during the Cooldown period after a scale-in, Application Auto Scaling scales out your scalable target immediately.
@@ -467,6 +541,13 @@ extension ApplicationAutoscaling {
     public struct DescribeScalingActivitiesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ServiceNamespace", required: true, type: .enum), 
+            AWSShapeProperty(label: "ScalableDimension", required: false, type: .enum), 
+            AWSShapeProperty(label: "ResourceId", required: false, type: .string), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        ]
         /// The namespace of the AWS service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
         /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property. If you specify a scalable dimension, you must also specify a resource ID.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.  
@@ -504,6 +585,9 @@ extension ApplicationAutoscaling {
     public struct PutScalingPolicyResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "PolicyARN", required: true, type: .string)
+        ]
         /// The Amazon Resource Name (ARN) of the resulting scaling policy.
         public let policyARN: String
 
@@ -520,6 +604,14 @@ extension ApplicationAutoscaling {
     public struct DescribeScalingPoliciesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ServiceNamespace", required: true, type: .enum), 
+            AWSShapeProperty(label: "ScalableDimension", required: false, type: .enum), 
+            AWSShapeProperty(label: "PolicyNames", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "ResourceId", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        ]
         /// The namespace of the AWS service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
         /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property. If you specify a scalable dimension, you must also specify a resource ID.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.  
@@ -556,6 +648,14 @@ extension ApplicationAutoscaling {
     public struct RegisterScalableTargetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
+            AWSShapeProperty(label: "ScalableDimension", required: true, type: .enum), 
+            AWSShapeProperty(label: "MaxCapacity", required: false, type: .integer), 
+            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
+            AWSShapeProperty(label: "MinCapacity", required: false, type: .integer), 
+            AWSShapeProperty(label: "ServiceNamespace", required: true, type: .enum)
+        ]
         /// The ARN of an IAM role that allows Application Auto Scaling to modify the scalable target on your behalf. This parameter is required when you register a scalable target and optional when you update one.
         public let roleARN: String?
         /// The scalable dimension associated with the scalable target. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.  
@@ -602,6 +702,19 @@ extension ApplicationAutoscaling {
     public struct ScalingActivity: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "StartTime", required: true, type: .timestamp), 
+            AWSShapeProperty(label: "Details", required: false, type: .string), 
+            AWSShapeProperty(label: "ServiceNamespace", required: true, type: .enum), 
+            AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "StatusCode", required: true, type: .enum), 
+            AWSShapeProperty(label: "Cause", required: true, type: .string), 
+            AWSShapeProperty(label: "ScalableDimension", required: true, type: .enum), 
+            AWSShapeProperty(label: "ActivityId", required: true, type: .string), 
+            AWSShapeProperty(label: "StatusMessage", required: false, type: .string), 
+            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
+            AWSShapeProperty(label: "Description", required: true, type: .string)
+        ]
         /// The Unix timestamp for when the scaling activity began.
         public let startTime: Date
         /// The details about the scaling activity.

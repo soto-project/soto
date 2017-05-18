@@ -32,6 +32,12 @@ extension Meteringmarketplace {
     public struct UsageRecord: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "CustomerIdentifier", required: true, type: .string), 
+            AWSShapeProperty(label: "Timestamp", required: true, type: .timestamp), 
+            AWSShapeProperty(label: "Dimension", required: true, type: .string), 
+            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        ]
         /// The CustomerIdentifier is obtained through the ResolveCustomer operation and represents an individual buyer in your application.
         public let customerIdentifier: String
         /// Timestamp of the hour, recorded in UTC. The seconds and milliseconds portions of the timestamp will be ignored. Your application can meter usage for up to one hour in the past.
@@ -63,6 +69,9 @@ extension Meteringmarketplace {
     public struct ResolveCustomerRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "RegistrationToken", required: true, type: .string)
+        ]
         /// When a buyer visits your website during the registration process, the buyer submits a registration token through the browser. The registration token is resolved to obtain a CustomerIdentifier and product code.
         public let registrationToken: String
 
@@ -79,6 +88,13 @@ extension Meteringmarketplace {
     public struct MeterUsageRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Timestamp", required: true, type: .timestamp), 
+            AWSShapeProperty(label: "DryRun", required: true, type: .boolean), 
+            AWSShapeProperty(label: "UsageDimension", required: true, type: .string), 
+            AWSShapeProperty(label: "UsageQuantity", required: true, type: .integer), 
+            AWSShapeProperty(label: "ProductCode", required: true, type: .string)
+        ]
         /// Timestamp of the hour, recorded in UTC. The seconds and milliseconds portions of the timestamp will be ignored.
         public let timestamp: Date
         /// Checks whether you have the permissions required for the action, but does not make the request. If you have the permissions, the request returns DryRunOperation; otherwise, it returns UnauthorizedException.
@@ -122,6 +138,10 @@ extension Meteringmarketplace {
     public struct BatchMeterUsageResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "UnprocessedRecords", required: false, type: .list), 
+            AWSShapeProperty(label: "Results", required: false, type: .list)
+        ]
         /// Contains all UsageRecords that were not processed by BatchMeterUsage. This is a list of UsageRecords. You can retry the failed request by making another BatchMeterUsage call with this list as input in the BatchMeterUsageRequest.
         public let unprocessedRecords: [UsageRecord]?
         /// Contains all UsageRecords processed by BatchMeterUsage. These records were either honored by AWS Marketplace Metering Service or were invalid.
@@ -149,6 +169,10 @@ extension Meteringmarketplace {
     public struct ResolveCustomerResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "CustomerIdentifier", required: false, type: .string), 
+            AWSShapeProperty(label: "ProductCode", required: false, type: .string)
+        ]
         /// The CustomerIdentifier is used to identify an individual customer in your application. Calls to BatchMeterUsage require CustomerIdentifiers for each UsageRecord.
         public let customerIdentifier: String?
         /// The product code is returned to confirm that the buyer is registering for your product. Subsequent BatchMeterUsage calls should be made using this product code.
@@ -168,6 +192,9 @@ extension Meteringmarketplace {
     public struct MeterUsageResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "MeteringRecordId", required: false, type: .string)
+        ]
         public let meteringRecordId: String?
 
         public init(meteringRecordId: String? = nil) {
@@ -182,6 +209,10 @@ extension Meteringmarketplace {
     public struct BatchMeterUsageRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ProductCode", required: true, type: .string), 
+            AWSShapeProperty(label: "UsageRecords", required: true, type: .list)
+        ]
         /// Product code is used to uniquely identify a product in AWS Marketplace. The product code should be the same as the one used during the publishing of a new product.
         public let productCode: String
         /// The set of UsageRecords to submit. BatchMeterUsage accepts up to 25 UsageRecords at a time.
@@ -203,6 +234,11 @@ extension Meteringmarketplace {
     public struct UsageRecordResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "MeteringRecordId", required: false, type: .string), 
+            AWSShapeProperty(label: "Status", required: false, type: .enum), 
+            AWSShapeProperty(label: "UsageRecord", required: false, type: .structure)
+        ]
         /// The MeteringRecordId is a unique identifier for this metering event.
         public let meteringRecordId: String?
         /// The UsageRecordResult Status indicates the status of an individual UsageRecord processed by BatchMeterUsage.    Success- The UsageRecord was accepted and honored by BatchMeterUsage.    CustomerNotSubscribed- The CustomerIdentifier specified is not subscribed to your product. The UsageRecord was not honored. Future UsageRecords for this customer will fail until the customer subscribes to your product.    DuplicateRecord- Indicates that the UsageRecord was invalid and not honored. A previously metered UsageRecord had the same customer, dimension, and time, but a different quantity.  

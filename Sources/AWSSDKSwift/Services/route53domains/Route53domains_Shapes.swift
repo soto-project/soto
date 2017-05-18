@@ -32,6 +32,9 @@ extension Route53domains {
     public struct GetOperationDetailRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "OperationId", required: true, type: .string)
+        ]
         /// The identifier for the operation for which you want to get the status. Amazon Route 53 returned the identifier in the response to the original request. Type: String Default: None Required: Yes
         public let operationId: String
 
@@ -48,6 +51,9 @@ extension Route53domains {
     public struct ResendContactReachabilityEmailRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "domainName", required: false, type: .string)
+        ]
         /// The name of the domain for which you want Amazon Route 53 to resend a confirmation email to the registrant contact. Type: String Default: None Required: Yes
         public let domainName: String?
 
@@ -63,6 +69,10 @@ extension Route53domains {
     public struct ListOperationsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxItems", required: false, type: .integer)
+        ]
         /// For an initial request for a list of operations, omit this element. If the number of operations that are not yet complete is greater than the value that you specified for MaxItems, you can use Marker to return additional operations. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element. Type: String Default: None Required: No
         public let marker: String?
         /// Number of domains to be returned. Type: Integer Default: 20 Constraints: A value between 1 and 100. Required: No
@@ -82,6 +92,11 @@ extension Route53domains {
     public struct RenewDomainRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "CurrentExpiryYear", required: true, type: .integer), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
+            AWSShapeProperty(label: "DurationInYears", required: false, type: .integer)
+        ]
         /// The year when the registration for the domain is set to expire. This value must match the current expiration date for the domain. Type: Integer Default: None Valid values: Integer Required: Yes
         public let currentExpiryYear: Int32
         public let domainName: String
@@ -115,6 +130,9 @@ extension Route53domains {
     public struct GetDomainSuggestionsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "SuggestionsList", required: false, type: .list)
+        ]
         public let suggestionsList: [DomainSuggestion]?
 
         public init(suggestionsList: [DomainSuggestion]? = nil) {
@@ -133,6 +151,10 @@ extension Route53domains {
     public struct ListDomainsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Domains", required: true, type: .list), 
+            AWSShapeProperty(label: "NextPageMarker", required: false, type: .string)
+        ]
         /// A summary of domains. Type: Complex type containing a list of domain summaries. Children: AutoRenew, DomainName, Expiry, TransferLock
         public let domains: [DomainSummary]
         /// If there are more domains than you specified for MaxItems in the request, submit another request and include the value of NextPageMarker in the value of Marker. Type: String Parent: Operations
@@ -153,6 +175,9 @@ extension Route53domains {
     public struct RegisterDomainResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "OperationId", required: true, type: .string)
+        ]
         /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail. Type: String Default: None Constraints: Maximum 255 characters.
         public let operationId: String
 
@@ -181,6 +206,12 @@ extension Route53domains {
     public struct UpdateDomainContactPrivacyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TechPrivacy", required: false, type: .boolean), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
+            AWSShapeProperty(label: "RegistrantPrivacy", required: false, type: .boolean), 
+            AWSShapeProperty(label: "AdminPrivacy", required: false, type: .boolean)
+        ]
         /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter. Type: Boolean Default: None Valid values: true | false Required: No
         public let techPrivacy: Bool?
         /// The name of a domain. Type: String Default: None Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported. Required: Yes
@@ -209,6 +240,10 @@ extension Route53domains {
     public struct ListDomainsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxItems", required: false, type: .integer)
+        ]
         /// For an initial request for a list of domains, omit this element. If the number of domains that are associated with the current AWS account is greater than the value that you specified for MaxItems, you can use Marker to return additional domains. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element. Type: String Default: None Constraints: The marker must match the value specified in the previous request.  Required: No
         public let marker: String?
         /// Number of domains to be returned. Type: Integer Default: 20 Constraints: A numeral between 1 and 100. Required: No
@@ -228,6 +263,9 @@ extension Route53domains {
     public struct EnableDomainTransferLockResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "OperationId", required: true, type: .string)
+        ]
         /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail. Type: String Default: None Constraints: Maximum 255 characters.
         public let operationId: String
 
@@ -244,6 +282,11 @@ extension Route53domains {
     public struct GetDomainSuggestionsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "OnlyAvailable", required: true, type: .boolean), 
+            AWSShapeProperty(label: "SuggestionCount", required: true, type: .integer), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        ]
         public let onlyAvailable: Bool
         public let suggestionCount: Int32
         public let domainName: String
@@ -300,6 +343,9 @@ extension Route53domains {
     public struct RetrieveDomainAuthCodeResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AuthCode", required: true, type: .string)
+        ]
         /// The authorization code for the domain. Type: String
         public let authCode: String
 
@@ -316,6 +362,10 @@ extension Route53domains {
     public struct Tag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Value", required: false, type: .string), 
+            AWSShapeProperty(label: "Key", required: false, type: .string)
+        ]
         /// The value of a tag. Type: String Default: None Valid values: A-Z, a-z, 0-9, space, ".:/=+\-@" Constraints: Each value can be 0-256 characters long. Required: Yes
         public let value: String?
         /// The key (name) of a tag. Type: String Default: None Valid values: A-Z, a-z, 0-9, space, ".:/=+\-@" Constraints: Each key can be 1-128 characters long. Required: Yes
@@ -335,6 +385,12 @@ extension Route53domains {
     public struct DomainSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Expiry", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
+            AWSShapeProperty(label: "AutoRenew", required: false, type: .boolean), 
+            AWSShapeProperty(label: "TransferLock", required: false, type: .boolean)
+        ]
         /// Expiration date of the domain in Coordinated Universal Time (UTC). Type: Long
         public let expiry: Date?
         /// The name of a domain. Type: String
@@ -372,6 +428,9 @@ extension Route53domains {
     public struct CheckDomainAvailabilityResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Availability", required: true, type: .enum)
+        ]
         /// Whether the domain name is available for registering.  You can only register domains designated as AVAILABLE.  Type: String Valid values:  AVAILABLE – The domain name is available. AVAILABLE_RESERVED – The domain name is reserved under specific conditions. AVAILABLE_PREORDER – The domain name is available and can be preordered. UNAVAILABLE – The domain name is not available. UNAVAILABLE_PREMIUM – The domain name is not available. UNAVAILABLE_RESTRICTED – The domain name is forbidden. RESERVED – The domain name has been reserved for another person or organization. DONT_KNOW – The TLD registry didn't reply with a definitive answer about whether the domain name is available. Amazon Route 53 can return this response for a variety of reasons, for example, the registry is performing maintenance. Try again later. 
         public let availability: DomainAvailability
 
@@ -388,6 +447,9 @@ extension Route53domains {
     public struct TransferDomainResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "OperationId", required: true, type: .string)
+        ]
         /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail. Type: String Default: None Constraints: Maximum 255 characters.
         public let operationId: String
 
@@ -411,6 +473,10 @@ extension Route53domains {
     public struct DomainSuggestion: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DomainName", required: false, type: .string), 
+            AWSShapeProperty(label: "Availability", required: false, type: .string)
+        ]
         public let domainName: String?
         public let availability: String?
 
@@ -428,6 +494,10 @@ extension Route53domains {
     public struct ListOperationsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Operations", required: true, type: .list), 
+            AWSShapeProperty(label: "NextPageMarker", required: false, type: .string)
+        ]
         /// Lists summaries of the operations. Type: Complex type containing a list of operation summaries Children: OperationId, Status, SubmittedDate, Type
         public let operations: [OperationSummary]
         /// If there are more operations than you specified for MaxItems in the request, submit another request and include the value of NextPageMarker in the value of Marker. Type: String Parent: Operations
@@ -448,6 +518,22 @@ extension Route53domains {
     public struct ContactDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AddressLine1", required: false, type: .string), 
+            AWSShapeProperty(label: "Email", required: false, type: .string), 
+            AWSShapeProperty(label: "PhoneNumber", required: false, type: .string), 
+            AWSShapeProperty(label: "OrganizationName", required: false, type: .string), 
+            AWSShapeProperty(label: "State", required: false, type: .string), 
+            AWSShapeProperty(label: "LastName", required: false, type: .string), 
+            AWSShapeProperty(label: "ContactType", required: false, type: .enum), 
+            AWSShapeProperty(label: "ZipCode", required: false, type: .string), 
+            AWSShapeProperty(label: "Fax", required: false, type: .string), 
+            AWSShapeProperty(label: "ExtraParams", required: false, type: .list), 
+            AWSShapeProperty(label: "FirstName", required: false, type: .string), 
+            AWSShapeProperty(label: "City", required: false, type: .string), 
+            AWSShapeProperty(label: "CountryCode", required: false, type: .enum), 
+            AWSShapeProperty(label: "AddressLine2", required: false, type: .string)
+        ]
         /// First line of the contact&apos;s address. Type: String Default: None Constraints: Maximum 255 characters. Parents: RegistrantContact, AdminContact, TechContact Required: Yes
         public let addressLine1: String?
         /// Email address of the contact. Type: String Default: None Constraints: Maximum 254 characters. Parents: RegistrantContact, AdminContact, TechContact  Required: Yes
@@ -527,6 +613,10 @@ extension Route53domains {
     public struct ViewBillingResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "BillingRecords", required: false, type: .list), 
+            AWSShapeProperty(label: "NextPageMarker", required: false, type: .string)
+        ]
         /// A summary of billing records. Type: Complex type containing a list of billing record summaries. Children: DomainName, Operation, InvoiceId, BillDate and Price
         public let billingRecords: [BillingRecord]?
         /// If there are more billing records than you specified for MaxItems in the request, submit another request and include the value of NextPageMarker in the value of Marker. Type: String Parent: BillingRecords
@@ -550,6 +640,9 @@ extension Route53domains {
     public struct UpdateDomainNameserversResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "OperationId", required: true, type: .string)
+        ]
         /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail. Type: String Default: None Constraints: Maximum 255 characters.
         public let operationId: String
 
@@ -566,6 +659,9 @@ extension Route53domains {
     public struct ListTagsForDomainRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        ]
         /// The domain for which you want to get a list of tags.
         public let domainName: String
 
@@ -582,6 +678,9 @@ extension Route53domains {
     public struct ListTagsForDomainResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TagList", required: true, type: .list)
+        ]
         /// A list of the tags that are associated with the specified domain. Type: A complex type containing a list of tags Each tag includes the following elements.  Key The key (name) of a tag. Type: String  Value The value of a tag. Type: String  
         public let tagList: [Tag]
 
@@ -606,6 +705,9 @@ extension Route53domains {
     public struct GetDomainDetailRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        ]
         /// The name of a domain. Type: String Default: None Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported. Required: Yes
         public let domainName: String
 
@@ -622,6 +724,20 @@ extension Route53domains {
     public struct TransferDomainRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "IdnLangCode", required: false, type: .string), 
+            AWSShapeProperty(label: "AdminContact", required: true, type: .structure), 
+            AWSShapeProperty(label: "DurationInYears", required: true, type: .integer), 
+            AWSShapeProperty(label: "RegistrantContact", required: true, type: .structure), 
+            AWSShapeProperty(label: "Nameservers", required: false, type: .list), 
+            AWSShapeProperty(label: "TechContact", required: true, type: .structure), 
+            AWSShapeProperty(label: "PrivacyProtectTechContact", required: false, type: .boolean), 
+            AWSShapeProperty(label: "PrivacyProtectRegistrantContact", required: false, type: .boolean), 
+            AWSShapeProperty(label: "PrivacyProtectAdminContact", required: false, type: .boolean), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
+            AWSShapeProperty(label: "AutoRenew", required: false, type: .boolean), 
+            AWSShapeProperty(label: "AuthCode", required: false, type: .string)
+        ]
         /// Reserved for future use.
         public let idnLangCode: String?
         /// Provides detailed contact information. Type: Complex Children: FirstName, MiddleName, LastName, ContactType, OrganizationName, AddressLine1, AddressLine2, City, State, CountryCode, ZipCode, PhoneNumber, Email, Fax, ExtraParams Required: Yes
@@ -690,6 +806,9 @@ extension Route53domains {
     public struct EnableDomainTransferLockRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        ]
         /// The name of a domain. Type: String Default: None Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported. Required: Yes
         public let domainName: String
 
@@ -706,6 +825,10 @@ extension Route53domains {
     public struct UpdateTagsForDomainRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TagsToUpdate", required: false, type: .list), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        ]
         /// A list of the tag keys and values that you want to add or update. If you specify a key that already exists, the corresponding value will be replaced. Type: A complex type containing a list of tags Default: None Required: No'> Each tag includes the following elements:  Key The key (name) of a tag. Type: String Default: None Valid values: Unicode characters including alphanumeric, space, and ".:/=+\-@" Constraints: Each key can be 1-128 characters long. Required: Yes  Value The value of a tag. Type: String Default: None Valid values: Unicode characters including alphanumeric, space, and ".:/=+\-@" Constraints: Each value can be 0-256 characters long. Required: Yes  
         public let tagsToUpdate: [Tag]?
         /// The domain for which you want to add or update tags. The name of a domain. Type: String Default: None Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Hyphens are allowed only when they&apos;re surrounded by letters, numbers, or other hyphens. You can&apos;t specify a hyphen at the beginning or end of a label. To specify an Internationalized Domain Name, you must convert the name to Punycode. Required: Yes
@@ -730,6 +853,10 @@ extension Route53domains {
     public struct GetContactReachabilityStatusResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "domainName", required: false, type: .string), 
+            AWSShapeProperty(label: "status", required: false, type: .enum)
+        ]
         /// The domain name for which you requested the reachability status.
         public let domainName: String?
         /// Whether the registrant contact has responded. PENDING indicates that we sent the confirmation email and haven't received a response yet, DONE indicates that we sent the email and got confirmation from the registrant contact, and EXPIRED indicates that the time limit expired before the registrant contact responded.  Type: String Valid values: PENDING, DONE, EXPIRED
@@ -749,6 +876,10 @@ extension Route53domains {
     public struct DeleteTagsForDomainRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TagsToDelete", required: true, type: .list), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        ]
         /// A list of tag keys to delete. Type: A list that contains the keys of the tags that you want to delete. Default: None Required: No'>
         public let tagsToDelete: [String]
         /// The domain for which you want to delete one or more tags. The name of a domain. Type: String Default: None Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Hyphens are allowed only when they&apos;re surrounded by letters, numbers, or other hyphens. You can&apos;t specify a hyphen at the beginning or end of a label. To specify an Internationalized Domain Name, you must convert the name to Punycode. Required: Yes
@@ -770,6 +901,9 @@ extension Route53domains {
     public struct GetContactReachabilityStatusRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "domainName", required: false, type: .string)
+        ]
         /// The name of the domain for which you want to know whether the registrant contact has confirmed that the email address is valid. Type: String Default: None Required: Yes
         public let domainName: String?
 
@@ -785,6 +919,10 @@ extension Route53domains {
     public struct ExtraParam: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Value", required: true, type: .string), 
+            AWSShapeProperty(label: "Name", required: true, type: .enum)
+        ]
         /// Values corresponding to the additional parameter names required by some top-level domains. Type: String Default: None Constraints: Maximum 2048 characters. Parent: ExtraParams Required: Yes
         public let value: String
         /// Name of the additional parameter required by the top-level domain. Type: String Default: None Valid values: DUNS_NUMBER | BRAND_NUMBER | BIRTH_DEPARTMENT | BIRTH_DATE_IN_YYYY_MM_DD | BIRTH_COUNTRY | BIRTH_CITY | DOCUMENT_NUMBER | AU_ID_NUMBER | AU_ID_TYPE | CA_LEGAL_TYPE | CA_BUSINESS_ENTITY_TYPE |ES_IDENTIFICATION | ES_IDENTIFICATION_TYPE | ES_LEGAL_FORM | FI_BUSINESS_NUMBER | FI_ID_NUMBER | IT_PIN | RU_PASSPORT_DATA | SE_ID_NUMBER | SG_ID_NUMBER | VAT_NUMBER Parent: ExtraParams Required: Yes
@@ -806,6 +944,14 @@ extension Route53domains {
     public struct GetOperationDetailResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Status", required: false, type: .enum), 
+            AWSShapeProperty(label: "OperationId", required: false, type: .string), 
+            AWSShapeProperty(label: "Message", required: false, type: .string), 
+            AWSShapeProperty(label: "SubmittedDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Type", required: false, type: .enum), 
+            AWSShapeProperty(label: "DomainName", required: false, type: .string)
+        ]
         /// The current status of the requested operation in the system. Type: String
         public let status: OperationStatus?
         /// The identifier for the operation. Type: String
@@ -841,6 +987,9 @@ extension Route53domains {
     public struct EnableDomainAutoRenewRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        ]
         public let domainName: String
 
         public init(domainName: String) {
@@ -856,6 +1005,10 @@ extension Route53domains {
     public struct Nameserver: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "GlueIps", required: false, type: .list), 
+            AWSShapeProperty(label: "Name", required: true, type: .string)
+        ]
         /// Glue IP address of a name server entry. Glue IP addresses are required only when the name of the name server is a subdomain of the domain. For example, if your domain is example.com and the name server for the domain is ns.example.com, you need to specify the IP address for ns.example.com. Type: List of IP addresses. Constraints: The list can contain only one IPv4 and one IPv6 address. Parent: Nameservers
         public let glueIps: [String]?
         /// The fully qualified host name of the name server. Type: String Constraint: Maximum 255 characterss Parent: Nameservers
@@ -876,6 +1029,9 @@ extension Route53domains {
     public struct RetrieveDomainAuthCodeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        ]
         /// The name of a domain. Type: String Default: None Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported. Required: Yes
         public let domainName: String
 
@@ -892,6 +1048,13 @@ extension Route53domains {
     public struct BillingRecord: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "BillDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "InvoiceId", required: false, type: .string), 
+            AWSShapeProperty(label: "DomainName", required: false, type: .string), 
+            AWSShapeProperty(label: "Operation", required: false, type: .enum), 
+            AWSShapeProperty(label: "Price", required: false, type: .double)
+        ]
         /// The date that the operation was billed, in Unix format. Type: Double
         public let billDate: Date?
         /// The ID of the invoice that is associated with the billing record. Type: String
@@ -923,6 +1086,18 @@ extension Route53domains {
     public struct RegisterDomainRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "IdnLangCode", required: false, type: .string), 
+            AWSShapeProperty(label: "AdminContact", required: true, type: .structure), 
+            AWSShapeProperty(label: "DurationInYears", required: true, type: .integer), 
+            AWSShapeProperty(label: "RegistrantContact", required: true, type: .structure), 
+            AWSShapeProperty(label: "TechContact", required: true, type: .structure), 
+            AWSShapeProperty(label: "PrivacyProtectTechContact", required: false, type: .boolean), 
+            AWSShapeProperty(label: "PrivacyProtectRegistrantContact", required: false, type: .boolean), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
+            AWSShapeProperty(label: "PrivacyProtectAdminContact", required: false, type: .boolean), 
+            AWSShapeProperty(label: "AutoRenew", required: false, type: .boolean)
+        ]
         /// Reserved for future use.
         public let idnLangCode: String?
         /// Provides detailed contact information. Type: Complex Children: FirstName, MiddleName, LastName, ContactType, OrganizationName, AddressLine1, AddressLine2, City, State, CountryCode, ZipCode, PhoneNumber, Email, Fax, ExtraParams Required: Yes
@@ -979,6 +1154,11 @@ extension Route53domains {
     public struct ResendContactReachabilityEmailResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "isAlreadyVerified", required: false, type: .boolean), 
+            AWSShapeProperty(label: "emailAddress", required: false, type: .string), 
+            AWSShapeProperty(label: "domainName", required: false, type: .string)
+        ]
         /// True if the email address for the registrant contact has already been verified, and false otherwise. If the email address has already been verified, we don't send another confirmation email.
         public let isAlreadyVerified: Bool?
         /// The email address for the registrant contact at the time that we sent the verification email.
@@ -1013,6 +1193,9 @@ extension Route53domains {
     public struct DisableDomainAutoRenewRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        ]
         public let domainName: String
 
         public init(domainName: String) {
@@ -1028,6 +1211,29 @@ extension Route53domains {
     public struct GetDomainDetailResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "RegistryDomainId", required: false, type: .string), 
+            AWSShapeProperty(label: "Reseller", required: false, type: .string), 
+            AWSShapeProperty(label: "RegistrantContact", required: true, type: .structure), 
+            AWSShapeProperty(label: "StatusList", required: false, type: .list), 
+            AWSShapeProperty(label: "TechContact", required: true, type: .structure), 
+            AWSShapeProperty(label: "ExpirationDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "RegistrarName", required: false, type: .string), 
+            AWSShapeProperty(label: "TechPrivacy", required: false, type: .boolean), 
+            AWSShapeProperty(label: "RegistrarUrl", required: false, type: .string), 
+            AWSShapeProperty(label: "CreationDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "AbuseContactEmail", required: false, type: .string), 
+            AWSShapeProperty(label: "AdminPrivacy", required: false, type: .boolean), 
+            AWSShapeProperty(label: "AbuseContactPhone", required: false, type: .string), 
+            AWSShapeProperty(label: "AdminContact", required: true, type: .structure), 
+            AWSShapeProperty(label: "UpdatedDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "WhoIsServer", required: false, type: .string), 
+            AWSShapeProperty(label: "Nameservers", required: true, type: .list), 
+            AWSShapeProperty(label: "DnsSec", required: false, type: .string), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
+            AWSShapeProperty(label: "RegistrantPrivacy", required: false, type: .boolean), 
+            AWSShapeProperty(label: "AutoRenew", required: false, type: .boolean)
+        ]
         /// Reserved for future use.
         public let registryDomainId: String?
         /// Reseller of the domain. Domains registered or transferred using Amazon Route 53 domains will have "Amazon" as the reseller.  Type: String
@@ -1128,6 +1334,9 @@ extension Route53domains {
     public struct DisableDomainTransferLockRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        ]
         /// The name of a domain. Type: String Default: None Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported. Required: Yes
         public let domainName: String
 
@@ -1144,6 +1353,9 @@ extension Route53domains {
     public struct RenewDomainResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "OperationId", required: true, type: .string)
+        ]
         public let operationId: String
 
         public init(operationId: String) {
@@ -1159,6 +1371,12 @@ extension Route53domains {
     public struct OperationSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Status", required: true, type: .enum), 
+            AWSShapeProperty(label: "OperationId", required: true, type: .string), 
+            AWSShapeProperty(label: "SubmittedDate", required: true, type: .timestamp), 
+            AWSShapeProperty(label: "Type", required: true, type: .enum)
+        ]
         /// The current status of the requested operation in the system. Type: String
         public let status: OperationStatus
         /// Identifier returned to track the requested action. Type: String
@@ -1190,6 +1408,9 @@ extension Route53domains {
     public struct UpdateDomainContactPrivacyResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "OperationId", required: true, type: .string)
+        ]
         /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail. Type: String Default: None Constraints: Maximum 255 characters.
         public let operationId: String
 
@@ -1214,6 +1435,10 @@ extension Route53domains {
     public struct CheckDomainAvailabilityRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "IdnLangCode", required: false, type: .string), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        ]
         /// Reserved for future use.
         public let idnLangCode: String?
         /// The name of a domain. Type: String Default: None Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported. Required: Yes
@@ -1234,6 +1459,9 @@ extension Route53domains {
     public struct UpdateDomainContactResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "OperationId", required: true, type: .string)
+        ]
         /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail. Type: String Default: None Constraints: Maximum 255 characters.
         public let operationId: String
 
@@ -1250,6 +1478,12 @@ extension Route53domains {
     public struct ViewBillingRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
+            AWSShapeProperty(label: "Start", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "End", required: false, type: .timestamp)
+        ]
         /// The number of billing records to be returned. Type: Integer Default: 20 Constraints: A value between 1 and 100. Required: No
         public let maxItems: Int32?
         /// The beginning date and time for the time period for which you want a list of billing records. Specify the date in Unix time format. Type: Double Default: None Required: Yes
@@ -1277,6 +1511,12 @@ extension Route53domains {
     public struct UpdateDomainContactRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AdminContact", required: false, type: .structure), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
+            AWSShapeProperty(label: "RegistrantContact", required: false, type: .structure), 
+            AWSShapeProperty(label: "TechContact", required: false, type: .structure)
+        ]
         /// Provides detailed contact information. Type: Complex Children: FirstName, MiddleName, LastName, ContactType, OrganizationName, AddressLine1, AddressLine2, City, State, CountryCode, ZipCode, PhoneNumber, Email, Fax, ExtraParams Required: Yes
         public let adminContact: ContactDetail?
         /// The name of a domain. Type: String Default: None Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported. Required: Yes
@@ -1305,6 +1545,11 @@ extension Route53domains {
     public struct UpdateDomainNameserversRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "FIAuthKey", required: false, type: .string), 
+            AWSShapeProperty(label: "Nameservers", required: true, type: .list), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        ]
         /// The authorization key for .fi domains
         public let fIAuthKey: String?
         /// A list of new name servers for the domain. Type: Complex Children: Name, GlueIps Required: Yes
@@ -1330,6 +1575,9 @@ extension Route53domains {
     public struct DisableDomainTransferLockResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "OperationId", required: true, type: .string)
+        ]
         /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail. Type: String Default: None Constraints: Maximum 255 characters.
         public let operationId: String
 

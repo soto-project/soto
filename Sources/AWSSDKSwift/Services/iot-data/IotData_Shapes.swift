@@ -35,6 +35,9 @@ extension IotData {
         public static var pathParams: [String: String] {
             return ["thingName": "thingName"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ThingName", required: true, type: .string)
+        ]
         /// The name of the thing.
         public let thingName: String
 
@@ -54,6 +57,9 @@ extension IotData {
         public static var pathParams: [String: String] {
             return ["thingName": "thingName"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ThingName", required: true, type: .string)
+        ]
         /// The name of the thing.
         public let thingName: String
 
@@ -70,6 +76,9 @@ extension IotData {
     public struct DeleteThingShadowResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "payload"
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "payload", required: true, type: .blob)
+        ]
         /// The state information, in JSON format.
         public let payload: Data
 
@@ -92,6 +101,11 @@ extension IotData {
         public static var pathParams: [String: String] {
             return ["topic": "topic"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Qos", required: false, type: .integer), 
+            AWSShapeProperty(label: "payload", required: false, type: .blob), 
+            AWSShapeProperty(label: "Topic", required: true, type: .string)
+        ]
         /// The Quality of Service (QoS) level.
         public let qos: Int32?
         /// The state information, in JSON format.
@@ -116,6 +130,9 @@ extension IotData {
     public struct GetThingShadowResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "payload"
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "payload", required: false, type: .blob)
+        ]
         /// The state information, in JSON format.
         public let payload: Data?
 
@@ -131,6 +148,9 @@ extension IotData {
     public struct UpdateThingShadowResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "payload"
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "payload", required: false, type: .blob)
+        ]
         /// The state information, in JSON format.
         public let payload: Data?
 
@@ -149,6 +169,10 @@ extension IotData {
         public static var pathParams: [String: String] {
             return ["thingName": "thingName"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "payload", required: true, type: .blob), 
+            AWSShapeProperty(label: "ThingName", required: true, type: .string)
+        ]
         /// The state information, in JSON format.
         public let payload: Data
         /// The name of the thing.

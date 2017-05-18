@@ -98,6 +98,12 @@ extension Member {
     }
 }
 
+extension AWSShapeProperty.PropertyType {
+    public var enumStyleDescription: String {
+        return ".\(self)"
+    }
+}
+
 extension AWSService {
     func generateErrorCode() -> String {
         if errorShapeNames.isEmpty { return "" }
@@ -191,6 +197,64 @@ extension AWSService {
         code += "\n"
         code += "}"
         
+        return code
+    }
+    
+    func generateParsingHints(_ structure: StructureShape) -> String {
+        var code = ""
+        
+        func shape2Hint(shape: Shape) -> AWSShapeProperty.PropertyType {
+            var typeForHint: AWSShapeProperty.PropertyType
+            switch shape.type {
+            case .structure:
+                typeForHint = .structure
+            case .list:
+                typeForHint = .list
+            case .map:
+                typeForHint = .map
+            case .enum:
+                typeForHint = .enum
+            case .boolean:
+                typeForHint = .boolean
+            case .blob:
+                typeForHint = .blob
+            case .double:
+                typeForHint = .double
+            case .float:
+                typeForHint = .float
+            case .long:
+                typeForHint = .long
+            case .integer:
+                typeForHint = .integer
+            case .string:
+                typeForHint = .string
+            case .timestamp:
+                typeForHint = .timestamp
+            case .unhandledType:
+                typeForHint = .any
+            }
+            
+            return typeForHint
+        }
+        
+        let hints: [String] = structure.members.map({ member in
+            let pathForLocation: String
+            if Core.jsonKeyStyle(forService: endpointPrefix).isCamelCase {
+                pathForLocation = member.locationName?.upperFirst() ?? member.name
+            } else {
+                pathForLocation = member.locationName ?? member.name
+            }
+            let hint = shape2Hint(shape: member.shape)
+            return "\(indt(3))AWSShapeProperty(label: \"\(pathForLocation)\", required: \(member.required), type: \(hint.enumStyleDescription))"
+        })
+        if hints.count > 0 {
+            code += "\(indt(2))public static var parsingHints: [AWSShapeProperty] = ["
+            code += "\n"
+            code += hints.joined(separator: ", \n")
+            code += "\n"
+            code += "\(indt(2))]"
+            code += "\n"
+        }
         return code
     }
     
@@ -535,6 +599,8 @@ extension AWSService {
                     code += "\(indt(3))return \(requestParam.pathParams)\n"
                     code += "\(indt(2))}\n"
                 }
+                
+                code += "\(generateParsingHints(type))"
                 
                 for member in type.members {
                     if let comment = shapeDoc[shape.name]?[member.name], !comment.isEmpty {

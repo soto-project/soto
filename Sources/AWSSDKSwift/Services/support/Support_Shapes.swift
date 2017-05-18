@@ -32,6 +32,10 @@ extension Support {
     public struct DescribeCommunicationsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "communications", required: false, type: .list)
+        ]
         /// A resumption point for pagination.
         public let nextToken: String?
         /// The communications for the case.
@@ -55,6 +59,10 @@ extension Support {
     public struct TrustedAdvisorCostOptimizingSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "estimatedMonthlySavings", required: true, type: .double), 
+            AWSShapeProperty(label: "estimatedPercentMonthlySavings", required: true, type: .double)
+        ]
         /// The estimated monthly savings that might be realized if the recommended actions are taken.
         public let estimatedMonthlySavings: Double
         /// The estimated percentage of savings that might be realized if the recommended actions are taken.
@@ -76,6 +84,9 @@ extension Support {
     public struct DescribeTrustedAdvisorCheckSummariesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "summaries", required: true, type: .list)
+        ]
         /// The summary information for the requested Trusted Advisor checks.
         public let summaries: [TrustedAdvisorCheckSummary]
 
@@ -92,6 +103,10 @@ extension Support {
     public struct ResolveCaseResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "initialCaseStatus", required: false, type: .string), 
+            AWSShapeProperty(label: "finalCaseStatus", required: false, type: .string)
+        ]
         /// The status of the case when the ResolveCase request was sent.
         public let initialCaseStatus: String?
         /// The status of the case after the ResolveCase request was processed.
@@ -111,6 +126,10 @@ extension Support {
     public struct DescribeCasesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "cases", required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        ]
         /// The details for the cases that match the request.
         public let cases: [CaseDetails]?
         /// A resumption point for pagination.
@@ -134,6 +153,9 @@ extension Support {
     public struct CreateCaseResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "caseId", required: false, type: .string)
+        ]
         /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
         public let caseId: String?
 
@@ -149,6 +171,17 @@ extension Support {
     public struct DescribeCasesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "afterTime", required: false, type: .string), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "includeCommunications", required: false, type: .boolean), 
+            AWSShapeProperty(label: "displayId", required: false, type: .string), 
+            AWSShapeProperty(label: "includeResolvedCases", required: false, type: .boolean), 
+            AWSShapeProperty(label: "language", required: false, type: .string), 
+            AWSShapeProperty(label: "caseIdList", required: false, type: .list), 
+            AWSShapeProperty(label: "beforeTime", required: false, type: .string), 
+            AWSShapeProperty(label: "maxResults", required: false, type: .integer)
+        ]
         /// The start date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
         public let afterTime: String?
         /// A resumption point for pagination.
@@ -196,6 +229,13 @@ extension Support {
     public struct DescribeCommunicationsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "caseId", required: true, type: .string), 
+            AWSShapeProperty(label: "afterTime", required: false, type: .string), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
+            AWSShapeProperty(label: "beforeTime", required: false, type: .string)
+        ]
         /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
         public let caseId: String
         /// The start date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
@@ -228,6 +268,12 @@ extension Support {
     public struct AddCommunicationToCaseRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "caseId", required: false, type: .string), 
+            AWSShapeProperty(label: "ccEmailAddresses", required: false, type: .list), 
+            AWSShapeProperty(label: "communicationBody", required: true, type: .string), 
+            AWSShapeProperty(label: "attachmentSetId", required: false, type: .string)
+        ]
         /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
         public let caseId: String?
         /// The email addresses in the CC line of an email to be added to the support case.
@@ -256,6 +302,9 @@ extension Support {
     public struct DescribeTrustedAdvisorCheckRefreshStatusesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "statuses", required: true, type: .list)
+        ]
         /// The refresh status of the specified Trusted Advisor checks.
         public let statuses: [TrustedAdvisorCheckRefreshStatus]
 
@@ -272,6 +321,14 @@ extension Support {
     public struct TrustedAdvisorCheckSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "status", required: true, type: .string), 
+            AWSShapeProperty(label: "checkId", required: true, type: .string), 
+            AWSShapeProperty(label: "categorySpecificSummary", required: true, type: .structure), 
+            AWSShapeProperty(label: "timestamp", required: true, type: .string), 
+            AWSShapeProperty(label: "hasFlaggedResources", required: false, type: .boolean), 
+            AWSShapeProperty(label: "resourcesSummary", required: true, type: .structure)
+        ]
         /// The alert status of the check: "ok" (green), "warning" (yellow), "error" (red), or "not_available".
         public let status: String
         /// The unique identifier for the Trusted Advisor check.
@@ -311,6 +368,10 @@ extension Support {
     public struct DescribeTrustedAdvisorCheckResultRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "language", required: false, type: .string), 
+            AWSShapeProperty(label: "checkId", required: true, type: .string)
+        ]
         /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
         public let language: String?
         /// The unique identifier for the Trusted Advisor check.
@@ -331,6 +392,9 @@ extension Support {
     public struct DescribeAttachmentRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "attachmentId", required: true, type: .string)
+        ]
         /// The ID of the attachment to return. Attachment IDs are returned by the DescribeCommunications operation.
         public let attachmentId: String
 
@@ -347,6 +411,9 @@ extension Support {
     public struct DescribeTrustedAdvisorCheckSummariesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "checkIds", required: true, type: .list)
+        ]
         /// The IDs of the Trusted Advisor checks.
         public let checkIds: [String]
 
@@ -363,6 +430,14 @@ extension Support {
     public struct TrustedAdvisorCheckResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "status", required: true, type: .string), 
+            AWSShapeProperty(label: "checkId", required: true, type: .string), 
+            AWSShapeProperty(label: "flaggedResources", required: true, type: .list), 
+            AWSShapeProperty(label: "timestamp", required: true, type: .string), 
+            AWSShapeProperty(label: "resourcesSummary", required: true, type: .structure), 
+            AWSShapeProperty(label: "categorySpecificSummary", required: true, type: .structure)
+        ]
         /// The alert status of the check: "ok" (green), "warning" (yellow), "error" (red), or "not_available".
         public let status: String
         /// The unique identifier for the Trusted Advisor check.
@@ -403,6 +478,9 @@ extension Support {
     public struct DescribeTrustedAdvisorChecksResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "checks", required: true, type: .list)
+        ]
         /// Information about all available Trusted Advisor checks.
         public let checks: [TrustedAdvisorCheckDescription]
 
@@ -419,6 +497,9 @@ extension Support {
     public struct DescribeAttachmentResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "attachment", required: false, type: .structure)
+        ]
         /// The attachment content and file name.
         public let attachment: Attachment?
 
@@ -434,6 +515,11 @@ extension Support {
     public struct Service: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "categories", required: false, type: .list), 
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "code", required: false, type: .string)
+        ]
         /// A list of categories that describe the type of support issue a case describes. Categories consist of a category name and a category code. Category names and codes are passed to AWS Support when you call CreateCase.
         public let categories: [Category]?
         /// The friendly name for an AWS service. The code element contains the corresponding code.
@@ -461,6 +547,12 @@ extension Support {
     public struct TrustedAdvisorResourcesSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "resourcesFlagged", required: true, type: .long), 
+            AWSShapeProperty(label: "resourcesIgnored", required: true, type: .long), 
+            AWSShapeProperty(label: "resourcesSuppressed", required: true, type: .long), 
+            AWSShapeProperty(label: "resourcesProcessed", required: true, type: .long)
+        ]
         /// The number of AWS resources that were flagged (listed) by the Trusted Advisor check.
         public let resourcesFlagged: Int64
         /// The number of AWS resources ignored by Trusted Advisor because information was unavailable.
@@ -492,6 +584,20 @@ extension Support {
     public struct CaseDetails: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "submittedBy", required: false, type: .string), 
+            AWSShapeProperty(label: "status", required: false, type: .string), 
+            AWSShapeProperty(label: "serviceCode", required: false, type: .string), 
+            AWSShapeProperty(label: "displayId", required: false, type: .string), 
+            AWSShapeProperty(label: "ccEmailAddresses", required: false, type: .list), 
+            AWSShapeProperty(label: "severityCode", required: false, type: .string), 
+            AWSShapeProperty(label: "timeCreated", required: false, type: .string), 
+            AWSShapeProperty(label: "language", required: false, type: .string), 
+            AWSShapeProperty(label: "categoryCode", required: false, type: .string), 
+            AWSShapeProperty(label: "caseId", required: false, type: .string), 
+            AWSShapeProperty(label: "recentCommunications", required: false, type: .structure), 
+            AWSShapeProperty(label: "subject", required: false, type: .string)
+        ]
         /// The email address of the account that submitted the case.
         public let submittedBy: String?
         /// The status of the case.
@@ -551,6 +657,9 @@ extension Support {
     public struct DescribeServicesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "services", required: false, type: .list)
+        ]
         /// A JSON-formatted list of AWS services.
         public let services: [Service]?
 
@@ -570,6 +679,10 @@ extension Support {
     public struct AddAttachmentsToSetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "attachments", required: true, type: .list), 
+            AWSShapeProperty(label: "attachmentSetId", required: false, type: .string)
+        ]
         /// One or more attachments to add to the set. The limit is 3 attachments per set, and the size limit is 5 MB per attachment.
         public let attachments: [Attachment]
         /// The ID of the attachment set. If an attachmentSetId is not specified, a new attachment set is created, and the ID of the set is returned in the response. If an attachmentSetId is specified, the attachments are added to the specified set, if it exists.
@@ -590,6 +703,9 @@ extension Support {
     public struct ResolveCaseRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "caseId", required: false, type: .string)
+        ]
         /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
         public let caseId: String?
 
@@ -605,6 +721,10 @@ extension Support {
     public struct AddAttachmentsToSetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "attachmentSetId", required: false, type: .string), 
+            AWSShapeProperty(label: "expiryTime", required: false, type: .string)
+        ]
         /// The ID of the attachment set. If an attachmentSetId was not specified, a new attachment set is created, and the ID of the set is returned in the response. If an attachmentSetId was specified, the attachments are added to the specified set, if it exists.
         public let attachmentSetId: String?
         /// The time and date when the attachment set expires.
@@ -624,6 +744,10 @@ extension Support {
     public struct Category: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "code", required: false, type: .string)
+        ]
         /// The category name for the support case.
         public let name: String?
         /// The category code for the support case.
@@ -643,6 +767,9 @@ extension Support {
     public struct DescribeTrustedAdvisorCheckRefreshStatusesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "checkIds", required: true, type: .list)
+        ]
         /// The IDs of the Trusted Advisor checks to get the status of. Note: Specifying the check ID of a check that is automatically refreshed causes an InvalidParameterValue error.
         public let checkIds: [String]
 
@@ -659,6 +786,9 @@ extension Support {
     public struct DescribeSeverityLevelsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "language", required: false, type: .string)
+        ]
         /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
         public let language: String?
 
@@ -674,6 +804,9 @@ extension Support {
     public struct RefreshTrustedAdvisorCheckRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "checkId", required: true, type: .string)
+        ]
         /// The unique identifier for the Trusted Advisor check to refresh. Note: Specifying the check ID of a check that is automatically refreshed causes an InvalidParameterValue error.
         public let checkId: String
 
@@ -690,6 +823,9 @@ extension Support {
     public struct TrustedAdvisorCategorySpecificSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "costOptimizing", required: false, type: .structure)
+        ]
         /// The summary information about cost savings for a Trusted Advisor check that is in the Cost Optimizing category.
         public let costOptimizing: TrustedAdvisorCostOptimizingSummary?
 
@@ -705,6 +841,9 @@ extension Support {
     public struct DescribeTrustedAdvisorCheckResultResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "result", required: false, type: .structure)
+        ]
         /// The detailed results of the Trusted Advisor check.
         public let result: TrustedAdvisorCheckResult?
 
@@ -720,6 +859,9 @@ extension Support {
     public struct DescribeSeverityLevelsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "severityLevels", required: false, type: .list)
+        ]
         /// The available severity levels for the support case. Available severity levels are defined by your service level agreement with AWS.
         public let severityLevels: [SeverityLevel]?
 
@@ -739,6 +881,10 @@ extension Support {
     public struct DescribeServicesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "language", required: false, type: .string), 
+            AWSShapeProperty(label: "serviceCodeList", required: false, type: .list)
+        ]
         /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
         public let language: String?
         /// A JSON-formatted list of service codes available for AWS services.
@@ -758,6 +904,9 @@ extension Support {
     public struct AddCommunicationToCaseResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "result", required: false, type: .boolean)
+        ]
         /// True if AddCommunicationToCase succeeds. Otherwise, returns an error.
         public let result: Bool?
 
@@ -773,6 +922,13 @@ extension Support {
     public struct TrustedAdvisorCheckDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "metadata", required: true, type: .list), 
+            AWSShapeProperty(label: "name", required: true, type: .string), 
+            AWSShapeProperty(label: "description", required: true, type: .string), 
+            AWSShapeProperty(label: "id", required: true, type: .string), 
+            AWSShapeProperty(label: "category", required: true, type: .string)
+        ]
         /// The column headings for the data returned by the Trusted Advisor check. The order of the headings corresponds to the order of the data in the Metadata element of the TrustedAdvisorResourceDetail for the check. Metadata contains all the data that is shown in the Excel download, even in those cases where the UI shows just summary data. 
         public let metadata: [String]
         /// The display name for the Trusted Advisor check.
@@ -809,6 +965,10 @@ extension Support {
     public struct Attachment: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "fileName", required: false, type: .string), 
+            AWSShapeProperty(label: "data", required: false, type: .blob)
+        ]
         /// The name of the attachment file.
         public let fileName: String?
         /// The content of the attachment file.
@@ -828,6 +988,9 @@ extension Support {
     public struct RefreshTrustedAdvisorCheckResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "status", required: true, type: .structure)
+        ]
         /// The current refresh status for a check, including the amount of time until the check is eligible for refresh.
         public let status: TrustedAdvisorCheckRefreshStatus
 
@@ -844,6 +1007,13 @@ extension Support {
     public struct TrustedAdvisorResourceDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "metadata", required: true, type: .list), 
+            AWSShapeProperty(label: "status", required: true, type: .string), 
+            AWSShapeProperty(label: "isSuppressed", required: false, type: .boolean), 
+            AWSShapeProperty(label: "resourceId", required: true, type: .string), 
+            AWSShapeProperty(label: "region", required: false, type: .string)
+        ]
         /// Additional information about the identified resource. The exact metadata and its order can be obtained by inspecting the TrustedAdvisorCheckDescription object returned by the call to DescribeTrustedAdvisorChecks. Metadata contains all the data that is shown in the Excel download, even in those cases where the UI shows just summary data. 
         public let metadata: [String]
         /// The status code for the resource identified in the Trusted Advisor check.
@@ -878,6 +1048,9 @@ extension Support {
     public struct DescribeTrustedAdvisorChecksRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "language", required: true, type: .string)
+        ]
         /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
         public let language: String
 
@@ -894,6 +1067,11 @@ extension Support {
     public struct TrustedAdvisorCheckRefreshStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "status", required: true, type: .string), 
+            AWSShapeProperty(label: "checkId", required: true, type: .string), 
+            AWSShapeProperty(label: "millisUntilNextRefreshable", required: true, type: .long)
+        ]
         /// The status of the Trusted Advisor check for which a refresh has been requested: "none", "enqueued", "processing", "success", or "abandoned".
         public let status: String
         /// The unique identifier for the Trusted Advisor check.
@@ -920,6 +1098,13 @@ extension Support {
     public struct Communication: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "caseId", required: false, type: .string), 
+            AWSShapeProperty(label: "submittedBy", required: false, type: .string), 
+            AWSShapeProperty(label: "body", required: false, type: .string), 
+            AWSShapeProperty(label: "attachmentSet", required: false, type: .list), 
+            AWSShapeProperty(label: "timeCreated", required: false, type: .string)
+        ]
         /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
         public let caseId: String?
         /// The email address of the account that submitted the AWS Support case.
@@ -955,6 +1140,10 @@ extension Support {
     public struct SeverityLevel: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "code", required: false, type: .string)
+        ]
         /// The name of the severity level that corresponds to the severity level code.
         public let name: String?
         /// One of four values: "low," "medium," "high," and "urgent". These values correspond to response times returned to the caller in severityLevel.name. 
@@ -974,6 +1163,10 @@ extension Support {
     public struct AttachmentDetails: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "fileName", required: false, type: .string), 
+            AWSShapeProperty(label: "attachmentId", required: false, type: .string)
+        ]
         /// The file name of the attachment.
         public let fileName: String?
         /// The ID of the attachment.
@@ -993,6 +1186,10 @@ extension Support {
     public struct RecentCaseCommunications: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "communications", required: false, type: .list)
+        ]
         /// A resumption point for pagination.
         public let nextToken: String?
         /// The five most recent communications associated with the case.
@@ -1016,6 +1213,17 @@ extension Support {
     public struct CreateCaseRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "issueType", required: false, type: .string), 
+            AWSShapeProperty(label: "serviceCode", required: false, type: .string), 
+            AWSShapeProperty(label: "attachmentSetId", required: false, type: .string), 
+            AWSShapeProperty(label: "severityCode", required: false, type: .string), 
+            AWSShapeProperty(label: "ccEmailAddresses", required: false, type: .list), 
+            AWSShapeProperty(label: "categoryCode", required: false, type: .string), 
+            AWSShapeProperty(label: "language", required: false, type: .string), 
+            AWSShapeProperty(label: "communicationBody", required: true, type: .string), 
+            AWSShapeProperty(label: "subject", required: true, type: .string)
+        ]
         /// The type of issue for the case. You can specify either "customer-service" or "technical." If you do not indicate a value, the default is "technical."
         public let issueType: String?
         /// The code for the AWS service returned by the call to DescribeServices.

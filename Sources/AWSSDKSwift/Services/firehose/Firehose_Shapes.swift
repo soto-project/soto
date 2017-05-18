@@ -32,6 +32,9 @@ extension Firehose {
     public struct DescribeDeliveryStreamOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DeliveryStreamDescription", required: true, type: .structure)
+        ]
         /// Information about the delivery stream.
         public let deliveryStreamDescription: DeliveryStreamDescription
 
@@ -54,6 +57,10 @@ extension Firehose {
     public struct ProcessingConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Processors", required: false, type: .list), 
+            AWSShapeProperty(label: "Enabled", required: false, type: .boolean)
+        ]
         /// The data processors.
         public let processors: [Processor]?
         /// Enables or disables data processing.
@@ -82,6 +89,19 @@ extension Firehose {
     public struct RedshiftDestinationConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "CopyCommand", required: true, type: .structure), 
+            AWSShapeProperty(label: "S3Configuration", required: true, type: .structure), 
+            AWSShapeProperty(label: "Username", required: true, type: .string), 
+            AWSShapeProperty(label: "S3BackupConfiguration", required: false, type: .structure), 
+            AWSShapeProperty(label: "ClusterJDBCURL", required: true, type: .string), 
+            AWSShapeProperty(label: "RoleARN", required: true, type: .string), 
+            AWSShapeProperty(label: "ProcessingConfiguration", required: false, type: .structure), 
+            AWSShapeProperty(label: "Password", required: true, type: .string), 
+            AWSShapeProperty(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
+            AWSShapeProperty(label: "RetryOptions", required: false, type: .structure), 
+            AWSShapeProperty(label: "S3BackupMode", required: false, type: .enum)
+        ]
         /// The COPY command.
         public let copyCommand: CopyCommand
         /// The configuration for the intermediate Amazon S3 location from which Amazon Redshift obtains data. Restrictions are described in the topic for CreateDeliveryStream. The compression formats SNAPPY or ZIP cannot be specified in RedshiftDestinationConfiguration.S3Configuration because the Amazon Redshift COPY operation that reads from the S3 bucket doesn't support these compression formats.
@@ -143,6 +163,11 @@ extension Firehose {
     public struct CopyCommand: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DataTableName", required: true, type: .string), 
+            AWSShapeProperty(label: "DataTableColumns", required: false, type: .string), 
+            AWSShapeProperty(label: "CopyOptions", required: false, type: .string)
+        ]
         /// The name of the target table. The table must already exist in the database.
         public let dataTableName: String
         /// A comma-separated list of column names.
@@ -167,6 +192,18 @@ extension Firehose {
     public struct ExtendedS3DestinationConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "BucketARN", required: true, type: .string), 
+            AWSShapeProperty(label: "EncryptionConfiguration", required: false, type: .structure), 
+            AWSShapeProperty(label: "RoleARN", required: true, type: .string), 
+            AWSShapeProperty(label: "S3BackupConfiguration", required: false, type: .structure), 
+            AWSShapeProperty(label: "ProcessingConfiguration", required: false, type: .structure), 
+            AWSShapeProperty(label: "Prefix", required: false, type: .string), 
+            AWSShapeProperty(label: "S3BackupMode", required: false, type: .enum), 
+            AWSShapeProperty(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
+            AWSShapeProperty(label: "CompressionFormat", required: false, type: .enum), 
+            AWSShapeProperty(label: "BufferingHints", required: false, type: .structure)
+        ]
         /// The ARN of the S3 bucket.
         public let bucketARN: String
         /// The encryption configuration. If no value is specified, the default is no encryption.
@@ -226,6 +263,9 @@ extension Firehose {
     public struct ElasticsearchRetryOptions: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DurationInSeconds", required: false, type: .integer)
+        ]
         /// After an initial failure to deliver to Amazon ES, the total amount of time during which Firehose re-attempts delivery (including the first attempt). After this time has elapsed, the failed documents are written to Amazon S3. Default value is 300 seconds (5 minutes). A value of 0 (zero) results in no retries.
         public let durationInSeconds: Int32?
 
@@ -241,6 +281,9 @@ extension Firehose {
     public struct PutRecordOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "RecordId", required: true, type: .string)
+        ]
         /// The ID of the record.
         public let recordId: String
 
@@ -263,6 +306,13 @@ extension Firehose {
     public struct DestinationDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "S3DestinationDescription", required: false, type: .structure), 
+            AWSShapeProperty(label: "DestinationId", required: true, type: .string), 
+            AWSShapeProperty(label: "RedshiftDestinationDescription", required: false, type: .structure), 
+            AWSShapeProperty(label: "ExtendedS3DestinationDescription", required: false, type: .structure), 
+            AWSShapeProperty(label: "ElasticsearchDestinationDescription", required: false, type: .structure)
+        ]
         /// [Deprecated] The destination in Amazon S3.
         public let s3DestinationDescription: S3DestinationDescription?
         /// The ID of the destination.
@@ -295,6 +345,15 @@ extension Firehose {
     public struct UpdateDestinationInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ElasticsearchDestinationUpdate", required: false, type: .structure), 
+            AWSShapeProperty(label: "DeliveryStreamName", required: true, type: .string), 
+            AWSShapeProperty(label: "CurrentDeliveryStreamVersionId", required: true, type: .string), 
+            AWSShapeProperty(label: "DestinationId", required: true, type: .string), 
+            AWSShapeProperty(label: "ExtendedS3DestinationUpdate", required: false, type: .structure), 
+            AWSShapeProperty(label: "RedshiftDestinationUpdate", required: false, type: .structure), 
+            AWSShapeProperty(label: "S3DestinationUpdate", required: false, type: .structure)
+        ]
         /// Describes an update for a destination in Amazon ES.
         public let elasticsearchDestinationUpdate: ElasticsearchDestinationUpdate?
         /// The name of the delivery stream.
@@ -337,6 +396,10 @@ extension Firehose {
     public struct ListDeliveryStreamsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DeliveryStreamNames", required: true, type: .list), 
+            AWSShapeProperty(label: "HasMoreDeliveryStreams", required: true, type: .boolean)
+        ]
         /// The names of the delivery streams.
         public let deliveryStreamNames: [String]
         /// Indicates whether there are more delivery streams available to list.
@@ -358,6 +421,18 @@ extension Firehose {
     public struct RedshiftDestinationDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "S3BackupDescription", required: false, type: .structure), 
+            AWSShapeProperty(label: "CopyCommand", required: true, type: .structure), 
+            AWSShapeProperty(label: "Username", required: true, type: .string), 
+            AWSShapeProperty(label: "S3DestinationDescription", required: true, type: .structure), 
+            AWSShapeProperty(label: "ClusterJDBCURL", required: true, type: .string), 
+            AWSShapeProperty(label: "RoleARN", required: true, type: .string), 
+            AWSShapeProperty(label: "ProcessingConfiguration", required: false, type: .structure), 
+            AWSShapeProperty(label: "S3BackupMode", required: false, type: .enum), 
+            AWSShapeProperty(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
+            AWSShapeProperty(label: "RetryOptions", required: false, type: .structure)
+        ]
         /// The configuration for backup in Amazon S3.
         public let s3BackupDescription: S3DestinationDescription?
         /// The COPY command.
@@ -414,6 +489,10 @@ extension Firehose {
     public struct ListDeliveryStreamsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "ExclusiveStartDeliveryStreamName", required: false, type: .string)
+        ]
         /// The maximum number of delivery streams to list.
         public let limit: Int32?
         /// The name of the delivery stream to start the list with.
@@ -445,6 +524,15 @@ extension Firehose {
     public struct S3DestinationConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "BucketARN", required: true, type: .string), 
+            AWSShapeProperty(label: "EncryptionConfiguration", required: false, type: .structure), 
+            AWSShapeProperty(label: "Prefix", required: false, type: .string), 
+            AWSShapeProperty(label: "RoleARN", required: true, type: .string), 
+            AWSShapeProperty(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
+            AWSShapeProperty(label: "CompressionFormat", required: false, type: .enum), 
+            AWSShapeProperty(label: "BufferingHints", required: false, type: .structure)
+        ]
         /// The ARN of the S3 bucket.
         public let bucketARN: String
         /// The encryption configuration. If no value is specified, the default is no encryption.
@@ -486,6 +574,15 @@ extension Firehose {
     public struct S3DestinationDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "BucketARN", required: true, type: .string), 
+            AWSShapeProperty(label: "EncryptionConfiguration", required: true, type: .structure), 
+            AWSShapeProperty(label: "Prefix", required: false, type: .string), 
+            AWSShapeProperty(label: "RoleARN", required: true, type: .string), 
+            AWSShapeProperty(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
+            AWSShapeProperty(label: "CompressionFormat", required: true, type: .enum), 
+            AWSShapeProperty(label: "BufferingHints", required: true, type: .structure)
+        ]
         /// The ARN of the S3 bucket.
         public let bucketARN: String
         /// The encryption configuration. If no value is specified, the default is no encryption.
@@ -530,6 +627,9 @@ extension Firehose {
     public struct DeleteDeliveryStreamInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DeliveryStreamName", required: true, type: .string)
+        ]
         /// The name of the delivery stream.
         public let deliveryStreamName: String
 
@@ -554,6 +654,19 @@ extension Firehose {
     public struct RedshiftDestinationUpdate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ProcessingConfiguration", required: false, type: .structure), 
+            AWSShapeProperty(label: "CopyCommand", required: false, type: .structure), 
+            AWSShapeProperty(label: "Username", required: false, type: .string), 
+            AWSShapeProperty(label: "S3BackupUpdate", required: false, type: .structure), 
+            AWSShapeProperty(label: "ClusterJDBCURL", required: false, type: .string), 
+            AWSShapeProperty(label: "S3BackupMode", required: false, type: .enum), 
+            AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
+            AWSShapeProperty(label: "S3Update", required: false, type: .structure), 
+            AWSShapeProperty(label: "Password", required: false, type: .string), 
+            AWSShapeProperty(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
+            AWSShapeProperty(label: "RetryOptions", required: false, type: .structure)
+        ]
         /// The data processing configuration.
         public let processingConfiguration: ProcessingConfiguration?
         /// The COPY command.
@@ -609,6 +722,10 @@ extension Firehose {
     public struct BufferingHints: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "IntervalInSeconds", required: false, type: .integer), 
+            AWSShapeProperty(label: "SizeInMBs", required: false, type: .integer)
+        ]
         /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300.
         public let intervalInSeconds: Int32?
         /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
@@ -628,6 +745,9 @@ extension Firehose {
     public struct RedshiftRetryOptions: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DurationInSeconds", required: false, type: .integer)
+        ]
         /// The length of time during which Firehose retries delivery after a failure, starting from the initial request and including the first attempt. The default value is 3600 seconds (60 minutes). Firehose does not retry if the value of DurationInSeconds is 0 (zero) or if the first delivery attempt takes longer than the current value.
         public let durationInSeconds: Int32?
 
@@ -643,6 +763,15 @@ extension Firehose {
     public struct S3DestinationUpdate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "BucketARN", required: false, type: .string), 
+            AWSShapeProperty(label: "EncryptionConfiguration", required: false, type: .structure), 
+            AWSShapeProperty(label: "Prefix", required: false, type: .string), 
+            AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
+            AWSShapeProperty(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
+            AWSShapeProperty(label: "CompressionFormat", required: false, type: .enum), 
+            AWSShapeProperty(label: "BufferingHints", required: false, type: .structure)
+        ]
         /// The ARN of the S3 bucket.
         public let bucketARN: String?
         /// The encryption configuration. If no value is specified, the default is no encryption.
@@ -682,6 +811,10 @@ extension Firehose {
     public struct PutRecordBatchOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "RequestResponses", required: true, type: .list), 
+            AWSShapeProperty(label: "FailedPutCount", required: true, type: .integer)
+        ]
         /// The results array. For each record, the index of the response element is the same as the index used in the request array.
         public let requestResponses: [PutRecordBatchResponseEntry]
         /// The number of records that might have failed processing.
@@ -709,6 +842,9 @@ extension Firehose {
     public struct CreateDeliveryStreamOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DeliveryStreamARN", required: false, type: .string)
+        ]
         /// The ARN of the delivery stream.
         public let deliveryStreamARN: String?
 
@@ -724,6 +860,18 @@ extension Firehose {
     public struct ElasticsearchDestinationUpdate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TypeName", required: false, type: .string), 
+            AWSShapeProperty(label: "IndexName", required: false, type: .string), 
+            AWSShapeProperty(label: "IndexRotationPeriod", required: false, type: .enum), 
+            AWSShapeProperty(label: "DomainARN", required: false, type: .string), 
+            AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
+            AWSShapeProperty(label: "S3Update", required: false, type: .structure), 
+            AWSShapeProperty(label: "ProcessingConfiguration", required: false, type: .structure), 
+            AWSShapeProperty(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
+            AWSShapeProperty(label: "RetryOptions", required: false, type: .structure), 
+            AWSShapeProperty(label: "BufferingHints", required: false, type: .structure)
+        ]
         /// The Elasticsearch type name.
         public let typeName: String?
         /// The Elasticsearch index name.
@@ -775,6 +923,13 @@ extension Firehose {
     public struct CreateDeliveryStreamInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ElasticsearchDestinationConfiguration", required: false, type: .structure), 
+            AWSShapeProperty(label: "ExtendedS3DestinationConfiguration", required: false, type: .structure), 
+            AWSShapeProperty(label: "S3DestinationConfiguration", required: false, type: .structure), 
+            AWSShapeProperty(label: "RedshiftDestinationConfiguration", required: false, type: .structure), 
+            AWSShapeProperty(label: "DeliveryStreamName", required: true, type: .string)
+        ]
         /// The destination in Amazon ES. You can specify only one destination.
         public let elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration?
         /// The destination in Amazon S3. You can specify only one destination.
@@ -807,6 +962,19 @@ extension Firehose {
     public struct ElasticsearchDestinationConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TypeName", required: true, type: .string), 
+            AWSShapeProperty(label: "IndexName", required: true, type: .string), 
+            AWSShapeProperty(label: "S3Configuration", required: true, type: .structure), 
+            AWSShapeProperty(label: "IndexRotationPeriod", required: false, type: .enum), 
+            AWSShapeProperty(label: "DomainARN", required: true, type: .string), 
+            AWSShapeProperty(label: "RoleARN", required: true, type: .string), 
+            AWSShapeProperty(label: "ProcessingConfiguration", required: false, type: .structure), 
+            AWSShapeProperty(label: "S3BackupMode", required: false, type: .enum), 
+            AWSShapeProperty(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
+            AWSShapeProperty(label: "RetryOptions", required: false, type: .structure), 
+            AWSShapeProperty(label: "BufferingHints", required: false, type: .structure)
+        ]
         /// The Elasticsearch type name.
         public let typeName: String
         /// The Elasticsearch index name.
@@ -867,6 +1035,9 @@ extension Firehose {
     public struct Record: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Data", required: true, type: .blob)
+        ]
         /// The data blob, which is base64-encoded when the blob is serialized. The maximum size of the data blob, before base64-encoding, is 1,000 KB.
         public let data: Data
 
@@ -883,6 +1054,10 @@ extension Firehose {
     public struct PutRecordBatchInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Records", required: true, type: .list), 
+            AWSShapeProperty(label: "DeliveryStreamName", required: true, type: .string)
+        ]
         /// One or more records.
         public let records: [Record]
         /// The name of the delivery stream.
@@ -904,6 +1079,10 @@ extension Firehose {
     public struct ProcessorParameter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ParameterName", required: true, type: .enum), 
+            AWSShapeProperty(label: "ParameterValue", required: true, type: .string)
+        ]
         /// The name of the parameter.
         public let parameterName: ProcessorParameterName
         /// The parameter value.
@@ -925,6 +1104,9 @@ extension Firehose {
     public struct KMSEncryptionConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AWSKMSKeyARN", required: true, type: .string)
+        ]
         /// The ARN of the encryption key. Must belong to the same region as the destination Amazon S3 bucket.
         public let aWSKMSKeyARN: String
 
@@ -941,6 +1123,18 @@ extension Firehose {
     public struct ExtendedS3DestinationDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "S3BackupDescription", required: false, type: .structure), 
+            AWSShapeProperty(label: "BucketARN", required: true, type: .string), 
+            AWSShapeProperty(label: "EncryptionConfiguration", required: true, type: .structure), 
+            AWSShapeProperty(label: "RoleARN", required: true, type: .string), 
+            AWSShapeProperty(label: "ProcessingConfiguration", required: false, type: .structure), 
+            AWSShapeProperty(label: "Prefix", required: false, type: .string), 
+            AWSShapeProperty(label: "S3BackupMode", required: false, type: .enum), 
+            AWSShapeProperty(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
+            AWSShapeProperty(label: "CompressionFormat", required: true, type: .enum), 
+            AWSShapeProperty(label: "BufferingHints", required: true, type: .structure)
+        ]
         /// The configuration for backup in Amazon S3.
         public let s3BackupDescription: S3DestinationDescription?
         /// The ARN of the S3 bucket.
@@ -1005,6 +1199,10 @@ extension Firehose {
     public struct PutRecordInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Record", required: true, type: .structure), 
+            AWSShapeProperty(label: "DeliveryStreamName", required: true, type: .string)
+        ]
         /// The record.
         public let record: Record
         /// The name of the delivery stream.
@@ -1043,6 +1241,10 @@ extension Firehose {
     public struct Processor: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Type", required: true, type: .enum), 
+            AWSShapeProperty(label: "Parameters", required: false, type: .list)
+        ]
         /// The type of processor.
         public let `type`: ProcessorType
         /// The processor parameters.
@@ -1067,6 +1269,18 @@ extension Firehose {
     public struct ExtendedS3DestinationUpdate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "BucketARN", required: false, type: .string), 
+            AWSShapeProperty(label: "EncryptionConfiguration", required: false, type: .structure), 
+            AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
+            AWSShapeProperty(label: "S3BackupUpdate", required: false, type: .structure), 
+            AWSShapeProperty(label: "ProcessingConfiguration", required: false, type: .structure), 
+            AWSShapeProperty(label: "Prefix", required: false, type: .string), 
+            AWSShapeProperty(label: "S3BackupMode", required: false, type: .enum), 
+            AWSShapeProperty(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
+            AWSShapeProperty(label: "CompressionFormat", required: false, type: .enum), 
+            AWSShapeProperty(label: "BufferingHints", required: false, type: .structure)
+        ]
         /// The ARN of the S3 bucket.
         public let bucketARN: String?
         /// The encryption configuration. If no value is specified, the default is no encryption.
@@ -1118,6 +1332,11 @@ extension Firehose {
     public struct CloudWatchLoggingOptions: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "LogStreamName", required: false, type: .string), 
+            AWSShapeProperty(label: "LogGroupName", required: false, type: .string), 
+            AWSShapeProperty(label: "Enabled", required: false, type: .boolean)
+        ]
         /// The CloudWatch log stream name for logging. This value is required if CloudWatch logging is enabled.
         public let logStreamName: String?
         /// The CloudWatch group name for logging. This value is required if CloudWatch logging is enabled.
@@ -1141,6 +1360,11 @@ extension Firehose {
     public struct DescribeDeliveryStreamInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ExclusiveStartDestinationId", required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "DeliveryStreamName", required: true, type: .string)
+        ]
         /// The ID of the destination to start returning the destination information. Currently Firehose supports one destination per delivery stream.
         public let exclusiveStartDestinationId: String?
         /// The limit on the number of destinations to return. Currently, you can have one destination per delivery stream.
@@ -1165,6 +1389,10 @@ extension Firehose {
     public struct EncryptionConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "KMSEncryptionConfig", required: false, type: .structure), 
+            AWSShapeProperty(label: "NoEncryptionConfig", required: false, type: .enum)
+        ]
         /// The encryption key.
         public let kMSEncryptionConfig: KMSEncryptionConfig?
         /// Specifically override existing encryption information to ensure no encryption is used.
@@ -1184,6 +1412,16 @@ extension Firehose {
     public struct DeliveryStreamDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Destinations", required: true, type: .list), 
+            AWSShapeProperty(label: "DeliveryStreamStatus", required: true, type: .enum), 
+            AWSShapeProperty(label: "LastUpdateTimestamp", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "DeliveryStreamName", required: true, type: .string), 
+            AWSShapeProperty(label: "VersionId", required: true, type: .string), 
+            AWSShapeProperty(label: "CreateTimestamp", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "DeliveryStreamARN", required: true, type: .string), 
+            AWSShapeProperty(label: "HasMoreDestinations", required: true, type: .boolean)
+        ]
         /// The destinations.
         public let destinations: [DestinationDescription]
         /// The status of the delivery stream.
@@ -1233,6 +1471,19 @@ extension Firehose {
     public struct ElasticsearchDestinationDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TypeName", required: false, type: .string), 
+            AWSShapeProperty(label: "IndexName", required: false, type: .string), 
+            AWSShapeProperty(label: "IndexRotationPeriod", required: false, type: .enum), 
+            AWSShapeProperty(label: "DomainARN", required: false, type: .string), 
+            AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
+            AWSShapeProperty(label: "S3DestinationDescription", required: false, type: .structure), 
+            AWSShapeProperty(label: "ProcessingConfiguration", required: false, type: .structure), 
+            AWSShapeProperty(label: "S3BackupMode", required: false, type: .enum), 
+            AWSShapeProperty(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
+            AWSShapeProperty(label: "RetryOptions", required: false, type: .structure), 
+            AWSShapeProperty(label: "BufferingHints", required: false, type: .structure)
+        ]
         /// The Elasticsearch type name.
         public let typeName: String?
         /// The Elasticsearch index name.
@@ -1288,6 +1539,10 @@ extension Firehose {
     public struct ElasticsearchBufferingHints: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "SizeInMBs", required: false, type: .integer), 
+            AWSShapeProperty(label: "IntervalInSeconds", required: false, type: .integer)
+        ]
         /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
         public let sizeInMBs: Int32?
         /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300 (5 minutes).
@@ -1307,6 +1562,11 @@ extension Firehose {
     public struct PutRecordBatchResponseEntry: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "RecordId", required: false, type: .string), 
+            AWSShapeProperty(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeProperty(label: "ErrorMessage", required: false, type: .string)
+        ]
         /// The ID of the record.
         public let recordId: String?
         /// The error code for an individual record result.

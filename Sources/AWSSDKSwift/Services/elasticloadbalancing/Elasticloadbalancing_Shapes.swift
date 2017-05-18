@@ -32,6 +32,13 @@ extension Elasticloadbalancing {
     public struct PolicyAttributeTypeDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AttributeName", required: false, type: .string), 
+            AWSShapeProperty(label: "AttributeType", required: false, type: .string), 
+            AWSShapeProperty(label: "DefaultValue", required: false, type: .string), 
+            AWSShapeProperty(label: "Cardinality", required: false, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
+        ]
         /// The name of the attribute.
         public let attributeName: String?
         /// The type of the attribute. For example, Boolean or Integer.
@@ -63,6 +70,9 @@ extension Elasticloadbalancing {
     public struct AddAvailabilityZonesOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AvailabilityZones", required: false, type: .list)
+        ]
         /// The updated list of Availability Zones for the load balancer.
         public let availabilityZones: [String]?
 
@@ -78,6 +88,10 @@ extension Elasticloadbalancing {
     public struct DeleteLoadBalancerPolicyInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeProperty(label: "PolicyName", required: true, type: .string)
+        ]
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The name of the policy.
@@ -99,6 +113,10 @@ extension Elasticloadbalancing {
     public struct PolicyAttributeDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AttributeName", required: false, type: .string), 
+            AWSShapeProperty(label: "AttributeValue", required: false, type: .string)
+        ]
         /// The name of the attribute.
         public let attributeName: String?
         /// The value of the attribute.
@@ -118,6 +136,10 @@ extension Elasticloadbalancing {
     public struct DetachLoadBalancerFromSubnetsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Subnets", required: true, type: .list), 
+            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string)
+        ]
         /// The IDs of the subnets.
         public let subnets: [String]
         /// The name of the load balancer.
@@ -139,6 +161,10 @@ extension Elasticloadbalancing {
     public struct DescribeAccessPointsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "LoadBalancerDescriptions", required: false, type: .list), 
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+        ]
         /// Information about the load balancers.
         public let loadBalancerDescriptions: [LoadBalancerDescription]?
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
@@ -162,6 +188,10 @@ extension Elasticloadbalancing {
     public struct RemoveAvailabilityZonesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AvailabilityZones", required: true, type: .list), 
+            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string)
+        ]
         /// The Availability Zones.
         public let availabilityZones: [String]
         /// The name of the load balancer.
@@ -183,6 +213,10 @@ extension Elasticloadbalancing {
     public struct CreateLoadBalancerListenerInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeProperty(label: "Listeners", required: true, type: .list)
+        ]
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The listeners.
@@ -204,6 +238,9 @@ extension Elasticloadbalancing {
     public struct CreateAccessPointOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DNSName", required: false, type: .string)
+        ]
         /// The DNS name of the load balancer.
         public let dNSName: String?
 
@@ -219,6 +256,10 @@ extension Elasticloadbalancing {
     public struct ModifyLoadBalancerAttributesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeProperty(label: "LoadBalancerAttributes", required: true, type: .structure)
+        ]
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The attributes of the load balancer.
@@ -240,6 +281,10 @@ extension Elasticloadbalancing {
     public struct AttachLoadBalancerToSubnetsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Subnets", required: true, type: .list), 
+            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string)
+        ]
         /// The IDs of the subnets to add. You can add only one subnet per Availability Zone.
         public let subnets: [String]
         /// The name of the load balancer.
@@ -261,6 +306,9 @@ extension Elasticloadbalancing {
     public struct TagKeyOnly: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Key", required: false, type: .string)
+        ]
         /// The name of the key.
         public let key: String?
 
@@ -276,6 +324,10 @@ extension Elasticloadbalancing {
     public struct ListenerDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "PolicyNames", required: false, type: .list), 
+            AWSShapeProperty(label: "Listener", required: false, type: .structure)
+        ]
         /// The policies. If there are no policies enabled, the list is empty.
         public let policyNames: [String]?
         public let listener: Listener?
@@ -294,6 +346,9 @@ extension Elasticloadbalancing {
     public struct DeregisterEndPointsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Instances", required: false, type: .list)
+        ]
         /// The remaining instances registered with the load balancer.
         public let instances: [Instance]?
 
@@ -313,6 +368,13 @@ extension Elasticloadbalancing {
     public struct LoadBalancerAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ConnectionSettings", required: false, type: .structure), 
+            AWSShapeProperty(label: "AdditionalAttributes", required: false, type: .list), 
+            AWSShapeProperty(label: "AccessLog", required: false, type: .structure), 
+            AWSShapeProperty(label: "ConnectionDraining", required: false, type: .structure), 
+            AWSShapeProperty(label: "CrossZoneLoadBalancing", required: false, type: .structure)
+        ]
         /// If enabled, the load balancer allows the connections to remain idle (no data is sent over the connection) for the specified duration. By default, Elastic Load Balancing maintains a 60-second idle connection timeout for both front-end and back-end connections of your load balancer. For more information, see Configure Idle Connection Timeout in the Classic Load Balancers Guide.
         public let connectionSettings: ConnectionSettings?
         /// This parameter is reserved.
@@ -348,6 +410,11 @@ extension Elasticloadbalancing {
     public struct DescribeAccessPointsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "LoadBalancerNames", required: false, type: .list), 
+            AWSShapeProperty(label: "PageSize", required: false, type: .integer)
+        ]
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
         /// The names of the load balancers.
@@ -371,6 +438,10 @@ extension Elasticloadbalancing {
     public struct AdditionalAttribute: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Value", required: false, type: .string), 
+            AWSShapeProperty(label: "Key", required: false, type: .string)
+        ]
         /// This parameter is reserved.
         public let value: String?
         /// This parameter is reserved.
@@ -390,6 +461,11 @@ extension Elasticloadbalancing {
     public struct SetLoadBalancerPoliciesOfListenerInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeProperty(label: "LoadBalancerPort", required: true, type: .integer), 
+            AWSShapeProperty(label: "PolicyNames", required: true, type: .list)
+        ]
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The external port of the load balancer.
@@ -416,6 +492,10 @@ extension Elasticloadbalancing {
     public struct AddAvailabilityZonesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AvailabilityZones", required: true, type: .list), 
+            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string)
+        ]
         /// The Availability Zones. These must be in the same region as the load balancer.
         public let availabilityZones: [String]
         /// The name of the load balancer.
@@ -437,6 +517,10 @@ extension Elasticloadbalancing {
     public struct Tag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Value", required: false, type: .string), 
+            AWSShapeProperty(label: "Key", required: true, type: .string)
+        ]
         /// The value of the tag.
         public let value: String?
         /// The key of the tag.
@@ -465,6 +549,10 @@ extension Elasticloadbalancing {
     public struct TagDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "LoadBalancerName", required: false, type: .string), 
+            AWSShapeProperty(label: "Tags", required: false, type: .list)
+        ]
         /// The name of the load balancer.
         public let loadBalancerName: String?
         /// The tags.
@@ -496,6 +584,10 @@ extension Elasticloadbalancing {
     public struct ApplySecurityGroupsToLoadBalancerInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeProperty(label: "SecurityGroups", required: true, type: .list)
+        ]
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The IDs of the security groups to associate with the load balancer. Note that you cannot specify the name of the security group.
@@ -517,6 +609,10 @@ extension Elasticloadbalancing {
     public struct ConnectionDraining: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Timeout", required: false, type: .integer), 
+            AWSShapeProperty(label: "Enabled", required: true, type: .boolean)
+        ]
         /// The maximum time, in seconds, to keep the existing connections open before deregistering the instances.
         public let timeout: Int32?
         /// Specifies whether connection draining is enabled for the load balancer.
@@ -537,6 +633,12 @@ extension Elasticloadbalancing {
     public struct AccessLog: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "EmitInterval", required: false, type: .integer), 
+            AWSShapeProperty(label: "S3BucketName", required: false, type: .string), 
+            AWSShapeProperty(label: "S3BucketPrefix", required: false, type: .string), 
+            AWSShapeProperty(label: "Enabled", required: true, type: .boolean)
+        ]
         /// The interval for publishing the access logs. You can specify an interval of either 5 minutes or 60 minutes. Default: 60 minutes
         public let emitInterval: Int32?
         /// The name of the Amazon S3 bucket where the access logs are stored.
@@ -565,6 +667,13 @@ extension Elasticloadbalancing {
     public struct Listener: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "InstanceProtocol", required: false, type: .string), 
+            AWSShapeProperty(label: "InstancePort", required: true, type: .integer), 
+            AWSShapeProperty(label: "LoadBalancerPort", required: true, type: .integer), 
+            AWSShapeProperty(label: "Protocol", required: true, type: .string), 
+            AWSShapeProperty(label: "SSLCertificateId", required: false, type: .string)
+        ]
         /// The protocol to use for routing traffic to instances: HTTP, HTTPS, TCP, or SSL. If the front-end protocol is HTTP, HTTPS, TCP, or SSL, InstanceProtocol must be at the same protocol. If there is another listener with the same InstancePort whose InstanceProtocol is secure, (HTTPS or SSL), the listener's InstanceProtocol must also be secure. If there is another listener with the same InstancePort whose InstanceProtocol is HTTP or TCP, the listener's InstanceProtocol must be HTTP or TCP.
         public let instanceProtocol: String?
         /// The port on which the instance is listening.
@@ -599,6 +708,9 @@ extension Elasticloadbalancing {
     public struct Instance: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "InstanceId", required: false, type: .string)
+        ]
         /// The instance ID.
         public let instanceId: String?
 
@@ -614,6 +726,11 @@ extension Elasticloadbalancing {
     public struct CreateLBCookieStickinessPolicyInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeProperty(label: "CookieExpirationPeriod", required: false, type: .long), 
+            AWSShapeProperty(label: "PolicyName", required: true, type: .string)
+        ]
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The time period, in seconds, after which the cookie should be considered stale. If you do not specify this parameter, the default value is 0, which indicates that the sticky session should last for the duration of the browser session.
@@ -639,6 +756,9 @@ extension Elasticloadbalancing {
     public struct RegisterEndPointsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Instances", required: false, type: .list)
+        ]
         /// The updated list of instances for the load balancer.
         public let instances: [Instance]?
 
@@ -658,6 +778,11 @@ extension Elasticloadbalancing {
     public struct Policies: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AppCookieStickinessPolicies", required: false, type: .list), 
+            AWSShapeProperty(label: "OtherPolicies", required: false, type: .list), 
+            AWSShapeProperty(label: "LBCookieStickinessPolicies", required: false, type: .list)
+        ]
         /// The stickiness policies created using CreateAppCookieStickinessPolicy.
         public let appCookieStickinessPolicies: [AppCookieStickinessPolicy]?
         /// The policies other than the stickiness policies.
@@ -689,6 +814,9 @@ extension Elasticloadbalancing {
     public struct DescribeLoadBalancerAttributesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string)
+        ]
         /// The name of the load balancer.
         public let loadBalancerName: String
 
@@ -705,6 +833,9 @@ extension Elasticloadbalancing {
     public struct DescribeTagsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TagDescriptions", required: false, type: .list)
+        ]
         /// Information about the tags.
         public let tagDescriptions: [TagDescription]?
 
@@ -724,6 +855,10 @@ extension Elasticloadbalancing {
     public struct PolicyAttribute: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AttributeName", required: false, type: .string), 
+            AWSShapeProperty(label: "AttributeValue", required: false, type: .string)
+        ]
         /// The name of the attribute.
         public let attributeName: String?
         /// The value of the attribute.
@@ -743,6 +878,10 @@ extension Elasticloadbalancing {
     public struct RegisterEndPointsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeProperty(label: "Instances", required: true, type: .list)
+        ]
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The IDs of the instances.
@@ -780,6 +919,13 @@ extension Elasticloadbalancing {
     public struct HealthCheck: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Target", required: true, type: .string), 
+            AWSShapeProperty(label: "UnhealthyThreshold", required: true, type: .integer), 
+            AWSShapeProperty(label: "HealthyThreshold", required: true, type: .integer), 
+            AWSShapeProperty(label: "Interval", required: true, type: .integer), 
+            AWSShapeProperty(label: "Timeout", required: true, type: .integer)
+        ]
         /// The instance being checked. The protocol is either TCP, HTTP, HTTPS, or SSL. The range of valid ports is one (1) through 65535. TCP is the default, specified as a TCP: port pair, for example "TCP:5000". In this case, a health check simply attempts to open a TCP connection to the instance on the specified port. Failure to connect within the configured timeout is considered unhealthy. SSL is also specified as SSL: port pair, for example, SSL:5000. For HTTP/HTTPS, you must include a ping path in the string. HTTP is specified as a HTTP:port;/;PathToPing; grouping, for example "HTTP:80/weather/us/wa/seattle". In this case, a HTTP GET request is issued to the instance on the given port and path. Any answer other than "200 OK" within the timeout period is considered unhealthy. The total length of the HTTP ping target must be 1024 16-bit Unicode characters or less.
         public let target: String
         /// The number of consecutive health check failures required before moving the instance to the Unhealthy state.
@@ -816,6 +962,10 @@ extension Elasticloadbalancing {
     public struct ModifyLoadBalancerAttributesOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "LoadBalancerName", required: false, type: .string), 
+            AWSShapeProperty(label: "LoadBalancerAttributes", required: false, type: .structure)
+        ]
         /// The name of the load balancer.
         public let loadBalancerName: String?
         public let loadBalancerAttributes: LoadBalancerAttributes?
@@ -834,6 +984,11 @@ extension Elasticloadbalancing {
     public struct PolicyDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "PolicyTypeName", required: false, type: .string), 
+            AWSShapeProperty(label: "PolicyAttributeDescriptions", required: false, type: .list), 
+            AWSShapeProperty(label: "PolicyName", required: false, type: .string)
+        ]
         /// The name of the policy type.
         public let policyTypeName: String?
         /// The policy attributes.
@@ -861,6 +1016,11 @@ extension Elasticloadbalancing {
     public struct CreateAppCookieStickinessPolicyInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "CookieName", required: true, type: .string), 
+            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeProperty(label: "PolicyName", required: true, type: .string)
+        ]
         /// The name of the application cookie used for stickiness.
         public let cookieName: String
         /// The name of the load balancer.
@@ -887,6 +1047,9 @@ extension Elasticloadbalancing {
     public struct DescribeLoadBalancerPoliciesOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "PolicyDescriptions", required: false, type: .list)
+        ]
         /// Information about the policies.
         public let policyDescriptions: [PolicyDescription]?
 
@@ -906,6 +1069,9 @@ extension Elasticloadbalancing {
     public struct DeleteAccessPointInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string)
+        ]
         /// The name of the load balancer.
         public let loadBalancerName: String
 
@@ -922,6 +1088,11 @@ extension Elasticloadbalancing {
     public struct PolicyTypeDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "PolicyTypeName", required: false, type: .string), 
+            AWSShapeProperty(label: "PolicyAttributeTypeDescriptions", required: false, type: .list), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
+        ]
         /// The name of the policy type.
         public let policyTypeName: String?
         /// The description of the policy attributes associated with the policies defined by Elastic Load Balancing.
@@ -949,6 +1120,9 @@ extension Elasticloadbalancing {
     public struct DetachLoadBalancerFromSubnetsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Subnets", required: false, type: .list)
+        ]
         /// The IDs of the remaining subnets for the load balancer.
         public let subnets: [String]?
 
@@ -964,6 +1138,9 @@ extension Elasticloadbalancing {
     public struct ConfigureHealthCheckOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "HealthCheck", required: false, type: .structure)
+        ]
         /// The updated health check.
         public let healthCheck: HealthCheck?
 
@@ -979,6 +1156,9 @@ extension Elasticloadbalancing {
     public struct DescribeLoadBalancerPolicyTypesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "PolicyTypeNames", required: false, type: .list)
+        ]
         /// The names of the policy types. If no names are specified, describes all policy types defined by Elastic Load Balancing.
         public let policyTypeNames: [String]?
 
@@ -994,6 +1174,15 @@ extension Elasticloadbalancing {
     public struct CreateAccessPointInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AvailabilityZones", required: false, type: .list), 
+            AWSShapeProperty(label: "SecurityGroups", required: false, type: .list), 
+            AWSShapeProperty(label: "Listeners", required: true, type: .list), 
+            AWSShapeProperty(label: "Tags", required: false, type: .list), 
+            AWSShapeProperty(label: "Subnets", required: false, type: .list), 
+            AWSShapeProperty(label: "Scheme", required: false, type: .string), 
+            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string)
+        ]
         /// One or more Availability Zones from the same region as the load balancer. You must specify at least one Availability Zone. You can add more Availability Zones after you create the load balancer using EnableAvailabilityZonesForLoadBalancer.
         public let availabilityZones: [String]?
         /// The IDs of the security groups to assign to the load balancer.
@@ -1063,6 +1252,10 @@ extension Elasticloadbalancing {
     public struct DescribeLoadBalancerPoliciesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "LoadBalancerName", required: false, type: .string), 
+            AWSShapeProperty(label: "PolicyNames", required: false, type: .list)
+        ]
         /// The name of the load balancer.
         public let loadBalancerName: String?
         /// The names of the policies.
@@ -1082,6 +1275,10 @@ extension Elasticloadbalancing {
     public struct DeleteLoadBalancerListenerInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "LoadBalancerPorts", required: true, type: .list), 
+            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string)
+        ]
         /// The client port numbers of the listeners.
         public let loadBalancerPorts: [Int32]
         /// The name of the load balancer.
@@ -1111,6 +1308,12 @@ extension Elasticloadbalancing {
     public struct InstanceState: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ReasonCode", required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
+            AWSShapeProperty(label: "State", required: false, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
+        ]
         /// Information about the cause of OutOfService instances. Specifically, whether the cause is Elastic Load Balancing or the instance. Valid values: ELB | Instance | N/A 
         public let reasonCode: String?
         /// The ID of the instance.
@@ -1138,6 +1341,10 @@ extension Elasticloadbalancing {
     public struct DeregisterEndPointsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeProperty(label: "Instances", required: true, type: .list)
+        ]
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The IDs of the instances.
@@ -1167,6 +1374,9 @@ extension Elasticloadbalancing {
     public struct DescribeTagsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "LoadBalancerNames", required: true, type: .list)
+        ]
         /// The names of the load balancers.
         public let loadBalancerNames: [String]
 
@@ -1183,6 +1393,9 @@ extension Elasticloadbalancing {
     public struct ApplySecurityGroupsToLoadBalancerOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "SecurityGroups", required: false, type: .list)
+        ]
         /// The IDs of the security groups associated with the load balancer.
         public let securityGroups: [String]?
 
@@ -1198,6 +1411,9 @@ extension Elasticloadbalancing {
     public struct CrossZoneLoadBalancing: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Enabled", required: true, type: .boolean)
+        ]
         /// Specifies whether cross-zone load balancing is enabled for the load balancer.
         public let enabled: Bool
 
@@ -1214,6 +1430,9 @@ extension Elasticloadbalancing {
     public struct DescribeLoadBalancerAttributesOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "LoadBalancerAttributes", required: false, type: .structure)
+        ]
         /// Information about the load balancer attributes.
         public let loadBalancerAttributes: LoadBalancerAttributes?
 
@@ -1229,6 +1448,10 @@ extension Elasticloadbalancing {
     public struct LBCookieStickinessPolicy: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "CookieExpirationPeriod", required: false, type: .long), 
+            AWSShapeProperty(label: "PolicyName", required: false, type: .string)
+        ]
         /// The time period, in seconds, after which the cookie should be considered stale. If this parameter is not specified, the stickiness session lasts for the duration of the browser session.
         public let cookieExpirationPeriod: Int64?
         /// The name of the policy. This name must be unique within the set of policies for this load balancer.
@@ -1248,6 +1471,9 @@ extension Elasticloadbalancing {
     public struct ConnectionSettings: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "IdleTimeout", required: true, type: .integer)
+        ]
         /// The time, in seconds, that the connection is allowed to be idle (no data has been sent over the connection) before it is closed by the load balancer.
         public let idleTimeout: Int32
 
@@ -1264,6 +1490,11 @@ extension Elasticloadbalancing {
     public struct SetLoadBalancerPoliciesForBackendServerInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "PolicyNames", required: true, type: .list), 
+            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeProperty(label: "InstancePort", required: true, type: .integer)
+        ]
         /// The names of the policies. If the list is empty, then all current polices are removed from the EC2 instance.
         public let policyNames: [String]
         /// The name of the load balancer.
@@ -1290,6 +1521,9 @@ extension Elasticloadbalancing {
     public struct DescribeLoadBalancerPolicyTypesOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "PolicyTypeDescriptions", required: false, type: .list)
+        ]
         /// Information about the policy types.
         public let policyTypeDescriptions: [PolicyTypeDescription]?
 
@@ -1309,6 +1543,9 @@ extension Elasticloadbalancing {
     public struct DescribeEndPointStateOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "InstanceStates", required: false, type: .list)
+        ]
         /// Information about the health of the instances.
         public let instanceStates: [InstanceState]?
 
@@ -1336,6 +1573,10 @@ extension Elasticloadbalancing {
     public struct SourceSecurityGroup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "OwnerAlias", required: false, type: .string), 
+            AWSShapeProperty(label: "GroupName", required: false, type: .string)
+        ]
         /// The owner of the security group.
         public let ownerAlias: String?
         /// The name of the security group.
@@ -1363,6 +1604,9 @@ extension Elasticloadbalancing {
     public struct RemoveAvailabilityZonesOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AvailabilityZones", required: false, type: .list)
+        ]
         /// The remaining Availability Zones for the load balancer.
         public let availabilityZones: [String]?
 
@@ -1378,6 +1622,10 @@ extension Elasticloadbalancing {
     public struct AppCookieStickinessPolicy: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "CookieName", required: false, type: .string), 
+            AWSShapeProperty(label: "PolicyName", required: false, type: .string)
+        ]
         /// The name of the application cookie used for stickiness.
         public let cookieName: String?
         /// The mnemonic name for the policy being created. The name must be unique within a set of policies for this load balancer.
@@ -1397,6 +1645,10 @@ extension Elasticloadbalancing {
     public struct AddTagsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "LoadBalancerNames", required: true, type: .list), 
+            AWSShapeProperty(label: "Tags", required: true, type: .list)
+        ]
         /// The name of the load balancer. You can specify one load balancer only.
         public let loadBalancerNames: [String]
         /// The tags.
@@ -1418,6 +1670,12 @@ extension Elasticloadbalancing {
     public struct CreateLoadBalancerPolicyInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "PolicyAttributes", required: false, type: .list), 
+            AWSShapeProperty(label: "PolicyTypeName", required: true, type: .string), 
+            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeProperty(label: "PolicyName", required: true, type: .string)
+        ]
         /// The policy attributes.
         public let policyAttributes: [PolicyAttribute]?
         /// The name of the base policy type. To get the list of policy types, use DescribeLoadBalancerPolicyTypes.
@@ -1460,6 +1718,9 @@ extension Elasticloadbalancing {
     public struct AttachLoadBalancerToSubnetsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Subnets", required: false, type: .list)
+        ]
         /// The IDs of the subnets attached to the load balancer.
         public let subnets: [String]?
 
@@ -1475,6 +1736,10 @@ extension Elasticloadbalancing {
     public struct ConfigureHealthCheckInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeProperty(label: "HealthCheck", required: true, type: .structure)
+        ]
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The configuration information.
@@ -1496,6 +1761,10 @@ extension Elasticloadbalancing {
     public struct BackendServerDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "PolicyNames", required: false, type: .list), 
+            AWSShapeProperty(label: "InstancePort", required: false, type: .integer)
+        ]
         /// The names of the policies enabled for the EC2 instance.
         public let policyNames: [String]?
         /// The port on which the EC2 instance is listening.
@@ -1515,6 +1784,24 @@ extension Elasticloadbalancing {
     public struct LoadBalancerDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AvailabilityZones", required: false, type: .list), 
+            AWSShapeProperty(label: "VPCId", required: false, type: .string), 
+            AWSShapeProperty(label: "BackendServerDescriptions", required: false, type: .list), 
+            AWSShapeProperty(label: "Subnets", required: false, type: .list), 
+            AWSShapeProperty(label: "Policies", required: false, type: .structure), 
+            AWSShapeProperty(label: "CanonicalHostedZoneNameID", required: false, type: .string), 
+            AWSShapeProperty(label: "DNSName", required: false, type: .string), 
+            AWSShapeProperty(label: "LoadBalancerName", required: false, type: .string), 
+            AWSShapeProperty(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "CanonicalHostedZoneName", required: false, type: .string), 
+            AWSShapeProperty(label: "SecurityGroups", required: false, type: .list), 
+            AWSShapeProperty(label: "ListenerDescriptions", required: false, type: .list), 
+            AWSShapeProperty(label: "SourceSecurityGroup", required: false, type: .structure), 
+            AWSShapeProperty(label: "HealthCheck", required: false, type: .structure), 
+            AWSShapeProperty(label: "Instances", required: false, type: .list), 
+            AWSShapeProperty(label: "Scheme", required: false, type: .string)
+        ]
         /// The Availability Zones for the load balancer.
         public let availabilityZones: [String]?
         /// The ID of the VPC for the load balancer.
@@ -1602,6 +1889,11 @@ extension Elasticloadbalancing {
     public struct SetLoadBalancerListenerSSLCertificateInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeProperty(label: "LoadBalancerPort", required: true, type: .integer), 
+            AWSShapeProperty(label: "SSLCertificateId", required: true, type: .string)
+        ]
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The port that uses the specified SSL certificate.
@@ -1628,6 +1920,10 @@ extension Elasticloadbalancing {
     public struct DescribeEndPointStateInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeProperty(label: "Instances", required: false, type: .list)
+        ]
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The IDs of the instances.
@@ -1652,6 +1948,10 @@ extension Elasticloadbalancing {
     public struct RemoveTagsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "LoadBalancerNames", required: true, type: .list), 
+            AWSShapeProperty(label: "Tags", required: true, type: .list)
+        ]
         /// The name of the load balancer. You can specify a maximum of one load balancer name.
         public let loadBalancerNames: [String]
         /// The list of tag keys to remove.

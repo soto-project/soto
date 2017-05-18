@@ -47,6 +47,9 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["api_Key": "apiKey"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "api_Key", required: true, type: .string)
+        ]
         /// The identifier of the ApiKey resource to be deleted.
         public let apiKey: String
 
@@ -69,6 +72,13 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "mode", required: false, type: .enum), 
+            AWSShapeProperty(label: "failonwarnings", required: false, type: .boolean), 
+            AWSShapeProperty(label: "body", required: true, type: .blob), 
+            AWSShapeProperty(label: "parameters", required: false, type: .map)
+        ]
         /// The identifier of the RestApi to be updated. 
         public let restApiId: String
         /// The mode query parameter to specify the update mode. Valid values are "merge" and "overwrite". By default, the update mode is "merge".
@@ -121,6 +131,9 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["domain_name": "domainName"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "domain_name", required: true, type: .string)
+        ]
         /// The name of the DomainName resource to be deleted.
         public let domainName: String
 
@@ -140,6 +153,10 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["doc_version": "documentationVersion", "restapi_id": "restApiId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "doc_version", required: true, type: .string), 
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string)
+        ]
         /// [Required] The version identifier of the to-be-retrieved documentation snapshot.
         public let documentationVersion: String
         /// [Required] The identifier of the API of the to-be-retrieved documentation snapshot.
@@ -164,6 +181,10 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["keyId": "keyId", "usageplanId": "usagePlanId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "keyId", required: true, type: .string), 
+            AWSShapeProperty(label: "usageplanId", required: true, type: .string)
+        ]
         /// The key Id of the to-be-retrieved UsagePlanKey resource representing a plan customer.
         public let keyId: String
         /// The Id of the UsagePlan resource representing the usage plan containing the to-be-retrieved UsagePlanKey resource representing a plan customer.
@@ -188,6 +209,11 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["doc_version": "documentationVersion", "restapi_id": "restApiId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "doc_version", required: true, type: .string), 
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "patchOperations", required: false, type: .list)
+        ]
         /// [Required] The version identifier of the to-be-updated documentation version.
         public let documentationVersion: String
         /// [Required] The identifier of an API of the to-be-updated documentation version.
@@ -220,6 +246,13 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "contentType", required: true, type: .string), 
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "name", required: true, type: .string), 
+            AWSShapeProperty(label: "schema", required: false, type: .string)
+        ]
         /// The description of the model.
         public let description: String?
         /// The content-type for the model.
@@ -257,6 +290,13 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["http_method": "httpMethod", "status_code": "statusCode", "restapi_id": "restApiId", "resource_id": "resourceId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "patchOperations", required: false, type: .list), 
+            AWSShapeProperty(label: "status_code", required: true, type: .string), 
+            AWSShapeProperty(label: "resource_id", required: true, type: .string), 
+            AWSShapeProperty(label: "http_method", required: true, type: .string)
+        ]
         /// The RestApi identifier for the MethodResponse resource.
         public let restApiId: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
@@ -299,6 +339,11 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["deployment_id": "deploymentId", "restapi_id": "restApiId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "deployment_id", required: true, type: .string), 
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "patchOperations", required: false, type: .list)
+        ]
         /// The replacement identifier for the Deployment resource to change information about.
         public let deploymentId: String
         /// The replacement identifier of the RestApi resource for the Deployment resource to change information about.
@@ -331,6 +376,11 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["resource_id": "resourceId", "restapi_id": "restApiId", "http_method": "httpMethod"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "http_method", required: true, type: .string), 
+            AWSShapeProperty(label: "resource_id", required: true, type: .string)
+        ]
         /// The RestApi identifier for the Method resource.
         public let restApiId: String
         /// The HTTP verb of the Method resource.
@@ -360,6 +410,10 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId", "stage_name": "stageName"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "stage_name", required: true, type: .string)
+        ]
         /// The identifier of the RestApi resource for the Stage resource to get information about.
         public let restApiId: String
         /// The name of the Stage resource to get information about.
@@ -384,6 +438,13 @@ extension Apigateway {
         public static var queryParams: [String: String] {
             return ["includeValues": "includeValues", "position": "position", "limit": "limit", "name": "nameQuery", "customerId": "customerId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "includeValues", required: false, type: .boolean), 
+            AWSShapeProperty(label: "position", required: false, type: .string), 
+            AWSShapeProperty(label: "limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "customerId", required: false, type: .string)
+        ]
         /// A boolean flag to specify whether (true) or not (false) the result contains key values.
         public let includeValues: Bool?
         /// The position of the current ApiKeys resource to get information about.
@@ -415,6 +476,10 @@ extension Apigateway {
     public struct BasePathMappings: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "item", required: false, type: .list), 
+            AWSShapeProperty(label: "position", required: false, type: .string)
+        ]
         /// The current page of any BasePathMapping resources in the collection of base path mapping resources.
         public let items: [BasePathMapping]?
         public let position: String?
@@ -443,6 +508,14 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["usageplanId": "usagePlanId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "keyId", required: false, type: .string), 
+            AWSShapeProperty(label: "position", required: false, type: .string), 
+            AWSShapeProperty(label: "limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "startDate", required: true, type: .string), 
+            AWSShapeProperty(label: "usageplanId", required: true, type: .string), 
+            AWSShapeProperty(label: "endDate", required: true, type: .string)
+        ]
         /// The Id of the API key associated with the resultant usage data.
         public let keyId: String?
         /// Position
@@ -481,6 +554,10 @@ extension Apigateway {
     public struct SdkTypes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "item", required: false, type: .list), 
+            AWSShapeProperty(label: "position", required: false, type: .string)
+        ]
         /// The set of SdkType items that comprise this view of the SdkTypes collection.
         public let items: [SdkType]?
         public let position: String?
@@ -506,6 +583,11 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["resource_id": "resourceId", "restapi_id": "restApiId", "http_method": "httpMethod"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "http_method", required: true, type: .string), 
+            AWSShapeProperty(label: "resource_id", required: true, type: .string)
+        ]
         /// Specifies a get integration request's API identifier.
         public let restApiId: String
         /// Specifies a get integration request's HTTP method.
@@ -532,6 +614,10 @@ extension Apigateway {
     public struct RestApis: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "item", required: false, type: .list), 
+            AWSShapeProperty(label: "position", required: false, type: .string)
+        ]
         /// An array of links to the current page of RestApi resources.
         public let items: [RestApi]?
         public let position: String?
@@ -557,6 +643,10 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["part_id": "documentationPartId", "restapi_id": "restApiId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "part_id", required: true, type: .string), 
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string)
+        ]
         /// [Required] The identifier of the to-be-retrieved documentation part.
         public let documentationPartId: String
         /// [Required] The identifier of an API of the to-be-retrieved documentation part.
@@ -584,6 +674,11 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "position", required: false, type: .string), 
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "limit", required: false, type: .integer)
+        ]
         /// The position of the returned DocumentationVersion in the DocumentationVersions collection.
         public let position: String?
         /// [Required] The identifier of an API of the to-be-retrieved documentation versions.
@@ -611,6 +706,11 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["domain_name": "domainName", "base_path": "basePath"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "base_path", required: true, type: .string), 
+            AWSShapeProperty(label: "domain_name", required: true, type: .string), 
+            AWSShapeProperty(label: "patchOperations", required: false, type: .list)
+        ]
         /// The base path of the BasePathMapping resource to change.
         public let basePath: String
         /// The domain name of the BasePathMapping resource to change.
@@ -643,6 +743,9 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["clientcertificate_id": "clientCertificateId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "clientcertificate_id", required: true, type: .string)
+        ]
         /// The identifier of the ClientCertificate resource to be deleted.
         public let clientCertificateId: String
 
@@ -662,6 +765,10 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId", "model_name": "modelName"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "model_name", required: true, type: .string)
+        ]
         /// The RestApi under which the model will be deleted.
         public let restApiId: String
         /// The name of the model to delete.
@@ -683,6 +790,13 @@ extension Apigateway {
     public struct Resource: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "parentId", required: false, type: .string), 
+            AWSShapeProperty(label: "pathPart", required: false, type: .string), 
+            AWSShapeProperty(label: "path", required: false, type: .string), 
+            AWSShapeProperty(label: "id", required: false, type: .string), 
+            AWSShapeProperty(label: "resourceMethods", required: false, type: .map)
+        ]
         /// The parent resource's identifier.
         public let parentId: String?
         /// The last path segment for this resource.
@@ -726,6 +840,10 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["doc_version": "documentationVersion", "restapi_id": "restApiId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "doc_version", required: true, type: .string), 
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string)
+        ]
         /// [Required] The version identifier of a to-be-deleted documentation snapshot.
         public let documentationVersion: String
         /// [Required] The identifier of an API of a to-be-deleted documentation snapshot.
@@ -753,6 +871,11 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "position", required: false, type: .string), 
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "limit", required: false, type: .integer)
+        ]
         /// If not all Authorizer resources in the response were present, the position will specify where to start the next page of results.
         public let position: String?
         /// The RestApi identifier for the Authorizers resource.
@@ -786,6 +909,14 @@ extension Apigateway {
     public struct CreateDomainNameRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "certificateName", required: false, type: .string), 
+            AWSShapeProperty(label: "certificatePrivateKey", required: false, type: .string), 
+            AWSShapeProperty(label: "domainName", required: true, type: .string), 
+            AWSShapeProperty(label: "certificateChain", required: false, type: .string), 
+            AWSShapeProperty(label: "certificateBody", required: false, type: .string), 
+            AWSShapeProperty(label: "certificateArn", required: false, type: .string)
+        ]
         /// The user-friendly name of the certificate.
         public let certificateName: String?
         /// [Deprecated] Your certificate's private key.
@@ -822,6 +953,10 @@ extension Apigateway {
     public struct ApiKeyIds: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ids", required: false, type: .list), 
+            AWSShapeProperty(label: "warnings", required: false, type: .list)
+        ]
         /// A list of all the ApiKey identifiers.
         public let ids: [String]?
         /// A list of warning messages.
@@ -841,6 +976,20 @@ extension Apigateway {
     public struct Stage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "documentationVersion", required: false, type: .string), 
+            AWSShapeProperty(label: "cacheClusterStatus", required: false, type: .enum), 
+            AWSShapeProperty(label: "cacheClusterSize", required: false, type: .enum), 
+            AWSShapeProperty(label: "variables", required: false, type: .map), 
+            AWSShapeProperty(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "deploymentId", required: false, type: .string), 
+            AWSShapeProperty(label: "clientCertificateId", required: false, type: .string), 
+            AWSShapeProperty(label: "methodSettings", required: false, type: .map), 
+            AWSShapeProperty(label: "lastUpdatedDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "stageName", required: false, type: .string), 
+            AWSShapeProperty(label: "cacheClusterEnabled", required: false, type: .boolean)
+        ]
         /// The version of the associated API documentation.
         public let documentationVersion: String?
         /// The status of the cache cluster for the stage, if enabled.
@@ -916,6 +1065,11 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["resource_id": "resourceId", "restapi_id": "restApiId", "http_method": "httpMethod"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "http_method", required: true, type: .string), 
+            AWSShapeProperty(label: "resource_id", required: true, type: .string)
+        ]
         /// The RestApi identifier for the Method resource.
         public let restApiId: String
         /// Specifies the method request's HTTP method type.
@@ -949,6 +1103,10 @@ extension Apigateway {
     public struct UsagePlans: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "item", required: false, type: .list), 
+            AWSShapeProperty(label: "position", required: false, type: .string)
+        ]
         /// Gets the current item when enumerating the collection of UsagePlan.
         public let items: [UsagePlan]?
         public let position: String?
@@ -974,6 +1132,10 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId", "stage_name": "stageName"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "stage_name", required: true, type: .string)
+        ]
         /// The identifier of the RestApi resource for the Stage resource to delete.
         public let restApiId: String
         /// The name of the Stage resource to delete.
@@ -998,6 +1160,10 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["deployment_id": "deploymentId", "restapi_id": "restApiId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "deployment_id", required: true, type: .string), 
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string)
+        ]
         /// The identifier of the Deployment resource to delete.
         public let deploymentId: String
         /// The identifier of the RestApi resource for the Deployment resource to delete.
@@ -1022,6 +1188,15 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId", "authorizer_id": "authorizerId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "authorizer_id", required: true, type: .string), 
+            AWSShapeProperty(label: "headers", required: false, type: .map), 
+            AWSShapeProperty(label: "pathWithQueryString", required: false, type: .string), 
+            AWSShapeProperty(label: "body", required: false, type: .string), 
+            AWSShapeProperty(label: "stageVariables", required: false, type: .map), 
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "additionalContext", required: false, type: .map)
+        ]
         /// Specifies a test invoke authorizer request's Authorizer ID.
         public let authorizerId: String
         /// [Required] A key-value map of headers to simulate an incoming invocation request. This is where the incoming authorization token, or identity source, should be specified.
@@ -1078,6 +1253,17 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["resource_id": "resourceId", "restapi_id": "restApiId", "http_method": "httpMethod"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "authorizerId", required: false, type: .string), 
+            AWSShapeProperty(label: "requestModels", required: false, type: .map), 
+            AWSShapeProperty(label: "requestParameters", required: false, type: .map), 
+            AWSShapeProperty(label: "http_method", required: true, type: .string), 
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "apiKeyRequired", required: false, type: .boolean), 
+            AWSShapeProperty(label: "authorizationType", required: true, type: .string), 
+            AWSShapeProperty(label: "resource_id", required: true, type: .string), 
+            AWSShapeProperty(label: "operationName", required: false, type: .string)
+        ]
         /// Specifies the identifier of an Authorizer to use on this Method, if the type is CUSTOM.
         public let authorizerId: String?
         /// Specifies the Model resources used for the request's content type. Request models are represented as a key/value map, with a content type as the key and a Model name as the value.
@@ -1143,6 +1329,11 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["domain_name": "domainName"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "position", required: false, type: .string), 
+            AWSShapeProperty(label: "domain_name", required: true, type: .string), 
+            AWSShapeProperty(label: "limit", required: false, type: .integer)
+        ]
         /// The position of the current BasePathMapping resource in the collection to get information about.
         public let position: String?
         /// The domain name of a BasePathMapping resource.
@@ -1167,6 +1358,12 @@ extension Apigateway {
     public struct PatchOperation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "from", required: false, type: .string), 
+            AWSShapeProperty(label: "value", required: false, type: .string), 
+            AWSShapeProperty(label: "path", required: false, type: .string), 
+            AWSShapeProperty(label: "op", required: false, type: .enum)
+        ]
         ///  Not supported.
         public let from: String?
         /// The new target value of the update operation. 
@@ -1197,6 +1394,16 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["resource_id": "resourceId", "restapi_id": "restApiId", "http_method": "httpMethod"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "headers", required: false, type: .map), 
+            AWSShapeProperty(label: "pathWithQueryString", required: false, type: .string), 
+            AWSShapeProperty(label: "body", required: false, type: .string), 
+            AWSShapeProperty(label: "http_method", required: true, type: .string), 
+            AWSShapeProperty(label: "stageVariables", required: false, type: .map), 
+            AWSShapeProperty(label: "clientCertificateId", required: false, type: .string), 
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "resource_id", required: true, type: .string)
+        ]
         /// A key-value map of headers to simulate an incoming invocation request.
         public let headers: [String: String]?
         /// The URI path, including query string, of the simulated invocation request. Use this to specify path parameters and query string parameters.
@@ -1254,6 +1461,12 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "documentationVersion", required: true, type: .string), 
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "stageName", required: false, type: .string), 
+            AWSShapeProperty(label: "description", required: false, type: .string)
+        ]
         /// [Required] The version identifier of the new snapshot.
         public let documentationVersion: String
         /// [Required] Specifies the API identifier of the to-be-created documentation version.
@@ -1289,6 +1502,11 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "position", required: false, type: .string), 
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "limit", required: false, type: .integer)
+        ]
         /// The position of the current Deployment resource in the collection to get information about.
         public let position: String?
         /// The identifier of the RestApi resource for the collection of Deployment resources to get information about.
@@ -1316,6 +1534,10 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["keyId": "keyId", "usageplanId": "usagePlanId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "keyId", required: true, type: .string), 
+            AWSShapeProperty(label: "usageplanId", required: true, type: .string)
+        ]
         /// The Id of the UsagePlanKey resource to be deleted.
         public let keyId: String
         /// The Id of the UsagePlan resource representing the usage plan containing the to-be-deleted UsagePlanKey resource representing a plan customer.
@@ -1337,6 +1559,13 @@ extension Apigateway {
     public struct TestInvokeMethodResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "log", required: false, type: .string), 
+            AWSShapeProperty(label: "status", required: false, type: .integer), 
+            AWSShapeProperty(label: "headers", required: false, type: .map), 
+            AWSShapeProperty(label: "latency", required: false, type: .long), 
+            AWSShapeProperty(label: "body", required: false, type: .string)
+        ]
         /// The Amazon API Gateway execution log for the test invoke request.
         public let log: String?
         /// The HTTP status code.
@@ -1375,6 +1604,10 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId", "resource_id": "resourceId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "resource_id", required: true, type: .string)
+        ]
         /// The RestApi identifier for the Resource resource.
         public let restApiId: String
         /// The identifier of the Resource resource.
@@ -1399,6 +1632,10 @@ extension Apigateway {
         public static var queryParams: [String: String] {
             return ["position": "position", "limit": "limit"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "position", required: false, type: .string), 
+            AWSShapeProperty(label: "limit", required: false, type: .integer)
+        ]
         /// The position of the last fetched element in the SdkTypes collection.
         public let position: String?
         /// The maximum number of SdkType instances to be returned. 
@@ -1418,6 +1655,10 @@ extension Apigateway {
     public struct Models: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "item", required: false, type: .list), 
+            AWSShapeProperty(label: "position", required: false, type: .string)
+        ]
         /// Gets the current Model resource in the collection.
         public let items: [Model]?
         public let position: String?
@@ -1440,6 +1681,10 @@ extension Apigateway {
     public struct Resources: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "item", required: false, type: .list), 
+            AWSShapeProperty(label: "position", required: false, type: .string)
+        ]
         /// Gets the current Resource resource in the collection.
         public let items: [Resource]?
         public let position: String?
@@ -1475,6 +1720,11 @@ extension Apigateway {
         public static var headerParams: [String: String] {
             return ["Content-Type": "contentType", "Content-Disposition": "contentDisposition"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Content-Type", required: false, type: .string), 
+            AWSShapeProperty(label: "Content-Disposition", required: false, type: .string), 
+            AWSShapeProperty(label: "body", required: false, type: .blob)
+        ]
         /// The content-type header value in the HTTP response. This will correspond to a valid 'accept' type in the request.
         public let contentType: String?
         /// The content-disposition header value in the HTTP response.
@@ -1504,6 +1754,11 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId", "model_name": "modelName"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "flatten", required: false, type: .boolean), 
+            AWSShapeProperty(label: "model_name", required: true, type: .string)
+        ]
         /// The RestApi identifier under which the Model exists.
         public let restApiId: String
         /// A query parameter of a Boolean value to resolve (true) all external model references and returns a flattened model schema or not (false) The default is false.
@@ -1532,6 +1787,11 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId", "authorizer_id": "authorizerId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "authorizer_id", required: true, type: .string), 
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "patchOperations", required: false, type: .list)
+        ]
         /// The identifier of the Authorizer resource.
         public let authorizerId: String
         /// The RestApi identifier for the Authorizer resource.
@@ -1561,6 +1821,10 @@ extension Apigateway {
     public struct StageKey: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restApiId", required: false, type: .string), 
+            AWSShapeProperty(label: "stageName", required: false, type: .string)
+        ]
         /// A list of Stage resources that are associated with the ApiKey resource.
         public let restApiId: String?
         /// The stage name in the RestApi that the stage key references.
@@ -1580,6 +1844,11 @@ extension Apigateway {
     public struct ApiKeys: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "item", required: false, type: .list), 
+            AWSShapeProperty(label: "position", required: false, type: .string), 
+            AWSShapeProperty(label: "warnings", required: false, type: .list)
+        ]
         /// The current page of any ApiKey resources in the collection of ApiKey resources.
         public let items: [ApiKey]?
         public let position: String?
@@ -1609,6 +1878,16 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "documentationVersion", required: false, type: .string), 
+            AWSShapeProperty(label: "variables", required: false, type: .map), 
+            AWSShapeProperty(label: "cacheClusterSize", required: false, type: .enum), 
+            AWSShapeProperty(label: "deploymentId", required: true, type: .string), 
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "stageName", required: true, type: .string), 
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "cacheClusterEnabled", required: false, type: .boolean)
+        ]
         /// The version of the associated API documentation.
         public let documentationVersion: String?
         /// A map that defines the stage variables for the new Stage resource. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+.
@@ -1662,6 +1941,9 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["sdktype_id": "id"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "sdktype_id", required: true, type: .string)
+        ]
         /// The identifier of the queried SdkType instance.
         public let id: String
 
@@ -1681,6 +1963,11 @@ extension Apigateway {
         public static var queryParams: [String: String] {
             return ["failonwarnings": "failOnWarnings", "format": "format"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "body", required: true, type: .blob), 
+            AWSShapeProperty(label: "format", required: true, type: .enum), 
+            AWSShapeProperty(label: "failonwarnings", required: false, type: .boolean)
+        ]
         /// The payload of the POST request to import API keys. For the payload format, see API Key File Format.
         public let body: Data
         /// A query parameter to specify the input format to imported API keys. Currently, only the csv format is supported.
@@ -1706,6 +1993,18 @@ extension Apigateway {
     public struct MethodSetting: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "dataTraceEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "metricsEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "cacheDataEncrypted", required: false, type: .boolean), 
+            AWSShapeProperty(label: "cachingEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "cacheTtlInSeconds", required: false, type: .integer), 
+            AWSShapeProperty(label: "throttlingBurstLimit", required: false, type: .integer), 
+            AWSShapeProperty(label: "throttlingRateLimit", required: false, type: .double), 
+            AWSShapeProperty(label: "loggingLevel", required: false, type: .string), 
+            AWSShapeProperty(label: "unauthorizedCacheControlHeaderStrategy", required: false, type: .enum), 
+            AWSShapeProperty(label: "requireAuthorizationForCacheControl", required: false, type: .boolean)
+        ]
         /// Specifies whether data trace logging is enabled for this method, which effects the log entries pushed to Amazon CloudWatch Logs. The PATCH path for this setting is /{method_setting_key}/logging/dataTrace, and the value is a Boolean.
         public let dataTraceEnabled: Bool?
         /// Specifies whether Amazon CloudWatch metrics are enabled for this method. The PATCH path for this setting is /{method_setting_key}/metrics/enabled, and the value is a Boolean.
@@ -1757,6 +2056,17 @@ extension Apigateway {
     public struct ApiKey: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "value", required: false, type: .string), 
+            AWSShapeProperty(label: "id", required: false, type: .string), 
+            AWSShapeProperty(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "stageKeys", required: false, type: .list), 
+            AWSShapeProperty(label: "enabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "lastUpdatedDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "customerId", required: false, type: .string)
+        ]
         /// The name of the API Key.
         public let name: String?
         /// The value of the API Key.
@@ -1807,6 +2117,13 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["http_method": "httpMethod", "status_code": "statusCode", "restapi_id": "restApiId", "resource_id": "resourceId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "patchOperations", required: false, type: .list), 
+            AWSShapeProperty(label: "status_code", required: true, type: .string), 
+            AWSShapeProperty(label: "resource_id", required: true, type: .string), 
+            AWSShapeProperty(label: "http_method", required: true, type: .string)
+        ]
         /// Specifies an update integration response request's API identifier.
         public let restApiId: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
@@ -1849,6 +2166,10 @@ extension Apigateway {
         public static var queryParams: [String: String] {
             return ["position": "position", "limit": "limit"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "position", required: false, type: .string), 
+            AWSShapeProperty(label: "limit", required: false, type: .integer)
+        ]
         /// The position of the current domain names to get information about.
         public let position: String?
         /// The maximum number of DomainName resources in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
@@ -1868,6 +2189,13 @@ extension Apigateway {
     public struct DocumentationPartLocation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "method", required: false, type: .string), 
+            AWSShapeProperty(label: "path", required: false, type: .string), 
+            AWSShapeProperty(label: "statusCode", required: false, type: .string), 
+            AWSShapeProperty(label: "type", required: true, type: .enum)
+        ]
         /// The name of the targeted API entity. It is a valid and required field for the API entity types of AUTHORIZER, MODEL, PATH_PARAMETER, QUERY_PARAMETER, REQUEST_HEADER, REQUEST_BODY and RESPONSE_HEADER. It is an invalid field for any other entity type.
         public let name: String?
         /// The HTTP verb of a method. It is a valid field for the API entity types of METHOD, PATH_PARAMETER, QUERY_PARAMETER, REQUEST_HEADER, REQUEST_BODY, RESPONSE, RESPONSE_HEADER, and RESPONSE_BODY. The default value is * for any method. When an applicable child entity inherits the content of an entity of the same type with more general specifications of the other location attributes, the child entity's method attribute must match that of the parent entity exactly.
@@ -1900,6 +2228,10 @@ extension Apigateway {
     public struct MethodSnapshot: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "apiKeyRequired", required: false, type: .boolean), 
+            AWSShapeProperty(label: "authorizationType", required: false, type: .string)
+        ]
         /// Specifies whether the method requires a valid ApiKey.
         public let apiKeyRequired: Bool?
         /// Specifies the type of authorization used for the method.
@@ -1922,6 +2254,10 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "patchOperations", required: false, type: .list)
+        ]
         /// The ID of the RestApi you want to update.
         public let restApiId: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
@@ -1946,6 +2282,13 @@ extension Apigateway {
     public struct DomainName: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "certificateName", required: false, type: .string), 
+            AWSShapeProperty(label: "domainName", required: false, type: .string), 
+            AWSShapeProperty(label: "certificateArn", required: false, type: .string), 
+            AWSShapeProperty(label: "certificateUploadDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "distributionDomainName", required: false, type: .string)
+        ]
         /// The name of the certificate.
         public let certificateName: String?
         /// The name of the DomainName resource.
@@ -1983,6 +2326,13 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId", "stage_name": "stageName", "export_type": "exportType"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "stage_name", required: true, type: .string), 
+            AWSShapeProperty(label: "export_type", required: true, type: .string), 
+            AWSShapeProperty(label: "Accept", required: false, type: .string), 
+            AWSShapeProperty(label: "parameters", required: false, type: .map)
+        ]
         /// The identifier of the RestApi to be exported.
         public let restApiId: String
         /// The name of the Stage that will be exported.
@@ -2021,6 +2371,13 @@ extension Apigateway {
     public struct SdkConfigurationProperty: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "defaultValue", required: false, type: .string), 
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "required", required: false, type: .boolean), 
+            AWSShapeProperty(label: "friendlyName", required: false, type: .string)
+        ]
         /// The description of an SdkType configuration property.
         public let description: String?
         /// The default value of an SdkType configuration property.
@@ -2058,6 +2415,11 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "position", required: false, type: .string), 
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "limit", required: false, type: .integer)
+        ]
         /// The position of the next set of results in the Models resource to get information about.
         public let position: String?
         /// The RestApi identifier.
@@ -2085,6 +2447,16 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["resource_id": "resourceId", "status_code": "statusCode", "restapi_id": "restApiId", "http_method": "httpMethod"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "status_code", required: true, type: .string), 
+            AWSShapeProperty(label: "http_method", required: true, type: .string), 
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "responseTemplates", required: false, type: .map), 
+            AWSShapeProperty(label: "responseParameters", required: false, type: .map), 
+            AWSShapeProperty(label: "contentHandling", required: false, type: .enum), 
+            AWSShapeProperty(label: "resource_id", required: true, type: .string), 
+            AWSShapeProperty(label: "selectionPattern", required: false, type: .string)
+        ]
         /// Specifies the status code that is used to map the integration response to an existing MethodResponse.
         public let statusCode: String
         /// Specifies a put integration response request's HTTP method.
@@ -2143,6 +2515,10 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId", "resource_id": "resourceId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "resource_id", required: true, type: .string)
+        ]
         /// The RestApi identifier for the resource.
         public let restApiId: String
         /// The identifier for the Resource resource.
@@ -2164,6 +2540,10 @@ extension Apigateway {
     public struct Deployments: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "item", required: false, type: .list), 
+            AWSShapeProperty(label: "position", required: false, type: .string)
+        ]
         /// The current page of any Deployment resources in the collection of deployment resources.
         public let items: [Deployment]?
         public let position: String?
@@ -2189,6 +2569,10 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId", "stage_name": "stageName"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "stage_name", required: true, type: .string)
+        ]
         /// The API identifier of the stage to flush its cache.
         public let restApiId: String
         /// The name of the stage to flush its cache.
@@ -2210,6 +2594,11 @@ extension Apigateway {
     public struct BasePathMapping: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "basePath", required: false, type: .string), 
+            AWSShapeProperty(label: "restApiId", required: false, type: .string), 
+            AWSShapeProperty(label: "stage", required: false, type: .string)
+        ]
         /// The base path name that callers of the API must provide as part of the URL after the domain name.
         public let basePath: String?
         /// The name of the API.
@@ -2236,6 +2625,9 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["clientcertificate_id": "clientCertificateId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "clientcertificate_id", required: true, type: .string)
+        ]
         /// The identifier of the ClientCertificate resource to be described.
         public let clientCertificateId: String
 
@@ -2255,6 +2647,11 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId", "model_name": "modelName"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "patchOperations", required: false, type: .list), 
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "model_name", required: true, type: .string)
+        ]
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
         public let patchOperations: [PatchOperation]?
         /// The RestApi identifier under which the model exists.
@@ -2284,6 +2681,11 @@ extension Apigateway {
     public struct DocumentationPart: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "id", required: false, type: .string), 
+            AWSShapeProperty(label: "location", required: false, type: .structure), 
+            AWSShapeProperty(label: "properties", required: false, type: .string)
+        ]
         /// The DocumentationPart identifier, generated by Amazon API Gateway when the DocumentationPart is created.
         public let id: String?
         /// The location of the API entity to which the documentation applies. Valid fields depend on the targeted API entity type. All the valid location fields are not required. If not explicitly specified, a valid location field is treated as a wildcard and associated documentation content may be inherited by matching entities, unless overridden.
@@ -2307,6 +2709,10 @@ extension Apigateway {
     public struct ClientCertificates: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "item", required: false, type: .list), 
+            AWSShapeProperty(label: "position", required: false, type: .string)
+        ]
         /// The current page of any ClientCertificate resources in the collection of ClientCertificate resources.
         public let items: [ClientCertificate]?
         public let position: String?
@@ -2332,6 +2738,10 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["domain_name": "domainName", "base_path": "basePath"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "base_path", required: true, type: .string), 
+            AWSShapeProperty(label: "domain_name", required: true, type: .string)
+        ]
         /// The base path name of the BasePathMapping resource to delete.
         public let basePath: String
         /// The domain name of the BasePathMapping resource to delete.
@@ -2356,6 +2766,11 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["keyId": "keyId", "usageplanId": "usagePlanId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "keyId", required: true, type: .string), 
+            AWSShapeProperty(label: "usageplanId", required: true, type: .string), 
+            AWSShapeProperty(label: "patchOperations", required: false, type: .list)
+        ]
         /// The identifier of the API key associated with the usage plan in which a temporary extension is granted to the remaining quota.
         public let keyId: String
         /// The Id of the usage plan associated with the usage data.
@@ -2385,6 +2800,13 @@ extension Apigateway {
     public struct CreateUsagePlanRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "apiStages", required: false, type: .list), 
+            AWSShapeProperty(label: "name", required: true, type: .string), 
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "quota", required: false, type: .structure), 
+            AWSShapeProperty(label: "throttle", required: false, type: .structure)
+        ]
         /// The associated API stages of the usage plan.
         public let apiStages: [ApiStage]?
         /// The name of the usage plan.
@@ -2421,6 +2843,12 @@ extension Apigateway {
     public struct SdkType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "configurationProperties", required: false, type: .list), 
+            AWSShapeProperty(label: "id", required: false, type: .string), 
+            AWSShapeProperty(label: "friendlyName", required: false, type: .string)
+        ]
         /// The description of an SdkType.
         public let description: String?
         /// A list of configuration properties of an SdkType.
@@ -2452,6 +2880,19 @@ extension Apigateway {
     public struct Integration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "integrationResponses", required: false, type: .map), 
+            AWSShapeProperty(label: "cacheNamespace", required: false, type: .string), 
+            AWSShapeProperty(label: "uri", required: false, type: .string), 
+            AWSShapeProperty(label: "requestParameters", required: false, type: .map), 
+            AWSShapeProperty(label: "httpMethod", required: false, type: .string), 
+            AWSShapeProperty(label: "cacheKeyParameters", required: false, type: .list), 
+            AWSShapeProperty(label: "requestTemplates", required: false, type: .map), 
+            AWSShapeProperty(label: "contentHandling", required: false, type: .enum), 
+            AWSShapeProperty(label: "credentials", required: false, type: .string), 
+            AWSShapeProperty(label: "type", required: false, type: .enum), 
+            AWSShapeProperty(label: "passthroughBehavior", required: false, type: .string)
+        ]
         /// Specifies the integration's responses.   Example: Get integration responses of a method Request  GET /restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200 HTTP/1.1 Content-Type: application/json Host: apigateway.us-east-1.amazonaws.com X-Amz-Date: 20160607T191449Z Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/20160607/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash}  Response The successful response returns 200 OK status and a payload as follows: { "_links": { "curies": { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-response-{rel}.html", "name": "integrationresponse", "templated": true }, "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200", "title": "200" }, "integrationresponse:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200" }, "integrationresponse:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200" } }, "responseParameters": { "method.response.header.Content-Type": "'application/xml'" }, "responseTemplates": { "application/json": "$util.urlDecode(\"%3CkinesisStreams%3E#foreach($stream in $input.path('$.StreamNames'))%3Cstream%3E%3Cname%3E$stream%3C/name%3E%3C/stream%3E#end%3C/kinesisStreams%3E\")\n" }, "statusCode": "200" }    Creating an API 
         public let integrationResponses: [String: IntegrationResponse]?
         /// Specifies the integration's cache namespace.
@@ -2524,6 +2965,13 @@ extension Apigateway {
     public struct Usage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "values", required: false, type: .map), 
+            AWSShapeProperty(label: "position", required: false, type: .string), 
+            AWSShapeProperty(label: "startDate", required: false, type: .string), 
+            AWSShapeProperty(label: "usagePlanId", required: false, type: .string), 
+            AWSShapeProperty(label: "endDate", required: false, type: .string)
+        ]
         /// The usage data, as daily logs of used and remaining quotas, over the specified time interval indexed over the API keys in a usage plan. For example, {..., "values" : { "{api_key}" : [ [0, 100], [10, 90], [100, 10]]}, where {api_key} stands for an API key value and the daily log entry is of the format [used quota, remaining quota].
         public let items: [String: [[Int64]]]?
         public let position: String?
@@ -2554,6 +3002,12 @@ extension Apigateway {
     public struct Deployment: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "apiSummary", required: false, type: .map), 
+            AWSShapeProperty(label: "id", required: false, type: .string), 
+            AWSShapeProperty(label: "createdDate", required: false, type: .timestamp)
+        ]
         /// The description for the deployment resource.
         public let description: String?
         /// A summary of the RestApi at the date and time that the deployment resource was created.
@@ -2600,6 +3054,12 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "mode", required: false, type: .enum), 
+            AWSShapeProperty(label: "failonwarnings", required: false, type: .boolean), 
+            AWSShapeProperty(label: "body", required: true, type: .blob)
+        ]
         /// [Required] The identifier of an API of the to-be-imported documentation parts.
         public let restApiId: String
         /// A query parameter to indicate whether to overwrite (OVERWRITE) any existing DocumentationParts definition or to merge (MERGE) the new definition into the existing one. The default value is MERGE.
@@ -2629,6 +3089,13 @@ extension Apigateway {
     public struct ClientCertificate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "clientCertificateId", required: false, type: .string), 
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "expirationDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "pemEncodedCertificate", required: false, type: .string), 
+            AWSShapeProperty(label: "createdDate", required: false, type: .timestamp)
+        ]
         /// The identifier of the client certificate.
         public let clientCertificateId: String?
         /// The description of the client certificate.
@@ -2660,6 +3127,10 @@ extension Apigateway {
     public struct Authorizers: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "item", required: false, type: .list), 
+            AWSShapeProperty(label: "position", required: false, type: .string)
+        ]
         /// Gets the current list of Authorizer resources in the collection.
         public let items: [Authorizer]?
         public let position: String?
@@ -2682,6 +3153,11 @@ extension Apigateway {
     public struct DocumentationVersion: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "version", required: false, type: .string), 
+            AWSShapeProperty(label: "createdDate", required: false, type: .timestamp)
+        ]
         /// The description of the API documentation snapshot.
         public let description: String?
         /// The version identifier of the API documentation snapshot.
@@ -2708,6 +3184,12 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["domain_name": "domainName"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restApiId", required: true, type: .string), 
+            AWSShapeProperty(label: "domain_name", required: true, type: .string), 
+            AWSShapeProperty(label: "basePath", required: false, type: .string), 
+            AWSShapeProperty(label: "stage", required: false, type: .string)
+        ]
         /// The name of the API that you want to apply this mapping to.
         public let restApiId: String
         /// The domain name of the BasePathMapping resource to create.
@@ -2740,6 +3222,10 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["api_Key": "apiKey"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "api_Key", required: true, type: .string), 
+            AWSShapeProperty(label: "patchOperations", required: false, type: .list)
+        ]
         /// The identifier of the ApiKey resource to be updated.
         public let apiKey: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
@@ -2767,6 +3253,9 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string)
+        ]
         /// The identifier of the RestApi resource.
         public let restApiId: String
 
@@ -2783,6 +3272,9 @@ extension Apigateway {
     public struct Template: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "value", required: false, type: .string)
+        ]
         /// The Apache Velocity Template Language (VTL) template content used for the template resource.
         public let value: String?
 
@@ -2804,6 +3296,10 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["api_Key": "apiKey"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "includeValue", required: false, type: .boolean), 
+            AWSShapeProperty(label: "api_Key", required: true, type: .string)
+        ]
         /// A boolean flag to specify whether (true) or not (false) the result contains the key value.
         public let includeValue: Bool?
         /// The identifier of the ApiKey resource.
@@ -2827,6 +3323,11 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "location", required: true, type: .structure), 
+            AWSShapeProperty(label: "properties", required: true, type: .string)
+        ]
         /// [Required] The identifier of an API of the to-be-created documentation part.
         public let restApiId: String
         /// [Required] The location of the targeted API entity of the to-be-created documentation part.
@@ -2853,6 +3354,10 @@ extension Apigateway {
     public struct ThrottleSettings: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "burstLimit", required: false, type: .integer), 
+            AWSShapeProperty(label: "rateLimit", required: false, type: .double)
+        ]
         /// The API request burst limit, the maximum rate limit over a time ranging from one to a few seconds, depending upon whether the underlying token bucket is at its full capacity.
         public let burstLimit: Int32?
         /// The API request steady-state rate limit.
@@ -2875,6 +3380,12 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["http_method": "httpMethod", "status_code": "statusCode", "restapi_id": "restApiId", "resource_id": "resourceId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "status_code", required: true, type: .string), 
+            AWSShapeProperty(label: "resource_id", required: true, type: .string), 
+            AWSShapeProperty(label: "http_method", required: true, type: .string)
+        ]
         /// Specifies a delete integration response request's API identifier.
         public let restApiId: String
         /// Specifies a delete integration response request's status code.
@@ -2909,6 +3420,11 @@ extension Apigateway {
         public static var headerParams: [String: String] {
             return ["Content-Type": "contentType", "Content-Disposition": "contentDisposition"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Content-Type", required: false, type: .string), 
+            AWSShapeProperty(label: "Content-Disposition", required: false, type: .string), 
+            AWSShapeProperty(label: "body", required: false, type: .blob)
+        ]
         /// The content-type header value in the HTTP response.
         public let contentType: String?
         /// The content-disposition header value in the HTTP response.
@@ -2935,6 +3451,11 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId", "resource_id": "resourceId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "resource_id", required: true, type: .string), 
+            AWSShapeProperty(label: "patchOperations", required: false, type: .list)
+        ]
         /// The RestApi identifier for the Resource resource.
         public let restApiId: String
         /// The identifier of the Resource resource.
@@ -2967,6 +3488,12 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["http_method": "httpMethod", "restapi_id": "restApiId", "resource_id": "resourceId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "patchOperations", required: false, type: .list), 
+            AWSShapeProperty(label: "resource_id", required: true, type: .string), 
+            AWSShapeProperty(label: "http_method", required: true, type: .string)
+        ]
         /// Represents an update integration request's API identifier.
         public let restApiId: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
@@ -3001,6 +3528,10 @@ extension Apigateway {
     public struct UsagePlanKeys: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "item", required: false, type: .list), 
+            AWSShapeProperty(label: "position", required: false, type: .string)
+        ]
         /// Gets the current item of the usage plan keys collection.
         public let items: [UsagePlanKey]?
         public let position: String?
@@ -3023,6 +3554,10 @@ extension Apigateway {
     public struct ApiStage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "apiId", required: false, type: .string), 
+            AWSShapeProperty(label: "stage", required: false, type: .string)
+        ]
         /// API Id of the associated API stage in a usage plan.
         public let apiId: String?
         /// API stage name of the associated API stage in a usage plan.
@@ -3045,6 +3580,11 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId", "parent_id": "parentId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "pathPart", required: true, type: .string), 
+            AWSShapeProperty(label: "parent_id", required: true, type: .string)
+        ]
         /// The identifier of the RestApi for the resource. 
         public let restApiId: String
         /// The last path segment for this resource.
@@ -3083,6 +3623,12 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["http_method": "httpMethod", "status_code": "statusCode", "restapi_id": "restApiId", "resource_id": "resourceId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "status_code", required: true, type: .string), 
+            AWSShapeProperty(label: "resource_id", required: true, type: .string), 
+            AWSShapeProperty(label: "http_method", required: true, type: .string)
+        ]
         /// The RestApi identifier for the MethodResponse resource.
         public let restApiId: String
         /// The status code for the MethodResponse resource.
@@ -3120,6 +3666,14 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "position", required: false, type: .string), 
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "path", required: false, type: .string), 
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "type", required: false, type: .enum)
+        ]
         /// The position of the to-be-retrieved documentation part in the DocumentationParts collection.
         public let position: String?
         /// [Required] The identifier of the API of the to-be-retrieved documentation parts.
@@ -3159,6 +3713,10 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["deployment_id": "deploymentId", "restapi_id": "restApiId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "deployment_id", required: true, type: .string), 
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string)
+        ]
         /// The identifier of the Deployment resource to get information about.
         public let deploymentId: String
         /// The identifier of the RestApi resource for the Deployment resource to get information about.
@@ -3180,6 +3738,9 @@ extension Apigateway {
     public struct UpdateAccountRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "patchOperations", required: false, type: .list)
+        ]
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
         public let patchOperations: [PatchOperation]?
 
@@ -3199,6 +3760,9 @@ extension Apigateway {
     public struct GenerateClientCertificateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "description", required: false, type: .string)
+        ]
         /// The description of the ClientCertificate.
         public let description: String?
 
@@ -3214,6 +3778,10 @@ extension Apigateway {
     public struct DomainNames: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "item", required: false, type: .list), 
+            AWSShapeProperty(label: "position", required: false, type: .string)
+        ]
         /// The current page of any DomainName resources in the collection of DomainName resources.
         public let items: [DomainName]?
         public let position: String?
@@ -3255,6 +3823,14 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["http_method": "httpMethod", "status_code": "statusCode", "restapi_id": "restApiId", "resource_id": "resourceId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "status_code", required: true, type: .string), 
+            AWSShapeProperty(label: "responseModels", required: false, type: .map), 
+            AWSShapeProperty(label: "resource_id", required: true, type: .string), 
+            AWSShapeProperty(label: "http_method", required: true, type: .string), 
+            AWSShapeProperty(label: "responseParameters", required: false, type: .map)
+        ]
         /// The RestApi identifier for the Method resource.
         public let restApiId: String
         /// The method response's status code.
@@ -3302,6 +3878,15 @@ extension Apigateway {
     public struct UsagePlan: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "apiStages", required: false, type: .list), 
+            AWSShapeProperty(label: "quota", required: false, type: .structure), 
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "id", required: false, type: .string), 
+            AWSShapeProperty(label: "throttle", required: false, type: .structure), 
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "productCode", required: false, type: .string)
+        ]
         /// The associated API stages of a usage plan.
         public let apiStages: [ApiStage]?
         /// The maximum number of permitted requests per a given unit time interval.
@@ -3351,6 +3936,11 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "position", required: false, type: .string), 
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "limit", required: false, type: .integer)
+        ]
         /// The position of the next set of results in the current Resources resource to get information about.
         public let position: String?
         /// The RestApi identifier for the Resource.
@@ -3375,6 +3965,15 @@ extension Apigateway {
     public struct RestApi: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "binaryMediaTypes", required: false, type: .list), 
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "id", required: false, type: .string), 
+            AWSShapeProperty(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "version", required: false, type: .string), 
+            AWSShapeProperty(label: "warnings", required: false, type: .list)
+        ]
         /// The list of binary media types supported by the RestApi. By default, the RestApi supports only UTF-8-encoded text payloads.
         public let binaryMediaTypes: [String]?
         /// The API's name.
@@ -3414,6 +4013,13 @@ extension Apigateway {
     public struct IntegrationResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "responseTemplates", required: false, type: .map), 
+            AWSShapeProperty(label: "contentHandling", required: false, type: .enum), 
+            AWSShapeProperty(label: "statusCode", required: false, type: .string), 
+            AWSShapeProperty(label: "responseParameters", required: false, type: .map), 
+            AWSShapeProperty(label: "selectionPattern", required: false, type: .string)
+        ]
         /// Specifies the templates used to transform the integration response body. Response templates are represented as a key/value map, with a content-type as the key and a template as the value.
         public let responseTemplates: [String: String]?
         /// Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  CONVERT_TO_BINARY: Converts a response payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a response payload from a binary blob to a Base64-encoded string.  If this property is not defined, the response payload will be passed through from the integration response to the method response without modification.
@@ -3453,6 +4059,12 @@ extension Apigateway {
     public struct Account: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "features", required: false, type: .list), 
+            AWSShapeProperty(label: "apiKeyVersion", required: false, type: .string), 
+            AWSShapeProperty(label: "throttleSettings", required: false, type: .structure), 
+            AWSShapeProperty(label: "cloudwatchRoleArn", required: false, type: .string)
+        ]
         /// A list of features supported for the account. When usage plans are enabled, the features list will include an entry of "UsagePlans".
         public let features: [String]?
         /// The version of the API keys used for the account.
@@ -3483,6 +4095,18 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "name", required: true, type: .string), 
+            AWSShapeProperty(label: "identityValidationExpression", required: false, type: .string), 
+            AWSShapeProperty(label: "authorizerResultTtlInSeconds", required: false, type: .integer), 
+            AWSShapeProperty(label: "authorizerUri", required: false, type: .string), 
+            AWSShapeProperty(label: "authorizerCredentials", required: false, type: .string), 
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "identitySource", required: true, type: .string), 
+            AWSShapeProperty(label: "authType", required: false, type: .string), 
+            AWSShapeProperty(label: "providerARNs", required: false, type: .list), 
+            AWSShapeProperty(label: "type", required: true, type: .enum)
+        ]
         /// [Required] The name of the authorizer.
         public let name: String
         /// A validation expression for the incoming identity.
@@ -3544,6 +4168,10 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "deploymentId", required: false, type: .string), 
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string)
+        ]
         /// The stages' deployment identifiers.
         public let deploymentId: String?
         /// The stages' API identifiers.
@@ -3567,6 +4195,11 @@ extension Apigateway {
         public static var queryParams: [String: String] {
             return ["failonwarnings": "failOnWarnings"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "failonwarnings", required: false, type: .boolean), 
+            AWSShapeProperty(label: "body", required: true, type: .blob), 
+            AWSShapeProperty(label: "parameters", required: false, type: .map)
+        ]
         /// A query parameter to indicate whether to rollback the API creation (true) or not (false) when a warning is encountered. The default value is false.
         public let failOnWarnings: Bool?
         /// The POST request body containing external API definitions. Currently, only Swagger definition JSON files are supported.
@@ -3598,6 +4231,10 @@ extension Apigateway {
         public static var queryParams: [String: String] {
             return ["position": "position", "limit": "limit"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "position", required: false, type: .string), 
+            AWSShapeProperty(label: "limit", required: false, type: .integer)
+        ]
         /// The position of the current RestApis resource in the collection to get information about.
         public let position: String?
         /// The maximum number of RestApi resources in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
@@ -3620,6 +4257,12 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["sdk_type": "sdkType", "restapi_id": "restApiId", "stage_name": "stageName"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "sdk_type", required: true, type: .string), 
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "stage_name", required: true, type: .string), 
+            AWSShapeProperty(label: "parameters", required: false, type: .map)
+        ]
         /// The language for the generated SDK. Currently javascript, android, and objectivec (for iOS) are supported.
         public let sdkType: String
         /// The identifier of the RestApi that the SDK will use.
@@ -3654,6 +4297,15 @@ extension Apigateway {
     public struct TestInvokeAuthorizerResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "authorization", required: false, type: .map), 
+            AWSShapeProperty(label: "principalId", required: false, type: .string), 
+            AWSShapeProperty(label: "log", required: false, type: .string), 
+            AWSShapeProperty(label: "latency", required: false, type: .long), 
+            AWSShapeProperty(label: "policy", required: false, type: .string), 
+            AWSShapeProperty(label: "clientStatus", required: false, type: .integer), 
+            AWSShapeProperty(label: "claims", required: false, type: .map)
+        ]
         public let authorization: [String: [String]]?
         /// The principal identity returned by the Authorizer
         public let principalId: String?
@@ -3708,6 +4360,12 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["http_method": "httpMethod", "restapi_id": "restApiId", "resource_id": "resourceId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "patchOperations", required: false, type: .list), 
+            AWSShapeProperty(label: "resource_id", required: true, type: .string), 
+            AWSShapeProperty(label: "http_method", required: true, type: .string)
+        ]
         /// The RestApi identifier for the Method resource.
         public let restApiId: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
@@ -3742,6 +4400,18 @@ extension Apigateway {
     public struct Authorizer: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "id", required: false, type: .string), 
+            AWSShapeProperty(label: "identityValidationExpression", required: false, type: .string), 
+            AWSShapeProperty(label: "authorizerResultTtlInSeconds", required: false, type: .integer), 
+            AWSShapeProperty(label: "authorizerUri", required: false, type: .string), 
+            AWSShapeProperty(label: "authorizerCredentials", required: false, type: .string), 
+            AWSShapeProperty(label: "identitySource", required: false, type: .string), 
+            AWSShapeProperty(label: "authType", required: false, type: .string), 
+            AWSShapeProperty(label: "providerARNs", required: false, type: .list), 
+            AWSShapeProperty(label: "type", required: false, type: .enum)
+        ]
         /// [Required] The name of the authorizer.
         public let name: String?
         /// The identifier for the authorizer resource.
@@ -3796,6 +4466,11 @@ extension Apigateway {
         public static var queryParams: [String: String] {
             return ["keyId": "keyId", "position": "position", "limit": "limit"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "keyId", required: false, type: .string), 
+            AWSShapeProperty(label: "position", required: false, type: .string), 
+            AWSShapeProperty(label: "limit", required: false, type: .integer)
+        ]
         /// The identifier of the API key associated with the usage plans.
         public let keyId: String?
         /// The zero-based array index specifying the position of the to-be-retrieved UsagePlan resource.
@@ -3822,6 +4497,11 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId", "stage_name": "stageName"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "stage_name", required: true, type: .string), 
+            AWSShapeProperty(label: "patchOperations", required: false, type: .list)
+        ]
         /// The identifier of the RestApi resource for the Stage resource to change information about.
         public let restApiId: String
         /// The name of the Stage resource to change information about.
@@ -3854,6 +4534,10 @@ extension Apigateway {
         public static var queryParams: [String: String] {
             return ["position": "position", "limit": "limit"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "position", required: false, type: .string), 
+            AWSShapeProperty(label: "limit", required: false, type: .integer)
+        ]
         /// The position of the current ClientCertificate resource in the collection to get information about.
         public let position: String?
         /// The maximum number of ClientCertificate resources in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
@@ -3876,6 +4560,9 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["usageplanId": "usagePlanId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "usageplanId", required: true, type: .string)
+        ]
         /// The identifier of the UsagePlan resource to be retrieved.
         public let usagePlanId: String
 
@@ -3892,6 +4579,10 @@ extension Apigateway {
     public struct DocumentationParts: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "item", required: false, type: .list), 
+            AWSShapeProperty(label: "position", required: false, type: .string)
+        ]
         /// The current page of DocumentationPart resources in the DocumentationParts collection.
         public let items: [DocumentationPart]?
         public let position: String?
@@ -3925,6 +4616,10 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["part_id": "documentationPartId", "restapi_id": "restApiId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "part_id", required: true, type: .string), 
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string)
+        ]
         /// [Required] The identifier of the to-be-deleted documentation part.
         public let documentationPartId: String
         /// [Required] Specifies the identifier of an API of the to-be-deleted documentation part.
@@ -3946,6 +4641,13 @@ extension Apigateway {
     public struct CreateRestApiRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "binaryMediaTypes", required: false, type: .list), 
+            AWSShapeProperty(label: "cloneFrom", required: false, type: .string), 
+            AWSShapeProperty(label: "name", required: true, type: .string), 
+            AWSShapeProperty(label: "version", required: false, type: .string)
+        ]
         /// The description of the RestApi.
         public let description: String?
         /// The list of binary media types supported by the RestApi. By default, the RestApi supports only UTF-8-encoded text payloads.
@@ -3981,6 +4683,15 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "cacheClusterEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "cacheClusterSize", required: false, type: .enum), 
+            AWSShapeProperty(label: "variables", required: false, type: .map), 
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "stageName", required: false, type: .string), 
+            AWSShapeProperty(label: "stageDescription", required: false, type: .string)
+        ]
         /// Enables a cache cluster for the Stage resource specified in the input.
         public let cacheClusterEnabled: Bool?
         /// Specifies the cache cluster size for the Stage resource specified in the input, if a cache cluster is enabled.
@@ -4028,6 +4739,10 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["domain_name": "domainName", "base_path": "basePath"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "base_path", required: true, type: .string), 
+            AWSShapeProperty(label: "domain_name", required: true, type: .string)
+        ]
         /// The base path name that callers of the API must provide as part of the URL after the domain name. This value must be unique for all of the mappings across a single API. Leave this blank if you do not want callers to specify any base path name after the domain name.
         public let basePath: String
         /// The domain name of the BasePathMapping resource to be described.
@@ -4055,6 +4770,12 @@ extension Apigateway {
     public struct UsagePlanKey: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "value", required: false, type: .string), 
+            AWSShapeProperty(label: "id", required: false, type: .string), 
+            AWSShapeProperty(label: "type", required: false, type: .string)
+        ]
         /// The name of a usage plan key.
         public let name: String?
         /// The value of a usage plan key.
@@ -4082,6 +4803,10 @@ extension Apigateway {
     public struct DocumentationVersions: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "item", required: false, type: .list), 
+            AWSShapeProperty(label: "position", required: false, type: .string)
+        ]
         /// The current page of DocumentationVersion items from the DocumentationVersions collection of an API.
         public let items: [DocumentationVersion]?
         public let position: String?
@@ -4107,6 +4832,10 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["domain_name": "domainName"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "domain_name", required: true, type: .string), 
+            AWSShapeProperty(label: "patchOperations", required: false, type: .list)
+        ]
         /// The name of the DomainName resource to be changed.
         public let domainName: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
@@ -4134,6 +4863,11 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["resource_id": "resourceId", "restapi_id": "restApiId", "http_method": "httpMethod"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "http_method", required: true, type: .string), 
+            AWSShapeProperty(label: "resource_id", required: true, type: .string)
+        ]
         /// Specifies a delete integration request's API identifier.
         public let restApiId: String
         /// Specifies a delete integration request's HTTP method.
@@ -4163,6 +4897,11 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["usageplanId": "usagePlanId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "keyId", required: true, type: .string), 
+            AWSShapeProperty(label: "keyType", required: true, type: .string), 
+            AWSShapeProperty(label: "usageplanId", required: true, type: .string)
+        ]
         /// The identifier of a UsagePlanKey resource for a plan customer.
         public let keyId: String
         /// The type of a UsagePlanKey resource for a plan customer.
@@ -4192,6 +4931,9 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["domain_name": "domainName"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "domain_name", required: true, type: .string)
+        ]
         /// The name of the DomainName resource.
         public let domainName: String
 
@@ -4217,6 +4959,10 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId", "authorizer_id": "authorizerId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "authorizer_id", required: true, type: .string), 
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string)
+        ]
         /// The identifier of the Authorizer resource.
         public let authorizerId: String
         /// The RestApi identifier for the Authorizer resource.
@@ -4244,6 +4990,12 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["usageplanId": "usagePlanId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "position", required: false, type: .string), 
+            AWSShapeProperty(label: "limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "usageplanId", required: true, type: .string)
+        ]
         /// A query parameter specifying the zero-based index specifying the position of a usage plan key.
         public let position: String?
         /// A query parameter specifying the maximum number usage plan keys returned by the GET request.
@@ -4272,6 +5024,10 @@ extension Apigateway {
     public struct DocumentationPartIds: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ids", required: false, type: .list), 
+            AWSShapeProperty(label: "warnings", required: false, type: .list)
+        ]
         /// A list of the returned documentation part identifiers.
         public let ids: [String]?
         /// A list of warning messages reported during import of documentation parts.
@@ -4294,6 +5050,21 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["http_method": "httpMethod", "restapi_id": "restApiId", "resource_id": "resourceId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "cacheNamespace", required: false, type: .string), 
+            AWSShapeProperty(label: "uri", required: false, type: .string), 
+            AWSShapeProperty(label: "cacheKeyParameters", required: false, type: .list), 
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "type", required: true, type: .enum), 
+            AWSShapeProperty(label: "resource_id", required: true, type: .string), 
+            AWSShapeProperty(label: "requestParameters", required: false, type: .map), 
+            AWSShapeProperty(label: "http_method", required: true, type: .string), 
+            AWSShapeProperty(label: "requestTemplates", required: false, type: .map), 
+            AWSShapeProperty(label: "contentHandling", required: false, type: .enum), 
+            AWSShapeProperty(label: "credentials", required: false, type: .string), 
+            AWSShapeProperty(label: "httpMethod", required: false, type: .string), 
+            AWSShapeProperty(label: "passthroughBehavior", required: false, type: .string)
+        ]
         /// Specifies a put integration input's cache namespace.
         public let cacheNamespace: String?
         /// Specifies a put integration input's Uniform Resource Identifier (URI). When the integration type is HTTP or AWS, this field is required. For integration with Lambda as an AWS service proxy, this value is of the 'arn:aws:apigateway:&lt;region&gt;:lambda:path/2015-03-31/functions/&lt;functionArn&gt;/invocations' format.
@@ -4378,6 +5149,10 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["clientcertificate_id": "clientCertificateId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "clientcertificate_id", required: true, type: .string), 
+            AWSShapeProperty(label: "patchOperations", required: false, type: .list)
+        ]
         /// The identifier of the ClientCertificate resource to be updated.
         public let clientCertificateId: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
@@ -4405,6 +5180,9 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string)
+        ]
         /// The ID of the RestApi you want to delete.
         public let restApiId: String
 
@@ -4421,6 +5199,11 @@ extension Apigateway {
     public struct MethodResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "responseParameters", required: false, type: .map), 
+            AWSShapeProperty(label: "responseModels", required: false, type: .map), 
+            AWSShapeProperty(label: "statusCode", required: false, type: .string)
+        ]
         /// A key-value map specifying required or optional response parameters that Amazon API Gateway can send back to the caller. A key defines a method response header and the value specifies whether the associated method response header is required or not. The expression of the key must match the pattern method.response.header.{name}, where name is a valid and unique header name. Amazon API Gateway passes certain integration response data to the method response headers specified here according to the mapping you prescribe in the API's IntegrationResponse. The integration response data that can be mapped include an integration response header expressed in integration.response.header.{name}, a static value enclosed within a pair of single quotes (e.g., 'application/json'), or a JSON expression from the back-end response payload in the form of integration.response.body.{JSON-expression}, where JSON-expression is a valid JSON expression without the $ prefix.)
         public let responseParameters: [String: Bool]?
         /// Specifies the Model resources used for the response's content-type. Response models are represented as a key/value map, with a content-type as the key and a Model name as the value.
@@ -4455,6 +5238,10 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId", "model_name": "modelName"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "model_name", required: true, type: .string)
+        ]
         /// The ID of the RestApi under which the model exists.
         public let restApiId: String
         /// The name of the model for which to generate a template.
@@ -4476,6 +5263,13 @@ extension Apigateway {
     public struct Model: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "contentType", required: false, type: .string), 
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "schema", required: false, type: .string), 
+            AWSShapeProperty(label: "id", required: false, type: .string)
+        ]
         /// The description of the model.
         public let description: String?
         /// The content-type for the model.
@@ -4510,6 +5304,10 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId", "stage_name": "stageName"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "stage_name", required: true, type: .string)
+        ]
         /// The API identifier of the stage to flush.
         public let restApiId: String
         /// The name of the stage to flush.
@@ -4531,6 +5329,11 @@ extension Apigateway {
     public struct QuotaSettings: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "period", required: false, type: .enum), 
+            AWSShapeProperty(label: "offset", required: false, type: .integer), 
+            AWSShapeProperty(label: "limit", required: false, type: .integer)
+        ]
         /// The time period in which the limit applies. Valid values are "DAY", "WEEK" or "MONTH".
         public let period: QuotaPeriodType?
         /// The number of requests subtracted from the given limit in the initial time period.
@@ -4557,6 +5360,10 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["usageplanId": "usagePlanId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "usageplanId", required: true, type: .string), 
+            AWSShapeProperty(label: "patchOperations", required: false, type: .list)
+        ]
         /// The Id of the to-be-updated usage plan.
         public let usagePlanId: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
@@ -4581,6 +5388,9 @@ extension Apigateway {
     public struct Stages: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "item", required: false, type: .list)
+        ]
         /// An individual Stage resource.
         public let item: [Stage]?
 
@@ -4600,6 +5410,17 @@ extension Apigateway {
     public struct Method: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "authorizerId", required: false, type: .string), 
+            AWSShapeProperty(label: "methodResponses", required: false, type: .map), 
+            AWSShapeProperty(label: "requestModels", required: false, type: .map), 
+            AWSShapeProperty(label: "requestParameters", required: false, type: .map), 
+            AWSShapeProperty(label: "methodIntegration", required: false, type: .structure), 
+            AWSShapeProperty(label: "httpMethod", required: false, type: .string), 
+            AWSShapeProperty(label: "apiKeyRequired", required: false, type: .boolean), 
+            AWSShapeProperty(label: "authorizationType", required: false, type: .string), 
+            AWSShapeProperty(label: "operationName", required: false, type: .string)
+        ]
         /// The identifier of an Authorizer to use on this method. The authorizationType must be CUSTOM.
         public let authorizerId: String?
         /// Gets a method response associated with a given HTTP status code.   The collection of method responses are encapsulated in a key-value map, where the key is a response's HTTP status code and the value is a MethodResponse resource that specifies the response returned to the caller from the back end through the integration response. Example: Get a 200 OK response of a GET method Request  GET /restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200 HTTP/1.1 Content-Type: application/json Host: apigateway.us-east-1.amazonaws.com Content-Length: 117 X-Amz-Date: 20160613T215008Z Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/20160613/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash} Response The successful response returns a 200 OK status code and a payload similar to the following: { "_links": { "curies": { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-response-{rel}.html", "name": "methodresponse", "templated": true }, "self": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200", "title": "200" }, "methodresponse:delete": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200" }, "methodresponse:update": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200" } }, "responseModels": { "application/json": "Empty" }, "responseParameters": { "method.response.header.operator": false, "method.response.header.operand_2": false, "method.response.header.operand_1": false }, "statusCode": "200" }    AWS CLI 
@@ -4667,6 +5488,12 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["http_method": "httpMethod", "status_code": "statusCode", "restapi_id": "restApiId", "resource_id": "resourceId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "status_code", required: true, type: .string), 
+            AWSShapeProperty(label: "resource_id", required: true, type: .string), 
+            AWSShapeProperty(label: "http_method", required: true, type: .string)
+        ]
         /// The RestApi identifier for the MethodResponse resource.
         public let restApiId: String
         /// The status code identifier for the MethodResponse resource.
@@ -4701,6 +5528,9 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["usageplanId": "usagePlanId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "usageplanId", required: true, type: .string)
+        ]
         /// The Id of the to-be-deleted usage plan.
         public let usagePlanId: String
 
@@ -4720,6 +5550,11 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["part_id": "documentationPartId", "restapi_id": "restApiId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "part_id", required: true, type: .string), 
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "patchOperations", required: false, type: .list)
+        ]
         /// [Required] The identifier of the to-be-updated documentation part.
         public let documentationPartId: String
         /// [Required] The identifier of an API of the to-be-updated documentation part.
@@ -4749,6 +5584,15 @@ extension Apigateway {
     public struct CreateApiKeyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "generateDistinctId", required: false, type: .boolean), 
+            AWSShapeProperty(label: "value", required: false, type: .string), 
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "stageKeys", required: false, type: .list), 
+            AWSShapeProperty(label: "enabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "customerId", required: false, type: .string)
+        ]
         /// The name of the ApiKey.
         public let name: String?
         /// Specifies whether (true) or not (false) the key identifier is distinct from the created API key value.
@@ -4795,6 +5639,10 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId", "authorizer_id": "authorizerId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "authorizer_id", required: true, type: .string), 
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string)
+        ]
         /// The identifier of the Authorizer resource.
         public let authorizerId: String
         /// The RestApi identifier for the Authorizer resource.
@@ -4819,6 +5667,12 @@ extension Apigateway {
         public static var pathParams: [String: String] {
             return ["http_method": "httpMethod", "status_code": "statusCode", "restapi_id": "restApiId", "resource_id": "resourceId"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restapi_id", required: true, type: .string), 
+            AWSShapeProperty(label: "status_code", required: true, type: .string), 
+            AWSShapeProperty(label: "resource_id", required: true, type: .string), 
+            AWSShapeProperty(label: "http_method", required: true, type: .string)
+        ]
         /// Specifies a get integration response request's API identifier.
         public let restApiId: String
         /// Specifies a get integration response request's status code.

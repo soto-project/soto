@@ -32,6 +32,11 @@ extension Datapipeline {
     public struct PipelineObject: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "id", required: true, type: .string), 
+            AWSShapeProperty(label: "name", required: true, type: .string), 
+            AWSShapeProperty(label: "fields", required: true, type: .list)
+        ]
         /// The ID of the object.
         public let id: String
         /// The name of the object.
@@ -58,6 +63,9 @@ extension Datapipeline {
     public struct DescribePipelinesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "pipelineIds", required: true, type: .list)
+        ]
         /// The IDs of the pipelines to describe. You can pass as many as 25 identifiers in a single call. To obtain pipeline IDs, call ListPipelines.
         public let pipelineIds: [String]
 
@@ -74,6 +82,10 @@ extension Datapipeline {
     public struct RemoveTagsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "pipelineId", required: true, type: .string), 
+            AWSShapeProperty(label: "tagKeys", required: true, type: .list)
+        ]
         /// The ID of the pipeline.
         public let pipelineId: String
         /// The keys of the tags to remove.
@@ -95,6 +107,11 @@ extension Datapipeline {
     public struct PutPipelineDefinitionOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "errored", required: true, type: .boolean), 
+            AWSShapeProperty(label: "validationErrors", required: false, type: .list), 
+            AWSShapeProperty(label: "validationWarnings", required: false, type: .list)
+        ]
         /// Indicates whether there were validation errors, and the pipeline definition is stored but cannot be activated until you correct the pipeline and call PutPipelineDefinition to commit the corrected pipeline.
         public let errored: Bool
         /// The validation errors that are associated with the objects defined in pipelineObjects.
@@ -127,6 +144,10 @@ extension Datapipeline {
     public struct ParameterValue: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "id", required: true, type: .string), 
+            AWSShapeProperty(label: "stringValue", required: true, type: .string)
+        ]
         /// The ID of the parameter value.
         public let id: String
         /// The field value, expressed as a String.
@@ -148,6 +169,12 @@ extension Datapipeline {
     public struct TaskObject: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "pipelineId", required: false, type: .string), 
+            AWSShapeProperty(label: "objects", required: false, type: .map), 
+            AWSShapeProperty(label: "taskId", required: false, type: .string), 
+            AWSShapeProperty(label: "attemptId", required: false, type: .string)
+        ]
         /// The ID of the pipeline that provided the task.
         public let pipelineId: String?
         /// Connection information for the location where the task runner will publish the output of the task.
@@ -184,6 +211,12 @@ extension Datapipeline {
     public struct DescribeObjectsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "marker", required: false, type: .string), 
+            AWSShapeProperty(label: "pipelineId", required: true, type: .string), 
+            AWSShapeProperty(label: "evaluateExpressions", required: false, type: .boolean), 
+            AWSShapeProperty(label: "objectIds", required: true, type: .list)
+        ]
         /// The starting point for the results to be returned. For the first call, this value should be empty. As long as there are more results, continue to call DescribeObjects with the marker value from the previous call to retrieve the next set of results.
         public let marker: String?
         /// The ID of the pipeline that contains the object definitions.
@@ -213,6 +246,9 @@ extension Datapipeline {
     public struct EvaluateExpressionOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "evaluatedExpression", required: true, type: .string)
+        ]
         /// The evaluated expression.
         public let evaluatedExpression: String
 
@@ -229,6 +265,9 @@ extension Datapipeline {
     public struct PollForTaskOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "taskObject", required: false, type: .structure)
+        ]
         /// The information needed to complete the task that is being assigned to the task runner. One of the fields returned in this object is taskId, which contains an identifier for the task being assigned. The calling task runner uses taskId in subsequent calls to ReportTaskProgress and SetTaskStatus.
         public let taskObject: TaskObject?
 
@@ -244,6 +283,13 @@ extension Datapipeline {
     public struct PipelineDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "fields", required: true, type: .list), 
+            AWSShapeProperty(label: "name", required: true, type: .string), 
+            AWSShapeProperty(label: "pipelineId", required: true, type: .string), 
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "tags", required: false, type: .list)
+        ]
         /// A list of read-only fields that contain metadata about the pipeline: @userId, @accountId, and @pipelineState.
         public let fields: [Field]
         /// The name of the pipeline.
@@ -282,6 +328,12 @@ extension Datapipeline {
     public struct ValidatePipelineDefinitionInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "parameterValues", required: false, type: .list), 
+            AWSShapeProperty(label: "pipelineId", required: true, type: .string), 
+            AWSShapeProperty(label: "pipelineObjects", required: true, type: .list), 
+            AWSShapeProperty(label: "parameterObjects", required: false, type: .list)
+        ]
         /// The parameter values used with the pipeline.
         public let parameterValues: [ParameterValue]?
         /// The ID of the pipeline.
@@ -319,6 +371,11 @@ extension Datapipeline {
     public struct ValidatePipelineDefinitionOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "errored", required: true, type: .boolean), 
+            AWSShapeProperty(label: "validationErrors", required: false, type: .list), 
+            AWSShapeProperty(label: "validationWarnings", required: false, type: .list)
+        ]
         /// Indicates whether there were validation errors.
         public let errored: Bool
         /// Any validation errors that were found.
@@ -351,6 +408,11 @@ extension Datapipeline {
     public struct ActivatePipelineInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "parameterValues", required: false, type: .list), 
+            AWSShapeProperty(label: "pipelineId", required: true, type: .string), 
+            AWSShapeProperty(label: "startTimestamp", required: false, type: .timestamp)
+        ]
         /// A list of parameter values to pass to the pipeline at activation.
         public let parameterValues: [ParameterValue]?
         /// The ID of the pipeline.
@@ -379,6 +441,10 @@ extension Datapipeline {
     public struct ParameterAttribute: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "key", required: true, type: .string), 
+            AWSShapeProperty(label: "stringValue", required: true, type: .string)
+        ]
         /// The field identifier.
         public let key: String
         /// The field value, expressed as a String.
@@ -400,6 +466,9 @@ extension Datapipeline {
     public struct ReportTaskProgressOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "canceled", required: true, type: .boolean)
+        ]
         /// If true, the calling task runner should cancel processing of the task. The task runner does not need to call SetTaskStatus for canceled tasks.
         public let canceled: Bool
 
@@ -416,6 +485,10 @@ extension Datapipeline {
     public struct Operator: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "type", required: false, type: .enum), 
+            AWSShapeProperty(label: "values", required: false, type: .list)
+        ]
         ///  The logical operation to be performed: equal (EQ), equal reference (REF_EQ), less than or equal (LE), greater than or equal (GE), or between (BETWEEN). Equal reference (REF_EQ) can be used only with reference fields. The other comparison types can be used only with String fields. The comparison types you can use apply only to certain object fields, as detailed below.   The comparison operators EQ and REF_EQ act on the following fields:   name @sphere parent @componentParent @instanceParent @status @scheduledStartTime @scheduledEndTime @actualStartTime @actualEndTime   The comparison operators GE, LE, and BETWEEN act on the following fields:   @scheduledStartTime @scheduledEndTime @actualStartTime @actualEndTime  Note that fields beginning with the at sign (@) are read-only and set by the web service. When you name fields, you should choose names containing only alpha-numeric values, as symbols may be reserved by AWS Data Pipeline. User-defined fields that you add to a pipeline should prefix their name with the string "my".
         public let `type`: OperatorType?
         /// The value that the actual field value will be compared with.
@@ -435,6 +508,11 @@ extension Datapipeline {
     public struct PollForTaskInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "hostname", required: false, type: .string), 
+            AWSShapeProperty(label: "workerGroup", required: true, type: .string), 
+            AWSShapeProperty(label: "instanceIdentity", required: false, type: .structure)
+        ]
         /// The public DNS name of the calling task runner.
         public let hostname: String?
         /// The type of task the task runner is configured to accept and process. The worker group is set as a field on objects in the pipeline when they are created. You can only specify a single value for workerGroup in the call to PollForTask. There are no wildcard values permitted in workerGroup; the string must be an exact, case-sensitive, match.
@@ -476,6 +554,9 @@ extension Datapipeline {
     public struct CreatePipelineOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "pipelineId", required: true, type: .string)
+        ]
         /// The ID that AWS Data Pipeline assigns the newly created pipeline. For example, df-06372391ZG65EXAMPLE.
         public let pipelineId: String
 
@@ -492,6 +573,13 @@ extension Datapipeline {
     public struct QueryObjectsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "sphere", required: true, type: .string), 
+            AWSShapeProperty(label: "pipelineId", required: true, type: .string), 
+            AWSShapeProperty(label: "limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "query", required: false, type: .structure), 
+            AWSShapeProperty(label: "marker", required: false, type: .string)
+        ]
         /// Indicates whether the query applies to components or instances. The possible values are: COMPONENT, INSTANCE, and ATTEMPT.
         public let sphere: String
         /// The ID of the pipeline.
@@ -525,6 +613,10 @@ extension Datapipeline {
     public struct ValidationWarning: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "id", required: false, type: .string), 
+            AWSShapeProperty(label: "warnings", required: false, type: .list)
+        ]
         /// The identifier of the object that contains the validation warning.
         public let id: String?
         /// A description of the validation warning.
@@ -544,6 +636,10 @@ extension Datapipeline {
     public struct GetPipelineDefinitionInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "version", required: false, type: .string), 
+            AWSShapeProperty(label: "pipelineId", required: true, type: .string)
+        ]
         /// The version of the pipeline definition to retrieve. Set this parameter to latest (default) to use the last definition saved to the pipeline or active to use the last definition that was activated.
         public let version: String?
         /// The ID of the pipeline.
@@ -564,6 +660,11 @@ extension Datapipeline {
     public struct DescribeObjectsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "marker", required: false, type: .string), 
+            AWSShapeProperty(label: "hasMoreResults", required: false, type: .boolean), 
+            AWSShapeProperty(label: "pipelineObjects", required: true, type: .list)
+        ]
         /// The starting point for the next page of results. To view the next page of results, call DescribeObjects again with this marker value. If the value is null, there are no more results.
         public let marker: String?
         /// Indicates whether there are more results to return.
@@ -596,6 +697,11 @@ extension Datapipeline {
     public struct GetPipelineDefinitionOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "parameterValues", required: false, type: .list), 
+            AWSShapeProperty(label: "parameterObjects", required: false, type: .list), 
+            AWSShapeProperty(label: "pipelineObjects", required: false, type: .list)
+        ]
         /// The parameter values used in the pipeline definition.
         public let parameterValues: [ParameterValue]?
         /// The parameter objects used in the pipeline definition.
@@ -631,6 +737,10 @@ extension Datapipeline {
     public struct ParameterObject: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "id", required: true, type: .string), 
+            AWSShapeProperty(label: "attributes", required: true, type: .list)
+        ]
         /// The ID of the parameter object. 
         public let id: String
         /// The attributes of the parameter object.
@@ -652,6 +762,10 @@ extension Datapipeline {
     public struct Tag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "key", required: true, type: .string), 
+            AWSShapeProperty(label: "value", required: true, type: .string)
+        ]
         /// The key name of a tag defined by a user. For more information, see Controlling User Access to Pipelines in the AWS Data Pipeline Developer Guide.
         public let key: String
         /// The optional value portion of a tag defined by a user. For more information, see Controlling User Access to Pipelines in the AWS Data Pipeline Developer Guide.
@@ -673,6 +787,10 @@ extension Datapipeline {
     public struct Selector: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "operator", required: false, type: .structure), 
+            AWSShapeProperty(label: "fieldName", required: false, type: .string)
+        ]
         public let `operator`: Operator?
         /// The name of the field that the operator will be applied to. The field name is the "key" portion of the field definition in the pipeline definition syntax that is used by the AWS Data Pipeline API. If the field is not set on the object, the condition fails.
         public let fieldName: String?
@@ -691,6 +809,10 @@ extension Datapipeline {
     public struct PipelineIdName: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "id", required: false, type: .string), 
+            AWSShapeProperty(label: "name", required: false, type: .string)
+        ]
         /// The ID of the pipeline that was assigned by AWS Data Pipeline. This is a string of the form df-297EG78HU43EEXAMPLE.
         public let id: String?
         /// The name of the pipeline.
@@ -710,6 +832,9 @@ extension Datapipeline {
     public struct DeletePipelineInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "pipelineId", required: true, type: .string)
+        ]
         /// The ID of the pipeline.
         public let pipelineId: String
 
@@ -726,6 +851,11 @@ extension Datapipeline {
     public struct EvaluateExpressionInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "objectId", required: true, type: .string), 
+            AWSShapeProperty(label: "expression", required: true, type: .string), 
+            AWSShapeProperty(label: "pipelineId", required: true, type: .string)
+        ]
         /// The ID of the object.
         public let objectId: String
         /// The expression to evaluate.
@@ -752,6 +882,9 @@ extension Datapipeline {
     public struct DescribePipelinesOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "pipelineDescriptionList", required: true, type: .list)
+        ]
         /// An array of descriptions for the specified pipelines.
         public let pipelineDescriptionList: [PipelineDescription]
 
@@ -775,6 +908,10 @@ extension Datapipeline {
     public struct DeactivatePipelineInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "pipelineId", required: true, type: .string), 
+            AWSShapeProperty(label: "cancelActive", required: false, type: .boolean)
+        ]
         /// The ID of the pipeline.
         public let pipelineId: String
         /// Indicates whether to cancel any running objects. The default is true, which sets the state of any running objects to CANCELED. If this value is false, the pipeline is deactivated after all running objects finish.
@@ -803,6 +940,10 @@ extension Datapipeline {
     public struct ReportTaskProgressInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "fields", required: false, type: .list), 
+            AWSShapeProperty(label: "taskId", required: true, type: .string)
+        ]
         /// Key-value pairs that define the properties of the ReportTaskProgressInput object.
         public let fields: [Field]?
         /// The ID of the task assigned to the task runner. This value is provided in the response for PollForTask.
@@ -827,6 +968,12 @@ extension Datapipeline {
     public struct CreatePipelineInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "name", required: true, type: .string), 
+            AWSShapeProperty(label: "tags", required: false, type: .list), 
+            AWSShapeProperty(label: "uniqueId", required: true, type: .string)
+        ]
         /// The description for the pipeline.
         public let description: String?
         /// The name for the pipeline. You can use the same name for multiple pipelines associated with your AWS account, because AWS Data Pipeline assigns each pipeline a unique pipeline identifier.
@@ -860,6 +1007,9 @@ extension Datapipeline {
     public struct Query: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "selectors", required: false, type: .list)
+        ]
         /// List of selectors that define the query. An object must satisfy all of the selectors to match the query.
         public let selectors: [Selector]?
 
@@ -879,6 +1029,9 @@ extension Datapipeline {
     public struct ListPipelinesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "marker", required: false, type: .string)
+        ]
         /// The starting point for the results to be returned. For the first call, this value should be empty. As long as there are more results, continue to call ListPipelines with the marker value from the previous call to retrieve the next set of results.
         public let marker: String?
 
@@ -894,6 +1047,11 @@ extension Datapipeline {
     public struct SetStatusInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "objectIds", required: true, type: .list), 
+            AWSShapeProperty(label: "status", required: true, type: .string), 
+            AWSShapeProperty(label: "pipelineId", required: true, type: .string)
+        ]
         /// The IDs of the objects. The corresponding objects can be either physical or components, but not a mix of both types.
         public let objectIds: [String]
         /// The status to be set on all the objects specified in objectIds. For components, use PAUSE or RESUME. For instances, use TRY_CANCEL, RERUN, or MARK_FINISHED.
@@ -920,6 +1078,11 @@ extension Datapipeline {
     public struct ReportTaskRunnerHeartbeatInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "hostname", required: false, type: .string), 
+            AWSShapeProperty(label: "workerGroup", required: false, type: .string), 
+            AWSShapeProperty(label: "taskrunnerId", required: true, type: .string)
+        ]
         /// The public DNS name of the task runner.
         public let hostname: String?
         /// The type of task the task runner is configured to accept and process. The worker group is set as a field on objects in the pipeline when they are created. You can only specify a single value for workerGroup. There are no wildcard values permitted in workerGroup; the string must be an exact, case-sensitive, match.
@@ -944,6 +1107,9 @@ extension Datapipeline {
     public struct ReportTaskRunnerHeartbeatOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "terminate", required: true, type: .boolean)
+        ]
         /// Indicates whether the calling task runner should terminate.
         public let terminate: Bool
 
@@ -960,6 +1126,10 @@ extension Datapipeline {
     public struct AddTagsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "tags", required: true, type: .list), 
+            AWSShapeProperty(label: "pipelineId", required: true, type: .string)
+        ]
         /// The tags to add, as key/value pairs.
         public let tags: [Tag]
         /// The ID of the pipeline.
@@ -981,6 +1151,10 @@ extension Datapipeline {
     public struct InstanceIdentity: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "document", required: false, type: .string), 
+            AWSShapeProperty(label: "signature", required: false, type: .string)
+        ]
         /// A description of an EC2 instance that is generated when the instance is launched and exposed to the instance via the instance metadata service in the form of a JSON representation of an object.
         public let document: String?
         /// A signature which can be used to verify the accuracy and authenticity of the information provided in the instance identity document.
@@ -1000,6 +1174,13 @@ extension Datapipeline {
     public struct SetTaskStatusInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "errorMessage", required: false, type: .string), 
+            AWSShapeProperty(label: "taskId", required: true, type: .string), 
+            AWSShapeProperty(label: "errorStackTrace", required: false, type: .string), 
+            AWSShapeProperty(label: "errorId", required: false, type: .string), 
+            AWSShapeProperty(label: "taskStatus", required: true, type: .enum)
+        ]
         /// If an error occurred during the task, this value specifies a text description of the error. This value is set on the physical attempt object. It is used to display error information to the user. The web service does not parse this value.
         public let errorMessage: String?
         /// The ID of the task assigned to the task runner. This value is provided in the response for PollForTask.
@@ -1033,6 +1214,10 @@ extension Datapipeline {
     public struct ValidationError: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "id", required: false, type: .string), 
+            AWSShapeProperty(label: "errors", required: false, type: .list)
+        ]
         /// The identifier of the object that contains the validation error.
         public let id: String?
         /// A description of the validation error.
@@ -1068,6 +1253,12 @@ extension Datapipeline {
     public struct PutPipelineDefinitionInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "parameterValues", required: false, type: .list), 
+            AWSShapeProperty(label: "pipelineId", required: true, type: .string), 
+            AWSShapeProperty(label: "pipelineObjects", required: true, type: .list), 
+            AWSShapeProperty(label: "parameterObjects", required: false, type: .list)
+        ]
         /// The parameter values used with the pipeline.
         public let parameterValues: [ParameterValue]?
         /// The ID of the pipeline.
@@ -1105,6 +1296,11 @@ extension Datapipeline {
     public struct QueryObjectsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "marker", required: false, type: .string), 
+            AWSShapeProperty(label: "hasMoreResults", required: false, type: .boolean), 
+            AWSShapeProperty(label: "ids", required: false, type: .list)
+        ]
         /// The starting point for the next page of results. To view the next page of results, call QueryObjects again with this marker value. If the value is null, there are no more results.
         public let marker: String?
         /// Indicates whether there are more results that can be obtained by a subsequent call.
@@ -1128,6 +1324,11 @@ extension Datapipeline {
     public struct ListPipelinesOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "marker", required: false, type: .string), 
+            AWSShapeProperty(label: "hasMoreResults", required: false, type: .boolean), 
+            AWSShapeProperty(label: "pipelineIdList", required: true, type: .list)
+        ]
         /// The starting point for the next page of results. To view the next page of results, call ListPipelinesOutput again with this marker value. If the value is null, there are no more results.
         public let marker: String?
         /// Indicates whether there are more results that can be obtained by a subsequent call.
@@ -1152,6 +1353,11 @@ extension Datapipeline {
     public struct Field: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "key", required: true, type: .string), 
+            AWSShapeProperty(label: "refValue", required: false, type: .string), 
+            AWSShapeProperty(label: "stringValue", required: false, type: .string)
+        ]
         /// The field identifier.
         public let key: String
         /// The field value, expressed as the identifier of another object.

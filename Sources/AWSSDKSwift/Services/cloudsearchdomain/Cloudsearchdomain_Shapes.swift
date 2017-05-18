@@ -32,6 +32,10 @@ extension Cloudsearchdomain {
     public struct Bucket: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "value", required: false, type: .string), 
+            AWSShapeProperty(label: "count", required: false, type: .long)
+        ]
         /// The facet value being counted.
         public let value: String?
         /// The number of hits that contain the facet value in the specified facet field.
@@ -51,6 +55,10 @@ extension Cloudsearchdomain {
     public struct SuggestResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "status", required: false, type: .structure), 
+            AWSShapeProperty(label: "suggest", required: false, type: .structure)
+        ]
         /// The status of a SuggestRequest. Contains the resource ID (rid) and how long it took to process the request (timems).
         public let status: SuggestStatus?
         /// Container for the matching search suggestion information.
@@ -78,6 +86,16 @@ extension Cloudsearchdomain {
     public struct FieldStats: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "stddev", required: false, type: .double), 
+            AWSShapeProperty(label: "max", required: false, type: .string), 
+            AWSShapeProperty(label: "count", required: false, type: .long), 
+            AWSShapeProperty(label: "min", required: false, type: .string), 
+            AWSShapeProperty(label: "missing", required: false, type: .long), 
+            AWSShapeProperty(label: "sumOfSquares", required: false, type: .double), 
+            AWSShapeProperty(label: "sum", required: false, type: .double), 
+            AWSShapeProperty(label: "mean", required: false, type: .string)
+        ]
         /// The standard deviation of the values in the specified field in the result set.
         public let stddev: Double?
         /// The maximum value found in the specified field in the result set. If the field is numeric (int, int-array, double, or double-array), max is the string representation of a double-precision 64-bit floating point value. If the field is date or date-array, max is the string representation of a date with the format specified in IETF RFC3339: yyyy-mm-ddTHH:mm:ss.SSSZ.
@@ -121,6 +139,10 @@ extension Cloudsearchdomain {
     public struct SearchStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "rid", required: false, type: .string), 
+            AWSShapeProperty(label: "timems", required: false, type: .long)
+        ]
         /// The encrypted resource ID for the request.
         public let rid: String?
         /// How long it took to process the request, in milliseconds.
@@ -140,6 +162,12 @@ extension Cloudsearchdomain {
     public struct SearchResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "hits", required: false, type: .structure), 
+            AWSShapeProperty(label: "status", required: false, type: .structure), 
+            AWSShapeProperty(label: "stats", required: false, type: .map), 
+            AWSShapeProperty(label: "facets", required: false, type: .map)
+        ]
         /// The documents that match the search criteria.
         public let hits: Hits?
         /// The status information returned for the search request.
@@ -188,6 +216,11 @@ extension Cloudsearchdomain {
         public static var queryParams: [String: String] {
             return ["suggester": "suggester", "size": "size", "q": "query"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Suggester", required: true, type: .string), 
+            AWSShapeProperty(label: "Size", required: false, type: .long), 
+            AWSShapeProperty(label: "Q", required: true, type: .string)
+        ]
         /// Specifies the name of the suggester to use to find suggested matches.
         public let suggester: String
         /// Specifies the maximum number of suggestions to return. 
@@ -213,6 +246,11 @@ extension Cloudsearchdomain {
     public struct SuggestModel: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "suggestions", required: false, type: .list), 
+            AWSShapeProperty(label: "found", required: false, type: .long), 
+            AWSShapeProperty(label: "query", required: false, type: .string)
+        ]
         /// The documents that match the query string.
         public let suggestions: [SuggestionMatch]?
         /// The number of documents that were found to match the query string.
@@ -246,6 +284,9 @@ extension Cloudsearchdomain {
     public struct DocumentServiceWarning: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "message", required: false, type: .string)
+        ]
         /// The description for a warning returned by the document service.
         public let message: String?
 
@@ -261,6 +302,12 @@ extension Cloudsearchdomain {
     public struct Hits: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "hit", required: false, type: .list), 
+            AWSShapeProperty(label: "cursor", required: false, type: .string), 
+            AWSShapeProperty(label: "start", required: false, type: .long), 
+            AWSShapeProperty(label: "found", required: false, type: .long)
+        ]
         /// A document that matches the search request.
         public let hit: [Hit]?
         /// A cursor that can be used to retrieve the next set of matching documents when you want to page through a large result set.
@@ -292,6 +339,11 @@ extension Cloudsearchdomain {
     public struct SuggestionMatch: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "id", required: false, type: .string), 
+            AWSShapeProperty(label: "score", required: false, type: .long), 
+            AWSShapeProperty(label: "suggestion", required: false, type: .string)
+        ]
         /// The document ID of the suggested document.
         public let id: String?
         /// The relevance score of a suggested match.
@@ -318,6 +370,10 @@ extension Cloudsearchdomain {
         public static var headerParams: [String: String] {
             return ["Content-Type": "contentType"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "documents", required: true, type: .blob), 
+            AWSShapeProperty(label: "Content-Type", required: true, type: .enum)
+        ]
         /// A batch of documents formatted in JSON or HTML.
         public let documents: Data
         /// The format of the batch you are uploading. Amazon CloudSearch supports two document batch formats:  application/json application/xml 
@@ -339,6 +395,9 @@ extension Cloudsearchdomain {
     public struct BucketInfo: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "buckets", required: false, type: .list)
+        ]
         /// A list of the calculated facet values and counts.
         public let buckets: [Bucket]?
 
@@ -358,6 +417,10 @@ extension Cloudsearchdomain {
     public struct SuggestStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "rid", required: false, type: .string), 
+            AWSShapeProperty(label: "timems", required: false, type: .long)
+        ]
         /// The encrypted resource ID for the request.
         public let rid: String?
         /// How long it took to process the request, in milliseconds.
@@ -377,6 +440,12 @@ extension Cloudsearchdomain {
     public struct Hit: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "fields", required: false, type: .map), 
+            AWSShapeProperty(label: "id", required: false, type: .string), 
+            AWSShapeProperty(label: "exprs", required: false, type: .map), 
+            AWSShapeProperty(label: "highlights", required: false, type: .map)
+        ]
         /// The fields returned from a document that matches the search request.
         public let fields: [String: [String]]?
         /// The document ID of a document that matches the search request.
@@ -424,6 +493,22 @@ extension Cloudsearchdomain {
         public static var queryParams: [String: String] {
             return ["sort": "sort", "expr": "expr", "size": "size", "highlight": "highlight", "q.options": "queryOptions", "q": "query", "start": "start", "stats": "stats", "facet": "facet", "fq": "filterQuery", "return": "return", "partial": "partial", "cursor": "cursor", "q.parser": "queryParser"]
         }
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Sort", required: false, type: .string), 
+            AWSShapeProperty(label: "Expr", required: false, type: .string), 
+            AWSShapeProperty(label: "Size", required: false, type: .long), 
+            AWSShapeProperty(label: "Highlight", required: false, type: .string), 
+            AWSShapeProperty(label: "Q", required: true, type: .string), 
+            AWSShapeProperty(label: "Start", required: false, type: .long), 
+            AWSShapeProperty(label: "Stats", required: false, type: .string), 
+            AWSShapeProperty(label: "Q.parser", required: false, type: .enum), 
+            AWSShapeProperty(label: "Facet", required: false, type: .string), 
+            AWSShapeProperty(label: "Fq", required: false, type: .string), 
+            AWSShapeProperty(label: "Return", required: false, type: .string), 
+            AWSShapeProperty(label: "Partial", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Cursor", required: false, type: .string), 
+            AWSShapeProperty(label: "Q.options", required: false, type: .string)
+        ]
         /// Specifies the fields or custom expressions to use to sort the search results. Multiple fields or expressions are specified as a comma-separated list. You must specify the sort direction (asc or desc) for each field; for example, year desc,title asc. To use a field to sort results, the field must be sort-enabled in the domain configuration. Array type fields cannot be used for sorting. If no sort parameter is specified, results are sorted by their default relevance scores in descending order: _score desc. You can also sort by document ID (_id asc) and version (_version desc). For more information, see Sorting Results in the Amazon CloudSearch Developer Guide.
         public let sort: String?
         /// Defines one or more numeric expressions that can be used to sort results or specify search or filter criteria. You can also specify expressions as return fields.  You specify the expressions in JSON using the form {"EXPRESSIONNAME":"EXPRESSION"}. You can define and use multiple expressions in a search request. For example:  {"expression1":"_score*rating", "expression2":"(1/rank)*year"}   For information about the variables, operators, and functions you can use in expressions, see Writing Expressions in the Amazon CloudSearch Developer Guide.
@@ -492,6 +577,12 @@ extension Cloudsearchdomain {
     public struct UploadDocumentsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "status", required: false, type: .string), 
+            AWSShapeProperty(label: "deletes", required: false, type: .long), 
+            AWSShapeProperty(label: "adds", required: false, type: .long), 
+            AWSShapeProperty(label: "warnings", required: false, type: .list)
+        ]
         /// The status of an UploadDocumentsRequest.
         public let status: String?
         /// The number of documents that were deleted from the search domain.

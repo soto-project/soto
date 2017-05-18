@@ -40,6 +40,9 @@ extension Ds {
     public struct DeleteDirectoryResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DirectoryId", required: false, type: .string)
+        ]
         /// The directory identifier.
         public let directoryId: String?
 
@@ -62,6 +65,10 @@ extension Ds {
     public struct DeleteTrustRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DeleteAssociatedConditionalForwarder", required: false, type: .boolean), 
+            AWSShapeProperty(label: "TrustId", required: true, type: .string)
+        ]
         /// Delete a conditional forwarder as part of a DeleteTrustRequest.
         public let deleteAssociatedConditionalForwarder: Bool?
         /// The Trust ID of the trust relationship to be deleted.
@@ -82,6 +89,12 @@ extension Ds {
     public struct DescribeTrustsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TrustIds", required: false, type: .list), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "DirectoryId", required: false, type: .string)
+        ]
         /// A list of identifiers of the trust relationships for which to obtain the information. If this member is null, all trust relationships that belong to the current account are returned. An empty list results in an InvalidParameterException being thrown.
         public let trustIds: [String]?
         /// The maximum number of objects to return.
@@ -109,6 +122,9 @@ extension Ds {
     public struct CreateTrustResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TrustId", required: false, type: .string)
+        ]
         /// A unique identifier for the trust relationship that was created.
         public let trustId: String?
 
@@ -124,6 +140,10 @@ extension Ds {
     public struct RemoveIpRoutesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeProperty(label: "CidrIps", required: true, type: .list)
+        ]
         /// Identifier (ID) of the directory from which you want to remove the IP addresses.
         public let directoryId: String
         /// IP address blocks that you want to remove.
@@ -145,6 +165,10 @@ extension Ds {
     public struct Tag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Value", required: true, type: .string), 
+            AWSShapeProperty(label: "Key", required: true, type: .string)
+        ]
         /// The optional value of the tag. The string value can be Unicode characters. The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         public let value: String
         /// Required name of the tag. The string value can be Unicode characters and cannot be prefixed with "aws:". The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
@@ -174,6 +198,11 @@ extension Ds {
     public struct Computer: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ComputerId", required: false, type: .string), 
+            AWSShapeProperty(label: "ComputerName", required: false, type: .string), 
+            AWSShapeProperty(label: "ComputerAttributes", required: false, type: .list)
+        ]
         /// The identifier of the computer.
         public let computerId: String?
         /// The computer name.
@@ -214,6 +243,10 @@ extension Ds {
     public struct Attribute: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Value", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: false, type: .string)
+        ]
         /// The value of the attribute.
         public let value: String?
         /// The name of the attribute.
@@ -233,6 +266,10 @@ extension Ds {
     public struct CreateAliasRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Alias", required: true, type: .string), 
+            AWSShapeProperty(label: "DirectoryId", required: true, type: .string)
+        ]
         /// The requested alias. The alias must be unique amongst all aliases in AWS. This operation throws an EntityAlreadyExistsException error if the alias already exists.
         public let alias: String
         /// The identifier of the directory for which to create the alias.
@@ -254,6 +291,14 @@ extension Ds {
     public struct DirectoryConnectSettingsDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "SubnetIds", required: false, type: .list), 
+            AWSShapeProperty(label: "SecurityGroupId", required: false, type: .string), 
+            AWSShapeProperty(label: "AvailabilityZones", required: false, type: .list), 
+            AWSShapeProperty(label: "VpcId", required: false, type: .string), 
+            AWSShapeProperty(label: "CustomerUserName", required: false, type: .string), 
+            AWSShapeProperty(label: "ConnectIps", required: false, type: .list)
+        ]
         /// A list of subnet identifiers in the VPC that the AD connector is in.
         public let subnetIds: [String]?
         /// The security group identifier for the AD Connector directory.
@@ -289,6 +334,10 @@ extension Ds {
     public struct DescribeSnapshotsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Snapshots", required: false, type: .list)
+        ]
         /// If not null, more results are available. Pass this value in the NextToken member of a subsequent call to DescribeSnapshots.
         public let nextToken: String?
         /// The list of Snapshot objects that were retrieved. It is possible that this list contains less than the number of items specified in the Limit member of the request. This occurs if there are less than the requested number of items left to retrieve, or if the limitations of the operation have been exceeded.
@@ -312,6 +361,10 @@ extension Ds {
     public struct AddTagsToResourceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
+            AWSShapeProperty(label: "Tags", required: true, type: .list)
+        ]
         /// Identifier (ID) for the directory to which to add the tag.
         public let resourceId: String
         /// The tags to be assigned to the directory.
@@ -333,6 +386,9 @@ extension Ds {
     public struct DeleteDirectoryRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DirectoryId", required: true, type: .string)
+        ]
         /// The identifier of the directory to delete.
         public let directoryId: String
 
@@ -349,6 +405,10 @@ extension Ds {
     public struct IpRoute: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "CidrIp", required: false, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
+        ]
         /// IP address block using CIDR format, for example 10.0.0.0/24. This is often the address block of the DNS server used for your on-premises domain. For a single IP address use a CIDR address block with /32. For example 10.0.0.0/32.
         public let cidrIp: String?
         /// Description of the address block.
@@ -368,6 +428,26 @@ extension Ds {
     public struct DirectoryDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ShortName", required: false, type: .string), 
+            AWSShapeProperty(label: "LaunchTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "DirectoryId", required: false, type: .string), 
+            AWSShapeProperty(label: "Stage", required: false, type: .enum), 
+            AWSShapeProperty(label: "Description", required: false, type: .string), 
+            AWSShapeProperty(label: "StageLastUpdatedDateTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "VpcSettings", required: false, type: .structure), 
+            AWSShapeProperty(label: "SsoEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "RadiusSettings", required: false, type: .structure), 
+            AWSShapeProperty(label: "StageReason", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "AccessUrl", required: false, type: .string), 
+            AWSShapeProperty(label: "Size", required: false, type: .enum), 
+            AWSShapeProperty(label: "Alias", required: false, type: .string), 
+            AWSShapeProperty(label: "RadiusStatus", required: false, type: .enum), 
+            AWSShapeProperty(label: "Type", required: false, type: .enum), 
+            AWSShapeProperty(label: "ConnectSettings", required: false, type: .structure), 
+            AWSShapeProperty(label: "DnsIpAddrs", required: false, type: .list)
+        ]
         /// The short name of the directory.
         public let shortName: String?
         /// Specifies when the directory was created.
@@ -451,6 +531,11 @@ extension Ds {
     public struct UpdateConditionalForwarderRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeProperty(label: "DnsIpAddrs", required: true, type: .list), 
+            AWSShapeProperty(label: "RemoteDomainName", required: true, type: .string)
+        ]
         /// The directory ID of the AWS directory for which to update the conditional forwarder.
         public let directoryId: String
         /// The updated IP addresses of the remote DNS server associated with the conditional forwarder.
@@ -477,6 +562,18 @@ extension Ds {
     public struct Trust: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "RemoteDomainName", required: false, type: .string), 
+            AWSShapeProperty(label: "LastUpdatedDateTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "TrustType", required: false, type: .enum), 
+            AWSShapeProperty(label: "TrustStateReason", required: false, type: .string), 
+            AWSShapeProperty(label: "DirectoryId", required: false, type: .string), 
+            AWSShapeProperty(label: "TrustState", required: false, type: .enum), 
+            AWSShapeProperty(label: "CreatedDateTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "TrustId", required: false, type: .string), 
+            AWSShapeProperty(label: "StateLastUpdatedDateTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "TrustDirection", required: false, type: .enum)
+        ]
         /// The Fully Qualified Domain Name (FQDN) of the external domain involved in the trust relationship.
         public let remoteDomainName: String?
         /// The date and time that the trust relationship was last updated.
@@ -528,6 +625,11 @@ extension Ds {
     public struct ListIpRoutesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        ]
         /// Identifier (ID) of the directory for which you want to retrieve the IP addresses.
         public let directoryId: String
         /// The ListIpRoutes.NextToken value from a previous call to ListIpRoutes. Pass null if this is the first call.
@@ -567,6 +669,13 @@ extension Ds {
     public struct EventTopic: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TopicArn", required: false, type: .string), 
+            AWSShapeProperty(label: "TopicName", required: false, type: .string), 
+            AWSShapeProperty(label: "CreatedDateTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Status", required: false, type: .enum), 
+            AWSShapeProperty(label: "DirectoryId", required: false, type: .string)
+        ]
         /// The SNS topic ARN (Amazon Resource Name).
         public let topicArn: String?
         /// The name of an AWS SNS topic the receives status messages from the directory.
@@ -598,6 +707,10 @@ extension Ds {
     public struct DirectoryVpcSettings: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "VpcId", required: true, type: .string), 
+            AWSShapeProperty(label: "SubnetIds", required: true, type: .list)
+        ]
         /// The identifier of the VPC in which to create the directory.
         public let vpcId: String
         /// The identifiers of the subnets for the directory servers. The two subnets must be in different Availability Zones. AWS Directory Service creates a directory server and a DNS server in each of these subnets.
@@ -619,6 +732,11 @@ extension Ds {
     public struct ListTagsForResourceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        ]
         /// Identifier (ID) of the directory for which you want to retrieve tags.
         public let resourceId: String
         /// Reserved for future use.
@@ -643,6 +761,10 @@ extension Ds {
     public struct DescribeTrustsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Trusts", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        ]
         /// The list of Trust objects that were retrieved. It is possible that this list contains less than the number of items specified in the Limit member of the request. This occurs if there are less than the requested number of items left to retrieve, or if the limitations of the operation have been exceeded.
         public let trusts: [Trust]?
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to DescribeTrusts to retrieve the next set of items.
@@ -666,6 +788,13 @@ extension Ds {
     public struct CreateMicrosoftADRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "VpcSettings", required: true, type: .structure), 
+            AWSShapeProperty(label: "ShortName", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "Password", required: true, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
+        ]
         public let vpcSettings: DirectoryVpcSettings
         /// The NetBIOS name for your domain. A short identifier for your domain, such as CORP. If you don't specify a NetBIOS name, it will default to the first part of your directory DNS. For example, CORP for the directory DNS corp.example.com. 
         public let shortName: String?
@@ -707,6 +836,17 @@ extension Ds {
     public struct DirectoryLimits: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "CloudOnlyDirectoriesLimit", required: false, type: .integer), 
+            AWSShapeProperty(label: "CloudOnlyDirectoriesLimitReached", required: false, type: .boolean), 
+            AWSShapeProperty(label: "ConnectedDirectoriesCurrentCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "CloudOnlyMicrosoftADCurrentCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "CloudOnlyDirectoriesCurrentCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "CloudOnlyMicrosoftADLimit", required: false, type: .integer), 
+            AWSShapeProperty(label: "CloudOnlyMicrosoftADLimitReached", required: false, type: .boolean), 
+            AWSShapeProperty(label: "ConnectedDirectoriesLimitReached", required: false, type: .boolean), 
+            AWSShapeProperty(label: "ConnectedDirectoriesLimit", required: false, type: .integer)
+        ]
         /// The maximum number of cloud directories allowed in the region.
         public let cloudOnlyDirectoriesLimit: Int32?
         /// Indicates if the cloud directory limit has been reached.
@@ -754,6 +894,11 @@ extension Ds {
     public struct ListSchemaExtensionsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        ]
         /// The identifier of the directory from which to retrieve the schema extension information.
         public let directoryId: String
         /// The ListSchemaExtensions.NextToken value from a previous call to ListSchemaExtensions. Pass null if this is the first call.
@@ -778,6 +923,10 @@ extension Ds {
     public struct DeregisterEventTopicRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TopicName", required: true, type: .string), 
+            AWSShapeProperty(label: "DirectoryId", required: true, type: .string)
+        ]
         /// The name of the SNS topic from which to remove the directory as a publisher.
         public let topicName: String
         /// The Directory ID to remove as a publisher. This directory will no longer send messages to the specified SNS topic.
@@ -807,6 +956,9 @@ extension Ds {
     public struct GetDirectoryLimitsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DirectoryLimits", required: false, type: .structure)
+        ]
         /// A DirectoryLimits object that contains the directory limits for the current region.
         public let directoryLimits: DirectoryLimits?
 
@@ -822,6 +974,9 @@ extension Ds {
     public struct ConnectDirectoryResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DirectoryId", required: false, type: .string)
+        ]
         /// The identifier of the new directory.
         public let directoryId: String?
 
@@ -843,6 +998,10 @@ extension Ds {
     public struct DescribeConditionalForwardersRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "RemoteDomainNames", required: false, type: .list), 
+            AWSShapeProperty(label: "DirectoryId", required: true, type: .string)
+        ]
         /// The fully qualified domain names (FQDN) of the remote domains for which to get the list of associated conditional forwarders. If this member is null, all conditional forwarders are returned.
         public let remoteDomainNames: [String]?
         /// The directory ID for which to get the list of associated conditional forwarders.
@@ -883,6 +1042,11 @@ extension Ds {
     public struct EnableSsoRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Password", required: false, type: .string), 
+            AWSShapeProperty(label: "UserName", required: false, type: .string), 
+            AWSShapeProperty(label: "DirectoryId", required: true, type: .string)
+        ]
         /// The password of an alternate account to use to enable single-sign on. This is only used for AD Connector directories. For more information, see the UserName parameter.
         public let password: String?
         /// The username of an alternate account to use to enable single-sign on. This is only used for AD Connector directories. This account must have privileges to add a service principal name. If the AD Connector service account does not have privileges to add a service principal name, you can specify an alternate account with the UserName and Password parameters. These credentials are only used to enable single sign-on and are not stored by the service. The AD Connector service account is not changed.
@@ -907,6 +1071,12 @@ extension Ds {
     public struct StartSchemaExtensionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeProperty(label: "CreateSnapshotBeforeSchemaExtension", required: true, type: .boolean), 
+            AWSShapeProperty(label: "LdifContent", required: true, type: .string), 
+            AWSShapeProperty(label: "Description", required: true, type: .string)
+        ]
         /// The identifier of the directory for which the schema extension will be applied to.
         public let directoryId: String
         /// If true, creates a snapshot of the directory before applying the schema extension.
@@ -962,6 +1132,11 @@ extension Ds {
     public struct ConditionalForwarder: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DnsIpAddrs", required: false, type: .list), 
+            AWSShapeProperty(label: "ReplicationScope", required: false, type: .enum), 
+            AWSShapeProperty(label: "RemoteDomainName", required: false, type: .string)
+        ]
         /// The IP addresses of the remote DNS server associated with RemoteDomainName. This is the IP address of the DNS server that your conditional forwarder points to.
         public let dnsIpAddrs: [String]?
         /// The replication scope of the conditional forwarder. The only allowed value is Domain, which will replicate the conditional forwarder to all of the domain controllers for your AWS directory.
@@ -985,6 +1160,10 @@ extension Ds {
     public struct EnableRadiusRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "RadiusSettings", required: true, type: .structure), 
+            AWSShapeProperty(label: "DirectoryId", required: true, type: .string)
+        ]
         /// A RadiusSettings object that contains information about the RADIUS server.
         public let radiusSettings: RadiusSettings
         /// The identifier of the directory for which to enable MFA.
@@ -1006,6 +1185,10 @@ extension Ds {
     public struct CreateSnapshotRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "DirectoryId", required: true, type: .string)
+        ]
         /// The descriptive name to apply to the snapshot.
         public let name: String?
         /// The identifier of the directory of which to take a snapshot.
@@ -1026,6 +1209,10 @@ extension Ds {
     public struct ListTagsForResourceResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Tags", required: false, type: .list)
+        ]
         /// Reserved for future use.
         public let nextToken: String?
         /// List of tags returned by the ListTagsForResource operation.
@@ -1049,6 +1236,9 @@ extension Ds {
     public struct GetSnapshotLimitsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "SnapshotLimits", required: false, type: .structure)
+        ]
         /// A SnapshotLimits object that contains the manual snapshot limits for the specified directory.
         public let snapshotLimits: SnapshotLimits?
 
@@ -1064,6 +1254,15 @@ extension Ds {
     public struct SchemaExtensionInfo: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "SchemaExtensionId", required: false, type: .string), 
+            AWSShapeProperty(label: "SchemaExtensionStatusReason", required: false, type: .string), 
+            AWSShapeProperty(label: "EndDateTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "DirectoryId", required: false, type: .string), 
+            AWSShapeProperty(label: "StartDateTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "SchemaExtensionStatus", required: false, type: .enum), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
+        ]
         /// The identifier of the schema extension.
         public let schemaExtensionId: String?
         /// The reason for the SchemaExtensionStatus.
@@ -1103,6 +1302,11 @@ extension Ds {
     public struct DescribeDirectoriesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "DirectoryIds", required: false, type: .list)
+        ]
         /// The maximum number of items to return. If this value is zero, the maximum number of items is specified by the limitations of the operation.
         public let limit: Int32?
         /// The DescribeDirectoriesResult.NextToken value from a previous call to DescribeDirectories. Pass null if this is the first call.
@@ -1131,6 +1335,9 @@ extension Ds {
     public struct CreateComputerResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Computer", required: false, type: .structure)
+        ]
         /// A Computer object that represents the computer account.
         public let computer: Computer?
 
@@ -1154,6 +1361,10 @@ extension Ds {
     public struct DeleteConditionalForwarderRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeProperty(label: "RemoteDomainName", required: true, type: .string)
+        ]
         /// The directory ID for which you are deleting the conditional forwarder.
         public let directoryId: String
         /// The fully qualified domain name (FQDN) of the remote domain with which you are deleting the conditional forwarder.
@@ -1175,6 +1386,9 @@ extension Ds {
     public struct StartSchemaExtensionResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "SchemaExtensionId", required: false, type: .string)
+        ]
         /// The identifier of the schema extension that will be applied.
         public let schemaExtensionId: String?
 
@@ -1190,6 +1404,9 @@ extension Ds {
     public struct DescribeConditionalForwardersResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ConditionalForwarders", required: false, type: .list)
+        ]
         /// The list of conditional forwarders that have been created.
         public let conditionalForwarders: [ConditionalForwarder]?
 
@@ -1209,6 +1426,11 @@ extension Ds {
     public struct SnapshotLimits: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ManualSnapshotsLimit", required: false, type: .integer), 
+            AWSShapeProperty(label: "ManualSnapshotsLimitReached", required: false, type: .boolean), 
+            AWSShapeProperty(label: "ManualSnapshotsCurrentCount", required: false, type: .integer)
+        ]
         /// The maximum number of manual snapshots allowed.
         public let manualSnapshotsLimit: Int32?
         /// Indicates if the manual snapshot limit has been reached.
@@ -1232,6 +1454,13 @@ extension Ds {
     public struct CreateComputerRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "OrganizationalUnitDistinguishedName", required: false, type: .string), 
+            AWSShapeProperty(label: "ComputerName", required: true, type: .string), 
+            AWSShapeProperty(label: "ComputerAttributes", required: false, type: .list), 
+            AWSShapeProperty(label: "Password", required: true, type: .string), 
+            AWSShapeProperty(label: "DirectoryId", required: true, type: .string)
+        ]
         /// The fully-qualified distinguished name of the organizational unit to place the computer account in.
         public let organizationalUnitDistinguishedName: String?
         /// The name of the computer account.
@@ -1280,6 +1509,12 @@ extension Ds {
     public struct DescribeSnapshotsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "SnapshotIds", required: false, type: .list), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "DirectoryId", required: false, type: .string)
+        ]
         /// A list of identifiers of the snapshots to obtain the information for. If this member is null or empty, all snapshots are returned using the Limit and NextToken members.
         public let snapshotIds: [String]?
         /// The maximum number of objects to return.
@@ -1307,6 +1542,10 @@ extension Ds {
     public struct DescribeEventTopicsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TopicNames", required: false, type: .list), 
+            AWSShapeProperty(label: "DirectoryId", required: false, type: .string)
+        ]
         /// A list of SNS topic names for which to obtain the information. If this member is null, all associations for the specified Directory ID are returned. An empty list results in an InvalidParameterException being thrown.
         public let topicNames: [String]?
         /// The Directory ID for which to get the list of associated SNS topics. If this member is null, associations for all Directory IDs are returned.
@@ -1326,6 +1565,12 @@ extension Ds {
     public struct DirectoryVpcSettingsDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "SubnetIds", required: false, type: .list), 
+            AWSShapeProperty(label: "AvailabilityZones", required: false, type: .list), 
+            AWSShapeProperty(label: "SecurityGroupId", required: false, type: .string), 
+            AWSShapeProperty(label: "VpcId", required: false, type: .string)
+        ]
         /// The identifiers of the subnets for the directory servers.
         public let subnetIds: [String]?
         /// The list of Availability Zones that the directory is in.
@@ -1353,6 +1598,9 @@ extension Ds {
     public struct DeleteTrustResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TrustId", required: false, type: .string)
+        ]
         /// The Trust ID of the trust relationship that was deleted.
         public let trustId: String?
 
@@ -1368,6 +1616,10 @@ extension Ds {
     public struct CreateAliasResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Alias", required: false, type: .string), 
+            AWSShapeProperty(label: "DirectoryId", required: false, type: .string)
+        ]
         /// The alias for the directory.
         public let alias: String?
         /// The identifier of the directory.
@@ -1387,6 +1639,16 @@ extension Ds {
     public struct RadiusSettings: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "RadiusPort", required: false, type: .integer), 
+            AWSShapeProperty(label: "AuthenticationProtocol", required: false, type: .enum), 
+            AWSShapeProperty(label: "RadiusRetries", required: false, type: .integer), 
+            AWSShapeProperty(label: "RadiusTimeout", required: false, type: .integer), 
+            AWSShapeProperty(label: "UseSameUsername", required: false, type: .boolean), 
+            AWSShapeProperty(label: "SharedSecret", required: false, type: .string), 
+            AWSShapeProperty(label: "DisplayLabel", required: false, type: .string), 
+            AWSShapeProperty(label: "RadiusServers", required: false, type: .list)
+        ]
         /// The port that your RADIUS server is using for communications. Your on-premises network must allow inbound traffic over this port from the AWS Directory Service servers.
         public let radiusPort: Int32?
         /// The protocol specified for your RADIUS endpoints.
@@ -1438,6 +1700,14 @@ extension Ds {
     public struct Snapshot: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "SnapshotId", required: false, type: .string), 
+            AWSShapeProperty(label: "Status", required: false, type: .enum), 
+            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Type", required: false, type: .enum), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "DirectoryId", required: false, type: .string)
+        ]
         /// The snapshot identifier.
         public let snapshotId: String?
         /// The snapshot status.
@@ -1481,6 +1751,9 @@ extension Ds {
     public struct RestoreFromSnapshotRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "SnapshotId", required: true, type: .string)
+        ]
         /// The identifier of the snapshot to restore from.
         public let snapshotId: String
 
@@ -1512,6 +1785,9 @@ extension Ds {
     public struct DeleteSnapshotResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "SnapshotId", required: false, type: .string)
+        ]
         /// The identifier of the directory snapshot that was deleted.
         public let snapshotId: String?
 
@@ -1527,6 +1803,14 @@ extension Ds {
     public struct CreateDirectoryRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Description", required: false, type: .string), 
+            AWSShapeProperty(label: "VpcSettings", required: false, type: .structure), 
+            AWSShapeProperty(label: "ShortName", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "Size", required: true, type: .enum), 
+            AWSShapeProperty(label: "Password", required: true, type: .string)
+        ]
         /// A textual description for the directory.
         public let description: String?
         /// A DirectoryVpcSettings object that contains additional information for the operation.
@@ -1565,6 +1849,10 @@ extension Ds {
     public struct UpdateRadiusRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "RadiusSettings", required: true, type: .structure), 
+            AWSShapeProperty(label: "DirectoryId", required: true, type: .string)
+        ]
         /// A RadiusSettings object that contains information about the RADIUS server.
         public let radiusSettings: RadiusSettings
         /// The identifier of the directory for which to update the RADIUS server information.
@@ -1586,6 +1874,11 @@ extension Ds {
     public struct DisableSsoRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Password", required: false, type: .string), 
+            AWSShapeProperty(label: "UserName", required: false, type: .string), 
+            AWSShapeProperty(label: "DirectoryId", required: true, type: .string)
+        ]
         /// The password of an alternate account to use to disable single-sign on. This is only used for AD Connector directories. For more information, see the UserName parameter.
         public let password: String?
         /// The username of an alternate account to use to disable single-sign on. This is only used for AD Connector directories. This account must have privileges to remove a service principal name. If the AD Connector service account does not have privileges to remove a service principal name, you can specify an alternate account with the UserName and Password parameters. These credentials are only used to disable single sign-on and are not stored by the service. The AD Connector service account is not changed.
@@ -1610,6 +1903,9 @@ extension Ds {
     public struct DeleteSnapshotRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "SnapshotId", required: true, type: .string)
+        ]
         /// The identifier of the directory snapshot to be deleted.
         public let snapshotId: String
 
@@ -1626,6 +1922,14 @@ extension Ds {
     public struct CreateTrustRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "RemoteDomainName", required: true, type: .string), 
+            AWSShapeProperty(label: "TrustDirection", required: true, type: .enum), 
+            AWSShapeProperty(label: "ConditionalForwarderIpAddrs", required: false, type: .list), 
+            AWSShapeProperty(label: "TrustType", required: false, type: .enum), 
+            AWSShapeProperty(label: "TrustPassword", required: true, type: .string), 
+            AWSShapeProperty(label: "DirectoryId", required: true, type: .string)
+        ]
         /// The Fully Qualified Domain Name (FQDN) of the external domain for which to create the trust relationship.
         public let remoteDomainName: String
         /// The direction of the trust relationship.
@@ -1665,6 +1969,9 @@ extension Ds {
     public struct VerifyTrustRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TrustId", required: true, type: .string)
+        ]
         /// The unique Trust ID of the trust relationship to verify.
         public let trustId: String
 
@@ -1681,6 +1988,10 @@ extension Ds {
     public struct RegisterEventTopicRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TopicName", required: true, type: .string), 
+            AWSShapeProperty(label: "DirectoryId", required: true, type: .string)
+        ]
         /// The SNS topic name to which the directory will publish status messages. This SNS topic must be in the same region as the specified Directory ID.
         public let topicName: String
         /// The Directory ID that will publish status messages to the SNS topic.
@@ -1702,6 +2013,9 @@ extension Ds {
     public struct CreateSnapshotResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "SnapshotId", required: false, type: .string)
+        ]
         /// The identifier of the snapshot that was created.
         public let snapshotId: String?
 
@@ -1725,6 +2039,11 @@ extension Ds {
     public struct AddIpRoutesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "UpdateSecurityGroupForDirectoryControllers", required: false, type: .boolean), 
+            AWSShapeProperty(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeProperty(label: "IpRoutes", required: true, type: .list)
+        ]
         /// If set to true, updates the inbound and outbound rules of the security group that has the description: "AWS created security group for directory ID directory controllers." Following are the new rules:  Inbound:   Type: Custom UDP Rule, Protocol: UDP, Range: 88, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 123, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 138, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 389, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 464, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 445, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 88, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 135, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 445, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 464, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 636, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 1024-65535, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 3268-33269, Source: 0.0.0.0/0   Type: DNS (UDP), Protocol: UDP, Range: 53, Source: 0.0.0.0/0   Type: DNS (TCP), Protocol: TCP, Range: 53, Source: 0.0.0.0/0   Type: LDAP, Protocol: TCP, Range: 389, Source: 0.0.0.0/0   Type: All ICMP, Protocol: All, Range: N/A, Source: 0.0.0.0/0    Outbound:   Type: All traffic, Protocol: All, Range: All, Destination: 0.0.0.0/0   These security rules impact an internal network interface that is not exposed publicly.
         public let updateSecurityGroupForDirectoryControllers: Bool?
         /// Identifier (ID) of the directory to which to add the address block.
@@ -1755,6 +2074,10 @@ extension Ds {
     public struct RemoveTagsFromResourceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
+            AWSShapeProperty(label: "TagKeys", required: true, type: .list)
+        ]
         /// Identifier (ID) of the directory from which to remove the tag.
         public let resourceId: String
         /// The tag key (name) of the tag to be removed.
@@ -1791,6 +2114,10 @@ extension Ds {
     public struct CancelSchemaExtensionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "SchemaExtensionId", required: true, type: .string), 
+            AWSShapeProperty(label: "DirectoryId", required: true, type: .string)
+        ]
         /// The identifier of the schema extension that will be canceled.
         public let schemaExtensionId: String
         /// The identifier of the directory whose schema extension will be canceled.
@@ -1812,6 +2139,10 @@ extension Ds {
     public struct DescribeDirectoriesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DirectoryDescriptions", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        ]
         /// The list of DirectoryDescription objects that were retrieved. It is possible that this list contains less than the number of items specified in the Limit member of the request. This occurs if there are less than the requested number of items left to retrieve, or if the limitations of the operation have been exceeded.
         public let directoryDescriptions: [DirectoryDescription]?
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to DescribeDirectories to retrieve the next set of items.
@@ -1835,6 +2166,9 @@ extension Ds {
     public struct CreateMicrosoftADResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DirectoryId", required: false, type: .string)
+        ]
         /// The identifier of the directory that was created.
         public let directoryId: String?
 
@@ -1850,6 +2184,9 @@ extension Ds {
     public struct GetSnapshotLimitsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DirectoryId", required: true, type: .string)
+        ]
         /// Contains the identifier of the directory to obtain the limits for.
         public let directoryId: String
 
@@ -1874,6 +2211,10 @@ extension Ds {
     public struct ListSchemaExtensionsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "SchemaExtensionsInfo", required: false, type: .list)
+        ]
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to ListSchemaExtensions to retrieve the next set of items.
         public let nextToken: String?
         /// Information about the schema extensions applied to the directory.
@@ -1905,6 +2246,9 @@ extension Ds {
     public struct DescribeEventTopicsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "EventTopics", required: false, type: .list)
+        ]
         /// A list of SNS topic names that receive status messages from the specified Directory ID.
         public let eventTopics: [EventTopic]?
 
@@ -1924,6 +2268,14 @@ extension Ds {
     public struct IpRouteInfo: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Description", required: false, type: .string), 
+            AWSShapeProperty(label: "IpRouteStatusMsg", required: false, type: .enum), 
+            AWSShapeProperty(label: "AddedDateTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "CidrIp", required: false, type: .string), 
+            AWSShapeProperty(label: "IpRouteStatusReason", required: false, type: .string), 
+            AWSShapeProperty(label: "DirectoryId", required: false, type: .string)
+        ]
         /// Description of the IpRouteInfo.
         public let description: String?
         /// The status of the IP address block.
@@ -1959,6 +2311,14 @@ extension Ds {
     public struct ConnectDirectoryRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Password", required: true, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string), 
+            AWSShapeProperty(label: "ShortName", required: false, type: .string), 
+            AWSShapeProperty(label: "ConnectSettings", required: true, type: .structure), 
+            AWSShapeProperty(label: "Size", required: true, type: .enum), 
+            AWSShapeProperty(label: "Name", required: true, type: .string)
+        ]
         /// The password for the on-premises user account.
         public let password: String
         /// A textual description for the directory.
@@ -1998,6 +2358,9 @@ extension Ds {
     public struct VerifyTrustResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TrustId", required: false, type: .string)
+        ]
         /// The unique Trust ID of the trust relationship that was verified.
         public let trustId: String?
 
@@ -2021,6 +2384,11 @@ extension Ds {
     public struct CreateConditionalForwarderRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeProperty(label: "DnsIpAddrs", required: true, type: .list), 
+            AWSShapeProperty(label: "RemoteDomainName", required: true, type: .string)
+        ]
         /// The directory ID of the AWS directory for which you are creating the conditional forwarder.
         public let directoryId: String
         /// The IP addresses of the remote DNS server associated with RemoteDomainName.
@@ -2063,6 +2431,9 @@ extension Ds {
     public struct DisableRadiusRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DirectoryId", required: true, type: .string)
+        ]
         /// The identifier of the directory for which to disable MFA.
         public let directoryId: String
 
@@ -2092,6 +2463,9 @@ extension Ds {
     public struct CreateDirectoryResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DirectoryId", required: false, type: .string)
+        ]
         /// The identifier of the directory that was created.
         public let directoryId: String?
 
@@ -2107,6 +2481,10 @@ extension Ds {
     public struct ListIpRoutesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "IpRoutesInfo", required: false, type: .list)
+        ]
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to ListIpRoutes to retrieve the next set of items.
         public let nextToken: String?
         /// A list of IpRoutes.
@@ -2130,6 +2508,12 @@ extension Ds {
     public struct DirectoryConnectSettings: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "SubnetIds", required: true, type: .list), 
+            AWSShapeProperty(label: "VpcId", required: true, type: .string), 
+            AWSShapeProperty(label: "CustomerUserName", required: true, type: .string), 
+            AWSShapeProperty(label: "CustomerDnsIps", required: true, type: .list)
+        ]
         /// A list of subnet identifiers in the VPC in which the AD Connector is created.
         public let subnetIds: [String]
         /// The identifier of the VPC in which the AD Connector is created.

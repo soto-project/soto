@@ -32,6 +32,11 @@ extension Elasticmapreduce {
     public struct InstanceFleetStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "State", required: false, type: .enum), 
+            AWSShapeProperty(label: "Timeline", required: false, type: .structure), 
+            AWSShapeProperty(label: "StateChangeReason", required: false, type: .structure)
+        ]
         /// A code representing the instance fleet status.
         public let state: InstanceFleetState?
         /// Provides historical timestamps for the instance fleet, including the time of creation, the time it became ready to run jobs, and the time of termination.
@@ -69,6 +74,21 @@ extension Elasticmapreduce {
     public struct JobFlowInstancesDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "MasterInstanceId", required: false, type: .string), 
+            AWSShapeProperty(label: "HadoopVersion", required: false, type: .string), 
+            AWSShapeProperty(label: "NormalizedInstanceHours", required: false, type: .integer), 
+            AWSShapeProperty(label: "Ec2SubnetId", required: false, type: .string), 
+            AWSShapeProperty(label: "Ec2KeyName", required: false, type: .string), 
+            AWSShapeProperty(label: "KeepJobFlowAliveWhenNoSteps", required: false, type: .boolean), 
+            AWSShapeProperty(label: "InstanceGroups", required: false, type: .list), 
+            AWSShapeProperty(label: "MasterInstanceType", required: true, type: .string), 
+            AWSShapeProperty(label: "MasterPublicDnsName", required: false, type: .string), 
+            AWSShapeProperty(label: "Placement", required: false, type: .structure), 
+            AWSShapeProperty(label: "SlaveInstanceType", required: true, type: .string), 
+            AWSShapeProperty(label: "InstanceCount", required: true, type: .integer), 
+            AWSShapeProperty(label: "TerminationProtected", required: false, type: .boolean)
+        ]
         /// The Amazon EC2 instance identifier of the master node.
         public let masterInstanceId: String?
         /// The Hadoop version for the cluster.
@@ -146,6 +166,11 @@ extension Elasticmapreduce {
     public struct PutAutoScalingPolicyOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "InstanceGroupId", required: false, type: .string), 
+            AWSShapeProperty(label: "ClusterId", required: false, type: .string), 
+            AWSShapeProperty(label: "AutoScalingPolicy", required: false, type: .structure)
+        ]
         /// Specifies the ID of the instance group to which the scaling policy is applied.
         public let instanceGroupId: String?
         /// Specifies the ID of a cluster. The instance group to which the automatic scaling policy is applied is within this cluster.
@@ -175,6 +200,12 @@ extension Elasticmapreduce {
     public struct ListStepsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "StepIds", required: false, type: .list), 
+            AWSShapeProperty(label: "StepStates", required: false, type: .list), 
+            AWSShapeProperty(label: "ClusterId", required: true, type: .string)
+        ]
         /// The pagination token that indicates the next set of results to retrieve.
         public let marker: String?
         /// The filter to limit the step list based on the identifier of the steps.
@@ -203,6 +234,11 @@ extension Elasticmapreduce {
     public struct SimpleScalingPolicyConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ScalingAdjustment", required: true, type: .integer), 
+            AWSShapeProperty(label: "CoolDown", required: false, type: .integer), 
+            AWSShapeProperty(label: "AdjustmentType", required: false, type: .enum)
+        ]
         /// The amount by which to scale in or scale out, based on the specified AdjustmentType. A positive value adds to the instance group's EC2 instance count while a negative number removes instances. If AdjustmentType is set to EXACT_CAPACITY, the number should only be a positive integer. If AdjustmentType is set to PERCENT_CHANGE_IN_CAPACITY, the value should express the percentage as a decimal. For example, -0.20 indicates a decrease in 20% increments of cluster capacity.
         public let scalingAdjustment: Int32
         /// The amount of time, in seconds, after a scaling activity completes before any further trigger-related scaling activities can start. The default value is 0.
@@ -227,6 +263,18 @@ extension Elasticmapreduce {
     public struct InstanceFleet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TargetOnDemandCapacity", required: false, type: .integer), 
+            AWSShapeProperty(label: "Status", required: false, type: .structure), 
+            AWSShapeProperty(label: "InstanceTypeSpecifications", required: false, type: .list), 
+            AWSShapeProperty(label: "LaunchSpecifications", required: false, type: .structure), 
+            AWSShapeProperty(label: "ProvisionedOnDemandCapacity", required: false, type: .integer), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceFleetType", required: false, type: .enum), 
+            AWSShapeProperty(label: "ProvisionedSpotCapacity", required: false, type: .integer), 
+            AWSShapeProperty(label: "TargetSpotCapacity", required: false, type: .integer), 
+            AWSShapeProperty(label: "Id", required: false, type: .string)
+        ]
         /// The target capacity of On-Demand units for the instance fleet, which determines how many On-Demand instances to provision. When the instance fleet launches, Amazon EMR tries to provision On-Demand instances as specified by InstanceTypeConfig. Each instance configuration has a specified WeightedCapacity. When an On-Demand instance is provisioned, the WeightedCapacity units count toward the target capacity. Amazon EMR provisions instances until the target capacity is totally fulfilled, even if this results in an overage. For example, if there are 2 units remaining to fulfill capacity, and Amazon EMR can only provision an instance with a WeightedCapacity of 5 units, the instance is provisioned, and the target capacity is exceeded by 3 units. You can use InstanceFleet$ProvisionedOnDemandCapacity to determine the Spot capacity units that have been provisioned for the instance fleet.  If not specified or set to 0, only Spot instances are provisioned for the instance fleet using TargetSpotCapacity. At least one of TargetSpotCapacity and TargetOnDemandCapacity should be greater than 0. For a master instance fleet, only one of TargetSpotCapacity and TargetOnDemandCapacity can be specified, and its value must be 1. 
         public let targetOnDemandCapacity: Int32?
         /// The current status of the instance fleet. 
@@ -282,6 +330,11 @@ extension Elasticmapreduce {
     public struct InstanceGroupStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "State", required: false, type: .enum), 
+            AWSShapeProperty(label: "Timeline", required: false, type: .structure), 
+            AWSShapeProperty(label: "StateChangeReason", required: false, type: .structure)
+        ]
         /// The current state of the instance group.
         public let state: InstanceGroupState?
         /// The timeline of the instance group status over time.
@@ -305,6 +358,10 @@ extension Elasticmapreduce {
     public struct CreateSecurityConfigurationOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "CreationDateTime", required: true, type: .timestamp)
+        ]
         /// The name of the security configuration.
         public let name: String
         /// The date and time the security configuration was created.
@@ -333,6 +390,11 @@ extension Elasticmapreduce {
     public struct FailureDetails: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Reason", required: false, type: .string), 
+            AWSShapeProperty(label: "LogFile", required: false, type: .string), 
+            AWSShapeProperty(label: "Message", required: false, type: .string)
+        ]
         /// The reason for the step failure. In the case where the service cannot successfully determine the root cause of the failure, it returns "Unknown Error" as a reason.
         public let reason: String?
         /// The path to the log file where the step failure root cause was originally recorded.
@@ -356,6 +418,12 @@ extension Elasticmapreduce {
     public struct ListClustersInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ClusterStates", required: false, type: .list), 
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "CreatedBefore", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "CreatedAfter", required: false, type: .timestamp)
+        ]
         /// The cluster state filters to apply when listing clusters.
         public let clusterStates: [ClusterState]?
         /// The pagination token that indicates the next set of results to retrieve.
@@ -383,6 +451,10 @@ extension Elasticmapreduce {
     public struct ClusterStateChangeReason: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Code", required: false, type: .enum), 
+            AWSShapeProperty(label: "Message", required: false, type: .string)
+        ]
         /// The programmatic code for the state change reason.
         public let code: ClusterStateChangeReasonCode?
         /// The descriptive message for the state change reason.
@@ -402,6 +474,11 @@ extension Elasticmapreduce {
     public struct VolumeSpecification: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Iops", required: false, type: .integer), 
+            AWSShapeProperty(label: "VolumeType", required: true, type: .string), 
+            AWSShapeProperty(label: "SizeInGB", required: true, type: .integer)
+        ]
         /// The number of I/O operations per second (IOPS) that the volume supports.
         public let iops: Int32?
         /// The volume type. Volume types supported are gp2, io1, standard.
@@ -427,6 +504,12 @@ extension Elasticmapreduce {
     public struct Application: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Version", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "Args", required: false, type: .list), 
+            AWSShapeProperty(label: "AdditionalInfo", required: false, type: .map)
+        ]
         /// The version of the application.
         public let version: String?
         /// The name of the application.
@@ -458,6 +541,9 @@ extension Elasticmapreduce {
     public struct DescribeJobFlowsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "JobFlows", required: false, type: .list)
+        ]
         /// A list of job flows matching the parameters supplied.
         public let jobFlows: [JobFlowDetail]?
 
@@ -477,6 +563,17 @@ extension Elasticmapreduce {
     public struct CloudWatchAlarmDefinition: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Threshold", required: true, type: .double), 
+            AWSShapeProperty(label: "MetricName", required: true, type: .string), 
+            AWSShapeProperty(label: "Period", required: true, type: .integer), 
+            AWSShapeProperty(label: "EvaluationPeriods", required: false, type: .integer), 
+            AWSShapeProperty(label: "ComparisonOperator", required: true, type: .enum), 
+            AWSShapeProperty(label: "Statistic", required: false, type: .enum), 
+            AWSShapeProperty(label: "Unit", required: false, type: .enum), 
+            AWSShapeProperty(label: "Dimensions", required: false, type: .list), 
+            AWSShapeProperty(label: "Namespace", required: false, type: .string)
+        ]
         /// The value against which the specified statistic is compared.
         public let threshold: Double
         /// The name of the CloudWatch metric that is watched to determine an alarm condition.
@@ -532,6 +629,10 @@ extension Elasticmapreduce {
     public struct Tag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Value", required: false, type: .string), 
+            AWSShapeProperty(label: "Key", required: false, type: .string)
+        ]
         /// A user-defined value, which is optional in a tag. For more information, see Tagging Amazon EMR Resources. 
         public let value: String?
         /// A user-defined key, which is the minimum required information for a valid tag. For more information, see Tagging Amazon EMR Resources. 
@@ -551,6 +652,11 @@ extension Elasticmapreduce {
     public struct DescribeSecurityConfigurationOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "SecurityConfiguration", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "CreationDateTime", required: false, type: .timestamp)
+        ]
         /// The security configuration details in JSON format.
         public let securityConfiguration: String?
         /// The name of the security configuration.
@@ -574,6 +680,9 @@ extension Elasticmapreduce {
     public struct CancelStepsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "CancelStepsInfoList", required: false, type: .list)
+        ]
         /// A list of CancelStepsInfo, which shows the status of specified cancel requests for each StepID specified.
         public let cancelStepsInfoList: [CancelStepsInfo]?
 
@@ -593,6 +702,9 @@ extension Elasticmapreduce {
     public struct InstanceFleetProvisioningSpecifications: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "SpotSpecification", required: true, type: .structure)
+        ]
         /// The launch specification for Spot instances in the fleet, which determines the defined duration and provisioning timeout behavior.
         public let spotSpecification: SpotProvisioningSpecification
 
@@ -609,6 +721,11 @@ extension Elasticmapreduce {
     public struct PutAutoScalingPolicyInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "InstanceGroupId", required: true, type: .string), 
+            AWSShapeProperty(label: "ClusterId", required: true, type: .string), 
+            AWSShapeProperty(label: "AutoScalingPolicy", required: true, type: .structure)
+        ]
         /// Specifies the ID of the instance group to which the automatic scaling policy is applied.
         public let instanceGroupId: String
         /// Specifies the ID of a cluster. The instance group to which the automatic scaling policy is applied is within this cluster.
@@ -635,6 +752,11 @@ extension Elasticmapreduce {
     public struct ClusterTimeline: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ReadyDateTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "CreationDateTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "EndDateTime", required: false, type: .timestamp)
+        ]
         /// The date and time when the cluster was ready to execute steps.
         public let readyDateTime: Date?
         /// The creation date and time of the cluster.
@@ -658,6 +780,9 @@ extension Elasticmapreduce {
     public struct AddJobFlowStepsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "StepIds", required: false, type: .list)
+        ]
         /// The identifiers of the list of steps added to the job flow.
         public let stepIds: [String]?
 
@@ -673,6 +798,20 @@ extension Elasticmapreduce {
     public struct Instance: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "EbsVolumes", required: false, type: .list), 
+            AWSShapeProperty(label: "InstanceFleetId", required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceGroupId", required: false, type: .string), 
+            AWSShapeProperty(label: "Status", required: false, type: .structure), 
+            AWSShapeProperty(label: "Market", required: false, type: .enum), 
+            AWSShapeProperty(label: "Id", required: false, type: .string), 
+            AWSShapeProperty(label: "PublicIpAddress", required: false, type: .string), 
+            AWSShapeProperty(label: "PublicDnsName", required: false, type: .string), 
+            AWSShapeProperty(label: "PrivateDnsName", required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceType", required: false, type: .string), 
+            AWSShapeProperty(label: "Ec2InstanceId", required: false, type: .string), 
+            AWSShapeProperty(label: "PrivateIpAddress", required: false, type: .string)
+        ]
         /// The list of EBS volumes that are attached to this instance.
         public let ebsVolumes: [EbsVolume]?
         /// The unique identifier of the instance fleet to which an EC2 instance belongs.
@@ -736,6 +875,10 @@ extension Elasticmapreduce {
     public struct ScalingAction: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Market", required: false, type: .enum), 
+            AWSShapeProperty(label: "SimpleScalingPolicyConfiguration", required: true, type: .structure)
+        ]
         /// Not available for instance groups. Instance groups use the market type specified for the group.
         public let market: MarketType?
         /// The type of adjustment the automatic scaling activity makes when triggered, and the periodicity of the adjustment.
@@ -756,6 +899,13 @@ extension Elasticmapreduce {
     public struct Step: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ActionOnFailure", required: false, type: .enum), 
+            AWSShapeProperty(label: "Status", required: false, type: .structure), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "Config", required: false, type: .structure), 
+            AWSShapeProperty(label: "Id", required: false, type: .string)
+        ]
         /// This specifies what action to take when the cluster step fails. Possible values are TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE.
         public let actionOnFailure: ActionOnFailure?
         /// The current execution status details of the cluster step.
@@ -824,6 +974,10 @@ extension Elasticmapreduce {
     public struct CreateSecurityConfigurationInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "SecurityConfiguration", required: true, type: .string), 
+            AWSShapeProperty(label: "Name", required: true, type: .string)
+        ]
         /// The security configuration details in JSON format.
         public let securityConfiguration: String
         /// The name of the security configuration.
@@ -845,6 +999,10 @@ extension Elasticmapreduce {
     public struct ListInstanceGroupsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "ClusterId", required: true, type: .string)
+        ]
         /// The pagination token that indicates the next set of results to retrieve.
         public let marker: String?
         /// The identifier of the cluster for which to list the instance groups.
@@ -865,6 +1023,22 @@ extension Elasticmapreduce {
     public struct InstanceGroup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "BidPrice", required: false, type: .string), 
+            AWSShapeProperty(label: "ShrinkPolicy", required: false, type: .structure), 
+            AWSShapeProperty(label: "EbsOptimized", required: false, type: .boolean), 
+            AWSShapeProperty(label: "AutoScalingPolicy", required: false, type: .structure), 
+            AWSShapeProperty(label: "InstanceType", required: false, type: .string), 
+            AWSShapeProperty(label: "Id", required: false, type: .string), 
+            AWSShapeProperty(label: "Status", required: false, type: .structure), 
+            AWSShapeProperty(label: "RequestedInstanceCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "InstanceGroupType", required: false, type: .enum), 
+            AWSShapeProperty(label: "EbsBlockDevices", required: false, type: .list), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "RunningInstanceCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "Market", required: false, type: .enum), 
+            AWSShapeProperty(label: "Configurations", required: false, type: .list)
+        ]
         /// The bid price for each EC2 instance in the instance group when launching nodes as Spot Instances, expressed in USD.
         public let bidPrice: String?
         /// Policy for customizing shrink operations.
@@ -954,6 +1128,14 @@ extension Elasticmapreduce {
     public struct InstanceFleetConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TargetOnDemandCapacity", required: false, type: .integer), 
+            AWSShapeProperty(label: "InstanceTypeConfigs", required: false, type: .list), 
+            AWSShapeProperty(label: "LaunchSpecifications", required: false, type: .structure), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceFleetType", required: true, type: .enum), 
+            AWSShapeProperty(label: "TargetSpotCapacity", required: false, type: .integer)
+        ]
         /// The target capacity of On-Demand units for the instance fleet, which determines how many On-Demand instances to provision. When the instance fleet launches, Amazon EMR tries to provision On-Demand instances as specified by InstanceTypeConfig. Each instance configuration has a specified WeightedCapacity. When an On-Demand instance is provisioned, the WeightedCapacity units count toward the target capacity. Amazon EMR provisions instances until the target capacity is totally fulfilled, even if this results in an overage. For example, if there are 2 units remaining to fulfill capacity, and Amazon EMR can only provision an instance with a WeightedCapacity of 5 units, the instance is provisioned, and the target capacity is exceeded by 3 units.  If not specified or set to 0, only Spot instances are provisioned for the instance fleet using TargetSpotCapacity. At least one of TargetSpotCapacity and TargetOnDemandCapacity should be greater than 0. For a master instance fleet, only one of TargetSpotCapacity and TargetOnDemandCapacity can be specified, and its value must be 1. 
         public let targetOnDemandCapacity: Int32?
         /// The instance type configurations that define the EC2 instances in the instance fleet.
@@ -994,6 +1176,10 @@ extension Elasticmapreduce {
     public struct ListInstanceFleetsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "ClusterId", required: true, type: .string)
+        ]
         /// The pagination token that indicates the next set of results to retrieve.
         public let marker: String?
         /// The unique identifier of the cluster.
@@ -1025,6 +1211,11 @@ extension Elasticmapreduce {
     public struct Command: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "Args", required: false, type: .list), 
+            AWSShapeProperty(label: "ScriptPath", required: false, type: .string)
+        ]
         /// The name of the command.
         public let name: String?
         /// Arguments for Amazon EMR to pass to the command for execution.
@@ -1048,6 +1239,10 @@ extension Elasticmapreduce {
     public struct AutoScalingPolicyStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "State", required: false, type: .enum), 
+            AWSShapeProperty(label: "StateChangeReason", required: false, type: .structure)
+        ]
         /// Indicates the status of the automatic scaling policy.
         public let state: AutoScalingPolicyState?
         /// The reason for a change in status.
@@ -1067,6 +1262,10 @@ extension Elasticmapreduce {
     public struct ListInstanceFleetsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceFleets", required: false, type: .list)
+        ]
         /// The pagination token that indicates the next set of results to retrieve.
         public let marker: String?
         /// The list of instance fleets for the cluster and given filters.
@@ -1090,6 +1289,9 @@ extension Elasticmapreduce {
     public struct DescribeStepOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Step", required: false, type: .structure)
+        ]
         /// The step details for the requested step identifier.
         public let step: Step?
 
@@ -1105,6 +1307,10 @@ extension Elasticmapreduce {
     public struct PlacementType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AvailabilityZones", required: false, type: .list), 
+            AWSShapeProperty(label: "AvailabilityZone", required: false, type: .string)
+        ]
         /// When multiple Availability Zones are specified, Amazon EMR evaluates them and launches instances in the optimal Availability Zone. AvailabilityZones is used for instance fleets, while AvailabilityZone (singular) is used for uniform instance groups.  The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions. 
         public let availabilityZones: [String]?
         /// The Amazon EC2 Availability Zone for the cluster. AvailabilityZone is used for uniform instance groups, while AvailabilityZones (plural) is used for instance fleets.
@@ -1124,6 +1330,10 @@ extension Elasticmapreduce {
     public struct MetricDimension: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Value", required: false, type: .string), 
+            AWSShapeProperty(label: "Key", required: false, type: .string)
+        ]
         /// The dimension value.
         public let value: String?
         /// The dimension name.
@@ -1143,6 +1353,9 @@ extension Elasticmapreduce {
     public struct DeleteSecurityConfigurationInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Name", required: true, type: .string)
+        ]
         /// The name of the security configuration.
         public let name: String
 
@@ -1159,6 +1372,11 @@ extension Elasticmapreduce {
     public struct StepConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "HadoopJarStep", required: true, type: .structure), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "ActionOnFailure", required: false, type: .enum)
+        ]
         /// The JAR file used for the step.
         public let hadoopJarStep: HadoopJarStepConfig
         /// The name of the step.
@@ -1195,6 +1413,9 @@ extension Elasticmapreduce {
     public struct DescribeClusterOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Cluster", required: false, type: .structure)
+        ]
         /// This output contains the details for the requested cluster.
         public let cluster: Cluster?
 
@@ -1210,6 +1431,15 @@ extension Elasticmapreduce {
     public struct ListInstancesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "InstanceGroupId", required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceFleetId", required: false, type: .string), 
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceFleetType", required: false, type: .enum), 
+            AWSShapeProperty(label: "InstanceGroupTypes", required: false, type: .list), 
+            AWSShapeProperty(label: "ClusterId", required: true, type: .string), 
+            AWSShapeProperty(label: "InstanceStates", required: false, type: .list)
+        ]
         /// The identifier of the instance group for which to list the instances.
         public let instanceGroupId: String?
         /// The unique identifier of the instance fleet.
@@ -1250,6 +1480,19 @@ extension Elasticmapreduce {
     public struct Ec2InstanceAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "EmrManagedSlaveSecurityGroup", required: false, type: .string), 
+            AWSShapeProperty(label: "IamInstanceProfile", required: false, type: .string), 
+            AWSShapeProperty(label: "Ec2SubnetId", required: false, type: .string), 
+            AWSShapeProperty(label: "EmrManagedMasterSecurityGroup", required: false, type: .string), 
+            AWSShapeProperty(label: "RequestedEc2AvailabilityZones", required: false, type: .list), 
+            AWSShapeProperty(label: "AdditionalMasterSecurityGroups", required: false, type: .list), 
+            AWSShapeProperty(label: "ServiceAccessSecurityGroup", required: false, type: .string), 
+            AWSShapeProperty(label: "AdditionalSlaveSecurityGroups", required: false, type: .list), 
+            AWSShapeProperty(label: "RequestedEc2SubnetIds", required: false, type: .list), 
+            AWSShapeProperty(label: "Ec2AvailabilityZone", required: false, type: .string), 
+            AWSShapeProperty(label: "Ec2KeyName", required: false, type: .string)
+        ]
         /// The identifier of the Amazon EC2 security group for the slave nodes.
         public let emrManagedSlaveSecurityGroup: String?
         /// The IAM role that was specified when the cluster was launched. The EC2 instances of the cluster assume this role.
@@ -1305,6 +1548,10 @@ extension Elasticmapreduce {
     public struct EbsVolume: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "VolumeId", required: false, type: .string), 
+            AWSShapeProperty(label: "Device", required: false, type: .string)
+        ]
         /// The volume identifier of the EBS volume.
         public let volumeId: String?
         /// The device name that is exposed to the instance, such as /dev/sdh.
@@ -1324,6 +1571,10 @@ extension Elasticmapreduce {
     public struct ListSecurityConfigurationsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "SecurityConfigurations", required: false, type: .list)
+        ]
         /// A pagination token that indicates the next set of results to retrieve. Include the marker in the next ListSecurityConfiguration call to retrieve the next page of results, if required.
         public let marker: String?
         /// The creation date and time, and name, of each security configuration.
@@ -1347,6 +1598,11 @@ extension Elasticmapreduce {
     public struct StepTimeline: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "StartDateTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "CreationDateTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "EndDateTime", required: false, type: .timestamp)
+        ]
         /// The date and time when the cluster step execution started.
         public let startDateTime: Date?
         /// The date and time when the cluster step was created.
@@ -1370,6 +1626,10 @@ extension Elasticmapreduce {
     public struct InstanceStateChangeReason: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Code", required: false, type: .enum), 
+            AWSShapeProperty(label: "Message", required: false, type: .string)
+        ]
         /// The programmable code for the state change reason.
         public let code: InstanceStateChangeReasonCode?
         /// The status change reason description.
@@ -1401,6 +1661,10 @@ extension Elasticmapreduce {
     public struct AutoScalingPolicy: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Rules", required: true, type: .list), 
+            AWSShapeProperty(label: "Constraints", required: true, type: .structure)
+        ]
         /// The scale-in and scale-out rules that comprise the automatic scaling policy.
         public let rules: [ScalingRule]
         /// The upper and lower EC2 instance limits for an automatic scaling policy. Automatic scaling activity will not cause an instance group to grow above or below these limits.
@@ -1422,6 +1686,11 @@ extension Elasticmapreduce {
     public struct Configuration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Classification", required: false, type: .string), 
+            AWSShapeProperty(label: "Configurations", required: false, type: .list), 
+            AWSShapeProperty(label: "Properties", required: false, type: .map)
+        ]
         /// The classification within a configuration.
         public let classification: String?
         /// A list of additional configurations to apply within a configuration object.
@@ -1453,6 +1722,11 @@ extension Elasticmapreduce {
     public struct CancelStepsInfo: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Reason", required: false, type: .string), 
+            AWSShapeProperty(label: "Status", required: false, type: .enum), 
+            AWSShapeProperty(label: "StepId", required: false, type: .string)
+        ]
         /// The reason for the failure if the CancelSteps request fails.
         public let reason: String?
         /// The status of a CancelSteps Request. The value may be SUBMITTED or FAILED.
@@ -1490,6 +1764,10 @@ extension Elasticmapreduce {
     public struct AutoScalingPolicyStateChangeReason: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Code", required: false, type: .enum), 
+            AWSShapeProperty(label: "Message", required: false, type: .string)
+        ]
         /// The code indicating the reason for the change in status.USER_REQUEST indicates that the scaling policy status was changed by a user. PROVISION_FAILURE indicates that the status change was because the policy failed to provision. CLEANUP_FAILURE indicates an error.
         public let code: AutoScalingPolicyStateChangeReasonCode?
         /// A friendly, more verbose message that accompanies an automatic scaling policy state change.
@@ -1509,6 +1787,10 @@ extension Elasticmapreduce {
     public struct InstanceFleetStateChangeReason: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Code", required: false, type: .enum), 
+            AWSShapeProperty(label: "Message", required: false, type: .string)
+        ]
         /// A code corresponding to the reason the state change occurred.
         public let code: InstanceFleetStateChangeReasonCode?
         /// An explanatory message.
@@ -1528,6 +1810,12 @@ extension Elasticmapreduce {
     public struct ScalingRule: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Action", required: true, type: .structure), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "Trigger", required: true, type: .structure), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
+        ]
         /// The conditions that trigger an automatic scaling activity.
         public let action: ScalingAction
         /// The name used to identify an automatic scaling rule. Rule names must be unique within a scaling policy.
@@ -1577,6 +1865,9 @@ extension Elasticmapreduce {
     public struct ListSecurityConfigurationsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string)
+        ]
         /// The pagination token that indicates the set of results to retrieve.
         public let marker: String?
 
@@ -1598,6 +1889,22 @@ extension Elasticmapreduce {
     public struct JobFlowDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Steps", required: false, type: .list), 
+            AWSShapeProperty(label: "SupportedProducts", required: false, type: .list), 
+            AWSShapeProperty(label: "AutoScalingRole", required: false, type: .string), 
+            AWSShapeProperty(label: "AmiVersion", required: false, type: .string), 
+            AWSShapeProperty(label: "VisibleToAllUsers", required: false, type: .boolean), 
+            AWSShapeProperty(label: "JobFlowId", required: true, type: .string), 
+            AWSShapeProperty(label: "ServiceRole", required: false, type: .string), 
+            AWSShapeProperty(label: "JobFlowRole", required: false, type: .string), 
+            AWSShapeProperty(label: "BootstrapActions", required: false, type: .list), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "ScaleDownBehavior", required: false, type: .enum), 
+            AWSShapeProperty(label: "LogUri", required: false, type: .string), 
+            AWSShapeProperty(label: "Instances", required: true, type: .structure), 
+            AWSShapeProperty(label: "ExecutionStatusDetail", required: true, type: .structure)
+        ]
         /// A list of steps run by the job flow.
         public let steps: [StepDetail]?
         /// A list of strings set by third party software when the job flow is launched. If you are not using third party software to manage the job flow this value is empty.
@@ -1677,6 +1984,11 @@ extension Elasticmapreduce {
     public struct InstanceGroupTimeline: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ReadyDateTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "CreationDateTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "EndDateTime", required: false, type: .timestamp)
+        ]
         /// The date and time when the instance group became ready to perform tasks.
         public let readyDateTime: Date?
         /// The creation date and time of the instance group.
@@ -1700,6 +2012,9 @@ extension Elasticmapreduce {
     public struct ScalingTrigger: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "CloudWatchAlarmDefinition", required: true, type: .structure)
+        ]
         /// The definition of a CloudWatch metric alarm. When the defined alarm conditions are met along with other trigger parameters, scaling activity begins.
         public let cloudWatchAlarmDefinition: CloudWatchAlarmDefinition
 
@@ -1727,6 +2042,9 @@ extension Elasticmapreduce {
     public struct BootstrapActionDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "BootstrapActionConfig", required: false, type: .structure)
+        ]
         /// A description of the bootstrap action.
         public let bootstrapActionConfig: BootstrapActionConfig?
 
@@ -1750,6 +2068,12 @@ extension Elasticmapreduce {
     public struct DescribeJobFlowsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "JobFlowStates", required: false, type: .list), 
+            AWSShapeProperty(label: "JobFlowIds", required: false, type: .list), 
+            AWSShapeProperty(label: "CreatedBefore", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "CreatedAfter", required: false, type: .timestamp)
+        ]
         /// Return only job flows whose state is contained in this list.
         public let jobFlowStates: [JobFlowExecutionState]?
         /// Return only job flows whose job flow ID is contained in this list.
@@ -1784,6 +2108,10 @@ extension Elasticmapreduce {
     public struct EbsBlockDeviceConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "VolumeSpecification", required: true, type: .structure), 
+            AWSShapeProperty(label: "VolumesPerInstance", required: false, type: .integer)
+        ]
         /// EBS volume specifications such as volume type, IOPS, and size (GiB) that will be requested for the EBS volume attached to an EC2 instance in the cluster.
         public let volumeSpecification: VolumeSpecification
         /// Number of EBS volumes with a specific volume configuration that will be associated with every instance in the instance group
@@ -1804,6 +2132,10 @@ extension Elasticmapreduce {
     public struct SetTerminationProtectionInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "JobFlowIds", required: true, type: .list), 
+            AWSShapeProperty(label: "TerminationProtected", required: true, type: .boolean)
+        ]
         ///  A list of strings that uniquely identify the clusters to protect. This identifier is returned by RunJobFlow and can also be obtained from DescribeJobFlows . 
         public let jobFlowIds: [String]
         /// A Boolean that indicates whether to protect the cluster and prevent the Amazon EC2 instances in the cluster from shutting down due to API calls, user intervention, or job-flow error.
@@ -1825,6 +2157,10 @@ extension Elasticmapreduce {
     public struct RemoveTagsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
+            AWSShapeProperty(label: "TagKeys", required: true, type: .list)
+        ]
         /// The Amazon EMR resource identifier from which tags will be removed. This value must be a cluster identifier.
         public let resourceId: String
         /// A list of tag keys to remove from a resource.
@@ -1846,6 +2182,11 @@ extension Elasticmapreduce {
     public struct InstanceStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "State", required: false, type: .enum), 
+            AWSShapeProperty(label: "Timeline", required: false, type: .structure), 
+            AWSShapeProperty(label: "StateChangeReason", required: false, type: .structure)
+        ]
         /// The current state of the instance.
         public let state: InstanceState?
         /// The timeline of the instance status over time.
@@ -1869,6 +2210,13 @@ extension Elasticmapreduce {
     public struct StepSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ActionOnFailure", required: false, type: .enum), 
+            AWSShapeProperty(label: "Status", required: false, type: .structure), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "Config", required: false, type: .structure), 
+            AWSShapeProperty(label: "Id", required: false, type: .string)
+        ]
         /// This specifies what action to take when the cluster step fails. Possible values are TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE.
         public let actionOnFailure: ActionOnFailure?
         /// The current execution status details of the cluster step.
@@ -1900,6 +2248,10 @@ extension Elasticmapreduce {
     public struct BootstrapActionConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "ScriptBootstrapAction", required: true, type: .structure)
+        ]
         /// The name of the bootstrap action.
         public let name: String
         /// The script run by the bootstrap action.
@@ -1921,6 +2273,10 @@ extension Elasticmapreduce {
     public struct AddInstanceGroupsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "JobFlowId", required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceGroupIds", required: false, type: .list)
+        ]
         /// The job flow ID in which the instance groups are added.
         public let jobFlowId: String?
         /// Instance group IDs of the newly created instance groups.
@@ -1945,6 +2301,10 @@ extension Elasticmapreduce {
     public struct ListInstancesOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "Instances", required: false, type: .list)
+        ]
         /// The pagination token that indicates the next set of results to retrieve.
         public let marker: String?
         /// The list of instances for the cluster and given filters.
@@ -1968,6 +2328,11 @@ extension Elasticmapreduce {
     public struct InstanceFleetModifyConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TargetOnDemandCapacity", required: false, type: .integer), 
+            AWSShapeProperty(label: "InstanceFleetId", required: true, type: .string), 
+            AWSShapeProperty(label: "TargetSpotCapacity", required: false, type: .integer)
+        ]
         /// The target capacity of On-Demand units for the instance fleet. For more information see InstanceFleetConfig$TargetOnDemandCapacity.
         public let targetOnDemandCapacity: Int32?
         /// A unique identifier for the instance fleet.
@@ -1992,6 +2357,10 @@ extension Elasticmapreduce {
     public struct ListInstanceGroupsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceGroups", required: false, type: .list)
+        ]
         /// The pagination token that indicates the next set of results to retrieve.
         public let marker: String?
         /// The list of instance groups for the cluster and given filters.
@@ -2015,6 +2384,10 @@ extension Elasticmapreduce {
     public struct SecurityConfigurationSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "CreationDateTime", required: false, type: .timestamp)
+        ]
         /// The name of the security configuration.
         public let name: String?
         /// The date and time the security configuration was created.
@@ -2034,6 +2407,10 @@ extension Elasticmapreduce {
     public struct AddInstanceFleetOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ClusterId", required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceFleetId", required: false, type: .string)
+        ]
         /// The unique identifier of the cluster.
         public let clusterId: String?
         /// The unique identifier of the instance fleet.
@@ -2053,6 +2430,10 @@ extension Elasticmapreduce {
     public struct ListBootstrapActionsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "BootstrapActions", required: false, type: .list)
+        ]
         /// The pagination token that indicates the next set of results to retrieve.
         public let marker: String?
         /// The bootstrap actions associated with the cluster.
@@ -2076,6 +2457,10 @@ extension Elasticmapreduce {
     public struct CancelStepsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "StepIds", required: false, type: .list), 
+            AWSShapeProperty(label: "ClusterId", required: false, type: .string)
+        ]
         /// The list of StepIDs to cancel. Use ListSteps to get steps and their states for the specified cluster.
         public let stepIds: [String]?
         /// The ClusterID for which specified steps will be canceled. Use RunJobFlow and ListClusters to get ClusterIDs. 
@@ -2095,6 +2480,10 @@ extension Elasticmapreduce {
     public struct ModifyInstanceFleetInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ClusterId", required: true, type: .string), 
+            AWSShapeProperty(label: "InstanceFleet", required: true, type: .structure)
+        ]
         /// The unique identifier of the cluster.
         public let clusterId: String
         /// The unique identifier of the instance fleet.
@@ -2116,6 +2505,25 @@ extension Elasticmapreduce {
     public struct JobFlowInstancesConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "InstanceFleets", required: false, type: .list), 
+            AWSShapeProperty(label: "HadoopVersion", required: false, type: .string), 
+            AWSShapeProperty(label: "Ec2SubnetId", required: false, type: .string), 
+            AWSShapeProperty(label: "EmrManagedMasterSecurityGroup", required: false, type: .string), 
+            AWSShapeProperty(label: "KeepJobFlowAliveWhenNoSteps", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Ec2KeyName", required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceGroups", required: false, type: .list), 
+            AWSShapeProperty(label: "MasterInstanceType", required: false, type: .string), 
+            AWSShapeProperty(label: "EmrManagedSlaveSecurityGroup", required: false, type: .string), 
+            AWSShapeProperty(label: "AdditionalMasterSecurityGroups", required: false, type: .list), 
+            AWSShapeProperty(label: "Placement", required: false, type: .structure), 
+            AWSShapeProperty(label: "SlaveInstanceType", required: false, type: .string), 
+            AWSShapeProperty(label: "Ec2SubnetIds", required: false, type: .list), 
+            AWSShapeProperty(label: "ServiceAccessSecurityGroup", required: false, type: .string), 
+            AWSShapeProperty(label: "AdditionalSlaveSecurityGroups", required: false, type: .list), 
+            AWSShapeProperty(label: "InstanceCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "TerminationProtected", required: false, type: .boolean)
+        ]
         ///  The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions.  Describes the EC2 instances and instance configurations for clusters that use the instance fleet configuration.
         public let instanceFleets: [InstanceFleetConfig]?
         /// The Hadoop version for the cluster. Valid inputs are "0.18" (deprecated), "0.20" (deprecated), "0.20.205" (deprecated), "1.0.3", "2.2.0", or "2.4.0". If you do not set this value, the default of 0.18 is used, unless the AmiVersion parameter is set in the RunJobFlow call, in which case the default version of Hadoop for that AMI version is used.
@@ -2203,6 +2611,14 @@ extension Elasticmapreduce {
     public struct InstanceTypeConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "WeightedCapacity", required: false, type: .integer), 
+            AWSShapeProperty(label: "BidPrice", required: false, type: .string), 
+            AWSShapeProperty(label: "BidPriceAsPercentageOfOnDemandPrice", required: false, type: .double), 
+            AWSShapeProperty(label: "InstanceType", required: true, type: .string), 
+            AWSShapeProperty(label: "EbsConfiguration", required: false, type: .structure), 
+            AWSShapeProperty(label: "Configurations", required: false, type: .list)
+        ]
         /// The number of units that a provisioned instance of this type provides toward fulfilling the target capacities defined in InstanceFleetConfig. This value is 1 for a master instance fleet, and must be greater than 0 for core and task instance fleets. 
         public let weightedCapacity: Int32?
         /// The bid price for each EC2 Spot instance type as defined by InstanceType. Expressed in USD. If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%. 
@@ -2257,6 +2673,9 @@ extension Elasticmapreduce {
     public struct TerminateJobFlowsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "JobFlowIds", required: true, type: .list)
+        ]
         /// A list of job flows to be shutdown.
         public let jobFlowIds: [String]
 
@@ -2273,6 +2692,12 @@ extension Elasticmapreduce {
     public struct HadoopJarStepConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "MainClass", required: false, type: .string), 
+            AWSShapeProperty(label: "Jar", required: true, type: .string), 
+            AWSShapeProperty(label: "Properties", required: false, type: .list), 
+            AWSShapeProperty(label: "Args", required: false, type: .list)
+        ]
         /// The name of the main class in the specified Java file. If not specified, the JAR file should specify a Main-Class in its manifest file.
         public let mainClass: String?
         /// A path to a JAR file run during the step.
@@ -2305,6 +2730,10 @@ extension Elasticmapreduce {
     public struct ShrinkPolicy: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "InstanceResizePolicy", required: false, type: .structure), 
+            AWSShapeProperty(label: "DecommissionTimeout", required: false, type: .integer)
+        ]
         /// Custom policy for requesting termination protection or termination of specific instances when shrinking an instance group.
         public let instanceResizePolicy: InstanceResizePolicy?
         /// The desired timeout for decommissioning an instance. Overrides the default YARN decommissioning timeout.
@@ -2324,6 +2753,10 @@ extension Elasticmapreduce {
     public struct ListBootstrapActionsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "ClusterId", required: true, type: .string)
+        ]
         /// The pagination token that indicates the next set of results to retrieve.
         public let marker: String?
         /// The cluster identifier for the bootstrap actions to list.
@@ -2353,6 +2786,11 @@ extension Elasticmapreduce {
     public struct InstanceFleetTimeline: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ReadyDateTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "CreationDateTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "EndDateTime", required: false, type: .timestamp)
+        ]
         /// The time and date the instance fleet was ready to run jobs.
         public let readyDateTime: Date?
         /// The time and date the instance fleet was created.
@@ -2376,6 +2814,10 @@ extension Elasticmapreduce {
     public struct ScalingConstraints: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "MaxCapacity", required: true, type: .integer), 
+            AWSShapeProperty(label: "MinCapacity", required: true, type: .integer)
+        ]
         /// The upper boundary of EC2 instances in an instance group beyond which scaling activities are not allowed to grow. Scale-out activities will not add instances beyond this boundary.
         public let maxCapacity: Int32
         /// The lower boundary of EC2 instances in an instance group below which scaling activities are not allowed to shrink. Scale-in activities will not terminate instances below this boundary.
@@ -2397,6 +2839,11 @@ extension Elasticmapreduce {
     public struct AutoScalingPolicyDescription: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Status", required: false, type: .structure), 
+            AWSShapeProperty(label: "Rules", required: false, type: .list), 
+            AWSShapeProperty(label: "Constraints", required: false, type: .structure)
+        ]
         /// The status of an automatic scaling policy. 
         public let status: AutoScalingPolicyStatus?
         /// The scale-in and scale-out rules that comprise the automatic scaling policy.
@@ -2424,6 +2871,10 @@ extension Elasticmapreduce {
     public struct SupportedProductConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "Args", required: false, type: .list)
+        ]
         /// The name of the product configuration.
         public let name: String?
         /// The list of user-supplied arguments.
@@ -2443,6 +2894,15 @@ extension Elasticmapreduce {
     public struct InstanceTypeSpecification: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "WeightedCapacity", required: false, type: .integer), 
+            AWSShapeProperty(label: "BidPrice", required: false, type: .string), 
+            AWSShapeProperty(label: "EbsBlockDevices", required: false, type: .list), 
+            AWSShapeProperty(label: "EbsOptimized", required: false, type: .boolean), 
+            AWSShapeProperty(label: "BidPriceAsPercentageOfOnDemandPrice", required: false, type: .double), 
+            AWSShapeProperty(label: "InstanceType", required: false, type: .string), 
+            AWSShapeProperty(label: "Configurations", required: false, type: .list)
+        ]
         /// The number of units that a provisioned instance of this type provides toward fulfilling the target capacities defined in InstanceFleetConfig. Capacity values represent performance characteristics such as vCPUs, memory, or I/O. If not specified, the default value is 1.
         public let weightedCapacity: Int32?
         /// The bid price for each EC2 Spot instance type as defined by InstanceType. Expressed in USD.
@@ -2490,6 +2950,13 @@ extension Elasticmapreduce {
     public struct StepExecutionStatusDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "StartDateTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "LastStateChangeReason", required: false, type: .string), 
+            AWSShapeProperty(label: "CreationDateTime", required: true, type: .timestamp), 
+            AWSShapeProperty(label: "EndDateTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "State", required: true, type: .enum)
+        ]
         /// The start date and time of the step.
         public let startDateTime: Date?
         /// A description of the step's current state.
@@ -2532,6 +2999,27 @@ extension Elasticmapreduce {
     public struct RunJobFlowInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Steps", required: false, type: .list), 
+            AWSShapeProperty(label: "ReleaseLabel", required: false, type: .string), 
+            AWSShapeProperty(label: "SupportedProducts", required: false, type: .list), 
+            AWSShapeProperty(label: "AutoScalingRole", required: false, type: .string), 
+            AWSShapeProperty(label: "SecurityConfiguration", required: false, type: .string), 
+            AWSShapeProperty(label: "Tags", required: false, type: .list), 
+            AWSShapeProperty(label: "AmiVersion", required: false, type: .string), 
+            AWSShapeProperty(label: "VisibleToAllUsers", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Applications", required: false, type: .list), 
+            AWSShapeProperty(label: "ServiceRole", required: false, type: .string), 
+            AWSShapeProperty(label: "NewSupportedProducts", required: false, type: .list), 
+            AWSShapeProperty(label: "JobFlowRole", required: false, type: .string), 
+            AWSShapeProperty(label: "BootstrapActions", required: false, type: .list), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "ScaleDownBehavior", required: false, type: .enum), 
+            AWSShapeProperty(label: "AdditionalInfo", required: false, type: .string), 
+            AWSShapeProperty(label: "LogUri", required: false, type: .string), 
+            AWSShapeProperty(label: "Instances", required: true, type: .structure), 
+            AWSShapeProperty(label: "Configurations", required: false, type: .list)
+        ]
         /// A list of steps to run.
         public let steps: [StepConfig]?
         ///  Amazon EMR releases 4.x or later.  The release label for the Amazon EMR release. For Amazon EMR 3.x and 2.x AMIs, use amiVersion instead instead of ReleaseLabel.
@@ -2661,6 +3149,10 @@ extension Elasticmapreduce {
     public struct AddJobFlowStepsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Steps", required: true, type: .list), 
+            AWSShapeProperty(label: "JobFlowId", required: true, type: .string)
+        ]
         ///  A list of StepConfig to be executed by the job flow. 
         public let steps: [StepConfig]
         /// A string that uniquely identifies the job flow. This identifier is returned by RunJobFlow and can also be obtained from ListClusters. 
@@ -2692,6 +3184,29 @@ extension Elasticmapreduce {
     public struct Cluster: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ReleaseLabel", required: false, type: .string), 
+            AWSShapeProperty(label: "AutoScalingRole", required: false, type: .string), 
+            AWSShapeProperty(label: "SecurityConfiguration", required: false, type: .string), 
+            AWSShapeProperty(label: "Tags", required: false, type: .list), 
+            AWSShapeProperty(label: "VisibleToAllUsers", required: false, type: .boolean), 
+            AWSShapeProperty(label: "NormalizedInstanceHours", required: false, type: .integer), 
+            AWSShapeProperty(label: "Applications", required: false, type: .list), 
+            AWSShapeProperty(label: "ServiceRole", required: false, type: .string), 
+            AWSShapeProperty(label: "Ec2InstanceAttributes", required: false, type: .structure), 
+            AWSShapeProperty(label: "InstanceCollectionType", required: false, type: .enum), 
+            AWSShapeProperty(label: "Id", required: false, type: .string), 
+            AWSShapeProperty(label: "Status", required: false, type: .structure), 
+            AWSShapeProperty(label: "ScaleDownBehavior", required: false, type: .enum), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "RunningAmiVersion", required: false, type: .string), 
+            AWSShapeProperty(label: "RequestedAmiVersion", required: false, type: .string), 
+            AWSShapeProperty(label: "LogUri", required: false, type: .string), 
+            AWSShapeProperty(label: "MasterPublicDnsName", required: false, type: .string), 
+            AWSShapeProperty(label: "TerminationProtected", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Configurations", required: false, type: .list), 
+            AWSShapeProperty(label: "AutoTerminate", required: false, type: .boolean)
+        ]
         /// The release label for the Amazon EMR release. For Amazon EMR 3.x and 2.x AMIs, use amiVersion instead instead of ReleaseLabel.
         public let releaseLabel: String?
         /// An IAM role for automatic scaling policies. The default role is EMR_AutoScaling_DefaultRole. The IAM role provides permissions that the automatic scaling feature requires to launch and terminate EC2 instances in an instance group.
@@ -2799,6 +3314,10 @@ extension Elasticmapreduce {
     public struct StepDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ExecutionStatusDetail", required: true, type: .structure), 
+            AWSShapeProperty(label: "StepConfig", required: true, type: .structure)
+        ]
         /// The description of the step status.
         public let executionStatusDetail: StepExecutionStatusDetail
         /// The step configuration.
@@ -2820,6 +3339,10 @@ extension Elasticmapreduce {
     public struct KeyValue: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Value", required: false, type: .string), 
+            AWSShapeProperty(label: "Key", required: false, type: .string)
+        ]
         /// The value part of the identified key.
         public let value: String?
         /// The unique identifier of a key value pair.
@@ -2839,6 +3362,9 @@ extension Elasticmapreduce {
     public struct DescribeClusterInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ClusterId", required: true, type: .string)
+        ]
         /// The identifier of the cluster to describe.
         public let clusterId: String
 
@@ -2855,6 +3381,10 @@ extension Elasticmapreduce {
     public struct DescribeStepInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ClusterId", required: true, type: .string), 
+            AWSShapeProperty(label: "StepId", required: true, type: .string)
+        ]
         /// The identifier of the cluster with steps to describe.
         public let clusterId: String
         /// The identifier of the step to describe.
@@ -2887,6 +3417,9 @@ extension Elasticmapreduce {
     public struct DescribeSecurityConfigurationInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Name", required: true, type: .string)
+        ]
         /// The name of the security configuration.
         public let name: String
 
@@ -2903,6 +3436,9 @@ extension Elasticmapreduce {
     public struct RunJobFlowOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "JobFlowId", required: false, type: .string)
+        ]
         /// An unique identifier for the job flow.
         public let jobFlowId: String?
 
@@ -2927,6 +3463,10 @@ extension Elasticmapreduce {
     public struct AddInstanceGroupsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "JobFlowId", required: true, type: .string), 
+            AWSShapeProperty(label: "InstanceGroups", required: true, type: .list)
+        ]
         /// Job flow in which to add the instance groups.
         public let jobFlowId: String
         /// Instance groups to add.
@@ -2948,6 +3488,12 @@ extension Elasticmapreduce {
     public struct ClusterSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Status", required: false, type: .structure), 
+            AWSShapeProperty(label: "NormalizedInstanceHours", required: false, type: .integer), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "Id", required: false, type: .string)
+        ]
         /// The details about the current status of the cluster.
         public let status: ClusterStatus?
         /// An approximation of the cost of the cluster, represented in m1.small/hours. This value is incremented one time for every hour an m1.small instance runs. Larger instances are weighted more, so an EC2 instance that is roughly four times more expensive would result in the normalized instance hours being incremented by four. This result is only an approximation and does not reflect the actual billing rate.
@@ -2975,6 +3521,10 @@ extension Elasticmapreduce {
     public struct SetVisibleToAllUsersInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "JobFlowIds", required: true, type: .list), 
+            AWSShapeProperty(label: "VisibleToAllUsers", required: true, type: .boolean)
+        ]
         /// Identifiers of the job flows to receive the new visibility setting.
         public let jobFlowIds: [String]
         /// Whether the specified clusters are visible to all IAM users of the AWS account associated with the cluster. If this value is set to True, all IAM users of that AWS account can view and, if they have the proper IAM policy permissions set, manage the clusters. If it is set to False, only the IAM user that created a cluster can view and manage it.
@@ -2996,6 +3546,12 @@ extension Elasticmapreduce {
     public struct InstanceGroupModifyConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "InstanceGroupId", required: true, type: .string), 
+            AWSShapeProperty(label: "ShrinkPolicy", required: false, type: .structure), 
+            AWSShapeProperty(label: "InstanceCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "EC2InstanceIdsToTerminate", required: false, type: .list)
+        ]
         /// Unique ID of the instance group to expand or shrink.
         public let instanceGroupId: String
         /// Policy for customizing shrink operations.
@@ -3024,6 +3580,10 @@ extension Elasticmapreduce {
     public struct InstanceGroupStateChangeReason: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Code", required: false, type: .enum), 
+            AWSShapeProperty(label: "Message", required: false, type: .string)
+        ]
         /// The programmable code for the state change reason.
         public let code: InstanceGroupStateChangeReasonCode?
         /// The status change reason description.
@@ -3043,6 +3603,12 @@ extension Elasticmapreduce {
     public struct StepStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "StateChangeReason", required: false, type: .structure), 
+            AWSShapeProperty(label: "FailureDetails", required: false, type: .structure), 
+            AWSShapeProperty(label: "State", required: false, type: .enum), 
+            AWSShapeProperty(label: "Timeline", required: false, type: .structure)
+        ]
         /// The reason for the step execution status change.
         public let stateChangeReason: StepStateChangeReason?
         /// The details for the step failure including reason, message, and log file path where the root cause was identified.
@@ -3070,6 +3636,10 @@ extension Elasticmapreduce {
     public struct EbsBlockDevice: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "VolumeSpecification", required: false, type: .structure), 
+            AWSShapeProperty(label: "Device", required: false, type: .string)
+        ]
         /// EBS volume specifications such as volume type, IOPS, and size (GiB) that will be requested for the EBS volume attached to an EC2 instance in the cluster.
         public let volumeSpecification: VolumeSpecification?
         /// The device name that is exposed to the instance, such as /dev/sdh.
@@ -3089,6 +3659,10 @@ extension Elasticmapreduce {
     public struct StepStateChangeReason: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Code", required: false, type: .enum), 
+            AWSShapeProperty(label: "Message", required: false, type: .string)
+        ]
         /// The programmable code for the state change reason. Note: Currently, the service provides no code for the state change.
         public let code: StepStateChangeReasonCode?
         /// The descriptive message for the state change reason.
@@ -3108,6 +3682,11 @@ extension Elasticmapreduce {
     public struct ClusterStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "State", required: false, type: .enum), 
+            AWSShapeProperty(label: "Timeline", required: false, type: .structure), 
+            AWSShapeProperty(label: "StateChangeReason", required: false, type: .structure)
+        ]
         /// The current state of the cluster.
         public let state: ClusterState?
         /// A timeline that represents the status of a cluster over the lifetime of the cluster.
@@ -3131,6 +3710,10 @@ extension Elasticmapreduce {
     public struct ModifyInstanceGroupsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ClusterId", required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceGroups", required: false, type: .list)
+        ]
         /// The ID of the cluster to which the instance group belongs.
         public let clusterId: String?
         /// Instance groups to change.
@@ -3162,6 +3745,10 @@ extension Elasticmapreduce {
     public struct ListClustersOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "Clusters", required: false, type: .list)
+        ]
         /// The pagination token that indicates the next set of results to retrieve.
         public let marker: String?
         /// The list of clusters for the account based on the given filters.
@@ -3185,6 +3772,17 @@ extension Elasticmapreduce {
     public struct InstanceGroupConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "BidPrice", required: false, type: .string), 
+            AWSShapeProperty(label: "Market", required: false, type: .enum), 
+            AWSShapeProperty(label: "InstanceRole", required: true, type: .enum), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "AutoScalingPolicy", required: false, type: .structure), 
+            AWSShapeProperty(label: "InstanceCount", required: true, type: .integer), 
+            AWSShapeProperty(label: "InstanceType", required: true, type: .string), 
+            AWSShapeProperty(label: "EbsConfiguration", required: false, type: .structure), 
+            AWSShapeProperty(label: "Configurations", required: false, type: .list)
+        ]
         /// Bid price for each EC2 instance in the instance group when launching nodes as Spot Instances, expressed in USD.
         public let bidPrice: String?
         /// Market type of the EC2 instances used to create a cluster node.
@@ -3239,6 +3837,22 @@ extension Elasticmapreduce {
     public struct InstanceGroupDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "InstanceGroupId", required: false, type: .string), 
+            AWSShapeProperty(label: "BidPrice", required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceRunningCount", required: true, type: .integer), 
+            AWSShapeProperty(label: "EndDateTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "State", required: true, type: .enum), 
+            AWSShapeProperty(label: "LastStateChangeReason", required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceType", required: true, type: .string), 
+            AWSShapeProperty(label: "ReadyDateTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "CreationDateTime", required: true, type: .timestamp), 
+            AWSShapeProperty(label: "InstanceRequestCount", required: true, type: .integer), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceRole", required: true, type: .enum), 
+            AWSShapeProperty(label: "Market", required: true, type: .enum), 
+            AWSShapeProperty(label: "StartDateTime", required: false, type: .timestamp)
+        ]
         /// Unique identifier for the instance group.
         public let instanceGroupId: String?
         /// Bid price for EC2 Instances when launching nodes as Spot Instances, expressed in USD.
@@ -3313,6 +3927,10 @@ extension Elasticmapreduce {
     public struct ListStepsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Steps", required: false, type: .list), 
+            AWSShapeProperty(label: "Marker", required: false, type: .string)
+        ]
         /// The filtered list of steps for the cluster.
         public let steps: [StepSummary]?
         /// The pagination token that indicates the next set of results to retrieve.
@@ -3336,6 +3954,12 @@ extension Elasticmapreduce {
     public struct HadoopStepConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "MainClass", required: false, type: .string), 
+            AWSShapeProperty(label: "Jar", required: false, type: .string), 
+            AWSShapeProperty(label: "Properties", required: false, type: .map), 
+            AWSShapeProperty(label: "Args", required: false, type: .list)
+        ]
         /// The name of the main class in the specified Java file. If not specified, the JAR file should specify a main class in its manifest file.
         public let mainClass: String?
         /// The path to the JAR file that runs during the step.
@@ -3367,6 +3991,10 @@ extension Elasticmapreduce {
     public struct EbsConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "EbsOptimized", required: false, type: .boolean), 
+            AWSShapeProperty(label: "EbsBlockDeviceConfigs", required: false, type: .list)
+        ]
         /// Indicates whether an Amazon EBS volume is EBS-optimized.
         public let ebsOptimized: Bool?
         /// An array of Amazon EBS volume specifications attached to a cluster instance.
@@ -3390,6 +4018,11 @@ extension Elasticmapreduce {
     public struct InstanceTimeline: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ReadyDateTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "CreationDateTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "EndDateTime", required: false, type: .timestamp)
+        ]
         /// The date and time when the instance was ready to perform tasks.
         public let readyDateTime: Date?
         /// The creation date and time of the instance.
@@ -3413,6 +4046,11 @@ extension Elasticmapreduce {
     public struct InstanceResizePolicy: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "InstancesToTerminate", required: false, type: .list), 
+            AWSShapeProperty(label: "InstanceTerminationTimeout", required: false, type: .integer), 
+            AWSShapeProperty(label: "InstancesToProtect", required: false, type: .list)
+        ]
         /// Specific list of instances to be terminated when shrinking an instance group.
         public let instancesToTerminate: [String]?
         /// Decommissioning timeout override for the specific list of instances to be terminated.
@@ -3436,6 +4074,10 @@ extension Elasticmapreduce {
     public struct AddTagsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
+            AWSShapeProperty(label: "Tags", required: true, type: .list)
+        ]
         /// The Amazon EMR resource identifier to which tags will be added. This value must be a cluster identifier.
         public let resourceId: String
         /// A list of tags to associate with a cluster and propagate to EC2 instances. Tags are user-defined key/value pairs that consist of a required key string with a maximum of 128 characters, and an optional value string with a maximum of 256 characters.
@@ -3465,6 +4107,10 @@ extension Elasticmapreduce {
     public struct ScriptBootstrapActionConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Args", required: false, type: .list), 
+            AWSShapeProperty(label: "Path", required: true, type: .string)
+        ]
         /// A list of command line arguments to pass to the bootstrap action script.
         public let args: [String]?
         /// Location of the script to run during a bootstrap action. Can be either a location in Amazon S3 or on a local file system.
@@ -3485,6 +4131,10 @@ extension Elasticmapreduce {
     public struct AddInstanceFleetInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ClusterId", required: true, type: .string), 
+            AWSShapeProperty(label: "InstanceFleet", required: true, type: .structure)
+        ]
         /// The unique identifier of the cluster.
         public let clusterId: String
         /// Specifies the configuration of the instance fleet.
@@ -3506,6 +4156,11 @@ extension Elasticmapreduce {
     public struct SpotProvisioningSpecification: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TimeoutDurationMinutes", required: true, type: .integer), 
+            AWSShapeProperty(label: "TimeoutAction", required: true, type: .enum), 
+            AWSShapeProperty(label: "BlockDurationMinutes", required: false, type: .integer)
+        ]
         /// The spot provisioning timeout period in minutes. If Spot instances are not provisioned within this time period, the TimeOutAction is taken. Minimum value is 5 and maximum value is 1440. The timeout applies only during initial provisioning, when the cluster is first created.
         public let timeoutDurationMinutes: Int32
         /// The action to take when TargetSpotCapacity has not been fulfilled when the TimeoutDurationMinutes has expired. Spot instances are not uprovisioned within the Spot provisioining timeout. Valid values are TERMINATE_CLUSTER and SWITCH_TO_ON_DEMAND to fulfill the remaining capacity.
@@ -3531,6 +4186,14 @@ extension Elasticmapreduce {
     public struct JobFlowExecutionStatusDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ReadyDateTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "StartDateTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "LastStateChangeReason", required: false, type: .string), 
+            AWSShapeProperty(label: "CreationDateTime", required: true, type: .timestamp), 
+            AWSShapeProperty(label: "EndDateTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "State", required: true, type: .enum)
+        ]
         /// The date and time when the job flow was ready to start running bootstrap actions.
         public let readyDateTime: Date?
         /// The start date and time of the job flow.
@@ -3568,6 +4231,10 @@ extension Elasticmapreduce {
     public struct RemoveAutoScalingPolicyInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "InstanceGroupId", required: true, type: .string), 
+            AWSShapeProperty(label: "ClusterId", required: true, type: .string)
+        ]
         /// Specifies the ID of the instance group to which the scaling policy is applied.
         public let instanceGroupId: String
         /// Specifies the ID of a cluster. The instance group to which the automatic scaling policy is applied is within this cluster.

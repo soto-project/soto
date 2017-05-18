@@ -43,6 +43,10 @@ extension Cur {
     public struct DescribeReportDefinitionsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "ReportDefinitions", required: false, type: .list)
+        ]
         public let nextToken: String?
         public let reportDefinitions: [ReportDefinition]?
 
@@ -70,6 +74,9 @@ extension Cur {
     public struct DeleteReportDefinitionResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ResponseMessage", required: false, type: .string)
+        ]
         public let responseMessage: String?
 
         public init(responseMessage: String? = nil) {
@@ -92,6 +99,17 @@ extension Cur {
     public struct ReportDefinition: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TimeUnit", required: true, type: .enum), 
+            AWSShapeProperty(label: "Format", required: true, type: .enum), 
+            AWSShapeProperty(label: "Compression", required: true, type: .enum), 
+            AWSShapeProperty(label: "ReportName", required: true, type: .string), 
+            AWSShapeProperty(label: "S3Region", required: true, type: .enum), 
+            AWSShapeProperty(label: "AdditionalArtifacts", required: false, type: .list), 
+            AWSShapeProperty(label: "AdditionalSchemaElements", required: true, type: .list), 
+            AWSShapeProperty(label: "S3Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "S3Prefix", required: true, type: .string)
+        ]
         public let timeUnit: TimeUnit
         public let format: ReportFormat
         public let compression: CompressionFormat
@@ -150,6 +168,9 @@ extension Cur {
     public struct PutReportDefinitionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ReportDefinition", required: true, type: .structure)
+        ]
         public let reportDefinition: ReportDefinition
 
         public init(reportDefinition: ReportDefinition) {
@@ -176,6 +197,10 @@ extension Cur {
     public struct DescribeReportDefinitionsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        ]
         public let nextToken: String?
         public let maxResults: Int32?
 
@@ -193,6 +218,9 @@ extension Cur {
     public struct DeleteReportDefinitionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ReportName", required: false, type: .string)
+        ]
         public let reportName: String?
 
         public init(reportName: String? = nil) {

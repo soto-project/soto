@@ -32,6 +32,29 @@ extension MturkRequester {
     public struct HIT: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AutoApprovalDelayInSeconds", required: false, type: .long), 
+            AWSShapeProperty(label: "HITLayoutId", required: false, type: .string), 
+            AWSShapeProperty(label: "NumberOfAssignmentsCompleted", required: false, type: .integer), 
+            AWSShapeProperty(label: "NumberOfAssignmentsAvailable", required: false, type: .integer), 
+            AWSShapeProperty(label: "Title", required: false, type: .string), 
+            AWSShapeProperty(label: "AssignmentDurationInSeconds", required: false, type: .long), 
+            AWSShapeProperty(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "HITGroupId", required: false, type: .string), 
+            AWSShapeProperty(label: "Reward", required: false, type: .string), 
+            AWSShapeProperty(label: "HITReviewStatus", required: false, type: .enum), 
+            AWSShapeProperty(label: "HITTypeId", required: false, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxAssignments", required: false, type: .integer), 
+            AWSShapeProperty(label: "HITId", required: false, type: .string), 
+            AWSShapeProperty(label: "HITStatus", required: false, type: .enum), 
+            AWSShapeProperty(label: "Expiration", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "QualificationRequirements", required: false, type: .list), 
+            AWSShapeProperty(label: "Keywords", required: false, type: .string), 
+            AWSShapeProperty(label: "Question", required: false, type: .string), 
+            AWSShapeProperty(label: "RequesterAnnotation", required: false, type: .string), 
+            AWSShapeProperty(label: "NumberOfAssignmentsPending", required: false, type: .integer)
+        ]
         /// The amount of time, in seconds, after the Worker submits an assignment for the HIT that the results are automatically approved by Amazon Mechanical Turk. This is the amount of time the Requester has to reject an assignment submitted by a Worker before the assignment is auto-approved and the Worker is paid. 
         public let autoApprovalDelayInSeconds: Int64?
         ///  The ID of the HIT Layout of this HIT.
@@ -130,6 +153,9 @@ extension MturkRequester {
     public struct DeleteQualificationTypeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "QualificationTypeId", required: true, type: .string)
+        ]
         /// The ID of the QualificationType to dispose.
         public let qualificationTypeId: String
 
@@ -146,6 +172,12 @@ extension MturkRequester {
     public struct ListAssignmentsForHITRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "HITId", required: true, type: .string), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "AssignmentStatuses", required: false, type: .list), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        ]
         /// The ID of the HIT.
         public let hITId: String
         /// Pagination token
@@ -195,6 +227,11 @@ extension MturkRequester {
     public struct NotifyWorkersRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Subject", required: true, type: .string), 
+            AWSShapeProperty(label: "MessageText", required: true, type: .string), 
+            AWSShapeProperty(label: "WorkerIds", required: true, type: .list)
+        ]
         /// The subject line of the email message to send. Can include up to 200 characters.
         public let subject: String
         /// The text of the email message to send. Can include up to 4,096 characters
@@ -221,6 +258,9 @@ extension MturkRequester {
     public struct CreateHITTypeResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "HITTypeId", required: false, type: .string)
+        ]
         ///  The ID of the newly registered HIT type.
         public let hITTypeId: String?
 
@@ -236,6 +276,11 @@ extension MturkRequester {
     public struct ListAssignmentsForHITResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Assignments", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "NumResults", required: false, type: .integer)
+        ]
         ///  The collection of Assignment data structures returned by this call.
         public let assignments: [Assignment]?
         public let nextToken: String?
@@ -262,6 +307,13 @@ extension MturkRequester {
     public struct ListQualificationTypesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "MustBeOwnedByCaller", required: false, type: .boolean), 
+            AWSShapeProperty(label: "MustBeRequestable", required: true, type: .boolean), 
+            AWSShapeProperty(label: "Query", required: false, type: .string), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        ]
         ///  Specifies that only Qualification types that the Requester created are returned. If false, the operation returns all Qualification types. 
         public let mustBeOwnedByCaller: Bool?
         /// Specifies that only Qualification types that a user can request through the Amazon Mechanical Turk web site, such as by taking a Qualification test, are returned as results of the search. Some Qualification types, such as those assigned automatically by the system, cannot be requested directly by users. If false, all Qualification types, including those managed by the system, are considered. Valid values are True | False. 
@@ -293,6 +345,11 @@ extension MturkRequester {
     public struct ListQualificationRequestsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "QualificationTypeId", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        ]
         public let nextToken: String?
         /// The ID of the QualificationType.
         public let qualificationTypeId: String?
@@ -321,6 +378,11 @@ extension MturkRequester {
     public struct ListReviewableHITsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "HITs", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "NumResults", required: false, type: .integer)
+        ]
         ///  The list of HIT elements returned by the query.
         public let hITs: [HIT]?
         public let nextToken: String?
@@ -347,6 +409,9 @@ extension MturkRequester {
     public struct GetFileUploadURLResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "FileUploadURL", required: false, type: .string)
+        ]
         ///  A temporary URL for the file that the Worker uploaded for the answer. 
         public let fileUploadURL: String?
 
@@ -362,6 +427,10 @@ extension MturkRequester {
     public struct HITLayoutParameter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Value", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: false, type: .string)
+        ]
         /// The value substituted for the parameter referenced in the HITLayout. 
         public let value: String?
         ///  The name of the parameter in the HITLayout. 
@@ -389,6 +458,21 @@ extension MturkRequester {
     public struct QualificationType: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TestDurationInSeconds", required: false, type: .long), 
+            AWSShapeProperty(label: "RetryDelayInSeconds", required: false, type: .long), 
+            AWSShapeProperty(label: "QualificationTypeStatus", required: false, type: .enum), 
+            AWSShapeProperty(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "AnswerKey", required: false, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string), 
+            AWSShapeProperty(label: "AutoGranted", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Test", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "Keywords", required: false, type: .string), 
+            AWSShapeProperty(label: "IsRequestable", required: false, type: .boolean), 
+            AWSShapeProperty(label: "AutoGrantedValue", required: false, type: .integer), 
+            AWSShapeProperty(label: "QualificationTypeId", required: false, type: .string)
+        ]
         ///  The amount of time, in seconds, given to a Worker to complete the Qualification test, beginning from the time the Worker requests the Qualification. 
         public let testDurationInSeconds: Int64?
         ///  The amount of time, in seconds, Workers must wait after taking the Qualification test before they can take it again. Workers can take a Qualification test multiple times if they were not granted the Qualification from a previous attempt, or if the test offers a gradient score and they want a better score. If not specified, retries are disabled and Workers can request a Qualification only once. 
@@ -452,6 +536,10 @@ extension MturkRequester {
     public struct UpdateExpirationForHITRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ExpireAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "HITId", required: true, type: .string)
+        ]
         ///  The date and time at which you want the HIT to expire 
         public let expireAt: Date?
         ///  The HIT to update. 
@@ -496,6 +584,11 @@ extension MturkRequester {
     public struct ListQualificationTypesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "QualificationTypes", required: false, type: .list), 
+            AWSShapeProperty(label: "NumResults", required: false, type: .integer)
+        ]
         public let nextToken: String?
         ///  The list of QualificationType elements returned by the query. 
         public let qualificationTypes: [QualificationType]?
@@ -530,6 +623,10 @@ extension MturkRequester {
     public struct ReviewPolicy: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Parameters", required: false, type: .list), 
+            AWSShapeProperty(label: "PolicyName", required: false, type: .string)
+        ]
         /// Name of the parameter from the Review policy.
         public let parameters: [PolicyParameter]?
         ///  Name of a Review Policy: SimplePlurality/2011-09-01 or ScoreMyKnownAnswers/2011-09-01 
@@ -559,6 +656,9 @@ extension MturkRequester {
     public struct GetHITResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "HIT", required: false, type: .structure)
+        ]
         ///  Contains the requested HIT data.
         public let hIT: HIT?
 
@@ -574,6 +674,11 @@ extension MturkRequester {
     public struct NotifyWorkersFailureStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "NotifyWorkersFailureMessage", required: false, type: .string), 
+            AWSShapeProperty(label: "WorkerId", required: false, type: .string), 
+            AWSShapeProperty(label: "NotifyWorkersFailureCode", required: false, type: .enum)
+        ]
         ///  A message detailing the reason the Worker could not be notified. 
         public let notifyWorkersFailureMessage: String?
         ///  The ID of the Worker.
@@ -605,6 +710,11 @@ extension MturkRequester {
     public struct ListHITsForQualificationTypeResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "HITs", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "NumResults", required: false, type: .integer)
+        ]
         ///  The list of HIT elements returned by the query.
         public let hITs: [HIT]?
         public let nextToken: String?
@@ -639,6 +749,24 @@ extension MturkRequester {
     public struct CreateHITRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AutoApprovalDelayInSeconds", required: false, type: .long), 
+            AWSShapeProperty(label: "HITLayoutParameters", required: false, type: .list), 
+            AWSShapeProperty(label: "HITLayoutId", required: false, type: .string), 
+            AWSShapeProperty(label: "Title", required: true, type: .string), 
+            AWSShapeProperty(label: "HITReviewPolicy", required: false, type: .structure), 
+            AWSShapeProperty(label: "AssignmentDurationInSeconds", required: true, type: .long), 
+            AWSShapeProperty(label: "Reward", required: true, type: .string), 
+            AWSShapeProperty(label: "UniqueRequestToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Description", required: true, type: .string), 
+            AWSShapeProperty(label: "MaxAssignments", required: false, type: .integer), 
+            AWSShapeProperty(label: "QualificationRequirements", required: false, type: .list), 
+            AWSShapeProperty(label: "Keywords", required: false, type: .string), 
+            AWSShapeProperty(label: "Question", required: false, type: .string), 
+            AWSShapeProperty(label: "LifetimeInSeconds", required: true, type: .long), 
+            AWSShapeProperty(label: "AssignmentReviewPolicy", required: false, type: .structure), 
+            AWSShapeProperty(label: "RequesterAnnotation", required: false, type: .string)
+        ]
         ///  The number of seconds after an assignment for the HIT has been submitted, after which the assignment is considered Approved automatically unless the Requester explicitly rejects it. 
         public let autoApprovalDelayInSeconds: Int64?
         ///  If the HITLayoutId is provided, any placeholder values must be filled in with values using the HITLayoutParameter structure. For more information, see HITLayout. 
@@ -727,6 +855,10 @@ extension MturkRequester {
     public struct ListWorkerBlocksRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        ]
         /// Pagination token
         public let nextToken: String?
         public let maxResults: Int32?
@@ -769,6 +901,9 @@ extension MturkRequester {
     public struct GetQualificationScoreResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Qualification", required: false, type: .structure)
+        ]
         ///  The Qualification data structure of the Qualification assigned to a user, including the Qualification type and the value (score). 
         public let qualification: Qualification?
 
@@ -792,6 +927,10 @@ extension MturkRequester {
     public struct UpdateHITReviewStatusRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "HITId", required: true, type: .string), 
+            AWSShapeProperty(label: "Revert", required: false, type: .boolean)
+        ]
         ///  The ID of the HIT to update. 
         public let hITId: String
         ///  Specifies how to update the HIT status. Default is False.     Setting this to false will only transition a HIT from Reviewable to Reviewing     Setting this to true will only transition a HIT from Reviewing to Reviewable   
@@ -812,6 +951,12 @@ extension MturkRequester {
     public struct AssociateQualificationWithWorkerRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "IntegerValue", required: false, type: .integer), 
+            AWSShapeProperty(label: "SendNotification", required: false, type: .boolean), 
+            AWSShapeProperty(label: "WorkerId", required: true, type: .string), 
+            AWSShapeProperty(label: "QualificationTypeId", required: true, type: .string)
+        ]
         /// The value of the Qualification to assign.
         public let integerValue: Int32?
         ///  Specifies whether to send a notification email message to the Worker saying that the qualification was assigned to the Worker. Note: this is true by default. 
@@ -841,6 +986,9 @@ extension MturkRequester {
     public struct DeleteHITRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "HITId", required: true, type: .string)
+        ]
         /// The ID of the HIT to be deleted.
         public let hITId: String
 
@@ -863,6 +1011,17 @@ extension MturkRequester {
     public struct UpdateQualificationTypeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TestDurationInSeconds", required: false, type: .long), 
+            AWSShapeProperty(label: "AutoGranted", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Test", required: false, type: .string), 
+            AWSShapeProperty(label: "RetryDelayInSeconds", required: false, type: .long), 
+            AWSShapeProperty(label: "QualificationTypeStatus", required: false, type: .enum), 
+            AWSShapeProperty(label: "AnswerKey", required: false, type: .string), 
+            AWSShapeProperty(label: "AutoGrantedValue", required: false, type: .integer), 
+            AWSShapeProperty(label: "QualificationTypeId", required: true, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
+        ]
         /// The number of seconds the Worker has to complete the Qualification test, starting from the time the Worker requests the Qualification.
         public let testDurationInSeconds: Int64?
         /// Specifies whether requests for the Qualification type are granted immediately, without prompting the Worker with a Qualification test. Constraints: If the Test parameter is specified, this parameter cannot be true.
@@ -925,6 +1084,14 @@ extension MturkRequester {
     public struct Qualification: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "IntegerValue", required: false, type: .integer), 
+            AWSShapeProperty(label: "Status", required: false, type: .enum), 
+            AWSShapeProperty(label: "LocaleValue", required: false, type: .structure), 
+            AWSShapeProperty(label: "GrantTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "WorkerId", required: false, type: .string), 
+            AWSShapeProperty(label: "QualificationTypeId", required: false, type: .string)
+        ]
         ///  The value (score) of the Qualification, if the Qualification has an integer value.
         public let integerValue: Int32?
         ///  The status of the Qualification. Valid values are Granted | Revoked.
@@ -975,6 +1142,10 @@ extension MturkRequester {
     public struct CreateWorkerBlockRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Reason", required: true, type: .string), 
+            AWSShapeProperty(label: "WorkerId", required: true, type: .string)
+        ]
         /// A message explaining the reason for blocking the Worker. This parameter enables you to keep track of your Workers. The Worker does not see this message.
         public let reason: String
         /// The ID of the Worker to block.
@@ -996,6 +1167,11 @@ extension MturkRequester {
     public struct ListHITsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "HITs", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "NumResults", required: false, type: .integer)
+        ]
         ///  The list of HIT elements returned by the query.
         public let hITs: [HIT]?
         public let nextToken: String?
@@ -1022,6 +1198,11 @@ extension MturkRequester {
     public struct CreateAdditionalAssignmentsForHITRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "HITId", required: true, type: .string), 
+            AWSShapeProperty(label: "NumberOfAdditionalAssignments", required: false, type: .integer), 
+            AWSShapeProperty(label: "UniqueRequestToken", required: false, type: .string)
+        ]
         /// The ID of the HIT to extend.
         public let hITId: String
         /// The number of additional assignments to request for this HIT.
@@ -1046,6 +1227,10 @@ extension MturkRequester {
     public struct GetFileUploadURLRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AssignmentId", required: true, type: .string), 
+            AWSShapeProperty(label: "QuestionIdentifier", required: true, type: .string)
+        ]
         /// The ID of the assignment that contains the question with a FileUploadAnswer.
         public let assignmentId: String
         /// The identifier of the question with a FileUploadAnswer, as specified in the QuestionForm of the HIT.
@@ -1067,6 +1252,11 @@ extension MturkRequester {
     public struct ListQualificationRequestsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "QualificationRequests", required: false, type: .list), 
+            AWSShapeProperty(label: "NumResults", required: false, type: .integer)
+        ]
         public let nextToken: String?
         /// The Qualification request. The response includes one QualificationRequest element for each Qualification request returned by the query.
         public let qualificationRequests: [QualificationRequest]?
@@ -1093,6 +1283,10 @@ extension MturkRequester {
     public struct ReviewReport: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ReviewResults", required: false, type: .list), 
+            AWSShapeProperty(label: "ReviewActions", required: false, type: .list)
+        ]
         ///  A list of ReviewResults objects for each action specified in the Review Policy. 
         public let reviewResults: [ReviewResultDetail]?
         ///  A list of ReviewAction objects for each action specified in the Review Policy. 
@@ -1128,6 +1322,10 @@ extension MturkRequester {
     public struct GetAssignmentResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "HIT", required: false, type: .structure), 
+            AWSShapeProperty(label: "Assignment", required: false, type: .structure)
+        ]
         ///  The HIT associated with this assignment. The response includes one HIT element.
         public let hIT: HIT?
         ///  The assignment. The response includes one Assignment element. 
@@ -1147,6 +1345,13 @@ extension MturkRequester {
     public struct QualificationRequirement: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "QualificationTypeId", required: true, type: .string), 
+            AWSShapeProperty(label: "IntegerValues", required: false, type: .list), 
+            AWSShapeProperty(label: "RequiredToPreview", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Comparator", required: true, type: .enum), 
+            AWSShapeProperty(label: "LocaleValues", required: false, type: .list)
+        ]
         ///  The ID of the Qualification type for the requirement.
         public let qualificationTypeId: String
         ///  The integer value to compare against the Qualification's value. IntegerValue must not be present if Comparator is Exists or DoesNotExist. IntegerValue can only be used if the Qualification type has an integer value; it cannot be used with the Worker_Locale QualificationType ID. When performing a set comparison by using the In or the NotIn comparator, you can use up to 15 IntegerValue elements in a QualificationRequirement data structure. 
@@ -1192,6 +1397,10 @@ extension MturkRequester {
     public struct Locale: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Country", required: true, type: .string), 
+            AWSShapeProperty(label: "Subdivision", required: false, type: .string)
+        ]
         ///  The country of the locale. Must be a valid ISO 3166 country code. For example, the code US refers to the United States of America. 
         public let country: String
         /// The state or subdivision of the locale. A valid ISO 3166-2 subdivision code. For example, the code WA refers to the state of Washington.
@@ -1212,6 +1421,10 @@ extension MturkRequester {
     public struct WorkerBlock: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Reason", required: false, type: .string), 
+            AWSShapeProperty(label: "WorkerId", required: false, type: .string)
+        ]
         ///  A message explaining the reason the Worker was blocked. 
         public let reason: String?
         ///  The ID of the Worker who accepted the HIT.
@@ -1231,6 +1444,11 @@ extension MturkRequester {
     public struct ListWorkersWithQualificationTypeResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Qualifications", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "NumResults", required: false, type: .integer)
+        ]
         ///  The list of Qualification elements returned by this call. 
         public let qualifications: [Qualification]?
         public let nextToken: String?
@@ -1266,6 +1484,10 @@ extension MturkRequester {
     public struct ParameterMapEntry: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Key", required: false, type: .string), 
+            AWSShapeProperty(label: "Values", required: false, type: .list)
+        ]
         ///  The QuestionID from the HIT that is used to identify which question requires Mechanical Turk to score as part of the ScoreMyKnownAnswers/2011-09-01 Review Policy. 
         public let key: String?
         ///  The list of answers to the question specified in the MapEntry Key element. The Worker must match all values in order for the answer to be scored correctly. 
@@ -1285,6 +1507,9 @@ extension MturkRequester {
     public struct CreateHITWithHITTypeResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "HIT", required: false, type: .structure)
+        ]
         ///  Contains the newly created HIT data. For a description of the HIT data structure as it appears in responses, see the HIT Data Structure documentation. 
         public let hIT: HIT?
 
@@ -1300,6 +1525,9 @@ extension MturkRequester {
     public struct GetHITRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "HITId", required: true, type: .string)
+        ]
         /// The ID of the HIT to be retrieved.
         public let hITId: String
 
@@ -1316,6 +1544,12 @@ extension MturkRequester {
     public struct ListWorkersWithQualificationTypeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Status", required: false, type: .enum), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "QualificationTypeId", required: true, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        ]
         ///  The status of the Qualifications to return. Can be Granted | Revoked. 
         public let status: QualificationStatus?
         /// Pagination Token
@@ -1344,6 +1578,18 @@ extension MturkRequester {
     public struct CreateQualificationTypeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TestDurationInSeconds", required: false, type: .long), 
+            AWSShapeProperty(label: "AutoGranted", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Test", required: false, type: .string), 
+            AWSShapeProperty(label: "RetryDelayInSeconds", required: false, type: .long), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "Keywords", required: false, type: .string), 
+            AWSShapeProperty(label: "QualificationTypeStatus", required: true, type: .enum), 
+            AWSShapeProperty(label: "AnswerKey", required: false, type: .string), 
+            AWSShapeProperty(label: "AutoGrantedValue", required: false, type: .integer), 
+            AWSShapeProperty(label: "Description", required: true, type: .string)
+        ]
         /// The number of seconds the Worker has to complete the Qualification test, starting from the time the Worker requests the Qualification.
         public let testDurationInSeconds: Int64?
         /// Specifies whether requests for the Qualification type are granted immediately, without prompting the Worker with a Qualification test. Constraints: If the Test parameter is specified, this parameter cannot be true.
@@ -1406,6 +1652,11 @@ extension MturkRequester {
     public struct ListHITsForQualificationTypeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "QualificationTypeId", required: true, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        ]
         /// Pagination Token
         public let nextToken: String?
         ///  The ID of the Qualification type to use when querying HITs. 
@@ -1430,6 +1681,10 @@ extension MturkRequester {
     public struct RejectQualificationRequestRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Reason", required: false, type: .string), 
+            AWSShapeProperty(label: "QualificationRequestId", required: true, type: .string)
+        ]
         /// A text message explaining why the request was rejected, to be shown to the Worker who made the request.
         public let reason: String?
         ///  The ID of the Qualification request, as returned by the ListQualificationRequests operation. 
@@ -1456,6 +1711,15 @@ extension MturkRequester {
     public struct CreateHITTypeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AutoApprovalDelayInSeconds", required: false, type: .long), 
+            AWSShapeProperty(label: "QualificationRequirements", required: false, type: .list), 
+            AWSShapeProperty(label: "AssignmentDurationInSeconds", required: true, type: .long), 
+            AWSShapeProperty(label: "Title", required: true, type: .string), 
+            AWSShapeProperty(label: "Reward", required: true, type: .string), 
+            AWSShapeProperty(label: "Keywords", required: false, type: .string), 
+            AWSShapeProperty(label: "Description", required: true, type: .string)
+        ]
         ///  The number of seconds after an assignment for the HIT has been submitted, after which the assignment is considered Approved automatically unless the Requester explicitly rejects it. 
         public let autoApprovalDelayInSeconds: Int64?
         ///  A condition that a Worker's Qualifications must meet before the Worker is allowed to accept and complete the HIT. 
@@ -1503,6 +1767,20 @@ extension MturkRequester {
     public struct Assignment: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AutoApprovalTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "SubmitTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "HITId", required: false, type: .string), 
+            AWSShapeProperty(label: "Deadline", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "AssignmentStatus", required: false, type: .enum), 
+            AWSShapeProperty(label: "ApprovalTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "RequesterFeedback", required: false, type: .string), 
+            AWSShapeProperty(label: "AcceptTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "RejectionTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "AssignmentId", required: false, type: .string), 
+            AWSShapeProperty(label: "WorkerId", required: false, type: .string), 
+            AWSShapeProperty(label: "Answer", required: false, type: .string)
+        ]
         ///  If results have been submitted, AutoApprovalTime is the date and time the results of the assignment results are considered Approved automatically if they have not already been explicitly approved or rejected by the Requester. This value is derived from the auto-approval delay specified by the Requester in the HIT. This value is omitted from the assignment if the Worker has not yet submitted results.
         public let autoApprovalTime: Date?
         ///  If the Worker has submitted results, SubmitTime is the date and time the assignment was submitted. This value is omitted from the assignment if the Worker has not yet submitted results.
@@ -1562,6 +1840,13 @@ extension MturkRequester {
     public struct SendBonusRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AssignmentId", required: true, type: .string), 
+            AWSShapeProperty(label: "UniqueRequestToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Reason", required: false, type: .string), 
+            AWSShapeProperty(label: "WorkerId", required: true, type: .string), 
+            AWSShapeProperty(label: "BonusAmount", required: true, type: .string)
+        ]
         /// The ID of the assignment for which this bonus is paid.
         public let assignmentId: String
         /// A unique identifier for this request, which allows you to retry the call on error without granting multiple bonuses. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the bonus already exists in the system from a previous call using the same UniqueRequestToken, subsequent calls will return an error with a message containing the request ID.
@@ -1604,6 +1889,9 @@ extension MturkRequester {
     public struct CreateQualificationTypeResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "QualificationType", required: false, type: .structure)
+        ]
         /// The created Qualification type, returned as a QualificationType data structure.
         public let qualificationType: QualificationType?
 
@@ -1619,6 +1907,14 @@ extension MturkRequester {
     public struct ListReviewPolicyResultsForHITResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "HITReviewPolicy", required: false, type: .structure), 
+            AWSShapeProperty(label: "HITReviewReport", required: false, type: .structure), 
+            AWSShapeProperty(label: "HITId", required: false, type: .string), 
+            AWSShapeProperty(label: "AssignmentReviewPolicy", required: false, type: .structure), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "AssignmentReviewReport", required: false, type: .structure)
+        ]
         /// The name of the HIT-level Review Policy. This contains only the PolicyName element.
         public let hITReviewPolicy: ReviewPolicy?
         /// Contains both ReviewResult and ReviewAction elements for a particular HIT. 
@@ -1653,6 +1949,11 @@ extension MturkRequester {
     public struct ListBonusPaymentsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "BonusPayments", required: false, type: .list), 
+            AWSShapeProperty(label: "NumResults", required: false, type: .integer)
+        ]
         public let nextToken: String?
         /// A successful request to the ListBonusPayments operation returns a list of BonusPayment objects. 
         public let bonusPayments: [BonusPayment]?
@@ -1679,6 +1980,12 @@ extension MturkRequester {
     public struct ListBonusPaymentsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AssignmentId", required: false, type: .string), 
+            AWSShapeProperty(label: "HITId", required: false, type: .string), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        ]
         /// The ID of the assignment associated with the bonus payments to retrieve. If specified, only bonus payments for the given assignment are returned. Either the HITId parameter or the AssignmentId parameter must be specified
         public let assignmentId: String?
         /// The ID of the HIT associated with the bonus payments to retrieve. If not specified, all bonus payments for all assignments for the given HIT are returned. Either the HITId parameter or the AssignmentId parameter must be specified
@@ -1705,6 +2012,13 @@ extension MturkRequester {
     public struct BonusPayment: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AssignmentId", required: false, type: .string), 
+            AWSShapeProperty(label: "Reason", required: false, type: .string), 
+            AWSShapeProperty(label: "GrantTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "WorkerId", required: false, type: .string), 
+            AWSShapeProperty(label: "BonusAmount", required: false, type: .string)
+        ]
         /// The ID of the assignment associated with this bonus payment.
         public let assignmentId: String?
         /// The Reason text given when the bonus was granted, if any.
@@ -1735,6 +2049,9 @@ extension MturkRequester {
     public struct CreateHITResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "HIT", required: false, type: .structure)
+        ]
         ///  Contains the newly created HIT data. For a description of the HIT data structure as it appears in responses, see the HIT Data Structure documentation. 
         public let hIT: HIT?
 
@@ -1750,6 +2067,18 @@ extension MturkRequester {
     public struct CreateHITWithHITTypeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "MaxAssignments", required: false, type: .integer), 
+            AWSShapeProperty(label: "HITLayoutId", required: false, type: .string), 
+            AWSShapeProperty(label: "HITLayoutParameters", required: false, type: .list), 
+            AWSShapeProperty(label: "HITReviewPolicy", required: false, type: .structure), 
+            AWSShapeProperty(label: "Question", required: false, type: .string), 
+            AWSShapeProperty(label: "RequesterAnnotation", required: false, type: .string), 
+            AWSShapeProperty(label: "AssignmentReviewPolicy", required: false, type: .structure), 
+            AWSShapeProperty(label: "LifetimeInSeconds", required: true, type: .long), 
+            AWSShapeProperty(label: "UniqueRequestToken", required: false, type: .string), 
+            AWSShapeProperty(label: "HITTypeId", required: true, type: .string)
+        ]
         ///  The number of times the HIT can be accepted and completed before the HIT becomes unavailable. 
         public let maxAssignments: Int32?
         ///  The HITLayoutId allows you to use a pre-existing HIT design with placeholder values and create an additional HIT by providing those values as HITLayoutParameters.   Constraints: Either a Question parameter or a HITLayoutId parameter must be provided. 
@@ -1807,6 +2136,16 @@ extension MturkRequester {
     public struct ReviewActionDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Status", required: false, type: .enum), 
+            AWSShapeProperty(label: "ActionName", required: false, type: .string), 
+            AWSShapeProperty(label: "ActionId", required: false, type: .string), 
+            AWSShapeProperty(label: "TargetId", required: false, type: .string), 
+            AWSShapeProperty(label: "TargetType", required: false, type: .string), 
+            AWSShapeProperty(label: "Result", required: false, type: .string), 
+            AWSShapeProperty(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeProperty(label: "CompleteTime", required: false, type: .timestamp)
+        ]
         ///  The current disposition of the action: INTENDED, SUCCEEDED, FAILED, or CANCELLED. 
         public let status: ReviewActionStatus?
         ///  The nature of the action itself. The Review Policy is responsible for examining the HIT and Assignments, emitting results, and deciding which other actions will be necessary. 
@@ -1850,6 +2189,10 @@ extension MturkRequester {
     public struct UpdateHITTypeOfHITRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "HITTypeId", required: true, type: .string), 
+            AWSShapeProperty(label: "HITId", required: true, type: .string)
+        ]
         /// The ID of the new HIT type.
         public let hITTypeId: String
         /// The HIT to update.
@@ -1879,6 +2222,14 @@ extension MturkRequester {
     public struct QualificationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "SubmitTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "WorkerId", required: false, type: .string), 
+            AWSShapeProperty(label: "Answer", required: false, type: .string), 
+            AWSShapeProperty(label: "Test", required: false, type: .string), 
+            AWSShapeProperty(label: "QualificationTypeId", required: false, type: .string), 
+            AWSShapeProperty(label: "QualificationRequestId", required: false, type: .string)
+        ]
         /// The date and time the Qualification request had a status of Submitted. This is either the time the Worker submitted answers for a Qualification test, or the time the Worker requested the Qualification if the Qualification type does not have a test. 
         public let submitTime: Date?
         ///  The ID of the Worker requesting the Qualification.
@@ -1914,6 +2265,11 @@ extension MturkRequester {
     public struct DisassociateQualificationFromWorkerRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Reason", required: false, type: .string), 
+            AWSShapeProperty(label: "WorkerId", required: true, type: .string), 
+            AWSShapeProperty(label: "QualificationTypeId", required: true, type: .string)
+        ]
         /// A text message that explains why the Qualification was revoked. The user who had the Qualification sees this message.
         public let reason: String?
         /// The ID of the Worker who possesses the Qualification to be revoked.
@@ -1939,6 +2295,9 @@ extension MturkRequester {
     public struct UpdateQualificationTypeResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "QualificationType", required: false, type: .structure)
+        ]
         ///  Contains a QualificationType data structure.
         public let qualificationType: QualificationType?
 
@@ -1954,6 +2313,14 @@ extension MturkRequester {
     public struct ReviewResultDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Key", required: false, type: .string), 
+            AWSShapeProperty(label: "SubjectType", required: false, type: .string), 
+            AWSShapeProperty(label: "SubjectId", required: false, type: .string), 
+            AWSShapeProperty(label: "ActionId", required: false, type: .string), 
+            AWSShapeProperty(label: "Value", required: false, type: .string), 
+            AWSShapeProperty(label: "QuestionId", required: false, type: .string)
+        ]
         ///  Key identifies the particular piece of reviewed information. 
         public let key: String?
         ///  The type of the object from the SubjectId field.
@@ -1989,6 +2356,9 @@ extension MturkRequester {
     public struct GetAssignmentRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AssignmentId", required: true, type: .string)
+        ]
         /// The ID of the Assignment to be retrieved.
         public let assignmentId: String
 
@@ -2005,6 +2375,10 @@ extension MturkRequester {
     public struct ListHITsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        ]
         /// Pagination token
         public let nextToken: String?
         public let maxResults: Int32?
@@ -2023,6 +2397,9 @@ extension MturkRequester {
     public struct NotifyWorkersResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "NotifyWorkersFailureStatuses", required: false, type: .list)
+        ]
         ///  When MTurk sends notifications to the list of Workers, it returns back any failures it encounters in this list of NotifyWorkersFailureStatus objects. 
         public let notifyWorkersFailureStatuses: [NotifyWorkersFailureStatus]?
 
@@ -2058,6 +2435,9 @@ extension MturkRequester {
     public struct GetQualificationTypeResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "QualificationType", required: false, type: .structure)
+        ]
         ///  The returned Qualification Type
         public let qualificationType: QualificationType?
 
@@ -2073,6 +2453,11 @@ extension MturkRequester {
     public struct PolicyParameter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "MapEntries", required: false, type: .list), 
+            AWSShapeProperty(label: "Key", required: false, type: .string), 
+            AWSShapeProperty(label: "Values", required: false, type: .list)
+        ]
         ///  List of ParameterMapEntry objects. 
         public let mapEntries: [ParameterMapEntry]?
         ///  Name of the parameter from the list of Review Polices. 
@@ -2100,6 +2485,10 @@ extension MturkRequester {
     public struct DeleteWorkerBlockRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Reason", required: false, type: .string), 
+            AWSShapeProperty(label: "WorkerId", required: true, type: .string)
+        ]
         /// A message that explains the reason for unblocking the Worker. The Worker does not see this message.
         public let reason: String?
         /// The ID of the Worker to unblock.
@@ -2127,6 +2516,10 @@ extension MturkRequester {
     public struct RejectAssignmentRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "RequesterFeedback", required: false, type: .string), 
+            AWSShapeProperty(label: "AssignmentId", required: true, type: .string)
+        ]
         ///  A message for the Worker, which the Worker can see in the Status section of the web site. 
         public let requesterFeedback: String?
         ///  The ID of the assignment. The assignment must correspond to a HIT created by the Requester. 
@@ -2147,6 +2540,10 @@ extension MturkRequester {
     public struct AcceptQualificationRequestRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "IntegerValue", required: false, type: .integer), 
+            AWSShapeProperty(label: "QualificationRequestId", required: true, type: .string)
+        ]
         ///  The value of the Qualification. You can omit this value if you are using the presence or absence of the Qualification as the basis for a HIT requirement. 
         public let integerValue: Int32?
         /// The ID of the Qualification request, as returned by the GetQualificationRequests operation.
@@ -2167,6 +2564,12 @@ extension MturkRequester {
     public struct ListReviewableHITsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Status", required: false, type: .enum), 
+            AWSShapeProperty(label: "HITTypeId", required: false, type: .string), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        ]
         ///  Can be either Reviewable or Reviewing. Reviewable is the default value. 
         public let status: ReviewableHITStatus?
         ///  The ID of the HIT type of the HITs to consider for the query. If not specified, all HITs for the Reviewer are considered 
@@ -2194,6 +2597,10 @@ extension MturkRequester {
     public struct SendTestEventNotificationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Notification", required: true, type: .structure), 
+            AWSShapeProperty(label: "TestEventType", required: true, type: .enum)
+        ]
         ///  The notification specification to test. This value is identical to the value you would provide to the UpdateNotificationSettings operation when you establish the notification specification for a HIT type. 
         public let notification: NotificationSpecification
         ///  The event to simulate to test the notification specification. This event is included in the test message even if the notification specification does not include the event type. The notification specification does not filter out the test event. 
@@ -2215,6 +2622,11 @@ extension MturkRequester {
     public struct ApproveAssignmentRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "RequesterFeedback", required: false, type: .string), 
+            AWSShapeProperty(label: "AssignmentId", required: true, type: .string), 
+            AWSShapeProperty(label: "OverrideRejection", required: false, type: .boolean)
+        ]
         ///  A message for the Worker, which the Worker can see in the Status section of the web site. 
         public let requesterFeedback: String?
         ///  The ID of the assignment. The assignment must correspond to a HIT created by the Requester. 
@@ -2239,6 +2651,10 @@ extension MturkRequester {
     public struct GetAccountBalanceResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "OnHoldBalance", required: false, type: .string), 
+            AWSShapeProperty(label: "AvailableBalance", required: false, type: .string)
+        ]
         public let onHoldBalance: String?
         public let availableBalance: String?
 
@@ -2256,6 +2672,10 @@ extension MturkRequester {
     public struct GetQualificationScoreRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "QualificationTypeId", required: true, type: .string), 
+            AWSShapeProperty(label: "WorkerId", required: true, type: .string)
+        ]
         /// The ID of the QualificationType.
         public let qualificationTypeId: String
         /// The ID of the Worker whose Qualification is being updated.
@@ -2277,6 +2697,11 @@ extension MturkRequester {
     public struct ListWorkerBlocksResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "NumResults", required: false, type: .integer), 
+            AWSShapeProperty(label: "WorkerBlocks", required: false, type: .list)
+        ]
         public let nextToken: String?
         ///  The number of assignments on the page in the filtered results list, equivalent to the number of assignments returned by this call.
         public let numResults: Int32?
@@ -2303,6 +2728,11 @@ extension MturkRequester {
     public struct UpdateNotificationSettingsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Notification", required: false, type: .structure), 
+            AWSShapeProperty(label: "HITTypeId", required: true, type: .string), 
+            AWSShapeProperty(label: "Active", required: false, type: .boolean)
+        ]
         ///  The notification specification for the HIT type. 
         public let notification: NotificationSpecification?
         ///  The ID of the HIT type whose notification specification is being updated. 
@@ -2327,6 +2757,9 @@ extension MturkRequester {
     public struct GetQualificationTypeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "QualificationTypeId", required: true, type: .string)
+        ]
         /// The ID of the QualificationType.
         public let qualificationTypeId: String
 
@@ -2343,6 +2776,12 @@ extension MturkRequester {
     public struct NotificationSpecification: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "EventTypes", required: false, type: .list), 
+            AWSShapeProperty(label: "Destination", required: true, type: .string), 
+            AWSShapeProperty(label: "Transport", required: true, type: .enum), 
+            AWSShapeProperty(label: "Version", required: false, type: .string)
+        ]
         ///  The list of events that should cause notifications to be sent. Valid Values: AssignmentAccepted | AssignmentAbandoned | AssignmentReturned | AssignmentSubmitted | AssignmentRejected | AssignmentApproved | HITCreated | HITExtended | HITDisposed | HITReviewable | HITExpired | Ping. The Ping event is only valid for the SendTestEventNotification operation. 
         public let eventTypes: [EventType]?
         ///  The destination for notification messages. or email notifications (if Transport is Email), this is an email address. For Amazon Simple Queue Service (Amazon SQS) notifications (if Transport is SQS), this is the URL for your Amazon SQS queue. 
@@ -2372,6 +2811,14 @@ extension MturkRequester {
     public struct ListReviewPolicyResultsForHITRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "PolicyLevels", required: false, type: .list), 
+            AWSShapeProperty(label: "HITId", required: true, type: .string), 
+            AWSShapeProperty(label: "RetrieveResults", required: false, type: .boolean), 
+            AWSShapeProperty(label: "RetrieveActions", required: false, type: .boolean), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        ]
         /// Pagination token
         public let nextToken: String?
         ///  The Policy Level(s) to retrieve review results for - HIT or Assignment. If omitted, the default behavior is to retrieve all data for both policy levels. For a list of all the described policies, see Review Policies. 

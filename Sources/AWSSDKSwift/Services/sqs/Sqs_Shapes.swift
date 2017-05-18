@@ -32,6 +32,15 @@ extension Sqs {
     public struct ReceiveMessageRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "MessageAttributeNames", required: false, type: .structure), 
+            AWSShapeProperty(label: "VisibilityTimeout", required: false, type: .integer), 
+            AWSShapeProperty(label: "MaxNumberOfMessages", required: false, type: .integer), 
+            AWSShapeProperty(label: "QueueUrl", required: true, type: .string), 
+            AWSShapeProperty(label: "ReceiveRequestAttemptId", required: false, type: .string), 
+            AWSShapeProperty(label: "AttributeNames", required: false, type: .structure), 
+            AWSShapeProperty(label: "WaitTimeSeconds", required: false, type: .integer)
+        ]
         /// The name of the message attribute, where N is the index.   The name can contain alphanumeric characters and the underscore (_), hyphen (-), and period (.).   The name is case-sensitive and must be unique among all attribute names for the message.   The name must not start with AWS-reserved prefixes such as AWS. or Amazon. (or any casing variants).   The name must not start or end with a period (.), and it should not have periods in succession (..).   The name can be up to 256 characters long.   When using ReceiveMessage, you can send a list of attribute names to receive, or you can return all of the attributes by specifying All or .* in your request. You can also use all message attributes starting with a prefix, for example bar.*.
         public let messageAttributeNames: MessageAttributeNameList?
         /// The duration (in seconds) that the received messages are hidden from subsequent retrieve requests after being retrieved by a ReceiveMessage request.
@@ -72,6 +81,10 @@ extension Sqs {
     public struct GetQueueUrlRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "QueueName", required: true, type: .string), 
+            AWSShapeProperty(label: "QueueOwnerAWSAccountId", required: false, type: .string)
+        ]
         /// The name of the queue whose URL must be fetched. Maximum 80 characters. Valid values: alphanumeric characters, hyphens (-), and underscores (_). Queue names are case-sensitive.
         public let queueName: String
         /// The AWS account ID of the account that created the queue.
@@ -92,6 +105,12 @@ extension Sqs {
     public struct SendMessageResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "MD5OfMessageAttributes", required: false, type: .string), 
+            AWSShapeProperty(label: "MD5OfMessageBody", required: false, type: .string), 
+            AWSShapeProperty(label: "SequenceNumber", required: false, type: .string), 
+            AWSShapeProperty(label: "MessageId", required: false, type: .string)
+        ]
         /// An MD5 digest of the non-URL-encoded message attribute string. You can use this attribute to verify that Amazon SQS received the message correctly. Amazon SQS URL-decodes the message before creating the MD5 digest. For information on MD5, see RFC1321.
         public let mD5OfMessageAttributes: String?
         /// An MD5 digest of the non-URL-encoded message attribute string. You can use this attribute to verify that Amazon SQS received the message correctly. Amazon SQS URL-decodes the message before creating the MD5 digest. For information on MD5, see RFC1321.
@@ -119,6 +138,9 @@ extension Sqs {
     public struct BinaryList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "BinaryListValue", required: false, type: .list)
+        ]
         public let binaryListValue: [Data]?
 
         public init(binaryListValue: [Data]? = nil) {
@@ -133,6 +155,13 @@ extension Sqs {
     public struct MessageAttributeValue: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "BinaryListValue", required: false, type: .structure), 
+            AWSShapeProperty(label: "BinaryValue", required: false, type: .blob), 
+            AWSShapeProperty(label: "StringValue", required: false, type: .string), 
+            AWSShapeProperty(label: "DataType", required: true, type: .string), 
+            AWSShapeProperty(label: "StringListValue", required: false, type: .structure)
+        ]
         /// Not implemented. Reserved for future use.
         public let binaryListValues: BinaryList?
         /// Binary type attributes can store any binary data, such as compressed data, encrypted data, or images.
@@ -165,6 +194,11 @@ extension Sqs {
     public struct ChangeMessageVisibilityBatchRequestEntry: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "VisibilityTimeout", required: false, type: .integer), 
+            AWSShapeProperty(label: "ReceiptHandle", required: true, type: .string), 
+            AWSShapeProperty(label: "Id", required: true, type: .string)
+        ]
         /// The new value (in seconds) for the message's visibility timeout.
         public let visibilityTimeout: Int32?
         /// A receipt handle.
@@ -190,6 +224,9 @@ extension Sqs {
     public struct StringList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "StringListValue", required: false, type: .list)
+        ]
         public let stringListValue: [String]?
 
         public init(stringListValue: [String]? = nil) {
@@ -204,6 +241,9 @@ extension Sqs {
     public struct GetQueueUrlResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "QueueUrl", required: false, type: .string)
+        ]
         /// The URL of the queue.
         public let queueUrl: String?
 
@@ -219,6 +259,9 @@ extension Sqs {
     public struct ActionNameList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ActionName", required: false, type: .list)
+        ]
         public let actionName: [String]?
 
         public init(actionName: [String]? = nil) {
@@ -233,6 +276,10 @@ extension Sqs {
     public struct ChangeMessageVisibilityBatchRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Entries", required: true, type: .structure), 
+            AWSShapeProperty(label: "QueueUrl", required: true, type: .string)
+        ]
         /// A list of receipt handles of the messages for which the visibility timeout must be changed.
         public let entries: ChangeMessageVisibilityBatchRequestEntryList
         /// The URL of the Amazon SQS queue whose messages' visibility is changed. Queue URLs are case-sensitive.
@@ -254,6 +301,15 @@ extension Sqs {
     public struct Message: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ReceiptHandle", required: false, type: .string), 
+            AWSShapeProperty(label: "MessageId", required: false, type: .string), 
+            AWSShapeProperty(label: "MD5OfMessageAttributes", required: false, type: .string), 
+            AWSShapeProperty(label: "Attribute", required: false, type: .map), 
+            AWSShapeProperty(label: "Body", required: false, type: .string), 
+            AWSShapeProperty(label: "MD5OfBody", required: false, type: .string), 
+            AWSShapeProperty(label: "MessageAttribute", required: false, type: .map)
+        ]
         /// An identifier associated with the act of receiving the message. A new receipt handle is returned every time you receive a message. When deleting a message, you provide the last received receipt handle to delete the message.
         public let receiptHandle: String?
         /// A unique identifier for the message. A MessageIdis considered unique across all AWS accounts for an extended period of time.
@@ -306,6 +362,9 @@ extension Sqs {
     public struct MessageAttributeNameList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "MessageAttributeName", required: false, type: .list)
+        ]
         public let messageAttributeName: [String]?
 
         public init(messageAttributeName: [String]? = nil) {
@@ -320,6 +379,10 @@ extension Sqs {
     public struct DeleteMessageBatchResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Successful", required: true, type: .structure), 
+            AWSShapeProperty(label: "Failed", required: true, type: .structure)
+        ]
         /// A list of  DeleteMessageBatchResultEntry  items.
         public let successful: DeleteMessageBatchResultEntryList
         /// A list of  BatchResultErrorEntry  items.
@@ -341,6 +404,9 @@ extension Sqs {
     public struct ReceiveMessageResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Messages", required: false, type: .structure)
+        ]
         /// A list of messages.
         public let messages: MessageList?
 
@@ -356,6 +422,14 @@ extension Sqs {
     public struct SendMessageRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DelaySeconds", required: false, type: .integer), 
+            AWSShapeProperty(label: "QueueUrl", required: true, type: .string), 
+            AWSShapeProperty(label: "MessageGroupId", required: false, type: .string), 
+            AWSShapeProperty(label: "MessageDeduplicationId", required: false, type: .string), 
+            AWSShapeProperty(label: "MessageBody", required: true, type: .string), 
+            AWSShapeProperty(label: "MessageAttribute", required: false, type: .map)
+        ]
         ///  The number of seconds to delay a specific message. Valid values: 0 to 900. Maximum: 15 minutes. Messages with a positive DelaySeconds value become available for processing after the delay period is finished. If you don't specify a value, the default value for the queue applies.   When you set FifoQueue, you can't set DelaySeconds per message. You can set this parameter only on a queue level. 
         public let delaySeconds: Int32?
         /// The URL of the Amazon SQS queue to which a message is sent. Queue URLs are case-sensitive.
@@ -402,6 +476,12 @@ extension Sqs {
     public struct AddPermissionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Label", required: true, type: .string), 
+            AWSShapeProperty(label: "AWSAccountIds", required: true, type: .structure), 
+            AWSShapeProperty(label: "Actions", required: true, type: .structure), 
+            AWSShapeProperty(label: "QueueUrl", required: true, type: .string)
+        ]
         /// The unique identification of the permission you're setting (for example, AliceSendMessage). Maximum 80 characters. Allowed characters include alphanumeric characters, hyphens (-), and underscores (_).
         public let label: String
         /// The AWS account number of the principal who is given permission. The principal must have an AWS account, but does not need to be signed up for Amazon SQS. For information about locating the AWS account identification, see Your AWS Identifiers in the Amazon SQS Developer Guide.
@@ -433,6 +513,10 @@ extension Sqs {
     public struct CreateQueueRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "QueueName", required: true, type: .string), 
+            AWSShapeProperty(label: "Attribute", required: false, type: .map)
+        ]
         /// The name of the new queue. The following limits apply to this name:   A queue name can have up to 80 characters.   Valid values: alphanumeric characters, hyphens (-), and underscores (_).   A FIFO queue name must end with the .fifo suffix.   Queue names are case-sensitive.
         public let queueName: String
         /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the special request parameters that the CreateQueue action uses:    DelaySeconds - The number of seconds for which the delivery of all messages in the queue is delayed. Valid values: An integer from 0 to 900 seconds (15 minutes). The default is 0 (zero).     MaximumMessageSize - The limit of how many bytes a message can contain before Amazon SQS rejects it. Valid values: An integer from 1,024 bytes (1 KiB) to 262,144 bytes (256 KiB). The default is 262,144 (256 KiB).     MessageRetentionPeriod - The number of seconds for which Amazon SQS retains a message. Valid values: An integer from 60 seconds (1 minute) to 1,209,600 seconds (14 days). The default is 345,600 (4 days).     Policy - The queue's policy. A valid AWS policy. For more information about policy structure, see Overview of AWS IAM Policies in the Amazon IAM User Guide.     ReceiveMessageWaitTimeSeconds - The number of seconds for which a  ReceiveMessage  action waits for a message to arrive. Valid values: An integer from 0 to 20 (seconds). The default is 0 (zero).     RedrivePolicy - The parameters for the dead letter queue functionality of the source queue. For more information about the redrive policy and dead letter queues, see Using Amazon SQS Dead Letter Queues in the Amazon SQS Developer Guide.   The dead letter queue of a FIFO queue must also be a FIFO queue. Similarly, the dead letter queue of a standard queue must also be a standard queue.     VisibilityTimeout - The visibility timeout for the queue. Valid values: An integer from 0 to 43,200 (12 hours). The default is 30. For more information about the visibility timeout, see Visibility Timeout in the Amazon SQS Developer Guide.   The following attributes apply only to FIFO (first-in-first-out) queues:    FifoQueue - Designates a queue as FIFO. You can provide this attribute only during queue creation. You can't change it for an existing queue. When you set this attribute, you must provide a MessageGroupId explicitly. For more information, see FIFO Queue Logic in the Amazon SQS Developer Guide.    ContentBasedDeduplication - Enables content-based deduplication. For more information, see Exactly-Once Processing in the Amazon SQS Developer Guide.    Every message must have a unique MessageDeduplicationId,   You may provide a MessageDeduplicationId explicitly.   If you aren't able to provide a MessageDeduplicationId and you enable ContentBasedDeduplication for your queue, Amazon SQS uses a SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not the attributes of the message).    If you don't provide a MessageDeduplicationId and the queue doesn't have ContentBasedDeduplication set, the action fails with an error.   If the queue has ContentBasedDeduplication set, your MessageDeduplicationId overrides the generated one.     When ContentBasedDeduplication is in effect, messages with identical content sent within the deduplication interval are treated as duplicates and only one copy of the message is delivered.   You can also use ContentBasedDeduplication for messages with identical content to be treated as duplicates.   If you send one message with ContentBasedDeduplication enabled and then another message with a MessageDeduplicationId that is the same as the one generated for the first MessageDeduplicationId, the two messages are treated as duplicates and only one copy of the message is delivered.      Any other valid special request parameters (such as the following) are ignored:    ApproximateNumberOfMessages     ApproximateNumberOfMessagesDelayed     ApproximateNumberOfMessagesNotVisible     CreatedTimestamp     LastModifiedTimestamp     QueueArn   
@@ -457,6 +541,9 @@ extension Sqs {
     public struct ListDeadLetterSourceQueuesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "queueUrls", required: true, type: .structure)
+        ]
         /// A list of source queue URLs that have the RedrivePolicy queue attribute configured with a dead letter queue.
         public let queueUrls: QueueUrlList
 
@@ -473,6 +560,9 @@ extension Sqs {
     public struct AWSAccountIdList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AWSAccountId", required: false, type: .list)
+        ]
         public let aWSAccountId: [String]?
 
         public init(aWSAccountId: [String]? = nil) {
@@ -487,6 +577,9 @@ extension Sqs {
     public struct QueueUrlList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "QueueUrl", required: false, type: .list)
+        ]
         public let queueUrl: [String]?
 
         public init(queueUrl: [String]? = nil) {
@@ -521,6 +614,9 @@ extension Sqs {
     public struct ListQueuesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "QueueNamePrefix", required: false, type: .string)
+        ]
         /// A string to use for filtering the list results. Only those queues whose name begins with the specified string are returned. Queue names are case-sensitive.
         public let queueNamePrefix: String?
 
@@ -536,6 +632,10 @@ extension Sqs {
     public struct RemovePermissionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "QueueUrl", required: true, type: .string), 
+            AWSShapeProperty(label: "Label", required: true, type: .string)
+        ]
         /// The URL of the Amazon SQS queue from which permissions are removed. Queue URLs are case-sensitive.
         public let queueUrl: String
         /// The identification of the permission to remove. This is the label added using the  AddPermission  action.
@@ -557,6 +657,9 @@ extension Sqs {
     public struct SendMessageBatchResultEntryList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "SendMessageBatchResultEntry", required: false, type: .list)
+        ]
         public let sendMessageBatchResultEntry: [SendMessageBatchResultEntry]?
 
         public init(sendMessageBatchResultEntry: [SendMessageBatchResultEntry]? = nil) {
@@ -575,6 +678,10 @@ extension Sqs {
     public struct ChangeMessageVisibilityBatchResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Successful", required: true, type: .structure), 
+            AWSShapeProperty(label: "Failed", required: true, type: .structure)
+        ]
         /// A list of  ChangeMessageVisibilityBatchResultEntry  items.
         public let successful: ChangeMessageVisibilityBatchResultEntryList
         /// A list of  BatchResultErrorEntry  items.
@@ -596,6 +703,9 @@ extension Sqs {
     public struct DeleteMessageBatchResultEntryList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DeleteMessageBatchResultEntry", required: false, type: .list)
+        ]
         public let deleteMessageBatchResultEntry: [DeleteMessageBatchResultEntry]?
 
         public init(deleteMessageBatchResultEntry: [DeleteMessageBatchResultEntry]? = nil) {
@@ -614,6 +724,9 @@ extension Sqs {
     public struct MessageList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Message", required: false, type: .list)
+        ]
         public let message: [Message]?
 
         public init(message: [Message]? = nil) {
@@ -632,6 +745,9 @@ extension Sqs {
     public struct ListDeadLetterSourceQueuesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "QueueUrl", required: true, type: .string)
+        ]
         /// The URL of a dead letter queue. Queue URLs are case-sensitive.
         public let queueUrl: String
 
@@ -648,6 +764,13 @@ extension Sqs {
     public struct SendMessageBatchResultEntry: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "MD5OfMessageAttributes", required: false, type: .string), 
+            AWSShapeProperty(label: "MD5OfMessageBody", required: true, type: .string), 
+            AWSShapeProperty(label: "SequenceNumber", required: false, type: .string), 
+            AWSShapeProperty(label: "MessageId", required: true, type: .string), 
+            AWSShapeProperty(label: "Id", required: true, type: .string)
+        ]
         /// An MD5 digest of the non-URL-encoded message attribute string. You can use this attribute to verify that Amazon SQS received the message correctly. Amazon SQS URL-decodes the message before creating the MD5 digest. For information on MD5, see RFC1321.
         public let mD5OfMessageAttributes: String?
         /// An MD5 digest of the non-URL-encoded message attribute string. You can use this attribute to verify that Amazon SQS received the message correctly. Amazon SQS URL-decodes the message before creating the MD5 digest. For information on MD5, see RFC1321.
@@ -682,6 +805,10 @@ extension Sqs {
     public struct SetQueueAttributesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Attribute", required: true, type: .map), 
+            AWSShapeProperty(label: "QueueUrl", required: true, type: .string)
+        ]
         /// A map of attributes to set. The following lists the names, descriptions, and values of the special request parameters that the SetQueueAttributes action uses:    DelaySeconds - The number of seconds for which the delivery of all messages in the queue is delayed. Valid values: An integer from 0 to 900 (15 minutes). The default is 0 (zero).     MaximumMessageSize - The limit of how many bytes a message can contain before Amazon SQS rejects it. Valid values: An integer from 1,024 bytes (1 KiB) up to 262,144 bytes (256 KiB). The default is 262,144 (256 KiB).     MessageRetentionPeriod - The number of seconds for which Amazon SQS retains a message. Valid values: An integer representing seconds, from 60 (1 minute) to 1,209,600 (14 days). The default is 345,600 (4 days).     Policy - The queue's policy. A valid AWS policy. For more information about policy structure, see Overview of AWS IAM Policies in the Amazon IAM User Guide.     ReceiveMessageWaitTimeSeconds - The number of seconds for which a  ReceiveMessage  action waits for a message to arrive. Valid values: an integer from 0 to 20 (seconds). The default is 0.     RedrivePolicy - The parameters for the dead letter queue functionality of the source queue. For more information about the redrive policy and dead letter queues, see Using Amazon SQS Dead Letter Queues in the Amazon SQS Developer Guide.   The dead letter queue of a FIFO queue must also be a FIFO queue. Similarly, the dead letter queue of a standard queue must also be a standard queue.     VisibilityTimeout - The visibility timeout for the queue. Valid values: an integer from 0 to 43,200 (12 hours). The default is 30. For more information about the visibility timeout, see Visibility Timeout in the Amazon SQS Developer Guide.   The following attribute applies only to FIFO (first-in-first-out) queues:    ContentBasedDeduplication - Enables content-based deduplication. For more information, see Exactly-Once Processing in the Amazon SQS Developer Guide.    Every message must have a unique MessageDeduplicationId,   You may provide a MessageDeduplicationId explicitly.   If you aren't able to provide a MessageDeduplicationId and you enable ContentBasedDeduplication for your queue, Amazon SQS uses a SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not the attributes of the message).    If you don't provide a MessageDeduplicationId and the queue doesn't have ContentBasedDeduplication set, the action fails with an error.   If the queue has ContentBasedDeduplication set, your MessageDeduplicationId overrides the generated one.     When ContentBasedDeduplication is in effect, messages with identical content sent within the deduplication interval are treated as duplicates and only one copy of the message is delivered.   You can also use ContentBasedDeduplication for messages with identical content to be treated as duplicates.   If you send one message with ContentBasedDeduplication enabled and then another message with a MessageDeduplicationId that is the same as the one generated for the first MessageDeduplicationId, the two messages are treated as duplicates and only one copy of the message is delivered.      Any other valid special request parameters (such as the following) are ignored:    ApproximateNumberOfMessages     ApproximateNumberOfMessagesDelayed     ApproximateNumberOfMessagesNotVisible     CreatedTimestamp     LastModifiedTimestamp     QueueArn   
         public let attributes: [QueueAttributeName: String]
         /// The URL of the Amazon SQS queue whose attributes are set. Queue URLs are case-sensitive.
@@ -703,6 +830,9 @@ extension Sqs {
     public struct AttributeNameList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AttributeName", required: false, type: .list)
+        ]
         public let attributeName: [QueueAttributeName]?
 
         public init(attributeName: [QueueAttributeName]? = nil) {
@@ -717,6 +847,9 @@ extension Sqs {
     public struct GetQueueAttributesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Attribute", required: false, type: .map)
+        ]
         /// A map of attributes to their respective values.
         public let attributes: [QueueAttributeName: String]?
 
@@ -736,6 +869,9 @@ extension Sqs {
     public struct CreateQueueResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "QueueUrl", required: false, type: .string)
+        ]
         /// The URL of the created Amazon SQS queue.
         public let queueUrl: String?
 
@@ -751,6 +887,9 @@ extension Sqs {
     public struct ListQueuesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "QueueUrls", required: false, type: .structure)
+        ]
         /// A list of queue URLs, up to 1,000 entries.
         public let queueUrls: QueueUrlList?
 
@@ -766,6 +905,11 @@ extension Sqs {
     public struct ChangeMessageVisibilityRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "VisibilityTimeout", required: true, type: .integer), 
+            AWSShapeProperty(label: "ReceiptHandle", required: true, type: .string), 
+            AWSShapeProperty(label: "QueueUrl", required: true, type: .string)
+        ]
         /// The new value for the message's visibility timeout (in seconds). Values values: 0 to 43200. Maximum: 12 hours.
         public let visibilityTimeout: Int32
         /// The receipt handle associated with the message whose visibility timeout is changed. This parameter is returned by the  ReceiveMessage  action.
@@ -792,6 +936,9 @@ extension Sqs {
     public struct ChangeMessageVisibilityBatchRequestEntryList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ChangeMessageVisibilityBatchRequestEntry", required: false, type: .list)
+        ]
         public let changeMessageVisibilityBatchRequestEntry: [ChangeMessageVisibilityBatchRequestEntry]?
 
         public init(changeMessageVisibilityBatchRequestEntry: [ChangeMessageVisibilityBatchRequestEntry]? = nil) {
@@ -821,6 +968,10 @@ extension Sqs {
     public struct DeleteMessageBatchRequestEntry: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ReceiptHandle", required: true, type: .string), 
+            AWSShapeProperty(label: "Id", required: true, type: .string)
+        ]
         /// A receipt handle.
         public let receiptHandle: String
         /// An identifier for this particular receipt handle. This is used to communicate the result.  The Ids of a batch request need to be unique within a request 
@@ -842,6 +993,12 @@ extension Sqs {
     public struct BatchResultErrorEntry: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Code", required: true, type: .string), 
+            AWSShapeProperty(label: "Message", required: false, type: .string), 
+            AWSShapeProperty(label: "SenderFault", required: true, type: .boolean), 
+            AWSShapeProperty(label: "Id", required: true, type: .string)
+        ]
         /// An error code representing why the action failed on this entry.
         public let code: String
         /// A message explaining why the action failed on this entry.
@@ -872,6 +1029,9 @@ extension Sqs {
     public struct ChangeMessageVisibilityBatchResultEntryList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ChangeMessageVisibilityBatchResultEntry", required: false, type: .list)
+        ]
         public let changeMessageVisibilityBatchResultEntry: [ChangeMessageVisibilityBatchResultEntry]?
 
         public init(changeMessageVisibilityBatchResultEntry: [ChangeMessageVisibilityBatchResultEntry]? = nil) {
@@ -890,6 +1050,10 @@ extension Sqs {
     public struct DeleteMessageRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ReceiptHandle", required: true, type: .string), 
+            AWSShapeProperty(label: "QueueUrl", required: true, type: .string)
+        ]
         /// The receipt handle associated with the message to delete.
         public let receiptHandle: String
         /// The URL of the Amazon SQS queue from which messages are deleted. Queue URLs are case-sensitive.
@@ -911,6 +1075,9 @@ extension Sqs {
     public struct ChangeMessageVisibilityBatchResultEntry: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Id", required: true, type: .string)
+        ]
         /// Represents a message whose visibility timeout has been changed successfully.
         public let id: String
 
@@ -927,6 +1094,10 @@ extension Sqs {
     public struct SendMessageBatchRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Entries", required: true, type: .structure), 
+            AWSShapeProperty(label: "QueueUrl", required: true, type: .string)
+        ]
         /// A list of  SendMessageBatchRequestEntry  items.
         public let entries: SendMessageBatchRequestEntryList
         /// The URL of the Amazon SQS queue to which batched messages are sent. Queue URLs are case-sensitive.
@@ -948,6 +1119,9 @@ extension Sqs {
     public struct PurgeQueueRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "QueueUrl", required: true, type: .string)
+        ]
         /// The URL of the queue from which the PurgeQueue action deletes messages. Queue URLs are case-sensitive.
         public let queueUrl: String
 
@@ -964,6 +1138,10 @@ extension Sqs {
     public struct DeleteMessageBatchRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Entries", required: true, type: .structure), 
+            AWSShapeProperty(label: "QueueUrl", required: true, type: .string)
+        ]
         /// A list of receipt handles for the messages to be deleted.
         public let entries: DeleteMessageBatchRequestEntryList
         /// The URL of the Amazon SQS queue from which messages are deleted. Queue URLs are case-sensitive.
@@ -985,6 +1163,10 @@ extension Sqs {
     public struct GetQueueAttributesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AttributeNames", required: false, type: .structure), 
+            AWSShapeProperty(label: "QueueUrl", required: true, type: .string)
+        ]
         /// A list of attributes for which to retrieve information.  In the future, new attributes might be added. If you write code that calls this action, we recommend that you structure your code so that it can handle new attributes gracefully.  The following attributes are supported:    All - Returns all values.     ApproximateNumberOfMessages - Returns the approximate number of visible messages in a queue. For more information, see Resources Required to Process Messages in the Amazon SQS Developer Guide.     ApproximateNumberOfMessagesDelayed - Returns the approximate number of messages that are waiting to be added to the queue.     ApproximateNumberOfMessagesNotVisible - Returns the approximate number of messages that have not timed-out and aren't deleted. For more information, see Resources Required to Process Messages in the Amazon SQS Developer Guide.     CreatedTimestamp - Returns the time when the queue was created in seconds (epoch time).    DelaySeconds - Returns the default delay on the queue in seconds.    LastModifiedTimestamp - Returns the time when the queue was last changed in seconds (epoch time).    MaximumMessageSize - Returns the limit of how many bytes a message can contain before Amazon SQS rejects it.    MessageRetentionPeriod - Returns the number of seconds for which Amazon SQS retains a message.    Policy - Returns the policy of the queue.    QueueArn - Returns the Amazon resource name (ARN) of the queue.    ReceiveMessageWaitTimeSeconds - Returns the number of seconds for which the ReceiveMessage action waits for a message to arrive.     RedrivePolicy - Returns the parameters for dead letter queue functionality of the source queue. For more information about the redrive policy and dead letter queues, see Using Amazon SQS Dead Letter Queues in the Amazon SQS Developer Guide.     VisibilityTimeout - Returns the visibility timeout for the queue. For more information about the visibility timeout, see Visibility Timeout in the Amazon SQS Developer Guide.    The following attributes apply only to FIFO (first-in-first-out) queues:    FifoQueue - Returns whether the queue is FIFO. For more information, see FIFO Queue Logic in the Amazon SQS Developer Guide.    ContentBasedDeduplication - Returns whether content-based deduplication is enabled for the queue. For more information, see Exactly-Once Processing in the Amazon SQS Developer Guide.   
         public let attributeNames: AttributeNameList?
         /// The URL of the Amazon SQS queue whose attribute information is retrieved. Queue URLs are case-sensitive.
@@ -1005,6 +1187,9 @@ extension Sqs {
     public struct BatchResultErrorEntryList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "BatchResultErrorEntry", required: false, type: .list)
+        ]
         public let batchResultErrorEntry: [BatchResultErrorEntry]?
 
         public init(batchResultErrorEntry: [BatchResultErrorEntry]? = nil) {
@@ -1023,6 +1208,9 @@ extension Sqs {
     public struct DeleteQueueRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "QueueUrl", required: true, type: .string)
+        ]
         /// The URL of the Amazon SQS queue to delete. Queue URLs are case-sensitive.
         public let queueUrl: String
 
@@ -1039,6 +1227,9 @@ extension Sqs {
     public struct SendMessageBatchRequestEntryList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "SendMessageBatchRequestEntry", required: false, type: .list)
+        ]
         public let sendMessageBatchRequestEntry: [SendMessageBatchRequestEntry]?
 
         public init(sendMessageBatchRequestEntry: [SendMessageBatchRequestEntry]? = nil) {
@@ -1057,6 +1248,9 @@ extension Sqs {
     public struct DeleteMessageBatchRequestEntryList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DeleteMessageBatchRequestEntry", required: false, type: .list)
+        ]
         public let deleteMessageBatchRequestEntry: [DeleteMessageBatchRequestEntry]?
 
         public init(deleteMessageBatchRequestEntry: [DeleteMessageBatchRequestEntry]? = nil) {
@@ -1075,6 +1269,14 @@ extension Sqs {
     public struct SendMessageBatchRequestEntry: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DelaySeconds", required: false, type: .integer), 
+            AWSShapeProperty(label: "MessageAttribute", required: false, type: .map), 
+            AWSShapeProperty(label: "MessageGroupId", required: false, type: .string), 
+            AWSShapeProperty(label: "MessageDeduplicationId", required: false, type: .string), 
+            AWSShapeProperty(label: "MessageBody", required: true, type: .string), 
+            AWSShapeProperty(label: "Id", required: true, type: .string)
+        ]
         /// The number of seconds for which a specific message is delayed. Valid values: 0 to 900. Maximum: 15 minutes. Messages with a positive DelaySeconds value become available for processing after the delay period is finished. If you don't specify a value, the default value for the queue is applied.   When you set FifoQueue, you can't set DelaySeconds per message. You can set this parameter only on a queue level. 
         public let delaySeconds: Int32?
         /// Each message attribute consists of a Name, Type, and Value. For more information, see Message Attribute Items and Validation in the Amazon SQS Developer Guide.
@@ -1121,6 +1323,9 @@ extension Sqs {
     public struct DeleteMessageBatchResultEntry: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Id", required: true, type: .string)
+        ]
         /// Represents a successfully deleted message.
         public let id: String
 
@@ -1137,6 +1342,10 @@ extension Sqs {
     public struct SendMessageBatchResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Successful", required: true, type: .structure), 
+            AWSShapeProperty(label: "Failed", required: true, type: .structure)
+        ]
         /// A list of  SendMessageBatchResultEntry  items.
         public let successful: SendMessageBatchResultEntryList
         /// A list of  BatchResultErrorEntry  items with error details about each message that can't be enqueued.

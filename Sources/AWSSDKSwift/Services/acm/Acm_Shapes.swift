@@ -38,6 +38,10 @@ extension Acm {
     public struct RemoveTagsFromCertificateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Tags", required: true, type: .list), 
+            AWSShapeProperty(label: "CertificateArn", required: true, type: .string)
+        ]
         /// The key-value pair that defines the tag to remove.
         public let tags: [Tag]
         /// String that contains the ARN of the ACM Certificate with one or more tags that you want to remove. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
@@ -66,6 +70,10 @@ extension Acm {
     public struct ListCertificatesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "CertificateSummaryList", required: false, type: .list)
+        ]
         /// When the list is truncated, this value is present and contains the value to use for the NextToken parameter in a subsequent pagination request.
         public let nextToken: String?
         /// A list of ACM Certificates.
@@ -89,6 +97,9 @@ extension Acm {
     public struct RequestCertificateResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "CertificateArn", required: false, type: .string)
+        ]
         /// String that contains the ARN of the issued certificate. This must be of the form:  arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012 
         public let certificateArn: String?
 
@@ -115,6 +126,12 @@ extension Acm {
     public struct ImportCertificateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Certificate", required: true, type: .blob), 
+            AWSShapeProperty(label: "CertificateArn", required: false, type: .string), 
+            AWSShapeProperty(label: "PrivateKey", required: true, type: .blob), 
+            AWSShapeProperty(label: "CertificateChain", required: false, type: .blob)
+        ]
         /// The certificate to import. It must meet the following requirements:   Must be PEM-encoded.   Must contain a 1024-bit or 2048-bit RSA public key.   Must be valid at the time of import. You cannot import a certificate before its validity period begins (the certificate's NotBefore date) or after it expires (the certificate's NotAfter date).  
         public let certificate: Data
         /// The Amazon Resource Name (ARN) of an imported certificate to replace. To import a new certificate, omit this field.
@@ -144,6 +161,9 @@ extension Acm {
     public struct ListTagsForCertificateResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Tags", required: false, type: .list)
+        ]
         /// The key-value pairs that define the applied tags.
         public let tags: [Tag]?
 
@@ -163,6 +183,10 @@ extension Acm {
     public struct Tag: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Value", required: false, type: .string), 
+            AWSShapeProperty(label: "Key", required: true, type: .string)
+        ]
         /// The value of the tag.
         public let value: String?
         /// The key of the tag.
@@ -183,6 +207,9 @@ extension Acm {
     public struct GetCertificateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "CertificateArn", required: true, type: .string)
+        ]
         /// String that contains a certificate ARN in the following format:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let certificateArn: String
 
@@ -199,6 +226,12 @@ extension Acm {
     public struct DomainValidation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ValidationDomain", required: false, type: .string), 
+            AWSShapeProperty(label: "ValidationStatus", required: false, type: .enum), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
+            AWSShapeProperty(label: "ValidationEmails", required: false, type: .list)
+        ]
         /// The domain name that ACM used to send domain validation emails.
         public let validationDomain: String?
         /// The validation status of the domain name.
@@ -235,6 +268,10 @@ extension Acm {
     public struct AddTagsToCertificateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Tags", required: true, type: .list), 
+            AWSShapeProperty(label: "CertificateArn", required: true, type: .string)
+        ]
         /// The key-value pair that defines the tag. The tag value is optional.
         public let tags: [Tag]
         /// String that contains the ARN of the ACM Certificate to which the tag is to be applied. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
@@ -256,6 +293,10 @@ extension Acm {
     public struct GetCertificateResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Certificate", required: false, type: .string), 
+            AWSShapeProperty(label: "CertificateChain", required: false, type: .string)
+        ]
         /// String that contains the ACM Certificate represented by the ARN specified at input.
         public let certificate: String?
         /// The certificate chain that contains the root certificate issued by the certificate authority (CA).
@@ -275,6 +316,11 @@ extension Acm {
     public struct ResendValidationEmailRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ValidationDomain", required: true, type: .string), 
+            AWSShapeProperty(label: "CertificateArn", required: true, type: .string), 
+            AWSShapeProperty(label: "Domain", required: true, type: .string)
+        ]
         /// The base validation domain that will act as the suffix of the email addresses that are used to send the emails. This must be the same as the Domain value or a superdomain of the Domain value. For example, if you requested a certificate for site.subdomain.example.com and specify a ValidationDomain of subdomain.example.com, ACM sends email to the domain registrant, technical contact, and administrative contact in WHOIS and the following five addresses:   admin@subdomain.example.com   administrator@subdomain.example.com   hostmaster@subdomain.example.com   postmaster@subdomain.example.com   webmaster@subdomain.example.com  
         public let validationDomain: String
         /// String that contains the ARN of the requested certificate. The certificate ARN is generated and returned by the RequestCertificate action as soon as the request is made. By default, using this parameter causes email to be sent to all top-level domains you specified in the certificate request. The ARN must be of the form:  arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012 
@@ -315,6 +361,10 @@ extension Acm {
     public struct RenewalSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DomainValidationOptions", required: true, type: .list), 
+            AWSShapeProperty(label: "RenewalStatus", required: true, type: .enum)
+        ]
         /// Contains information about the validation of each domain name in the certificate, as it pertains to ACM's managed renewal. This is different from the initial validation that occurs as a result of the RequestCertificate request. This field exists only when the certificate type is AMAZON_ISSUED.
         public let domainValidationOptions: [DomainValidation]
         /// The status of ACM's managed renewal of the certificate.
@@ -336,6 +386,10 @@ extension Acm {
     public struct DomainValidationOption: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ValidationDomain", required: true, type: .string), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        ]
         /// The domain name that you want ACM to use to send you validation emails. This domain name is the suffix of the email addresses that you want ACM to use. This must be the same as the DomainName value or a superdomain of the DomainName value. For example, if you request a certificate for testing.example.com, you can specify example.com for this value. In that case, ACM sends domain validation emails to the following five addresses:   admin@example.com   administrator@example.com   hostmaster@example.com   postmaster@example.com   webmaster@example.com  
         public let validationDomain: String
         /// A fully qualified domain name (FQDN) in the certificate request.
@@ -357,6 +411,10 @@ extension Acm {
     public struct CertificateSummary: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "CertificateArn", required: false, type: .string), 
+            AWSShapeProperty(label: "DomainName", required: false, type: .string)
+        ]
         /// Amazon Resource Name (ARN) of the certificate. This is of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let certificateArn: String?
         /// Fully qualified domain name (FQDN), such as www.example.com or example.com, for the certificate.
@@ -376,6 +434,9 @@ extension Acm {
     public struct DescribeCertificateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "CertificateArn", required: true, type: .string)
+        ]
         /// The Amazon Resource Name (ARN) of the ACM Certificate. The ARN must have the following form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let certificateArn: String
 
@@ -399,6 +460,11 @@ extension Acm {
     public struct ListCertificatesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "CertificateStatuses", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxItems", required: false, type: .integer)
+        ]
         /// The status or statuses on which to filter the list of ACM Certificates.
         public let certificateStatuses: [CertificateStatus]?
         /// Use this parameter only when paginating results and only in a subsequent request after you receive a response with truncated results. Set it to the value of NextToken from the response you just received.
@@ -422,6 +488,9 @@ extension Acm {
     public struct DescribeCertificateResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Certificate", required: false, type: .structure)
+        ]
         /// Metadata about an ACM certificate.
         public let certificate: CertificateDetail?
 
@@ -437,6 +506,12 @@ extension Acm {
     public struct RequestCertificateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DomainValidationOptions", required: false, type: .list), 
+            AWSShapeProperty(label: "SubjectAlternativeNames", required: false, type: .list), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
+            AWSShapeProperty(label: "IdempotencyToken", required: false, type: .string)
+        ]
         /// The domain name that you want ACM to use to send you emails to validate your ownership of the domain.
         public let domainValidationOptions: [DomainValidationOption]?
         /// Additional FQDNs to be included in the Subject Alternative Name extension of the ACM Certificate. For example, add the name www.example.net to a certificate for which the DomainName field is www.example.com if users can reach your site by using either name.
@@ -469,6 +544,9 @@ extension Acm {
     public struct ImportCertificateResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "CertificateArn", required: false, type: .string)
+        ]
         /// The Amazon Resource Name (ARN) of the imported certificate.
         public let certificateArn: String?
 
@@ -484,6 +562,9 @@ extension Acm {
     public struct ListTagsForCertificateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "CertificateArn", required: true, type: .string)
+        ]
         /// String that contains the ARN of the ACM Certificate for which you want to list the tags. This has the following form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let certificateArn: String
 
@@ -500,6 +581,9 @@ extension Acm {
     public struct DeleteCertificateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "CertificateArn", required: true, type: .string)
+        ]
         /// String that contains the ARN of the ACM Certificate to be deleted. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let certificateArn: String
 
@@ -525,6 +609,29 @@ extension Acm {
     public struct CertificateDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "FailureReason", required: false, type: .enum), 
+            AWSShapeProperty(label: "IssuedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "ImportedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "RevokedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "RenewalSummary", required: false, type: .structure), 
+            AWSShapeProperty(label: "SignatureAlgorithm", required: false, type: .string), 
+            AWSShapeProperty(label: "Serial", required: false, type: .string), 
+            AWSShapeProperty(label: "RevocationReason", required: false, type: .enum), 
+            AWSShapeProperty(label: "NotAfter", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Status", required: false, type: .enum), 
+            AWSShapeProperty(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "NotBefore", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "SubjectAlternativeNames", required: false, type: .list), 
+            AWSShapeProperty(label: "DomainValidationOptions", required: false, type: .list), 
+            AWSShapeProperty(label: "KeyAlgorithm", required: false, type: .enum), 
+            AWSShapeProperty(label: "CertificateArn", required: false, type: .string), 
+            AWSShapeProperty(label: "DomainName", required: false, type: .string), 
+            AWSShapeProperty(label: "Type", required: false, type: .enum), 
+            AWSShapeProperty(label: "InUseBy", required: false, type: .list), 
+            AWSShapeProperty(label: "Issuer", required: false, type: .string), 
+            AWSShapeProperty(label: "Subject", required: false, type: .string)
+        ]
         /// The reason the certificate request failed. This value exists only when the certificate status is FAILED. For more information, see Certificate Request Failed in the AWS Certificate Manager User Guide.
         public let failureReason: FailureReason?
         /// The time at which the certificate was issued. This value exists only when the certificate type is AMAZON_ISSUED.
