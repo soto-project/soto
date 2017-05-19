@@ -36,7 +36,7 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string)
         ]
         public let bucket: String
 
@@ -54,8 +54,8 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tag", required: false, type: .structure), 
-            AWSShapeProperty(label: "Prefix", required: false, type: .string)
+            AWSShapeProperty(label: "Tags", location: "Tag", required: false, type: .structure), 
+            AWSShapeProperty(label: "Prefix", location: nil, required: false, type: .string)
         ]
         /// The list of tags used when evaluating an AND predicate.
         public let tags: TagSet?
@@ -77,9 +77,9 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExpiredObjectDeleteMarker", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Date", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Days", required: false, type: .integer)
+            AWSShapeProperty(label: "ExpiredObjectDeleteMarker", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "Date", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Days", location: nil, required: false, type: .integer)
         ]
         /// Indicates whether Amazon S3 will remove a delete marker with no noncurrent versions. If set to true, the delete marker will be expired; if set to false the policy takes no action. This cannot be specified with Days or Date in a Lifecycle Expiration Policy.
         public let expiredObjectDeleteMarker: Bool?
@@ -111,9 +111,9 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "CORSConfiguration", required: true, type: .structure), 
-            AWSShapeProperty(label: "Content-MD5", required: false, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "CORSConfiguration", location: "CORSConfiguration", required: true, type: .structure), 
+            AWSShapeProperty(label: "ContentMD5", location: "Content-MD5", required: false, type: .string)
         ]
         public let bucket: String
         public let cORSConfiguration: CORSConfiguration
@@ -138,7 +138,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tag", required: false, type: .list)
+            AWSShapeProperty(label: "Tag", location: "Tag", required: false, type: .list)
         ]
         public let tag: [Tag]?
 
@@ -162,7 +162,7 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string)
         ]
         public let bucket: String
 
@@ -180,14 +180,14 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ID", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: true, type: .enum), 
-            AWSShapeProperty(label: "AbortIncompleteMultipartUpload", required: false, type: .structure), 
-            AWSShapeProperty(label: "NoncurrentVersionExpiration", required: false, type: .structure), 
-            AWSShapeProperty(label: "Transition", required: false, type: .structure), 
-            AWSShapeProperty(label: "NoncurrentVersionTransition", required: false, type: .structure), 
-            AWSShapeProperty(label: "Expiration", required: false, type: .structure), 
-            AWSShapeProperty(label: "Prefix", required: true, type: .string)
+            AWSShapeProperty(label: "ID", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Status", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "AbortIncompleteMultipartUpload", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "NoncurrentVersionExpiration", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Transition", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "NoncurrentVersionTransition", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Expiration", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Prefix", location: nil, required: true, type: .string)
         ]
         /// Unique identifier for the rule. The value cannot be longer than 255 characters.
         public let iD: String?
@@ -233,7 +233,7 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string)
         ]
         public let bucket: String
 
@@ -254,7 +254,7 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string)
         ]
         public let bucket: String
 
@@ -272,8 +272,8 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tag", required: false, type: .structure), 
-            AWSShapeProperty(label: "Prefix", required: false, type: .string)
+            AWSShapeProperty(label: "Tags", location: "Tag", required: false, type: .structure), 
+            AWSShapeProperty(label: "Prefix", location: nil, required: false, type: .string)
         ]
         /// All of these tags must exist in the object's tag set in order for the rule to apply.
         public let tags: TagSet?
@@ -297,7 +297,7 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string)
         ]
         public let bucket: String
 
@@ -315,8 +315,8 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ETag", required: false, type: .string), 
-            AWSShapeProperty(label: "LastModified", required: false, type: .timestamp)
+            AWSShapeProperty(label: "ETag", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "LastModified", location: nil, required: false, type: .timestamp)
         ]
         public let eTag: String?
         public let lastModified: Date?
@@ -339,8 +339,8 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "AccelerateConfiguration", required: true, type: .structure)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "AccelerateConfiguration", location: "AccelerateConfiguration", required: true, type: .structure)
         ]
         /// Name of the bucket for which the accelerate configuration is set.
         public let bucket: String
@@ -364,7 +364,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LocationConstraint", required: false, type: .enum)
+            AWSShapeProperty(label: "LocationConstraint", location: nil, required: false, type: .enum)
         ]
         public let locationConstraint: BucketLocationConstraint?
 
@@ -381,8 +381,8 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HostName", required: true, type: .string), 
-            AWSShapeProperty(label: "Protocol", required: false, type: .enum)
+            AWSShapeProperty(label: "HostName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Protocol", location: nil, required: false, type: .enum)
         ]
         /// Name of the host where requests will be redirected.
         public let hostName: String
@@ -414,13 +414,13 @@ extension S3 {
             return ["x-amz-server-side-encryption": "ServerSideEncryption", "x-amz-copy-source-version-id": "CopySourceVersionId", "x-amz-server-side-encryption-aws-kms-key-id": "SSEKMSKeyId", "x-amz-request-charged": "RequestCharged", "x-amz-server-side-encryption-customer-algorithm": "SSECustomerAlgorithm", "x-amz-server-side-encryption-customer-key-MD5": "SSECustomerKeyMD5"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CopyPartResult", required: false, type: .structure), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-customer-key-MD5", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-copy-source-version-id", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-aws-kms-key-id", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-customer-algorithm", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption", required: false, type: .enum), 
-            AWSShapeProperty(label: "X-amz-request-charged", required: false, type: .enum)
+            AWSShapeProperty(label: "CopyPartResult", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "SSECustomerKeyMD5", location: "x-amz-server-side-encryption-customer-key-MD5", required: false, type: .string), 
+            AWSShapeProperty(label: "CopySourceVersionId", location: "x-amz-copy-source-version-id", required: false, type: .string), 
+            AWSShapeProperty(label: "SSEKMSKeyId", location: "x-amz-server-side-encryption-aws-kms-key-id", required: false, type: .string), 
+            AWSShapeProperty(label: "SSECustomerAlgorithm", location: "x-amz-server-side-encryption-customer-algorithm", required: false, type: .string), 
+            AWSShapeProperty(label: "ServerSideEncryption", location: "x-amz-server-side-encryption", required: false, type: .enum), 
+            AWSShapeProperty(label: "RequestCharged", location: "x-amz-request-charged", required: false, type: .enum)
         ]
         public let copyPartResult: CopyPartResult?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
@@ -447,12 +447,12 @@ extension S3 {
 
         public init(dictionary: [String: Any]) throws {
             if let copyPartResult = dictionary["CopyPartResult"] as? [String: Any] { self.copyPartResult = try S3.CopyPartResult(dictionary: copyPartResult) } else { self.copyPartResult = nil }
-            self.sSECustomerKeyMD5 = dictionary["X-amz-server-side-encryption-customer-key-MD5"] as? String
-            self.copySourceVersionId = dictionary["X-amz-copy-source-version-id"] as? String
-            self.sSEKMSKeyId = dictionary["X-amz-server-side-encryption-aws-kms-key-id"] as? String
-            self.sSECustomerAlgorithm = dictionary["X-amz-server-side-encryption-customer-algorithm"] as? String
-            if let serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String { self.serverSideEncryption = ServerSideEncryption(rawValue: serverSideEncryption) } else { self.serverSideEncryption = nil }
-            if let requestCharged = dictionary["X-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
+            self.sSECustomerKeyMD5 = dictionary["x-amz-server-side-encryption-customer-key-MD5"] as? String
+            self.copySourceVersionId = dictionary["x-amz-copy-source-version-id"] as? String
+            self.sSEKMSKeyId = dictionary["x-amz-server-side-encryption-aws-kms-key-id"] as? String
+            self.sSECustomerAlgorithm = dictionary["x-amz-server-side-encryption-customer-algorithm"] as? String
+            if let serverSideEncryption = dictionary["x-amz-server-side-encryption"] as? String { self.serverSideEncryption = ServerSideEncryption(rawValue: serverSideEncryption) } else { self.serverSideEncryption = nil }
+            if let requestCharged = dictionary["x-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
         }
     }
 
@@ -460,7 +460,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TagSet", required: true, type: .structure)
+            AWSShapeProperty(label: "TagSet", location: nil, required: true, type: .structure)
         ]
         public let tagSet: TagSet
 
@@ -478,7 +478,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = "AnalyticsConfiguration"
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AnalyticsConfiguration", required: false, type: .structure)
+            AWSShapeProperty(label: "AnalyticsConfiguration", location: nil, required: false, type: .structure)
         ]
         /// The configuration and any analyses for the analytics filter.
         public let analyticsConfiguration: AnalyticsConfiguration?
@@ -496,8 +496,8 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ID", required: false, type: .string), 
-            AWSShapeProperty(label: "DisplayName", required: false, type: .string)
+            AWSShapeProperty(label: "ID", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "DisplayName", location: nil, required: false, type: .string)
         ]
         public let iD: String?
         public let displayName: String?
@@ -520,16 +520,16 @@ extension S3 {
             return ["x-amz-server-side-encryption-customer-key-MD5": "SSECustomerKeyMD5", "x-amz-server-side-encryption": "ServerSideEncryption", "x-amz-server-side-encryption-aws-kms-key-id": "SSEKMSKeyId", "x-amz-request-charged": "RequestCharged", "x-amz-abort-date": "AbortDate", "x-amz-server-side-encryption-customer-algorithm": "SSECustomerAlgorithm", "x-amz-abort-rule-id": "AbortRuleId"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-abort-date", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "X-amz-abort-rule-id", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-customer-key-MD5", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string), 
-            AWSShapeProperty(label: "UploadId", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-aws-kms-key-id", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-customer-algorithm", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-request-charged", required: false, type: .enum), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption", required: false, type: .enum)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: false, type: .string), 
+            AWSShapeProperty(label: "AbortDate", location: "x-amz-abort-date", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "AbortRuleId", location: "x-amz-abort-rule-id", required: false, type: .string), 
+            AWSShapeProperty(label: "SSECustomerKeyMD5", location: "x-amz-server-side-encryption-customer-key-MD5", required: false, type: .string), 
+            AWSShapeProperty(label: "Key", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "UploadId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "SSEKMSKeyId", location: "x-amz-server-side-encryption-aws-kms-key-id", required: false, type: .string), 
+            AWSShapeProperty(label: "SSECustomerAlgorithm", location: "x-amz-server-side-encryption-customer-algorithm", required: false, type: .string), 
+            AWSShapeProperty(label: "RequestCharged", location: "x-amz-request-charged", required: false, type: .enum), 
+            AWSShapeProperty(label: "ServerSideEncryption", location: "x-amz-server-side-encryption", required: false, type: .enum)
         ]
         /// Name of the bucket to which the multipart upload was initiated.
         public let bucket: String?
@@ -566,15 +566,15 @@ extension S3 {
 
         public init(dictionary: [String: Any]) throws {
             self.bucket = dictionary["Bucket"] as? String
-            self.abortDate = dictionary["X-amz-abort-date"] as? Date
-            self.abortRuleId = dictionary["X-amz-abort-rule-id"] as? String
-            self.sSECustomerKeyMD5 = dictionary["X-amz-server-side-encryption-customer-key-MD5"] as? String
+            self.abortDate = dictionary["x-amz-abort-date"] as? Date
+            self.abortRuleId = dictionary["x-amz-abort-rule-id"] as? String
+            self.sSECustomerKeyMD5 = dictionary["x-amz-server-side-encryption-customer-key-MD5"] as? String
             self.key = dictionary["Key"] as? String
             self.uploadId = dictionary["UploadId"] as? String
-            self.sSEKMSKeyId = dictionary["X-amz-server-side-encryption-aws-kms-key-id"] as? String
-            self.sSECustomerAlgorithm = dictionary["X-amz-server-side-encryption-customer-algorithm"] as? String
-            if let requestCharged = dictionary["X-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
-            if let serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String { self.serverSideEncryption = ServerSideEncryption(rawValue: serverSideEncryption) } else { self.serverSideEncryption = nil }
+            self.sSEKMSKeyId = dictionary["x-amz-server-side-encryption-aws-kms-key-id"] as? String
+            self.sSECustomerAlgorithm = dictionary["x-amz-server-side-encryption-customer-algorithm"] as? String
+            if let requestCharged = dictionary["x-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
+            if let serverSideEncryption = dictionary["x-amz-server-side-encryption"] as? String { self.serverSideEncryption = ServerSideEncryption(rawValue: serverSideEncryption) } else { self.serverSideEncryption = nil }
         }
     }
 
@@ -582,12 +582,12 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LastModified", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "StorageClass", required: false, type: .enum), 
-            AWSShapeProperty(label: "Key", required: false, type: .string), 
-            AWSShapeProperty(label: "ETag", required: false, type: .string), 
-            AWSShapeProperty(label: "Owner", required: false, type: .structure), 
-            AWSShapeProperty(label: "Size", required: false, type: .integer)
+            AWSShapeProperty(label: "LastModified", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "StorageClass", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "Key", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ETag", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Owner", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Size", location: nil, required: false, type: .integer)
         ]
         public let lastModified: Date?
         /// The class of storage used to store the object.
@@ -626,39 +626,39 @@ extension S3 {
             return ["Bucket": "Bucket", "Key": "Key"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "X-amz-tagging", required: false, type: .string), 
-            AWSShapeProperty(label: "Content-Disposition", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-copy-source-if-modified-since", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "X-amz-copy-source-if-none-match", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-copy-source-if-match", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-copy-source-server-side-encryption-customer-key", required: false, type: .string), 
-            AWSShapeProperty(label: "Content-Language", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-grant-read-acp", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-customer-algorithm", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-aws-kms-key-id", required: false, type: .string), 
-            AWSShapeProperty(label: "Content-Encoding", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-grant-write-acp", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string), 
-            AWSShapeProperty(label: "X-amz-website-redirect-location", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-copy-source-server-side-encryption-customer-key-MD5", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-copy-source-if-unmodified-since", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-customer-key", required: false, type: .string), 
-            AWSShapeProperty(label: "Cache-Control", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-tagging-directive", required: false, type: .enum), 
-            AWSShapeProperty(label: "X-amz-request-payer", required: false, type: .enum), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-customer-key-MD5", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-grant-full-control", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-metadata-directive", required: false, type: .enum), 
-            AWSShapeProperty(label: "X-amz-copy-source", required: true, type: .string), 
-            AWSShapeProperty(label: "X-amz-acl", required: false, type: .enum), 
-            AWSShapeProperty(label: "X-amz-meta-", required: false, type: .map), 
-            AWSShapeProperty(label: "Expires", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Content-Type", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-storage-class", required: false, type: .enum), 
-            AWSShapeProperty(label: "X-amz-copy-source-server-side-encryption-customer-algorithm", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-grant-read", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption", required: false, type: .enum)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "Tagging", location: "x-amz-tagging", required: false, type: .string), 
+            AWSShapeProperty(label: "ContentDisposition", location: "Content-Disposition", required: false, type: .string), 
+            AWSShapeProperty(label: "CopySourceIfModifiedSince", location: "x-amz-copy-source-if-modified-since", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "CopySourceIfNoneMatch", location: "x-amz-copy-source-if-none-match", required: false, type: .string), 
+            AWSShapeProperty(label: "CopySourceIfMatch", location: "x-amz-copy-source-if-match", required: false, type: .string), 
+            AWSShapeProperty(label: "CopySourceSSECustomerKey", location: "x-amz-copy-source-server-side-encryption-customer-key", required: false, type: .string), 
+            AWSShapeProperty(label: "ContentLanguage", location: "Content-Language", required: false, type: .string), 
+            AWSShapeProperty(label: "GrantReadACP", location: "x-amz-grant-read-acp", required: false, type: .string), 
+            AWSShapeProperty(label: "SSECustomerAlgorithm", location: "x-amz-server-side-encryption-customer-algorithm", required: false, type: .string), 
+            AWSShapeProperty(label: "SSEKMSKeyId", location: "x-amz-server-side-encryption-aws-kms-key-id", required: false, type: .string), 
+            AWSShapeProperty(label: "ContentEncoding", location: "Content-Encoding", required: false, type: .string), 
+            AWSShapeProperty(label: "GrantWriteACP", location: "x-amz-grant-write-acp", required: false, type: .string), 
+            AWSShapeProperty(label: "Key", location: "Key", required: true, type: .string), 
+            AWSShapeProperty(label: "WebsiteRedirectLocation", location: "x-amz-website-redirect-location", required: false, type: .string), 
+            AWSShapeProperty(label: "CopySourceSSECustomerKeyMD5", location: "x-amz-copy-source-server-side-encryption-customer-key-MD5", required: false, type: .string), 
+            AWSShapeProperty(label: "CopySourceIfUnmodifiedSince", location: "x-amz-copy-source-if-unmodified-since", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "SSECustomerKey", location: "x-amz-server-side-encryption-customer-key", required: false, type: .string), 
+            AWSShapeProperty(label: "CacheControl", location: "Cache-Control", required: false, type: .string), 
+            AWSShapeProperty(label: "TaggingDirective", location: "x-amz-tagging-directive", required: false, type: .enum), 
+            AWSShapeProperty(label: "RequestPayer", location: "x-amz-request-payer", required: false, type: .enum), 
+            AWSShapeProperty(label: "SSECustomerKeyMD5", location: "x-amz-server-side-encryption-customer-key-MD5", required: false, type: .string), 
+            AWSShapeProperty(label: "GrantFullControl", location: "x-amz-grant-full-control", required: false, type: .string), 
+            AWSShapeProperty(label: "MetadataDirective", location: "x-amz-metadata-directive", required: false, type: .enum), 
+            AWSShapeProperty(label: "CopySource", location: "x-amz-copy-source", required: true, type: .string), 
+            AWSShapeProperty(label: "ACL", location: "x-amz-acl", required: false, type: .enum), 
+            AWSShapeProperty(label: "Metadata", location: "x-amz-meta-", required: false, type: .map), 
+            AWSShapeProperty(label: "Expires", location: "Expires", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "ContentType", location: "Content-Type", required: false, type: .string), 
+            AWSShapeProperty(label: "StorageClass", location: "x-amz-storage-class", required: false, type: .enum), 
+            AWSShapeProperty(label: "CopySourceSSECustomerAlgorithm", location: "x-amz-copy-source-server-side-encryption-customer-algorithm", required: false, type: .string), 
+            AWSShapeProperty(label: "GrantRead", location: "x-amz-grant-read", required: false, type: .string), 
+            AWSShapeProperty(label: "ServerSideEncryption", location: "x-amz-server-side-encryption", required: false, type: .enum)
         ]
         public let bucket: String
         /// The tag-set for the object destination object this value must be used in conjunction with the TaggingDirective. The tag-set must be encoded as URL Query parameters
@@ -763,44 +763,44 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.tagging = dictionary["X-amz-tagging"] as? String
+            self.tagging = dictionary["x-amz-tagging"] as? String
             self.contentDisposition = dictionary["Content-Disposition"] as? String
-            self.copySourceIfModifiedSince = dictionary["X-amz-copy-source-if-modified-since"] as? Date
-            self.copySourceIfNoneMatch = dictionary["X-amz-copy-source-if-none-match"] as? String
-            self.copySourceIfMatch = dictionary["X-amz-copy-source-if-match"] as? String
-            self.copySourceSSECustomerKey = dictionary["X-amz-copy-source-server-side-encryption-customer-key"] as? String
+            self.copySourceIfModifiedSince = dictionary["x-amz-copy-source-if-modified-since"] as? Date
+            self.copySourceIfNoneMatch = dictionary["x-amz-copy-source-if-none-match"] as? String
+            self.copySourceIfMatch = dictionary["x-amz-copy-source-if-match"] as? String
+            self.copySourceSSECustomerKey = dictionary["x-amz-copy-source-server-side-encryption-customer-key"] as? String
             self.contentLanguage = dictionary["Content-Language"] as? String
-            self.grantReadACP = dictionary["X-amz-grant-read-acp"] as? String
-            self.sSECustomerAlgorithm = dictionary["X-amz-server-side-encryption-customer-algorithm"] as? String
-            self.sSEKMSKeyId = dictionary["X-amz-server-side-encryption-aws-kms-key-id"] as? String
+            self.grantReadACP = dictionary["x-amz-grant-read-acp"] as? String
+            self.sSECustomerAlgorithm = dictionary["x-amz-server-side-encryption-customer-algorithm"] as? String
+            self.sSEKMSKeyId = dictionary["x-amz-server-side-encryption-aws-kms-key-id"] as? String
             self.contentEncoding = dictionary["Content-Encoding"] as? String
-            self.grantWriteACP = dictionary["X-amz-grant-write-acp"] as? String
+            self.grantWriteACP = dictionary["x-amz-grant-write-acp"] as? String
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
-            self.websiteRedirectLocation = dictionary["X-amz-website-redirect-location"] as? String
-            self.copySourceSSECustomerKeyMD5 = dictionary["X-amz-copy-source-server-side-encryption-customer-key-MD5"] as? String
-            self.copySourceIfUnmodifiedSince = dictionary["X-amz-copy-source-if-unmodified-since"] as? Date
-            self.sSECustomerKey = dictionary["X-amz-server-side-encryption-customer-key"] as? String
+            self.websiteRedirectLocation = dictionary["x-amz-website-redirect-location"] as? String
+            self.copySourceSSECustomerKeyMD5 = dictionary["x-amz-copy-source-server-side-encryption-customer-key-MD5"] as? String
+            self.copySourceIfUnmodifiedSince = dictionary["x-amz-copy-source-if-unmodified-since"] as? Date
+            self.sSECustomerKey = dictionary["x-amz-server-side-encryption-customer-key"] as? String
             self.cacheControl = dictionary["Cache-Control"] as? String
-            if let taggingDirective = dictionary["X-amz-tagging-directive"] as? String { self.taggingDirective = TaggingDirective(rawValue: taggingDirective) } else { self.taggingDirective = nil }
-            if let requestPayer = dictionary["X-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
-            self.sSECustomerKeyMD5 = dictionary["X-amz-server-side-encryption-customer-key-MD5"] as? String
-            self.grantFullControl = dictionary["X-amz-grant-full-control"] as? String
-            if let metadataDirective = dictionary["X-amz-metadata-directive"] as? String { self.metadataDirective = MetadataDirective(rawValue: metadataDirective) } else { self.metadataDirective = nil }
-            guard let copySource = dictionary["X-amz-copy-source"] as? String else { throw InitializableError.missingRequiredParam("X-amz-copy-source") }
+            if let taggingDirective = dictionary["x-amz-tagging-directive"] as? String { self.taggingDirective = TaggingDirective(rawValue: taggingDirective) } else { self.taggingDirective = nil }
+            if let requestPayer = dictionary["x-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
+            self.sSECustomerKeyMD5 = dictionary["x-amz-server-side-encryption-customer-key-MD5"] as? String
+            self.grantFullControl = dictionary["x-amz-grant-full-control"] as? String
+            if let metadataDirective = dictionary["x-amz-metadata-directive"] as? String { self.metadataDirective = MetadataDirective(rawValue: metadataDirective) } else { self.metadataDirective = nil }
+            guard let copySource = dictionary["x-amz-copy-source"] as? String else { throw InitializableError.missingRequiredParam("x-amz-copy-source") }
             self.copySource = copySource
-            if let aCL = dictionary["X-amz-acl"] as? String { self.aCL = ObjectCannedACL(rawValue: aCL) } else { self.aCL = nil }
-            if let metadata = dictionary["X-amz-meta-"] as? [String: String] {
+            if let aCL = dictionary["x-amz-acl"] as? String { self.aCL = ObjectCannedACL(rawValue: aCL) } else { self.aCL = nil }
+            if let metadata = dictionary["x-amz-meta-"] as? [String: String] {
                 self.metadata = metadata
             } else { 
                 self.metadata = nil
             }
             self.expires = dictionary["Expires"] as? Date
             self.contentType = dictionary["Content-Type"] as? String
-            if let storageClass = dictionary["X-amz-storage-class"] as? String { self.storageClass = StorageClass(rawValue: storageClass) } else { self.storageClass = nil }
-            self.copySourceSSECustomerAlgorithm = dictionary["X-amz-copy-source-server-side-encryption-customer-algorithm"] as? String
-            self.grantRead = dictionary["X-amz-grant-read"] as? String
-            if let serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String { self.serverSideEncryption = ServerSideEncryption(rawValue: serverSideEncryption) } else { self.serverSideEncryption = nil }
+            if let storageClass = dictionary["x-amz-storage-class"] as? String { self.storageClass = StorageClass(rawValue: storageClass) } else { self.storageClass = nil }
+            self.copySourceSSECustomerAlgorithm = dictionary["x-amz-copy-source-server-side-encryption-customer-algorithm"] as? String
+            self.grantRead = dictionary["x-amz-grant-read"] as? String
+            if let serverSideEncryption = dictionary["x-amz-server-side-encryption"] as? String { self.serverSideEncryption = ServerSideEncryption(rawValue: serverSideEncryption) } else { self.serverSideEncryption = nil }
         }
     }
 
@@ -817,7 +817,7 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string)
         ]
         public let bucket: String
 
@@ -835,8 +835,8 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Permission", required: false, type: .enum), 
-            AWSShapeProperty(label: "Grantee", required: false, type: .structure)
+            AWSShapeProperty(label: "Permission", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "Grantee", location: nil, required: false, type: .structure)
         ]
         /// Specifies the permission given to the grantee.
         public let permission: Permission?
@@ -857,7 +857,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "S3BucketDestination", required: true, type: .structure)
+            AWSShapeProperty(label: "S3BucketDestination", location: nil, required: true, type: .structure)
         ]
         /// Contains the bucket name, file format, bucket owner (optional), and prefix (optional) where inventory results are published.
         public let s3BucketDestination: InventoryS3BucketDestination
@@ -893,13 +893,13 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "Max-keys", required: false, type: .integer), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-request-payer", required: false, type: .enum), 
-            AWSShapeProperty(label: "Prefix", required: false, type: .string), 
-            AWSShapeProperty(label: "Delimiter", required: false, type: .string), 
-            AWSShapeProperty(label: "Encoding-type", required: false, type: .enum)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "MaxKeys", location: "max-keys", required: false, type: .integer), 
+            AWSShapeProperty(label: "Marker", location: "marker", required: false, type: .string), 
+            AWSShapeProperty(label: "RequestPayer", location: "x-amz-request-payer", required: false, type: .enum), 
+            AWSShapeProperty(label: "Prefix", location: "prefix", required: false, type: .string), 
+            AWSShapeProperty(label: "Delimiter", location: "delimiter", required: false, type: .string), 
+            AWSShapeProperty(label: "EncodingType", location: "encoding-type", required: false, type: .enum)
         ]
         public let bucket: String
         /// Sets the maximum number of keys returned in the response. The response might contain fewer keys but will never contain more.
@@ -927,12 +927,12 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.maxKeys = dictionary["Max-keys"] as? Int32
-            self.marker = dictionary["Marker"] as? String
-            if let requestPayer = dictionary["X-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
-            self.prefix = dictionary["Prefix"] as? String
-            self.delimiter = dictionary["Delimiter"] as? String
-            if let encodingType = dictionary["Encoding-type"] as? String { self.encodingType = EncodingType(rawValue: encodingType) } else { self.encodingType = nil }
+            self.maxKeys = dictionary["max-keys"] as? Int32
+            self.marker = dictionary["marker"] as? String
+            if let requestPayer = dictionary["x-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
+            self.prefix = dictionary["prefix"] as? String
+            self.delimiter = dictionary["delimiter"] as? String
+            if let encodingType = dictionary["encoding-type"] as? String { self.encodingType = EncodingType(rawValue: encodingType) } else { self.encodingType = nil }
         }
     }
 
@@ -946,9 +946,9 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "AnalyticsConfiguration", required: true, type: .structure), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "AnalyticsConfiguration", location: "AnalyticsConfiguration", required: true, type: .structure), 
+            AWSShapeProperty(label: "Id", location: "id", required: true, type: .string)
         ]
         /// The name of the bucket to which an analytics configuration is stored.
         public let bucket: String
@@ -968,7 +968,7 @@ extension S3 {
             self.bucket = bucket
             guard let analyticsConfiguration = dictionary["AnalyticsConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("AnalyticsConfiguration") }
             self.analyticsConfiguration = try S3.AnalyticsConfiguration(dictionary: analyticsConfiguration)
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            guard let id = dictionary["id"] as? String else { throw InitializableError.missingRequiredParam("id") }
             self.id = id
         }
     }
@@ -977,11 +977,11 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CloudFunction", required: false, type: .string), 
-            AWSShapeProperty(label: "InvocationRole", required: false, type: .string), 
-            AWSShapeProperty(label: "Event", required: false, type: .list), 
-            AWSShapeProperty(label: "Event", required: false, type: .enum), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+            AWSShapeProperty(label: "CloudFunction", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "InvocationRole", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Events", location: "Event", required: false, type: .list), 
+            AWSShapeProperty(label: "Event", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "Id", location: nil, required: false, type: .string)
         ]
         public let cloudFunction: String?
         public let invocationRole: String?
@@ -1019,19 +1019,19 @@ extension S3 {
             return ["Bucket": "Bucket", "Key": "Key"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-customer-key", required: false, type: .string), 
-            AWSShapeProperty(label: "If-Unmodified-Since", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "PartNumber", required: false, type: .integer), 
-            AWSShapeProperty(label: "Range", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-request-payer", required: false, type: .enum), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-customer-key-MD5", required: false, type: .string), 
-            AWSShapeProperty(label: "VersionId", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-customer-algorithm", required: false, type: .string), 
-            AWSShapeProperty(label: "If-None-Match", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string), 
-            AWSShapeProperty(label: "If-Modified-Since", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "If-Match", required: false, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "SSECustomerKey", location: "x-amz-server-side-encryption-customer-key", required: false, type: .string), 
+            AWSShapeProperty(label: "IfUnmodifiedSince", location: "If-Unmodified-Since", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "PartNumber", location: "partNumber", required: false, type: .integer), 
+            AWSShapeProperty(label: "Range", location: "Range", required: false, type: .string), 
+            AWSShapeProperty(label: "RequestPayer", location: "x-amz-request-payer", required: false, type: .enum), 
+            AWSShapeProperty(label: "SSECustomerKeyMD5", location: "x-amz-server-side-encryption-customer-key-MD5", required: false, type: .string), 
+            AWSShapeProperty(label: "VersionId", location: "versionId", required: false, type: .string), 
+            AWSShapeProperty(label: "SSECustomerAlgorithm", location: "x-amz-server-side-encryption-customer-algorithm", required: false, type: .string), 
+            AWSShapeProperty(label: "IfNoneMatch", location: "If-None-Match", required: false, type: .string), 
+            AWSShapeProperty(label: "Key", location: "Key", required: true, type: .string), 
+            AWSShapeProperty(label: "IfModifiedSince", location: "If-Modified-Since", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "IfMatch", location: "If-Match", required: false, type: .string)
         ]
         public let bucket: String
         /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
@@ -1076,14 +1076,14 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.sSECustomerKey = dictionary["X-amz-server-side-encryption-customer-key"] as? String
+            self.sSECustomerKey = dictionary["x-amz-server-side-encryption-customer-key"] as? String
             self.ifUnmodifiedSince = dictionary["If-Unmodified-Since"] as? Date
-            self.partNumber = dictionary["PartNumber"] as? Int32
+            self.partNumber = dictionary["partNumber"] as? Int32
             self.range = dictionary["Range"] as? String
-            if let requestPayer = dictionary["X-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
-            self.sSECustomerKeyMD5 = dictionary["X-amz-server-side-encryption-customer-key-MD5"] as? String
-            self.versionId = dictionary["VersionId"] as? String
-            self.sSECustomerAlgorithm = dictionary["X-amz-server-side-encryption-customer-algorithm"] as? String
+            if let requestPayer = dictionary["x-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
+            self.sSECustomerKeyMD5 = dictionary["x-amz-server-side-encryption-customer-key-MD5"] as? String
+            self.versionId = dictionary["versionId"] as? String
+            self.sSECustomerAlgorithm = dictionary["x-amz-server-side-encryption-customer-algorithm"] as? String
             self.ifNoneMatch = dictionary["If-None-Match"] as? String
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
@@ -1096,7 +1096,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Payer", required: false, type: .enum)
+            AWSShapeProperty(label: "Payer", location: nil, required: false, type: .enum)
         ]
         /// Specifies who pays for the download and request fees.
         public let payer: Payer?
@@ -1117,7 +1117,7 @@ extension S3 {
             return ["x-amz-request-charged": "RequestCharged"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "X-amz-request-charged", required: false, type: .enum)
+            AWSShapeProperty(label: "RequestCharged", location: "x-amz-request-charged", required: false, type: .enum)
         ]
         public let requestCharged: RequestCharged?
 
@@ -1126,7 +1126,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let requestCharged = dictionary["X-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
+            if let requestCharged = dictionary["x-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
         }
     }
 
@@ -1143,11 +1143,11 @@ extension S3 {
             return ["Bucket": "Bucket", "Key": "Key"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "Content-MD5", required: false, type: .string), 
-            AWSShapeProperty(label: "Tagging", required: true, type: .structure), 
-            AWSShapeProperty(label: "Key", required: true, type: .string), 
-            AWSShapeProperty(label: "VersionId", required: false, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "ContentMD5", location: "Content-MD5", required: false, type: .string), 
+            AWSShapeProperty(label: "Tagging", location: "Tagging", required: true, type: .structure), 
+            AWSShapeProperty(label: "Key", location: "Key", required: true, type: .string), 
+            AWSShapeProperty(label: "VersionId", location: "versionId", required: false, type: .string)
         ]
         public let bucket: String
         public let contentMD5: String?
@@ -1171,7 +1171,7 @@ extension S3 {
             self.tagging = try S3.Tagging(dictionary: tagging)
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
-            self.versionId = dictionary["VersionId"] as? String
+            self.versionId = dictionary["versionId"] as? String
         }
     }
 
@@ -1179,7 +1179,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Part", required: false, type: .list)
+            AWSShapeProperty(label: "Parts", location: "Part", required: false, type: .list)
         ]
         public let parts: [CompletedPart]?
 
@@ -1220,34 +1220,34 @@ extension S3 {
             return ["x-amz-server-side-encryption-aws-kms-key-id": "SSEKMSKeyId", "x-amz-tagging-count": "TagCount", "accept-ranges": "AcceptRanges", "Content-Language": "ContentLanguage", "Content-Type": "ContentType", "x-amz-website-redirect-location": "WebsiteRedirectLocation", "x-amz-server-side-encryption": "ServerSideEncryption", "Content-Disposition": "ContentDisposition", "x-amz-request-charged": "RequestCharged", "ETag": "ETag", "Content-Encoding": "ContentEncoding", "x-amz-server-side-encryption-customer-key-MD5": "SSECustomerKeyMD5", "x-amz-mp-parts-count": "PartsCount", "Content-Length": "ContentLength", "x-amz-version-id": "VersionId", "x-amz-delete-marker": "DeleteMarker", "Last-Modified": "LastModified", "x-amz-server-side-encryption-customer-algorithm": "SSECustomerAlgorithm", "x-amz-storage-class": "StorageClass", "Expires": "Expires", "Content-Range": "ContentRange", "x-amz-replication-status": "ReplicationStatus", "x-amz-restore": "Restore", "x-amz-missing-meta": "MissingMeta", "x-amz-expiration": "Expiration", "Cache-Control": "CacheControl"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "X-amz-mp-parts-count", required: false, type: .integer), 
-            AWSShapeProperty(label: "Content-Disposition", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-version-id", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-replication-status", required: false, type: .enum), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-aws-kms-key-id", required: false, type: .string), 
-            AWSShapeProperty(label: "Content-Language", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-tagging-count", required: false, type: .integer), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-customer-algorithm", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-restore", required: false, type: .string), 
-            AWSShapeProperty(label: "Content-Encoding", required: false, type: .string), 
-            AWSShapeProperty(label: "Content-Length", required: false, type: .long), 
-            AWSShapeProperty(label: "X-amz-expiration", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-website-redirect-location", required: false, type: .string), 
-            AWSShapeProperty(label: "ETag", required: false, type: .string), 
-            AWSShapeProperty(label: "Body", required: false, type: .blob), 
-            AWSShapeProperty(label: "X-amz-missing-meta", required: false, type: .integer), 
-            AWSShapeProperty(label: "Cache-Control", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-customer-key-MD5", required: false, type: .string), 
-            AWSShapeProperty(label: "Accept-ranges", required: false, type: .string), 
-            AWSShapeProperty(label: "Last-Modified", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "X-amz-meta-", required: false, type: .map), 
-            AWSShapeProperty(label: "Expires", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Content-Range", required: false, type: .string), 
-            AWSShapeProperty(label: "Content-Type", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-storage-class", required: false, type: .enum), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption", required: false, type: .enum), 
-            AWSShapeProperty(label: "X-amz-request-charged", required: false, type: .enum), 
-            AWSShapeProperty(label: "X-amz-delete-marker", required: false, type: .boolean)
+            AWSShapeProperty(label: "PartsCount", location: "x-amz-mp-parts-count", required: false, type: .integer), 
+            AWSShapeProperty(label: "ContentDisposition", location: "Content-Disposition", required: false, type: .string), 
+            AWSShapeProperty(label: "VersionId", location: "x-amz-version-id", required: false, type: .string), 
+            AWSShapeProperty(label: "ReplicationStatus", location: "x-amz-replication-status", required: false, type: .enum), 
+            AWSShapeProperty(label: "SSEKMSKeyId", location: "x-amz-server-side-encryption-aws-kms-key-id", required: false, type: .string), 
+            AWSShapeProperty(label: "ContentLanguage", location: "Content-Language", required: false, type: .string), 
+            AWSShapeProperty(label: "TagCount", location: "x-amz-tagging-count", required: false, type: .integer), 
+            AWSShapeProperty(label: "SSECustomerAlgorithm", location: "x-amz-server-side-encryption-customer-algorithm", required: false, type: .string), 
+            AWSShapeProperty(label: "Restore", location: "x-amz-restore", required: false, type: .string), 
+            AWSShapeProperty(label: "ContentEncoding", location: "Content-Encoding", required: false, type: .string), 
+            AWSShapeProperty(label: "ContentLength", location: "Content-Length", required: false, type: .long), 
+            AWSShapeProperty(label: "Expiration", location: "x-amz-expiration", required: false, type: .string), 
+            AWSShapeProperty(label: "WebsiteRedirectLocation", location: "x-amz-website-redirect-location", required: false, type: .string), 
+            AWSShapeProperty(label: "ETag", location: "ETag", required: false, type: .string), 
+            AWSShapeProperty(label: "Body", location: nil, required: false, type: .blob), 
+            AWSShapeProperty(label: "MissingMeta", location: "x-amz-missing-meta", required: false, type: .integer), 
+            AWSShapeProperty(label: "CacheControl", location: "Cache-Control", required: false, type: .string), 
+            AWSShapeProperty(label: "SSECustomerKeyMD5", location: "x-amz-server-side-encryption-customer-key-MD5", required: false, type: .string), 
+            AWSShapeProperty(label: "AcceptRanges", location: "accept-ranges", required: false, type: .string), 
+            AWSShapeProperty(label: "LastModified", location: "Last-Modified", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Metadata", location: "x-amz-meta-", required: false, type: .map), 
+            AWSShapeProperty(label: "Expires", location: "Expires", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "ContentRange", location: "Content-Range", required: false, type: .string), 
+            AWSShapeProperty(label: "ContentType", location: "Content-Type", required: false, type: .string), 
+            AWSShapeProperty(label: "StorageClass", location: "x-amz-storage-class", required: false, type: .enum), 
+            AWSShapeProperty(label: "ServerSideEncryption", location: "x-amz-server-side-encryption", required: false, type: .enum), 
+            AWSShapeProperty(label: "RequestCharged", location: "x-amz-request-charged", required: false, type: .enum), 
+            AWSShapeProperty(label: "DeleteMarker", location: "x-amz-delete-marker", required: false, type: .boolean)
         ]
         /// The count of parts this object has.
         public let partsCount: Int32?
@@ -1334,27 +1334,27 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.partsCount = dictionary["X-amz-mp-parts-count"] as? Int32
+            self.partsCount = dictionary["x-amz-mp-parts-count"] as? Int32
             self.contentDisposition = dictionary["Content-Disposition"] as? String
-            self.versionId = dictionary["X-amz-version-id"] as? String
-            if let replicationStatus = dictionary["X-amz-replication-status"] as? String { self.replicationStatus = ReplicationStatus(rawValue: replicationStatus) } else { self.replicationStatus = nil }
-            self.sSEKMSKeyId = dictionary["X-amz-server-side-encryption-aws-kms-key-id"] as? String
+            self.versionId = dictionary["x-amz-version-id"] as? String
+            if let replicationStatus = dictionary["x-amz-replication-status"] as? String { self.replicationStatus = ReplicationStatus(rawValue: replicationStatus) } else { self.replicationStatus = nil }
+            self.sSEKMSKeyId = dictionary["x-amz-server-side-encryption-aws-kms-key-id"] as? String
             self.contentLanguage = dictionary["Content-Language"] as? String
-            self.tagCount = dictionary["X-amz-tagging-count"] as? Int32
-            self.sSECustomerAlgorithm = dictionary["X-amz-server-side-encryption-customer-algorithm"] as? String
-            self.restore = dictionary["X-amz-restore"] as? String
+            self.tagCount = dictionary["x-amz-tagging-count"] as? Int32
+            self.sSECustomerAlgorithm = dictionary["x-amz-server-side-encryption-customer-algorithm"] as? String
+            self.restore = dictionary["x-amz-restore"] as? String
             self.contentEncoding = dictionary["Content-Encoding"] as? String
             self.contentLength = dictionary["Content-Length"] as? Int64
-            self.expiration = dictionary["X-amz-expiration"] as? String
-            self.websiteRedirectLocation = dictionary["X-amz-website-redirect-location"] as? String
+            self.expiration = dictionary["x-amz-expiration"] as? String
+            self.websiteRedirectLocation = dictionary["x-amz-website-redirect-location"] as? String
             self.eTag = dictionary["ETag"] as? String
             self.body = dictionary["Body"] as? Data
-            self.missingMeta = dictionary["X-amz-missing-meta"] as? Int32
+            self.missingMeta = dictionary["x-amz-missing-meta"] as? Int32
             self.cacheControl = dictionary["Cache-Control"] as? String
-            self.sSECustomerKeyMD5 = dictionary["X-amz-server-side-encryption-customer-key-MD5"] as? String
-            self.acceptRanges = dictionary["Accept-ranges"] as? String
+            self.sSECustomerKeyMD5 = dictionary["x-amz-server-side-encryption-customer-key-MD5"] as? String
+            self.acceptRanges = dictionary["accept-ranges"] as? String
             self.lastModified = dictionary["Last-Modified"] as? Date
-            if let metadata = dictionary["X-amz-meta-"] as? [String: String] {
+            if let metadata = dictionary["x-amz-meta-"] as? [String: String] {
                 self.metadata = metadata
             } else { 
                 self.metadata = nil
@@ -1362,10 +1362,10 @@ extension S3 {
             self.expires = dictionary["Expires"] as? Date
             self.contentRange = dictionary["Content-Range"] as? String
             self.contentType = dictionary["Content-Type"] as? String
-            if let storageClass = dictionary["X-amz-storage-class"] as? String { self.storageClass = StorageClass(rawValue: storageClass) } else { self.storageClass = nil }
-            if let serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String { self.serverSideEncryption = ServerSideEncryption(rawValue: serverSideEncryption) } else { self.serverSideEncryption = nil }
-            if let requestCharged = dictionary["X-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
-            self.deleteMarker = dictionary["X-amz-delete-marker"] as? Bool
+            if let storageClass = dictionary["x-amz-storage-class"] as? String { self.storageClass = StorageClass(rawValue: storageClass) } else { self.storageClass = nil }
+            if let serverSideEncryption = dictionary["x-amz-server-side-encryption"] as? String { self.serverSideEncryption = ServerSideEncryption(rawValue: serverSideEncryption) } else { self.serverSideEncryption = nil }
+            if let requestCharged = dictionary["x-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
+            self.deleteMarker = dictionary["x-amz-delete-marker"] as? Bool
         }
     }
 
@@ -1386,9 +1386,9 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "QueueConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "TopicConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "CloudFunctionConfiguration", required: false, type: .structure)
+            AWSShapeProperty(label: "QueueConfiguration", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "TopicConfiguration", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "CloudFunctionConfiguration", location: nil, required: false, type: .structure)
         ]
         public let queueConfiguration: QueueConfigurationDeprecated?
         public let topicConfiguration: TopicConfigurationDeprecated?
@@ -1411,9 +1411,9 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StorageClass", required: false, type: .enum), 
-            AWSShapeProperty(label: "Date", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Days", required: false, type: .integer)
+            AWSShapeProperty(label: "StorageClass", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "Date", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Days", location: nil, required: false, type: .integer)
         ]
         /// The class of storage used to store the object.
         public let storageClass: TransitionStorageClass?
@@ -1439,8 +1439,8 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", required: true, type: .string), 
-            AWSShapeProperty(label: "Filter", required: false, type: .structure)
+            AWSShapeProperty(label: "Id", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Filter", location: nil, required: false, type: .structure)
         ]
         /// The ID used to identify the metrics configuration.
         public let id: String
@@ -1463,8 +1463,8 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HttpErrorCodeReturnedEquals", required: false, type: .string), 
-            AWSShapeProperty(label: "KeyPrefixEquals", required: false, type: .string)
+            AWSShapeProperty(label: "HttpErrorCodeReturnedEquals", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "KeyPrefixEquals", location: nil, required: false, type: .string)
         ]
         /// The HTTP error code when the redirect is applied. In the event of an error, if the error code equals this value, then the specified redirect is applied. Required when parent element Condition is specified and sibling KeyPrefixEquals is not specified. If both are specified, then both must be true for the redirect to be applied.
         public let httpErrorCodeReturnedEquals: String?
@@ -1486,8 +1486,8 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MfaDelete", required: false, type: .enum), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum)
+            AWSShapeProperty(label: "MFADelete", location: "MfaDelete", required: false, type: .enum), 
+            AWSShapeProperty(label: "Status", location: nil, required: false, type: .enum)
         ]
         /// Specifies whether MFA delete is enabled in the bucket versioning configuration. This element is only returned if the bucket has been configured with MFA delete. If the bucket has never been so configured, this element is not returned.
         public let mFADelete: MFADelete?
@@ -1509,7 +1509,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .enum)
+            AWSShapeProperty(label: "Status", location: nil, required: false, type: .enum)
         ]
         /// The accelerate configuration of the bucket.
         public let status: BucketAccelerateStatus?
@@ -1533,9 +1533,9 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Content-MD5", required: false, type: .string), 
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "BucketLoggingStatus", required: true, type: .structure)
+            AWSShapeProperty(label: "ContentMD5", location: "Content-MD5", required: false, type: .string), 
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "BucketLoggingStatus", location: "BucketLoggingStatus", required: true, type: .structure)
         ]
         public let contentMD5: String?
         public let bucket: String
@@ -1560,7 +1560,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = "Policy"
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Policy", required: false, type: .string)
+            AWSShapeProperty(label: "Policy", location: nil, required: false, type: .string)
         ]
         /// The bucket policy as a JSON document.
         public let policy: String?
@@ -1578,8 +1578,8 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Role", required: true, type: .string), 
-            AWSShapeProperty(label: "Rule", required: true, type: .list)
+            AWSShapeProperty(label: "Role", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Rules", location: "Rule", required: true, type: .list)
         ]
         /// Amazon Resource Name (ARN) of an IAM role for Amazon S3 to assume when replicating the objects.
         public let role: String
@@ -1611,14 +1611,14 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LastModified", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Size", required: false, type: .integer), 
-            AWSShapeProperty(label: "VersionId", required: false, type: .string), 
-            AWSShapeProperty(label: "StorageClass", required: false, type: .enum), 
-            AWSShapeProperty(label: "Key", required: false, type: .string), 
-            AWSShapeProperty(label: "IsLatest", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ETag", required: false, type: .string), 
-            AWSShapeProperty(label: "Owner", required: false, type: .structure)
+            AWSShapeProperty(label: "LastModified", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Size", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "VersionId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "StorageClass", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "Key", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "IsLatest", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "ETag", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Owner", location: nil, required: false, type: .structure)
         ]
         /// Date and time the object was last modified.
         public let lastModified: Date?
@@ -1662,7 +1662,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = "ReplicationConfiguration"
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReplicationConfiguration", required: false, type: .structure)
+            AWSShapeProperty(label: "ReplicationConfiguration", location: nil, required: false, type: .structure)
         ]
         public let replicationConfiguration: ReplicationConfiguration?
 
@@ -1685,9 +1685,9 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "InventoryConfiguration", required: true, type: .structure), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "InventoryConfiguration", location: "InventoryConfiguration", required: true, type: .structure), 
+            AWSShapeProperty(label: "Id", location: "id", required: true, type: .string)
         ]
         /// The name of the bucket where the inventory configuration will be stored.
         public let bucket: String
@@ -1707,7 +1707,7 @@ extension S3 {
             self.bucket = bucket
             guard let inventoryConfiguration = dictionary["InventoryConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("InventoryConfiguration") }
             self.inventoryConfiguration = try S3.InventoryConfiguration(dictionary: inventoryConfiguration)
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            guard let id = dictionary["id"] as? String else { throw InitializableError.missingRequiredParam("id") }
             self.id = id
         }
     }
@@ -1722,16 +1722,16 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxKeys", required: false, type: .integer), 
-            AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Prefix", required: false, type: .string), 
-            AWSShapeProperty(label: "CommonPrefixes", required: false, type: .list), 
-            AWSShapeProperty(label: "Contents", required: false, type: .list), 
-            AWSShapeProperty(label: "Delimiter", required: false, type: .string), 
-            AWSShapeProperty(label: "EncodingType", required: false, type: .enum), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+            AWSShapeProperty(label: "MaxKeys", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "IsTruncated", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "Marker", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Prefix", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "CommonPrefixes", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "Contents", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "Delimiter", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "EncodingType", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "NextMarker", location: nil, required: false, type: .string)
         ]
         public let maxKeys: Int32?
         /// A flag that indicates whether or not Amazon S3 returned all of the results that satisfied the search criteria.
@@ -1789,15 +1789,15 @@ extension S3 {
             return ["x-amz-version-id": "VersionId", "x-amz-server-side-encryption-aws-kms-key-id": "SSEKMSKeyId", "x-amz-request-charged": "RequestCharged", "x-amz-expiration": "Expiration", "x-amz-server-side-encryption": "ServerSideEncryption"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: false, type: .string), 
-            AWSShapeProperty(label: "Location", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-expiration", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-version-id", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-aws-kms-key-id", required: false, type: .string), 
-            AWSShapeProperty(label: "ETag", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption", required: false, type: .enum), 
-            AWSShapeProperty(label: "X-amz-request-charged", required: false, type: .enum)
+            AWSShapeProperty(label: "Bucket", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Location", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Expiration", location: "x-amz-expiration", required: false, type: .string), 
+            AWSShapeProperty(label: "VersionId", location: "x-amz-version-id", required: false, type: .string), 
+            AWSShapeProperty(label: "Key", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "SSEKMSKeyId", location: "x-amz-server-side-encryption-aws-kms-key-id", required: false, type: .string), 
+            AWSShapeProperty(label: "ETag", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ServerSideEncryption", location: "x-amz-server-side-encryption", required: false, type: .enum), 
+            AWSShapeProperty(label: "RequestCharged", location: "x-amz-request-charged", required: false, type: .enum)
         ]
         public let bucket: String?
         public let location: String?
@@ -1829,13 +1829,13 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             self.bucket = dictionary["Bucket"] as? String
             self.location = dictionary["Location"] as? String
-            self.expiration = dictionary["X-amz-expiration"] as? String
-            self.versionId = dictionary["X-amz-version-id"] as? String
+            self.expiration = dictionary["x-amz-expiration"] as? String
+            self.versionId = dictionary["x-amz-version-id"] as? String
             self.key = dictionary["Key"] as? String
-            self.sSEKMSKeyId = dictionary["X-amz-server-side-encryption-aws-kms-key-id"] as? String
+            self.sSEKMSKeyId = dictionary["x-amz-server-side-encryption-aws-kms-key-id"] as? String
             self.eTag = dictionary["ETag"] as? String
-            if let serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String { self.serverSideEncryption = ServerSideEncryption(rawValue: serverSideEncryption) } else { self.serverSideEncryption = nil }
-            if let requestCharged = dictionary["X-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
+            if let serverSideEncryption = dictionary["x-amz-server-side-encryption"] as? String { self.serverSideEncryption = ServerSideEncryption(rawValue: serverSideEncryption) } else { self.serverSideEncryption = nil }
+            if let requestCharged = dictionary["x-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
         }
     }
 
@@ -1843,7 +1843,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "S3Key", required: false, type: .structure)
+            AWSShapeProperty(label: "Key", location: "S3Key", required: false, type: .structure)
         ]
         public let key: S3KeyFilter?
 
@@ -1869,18 +1869,18 @@ extension S3 {
             return ["Bucket": "Bucket", "Key": "Key"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "Content-MD5", required: false, type: .string), 
-            AWSShapeProperty(label: "AccessControlPolicy", required: false, type: .structure), 
-            AWSShapeProperty(label: "X-amz-grant-write-acp", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-request-payer", required: false, type: .enum), 
-            AWSShapeProperty(label: "X-amz-grant-full-control", required: false, type: .string), 
-            AWSShapeProperty(label: "VersionId", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-grant-write", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string), 
-            AWSShapeProperty(label: "X-amz-grant-read-acp", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-grant-read", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-acl", required: false, type: .enum)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "ContentMD5", location: "Content-MD5", required: false, type: .string), 
+            AWSShapeProperty(label: "AccessControlPolicy", location: "AccessControlPolicy", required: false, type: .structure), 
+            AWSShapeProperty(label: "GrantWriteACP", location: "x-amz-grant-write-acp", required: false, type: .string), 
+            AWSShapeProperty(label: "RequestPayer", location: "x-amz-request-payer", required: false, type: .enum), 
+            AWSShapeProperty(label: "GrantFullControl", location: "x-amz-grant-full-control", required: false, type: .string), 
+            AWSShapeProperty(label: "VersionId", location: "versionId", required: false, type: .string), 
+            AWSShapeProperty(label: "GrantWrite", location: "x-amz-grant-write", required: false, type: .string), 
+            AWSShapeProperty(label: "Key", location: "Key", required: true, type: .string), 
+            AWSShapeProperty(label: "GrantReadACP", location: "x-amz-grant-read-acp", required: false, type: .string), 
+            AWSShapeProperty(label: "GrantRead", location: "x-amz-grant-read", required: false, type: .string), 
+            AWSShapeProperty(label: "ACL", location: "x-amz-acl", required: false, type: .enum)
         ]
         public let bucket: String
         public let contentMD5: String?
@@ -1922,16 +1922,16 @@ extension S3 {
             self.bucket = bucket
             self.contentMD5 = dictionary["Content-MD5"] as? String
             if let accessControlPolicy = dictionary["AccessControlPolicy"] as? [String: Any] { self.accessControlPolicy = try S3.AccessControlPolicy(dictionary: accessControlPolicy) } else { self.accessControlPolicy = nil }
-            self.grantWriteACP = dictionary["X-amz-grant-write-acp"] as? String
-            if let requestPayer = dictionary["X-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
-            self.grantFullControl = dictionary["X-amz-grant-full-control"] as? String
-            self.versionId = dictionary["VersionId"] as? String
-            self.grantWrite = dictionary["X-amz-grant-write"] as? String
+            self.grantWriteACP = dictionary["x-amz-grant-write-acp"] as? String
+            if let requestPayer = dictionary["x-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
+            self.grantFullControl = dictionary["x-amz-grant-full-control"] as? String
+            self.versionId = dictionary["versionId"] as? String
+            self.grantWrite = dictionary["x-amz-grant-write"] as? String
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
-            self.grantReadACP = dictionary["X-amz-grant-read-acp"] as? String
-            self.grantRead = dictionary["X-amz-grant-read"] as? String
-            if let aCL = dictionary["X-amz-acl"] as? String { self.aCL = ObjectCannedACL(rawValue: aCL) } else { self.aCL = nil }
+            self.grantReadACP = dictionary["x-amz-grant-read-acp"] as? String
+            self.grantRead = dictionary["x-amz-grant-read"] as? String
+            if let aCL = dictionary["x-amz-acl"] as? String { self.aCL = ObjectCannedACL(rawValue: aCL) } else { self.aCL = nil }
         }
     }
 
@@ -1944,10 +1944,10 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Topic", required: true, type: .string), 
-            AWSShapeProperty(label: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "Event", required: true, type: .list), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+            AWSShapeProperty(label: "TopicArn", location: "Topic", required: true, type: .string), 
+            AWSShapeProperty(label: "Filter", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Events", location: "Event", required: true, type: .list), 
+            AWSShapeProperty(label: "Id", location: nil, required: false, type: .string)
         ]
         /// Amazon SNS topic ARN to which Amazon S3 will publish a message when it detects events of specified type.
         public let topicArn: String
@@ -1976,8 +1976,8 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Redirect", required: true, type: .structure), 
-            AWSShapeProperty(label: "Condition", required: false, type: .structure)
+            AWSShapeProperty(label: "Redirect", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "Condition", location: nil, required: false, type: .structure)
         ]
         /// Container for redirect information. You can redirect requests to another host, to another page, or with another protocol. In the event of an error, you can can specify a different error code to return.
         public let redirect: Redirect
@@ -2005,9 +2005,9 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tag", required: false, type: .structure), 
-            AWSShapeProperty(label: "And", required: false, type: .structure), 
-            AWSShapeProperty(label: "Prefix", required: false, type: .string)
+            AWSShapeProperty(label: "Tag", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "And", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Prefix", location: nil, required: false, type: .string)
         ]
         /// This tag must exist in the object's tag set in order for the rule to apply.
         public let tag: Tag?
@@ -2032,7 +2032,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Suffix", required: true, type: .string)
+            AWSShapeProperty(label: "Suffix", location: nil, required: true, type: .string)
         ]
         /// A suffix that is appended to a request that is for a directory on the website endpoint (e.g. if the suffix is index.html and you make a request to samplebucket/images/ the data that is returned will be for the object with the key name images/index.html) The suffix must not be empty and must not include a slash character.
         public let suffix: String
@@ -2054,31 +2054,31 @@ extension S3 {
             return ["x-amz-expiration": "Expiration", "Content-Length": "ContentLength", "Cache-Control": "CacheControl", "x-amz-server-side-encryption-aws-kms-key-id": "SSEKMSKeyId", "x-amz-server-side-encryption-customer-key-MD5": "SSECustomerKeyMD5", "accept-ranges": "AcceptRanges", "x-amz-version-id": "VersionId", "x-amz-delete-marker": "DeleteMarker", "Last-Modified": "LastModified", "x-amz-server-side-encryption-customer-algorithm": "SSECustomerAlgorithm", "Content-Language": "ContentLanguage", "Content-Type": "ContentType", "x-amz-website-redirect-location": "WebsiteRedirectLocation", "x-amz-storage-class": "StorageClass", "Expires": "Expires", "Content-Disposition": "ContentDisposition", "x-amz-server-side-encryption": "ServerSideEncryption", "x-amz-request-charged": "RequestCharged", "x-amz-replication-status": "ReplicationStatus", "x-amz-restore": "Restore", "x-amz-missing-meta": "MissingMeta", "ETag": "ETag", "Content-Encoding": "ContentEncoding", "x-amz-mp-parts-count": "PartsCount"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "X-amz-mp-parts-count", required: false, type: .integer), 
-            AWSShapeProperty(label: "Content-Disposition", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-version-id", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-replication-status", required: false, type: .enum), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-aws-kms-key-id", required: false, type: .string), 
-            AWSShapeProperty(label: "Content-Language", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-customer-algorithm", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-restore", required: false, type: .string), 
-            AWSShapeProperty(label: "Content-Encoding", required: false, type: .string), 
-            AWSShapeProperty(label: "Content-Length", required: false, type: .long), 
-            AWSShapeProperty(label: "X-amz-expiration", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-website-redirect-location", required: false, type: .string), 
-            AWSShapeProperty(label: "ETag", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-missing-meta", required: false, type: .integer), 
-            AWSShapeProperty(label: "Cache-Control", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-customer-key-MD5", required: false, type: .string), 
-            AWSShapeProperty(label: "Accept-ranges", required: false, type: .string), 
-            AWSShapeProperty(label: "Last-Modified", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "X-amz-meta-", required: false, type: .map), 
-            AWSShapeProperty(label: "Expires", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Content-Type", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-storage-class", required: false, type: .enum), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption", required: false, type: .enum), 
-            AWSShapeProperty(label: "X-amz-request-charged", required: false, type: .enum), 
-            AWSShapeProperty(label: "X-amz-delete-marker", required: false, type: .boolean)
+            AWSShapeProperty(label: "PartsCount", location: "x-amz-mp-parts-count", required: false, type: .integer), 
+            AWSShapeProperty(label: "ContentDisposition", location: "Content-Disposition", required: false, type: .string), 
+            AWSShapeProperty(label: "VersionId", location: "x-amz-version-id", required: false, type: .string), 
+            AWSShapeProperty(label: "ReplicationStatus", location: "x-amz-replication-status", required: false, type: .enum), 
+            AWSShapeProperty(label: "SSEKMSKeyId", location: "x-amz-server-side-encryption-aws-kms-key-id", required: false, type: .string), 
+            AWSShapeProperty(label: "ContentLanguage", location: "Content-Language", required: false, type: .string), 
+            AWSShapeProperty(label: "SSECustomerAlgorithm", location: "x-amz-server-side-encryption-customer-algorithm", required: false, type: .string), 
+            AWSShapeProperty(label: "Restore", location: "x-amz-restore", required: false, type: .string), 
+            AWSShapeProperty(label: "ContentEncoding", location: "Content-Encoding", required: false, type: .string), 
+            AWSShapeProperty(label: "ContentLength", location: "Content-Length", required: false, type: .long), 
+            AWSShapeProperty(label: "Expiration", location: "x-amz-expiration", required: false, type: .string), 
+            AWSShapeProperty(label: "WebsiteRedirectLocation", location: "x-amz-website-redirect-location", required: false, type: .string), 
+            AWSShapeProperty(label: "ETag", location: "ETag", required: false, type: .string), 
+            AWSShapeProperty(label: "MissingMeta", location: "x-amz-missing-meta", required: false, type: .integer), 
+            AWSShapeProperty(label: "CacheControl", location: "Cache-Control", required: false, type: .string), 
+            AWSShapeProperty(label: "SSECustomerKeyMD5", location: "x-amz-server-side-encryption-customer-key-MD5", required: false, type: .string), 
+            AWSShapeProperty(label: "AcceptRanges", location: "accept-ranges", required: false, type: .string), 
+            AWSShapeProperty(label: "LastModified", location: "Last-Modified", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Metadata", location: "x-amz-meta-", required: false, type: .map), 
+            AWSShapeProperty(label: "Expires", location: "Expires", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "ContentType", location: "Content-Type", required: false, type: .string), 
+            AWSShapeProperty(label: "StorageClass", location: "x-amz-storage-class", required: false, type: .enum), 
+            AWSShapeProperty(label: "ServerSideEncryption", location: "x-amz-server-side-encryption", required: false, type: .enum), 
+            AWSShapeProperty(label: "RequestCharged", location: "x-amz-request-charged", required: false, type: .enum), 
+            AWSShapeProperty(label: "DeleteMarker", location: "x-amz-delete-marker", required: false, type: .boolean)
         ]
         /// The count of parts this object has.
         public let partsCount: Int32?
@@ -2156,35 +2156,35 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.partsCount = dictionary["X-amz-mp-parts-count"] as? Int32
+            self.partsCount = dictionary["x-amz-mp-parts-count"] as? Int32
             self.contentDisposition = dictionary["Content-Disposition"] as? String
-            self.versionId = dictionary["X-amz-version-id"] as? String
-            if let replicationStatus = dictionary["X-amz-replication-status"] as? String { self.replicationStatus = ReplicationStatus(rawValue: replicationStatus) } else { self.replicationStatus = nil }
-            self.sSEKMSKeyId = dictionary["X-amz-server-side-encryption-aws-kms-key-id"] as? String
+            self.versionId = dictionary["x-amz-version-id"] as? String
+            if let replicationStatus = dictionary["x-amz-replication-status"] as? String { self.replicationStatus = ReplicationStatus(rawValue: replicationStatus) } else { self.replicationStatus = nil }
+            self.sSEKMSKeyId = dictionary["x-amz-server-side-encryption-aws-kms-key-id"] as? String
             self.contentLanguage = dictionary["Content-Language"] as? String
-            self.sSECustomerAlgorithm = dictionary["X-amz-server-side-encryption-customer-algorithm"] as? String
-            self.restore = dictionary["X-amz-restore"] as? String
+            self.sSECustomerAlgorithm = dictionary["x-amz-server-side-encryption-customer-algorithm"] as? String
+            self.restore = dictionary["x-amz-restore"] as? String
             self.contentEncoding = dictionary["Content-Encoding"] as? String
             self.contentLength = dictionary["Content-Length"] as? Int64
-            self.expiration = dictionary["X-amz-expiration"] as? String
-            self.websiteRedirectLocation = dictionary["X-amz-website-redirect-location"] as? String
+            self.expiration = dictionary["x-amz-expiration"] as? String
+            self.websiteRedirectLocation = dictionary["x-amz-website-redirect-location"] as? String
             self.eTag = dictionary["ETag"] as? String
-            self.missingMeta = dictionary["X-amz-missing-meta"] as? Int32
+            self.missingMeta = dictionary["x-amz-missing-meta"] as? Int32
             self.cacheControl = dictionary["Cache-Control"] as? String
-            self.sSECustomerKeyMD5 = dictionary["X-amz-server-side-encryption-customer-key-MD5"] as? String
-            self.acceptRanges = dictionary["Accept-ranges"] as? String
+            self.sSECustomerKeyMD5 = dictionary["x-amz-server-side-encryption-customer-key-MD5"] as? String
+            self.acceptRanges = dictionary["accept-ranges"] as? String
             self.lastModified = dictionary["Last-Modified"] as? Date
-            if let metadata = dictionary["X-amz-meta-"] as? [String: String] {
+            if let metadata = dictionary["x-amz-meta-"] as? [String: String] {
                 self.metadata = metadata
             } else { 
                 self.metadata = nil
             }
             self.expires = dictionary["Expires"] as? Date
             self.contentType = dictionary["Content-Type"] as? String
-            if let storageClass = dictionary["X-amz-storage-class"] as? String { self.storageClass = StorageClass(rawValue: storageClass) } else { self.storageClass = nil }
-            if let serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String { self.serverSideEncryption = ServerSideEncryption(rawValue: serverSideEncryption) } else { self.serverSideEncryption = nil }
-            if let requestCharged = dictionary["X-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
-            self.deleteMarker = dictionary["X-amz-delete-marker"] as? Bool
+            if let storageClass = dictionary["x-amz-storage-class"] as? String { self.storageClass = StorageClass(rawValue: storageClass) } else { self.storageClass = nil }
+            if let serverSideEncryption = dictionary["x-amz-server-side-encryption"] as? String { self.serverSideEncryption = ServerSideEncryption(rawValue: serverSideEncryption) } else { self.serverSideEncryption = nil }
+            if let requestCharged = dictionary["x-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
+            self.deleteMarker = dictionary["x-amz-delete-marker"] as? Bool
         }
     }
 
@@ -2192,8 +2192,8 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ETag", required: false, type: .string), 
-            AWSShapeProperty(label: "PartNumber", required: false, type: .integer)
+            AWSShapeProperty(label: "ETag", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "PartNumber", location: nil, required: false, type: .integer)
         ]
         /// Entity tag returned when the part was uploaded.
         public let eTag: String?
@@ -2218,7 +2218,7 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string)
         ]
         public let bucket: String
 
@@ -2236,18 +2236,18 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxKeys", required: false, type: .integer), 
-            AWSShapeProperty(label: "StartAfter", required: false, type: .string), 
-            AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ContinuationToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Prefix", required: false, type: .string), 
-            AWSShapeProperty(label: "NextContinuationToken", required: false, type: .string), 
-            AWSShapeProperty(label: "CommonPrefixes", required: false, type: .list), 
-            AWSShapeProperty(label: "Contents", required: false, type: .list), 
-            AWSShapeProperty(label: "Delimiter", required: false, type: .string), 
-            AWSShapeProperty(label: "EncodingType", required: false, type: .enum), 
-            AWSShapeProperty(label: "KeyCount", required: false, type: .integer)
+            AWSShapeProperty(label: "MaxKeys", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "StartAfter", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "IsTruncated", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "ContinuationToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Prefix", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "NextContinuationToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "CommonPrefixes", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "Contents", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "Delimiter", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "EncodingType", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "KeyCount", location: nil, required: false, type: .integer)
         ]
         /// Sets the maximum number of keys returned in the response. The response might contain fewer keys but will never contain more.
         public let maxKeys: Int32?
@@ -2317,8 +2317,8 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Permission", required: false, type: .enum), 
-            AWSShapeProperty(label: "Grantee", required: false, type: .structure)
+            AWSShapeProperty(label: "Permission", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "Grantee", location: nil, required: false, type: .structure)
         ]
         /// Logging permissions assigned to the Grantee for the bucket.
         public let permission: BucketLogsPermission?
@@ -2339,7 +2339,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoggingEnabled", required: false, type: .structure)
+            AWSShapeProperty(label: "LoggingEnabled", location: nil, required: false, type: .structure)
         ]
         public let loggingEnabled: LoggingEnabled?
 
@@ -2356,10 +2356,10 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "Format", required: true, type: .enum), 
-            AWSShapeProperty(label: "BucketAccountId", required: false, type: .string), 
-            AWSShapeProperty(label: "Prefix", required: false, type: .string)
+            AWSShapeProperty(label: "Bucket", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Format", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "BucketAccountId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Prefix", location: nil, required: false, type: .string)
         ]
         /// The Amazon resource name (ARN) of the bucket to which data is exported.
         public let bucket: String
@@ -2403,9 +2403,9 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Content-MD5", required: false, type: .string), 
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "LifecycleConfiguration", required: false, type: .structure)
+            AWSShapeProperty(label: "ContentMD5", location: "Content-MD5", required: false, type: .string), 
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "LifecycleConfiguration", location: "LifecycleConfiguration", required: false, type: .structure)
         ]
         public let contentMD5: String?
         public let bucket: String
@@ -2429,10 +2429,10 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RoutingRules", required: false, type: .structure), 
-            AWSShapeProperty(label: "IndexDocument", required: false, type: .structure), 
-            AWSShapeProperty(label: "ErrorDocument", required: false, type: .structure), 
-            AWSShapeProperty(label: "RedirectAllRequestsTo", required: false, type: .structure)
+            AWSShapeProperty(label: "RoutingRules", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "IndexDocument", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "ErrorDocument", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "RedirectAllRequestsTo", location: nil, required: false, type: .structure)
         ]
         public let routingRules: RoutingRules?
         public let indexDocument: IndexDocument?
@@ -2458,9 +2458,9 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TopicConfiguration", required: false, type: .list), 
-            AWSShapeProperty(label: "QueueConfiguration", required: false, type: .list), 
-            AWSShapeProperty(label: "CloudFunctionConfiguration", required: false, type: .list)
+            AWSShapeProperty(label: "TopicConfigurations", location: "TopicConfiguration", required: false, type: .list), 
+            AWSShapeProperty(label: "QueueConfigurations", location: "QueueConfiguration", required: false, type: .list), 
+            AWSShapeProperty(label: "LambdaFunctionConfigurations", location: "CloudFunctionConfiguration", required: false, type: .list)
         ]
         public let topicConfigurations: [TopicConfiguration]?
         public let queueConfigurations: [QueueConfiguration]?
@@ -2495,9 +2495,9 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tag", required: false, type: .structure), 
-            AWSShapeProperty(label: "And", required: false, type: .structure), 
-            AWSShapeProperty(label: "Prefix", required: false, type: .string)
+            AWSShapeProperty(label: "Tag", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "And", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Prefix", location: nil, required: false, type: .string)
         ]
         /// The tag to use when evaluating an analytics filter.
         public let tag: Tag?
@@ -2526,7 +2526,7 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string)
         ]
         public let bucket: String
 
@@ -2550,9 +2550,9 @@ extension S3 {
             return ["Bucket": "Bucket", "Key": "Key"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "VersionId", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "VersionId", location: "versionId", required: false, type: .string), 
+            AWSShapeProperty(label: "Key", location: "Key", required: true, type: .string)
         ]
         public let bucket: String
         public let versionId: String?
@@ -2567,7 +2567,7 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.versionId = dictionary["VersionId"] as? String
+            self.versionId = dictionary["versionId"] as? String
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
         }
@@ -2580,8 +2580,8 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "LifecycleConfiguration", required: false, type: .structure)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "LifecycleConfiguration", location: "LifecycleConfiguration", required: false, type: .structure)
         ]
         public let bucket: String
         public let lifecycleConfiguration: BucketLifecycleConfiguration?
@@ -2602,19 +2602,19 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxKeys", required: false, type: .integer), 
-            AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeProperty(label: "VersionIdMarker", required: false, type: .string), 
-            AWSShapeProperty(label: "NextVersionIdMarker", required: false, type: .string), 
-            AWSShapeProperty(label: "CommonPrefixes", required: false, type: .list), 
-            AWSShapeProperty(label: "Delimiter", required: false, type: .string), 
-            AWSShapeProperty(label: "KeyMarker", required: false, type: .string), 
-            AWSShapeProperty(label: "EncodingType", required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Prefix", required: false, type: .string), 
-            AWSShapeProperty(label: "DeleteMarker", required: false, type: .list), 
-            AWSShapeProperty(label: "NextKeyMarker", required: false, type: .string), 
-            AWSShapeProperty(label: "Version", required: false, type: .list)
+            AWSShapeProperty(label: "MaxKeys", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "IsTruncated", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "VersionIdMarker", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "NextVersionIdMarker", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "CommonPrefixes", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "Delimiter", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "KeyMarker", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "EncodingType", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Prefix", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "DeleteMarkers", location: "DeleteMarker", required: false, type: .list), 
+            AWSShapeProperty(label: "NextKeyMarker", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Versions", location: "Version", required: false, type: .list)
         ]
         public let maxKeys: Int32?
         /// A flag that indicates whether or not Amazon S3 returned all of the results that satisfied the search criteria. If your results were truncated, you can make a follow-up paginated request using the NextKeyMarker and NextVersionIdMarker response parameters as a starting place in another request to return the rest of the results.
@@ -2684,9 +2684,9 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", required: true, type: .string), 
-            AWSShapeProperty(label: "StorageClassAnalysis", required: true, type: .structure), 
-            AWSShapeProperty(label: "Filter", required: false, type: .structure)
+            AWSShapeProperty(label: "Id", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "StorageClassAnalysis", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "Filter", location: nil, required: false, type: .structure)
         ]
         /// The identifier used to represent an analytics configuration.
         public let id: String
@@ -2714,8 +2714,8 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MfaDelete", required: false, type: .enum), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum)
+            AWSShapeProperty(label: "MFADelete", location: "MfaDelete", required: false, type: .enum), 
+            AWSShapeProperty(label: "Status", location: nil, required: false, type: .enum)
         ]
         /// Specifies whether MFA delete is enabled in the bucket versioning configuration. This element is only returned if the bucket has been configured with MFA delete. If the bucket has never been so configured, this element is not returned.
         public let mFADelete: MFADeleteStatus?
@@ -2737,7 +2737,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Prefix", required: true, type: .string)
+            AWSShapeProperty(label: "Prefix", location: nil, required: true, type: .string)
         ]
         /// The prefix that an object must have to be included in the inventory results.
         public let prefix: String
@@ -2762,10 +2762,10 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "X-amz-mfa", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-request-payer", required: false, type: .enum), 
-            AWSShapeProperty(label: "Delete", required: true, type: .structure)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "MFA", location: "x-amz-mfa", required: false, type: .string), 
+            AWSShapeProperty(label: "RequestPayer", location: "x-amz-request-payer", required: false, type: .enum), 
+            AWSShapeProperty(label: "Delete", location: "Delete", required: true, type: .structure)
         ]
         public let bucket: String
         /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device.
@@ -2783,8 +2783,8 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.mFA = dictionary["X-amz-mfa"] as? String
-            if let requestPayer = dictionary["X-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
+            self.mFA = dictionary["x-amz-mfa"] as? String
+            if let requestPayer = dictionary["x-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
             guard let delete = dictionary["Delete"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Delete") }
             self.delete = try S3.Delete(dictionary: delete)
         }
@@ -2800,10 +2800,10 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "Content-MD5", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-mfa", required: false, type: .string), 
-            AWSShapeProperty(label: "VersioningConfiguration", required: true, type: .structure)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "ContentMD5", location: "Content-MD5", required: false, type: .string), 
+            AWSShapeProperty(label: "MFA", location: "x-amz-mfa", required: false, type: .string), 
+            AWSShapeProperty(label: "VersioningConfiguration", location: "VersioningConfiguration", required: true, type: .structure)
         ]
         public let bucket: String
         public let contentMD5: String?
@@ -2822,7 +2822,7 @@ extension S3 {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
             self.contentMD5 = dictionary["Content-MD5"] as? String
-            self.mFA = dictionary["X-amz-mfa"] as? String
+            self.mFA = dictionary["x-amz-mfa"] as? String
             guard let versioningConfiguration = dictionary["VersioningConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("VersioningConfiguration") }
             self.versioningConfiguration = try S3.VersioningConfiguration(dictionary: versioningConfiguration)
         }
@@ -2835,9 +2835,9 @@ extension S3 {
             return ["x-amz-request-charged": "RequestCharged"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Owner", required: false, type: .structure), 
-            AWSShapeProperty(label: "AccessControlList", required: false, type: .structure), 
-            AWSShapeProperty(label: "X-amz-request-charged", required: false, type: .enum)
+            AWSShapeProperty(label: "Owner", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Grants", location: "AccessControlList", required: false, type: .structure), 
+            AWSShapeProperty(label: "RequestCharged", location: "x-amz-request-charged", required: false, type: .enum)
         ]
         public let owner: Owner?
         /// A list of grants.
@@ -2853,7 +2853,7 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) } else { self.owner = nil }
             if let grants = dictionary["AccessControlList"] as? [String: Any] { self.grants = try S3.Grants(dictionary: grants) } else { self.grants = nil }
-            if let requestCharged = dictionary["X-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
+            if let requestCharged = dictionary["x-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
         }
     }
 
@@ -2861,8 +2861,8 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Object", required: true, type: .list), 
-            AWSShapeProperty(label: "Quiet", required: false, type: .boolean)
+            AWSShapeProperty(label: "Objects", location: "Object", required: true, type: .list), 
+            AWSShapeProperty(label: "Quiet", location: nil, required: false, type: .boolean)
         ]
         public let objects: [ObjectIdentifier]
         /// Element to enable quiet mode for the request. When you add this element, you must set its value to true.
@@ -2897,13 +2897,13 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "Upload-id-marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Prefix", required: false, type: .string), 
-            AWSShapeProperty(label: "Max-uploads", required: false, type: .integer), 
-            AWSShapeProperty(label: "Delimiter", required: false, type: .string), 
-            AWSShapeProperty(label: "Encoding-type", required: false, type: .enum), 
-            AWSShapeProperty(label: "Key-marker", required: false, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "UploadIdMarker", location: "upload-id-marker", required: false, type: .string), 
+            AWSShapeProperty(label: "Prefix", location: "prefix", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxUploads", location: "max-uploads", required: false, type: .integer), 
+            AWSShapeProperty(label: "Delimiter", location: "delimiter", required: false, type: .string), 
+            AWSShapeProperty(label: "EncodingType", location: "encoding-type", required: false, type: .enum), 
+            AWSShapeProperty(label: "KeyMarker", location: "key-marker", required: false, type: .string)
         ]
         public let bucket: String
         /// Together with key-marker, specifies the multipart upload after which listing should begin. If key-marker is not specified, the upload-id-marker parameter is ignored.
@@ -2931,12 +2931,12 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.uploadIdMarker = dictionary["Upload-id-marker"] as? String
-            self.prefix = dictionary["Prefix"] as? String
-            self.maxUploads = dictionary["Max-uploads"] as? Int32
-            self.delimiter = dictionary["Delimiter"] as? String
-            if let encodingType = dictionary["Encoding-type"] as? String { self.encodingType = EncodingType(rawValue: encodingType) } else { self.encodingType = nil }
-            self.keyMarker = dictionary["Key-marker"] as? String
+            self.uploadIdMarker = dictionary["upload-id-marker"] as? String
+            self.prefix = dictionary["prefix"] as? String
+            self.maxUploads = dictionary["max-uploads"] as? Int32
+            self.delimiter = dictionary["delimiter"] as? String
+            if let encodingType = dictionary["encoding-type"] as? String { self.encodingType = EncodingType(rawValue: encodingType) } else { self.encodingType = nil }
+            self.keyMarker = dictionary["key-marker"] as? String
         }
     }
 
@@ -2947,9 +2947,9 @@ extension S3 {
             return ["x-amz-request-charged": "RequestCharged"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "X-amz-request-charged", required: false, type: .enum), 
-            AWSShapeProperty(label: "Error", required: false, type: .list), 
-            AWSShapeProperty(label: "Deleted", required: false, type: .list)
+            AWSShapeProperty(label: "RequestCharged", location: "x-amz-request-charged", required: false, type: .enum), 
+            AWSShapeProperty(label: "Errors", location: "Error", required: false, type: .list), 
+            AWSShapeProperty(label: "Deleted", location: nil, required: false, type: .list)
         ]
         public let requestCharged: RequestCharged?
         public let errors: [Error]?
@@ -2962,7 +2962,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let requestCharged = dictionary["X-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
+            if let requestCharged = dictionary["x-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
             if let errors = dictionary["Error"] as? [[String: Any]] {
                 self.errors = try errors.map({ try Error(dictionary: $0) })
             } else { 
@@ -2986,8 +2986,8 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "Id", location: "id", required: true, type: .string)
         ]
         /// The name of the bucket from which an analytics configuration is deleted.
         public let bucket: String
@@ -3002,7 +3002,7 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            guard let id = dictionary["id"] as? String else { throw InitializableError.missingRequiredParam("id") }
             self.id = id
         }
     }
@@ -3014,7 +3014,7 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string)
         ]
         public let bucket: String
 
@@ -3039,10 +3039,10 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ContinuationToken", required: false, type: .string), 
-            AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NextContinuationToken", required: false, type: .string), 
-            AWSShapeProperty(label: "AnalyticsConfiguration", required: false, type: .list)
+            AWSShapeProperty(label: "ContinuationToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "IsTruncated", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "NextContinuationToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "AnalyticsConfigurationList", location: "AnalyticsConfiguration", required: false, type: .list)
         ]
         /// The ContinuationToken that represents where this request began.
         public let continuationToken: String?
@@ -3076,7 +3076,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Frequency", required: true, type: .enum)
+            AWSShapeProperty(label: "Frequency", location: nil, required: true, type: .enum)
         ]
         /// Specifies how frequently inventory results are produced.
         public let frequency: InventoryFrequency
@@ -3095,18 +3095,18 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: false, type: .string), 
-            AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeProperty(label: "KeyMarker", required: false, type: .string), 
-            AWSShapeProperty(label: "Prefix", required: false, type: .string), 
-            AWSShapeProperty(label: "UploadIdMarker", required: false, type: .string), 
-            AWSShapeProperty(label: "CommonPrefixes", required: false, type: .list), 
-            AWSShapeProperty(label: "MaxUploads", required: false, type: .integer), 
-            AWSShapeProperty(label: "Upload", required: false, type: .list), 
-            AWSShapeProperty(label: "Delimiter", required: false, type: .string), 
-            AWSShapeProperty(label: "EncodingType", required: false, type: .enum), 
-            AWSShapeProperty(label: "NextKeyMarker", required: false, type: .string), 
-            AWSShapeProperty(label: "NextUploadIdMarker", required: false, type: .string)
+            AWSShapeProperty(label: "Bucket", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "IsTruncated", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "KeyMarker", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Prefix", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "UploadIdMarker", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "CommonPrefixes", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "MaxUploads", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "Uploads", location: "Upload", required: false, type: .list), 
+            AWSShapeProperty(label: "Delimiter", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "EncodingType", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "NextKeyMarker", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "NextUploadIdMarker", location: nil, required: false, type: .string)
         ]
         /// Name of the bucket to which the multipart upload was initiated.
         public let bucket: String?
@@ -3173,7 +3173,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = "MetricsConfiguration"
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MetricsConfiguration", required: false, type: .structure)
+            AWSShapeProperty(label: "MetricsConfiguration", location: nil, required: false, type: .structure)
         ]
         /// Specifies the metrics configuration.
         public let metricsConfiguration: MetricsConfiguration?
@@ -3191,10 +3191,10 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ContinuationToken", required: false, type: .string), 
-            AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeProperty(label: "MetricsConfiguration", required: false, type: .list), 
-            AWSShapeProperty(label: "NextContinuationToken", required: false, type: .string)
+            AWSShapeProperty(label: "ContinuationToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "IsTruncated", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "MetricsConfigurationList", location: "MetricsConfiguration", required: false, type: .list), 
+            AWSShapeProperty(label: "NextContinuationToken", location: nil, required: false, type: .string)
         ]
         /// The marker that is used as a starting point for this metrics configuration list response. This value is present if it was sent in the request.
         public let continuationToken: String?
@@ -3228,8 +3228,8 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Owner", required: false, type: .structure), 
-            AWSShapeProperty(label: "AccessControlList", required: false, type: .structure)
+            AWSShapeProperty(label: "Owner", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Grants", location: "AccessControlList", required: false, type: .structure)
         ]
         public let owner: Owner?
         /// A list of grants.
@@ -3259,15 +3259,15 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "Max-keys", required: false, type: .integer), 
-            AWSShapeProperty(label: "Start-after", required: false, type: .string), 
-            AWSShapeProperty(label: "Continuation-token", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-request-payer", required: false, type: .enum), 
-            AWSShapeProperty(label: "Prefix", required: false, type: .string), 
-            AWSShapeProperty(label: "Fetch-owner", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Delimiter", required: false, type: .string), 
-            AWSShapeProperty(label: "Encoding-type", required: false, type: .enum)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "MaxKeys", location: "max-keys", required: false, type: .integer), 
+            AWSShapeProperty(label: "StartAfter", location: "start-after", required: false, type: .string), 
+            AWSShapeProperty(label: "ContinuationToken", location: "continuation-token", required: false, type: .string), 
+            AWSShapeProperty(label: "RequestPayer", location: "x-amz-request-payer", required: false, type: .enum), 
+            AWSShapeProperty(label: "Prefix", location: "prefix", required: false, type: .string), 
+            AWSShapeProperty(label: "FetchOwner", location: "fetch-owner", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Delimiter", location: "delimiter", required: false, type: .string), 
+            AWSShapeProperty(label: "EncodingType", location: "encoding-type", required: false, type: .enum)
         ]
         /// Name of the bucket to list.
         public let bucket: String
@@ -3303,14 +3303,14 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.maxKeys = dictionary["Max-keys"] as? Int32
-            self.startAfter = dictionary["Start-after"] as? String
-            self.continuationToken = dictionary["Continuation-token"] as? String
-            if let requestPayer = dictionary["X-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
-            self.prefix = dictionary["Prefix"] as? String
-            self.fetchOwner = dictionary["Fetch-owner"] as? Bool
-            self.delimiter = dictionary["Delimiter"] as? String
-            if let encodingType = dictionary["Encoding-type"] as? String { self.encodingType = EncodingType(rawValue: encodingType) } else { self.encodingType = nil }
+            self.maxKeys = dictionary["max-keys"] as? Int32
+            self.startAfter = dictionary["start-after"] as? String
+            self.continuationToken = dictionary["continuation-token"] as? String
+            if let requestPayer = dictionary["x-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
+            self.prefix = dictionary["prefix"] as? String
+            self.fetchOwner = dictionary["fetch-owner"] as? Bool
+            self.delimiter = dictionary["delimiter"] as? String
+            if let encodingType = dictionary["encoding-type"] as? String { self.encodingType = EncodingType(rawValue: encodingType) } else { self.encodingType = nil }
         }
     }
 
@@ -3321,7 +3321,7 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string)
         ]
         public let bucket: String
 
@@ -3345,14 +3345,14 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "CreateBucketConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "X-amz-grant-write-acp", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-grant-full-control", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-grant-write", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-grant-read", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-acl", required: false, type: .enum), 
-            AWSShapeProperty(label: "X-amz-grant-read-acp", required: false, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "CreateBucketConfiguration", location: "CreateBucketConfiguration", required: false, type: .structure), 
+            AWSShapeProperty(label: "GrantWriteACP", location: "x-amz-grant-write-acp", required: false, type: .string), 
+            AWSShapeProperty(label: "GrantFullControl", location: "x-amz-grant-full-control", required: false, type: .string), 
+            AWSShapeProperty(label: "GrantWrite", location: "x-amz-grant-write", required: false, type: .string), 
+            AWSShapeProperty(label: "GrantRead", location: "x-amz-grant-read", required: false, type: .string), 
+            AWSShapeProperty(label: "ACL", location: "x-amz-acl", required: false, type: .enum), 
+            AWSShapeProperty(label: "GrantReadACP", location: "x-amz-grant-read-acp", required: false, type: .string)
         ]
         public let bucket: String
         public let createBucketConfiguration: CreateBucketConfiguration?
@@ -3384,12 +3384,12 @@ extension S3 {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
             if let createBucketConfiguration = dictionary["CreateBucketConfiguration"] as? [String: Any] { self.createBucketConfiguration = try S3.CreateBucketConfiguration(dictionary: createBucketConfiguration) } else { self.createBucketConfiguration = nil }
-            self.grantWriteACP = dictionary["X-amz-grant-write-acp"] as? String
-            self.grantFullControl = dictionary["X-amz-grant-full-control"] as? String
-            self.grantWrite = dictionary["X-amz-grant-write"] as? String
-            self.grantRead = dictionary["X-amz-grant-read"] as? String
-            if let aCL = dictionary["X-amz-acl"] as? String { self.aCL = BucketCannedACL(rawValue: aCL) } else { self.aCL = nil }
-            self.grantReadACP = dictionary["X-amz-grant-read-acp"] as? String
+            self.grantWriteACP = dictionary["x-amz-grant-write-acp"] as? String
+            self.grantFullControl = dictionary["x-amz-grant-full-control"] as? String
+            self.grantWrite = dictionary["x-amz-grant-write"] as? String
+            self.grantRead = dictionary["x-amz-grant-read"] as? String
+            if let aCL = dictionary["x-amz-acl"] as? String { self.aCL = BucketCannedACL(rawValue: aCL) } else { self.aCL = nil }
+            self.grantReadACP = dictionary["x-amz-grant-read-acp"] as? String
         }
     }
 
@@ -3412,8 +3412,8 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ID", required: false, type: .string), 
-            AWSShapeProperty(label: "DisplayName", required: false, type: .string)
+            AWSShapeProperty(label: "ID", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "DisplayName", location: nil, required: false, type: .string)
         ]
         /// If the principal is an AWS account, it provides the Canonical User ID. If the principal is an IAM User, it provides a user ARN value.
         public let iD: String?
@@ -3438,7 +3438,7 @@ extension S3 {
             return ["x-amz-version-id": "VersionId"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "X-amz-version-id", required: false, type: .string)
+            AWSShapeProperty(label: "VersionId", location: "x-amz-version-id", required: false, type: .string)
         ]
         /// The versionId of the object the tag-set was removed from.
         public let versionId: String?
@@ -3448,7 +3448,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.versionId = dictionary["X-amz-version-id"] as? String
+            self.versionId = dictionary["x-amz-version-id"] as? String
         }
     }
 
@@ -3462,9 +3462,9 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Content-MD5", required: false, type: .string), 
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "ReplicationConfiguration", required: true, type: .structure)
+            AWSShapeProperty(label: "ContentMD5", location: "Content-MD5", required: false, type: .string), 
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "ReplicationConfiguration", location: "ReplicationConfiguration", required: true, type: .structure)
         ]
         public let contentMD5: String?
         public let bucket: String
@@ -3499,11 +3499,11 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExposeHeader", required: false, type: .list), 
-            AWSShapeProperty(label: "AllowedMethod", required: true, type: .list), 
-            AWSShapeProperty(label: "MaxAgeSeconds", required: false, type: .integer), 
-            AWSShapeProperty(label: "AllowedHeader", required: false, type: .list), 
-            AWSShapeProperty(label: "AllowedOrigin", required: true, type: .list)
+            AWSShapeProperty(label: "ExposeHeaders", location: "ExposeHeader", required: false, type: .list), 
+            AWSShapeProperty(label: "AllowedMethods", location: "AllowedMethod", required: true, type: .list), 
+            AWSShapeProperty(label: "MaxAgeSeconds", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "AllowedHeaders", location: "AllowedHeader", required: false, type: .list), 
+            AWSShapeProperty(label: "AllowedOrigins", location: "AllowedOrigin", required: true, type: .list)
         ]
         /// One or more headers in the response that you want customers to be able to access from their applications (for example, from a JavaScript XMLHttpRequest object).
         public let exposeHeaders: [String]?
@@ -3545,28 +3545,28 @@ extension S3 {
             return ["Bucket": "Bucket", "Key": "Key"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "X-amz-server-side-encryption-customer-key", required: false, type: .string), 
-            AWSShapeProperty(label: "Cache-Control", required: false, type: .string), 
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "Content-Disposition", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-request-payer", required: false, type: .enum), 
-            AWSShapeProperty(label: "X-amz-grant-full-control", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-customer-key-MD5", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-aws-kms-key-id", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-grant-read-acp", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-acl", required: false, type: .enum), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-customer-algorithm", required: false, type: .string), 
-            AWSShapeProperty(label: "Content-Language", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-meta-", required: false, type: .map), 
-            AWSShapeProperty(label: "Content-Encoding", required: false, type: .string), 
-            AWSShapeProperty(label: "Expires", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "X-amz-grant-write-acp", required: false, type: .string), 
-            AWSShapeProperty(label: "Content-Type", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-storage-class", required: false, type: .enum), 
-            AWSShapeProperty(label: "Key", required: true, type: .string), 
-            AWSShapeProperty(label: "X-amz-website-redirect-location", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-grant-read", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption", required: false, type: .enum)
+            AWSShapeProperty(label: "SSECustomerKey", location: "x-amz-server-side-encryption-customer-key", required: false, type: .string), 
+            AWSShapeProperty(label: "CacheControl", location: "Cache-Control", required: false, type: .string), 
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "ContentDisposition", location: "Content-Disposition", required: false, type: .string), 
+            AWSShapeProperty(label: "RequestPayer", location: "x-amz-request-payer", required: false, type: .enum), 
+            AWSShapeProperty(label: "GrantFullControl", location: "x-amz-grant-full-control", required: false, type: .string), 
+            AWSShapeProperty(label: "SSECustomerKeyMD5", location: "x-amz-server-side-encryption-customer-key-MD5", required: false, type: .string), 
+            AWSShapeProperty(label: "SSEKMSKeyId", location: "x-amz-server-side-encryption-aws-kms-key-id", required: false, type: .string), 
+            AWSShapeProperty(label: "GrantReadACP", location: "x-amz-grant-read-acp", required: false, type: .string), 
+            AWSShapeProperty(label: "ACL", location: "x-amz-acl", required: false, type: .enum), 
+            AWSShapeProperty(label: "SSECustomerAlgorithm", location: "x-amz-server-side-encryption-customer-algorithm", required: false, type: .string), 
+            AWSShapeProperty(label: "ContentLanguage", location: "Content-Language", required: false, type: .string), 
+            AWSShapeProperty(label: "Metadata", location: "x-amz-meta-", required: false, type: .map), 
+            AWSShapeProperty(label: "ContentEncoding", location: "Content-Encoding", required: false, type: .string), 
+            AWSShapeProperty(label: "Expires", location: "Expires", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "GrantWriteACP", location: "x-amz-grant-write-acp", required: false, type: .string), 
+            AWSShapeProperty(label: "ContentType", location: "Content-Type", required: false, type: .string), 
+            AWSShapeProperty(label: "StorageClass", location: "x-amz-storage-class", required: false, type: .enum), 
+            AWSShapeProperty(label: "Key", location: "Key", required: true, type: .string), 
+            AWSShapeProperty(label: "WebsiteRedirectLocation", location: "x-amz-website-redirect-location", required: false, type: .string), 
+            AWSShapeProperty(label: "GrantRead", location: "x-amz-grant-read", required: false, type: .string), 
+            AWSShapeProperty(label: "ServerSideEncryption", location: "x-amz-server-side-encryption", required: false, type: .enum)
         ]
         /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
         public let sSECustomerKey: String?
@@ -3636,34 +3636,34 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.sSECustomerKey = dictionary["X-amz-server-side-encryption-customer-key"] as? String
+            self.sSECustomerKey = dictionary["x-amz-server-side-encryption-customer-key"] as? String
             self.cacheControl = dictionary["Cache-Control"] as? String
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
             self.contentDisposition = dictionary["Content-Disposition"] as? String
-            if let requestPayer = dictionary["X-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
-            self.grantFullControl = dictionary["X-amz-grant-full-control"] as? String
-            self.sSECustomerKeyMD5 = dictionary["X-amz-server-side-encryption-customer-key-MD5"] as? String
-            self.sSEKMSKeyId = dictionary["X-amz-server-side-encryption-aws-kms-key-id"] as? String
-            self.grantReadACP = dictionary["X-amz-grant-read-acp"] as? String
-            if let aCL = dictionary["X-amz-acl"] as? String { self.aCL = ObjectCannedACL(rawValue: aCL) } else { self.aCL = nil }
-            self.sSECustomerAlgorithm = dictionary["X-amz-server-side-encryption-customer-algorithm"] as? String
+            if let requestPayer = dictionary["x-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
+            self.grantFullControl = dictionary["x-amz-grant-full-control"] as? String
+            self.sSECustomerKeyMD5 = dictionary["x-amz-server-side-encryption-customer-key-MD5"] as? String
+            self.sSEKMSKeyId = dictionary["x-amz-server-side-encryption-aws-kms-key-id"] as? String
+            self.grantReadACP = dictionary["x-amz-grant-read-acp"] as? String
+            if let aCL = dictionary["x-amz-acl"] as? String { self.aCL = ObjectCannedACL(rawValue: aCL) } else { self.aCL = nil }
+            self.sSECustomerAlgorithm = dictionary["x-amz-server-side-encryption-customer-algorithm"] as? String
             self.contentLanguage = dictionary["Content-Language"] as? String
-            if let metadata = dictionary["X-amz-meta-"] as? [String: String] {
+            if let metadata = dictionary["x-amz-meta-"] as? [String: String] {
                 self.metadata = metadata
             } else { 
                 self.metadata = nil
             }
             self.contentEncoding = dictionary["Content-Encoding"] as? String
             self.expires = dictionary["Expires"] as? Date
-            self.grantWriteACP = dictionary["X-amz-grant-write-acp"] as? String
+            self.grantWriteACP = dictionary["x-amz-grant-write-acp"] as? String
             self.contentType = dictionary["Content-Type"] as? String
-            if let storageClass = dictionary["X-amz-storage-class"] as? String { self.storageClass = StorageClass(rawValue: storageClass) } else { self.storageClass = nil }
+            if let storageClass = dictionary["x-amz-storage-class"] as? String { self.storageClass = StorageClass(rawValue: storageClass) } else { self.storageClass = nil }
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
-            self.websiteRedirectLocation = dictionary["X-amz-website-redirect-location"] as? String
-            self.grantRead = dictionary["X-amz-grant-read"] as? String
-            if let serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String { self.serverSideEncryption = ServerSideEncryption(rawValue: serverSideEncryption) } else { self.serverSideEncryption = nil }
+            self.websiteRedirectLocation = dictionary["x-amz-website-redirect-location"] as? String
+            self.grantRead = dictionary["x-amz-grant-read"] as? String
+            if let serverSideEncryption = dictionary["x-amz-server-side-encryption"] as? String { self.serverSideEncryption = ServerSideEncryption(rawValue: serverSideEncryption) } else { self.serverSideEncryption = nil }
         }
     }
 
@@ -3671,7 +3671,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Grant", required: false, type: .list)
+            AWSShapeProperty(label: "Grant", location: "Grant", required: false, type: .list)
         ]
         public let grant: [Grant]?
 
@@ -3701,11 +3701,11 @@ extension S3 {
             return ["Bucket": "Bucket", "Key": "Key"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VersionId", required: false, type: .string), 
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string), 
-            AWSShapeProperty(label: "X-amz-mfa", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-request-payer", required: false, type: .enum)
+            AWSShapeProperty(label: "VersionId", location: "versionId", required: false, type: .string), 
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "Key", location: "Key", required: true, type: .string), 
+            AWSShapeProperty(label: "MFA", location: "x-amz-mfa", required: false, type: .string), 
+            AWSShapeProperty(label: "RequestPayer", location: "x-amz-request-payer", required: false, type: .enum)
         ]
         /// VersionId used to reference a specific version of the object.
         public let versionId: String?
@@ -3724,13 +3724,13 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.versionId = dictionary["VersionId"] as? String
+            self.versionId = dictionary["versionId"] as? String
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
-            self.mFA = dictionary["X-amz-mfa"] as? String
-            if let requestPayer = dictionary["X-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
+            self.mFA = dictionary["x-amz-mfa"] as? String
+            if let requestPayer = dictionary["x-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
         }
     }
 
@@ -3741,7 +3741,7 @@ extension S3 {
             return ["x-amz-request-charged": "RequestCharged"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "X-amz-request-charged", required: false, type: .enum)
+            AWSShapeProperty(label: "RequestCharged", location: "x-amz-request-charged", required: false, type: .enum)
         ]
         public let requestCharged: RequestCharged?
 
@@ -3750,7 +3750,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let requestCharged = dictionary["X-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
+            if let requestCharged = dictionary["x-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
         }
     }
 
@@ -3761,20 +3761,20 @@ extension S3 {
             return ["x-amz-abort-date": "AbortDate", "x-amz-request-charged": "RequestCharged", "x-amz-abort-rule-id": "AbortRuleId"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PartNumberMarker", required: false, type: .integer), 
-            AWSShapeProperty(label: "Bucket", required: false, type: .string), 
-            AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeProperty(label: "X-amz-abort-date", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "UploadId", required: false, type: .string), 
-            AWSShapeProperty(label: "Owner", required: false, type: .structure), 
-            AWSShapeProperty(label: "Part", required: false, type: .list), 
-            AWSShapeProperty(label: "Initiator", required: false, type: .structure), 
-            AWSShapeProperty(label: "X-amz-abort-rule-id", required: false, type: .string), 
-            AWSShapeProperty(label: "StorageClass", required: false, type: .enum), 
-            AWSShapeProperty(label: "Key", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxParts", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextPartNumberMarker", required: false, type: .integer), 
-            AWSShapeProperty(label: "X-amz-request-charged", required: false, type: .enum)
+            AWSShapeProperty(label: "PartNumberMarker", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "Bucket", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "IsTruncated", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "AbortDate", location: "x-amz-abort-date", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "UploadId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Owner", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Parts", location: "Part", required: false, type: .list), 
+            AWSShapeProperty(label: "Initiator", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "AbortRuleId", location: "x-amz-abort-rule-id", required: false, type: .string), 
+            AWSShapeProperty(label: "StorageClass", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "Key", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "MaxParts", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "NextPartNumberMarker", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "RequestCharged", location: "x-amz-request-charged", required: false, type: .enum)
         ]
         /// Part number after which listing begins.
         public let partNumberMarker: Int32?
@@ -3823,7 +3823,7 @@ extension S3 {
             self.partNumberMarker = dictionary["PartNumberMarker"] as? Int32
             self.bucket = dictionary["Bucket"] as? String
             self.isTruncated = dictionary["IsTruncated"] as? Bool
-            self.abortDate = dictionary["X-amz-abort-date"] as? Date
+            self.abortDate = dictionary["x-amz-abort-date"] as? Date
             self.uploadId = dictionary["UploadId"] as? String
             if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) } else { self.owner = nil }
             if let parts = dictionary["Part"] as? [[String: Any]] {
@@ -3832,12 +3832,12 @@ extension S3 {
                 self.parts = nil
             }
             if let initiator = dictionary["Initiator"] as? [String: Any] { self.initiator = try S3.Initiator(dictionary: initiator) } else { self.initiator = nil }
-            self.abortRuleId = dictionary["X-amz-abort-rule-id"] as? String
+            self.abortRuleId = dictionary["x-amz-abort-rule-id"] as? String
             if let storageClass = dictionary["StorageClass"] as? String { self.storageClass = StorageClass(rawValue: storageClass) } else { self.storageClass = nil }
             self.key = dictionary["Key"] as? String
             self.maxParts = dictionary["MaxParts"] as? Int32
             self.nextPartNumberMarker = dictionary["NextPartNumberMarker"] as? Int32
-            if let requestCharged = dictionary["X-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
+            if let requestCharged = dictionary["x-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
         }
     }
 
@@ -3845,10 +3845,10 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ContinuationToken", required: false, type: .string), 
-            AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NextContinuationToken", required: false, type: .string), 
-            AWSShapeProperty(label: "InventoryConfiguration", required: false, type: .list)
+            AWSShapeProperty(label: "ContinuationToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "IsTruncated", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "NextContinuationToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "InventoryConfigurationList", location: "InventoryConfiguration", required: false, type: .list)
         ]
         /// If sent in the request, the marker that is used as a starting point for this inventory configuration list response.
         public let continuationToken: String?
@@ -3888,8 +3888,8 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "Continuation-token", required: false, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "ContinuationToken", location: "continuation-token", required: false, type: .string)
         ]
         /// The name of the bucket containing the metrics configurations to retrieve.
         public let bucket: String
@@ -3904,7 +3904,7 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.continuationToken = dictionary["Continuation-token"] as? String
+            self.continuationToken = dictionary["continuation-token"] as? String
         }
     }
 
@@ -3912,10 +3912,10 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Topic", required: false, type: .string), 
-            AWSShapeProperty(label: "Event", required: false, type: .list), 
-            AWSShapeProperty(label: "Event", required: false, type: .enum), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+            AWSShapeProperty(label: "Topic", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Events", location: "Event", required: false, type: .list), 
+            AWSShapeProperty(label: "Event", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "Id", location: nil, required: false, type: .string)
         ]
         /// Amazon SNS topic to which Amazon S3 will publish a message to report the specified events for the bucket.
         public let topic: String?
@@ -3951,7 +3951,7 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string)
         ]
         public let bucket: String
 
@@ -3980,7 +3980,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataExport", required: false, type: .structure)
+            AWSShapeProperty(label: "DataExport", location: nil, required: false, type: .structure)
         ]
         /// A container used to describe how data related to the storage class analysis should be exported.
         public let dataExport: StorageClassAnalysisDataExport?
@@ -4001,7 +4001,7 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string)
         ]
         /// Name of the bucket to get the notification configuration for.
         public let bucket: String
@@ -4020,7 +4020,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Prefix", required: false, type: .string)
+            AWSShapeProperty(label: "Prefix", location: nil, required: false, type: .string)
         ]
         public let prefix: String?
 
@@ -4049,9 +4049,9 @@ extension S3 {
             return ["Bucket": "Bucket", "Key": "Key"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string), 
-            AWSShapeProperty(label: "X-amz-request-payer", required: false, type: .enum)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "Key", location: "Key", required: true, type: .string), 
+            AWSShapeProperty(label: "RequestPayer", location: "x-amz-request-payer", required: false, type: .enum)
         ]
         public let bucket: String
         public let key: String
@@ -4068,7 +4068,7 @@ extension S3 {
             self.bucket = bucket
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
-            if let requestPayer = dictionary["X-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
+            if let requestPayer = dictionary["x-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
         }
     }
 
@@ -4076,10 +4076,10 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "Format", required: true, type: .enum), 
-            AWSShapeProperty(label: "AccountId", required: false, type: .string), 
-            AWSShapeProperty(label: "Prefix", required: false, type: .string)
+            AWSShapeProperty(label: "Bucket", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Format", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "AccountId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Prefix", location: nil, required: false, type: .string)
         ]
         /// The Amazon resource name (ARN) of the bucket where inventory results will be published.
         public let bucket: String
@@ -4120,10 +4120,10 @@ extension S3 {
             return ["Bucket": "Bucket", "Key": "Key"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "VersionId", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string), 
-            AWSShapeProperty(label: "X-amz-request-payer", required: false, type: .enum)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "VersionId", location: "versionId", required: false, type: .string), 
+            AWSShapeProperty(label: "Key", location: "Key", required: true, type: .string), 
+            AWSShapeProperty(label: "RequestPayer", location: "x-amz-request-payer", required: false, type: .enum)
         ]
         public let bucket: String
         /// VersionId used to reference a specific version of the object.
@@ -4141,10 +4141,10 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.versionId = dictionary["VersionId"] as? String
+            self.versionId = dictionary["versionId"] as? String
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
-            if let requestPayer = dictionary["X-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
+            if let requestPayer = dictionary["x-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
         }
     }
 
@@ -4152,8 +4152,8 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Owner", required: false, type: .structure), 
-            AWSShapeProperty(label: "AccessControlList", required: false, type: .structure)
+            AWSShapeProperty(label: "Owner", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Grants", location: "AccessControlList", required: false, type: .structure)
         ]
         public let owner: Owner?
         /// A list of grants.
@@ -4177,7 +4177,7 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string)
         ]
         public let bucket: String
 
@@ -4198,7 +4198,7 @@ extension S3 {
             return ["Location": "Location"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Location", required: false, type: .string)
+            AWSShapeProperty(label: "Location", location: "Location", required: false, type: .string)
         ]
         public let location: String?
 
@@ -4227,8 +4227,8 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "Id", location: "id", required: true, type: .string)
         ]
         /// The name of the bucket containing the inventory configuration to delete.
         public let bucket: String
@@ -4243,7 +4243,7 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            guard let id = dictionary["id"] as? String else { throw InitializableError.missingRequiredParam("id") }
             self.id = id
         }
     }
@@ -4252,10 +4252,10 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RoutingRules", required: false, type: .structure), 
-            AWSShapeProperty(label: "IndexDocument", required: false, type: .structure), 
-            AWSShapeProperty(label: "ErrorDocument", required: false, type: .structure), 
-            AWSShapeProperty(label: "RedirectAllRequestsTo", required: false, type: .structure)
+            AWSShapeProperty(label: "RoutingRules", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "IndexDocument", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "ErrorDocument", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "RedirectAllRequestsTo", location: nil, required: false, type: .structure)
         ]
         public let routingRules: RoutingRules?
         public let indexDocument: IndexDocument?
@@ -4281,9 +4281,9 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetGrants", required: false, type: .structure), 
-            AWSShapeProperty(label: "TargetPrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "TargetBucket", required: false, type: .string)
+            AWSShapeProperty(label: "TargetGrants", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "TargetPrefix", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "TargetBucket", location: nil, required: false, type: .string)
         ]
         public let targetGrants: TargetGrants?
         /// This element lets you specify a prefix for the keys that the log files will be stored under.
@@ -4308,7 +4308,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CORSRule", required: true, type: .list)
+            AWSShapeProperty(label: "CORSRules", location: "CORSRule", required: true, type: .list)
         ]
         public let cORSRules: [CORSRule]
 
@@ -4326,8 +4326,8 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VersionId", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string)
+            AWSShapeProperty(label: "VersionId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Key", location: nil, required: true, type: .string)
         ]
         /// VersionId for the specific version of the object to delete.
         public let versionId: String?
@@ -4350,8 +4350,8 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Destination", required: true, type: .structure), 
-            AWSShapeProperty(label: "OutputSchemaVersion", required: true, type: .enum)
+            AWSShapeProperty(label: "Destination", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "OutputSchemaVersion", location: nil, required: true, type: .enum)
         ]
         /// The place to store the data for an analysis.
         public let destination: AnalyticsExportDestination
@@ -4375,8 +4375,8 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: true, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string)
+            AWSShapeProperty(label: "Value", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Key", location: nil, required: true, type: .string)
         ]
         /// Value of the tag.
         public let value: String
@@ -4400,7 +4400,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Grant", required: false, type: .list)
+            AWSShapeProperty(label: "Grant", location: "Grant", required: false, type: .list)
         ]
         public let grant: [TargetGrant]?
 
@@ -4424,7 +4424,7 @@ extension S3 {
             return ["x-amz-request-charged": "RequestCharged"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "X-amz-request-charged", required: false, type: .enum)
+            AWSShapeProperty(label: "RequestCharged", location: "x-amz-request-charged", required: false, type: .enum)
         ]
         public let requestCharged: RequestCharged?
 
@@ -4433,7 +4433,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let requestCharged = dictionary["X-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
+            if let requestCharged = dictionary["x-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
         }
     }
 
@@ -4447,7 +4447,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Rule", required: true, type: .list)
+            AWSShapeProperty(label: "Rules", location: "Rule", required: true, type: .list)
         ]
         public let rules: [LifecycleRule]
 
@@ -4471,8 +4471,8 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "Id", location: "id", required: true, type: .string)
         ]
         /// The name of the bucket containing the metrics configuration to retrieve.
         public let bucket: String
@@ -4487,7 +4487,7 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            guard let id = dictionary["id"] as? String else { throw InitializableError.missingRequiredParam("id") }
             self.id = id
         }
     }
@@ -4496,15 +4496,15 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ID", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: true, type: .enum), 
-            AWSShapeProperty(label: "NoncurrentVersionExpiration", required: false, type: .structure), 
-            AWSShapeProperty(label: "AbortIncompleteMultipartUpload", required: false, type: .structure), 
-            AWSShapeProperty(label: "Expiration", required: false, type: .structure), 
-            AWSShapeProperty(label: "Prefix", required: false, type: .string), 
-            AWSShapeProperty(label: "Transition", required: false, type: .list), 
-            AWSShapeProperty(label: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "NoncurrentVersionTransition", required: false, type: .list)
+            AWSShapeProperty(label: "ID", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Status", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "NoncurrentVersionExpiration", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "AbortIncompleteMultipartUpload", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Expiration", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Prefix", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Transitions", location: "Transition", required: false, type: .list), 
+            AWSShapeProperty(label: "Filter", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "NoncurrentVersionTransitions", location: "NoncurrentVersionTransition", required: false, type: .list)
         ]
         /// Unique identifier for the rule. The value cannot be longer than 255 characters.
         public let iD: String?
@@ -4557,7 +4557,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Field", required: false, type: .list)
+            AWSShapeProperty(label: "Field", location: "Field", required: false, type: .list)
         ]
         public let field: [InventoryOptionalField]?
 
@@ -4577,7 +4577,7 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string)
         ]
         public let bucket: String
 
@@ -4595,8 +4595,8 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationDate", required: false, type: .timestamp)
+            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "CreationDate", location: nil, required: false, type: .timestamp)
         ]
         /// The name of the bucket.
         public let name: String?
@@ -4618,8 +4618,8 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "StorageClass", required: false, type: .enum)
+            AWSShapeProperty(label: "Bucket", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "StorageClass", location: nil, required: false, type: .enum)
         ]
         /// Amazon resource name (ARN) of the bucket where you want Amazon S3 to store replicas of the object identified by the rule.
         public let bucket: String
@@ -4642,7 +4642,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tier", required: true, type: .enum)
+            AWSShapeProperty(label: "Tier", location: nil, required: true, type: .enum)
         ]
         /// Glacier retrieval tier at which the restore will be processed.
         public let tier: Tier
@@ -4667,9 +4667,9 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Content-MD5", required: false, type: .string), 
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "NotificationConfiguration", required: true, type: .structure)
+            AWSShapeProperty(label: "ContentMD5", location: "Content-MD5", required: false, type: .string), 
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "NotificationConfiguration", location: "NotificationConfiguration", required: true, type: .structure)
         ]
         public let contentMD5: String?
         public let bucket: String
@@ -4703,11 +4703,11 @@ extension S3 {
             return ["Bucket": "Bucket", "Key": "Key"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "CompleteMultipartUpload", required: false, type: .structure), 
-            AWSShapeProperty(label: "Key", required: true, type: .string), 
-            AWSShapeProperty(label: "UploadId", required: true, type: .string), 
-            AWSShapeProperty(label: "X-amz-request-payer", required: false, type: .enum)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "MultipartUpload", location: "CompleteMultipartUpload", required: false, type: .structure), 
+            AWSShapeProperty(label: "Key", location: "Key", required: true, type: .string), 
+            AWSShapeProperty(label: "UploadId", location: "uploadId", required: true, type: .string), 
+            AWSShapeProperty(label: "RequestPayer", location: "x-amz-request-payer", required: false, type: .enum)
         ]
         public let bucket: String
         public let multipartUpload: CompletedMultipartUpload?
@@ -4729,9 +4729,9 @@ extension S3 {
             if let multipartUpload = dictionary["CompleteMultipartUpload"] as? [String: Any] { self.multipartUpload = try S3.CompletedMultipartUpload(dictionary: multipartUpload) } else { self.multipartUpload = nil }
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
-            guard let uploadId = dictionary["UploadId"] as? String else { throw InitializableError.missingRequiredParam("UploadId") }
+            guard let uploadId = dictionary["uploadId"] as? String else { throw InitializableError.missingRequiredParam("uploadId") }
             self.uploadId = uploadId
-            if let requestPayer = dictionary["X-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
+            if let requestPayer = dictionary["x-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
         }
     }
 
@@ -4745,9 +4745,9 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "MetricsConfiguration", required: true, type: .structure), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "MetricsConfiguration", location: "MetricsConfiguration", required: true, type: .structure), 
+            AWSShapeProperty(label: "Id", location: "id", required: true, type: .string)
         ]
         /// The name of the bucket for which the metrics configuration is set.
         public let bucket: String
@@ -4767,7 +4767,7 @@ extension S3 {
             self.bucket = bucket
             guard let metricsConfiguration = dictionary["MetricsConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("MetricsConfiguration") }
             self.metricsConfiguration = try S3.MetricsConfiguration(dictionary: metricsConfiguration)
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            guard let id = dictionary["id"] as? String else { throw InitializableError.missingRequiredParam("id") }
             self.id = id
         }
     }
@@ -4776,10 +4776,10 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LastModified", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "PartNumber", required: false, type: .integer), 
-            AWSShapeProperty(label: "ETag", required: false, type: .string), 
-            AWSShapeProperty(label: "Size", required: false, type: .integer)
+            AWSShapeProperty(label: "LastModified", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "PartNumber", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "ETag", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Size", location: nil, required: false, type: .integer)
         ]
         /// Date and time at which the part was uploaded.
         public let lastModified: Date?
@@ -4809,8 +4809,8 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Buckets", required: false, type: .structure), 
-            AWSShapeProperty(label: "Owner", required: false, type: .structure)
+            AWSShapeProperty(label: "Buckets", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Owner", location: nil, required: false, type: .structure)
         ]
         public let buckets: Buckets?
         public let owner: Owner?
@@ -4830,7 +4830,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .enum)
+            AWSShapeProperty(label: "Status", location: nil, required: false, type: .enum)
         ]
         /// The accelerate configuration of the bucket.
         public let status: BucketAccelerateStatus?
@@ -4848,8 +4848,8 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ETag", required: false, type: .string), 
-            AWSShapeProperty(label: "LastModified", required: false, type: .timestamp)
+            AWSShapeProperty(label: "ETag", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "LastModified", location: nil, required: false, type: .timestamp)
         ]
         /// Entity tag of the object.
         public let eTag: String?
@@ -4871,7 +4871,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NoncurrentDays", required: false, type: .integer)
+            AWSShapeProperty(label: "NoncurrentDays", location: nil, required: false, type: .integer)
         ]
         /// Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. For information about the noncurrent days calculations, see How Amazon S3 Calculates When an Object Became Noncurrent in the Amazon Simple Storage Service Developer Guide.
         public let noncurrentDays: Int32?
@@ -4889,7 +4889,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "S3BucketDestination", required: true, type: .structure)
+            AWSShapeProperty(label: "S3BucketDestination", location: nil, required: true, type: .structure)
         ]
         /// A destination signifying output to an S3 bucket.
         public let s3BucketDestination: AnalyticsS3BucketDestination
@@ -4913,8 +4913,8 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .enum)
+            AWSShapeProperty(label: "Value", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Name", location: nil, required: false, type: .enum)
         ]
         public let value: String?
         /// Object key name prefix or suffix identifying one or more objects to which the filtering rule applies. Maximum prefix length can be up to 1,024 characters. Overlapping prefixes and suffixes are not supported. For more information, go to Configuring Event Notifications in the Amazon Simple Storage Service Developer Guide.
@@ -4948,8 +4948,8 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "Continuation-token", required: false, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "ContinuationToken", location: "continuation-token", required: false, type: .string)
         ]
         /// The name of the bucket containing the inventory configurations to retrieve.
         public let bucket: String
@@ -4964,7 +4964,7 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.continuationToken = dictionary["Continuation-token"] as? String
+            self.continuationToken = dictionary["continuation-token"] as? String
         }
     }
 
@@ -4978,9 +4978,9 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Content-MD5", required: false, type: .string), 
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "Policy", required: true, type: .string)
+            AWSShapeProperty(label: "ContentMD5", location: "Content-MD5", required: false, type: .string), 
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "Policy", location: nil, required: true, type: .string)
         ]
         public let contentMD5: String?
         public let bucket: String
@@ -5015,25 +5015,25 @@ extension S3 {
             return ["Bucket": "Bucket", "Key": "Key"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-customer-key", required: false, type: .string), 
-            AWSShapeProperty(label: "If-Unmodified-Since", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "PartNumber", required: false, type: .integer), 
-            AWSShapeProperty(label: "Range", required: false, type: .string), 
-            AWSShapeProperty(label: "Response-content-encoding", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-request-payer", required: false, type: .enum), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-customer-key-MD5", required: false, type: .string), 
-            AWSShapeProperty(label: "Response-content-language", required: false, type: .string), 
-            AWSShapeProperty(label: "Response-expires", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "VersionId", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-customer-algorithm", required: false, type: .string), 
-            AWSShapeProperty(label: "If-None-Match", required: false, type: .string), 
-            AWSShapeProperty(label: "Response-content-disposition", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string), 
-            AWSShapeProperty(label: "Response-cache-control", required: false, type: .string), 
-            AWSShapeProperty(label: "Response-content-type", required: false, type: .string), 
-            AWSShapeProperty(label: "If-Modified-Since", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "If-Match", required: false, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "SSECustomerKey", location: "x-amz-server-side-encryption-customer-key", required: false, type: .string), 
+            AWSShapeProperty(label: "IfUnmodifiedSince", location: "If-Unmodified-Since", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "PartNumber", location: "partNumber", required: false, type: .integer), 
+            AWSShapeProperty(label: "Range", location: "Range", required: false, type: .string), 
+            AWSShapeProperty(label: "ResponseContentEncoding", location: "response-content-encoding", required: false, type: .string), 
+            AWSShapeProperty(label: "RequestPayer", location: "x-amz-request-payer", required: false, type: .enum), 
+            AWSShapeProperty(label: "SSECustomerKeyMD5", location: "x-amz-server-side-encryption-customer-key-MD5", required: false, type: .string), 
+            AWSShapeProperty(label: "ResponseContentLanguage", location: "response-content-language", required: false, type: .string), 
+            AWSShapeProperty(label: "ResponseExpires", location: "response-expires", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "VersionId", location: "versionId", required: false, type: .string), 
+            AWSShapeProperty(label: "SSECustomerAlgorithm", location: "x-amz-server-side-encryption-customer-algorithm", required: false, type: .string), 
+            AWSShapeProperty(label: "IfNoneMatch", location: "If-None-Match", required: false, type: .string), 
+            AWSShapeProperty(label: "ResponseContentDisposition", location: "response-content-disposition", required: false, type: .string), 
+            AWSShapeProperty(label: "Key", location: "Key", required: true, type: .string), 
+            AWSShapeProperty(label: "ResponseCacheControl", location: "response-cache-control", required: false, type: .string), 
+            AWSShapeProperty(label: "ResponseContentType", location: "response-content-type", required: false, type: .string), 
+            AWSShapeProperty(label: "IfModifiedSince", location: "If-Modified-Since", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "IfMatch", location: "If-Match", required: false, type: .string)
         ]
         public let bucket: String
         /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
@@ -5096,23 +5096,23 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.sSECustomerKey = dictionary["X-amz-server-side-encryption-customer-key"] as? String
+            self.sSECustomerKey = dictionary["x-amz-server-side-encryption-customer-key"] as? String
             self.ifUnmodifiedSince = dictionary["If-Unmodified-Since"] as? Date
-            self.partNumber = dictionary["PartNumber"] as? Int32
+            self.partNumber = dictionary["partNumber"] as? Int32
             self.range = dictionary["Range"] as? String
-            self.responseContentEncoding = dictionary["Response-content-encoding"] as? String
-            if let requestPayer = dictionary["X-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
-            self.sSECustomerKeyMD5 = dictionary["X-amz-server-side-encryption-customer-key-MD5"] as? String
-            self.responseContentLanguage = dictionary["Response-content-language"] as? String
-            self.responseExpires = dictionary["Response-expires"] as? Date
-            self.versionId = dictionary["VersionId"] as? String
-            self.sSECustomerAlgorithm = dictionary["X-amz-server-side-encryption-customer-algorithm"] as? String
+            self.responseContentEncoding = dictionary["response-content-encoding"] as? String
+            if let requestPayer = dictionary["x-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
+            self.sSECustomerKeyMD5 = dictionary["x-amz-server-side-encryption-customer-key-MD5"] as? String
+            self.responseContentLanguage = dictionary["response-content-language"] as? String
+            self.responseExpires = dictionary["response-expires"] as? Date
+            self.versionId = dictionary["versionId"] as? String
+            self.sSECustomerAlgorithm = dictionary["x-amz-server-side-encryption-customer-algorithm"] as? String
             self.ifNoneMatch = dictionary["If-None-Match"] as? String
-            self.responseContentDisposition = dictionary["Response-content-disposition"] as? String
+            self.responseContentDisposition = dictionary["response-content-disposition"] as? String
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
-            self.responseCacheControl = dictionary["Response-cache-control"] as? String
-            self.responseContentType = dictionary["Response-content-type"] as? String
+            self.responseCacheControl = dictionary["response-cache-control"] as? String
+            self.responseContentType = dictionary["response-content-type"] as? String
             self.ifModifiedSince = dictionary["If-Modified-Since"] as? Date
             self.ifMatch = dictionary["If-Match"] as? String
         }
@@ -5131,10 +5131,10 @@ extension S3 {
             return ["Bucket": "Bucket", "Key": "Key"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string), 
-            AWSShapeProperty(label: "UploadId", required: true, type: .string), 
-            AWSShapeProperty(label: "X-amz-request-payer", required: false, type: .enum)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "Key", location: "Key", required: true, type: .string), 
+            AWSShapeProperty(label: "UploadId", location: "uploadId", required: true, type: .string), 
+            AWSShapeProperty(label: "RequestPayer", location: "x-amz-request-payer", required: false, type: .enum)
         ]
         public let bucket: String
         public let key: String
@@ -5153,9 +5153,9 @@ extension S3 {
             self.bucket = bucket
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
-            guard let uploadId = dictionary["UploadId"] as? String else { throw InitializableError.missingRequiredParam("UploadId") }
+            guard let uploadId = dictionary["uploadId"] as? String else { throw InitializableError.missingRequiredParam("uploadId") }
             self.uploadId = uploadId
-            if let requestPayer = dictionary["X-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
+            if let requestPayer = dictionary["x-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
         }
     }
 
@@ -5166,8 +5166,8 @@ extension S3 {
             return ["x-amz-request-charged": "RequestCharged"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Body", required: false, type: .blob), 
-            AWSShapeProperty(label: "X-amz-request-charged", required: false, type: .enum)
+            AWSShapeProperty(label: "Body", location: nil, required: false, type: .blob), 
+            AWSShapeProperty(label: "RequestCharged", location: "x-amz-request-charged", required: false, type: .enum)
         ]
         public let body: Data?
         public let requestCharged: RequestCharged?
@@ -5179,7 +5179,7 @@ extension S3 {
 
         public init(dictionary: [String: Any]) throws {
             self.body = dictionary["Body"] as? Data
-            if let requestCharged = dictionary["X-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
+            if let requestCharged = dictionary["x-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
         }
     }
 
@@ -5193,8 +5193,8 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NoncurrentDays", required: false, type: .integer), 
-            AWSShapeProperty(label: "StorageClass", required: false, type: .enum)
+            AWSShapeProperty(label: "NoncurrentDays", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "StorageClass", location: nil, required: false, type: .enum)
         ]
         /// Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. For information about the noncurrent days calculations, see How Amazon S3 Calculates When an Object Became Noncurrent in the Amazon Simple Storage Service Developer Guide.
         public let noncurrentDays: Int32?
@@ -5225,23 +5225,23 @@ extension S3 {
             return ["Bucket": "Bucket", "Key": "Key"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-customer-key", required: false, type: .string), 
-            AWSShapeProperty(label: "PartNumber", required: true, type: .integer), 
-            AWSShapeProperty(label: "X-amz-copy-source-if-modified-since", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "X-amz-request-payer", required: false, type: .enum), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-customer-key-MD5", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-copy-source-server-side-encryption-customer-key", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-copy-source", required: true, type: .string), 
-            AWSShapeProperty(label: "X-amz-copy-source-if-none-match", required: false, type: .string), 
-            AWSShapeProperty(label: "UploadId", required: true, type: .string), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-customer-algorithm", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-copy-source-if-match", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-copy-source-range", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string), 
-            AWSShapeProperty(label: "X-amz-copy-source-server-side-encryption-customer-key-MD5", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-copy-source-server-side-encryption-customer-algorithm", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-copy-source-if-unmodified-since", required: false, type: .timestamp)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "SSECustomerKey", location: "x-amz-server-side-encryption-customer-key", required: false, type: .string), 
+            AWSShapeProperty(label: "PartNumber", location: "partNumber", required: true, type: .integer), 
+            AWSShapeProperty(label: "CopySourceIfModifiedSince", location: "x-amz-copy-source-if-modified-since", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "RequestPayer", location: "x-amz-request-payer", required: false, type: .enum), 
+            AWSShapeProperty(label: "SSECustomerKeyMD5", location: "x-amz-server-side-encryption-customer-key-MD5", required: false, type: .string), 
+            AWSShapeProperty(label: "CopySourceSSECustomerKey", location: "x-amz-copy-source-server-side-encryption-customer-key", required: false, type: .string), 
+            AWSShapeProperty(label: "CopySource", location: "x-amz-copy-source", required: true, type: .string), 
+            AWSShapeProperty(label: "CopySourceIfNoneMatch", location: "x-amz-copy-source-if-none-match", required: false, type: .string), 
+            AWSShapeProperty(label: "UploadId", location: "uploadId", required: true, type: .string), 
+            AWSShapeProperty(label: "SSECustomerAlgorithm", location: "x-amz-server-side-encryption-customer-algorithm", required: false, type: .string), 
+            AWSShapeProperty(label: "CopySourceIfMatch", location: "x-amz-copy-source-if-match", required: false, type: .string), 
+            AWSShapeProperty(label: "CopySourceRange", location: "x-amz-copy-source-range", required: false, type: .string), 
+            AWSShapeProperty(label: "Key", location: "Key", required: true, type: .string), 
+            AWSShapeProperty(label: "CopySourceSSECustomerKeyMD5", location: "x-amz-copy-source-server-side-encryption-customer-key-MD5", required: false, type: .string), 
+            AWSShapeProperty(label: "CopySourceSSECustomerAlgorithm", location: "x-amz-copy-source-server-side-encryption-customer-algorithm", required: false, type: .string), 
+            AWSShapeProperty(label: "CopySourceIfUnmodifiedSince", location: "x-amz-copy-source-if-unmodified-since", required: false, type: .timestamp)
         ]
         public let bucket: String
         /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header. This must be the same encryption key specified in the initiate multipart upload request.
@@ -5298,26 +5298,26 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.sSECustomerKey = dictionary["X-amz-server-side-encryption-customer-key"] as? String
-            guard let partNumber = dictionary["PartNumber"] as? Int32 else { throw InitializableError.missingRequiredParam("PartNumber") }
+            self.sSECustomerKey = dictionary["x-amz-server-side-encryption-customer-key"] as? String
+            guard let partNumber = dictionary["partNumber"] as? Int32 else { throw InitializableError.missingRequiredParam("partNumber") }
             self.partNumber = partNumber
-            self.copySourceIfModifiedSince = dictionary["X-amz-copy-source-if-modified-since"] as? Date
-            if let requestPayer = dictionary["X-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
-            self.sSECustomerKeyMD5 = dictionary["X-amz-server-side-encryption-customer-key-MD5"] as? String
-            self.copySourceSSECustomerKey = dictionary["X-amz-copy-source-server-side-encryption-customer-key"] as? String
-            guard let copySource = dictionary["X-amz-copy-source"] as? String else { throw InitializableError.missingRequiredParam("X-amz-copy-source") }
+            self.copySourceIfModifiedSince = dictionary["x-amz-copy-source-if-modified-since"] as? Date
+            if let requestPayer = dictionary["x-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
+            self.sSECustomerKeyMD5 = dictionary["x-amz-server-side-encryption-customer-key-MD5"] as? String
+            self.copySourceSSECustomerKey = dictionary["x-amz-copy-source-server-side-encryption-customer-key"] as? String
+            guard let copySource = dictionary["x-amz-copy-source"] as? String else { throw InitializableError.missingRequiredParam("x-amz-copy-source") }
             self.copySource = copySource
-            self.copySourceIfNoneMatch = dictionary["X-amz-copy-source-if-none-match"] as? String
-            guard let uploadId = dictionary["UploadId"] as? String else { throw InitializableError.missingRequiredParam("UploadId") }
+            self.copySourceIfNoneMatch = dictionary["x-amz-copy-source-if-none-match"] as? String
+            guard let uploadId = dictionary["uploadId"] as? String else { throw InitializableError.missingRequiredParam("uploadId") }
             self.uploadId = uploadId
-            self.sSECustomerAlgorithm = dictionary["X-amz-server-side-encryption-customer-algorithm"] as? String
-            self.copySourceIfMatch = dictionary["X-amz-copy-source-if-match"] as? String
-            self.copySourceRange = dictionary["X-amz-copy-source-range"] as? String
+            self.sSECustomerAlgorithm = dictionary["x-amz-server-side-encryption-customer-algorithm"] as? String
+            self.copySourceIfMatch = dictionary["x-amz-copy-source-if-match"] as? String
+            self.copySourceRange = dictionary["x-amz-copy-source-range"] as? String
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
-            self.copySourceSSECustomerKeyMD5 = dictionary["X-amz-copy-source-server-side-encryption-customer-key-MD5"] as? String
-            self.copySourceSSECustomerAlgorithm = dictionary["X-amz-copy-source-server-side-encryption-customer-algorithm"] as? String
-            self.copySourceIfUnmodifiedSince = dictionary["X-amz-copy-source-if-unmodified-since"] as? Date
+            self.copySourceSSECustomerKeyMD5 = dictionary["x-amz-copy-source-server-side-encryption-customer-key-MD5"] as? String
+            self.copySourceSSECustomerAlgorithm = dictionary["x-amz-copy-source-server-side-encryption-customer-algorithm"] as? String
+            self.copySourceIfUnmodifiedSince = dictionary["x-amz-copy-source-if-unmodified-since"] as? Date
         }
     }
 
@@ -5331,15 +5331,15 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "Content-MD5", required: false, type: .string), 
-            AWSShapeProperty(label: "AccessControlPolicy", required: false, type: .structure), 
-            AWSShapeProperty(label: "X-amz-grant-write-acp", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-grant-full-control", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-grant-write", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-grant-read", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-acl", required: false, type: .enum), 
-            AWSShapeProperty(label: "X-amz-grant-read-acp", required: false, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "ContentMD5", location: "Content-MD5", required: false, type: .string), 
+            AWSShapeProperty(label: "AccessControlPolicy", location: "AccessControlPolicy", required: false, type: .structure), 
+            AWSShapeProperty(label: "GrantWriteACP", location: "x-amz-grant-write-acp", required: false, type: .string), 
+            AWSShapeProperty(label: "GrantFullControl", location: "x-amz-grant-full-control", required: false, type: .string), 
+            AWSShapeProperty(label: "GrantWrite", location: "x-amz-grant-write", required: false, type: .string), 
+            AWSShapeProperty(label: "GrantRead", location: "x-amz-grant-read", required: false, type: .string), 
+            AWSShapeProperty(label: "ACL", location: "x-amz-acl", required: false, type: .enum), 
+            AWSShapeProperty(label: "GrantReadACP", location: "x-amz-grant-read-acp", required: false, type: .string)
         ]
         public let bucket: String
         public let contentMD5: String?
@@ -5374,12 +5374,12 @@ extension S3 {
             self.bucket = bucket
             self.contentMD5 = dictionary["Content-MD5"] as? String
             if let accessControlPolicy = dictionary["AccessControlPolicy"] as? [String: Any] { self.accessControlPolicy = try S3.AccessControlPolicy(dictionary: accessControlPolicy) } else { self.accessControlPolicy = nil }
-            self.grantWriteACP = dictionary["X-amz-grant-write-acp"] as? String
-            self.grantFullControl = dictionary["X-amz-grant-full-control"] as? String
-            self.grantWrite = dictionary["X-amz-grant-write"] as? String
-            self.grantRead = dictionary["X-amz-grant-read"] as? String
-            if let aCL = dictionary["X-amz-acl"] as? String { self.aCL = BucketCannedACL(rawValue: aCL) } else { self.aCL = nil }
-            self.grantReadACP = dictionary["X-amz-grant-read-acp"] as? String
+            self.grantWriteACP = dictionary["x-amz-grant-write-acp"] as? String
+            self.grantFullControl = dictionary["x-amz-grant-full-control"] as? String
+            self.grantWrite = dictionary["x-amz-grant-write"] as? String
+            self.grantRead = dictionary["x-amz-grant-read"] as? String
+            if let aCL = dictionary["x-amz-acl"] as? String { self.aCL = BucketCannedACL(rawValue: aCL) } else { self.aCL = nil }
+            self.grantReadACP = dictionary["x-amz-grant-read-acp"] as? String
         }
     }
 
@@ -5387,11 +5387,11 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReplaceKeyPrefixWith", required: false, type: .string), 
-            AWSShapeProperty(label: "HttpRedirectCode", required: false, type: .string), 
-            AWSShapeProperty(label: "HostName", required: false, type: .string), 
-            AWSShapeProperty(label: "Protocol", required: false, type: .enum), 
-            AWSShapeProperty(label: "ReplaceKeyWith", required: false, type: .string)
+            AWSShapeProperty(label: "ReplaceKeyPrefixWith", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "HttpRedirectCode", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "HostName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Protocol", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "ReplaceKeyWith", location: nil, required: false, type: .string)
         ]
         /// The object key prefix to use in the redirect request. For example, to redirect requests for all pages with prefix docs/ (objects in the docs/ folder) to documents/, you can set a condition block with KeyPrefixEquals set to docs/ and in the Redirect set ReplaceKeyPrefixWith to /documents. Not required if one of the siblings is present. Can be present only if ReplaceKeyWith is not provided.
         public let replaceKeyPrefixWith: String?
@@ -5431,12 +5431,12 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StorageClass", required: false, type: .enum), 
-            AWSShapeProperty(label: "Key", required: false, type: .string), 
-            AWSShapeProperty(label: "UploadId", required: false, type: .string), 
-            AWSShapeProperty(label: "Owner", required: false, type: .structure), 
-            AWSShapeProperty(label: "Initiated", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Initiator", required: false, type: .structure)
+            AWSShapeProperty(label: "StorageClass", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "Key", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "UploadId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Owner", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Initiated", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Initiator", location: nil, required: false, type: .structure)
         ]
         /// The class of storage used to store the object.
         public let storageClass: StorageClass?
@@ -5479,8 +5479,8 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "Continuation-token", required: false, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "ContinuationToken", location: "continuation-token", required: false, type: .string)
         ]
         /// The name of the bucket from which analytics configurations are retrieved.
         public let bucket: String
@@ -5495,7 +5495,7 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.continuationToken = dictionary["Continuation-token"] as? String
+            self.continuationToken = dictionary["continuation-token"] as? String
         }
     }
 
@@ -5510,7 +5510,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Rule", required: false, type: .list)
+            AWSShapeProperty(label: "Rules", location: "Rule", required: false, type: .list)
         ]
         public let rules: [LifecycleRule]?
 
@@ -5534,7 +5534,7 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string)
         ]
         public let bucket: String
 
@@ -5552,7 +5552,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Payer", required: true, type: .enum)
+            AWSShapeProperty(label: "Payer", location: nil, required: true, type: .enum)
         ]
         /// Specifies who pays for the download and request fees.
         public let payer: Payer
@@ -5574,9 +5574,9 @@ extension S3 {
             return ["x-amz-version-id": "VersionId", "x-amz-request-charged": "RequestCharged", "x-amz-delete-marker": "DeleteMarker"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "X-amz-version-id", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-request-charged", required: false, type: .enum), 
-            AWSShapeProperty(label: "X-amz-delete-marker", required: false, type: .boolean)
+            AWSShapeProperty(label: "VersionId", location: "x-amz-version-id", required: false, type: .string), 
+            AWSShapeProperty(label: "RequestCharged", location: "x-amz-request-charged", required: false, type: .enum), 
+            AWSShapeProperty(label: "DeleteMarker", location: "x-amz-delete-marker", required: false, type: .boolean)
         ]
         /// Returns the version ID of the delete marker created as a result of the DELETE operation.
         public let versionId: String?
@@ -5591,9 +5591,9 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.versionId = dictionary["X-amz-version-id"] as? String
-            if let requestCharged = dictionary["X-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
-            self.deleteMarker = dictionary["X-amz-delete-marker"] as? Bool
+            self.versionId = dictionary["x-amz-version-id"] as? String
+            if let requestCharged = dictionary["x-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
+            self.deleteMarker = dictionary["x-amz-delete-marker"] as? Bool
         }
     }
 
@@ -5606,7 +5606,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RoutingRule", required: false, type: .list)
+            AWSShapeProperty(label: "RoutingRule", location: "RoutingRule", required: false, type: .list)
         ]
         public let routingRule: [RoutingRule]?
 
@@ -5627,10 +5627,10 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "Queue", required: true, type: .string), 
-            AWSShapeProperty(label: "Event", required: true, type: .list), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+            AWSShapeProperty(label: "Filter", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "QueueArn", location: "Queue", required: true, type: .string), 
+            AWSShapeProperty(label: "Events", location: "Event", required: true, type: .list), 
+            AWSShapeProperty(label: "Id", location: nil, required: false, type: .string)
         ]
         public let filter: NotificationConfigurationFilter?
         /// Amazon SQS queue ARN to which Amazon S3 will publish a message when it detects events of specified type.
@@ -5659,7 +5659,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TagSet", required: true, type: .structure)
+            AWSShapeProperty(label: "TagSet", location: nil, required: true, type: .structure)
         ]
         public let tagSet: TagSet
 
@@ -5677,7 +5677,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Key", required: true, type: .string)
+            AWSShapeProperty(label: "Key", location: nil, required: true, type: .string)
         ]
         /// The object key name to use when a 4XX class error occurs.
         public let key: String
@@ -5696,13 +5696,13 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OptionalFields", required: false, type: .structure), 
-            AWSShapeProperty(label: "Destination", required: true, type: .structure), 
-            AWSShapeProperty(label: "IsEnabled", required: true, type: .boolean), 
-            AWSShapeProperty(label: "Schedule", required: true, type: .structure), 
-            AWSShapeProperty(label: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "IncludedObjectVersions", required: true, type: .enum), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+            AWSShapeProperty(label: "OptionalFields", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Destination", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "IsEnabled", location: nil, required: true, type: .boolean), 
+            AWSShapeProperty(label: "Schedule", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "Filter", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "IncludedObjectVersions", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "Id", location: nil, required: true, type: .string)
         ]
         /// Contains the optional fields that are included in the inventory results.
         public let optionalFields: InventoryOptionalFields?
@@ -5749,9 +5749,9 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tag", required: false, type: .structure), 
-            AWSShapeProperty(label: "And", required: false, type: .structure), 
-            AWSShapeProperty(label: "Prefix", required: false, type: .string)
+            AWSShapeProperty(label: "Tag", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "And", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Prefix", location: nil, required: false, type: .string)
         ]
         /// The tag used when evaluating a metrics filter.
         public let tag: Tag?
@@ -5783,9 +5783,9 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Content-MD5", required: false, type: .string), 
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "Tagging", required: true, type: .structure)
+            AWSShapeProperty(label: "ContentMD5", location: "Content-MD5", required: false, type: .string), 
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "Tagging", location: "Tagging", required: true, type: .structure)
         ]
         public let contentMD5: String?
         public let bucket: String
@@ -5810,8 +5810,8 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tag", required: false, type: .structure), 
-            AWSShapeProperty(label: "Prefix", required: false, type: .string)
+            AWSShapeProperty(label: "Tags", location: "Tag", required: false, type: .structure), 
+            AWSShapeProperty(label: "Prefix", location: nil, required: false, type: .string)
         ]
         /// The list of tags to use when evaluating an AND predicate.
         public let tags: TagSet?
@@ -5839,13 +5839,13 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "Max-keys", required: false, type: .integer), 
-            AWSShapeProperty(label: "Prefix", required: false, type: .string), 
-            AWSShapeProperty(label: "Delimiter", required: false, type: .string), 
-            AWSShapeProperty(label: "Encoding-type", required: false, type: .enum), 
-            AWSShapeProperty(label: "Key-marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Version-id-marker", required: false, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "MaxKeys", location: "max-keys", required: false, type: .integer), 
+            AWSShapeProperty(label: "Prefix", location: "prefix", required: false, type: .string), 
+            AWSShapeProperty(label: "Delimiter", location: "delimiter", required: false, type: .string), 
+            AWSShapeProperty(label: "EncodingType", location: "encoding-type", required: false, type: .enum), 
+            AWSShapeProperty(label: "KeyMarker", location: "key-marker", required: false, type: .string), 
+            AWSShapeProperty(label: "VersionIdMarker", location: "version-id-marker", required: false, type: .string)
         ]
         public let bucket: String
         /// Sets the maximum number of keys returned in the response. The response might contain fewer keys but will never contain more.
@@ -5873,12 +5873,12 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.maxKeys = dictionary["Max-keys"] as? Int32
-            self.prefix = dictionary["Prefix"] as? String
-            self.delimiter = dictionary["Delimiter"] as? String
-            if let encodingType = dictionary["Encoding-type"] as? String { self.encodingType = EncodingType(rawValue: encodingType) } else { self.encodingType = nil }
-            self.keyMarker = dictionary["Key-marker"] as? String
-            self.versionIdMarker = dictionary["Version-id-marker"] as? String
+            self.maxKeys = dictionary["max-keys"] as? Int32
+            self.prefix = dictionary["prefix"] as? String
+            self.delimiter = dictionary["delimiter"] as? String
+            if let encodingType = dictionary["encoding-type"] as? String { self.encodingType = EncodingType(rawValue: encodingType) } else { self.encodingType = nil }
+            self.keyMarker = dictionary["key-marker"] as? String
+            self.versionIdMarker = dictionary["version-id-marker"] as? String
         }
     }
 
@@ -5886,7 +5886,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Rule", required: false, type: .list)
+            AWSShapeProperty(label: "Rules", location: "Rule", required: false, type: .list)
         ]
         public let rules: [Rule]?
 
@@ -5919,11 +5919,11 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IsLatest", required: false, type: .boolean), 
-            AWSShapeProperty(label: "LastModified", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Key", required: false, type: .string), 
-            AWSShapeProperty(label: "VersionId", required: false, type: .string), 
-            AWSShapeProperty(label: "Owner", required: false, type: .structure)
+            AWSShapeProperty(label: "IsLatest", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "LastModified", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Key", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "VersionId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Owner", location: nil, required: false, type: .structure)
         ]
         /// Specifies whether the object is (true) or is not (false) the latest version of an object.
         public let isLatest: Bool?
@@ -5965,7 +5965,7 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string)
         ]
         public let bucket: String
 
@@ -5983,10 +5983,10 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ID", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: true, type: .enum), 
-            AWSShapeProperty(label: "Destination", required: true, type: .structure), 
-            AWSShapeProperty(label: "Prefix", required: true, type: .string)
+            AWSShapeProperty(label: "ID", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Status", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "Destination", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "Prefix", location: nil, required: true, type: .string)
         ]
         /// Unique identifier for the rule. The value cannot be longer than 255 characters.
         public let iD: String?
@@ -6024,9 +6024,9 @@ extension S3 {
             return ["Bucket": "Bucket", "Key": "Key"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "VersionId", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "VersionId", location: "versionId", required: false, type: .string), 
+            AWSShapeProperty(label: "Key", location: "Key", required: true, type: .string)
         ]
         public let bucket: String
         /// The versionId of the object that the tag-set will be removed from.
@@ -6042,7 +6042,7 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.versionId = dictionary["VersionId"] as? String
+            self.versionId = dictionary["versionId"] as? String
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
         }
@@ -6052,10 +6052,10 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CloudFunction", required: true, type: .string), 
-            AWSShapeProperty(label: "Event", required: true, type: .list), 
-            AWSShapeProperty(label: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+            AWSShapeProperty(label: "LambdaFunctionArn", location: "CloudFunction", required: true, type: .string), 
+            AWSShapeProperty(label: "Events", location: "Event", required: true, type: .list), 
+            AWSShapeProperty(label: "Filter", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Id", location: nil, required: false, type: .string)
         ]
         /// Lambda cloud function ARN that Amazon S3 can invoke when it detects events of the specified type.
         public let lambdaFunctionArn: String
@@ -6084,7 +6084,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoggingEnabled", required: false, type: .structure)
+            AWSShapeProperty(label: "LoggingEnabled", location: nil, required: false, type: .structure)
         ]
         public let loggingEnabled: LoggingEnabled?
 
@@ -6104,12 +6104,12 @@ extension S3 {
             return ["x-amz-server-side-encryption": "ServerSideEncryption", "x-amz-server-side-encryption-aws-kms-key-id": "SSEKMSKeyId", "ETag": "ETag", "x-amz-request-charged": "RequestCharged", "x-amz-server-side-encryption-customer-algorithm": "SSECustomerAlgorithm", "x-amz-server-side-encryption-customer-key-MD5": "SSECustomerKeyMD5"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "X-amz-server-side-encryption-customer-key-MD5", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-aws-kms-key-id", required: false, type: .string), 
-            AWSShapeProperty(label: "ETag", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-customer-algorithm", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-request-charged", required: false, type: .enum), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption", required: false, type: .enum)
+            AWSShapeProperty(label: "SSECustomerKeyMD5", location: "x-amz-server-side-encryption-customer-key-MD5", required: false, type: .string), 
+            AWSShapeProperty(label: "SSEKMSKeyId", location: "x-amz-server-side-encryption-aws-kms-key-id", required: false, type: .string), 
+            AWSShapeProperty(label: "ETag", location: "ETag", required: false, type: .string), 
+            AWSShapeProperty(label: "SSECustomerAlgorithm", location: "x-amz-server-side-encryption-customer-algorithm", required: false, type: .string), 
+            AWSShapeProperty(label: "RequestCharged", location: "x-amz-request-charged", required: false, type: .enum), 
+            AWSShapeProperty(label: "ServerSideEncryption", location: "x-amz-server-side-encryption", required: false, type: .enum)
         ]
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
         public let sSECustomerKeyMD5: String?
@@ -6133,12 +6133,12 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.sSECustomerKeyMD5 = dictionary["X-amz-server-side-encryption-customer-key-MD5"] as? String
-            self.sSEKMSKeyId = dictionary["X-amz-server-side-encryption-aws-kms-key-id"] as? String
+            self.sSECustomerKeyMD5 = dictionary["x-amz-server-side-encryption-customer-key-MD5"] as? String
+            self.sSEKMSKeyId = dictionary["x-amz-server-side-encryption-aws-kms-key-id"] as? String
             self.eTag = dictionary["ETag"] as? String
-            self.sSECustomerAlgorithm = dictionary["X-amz-server-side-encryption-customer-algorithm"] as? String
-            if let requestCharged = dictionary["X-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
-            if let serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String { self.serverSideEncryption = ServerSideEncryption(rawValue: serverSideEncryption) } else { self.serverSideEncryption = nil }
+            self.sSECustomerAlgorithm = dictionary["x-amz-server-side-encryption-customer-algorithm"] as? String
+            if let requestCharged = dictionary["x-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
+            if let serverSideEncryption = dictionary["x-amz-server-side-encryption"] as? String { self.serverSideEncryption = ServerSideEncryption(rawValue: serverSideEncryption) } else { self.serverSideEncryption = nil }
         }
     }
 
@@ -6149,8 +6149,8 @@ extension S3 {
             return ["x-amz-version-id": "VersionId"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "X-amz-version-id", required: false, type: .string), 
-            AWSShapeProperty(label: "TagSet", required: true, type: .structure)
+            AWSShapeProperty(label: "VersionId", location: "x-amz-version-id", required: false, type: .string), 
+            AWSShapeProperty(label: "TagSet", location: nil, required: true, type: .structure)
         ]
         public let versionId: String?
         public let tagSet: TagSet
@@ -6161,7 +6161,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.versionId = dictionary["X-amz-version-id"] as? String
+            self.versionId = dictionary["x-amz-version-id"] as? String
             guard let tagSet = dictionary["TagSet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TagSet") }
             self.tagSet = try S3.TagSet(dictionary: tagSet)
         }
@@ -6171,7 +6171,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CORSRule", required: false, type: .list)
+            AWSShapeProperty(label: "CORSRules", location: "CORSRule", required: false, type: .list)
         ]
         public let cORSRules: [CORSRule]?
 
@@ -6192,10 +6192,10 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VersionId", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string), 
-            AWSShapeProperty(label: "Code", required: false, type: .string), 
-            AWSShapeProperty(label: "Message", required: false, type: .string)
+            AWSShapeProperty(label: "VersionId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Key", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Code", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Message", location: nil, required: false, type: .string)
         ]
         public let versionId: String?
         public let key: String?
@@ -6227,32 +6227,32 @@ extension S3 {
             return ["Bucket": "Bucket", "Key": "Key"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "X-amz-tagging", required: false, type: .string), 
-            AWSShapeProperty(label: "Content-Disposition", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-aws-kms-key-id", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-grant-read-acp", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-customer-algorithm", required: false, type: .string), 
-            AWSShapeProperty(label: "Content-Language", required: false, type: .string), 
-            AWSShapeProperty(label: "Content-Encoding", required: false, type: .string), 
-            AWSShapeProperty(label: "Content-Length", required: false, type: .long), 
-            AWSShapeProperty(label: "X-amz-grant-write-acp", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string), 
-            AWSShapeProperty(label: "X-amz-website-redirect-location", required: false, type: .string), 
-            AWSShapeProperty(label: "Body", required: false, type: .blob), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-customer-key", required: false, type: .string), 
-            AWSShapeProperty(label: "Content-MD5", required: false, type: .string), 
-            AWSShapeProperty(label: "Cache-Control", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-request-payer", required: false, type: .enum), 
-            AWSShapeProperty(label: "X-amz-grant-full-control", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-customer-key-MD5", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-acl", required: false, type: .enum), 
-            AWSShapeProperty(label: "X-amz-meta-", required: false, type: .map), 
-            AWSShapeProperty(label: "Expires", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Content-Type", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-storage-class", required: false, type: .enum), 
-            AWSShapeProperty(label: "X-amz-grant-read", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption", required: false, type: .enum)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "Tagging", location: "x-amz-tagging", required: false, type: .string), 
+            AWSShapeProperty(label: "ContentDisposition", location: "Content-Disposition", required: false, type: .string), 
+            AWSShapeProperty(label: "SSEKMSKeyId", location: "x-amz-server-side-encryption-aws-kms-key-id", required: false, type: .string), 
+            AWSShapeProperty(label: "GrantReadACP", location: "x-amz-grant-read-acp", required: false, type: .string), 
+            AWSShapeProperty(label: "SSECustomerAlgorithm", location: "x-amz-server-side-encryption-customer-algorithm", required: false, type: .string), 
+            AWSShapeProperty(label: "ContentLanguage", location: "Content-Language", required: false, type: .string), 
+            AWSShapeProperty(label: "ContentEncoding", location: "Content-Encoding", required: false, type: .string), 
+            AWSShapeProperty(label: "ContentLength", location: "Content-Length", required: false, type: .long), 
+            AWSShapeProperty(label: "GrantWriteACP", location: "x-amz-grant-write-acp", required: false, type: .string), 
+            AWSShapeProperty(label: "Key", location: "Key", required: true, type: .string), 
+            AWSShapeProperty(label: "WebsiteRedirectLocation", location: "x-amz-website-redirect-location", required: false, type: .string), 
+            AWSShapeProperty(label: "Body", location: nil, required: false, type: .blob), 
+            AWSShapeProperty(label: "SSECustomerKey", location: "x-amz-server-side-encryption-customer-key", required: false, type: .string), 
+            AWSShapeProperty(label: "ContentMD5", location: "Content-MD5", required: false, type: .string), 
+            AWSShapeProperty(label: "CacheControl", location: "Cache-Control", required: false, type: .string), 
+            AWSShapeProperty(label: "RequestPayer", location: "x-amz-request-payer", required: false, type: .enum), 
+            AWSShapeProperty(label: "GrantFullControl", location: "x-amz-grant-full-control", required: false, type: .string), 
+            AWSShapeProperty(label: "SSECustomerKeyMD5", location: "x-amz-server-side-encryption-customer-key-MD5", required: false, type: .string), 
+            AWSShapeProperty(label: "ACL", location: "x-amz-acl", required: false, type: .enum), 
+            AWSShapeProperty(label: "Metadata", location: "x-amz-meta-", required: false, type: .map), 
+            AWSShapeProperty(label: "Expires", location: "Expires", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "ContentType", location: "Content-Type", required: false, type: .string), 
+            AWSShapeProperty(label: "StorageClass", location: "x-amz-storage-class", required: false, type: .enum), 
+            AWSShapeProperty(label: "GrantRead", location: "x-amz-grant-read", required: false, type: .string), 
+            AWSShapeProperty(label: "ServerSideEncryption", location: "x-amz-server-side-encryption", required: false, type: .enum)
         ]
         /// Name of the bucket to which the PUT operation was initiated.
         public let bucket: String
@@ -6338,36 +6338,36 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.tagging = dictionary["X-amz-tagging"] as? String
+            self.tagging = dictionary["x-amz-tagging"] as? String
             self.contentDisposition = dictionary["Content-Disposition"] as? String
-            self.sSEKMSKeyId = dictionary["X-amz-server-side-encryption-aws-kms-key-id"] as? String
-            self.grantReadACP = dictionary["X-amz-grant-read-acp"] as? String
-            self.sSECustomerAlgorithm = dictionary["X-amz-server-side-encryption-customer-algorithm"] as? String
+            self.sSEKMSKeyId = dictionary["x-amz-server-side-encryption-aws-kms-key-id"] as? String
+            self.grantReadACP = dictionary["x-amz-grant-read-acp"] as? String
+            self.sSECustomerAlgorithm = dictionary["x-amz-server-side-encryption-customer-algorithm"] as? String
             self.contentLanguage = dictionary["Content-Language"] as? String
             self.contentEncoding = dictionary["Content-Encoding"] as? String
             self.contentLength = dictionary["Content-Length"] as? Int64
-            self.grantWriteACP = dictionary["X-amz-grant-write-acp"] as? String
+            self.grantWriteACP = dictionary["x-amz-grant-write-acp"] as? String
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
-            self.websiteRedirectLocation = dictionary["X-amz-website-redirect-location"] as? String
+            self.websiteRedirectLocation = dictionary["x-amz-website-redirect-location"] as? String
             self.body = dictionary["Body"] as? Data
-            self.sSECustomerKey = dictionary["X-amz-server-side-encryption-customer-key"] as? String
+            self.sSECustomerKey = dictionary["x-amz-server-side-encryption-customer-key"] as? String
             self.contentMD5 = dictionary["Content-MD5"] as? String
             self.cacheControl = dictionary["Cache-Control"] as? String
-            if let requestPayer = dictionary["X-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
-            self.grantFullControl = dictionary["X-amz-grant-full-control"] as? String
-            self.sSECustomerKeyMD5 = dictionary["X-amz-server-side-encryption-customer-key-MD5"] as? String
-            if let aCL = dictionary["X-amz-acl"] as? String { self.aCL = ObjectCannedACL(rawValue: aCL) } else { self.aCL = nil }
-            if let metadata = dictionary["X-amz-meta-"] as? [String: String] {
+            if let requestPayer = dictionary["x-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
+            self.grantFullControl = dictionary["x-amz-grant-full-control"] as? String
+            self.sSECustomerKeyMD5 = dictionary["x-amz-server-side-encryption-customer-key-MD5"] as? String
+            if let aCL = dictionary["x-amz-acl"] as? String { self.aCL = ObjectCannedACL(rawValue: aCL) } else { self.aCL = nil }
+            if let metadata = dictionary["x-amz-meta-"] as? [String: String] {
                 self.metadata = metadata
             } else { 
                 self.metadata = nil
             }
             self.expires = dictionary["Expires"] as? Date
             self.contentType = dictionary["Content-Type"] as? String
-            if let storageClass = dictionary["X-amz-storage-class"] as? String { self.storageClass = StorageClass(rawValue: storageClass) } else { self.storageClass = nil }
-            self.grantRead = dictionary["X-amz-grant-read"] as? String
-            if let serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String { self.serverSideEncryption = ServerSideEncryption(rawValue: serverSideEncryption) } else { self.serverSideEncryption = nil }
+            if let storageClass = dictionary["x-amz-storage-class"] as? String { self.storageClass = StorageClass(rawValue: storageClass) } else { self.storageClass = nil }
+            self.grantRead = dictionary["x-amz-grant-read"] as? String
+            if let serverSideEncryption = dictionary["x-amz-server-side-encryption"] as? String { self.serverSideEncryption = ServerSideEncryption(rawValue: serverSideEncryption) } else { self.serverSideEncryption = nil }
         }
     }
 
@@ -6375,7 +6375,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LocationConstraint", required: false, type: .enum)
+            AWSShapeProperty(label: "LocationConstraint", location: nil, required: false, type: .enum)
         ]
         /// Specifies the region where the bucket will be created. If you don't specify a region, the bucket will be created in US Standard.
         public let locationConstraint: BucketLocationConstraint?
@@ -6396,7 +6396,7 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string)
         ]
         public let bucket: String
 
@@ -6423,17 +6423,17 @@ extension S3 {
             return ["Bucket": "Bucket", "Key": "Key"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-customer-key", required: false, type: .string), 
-            AWSShapeProperty(label: "Content-MD5", required: false, type: .string), 
-            AWSShapeProperty(label: "PartNumber", required: true, type: .integer), 
-            AWSShapeProperty(label: "Content-Length", required: false, type: .long), 
-            AWSShapeProperty(label: "X-amz-request-payer", required: false, type: .enum), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-customer-key-MD5", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string), 
-            AWSShapeProperty(label: "UploadId", required: true, type: .string), 
-            AWSShapeProperty(label: "Body", required: false, type: .blob), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-customer-algorithm", required: false, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "SSECustomerKey", location: "x-amz-server-side-encryption-customer-key", required: false, type: .string), 
+            AWSShapeProperty(label: "ContentMD5", location: "Content-MD5", required: false, type: .string), 
+            AWSShapeProperty(label: "PartNumber", location: "partNumber", required: true, type: .integer), 
+            AWSShapeProperty(label: "ContentLength", location: "Content-Length", required: false, type: .long), 
+            AWSShapeProperty(label: "RequestPayer", location: "x-amz-request-payer", required: false, type: .enum), 
+            AWSShapeProperty(label: "SSECustomerKeyMD5", location: "x-amz-server-side-encryption-customer-key-MD5", required: false, type: .string), 
+            AWSShapeProperty(label: "Key", location: "Key", required: true, type: .string), 
+            AWSShapeProperty(label: "UploadId", location: "uploadId", required: true, type: .string), 
+            AWSShapeProperty(label: "Body", location: nil, required: false, type: .blob), 
+            AWSShapeProperty(label: "SSECustomerAlgorithm", location: "x-amz-server-side-encryption-customer-algorithm", required: false, type: .string)
         ]
         /// Name of the bucket to which the multipart upload was initiated.
         public let bucket: String
@@ -6474,19 +6474,19 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.sSECustomerKey = dictionary["X-amz-server-side-encryption-customer-key"] as? String
+            self.sSECustomerKey = dictionary["x-amz-server-side-encryption-customer-key"] as? String
             self.contentMD5 = dictionary["Content-MD5"] as? String
-            guard let partNumber = dictionary["PartNumber"] as? Int32 else { throw InitializableError.missingRequiredParam("PartNumber") }
+            guard let partNumber = dictionary["partNumber"] as? Int32 else { throw InitializableError.missingRequiredParam("partNumber") }
             self.partNumber = partNumber
             self.contentLength = dictionary["Content-Length"] as? Int64
-            if let requestPayer = dictionary["X-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
-            self.sSECustomerKeyMD5 = dictionary["X-amz-server-side-encryption-customer-key-MD5"] as? String
+            if let requestPayer = dictionary["x-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
+            self.sSECustomerKeyMD5 = dictionary["x-amz-server-side-encryption-customer-key-MD5"] as? String
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
-            guard let uploadId = dictionary["UploadId"] as? String else { throw InitializableError.missingRequiredParam("UploadId") }
+            guard let uploadId = dictionary["uploadId"] as? String else { throw InitializableError.missingRequiredParam("uploadId") }
             self.uploadId = uploadId
             self.body = dictionary["Body"] as? Data
-            self.sSECustomerAlgorithm = dictionary["X-amz-server-side-encryption-customer-algorithm"] as? String
+            self.sSECustomerAlgorithm = dictionary["x-amz-server-side-encryption-customer-algorithm"] as? String
         }
     }
 
@@ -6494,10 +6494,10 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeleteMarkerVersionId", required: false, type: .string), 
-            AWSShapeProperty(label: "VersionId", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string), 
-            AWSShapeProperty(label: "DeleteMarker", required: false, type: .boolean)
+            AWSShapeProperty(label: "DeleteMarkerVersionId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "VersionId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Key", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "DeleteMarker", location: nil, required: false, type: .boolean)
         ]
         public let deleteMarkerVersionId: String?
         public let versionId: String?
@@ -6526,7 +6526,7 @@ extension S3 {
             return ["x-amz-version-id": "VersionId"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "X-amz-version-id", required: false, type: .string)
+            AWSShapeProperty(label: "VersionId", location: "x-amz-version-id", required: false, type: .string)
         ]
         public let versionId: String?
 
@@ -6535,7 +6535,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.versionId = dictionary["X-amz-version-id"] as? String
+            self.versionId = dictionary["x-amz-version-id"] as? String
         }
     }
 
@@ -6546,7 +6546,7 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string)
         ]
         public let bucket: String
 
@@ -6567,7 +6567,7 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string)
         ]
         public let bucket: String
 
@@ -6585,7 +6585,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FilterRule", required: false, type: .list)
+            AWSShapeProperty(label: "FilterRules", location: "FilterRule", required: false, type: .list)
         ]
         public let filterRules: [FilterRule]?
 
@@ -6618,9 +6618,9 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Content-MD5", required: false, type: .string), 
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "WebsiteConfiguration", required: true, type: .structure)
+            AWSShapeProperty(label: "ContentMD5", location: "Content-MD5", required: false, type: .string), 
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "WebsiteConfiguration", location: "WebsiteConfiguration", required: true, type: .structure)
         ]
         public let contentMD5: String?
         public let bucket: String
@@ -6648,8 +6648,8 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "NotificationConfiguration", required: true, type: .structure)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "NotificationConfiguration", location: "NotificationConfiguration", required: true, type: .structure)
         ]
         public let bucket: String
         public let notificationConfiguration: NotificationConfiguration
@@ -6677,8 +6677,8 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "Id", location: "id", required: true, type: .string)
         ]
         /// The name of the bucket containing the metrics configuration to delete.
         public let bucket: String
@@ -6693,7 +6693,7 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            guard let id = dictionary["id"] as? String else { throw InitializableError.missingRequiredParam("id") }
             self.id = id
         }
     }
@@ -6702,7 +6702,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DaysAfterInitiation", required: false, type: .integer)
+            AWSShapeProperty(label: "DaysAfterInitiation", location: nil, required: false, type: .integer)
         ]
         /// Indicates the number of days that must pass since initiation for Lifecycle to abort an Incomplete Multipart Upload.
         public let daysAfterInitiation: Int32?
@@ -6720,8 +6720,8 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GlacierJobParameters", required: false, type: .structure), 
-            AWSShapeProperty(label: "Days", required: true, type: .integer)
+            AWSShapeProperty(label: "GlacierJobParameters", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Days", location: nil, required: true, type: .integer)
         ]
         /// Glacier related prameters pertaining to this job.
         public let glacierJobParameters: GlacierJobParameters?
@@ -6750,8 +6750,8 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "Id", location: "id", required: true, type: .string)
         ]
         /// The name of the bucket containing the inventory configuration to retrieve.
         public let bucket: String
@@ -6766,7 +6766,7 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            guard let id = dictionary["id"] as? String else { throw InitializableError.missingRequiredParam("id") }
             self.id = id
         }
     }
@@ -6775,7 +6775,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Rule", required: true, type: .list)
+            AWSShapeProperty(label: "Rules", location: "Rule", required: true, type: .list)
         ]
         public let rules: [Rule]
 
@@ -6799,8 +6799,8 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "Id", location: "id", required: true, type: .string)
         ]
         /// The name of the bucket from which an analytics configuration is retrieved.
         public let bucket: String
@@ -6815,7 +6815,7 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            guard let id = dictionary["id"] as? String else { throw InitializableError.missingRequiredParam("id") }
             self.id = id
         }
     }
@@ -6824,7 +6824,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: false, type: .list)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: false, type: .list)
         ]
         public let bucket: [Bucket]?
 
@@ -6848,7 +6848,7 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string)
         ]
         /// Name of the bucket for which the accelerate configuration is retrieved.
         public let bucket: String
@@ -6867,7 +6867,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = "InventoryConfiguration"
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InventoryConfiguration", required: false, type: .structure)
+            AWSShapeProperty(label: "InventoryConfiguration", location: nil, required: false, type: .structure)
         ]
         /// Specifies the inventory configuration.
         public let inventoryConfiguration: InventoryConfiguration?
@@ -6894,12 +6894,12 @@ extension S3 {
             return ["Bucket": "Bucket", "Key": "Key"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "Part-number-marker", required: false, type: .integer), 
-            AWSShapeProperty(label: "Key", required: true, type: .string), 
-            AWSShapeProperty(label: "UploadId", required: true, type: .string), 
-            AWSShapeProperty(label: "Max-parts", required: false, type: .integer), 
-            AWSShapeProperty(label: "X-amz-request-payer", required: false, type: .enum)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "PartNumberMarker", location: "part-number-marker", required: false, type: .integer), 
+            AWSShapeProperty(label: "Key", location: "Key", required: true, type: .string), 
+            AWSShapeProperty(label: "UploadId", location: "uploadId", required: true, type: .string), 
+            AWSShapeProperty(label: "MaxParts", location: "max-parts", required: false, type: .integer), 
+            AWSShapeProperty(label: "RequestPayer", location: "x-amz-request-payer", required: false, type: .enum)
         ]
         public let bucket: String
         /// Specifies the part after which listing should begin. Only parts with higher part numbers will be listed.
@@ -6923,13 +6923,13 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.partNumberMarker = dictionary["Part-number-marker"] as? Int32
+            self.partNumberMarker = dictionary["part-number-marker"] as? Int32
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
-            guard let uploadId = dictionary["UploadId"] as? String else { throw InitializableError.missingRequiredParam("UploadId") }
+            guard let uploadId = dictionary["uploadId"] as? String else { throw InitializableError.missingRequiredParam("uploadId") }
             self.uploadId = uploadId
-            self.maxParts = dictionary["Max-parts"] as? Int32
-            if let requestPayer = dictionary["X-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
+            self.maxParts = dictionary["max-parts"] as? Int32
+            if let requestPayer = dictionary["x-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
         }
     }
 
@@ -6952,11 +6952,11 @@ extension S3 {
             return ["Bucket": "Bucket", "Key": "Key"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "RestoreRequest", required: false, type: .structure), 
-            AWSShapeProperty(label: "Key", required: true, type: .string), 
-            AWSShapeProperty(label: "VersionId", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-request-payer", required: false, type: .enum)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "RestoreRequest", location: "RestoreRequest", required: false, type: .structure), 
+            AWSShapeProperty(label: "Key", location: "Key", required: true, type: .string), 
+            AWSShapeProperty(label: "VersionId", location: "versionId", required: false, type: .string), 
+            AWSShapeProperty(label: "RequestPayer", location: "x-amz-request-payer", required: false, type: .enum)
         ]
         public let bucket: String
         public let restoreRequest: RestoreRequest?
@@ -6978,8 +6978,8 @@ extension S3 {
             if let restoreRequest = dictionary["RestoreRequest"] as? [String: Any] { self.restoreRequest = try S3.RestoreRequest(dictionary: restoreRequest) } else { self.restoreRequest = nil }
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
-            self.versionId = dictionary["VersionId"] as? String
-            if let requestPayer = dictionary["X-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
+            self.versionId = dictionary["versionId"] as? String
+            if let requestPayer = dictionary["x-amz-request-payer"] as? String { self.requestPayer = RequestPayer(rawValue: requestPayer) } else { self.requestPayer = nil }
         }
     }
 
@@ -6987,11 +6987,11 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ID", required: false, type: .string), 
-            AWSShapeProperty(label: "EmailAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "Xsi:type", required: true, type: .enum), 
-            AWSShapeProperty(label: "DisplayName", required: false, type: .string), 
-            AWSShapeProperty(label: "URI", required: false, type: .string)
+            AWSShapeProperty(label: "ID", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "EmailAddress", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Type", location: "xsi:type", required: true, type: .enum), 
+            AWSShapeProperty(label: "DisplayName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "URI", location: nil, required: false, type: .string)
         ]
         /// The canonical user ID of the grantee.
         public let iD: String?
@@ -7015,7 +7015,7 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             self.iD = dictionary["ID"] as? String
             self.emailAddress = dictionary["EmailAddress"] as? String
-            guard let rawType = dictionary["Xsi:type"] as? String, let `type` = Type(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Xsi:type") }
+            guard let rawType = dictionary["xsi:type"] as? String, let `type` = Type(rawValue: rawType) else { throw InitializableError.missingRequiredParam("xsi:type") }
             self.`type` = `type`
             self.displayName = dictionary["DisplayName"] as? String
             self.uRI = dictionary["URI"] as? String
@@ -7026,10 +7026,10 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Queue", required: false, type: .string), 
-            AWSShapeProperty(label: "Event", required: false, type: .list), 
-            AWSShapeProperty(label: "Event", required: false, type: .enum), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+            AWSShapeProperty(label: "Queue", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Events", location: "Event", required: false, type: .list), 
+            AWSShapeProperty(label: "Event", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "Id", location: nil, required: false, type: .string)
         ]
         public let queue: String?
         public let events: [Event]?
@@ -7058,7 +7058,7 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string)
         ]
         public let bucket: String
 
@@ -7079,7 +7079,7 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string)
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string)
         ]
         public let bucket: String
 
@@ -7118,9 +7118,9 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Content-MD5", required: false, type: .string), 
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "RequestPaymentConfiguration", required: true, type: .structure)
+            AWSShapeProperty(label: "ContentMD5", location: "Content-MD5", required: false, type: .string), 
+            AWSShapeProperty(label: "Bucket", location: "Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "RequestPaymentConfiguration", location: "RequestPaymentConfiguration", required: true, type: .structure)
         ]
         public let contentMD5: String?
         public let bucket: String
@@ -7148,14 +7148,14 @@ extension S3 {
             return ["x-amz-server-side-encryption-customer-key-MD5": "SSECustomerKeyMD5", "x-amz-server-side-encryption": "ServerSideEncryption", "x-amz-server-side-encryption-aws-kms-key-id": "SSEKMSKeyId", "x-amz-request-charged": "RequestCharged", "x-amz-version-id": "VersionId", "ETag": "ETag", "x-amz-server-side-encryption-customer-algorithm": "SSECustomerAlgorithm", "x-amz-expiration": "Expiration"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "X-amz-expiration", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-version-id", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-customer-key-MD5", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-aws-kms-key-id", required: false, type: .string), 
-            AWSShapeProperty(label: "ETag", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-customer-algorithm", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-request-charged", required: false, type: .enum), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption", required: false, type: .enum)
+            AWSShapeProperty(label: "Expiration", location: "x-amz-expiration", required: false, type: .string), 
+            AWSShapeProperty(label: "VersionId", location: "x-amz-version-id", required: false, type: .string), 
+            AWSShapeProperty(label: "SSECustomerKeyMD5", location: "x-amz-server-side-encryption-customer-key-MD5", required: false, type: .string), 
+            AWSShapeProperty(label: "SSEKMSKeyId", location: "x-amz-server-side-encryption-aws-kms-key-id", required: false, type: .string), 
+            AWSShapeProperty(label: "ETag", location: "ETag", required: false, type: .string), 
+            AWSShapeProperty(label: "SSECustomerAlgorithm", location: "x-amz-server-side-encryption-customer-algorithm", required: false, type: .string), 
+            AWSShapeProperty(label: "RequestCharged", location: "x-amz-request-charged", required: false, type: .enum), 
+            AWSShapeProperty(label: "ServerSideEncryption", location: "x-amz-server-side-encryption", required: false, type: .enum)
         ]
         /// If the object expiration is configured, this will contain the expiration date (expiry-date) and rule ID (rule-id). The value of rule-id is URL encoded.
         public let expiration: String?
@@ -7185,14 +7185,14 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.expiration = dictionary["X-amz-expiration"] as? String
-            self.versionId = dictionary["X-amz-version-id"] as? String
-            self.sSECustomerKeyMD5 = dictionary["X-amz-server-side-encryption-customer-key-MD5"] as? String
-            self.sSEKMSKeyId = dictionary["X-amz-server-side-encryption-aws-kms-key-id"] as? String
+            self.expiration = dictionary["x-amz-expiration"] as? String
+            self.versionId = dictionary["x-amz-version-id"] as? String
+            self.sSECustomerKeyMD5 = dictionary["x-amz-server-side-encryption-customer-key-MD5"] as? String
+            self.sSEKMSKeyId = dictionary["x-amz-server-side-encryption-aws-kms-key-id"] as? String
             self.eTag = dictionary["ETag"] as? String
-            self.sSECustomerAlgorithm = dictionary["X-amz-server-side-encryption-customer-algorithm"] as? String
-            if let requestCharged = dictionary["X-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
-            if let serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String { self.serverSideEncryption = ServerSideEncryption(rawValue: serverSideEncryption) } else { self.serverSideEncryption = nil }
+            self.sSECustomerAlgorithm = dictionary["x-amz-server-side-encryption-customer-algorithm"] as? String
+            if let requestCharged = dictionary["x-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
+            if let serverSideEncryption = dictionary["x-amz-server-side-encryption"] as? String { self.serverSideEncryption = ServerSideEncryption(rawValue: serverSideEncryption) } else { self.serverSideEncryption = nil }
         }
     }
 
@@ -7203,15 +7203,15 @@ extension S3 {
             return ["x-amz-server-side-encryption-customer-key-MD5": "SSECustomerKeyMD5", "x-amz-copy-source-version-id": "CopySourceVersionId", "x-amz-server-side-encryption": "ServerSideEncryption", "x-amz-server-side-encryption-aws-kms-key-id": "SSEKMSKeyId", "x-amz-request-charged": "RequestCharged", "x-amz-version-id": "VersionId", "x-amz-server-side-encryption-customer-algorithm": "SSECustomerAlgorithm", "x-amz-expiration": "Expiration"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CopyObjectResult", required: false, type: .structure), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-customer-key-MD5", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-version-id", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-copy-source-version-id", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-aws-kms-key-id", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-expiration", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption-customer-algorithm", required: false, type: .string), 
-            AWSShapeProperty(label: "X-amz-server-side-encryption", required: false, type: .enum), 
-            AWSShapeProperty(label: "X-amz-request-charged", required: false, type: .enum)
+            AWSShapeProperty(label: "CopyObjectResult", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "SSECustomerKeyMD5", location: "x-amz-server-side-encryption-customer-key-MD5", required: false, type: .string), 
+            AWSShapeProperty(label: "VersionId", location: "x-amz-version-id", required: false, type: .string), 
+            AWSShapeProperty(label: "CopySourceVersionId", location: "x-amz-copy-source-version-id", required: false, type: .string), 
+            AWSShapeProperty(label: "SSEKMSKeyId", location: "x-amz-server-side-encryption-aws-kms-key-id", required: false, type: .string), 
+            AWSShapeProperty(label: "Expiration", location: "x-amz-expiration", required: false, type: .string), 
+            AWSShapeProperty(label: "SSECustomerAlgorithm", location: "x-amz-server-side-encryption-customer-algorithm", required: false, type: .string), 
+            AWSShapeProperty(label: "ServerSideEncryption", location: "x-amz-server-side-encryption", required: false, type: .enum), 
+            AWSShapeProperty(label: "RequestCharged", location: "x-amz-request-charged", required: false, type: .enum)
         ]
         public let copyObjectResult: CopyObjectResult?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
@@ -7243,14 +7243,14 @@ extension S3 {
 
         public init(dictionary: [String: Any]) throws {
             if let copyObjectResult = dictionary["CopyObjectResult"] as? [String: Any] { self.copyObjectResult = try S3.CopyObjectResult(dictionary: copyObjectResult) } else { self.copyObjectResult = nil }
-            self.sSECustomerKeyMD5 = dictionary["X-amz-server-side-encryption-customer-key-MD5"] as? String
-            self.versionId = dictionary["X-amz-version-id"] as? String
-            self.copySourceVersionId = dictionary["X-amz-copy-source-version-id"] as? String
-            self.sSEKMSKeyId = dictionary["X-amz-server-side-encryption-aws-kms-key-id"] as? String
-            self.expiration = dictionary["X-amz-expiration"] as? String
-            self.sSECustomerAlgorithm = dictionary["X-amz-server-side-encryption-customer-algorithm"] as? String
-            if let serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String { self.serverSideEncryption = ServerSideEncryption(rawValue: serverSideEncryption) } else { self.serverSideEncryption = nil }
-            if let requestCharged = dictionary["X-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
+            self.sSECustomerKeyMD5 = dictionary["x-amz-server-side-encryption-customer-key-MD5"] as? String
+            self.versionId = dictionary["x-amz-version-id"] as? String
+            self.copySourceVersionId = dictionary["x-amz-copy-source-version-id"] as? String
+            self.sSEKMSKeyId = dictionary["x-amz-server-side-encryption-aws-kms-key-id"] as? String
+            self.expiration = dictionary["x-amz-expiration"] as? String
+            self.sSECustomerAlgorithm = dictionary["x-amz-server-side-encryption-customer-algorithm"] as? String
+            if let serverSideEncryption = dictionary["x-amz-server-side-encryption"] as? String { self.serverSideEncryption = ServerSideEncryption(rawValue: serverSideEncryption) } else { self.serverSideEncryption = nil }
+            if let requestCharged = dictionary["x-amz-request-charged"] as? String { self.requestCharged = RequestCharged(rawValue: requestCharged) } else { self.requestCharged = nil }
         }
     }
 

@@ -33,8 +33,8 @@ extension ApplicationAutoscaling {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ScalingActivities", required: false, type: .list)
+            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ScalingActivities", location: nil, required: false, type: .list)
         ]
         /// The token required to get the next set of results. This value is null if there are no more results to return.
         public let nextToken: String?
@@ -60,8 +60,8 @@ extension ApplicationAutoscaling {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ScalableTargets", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+            AWSShapeProperty(label: "ScalableTargets", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
         ]
         /// The list of scalable targets that matches the request parameters.
         public let scalableTargets: [ScalableTarget]?
@@ -102,15 +102,15 @@ extension ApplicationAutoscaling {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StepScalingPolicyConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "PolicyType", required: true, type: .enum), 
-            AWSShapeProperty(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeProperty(label: "PolicyARN", required: true, type: .string), 
-            AWSShapeProperty(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "ScalableDimension", required: true, type: .enum), 
-            AWSShapeProperty(label: "Alarms", required: false, type: .list), 
-            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "PolicyName", required: true, type: .string)
+            AWSShapeProperty(label: "StepScalingPolicyConfiguration", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "PolicyType", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "ServiceNamespace", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "PolicyARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "CreationTime", location: nil, required: true, type: .timestamp), 
+            AWSShapeProperty(label: "ScalableDimension", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "Alarms", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "ResourceId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "PolicyName", location: nil, required: true, type: .string)
         ]
         /// The configuration for the step scaling policy.
         public let stepScalingPolicyConfiguration: StepScalingPolicyConfiguration?
@@ -178,10 +178,10 @@ extension ApplicationAutoscaling {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyName", required: true, type: .string), 
-            AWSShapeProperty(label: "ScalableDimension", required: true, type: .enum), 
-            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "ServiceNamespace", required: true, type: .enum)
+            AWSShapeProperty(label: "PolicyName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "ScalableDimension", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "ResourceId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "ServiceNamespace", location: nil, required: true, type: .enum)
         ]
         /// The name of the scaling policy.
         public let policyName: String
@@ -222,12 +222,12 @@ extension ApplicationAutoscaling {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StepScalingPolicyConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeProperty(label: "ScalableDimension", required: true, type: .enum), 
-            AWSShapeProperty(label: "PolicyType", required: false, type: .enum), 
-            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "PolicyName", required: true, type: .string)
+            AWSShapeProperty(label: "StepScalingPolicyConfiguration", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "ServiceNamespace", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "ScalableDimension", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "PolicyType", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "ResourceId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "PolicyName", location: nil, required: true, type: .string)
         ]
         /// The configuration for the step scaling policy. If you are creating a new policy, this parameter is required. If you are updating a policy, this parameter is not required. For more information, see StepScalingPolicyConfiguration and StepAdjustment.
         public let stepScalingPolicyConfiguration: StepScalingPolicyConfiguration?
@@ -269,13 +269,13 @@ extension ApplicationAutoscaling {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeProperty(label: "RoleARN", required: true, type: .string), 
-            AWSShapeProperty(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "ScalableDimension", required: true, type: .enum), 
-            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "MaxCapacity", required: true, type: .integer), 
-            AWSShapeProperty(label: "MinCapacity", required: true, type: .integer)
+            AWSShapeProperty(label: "ServiceNamespace", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "RoleARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "CreationTime", location: nil, required: true, type: .timestamp), 
+            AWSShapeProperty(label: "ScalableDimension", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "ResourceId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "MaxCapacity", location: nil, required: true, type: .integer), 
+            AWSShapeProperty(label: "MinCapacity", location: nil, required: true, type: .integer)
         ]
         /// The namespace of the AWS service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
@@ -324,9 +324,9 @@ extension ApplicationAutoscaling {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "ScalableDimension", required: true, type: .enum), 
-            AWSShapeProperty(label: "ServiceNamespace", required: true, type: .enum)
+            AWSShapeProperty(label: "ResourceId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "ScalableDimension", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "ServiceNamespace", location: nil, required: true, type: .enum)
         ]
         /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.  
         public let resourceId: String
@@ -362,8 +362,8 @@ extension ApplicationAutoscaling {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ScalingPolicies", required: false, type: .list)
+            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ScalingPolicies", location: nil, required: false, type: .list)
         ]
         /// The token required to get the next set of results. This value is null if there are no more results to return.
         public let nextToken: String?
@@ -389,11 +389,11 @@ extension ApplicationAutoscaling {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeProperty(label: "ResourceIds", required: false, type: .list), 
-            AWSShapeProperty(label: "ScalableDimension", required: false, type: .enum), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+            AWSShapeProperty(label: "ServiceNamespace", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "ResourceIds", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "ScalableDimension", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
         ]
         /// The namespace of the AWS service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
@@ -436,9 +436,9 @@ extension ApplicationAutoscaling {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ScalingAdjustment", required: true, type: .integer), 
-            AWSShapeProperty(label: "MetricIntervalUpperBound", required: false, type: .double), 
-            AWSShapeProperty(label: "MetricIntervalLowerBound", required: false, type: .double)
+            AWSShapeProperty(label: "ScalingAdjustment", location: nil, required: true, type: .integer), 
+            AWSShapeProperty(label: "MetricIntervalUpperBound", location: nil, required: false, type: .double), 
+            AWSShapeProperty(label: "MetricIntervalLowerBound", location: nil, required: false, type: .double)
         ]
         /// The amount by which to scale, based on the specified adjustment type. A positive value adds to the current scalable dimension while a negative number removes from the current scalable dimension.
         public let scalingAdjustment: Int32
@@ -475,8 +475,8 @@ extension ApplicationAutoscaling {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AlarmName", required: true, type: .string), 
-            AWSShapeProperty(label: "AlarmARN", required: true, type: .string)
+            AWSShapeProperty(label: "AlarmName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "AlarmARN", location: nil, required: true, type: .string)
         ]
         /// The name of the alarm.
         public let alarmName: String
@@ -500,11 +500,11 @@ extension ApplicationAutoscaling {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MetricAggregationType", required: false, type: .enum), 
-            AWSShapeProperty(label: "Cooldown", required: false, type: .integer), 
-            AWSShapeProperty(label: "MinAdjustmentMagnitude", required: false, type: .integer), 
-            AWSShapeProperty(label: "StepAdjustments", required: false, type: .list), 
-            AWSShapeProperty(label: "AdjustmentType", required: false, type: .enum)
+            AWSShapeProperty(label: "MetricAggregationType", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "Cooldown", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "MinAdjustmentMagnitude", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "StepAdjustments", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "AdjustmentType", location: nil, required: false, type: .enum)
         ]
         /// The aggregation type for the CloudWatch metrics. Valid values are Minimum, Maximum, and Average.
         public let metricAggregationType: MetricAggregationType?
@@ -542,11 +542,11 @@ extension ApplicationAutoscaling {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeProperty(label: "ScalableDimension", required: false, type: .enum), 
-            AWSShapeProperty(label: "ResourceId", required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+            AWSShapeProperty(label: "ServiceNamespace", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "ScalableDimension", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "ResourceId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
         ]
         /// The namespace of the AWS service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
@@ -586,7 +586,7 @@ extension ApplicationAutoscaling {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyARN", required: true, type: .string)
+            AWSShapeProperty(label: "PolicyARN", location: nil, required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the resulting scaling policy.
         public let policyARN: String
@@ -605,12 +605,12 @@ extension ApplicationAutoscaling {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeProperty(label: "ScalableDimension", required: false, type: .enum), 
-            AWSShapeProperty(label: "PolicyNames", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceId", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+            AWSShapeProperty(label: "ServiceNamespace", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "ScalableDimension", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "PolicyNames", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ResourceId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
         ]
         /// The namespace of the AWS service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
@@ -649,12 +649,12 @@ extension ApplicationAutoscaling {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
-            AWSShapeProperty(label: "ScalableDimension", required: true, type: .enum), 
-            AWSShapeProperty(label: "MaxCapacity", required: false, type: .integer), 
-            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "MinCapacity", required: false, type: .integer), 
-            AWSShapeProperty(label: "ServiceNamespace", required: true, type: .enum)
+            AWSShapeProperty(label: "RoleARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ScalableDimension", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "MaxCapacity", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "ResourceId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "MinCapacity", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "ServiceNamespace", location: nil, required: true, type: .enum)
         ]
         /// The ARN of an IAM role that allows Application Auto Scaling to modify the scalable target on your behalf. This parameter is required when you register a scalable target and optional when you update one.
         public let roleARN: String?
@@ -703,17 +703,17 @@ extension ApplicationAutoscaling {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "Details", required: false, type: .string), 
-            AWSShapeProperty(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "StatusCode", required: true, type: .enum), 
-            AWSShapeProperty(label: "Cause", required: true, type: .string), 
-            AWSShapeProperty(label: "ScalableDimension", required: true, type: .enum), 
-            AWSShapeProperty(label: "ActivityId", required: true, type: .string), 
-            AWSShapeProperty(label: "StatusMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", required: true, type: .string)
+            AWSShapeProperty(label: "StartTime", location: nil, required: true, type: .timestamp), 
+            AWSShapeProperty(label: "Details", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ServiceNamespace", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "EndTime", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "StatusCode", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "Cause", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "ScalableDimension", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "ActivityId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "StatusMessage", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ResourceId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Description", location: nil, required: true, type: .string)
         ]
         /// The Unix timestamp for when the scaling activity began.
         public let startTime: Date

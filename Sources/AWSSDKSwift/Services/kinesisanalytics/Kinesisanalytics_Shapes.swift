@@ -33,8 +33,8 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HasMoreApplications", required: true, type: .boolean), 
-            AWSShapeProperty(label: "ApplicationSummaries", required: true, type: .list)
+            AWSShapeProperty(label: "HasMoreApplications", location: nil, required: true, type: .boolean), 
+            AWSShapeProperty(label: "ApplicationSummaries", location: nil, required: true, type: .list)
         ]
         /// Returns true if there are more applications to retrieve.
         public let hasMoreApplications: Bool
@@ -66,7 +66,7 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CountUpdate", required: false, type: .integer)
+            AWSShapeProperty(label: "CountUpdate", location: nil, required: false, type: .integer)
         ]
         /// Number of in-application streams to create for the specified streaming source.
         public let countUpdate: Int32?
@@ -92,8 +92,8 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeProperty(label: "RoleARN", required: true, type: .string)
+            AWSShapeProperty(label: "ResourceARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "RoleARN", location: nil, required: true, type: .string)
         ]
         /// ARN of the destination Amazon Kinesis stream to write to.
         public let resourceARN: String
@@ -117,12 +117,12 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NamePrefixUpdate", required: false, type: .string), 
-            AWSShapeProperty(label: "InputParallelismUpdate", required: false, type: .structure), 
-            AWSShapeProperty(label: "InputId", required: true, type: .string), 
-            AWSShapeProperty(label: "KinesisStreamsInputUpdate", required: false, type: .structure), 
-            AWSShapeProperty(label: "KinesisFirehoseInputUpdate", required: false, type: .structure), 
-            AWSShapeProperty(label: "InputSchemaUpdate", required: false, type: .structure)
+            AWSShapeProperty(label: "NamePrefixUpdate", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "InputParallelismUpdate", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "InputId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "KinesisStreamsInputUpdate", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "KinesisFirehoseInputUpdate", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "InputSchemaUpdate", location: nil, required: false, type: .structure)
         ]
         /// Name prefix for in-application stream(s) that Kinesis Analytics creates for the specific streaming source.
         public let namePrefixUpdate: String?
@@ -161,8 +161,8 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceARN", required: false, type: .string), 
-            AWSShapeProperty(label: "RoleARN", required: false, type: .string)
+            AWSShapeProperty(label: "ResourceARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "RoleARN", location: nil, required: false, type: .string)
         ]
         /// Amazon Resource Name (ARN) of the Amazon Kinesis Firehose delivery stream.
         public let resourceARN: String?
@@ -184,8 +184,8 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RoleARNUpdate", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceARNUpdate", required: false, type: .string)
+            AWSShapeProperty(label: "RoleARNUpdate", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ResourceARNUpdate", location: nil, required: false, type: .string)
         ]
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant the necessary permissions to this role.
         public let roleARNUpdate: String?
@@ -207,9 +207,9 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CurrentApplicationVersionId", required: true, type: .long), 
-            AWSShapeProperty(label: "ReferenceDataSource", required: true, type: .structure), 
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
+            AWSShapeProperty(label: "CurrentApplicationVersionId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "ReferenceDataSource", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "ApplicationName", location: nil, required: true, type: .string)
         ]
         /// Version of the application for which you are adding the reference data source. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned.
         public let currentApplicationVersionId: Int64
@@ -238,8 +238,8 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RoleARNUpdate", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceARNUpdate", required: false, type: .string)
+            AWSShapeProperty(label: "RoleARNUpdate", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ResourceARNUpdate", location: nil, required: false, type: .string)
         ]
         /// Amazon Resource Name (ARN) of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant necessary permissions to this role.
         public let roleARNUpdate: String?
@@ -269,7 +269,7 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationSummary", required: true, type: .structure)
+            AWSShapeProperty(label: "ApplicationSummary", location: nil, required: true, type: .structure)
         ]
         /// In response to your CreateApplication request, Amazon Kinesis Analytics returns a response with a summary of the application it created, including the application Amazon Resource Name (ARN), name, and status.
         public let applicationSummary: ApplicationSummary
@@ -298,8 +298,8 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InputConfigurations", required: true, type: .list), 
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
+            AWSShapeProperty(label: "InputConfigurations", location: nil, required: true, type: .list), 
+            AWSShapeProperty(label: "ApplicationName", location: nil, required: true, type: .string)
         ]
         /// Identifies the specific input, by ID, that the application starts consuming. Amazon Kinesis Analytics starts reading the streaming source associated with the input. You can also specify where in the streaming source you want Amazon Kinesis Analytics to start reading.
         public let inputConfigurations: [InputConfiguration]
@@ -323,7 +323,7 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
+            AWSShapeProperty(label: "ApplicationName", location: nil, required: true, type: .string)
         ]
         /// Name of the running application to stop.
         public let applicationName: String
@@ -342,9 +342,9 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReferenceRoleARN", required: true, type: .string), 
-            AWSShapeProperty(label: "BucketARN", required: true, type: .string), 
-            AWSShapeProperty(label: "FileKey", required: true, type: .string)
+            AWSShapeProperty(label: "ReferenceRoleARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "BucketARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "FileKey", location: nil, required: true, type: .string)
         ]
         /// ARN of the IAM role that the service can assume to read data on your behalf. This role must have permission for the s3:GetObject action on the object and trust policy that allows Amazon Kinesis Analytics service principal to assume this role.
         public let referenceRoleARN: String
@@ -373,8 +373,8 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RoleARNUpdate", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceARNUpdate", required: false, type: .string)
+            AWSShapeProperty(label: "RoleARNUpdate", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ResourceARNUpdate", location: nil, required: false, type: .string)
         ]
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant necessary permissions to this role.
         public let roleARNUpdate: String?
@@ -396,7 +396,7 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InputStartingPosition", required: false, type: .enum)
+            AWSShapeProperty(label: "InputStartingPosition", location: nil, required: false, type: .enum)
         ]
         /// The starting position on the stream.    LATEST - Start reading just after the most recent record in the stream.    TRIM_HORIZON - Start reading at the last untrimmed record in the stream, which is the oldest record available in the stream. This option is not available for an Amazon Kinesis Firehose delivery stream.    LAST_STOPPED_POINT - Resume reading from where the application last stopped reading.  
         public let inputStartingPosition: InputStartingPosition?
@@ -414,9 +414,9 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BucketARNUpdate", required: false, type: .string), 
-            AWSShapeProperty(label: "ReferenceRoleARNUpdate", required: false, type: .string), 
-            AWSShapeProperty(label: "FileKeyUpdate", required: false, type: .string)
+            AWSShapeProperty(label: "BucketARNUpdate", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ReferenceRoleARNUpdate", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "FileKeyUpdate", location: nil, required: false, type: .string)
         ]
         /// Amazon Resource Name (ARN) of the S3 bucket.
         public let bucketARNUpdate: String?
@@ -450,8 +450,8 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RecordFormatType", required: true, type: .enum), 
-            AWSShapeProperty(label: "MappingParameters", required: false, type: .structure)
+            AWSShapeProperty(label: "RecordFormatType", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "MappingParameters", location: nil, required: false, type: .structure)
         ]
         /// The type of record format.
         public let recordFormatType: RecordFormatType
@@ -473,11 +473,11 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Inputs", required: false, type: .list), 
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeProperty(label: "Outputs", required: false, type: .list), 
-            AWSShapeProperty(label: "ApplicationCode", required: false, type: .string), 
-            AWSShapeProperty(label: "ApplicationDescription", required: false, type: .string)
+            AWSShapeProperty(label: "Inputs", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "ApplicationName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Outputs", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "ApplicationCode", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ApplicationDescription", location: nil, required: false, type: .string)
         ]
         /// Use this parameter to configure the application input. You can configure your application to receive input from a single streaming source. In this configuration, you map this streaming source to an in-application stream that is created. Your application code can then query the in-application stream like a table (you can think of it as a constantly updating table). For the streaming source, you provide its Amazon Resource Name (ARN) and format of data on the stream (for example, JSON, CSV, etc). You also must provide an IAM role that Amazon Kinesis Analytics can assume to read this stream on your behalf. To create the in-application stream, you need to specify a schema to transform your data into a schematized version used in SQL. In the schema, you provide the necessary mapping of the data elements in the streaming source to record columns in the in-app stream.
         public let inputs: [Input]?
@@ -520,7 +520,7 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RecordFormatType", required: false, type: .enum)
+            AWSShapeProperty(label: "RecordFormatType", location: nil, required: false, type: .enum)
         ]
         /// Specifies the format of the records on the output stream.
         public let recordFormatType: RecordFormatType?
@@ -538,8 +538,8 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CreateTimestamp", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
+            AWSShapeProperty(label: "CreateTimestamp", location: nil, required: true, type: .timestamp), 
+            AWSShapeProperty(label: "ApplicationName", location: nil, required: true, type: .string)
         ]
         ///  You can use the DescribeApplication operation to get this value. 
         public let createTimestamp: Date
@@ -571,9 +571,9 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeProperty(label: "RoleARN", required: true, type: .string), 
-            AWSShapeProperty(label: "InputStartingPositionConfiguration", required: true, type: .structure)
+            AWSShapeProperty(label: "ResourceARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "RoleARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "InputStartingPositionConfiguration", location: nil, required: true, type: .structure)
         ]
         /// Amazon Resource Name (ARN) of the streaming source.
         public let resourceARN: String
@@ -602,9 +602,9 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CurrentApplicationVersionId", required: true, type: .long), 
-            AWSShapeProperty(label: "OutputId", required: true, type: .string), 
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
+            AWSShapeProperty(label: "CurrentApplicationVersionId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "OutputId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "ApplicationName", location: nil, required: true, type: .string)
         ]
         /// Amazon Kinesis Analytics application version. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned. 
         public let currentApplicationVersionId: Int64
@@ -633,14 +633,14 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KinesisFirehoseInputDescription", required: false, type: .structure), 
-            AWSShapeProperty(label: "KinesisStreamsInputDescription", required: false, type: .structure), 
-            AWSShapeProperty(label: "InputParallelism", required: false, type: .structure), 
-            AWSShapeProperty(label: "NamePrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "InAppStreamNames", required: false, type: .list), 
-            AWSShapeProperty(label: "InputStartingPositionConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "InputSchema", required: false, type: .structure), 
-            AWSShapeProperty(label: "InputId", required: false, type: .string)
+            AWSShapeProperty(label: "KinesisFirehoseInputDescription", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "KinesisStreamsInputDescription", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "InputParallelism", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "NamePrefix", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "InAppStreamNames", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "InputStartingPositionConfiguration", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "InputSchema", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "InputId", location: nil, required: false, type: .string)
         ]
         /// If an Amazon Kinesis Firehose delivery stream is configured as a streaming source, provides the Firehose delivery stream's Amazon Resource Name (ARN) and an IAM role that enables Amazon Kinesis Analytics to access the stream on your behalf.
         public let kinesisFirehoseInputDescription: KinesisFirehoseInputDescription?
@@ -685,9 +685,9 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationARN", required: true, type: .string), 
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeProperty(label: "ApplicationStatus", required: true, type: .enum)
+            AWSShapeProperty(label: "ApplicationARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "ApplicationName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "ApplicationStatus", location: nil, required: true, type: .enum)
         ]
         /// ARN of the application.
         public let applicationARN: String
@@ -716,7 +716,7 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RecordRowPath", required: true, type: .string)
+            AWSShapeProperty(label: "RecordRowPath", location: nil, required: true, type: .string)
         ]
         /// Path to the top-level parent that contains the records. For example, consider the following JSON record: In the RecordRowPath, "$" refers to the root and path "$.vehicle.Model" refers to the specific "Model" key in the JSON.
         public let recordRowPath: String
@@ -735,9 +735,9 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CurrentApplicationVersionId", required: true, type: .long), 
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeProperty(label: "Output", required: true, type: .structure)
+            AWSShapeProperty(label: "CurrentApplicationVersionId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "ApplicationName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Output", location: nil, required: true, type: .structure)
         ]
         /// Version of the application to which you want add the output configuration. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned. 
         public let currentApplicationVersionId: Int64
@@ -766,8 +766,8 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RecordRowDelimiter", required: true, type: .string), 
-            AWSShapeProperty(label: "RecordColumnDelimiter", required: true, type: .string)
+            AWSShapeProperty(label: "RecordRowDelimiter", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "RecordColumnDelimiter", location: nil, required: true, type: .string)
         ]
         /// Row delimiter. For example, in a CSV format, '\n' is the typical row delimiter.
         public let recordRowDelimiter: String
@@ -791,8 +791,8 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceARN", required: false, type: .string), 
-            AWSShapeProperty(label: "RoleARN", required: false, type: .string)
+            AWSShapeProperty(label: "ResourceARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "RoleARN", location: nil, required: false, type: .string)
         ]
         /// Amazon Resource Name (ARN) of the Amazon Kinesis stream.
         public let resourceARN: String?
@@ -814,11 +814,11 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KinesisFirehoseInput", required: false, type: .structure), 
-            AWSShapeProperty(label: "InputSchema", required: true, type: .structure), 
-            AWSShapeProperty(label: "NamePrefix", required: true, type: .string), 
-            AWSShapeProperty(label: "KinesisStreamsInput", required: false, type: .structure), 
-            AWSShapeProperty(label: "InputParallelism", required: false, type: .structure)
+            AWSShapeProperty(label: "KinesisFirehoseInput", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "InputSchema", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "NamePrefix", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "KinesisStreamsInput", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "InputParallelism", location: nil, required: false, type: .structure)
         ]
         /// If the streaming source is an Amazon Kinesis Firehose delivery stream, identifies the Firehose delivery stream's ARN and an IAM role that enables Amazon Kinesis Analytics to access the stream on your behalf.
         public let kinesisFirehoseInput: KinesisFirehoseInput?
@@ -854,8 +854,8 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceARN", required: false, type: .string), 
-            AWSShapeProperty(label: "RoleARN", required: false, type: .string)
+            AWSShapeProperty(label: "ResourceARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "RoleARN", location: nil, required: false, type: .string)
         ]
         /// Amazon Resource Name (ARN) of the Amazon Kinesis Firehose delivery stream.
         public let resourceARN: String?
@@ -885,9 +885,9 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RecordFormat", required: true, type: .structure), 
-            AWSShapeProperty(label: "RecordEncoding", required: false, type: .string), 
-            AWSShapeProperty(label: "RecordColumns", required: true, type: .list)
+            AWSShapeProperty(label: "RecordFormat", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "RecordEncoding", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "RecordColumns", location: nil, required: true, type: .list)
         ]
         /// Specifies the format of the records on the streaming source.
         public let recordFormat: RecordFormat
@@ -915,8 +915,8 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeProperty(label: "RoleARN", required: true, type: .string)
+            AWSShapeProperty(label: "ResourceARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "RoleARN", location: nil, required: true, type: .string)
         ]
         /// ARN of the input Firehose delivery stream.
         public let resourceARN: String
@@ -940,8 +940,8 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", required: true, type: .string), 
-            AWSShapeProperty(label: "InputStartingPositionConfiguration", required: true, type: .structure)
+            AWSShapeProperty(label: "Id", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "InputStartingPositionConfiguration", location: nil, required: true, type: .structure)
         ]
         /// Input source ID. You can get this ID by calling the DescribeApplication operation.
         public let id: String
@@ -965,11 +965,11 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KinesisStreamsOutputDescription", required: false, type: .structure), 
-            AWSShapeProperty(label: "DestinationSchema", required: false, type: .structure), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "OutputId", required: false, type: .string), 
-            AWSShapeProperty(label: "KinesisFirehoseOutputDescription", required: false, type: .structure)
+            AWSShapeProperty(label: "KinesisStreamsOutputDescription", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "DestinationSchema", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "OutputId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "KinesisFirehoseOutputDescription", location: nil, required: false, type: .structure)
         ]
         /// Describes Amazon Kinesis stream configured as the destination where output is written.
         public let kinesisStreamsOutputDescription: KinesisStreamsOutputDescription?
@@ -1003,8 +1003,8 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeProperty(label: "RoleARN", required: true, type: .string)
+            AWSShapeProperty(label: "ResourceARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "RoleARN", location: nil, required: true, type: .string)
         ]
         /// ARN of the destination Amazon Kinesis Firehose delivery stream to write to.
         public let resourceARN: String
@@ -1028,8 +1028,8 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RoleARNUpdate", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceARNUpdate", required: false, type: .string)
+            AWSShapeProperty(label: "RoleARNUpdate", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ResourceARNUpdate", location: nil, required: false, type: .string)
         ]
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant the necessary permissions to this role.
         public let roleARNUpdate: String?
@@ -1051,7 +1051,7 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
+            AWSShapeProperty(label: "ApplicationName", location: nil, required: true, type: .string)
         ]
         /// Name of the application.
         public let applicationName: String
@@ -1070,9 +1070,9 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InputSchema", required: false, type: .structure), 
-            AWSShapeProperty(label: "ParsedInputRecords", required: false, type: .list), 
-            AWSShapeProperty(label: "RawInputRecords", required: false, type: .list)
+            AWSShapeProperty(label: "InputSchema", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "ParsedInputRecords", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "RawInputRecords", location: nil, required: false, type: .list)
         ]
         /// Schema inferred from the streaming source. It identifies the format of the data in the streaming source and how each data element maps to corresponding columns in the in-application stream that you can create.
         public let inputSchema: SourceSchema?
@@ -1098,17 +1098,17 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationDescription", required: false, type: .string), 
-            AWSShapeProperty(label: "ApplicationStatus", required: true, type: .enum), 
-            AWSShapeProperty(label: "InputDescriptions", required: false, type: .list), 
-            AWSShapeProperty(label: "LastUpdateTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "CreateTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ApplicationCode", required: false, type: .string), 
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeProperty(label: "ApplicationARN", required: true, type: .string), 
-            AWSShapeProperty(label: "ApplicationVersionId", required: true, type: .long), 
-            AWSShapeProperty(label: "OutputDescriptions", required: false, type: .list), 
-            AWSShapeProperty(label: "ReferenceDataSourceDescriptions", required: false, type: .list)
+            AWSShapeProperty(label: "ApplicationDescription", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ApplicationStatus", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "InputDescriptions", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "LastUpdateTimestamp", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "CreateTimestamp", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "ApplicationCode", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ApplicationName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "ApplicationARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "ApplicationVersionId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "OutputDescriptions", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "ReferenceDataSourceDescriptions", location: nil, required: false, type: .list)
         ]
         /// Description of the application.
         public let applicationDescription: String?
@@ -1182,9 +1182,9 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RecordColumnUpdates", required: false, type: .list), 
-            AWSShapeProperty(label: "RecordEncodingUpdate", required: false, type: .string), 
-            AWSShapeProperty(label: "RecordFormatUpdate", required: false, type: .structure)
+            AWSShapeProperty(label: "RecordColumnUpdates", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "RecordEncodingUpdate", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "RecordFormatUpdate", location: nil, required: false, type: .structure)
         ]
         /// A list of RecordColumn objects. Each object describes the mapping of the streaming source element to the corresponding column in the in-application stream. 
         public let recordColumnUpdates: [RecordColumn]?
@@ -1221,7 +1221,7 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Count", required: false, type: .integer)
+            AWSShapeProperty(label: "Count", location: nil, required: false, type: .integer)
         ]
         /// Number of in-application streams to create. For more information, see Limits. 
         public let count: Int32?
@@ -1239,8 +1239,8 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeProperty(label: "RoleARN", required: true, type: .string)
+            AWSShapeProperty(label: "ResourceARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "RoleARN", location: nil, required: true, type: .string)
         ]
         /// ARN of the input Amazon Kinesis stream to read.
         public let resourceARN: String
@@ -1272,10 +1272,10 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "S3ReferenceDataSourceDescription", required: true, type: .structure), 
-            AWSShapeProperty(label: "ReferenceId", required: true, type: .string), 
-            AWSShapeProperty(label: "TableName", required: true, type: .string), 
-            AWSShapeProperty(label: "ReferenceSchema", required: false, type: .structure)
+            AWSShapeProperty(label: "S3ReferenceDataSourceDescription", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "ReferenceId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "TableName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "ReferenceSchema", location: nil, required: false, type: .structure)
         ]
         /// Provides the S3 bucket name, the object key name that contains the reference data. It also provides the Amazon Resource Name (ARN) of the IAM role that Amazon Kinesis Analytics can assume to read the Amazon S3 object and populate the in-application reference table.
         public let s3ReferenceDataSourceDescription: S3ReferenceDataSourceDescription
@@ -1307,9 +1307,9 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CurrentApplicationVersionId", required: true, type: .long), 
-            AWSShapeProperty(label: "ReferenceId", required: true, type: .string), 
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
+            AWSShapeProperty(label: "CurrentApplicationVersionId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "ReferenceId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "ApplicationName", location: nil, required: true, type: .string)
         ]
         /// Version of the application. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned.
         public let currentApplicationVersionId: Int64
@@ -1344,10 +1344,10 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "S3ReferenceDataSourceUpdate", required: false, type: .structure), 
-            AWSShapeProperty(label: "TableNameUpdate", required: false, type: .string), 
-            AWSShapeProperty(label: "ReferenceSchemaUpdate", required: false, type: .structure), 
-            AWSShapeProperty(label: "ReferenceId", required: true, type: .string)
+            AWSShapeProperty(label: "S3ReferenceDataSourceUpdate", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "TableNameUpdate", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ReferenceSchemaUpdate", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "ReferenceId", location: nil, required: true, type: .string)
         ]
         /// Describes the S3 bucket name, object key name, and IAM role that Amazon Kinesis Analytics can assume to read the Amazon S3 object on your behalf and populate the in-application reference table.
         public let s3ReferenceDataSourceUpdate: S3ReferenceDataSourceUpdate?
@@ -1377,10 +1377,10 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KinesisFirehoseOutput", required: false, type: .structure), 
-            AWSShapeProperty(label: "DestinationSchema", required: true, type: .structure), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "KinesisStreamsOutput", required: false, type: .structure)
+            AWSShapeProperty(label: "KinesisFirehoseOutput", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "DestinationSchema", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "KinesisStreamsOutput", location: nil, required: false, type: .structure)
         ]
         /// Identifies an Amazon Kinesis Firehose delivery stream as the destination.
         public let kinesisFirehoseOutput: KinesisFirehoseOutput?
@@ -1419,8 +1419,8 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceARN", required: false, type: .string), 
-            AWSShapeProperty(label: "RoleARN", required: false, type: .string)
+            AWSShapeProperty(label: "ResourceARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "RoleARN", location: nil, required: false, type: .string)
         ]
         /// Amazon Resource Name (ARN) of the Amazon Kinesis stream.
         public let resourceARN: String?
@@ -1442,9 +1442,9 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReferenceRoleARN", required: true, type: .string), 
-            AWSShapeProperty(label: "BucketARN", required: true, type: .string), 
-            AWSShapeProperty(label: "FileKey", required: true, type: .string)
+            AWSShapeProperty(label: "ReferenceRoleARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "BucketARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "FileKey", location: nil, required: true, type: .string)
         ]
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to read the Amazon S3 object on your behalf to populate the in-application reference table.
         public let referenceRoleARN: String
@@ -1473,10 +1473,10 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OutputUpdates", required: false, type: .list), 
-            AWSShapeProperty(label: "ReferenceDataSourceUpdates", required: false, type: .list), 
-            AWSShapeProperty(label: "ApplicationCodeUpdate", required: false, type: .string), 
-            AWSShapeProperty(label: "InputUpdates", required: false, type: .list)
+            AWSShapeProperty(label: "OutputUpdates", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "ReferenceDataSourceUpdates", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "ApplicationCodeUpdate", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "InputUpdates", location: nil, required: false, type: .list)
         ]
         /// Describes application output configuration updates.
         public let outputUpdates: [OutputUpdate]?
@@ -1518,8 +1518,8 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CSVMappingParameters", required: false, type: .structure), 
-            AWSShapeProperty(label: "JSONMappingParameters", required: false, type: .structure)
+            AWSShapeProperty(label: "CSVMappingParameters", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "JSONMappingParameters", location: nil, required: false, type: .structure)
         ]
         /// Provides additional mapping information when the record format uses delimiters (for example, CSV).
         public let cSVMappingParameters: CSVMappingParameters?
@@ -1541,11 +1541,11 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NameUpdate", required: false, type: .string), 
-            AWSShapeProperty(label: "KinesisStreamsOutputUpdate", required: false, type: .structure), 
-            AWSShapeProperty(label: "KinesisFirehoseOutputUpdate", required: false, type: .structure), 
-            AWSShapeProperty(label: "DestinationSchemaUpdate", required: false, type: .structure), 
-            AWSShapeProperty(label: "OutputId", required: true, type: .string)
+            AWSShapeProperty(label: "NameUpdate", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "KinesisStreamsOutputUpdate", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "KinesisFirehoseOutputUpdate", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "DestinationSchemaUpdate", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "OutputId", location: nil, required: true, type: .string)
         ]
         /// If you want to specify a different in-application stream for this output configuration, use this field to specify the new in-application stream name.
         public let nameUpdate: String?
@@ -1579,8 +1579,8 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "ExclusiveStartApplicationName", required: false, type: .string)
+            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "ExclusiveStartApplicationName", location: nil, required: false, type: .string)
         ]
         /// Maximum number of applications to list.
         public let limit: Int32?
@@ -1602,9 +1602,9 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Mapping", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "SqlType", required: true, type: .string)
+            AWSShapeProperty(label: "Mapping", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "SqlType", location: nil, required: true, type: .string)
         ]
         /// Reference to the data element in the streaming input of the reference data source.
         public let mapping: String?
@@ -1632,7 +1632,7 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationDetail", required: true, type: .structure)
+            AWSShapeProperty(label: "ApplicationDetail", location: nil, required: true, type: .structure)
         ]
         /// Provides a description of the application, such as the application Amazon Resource Name (ARN), status, latest version, and input and output configuration details.
         public let applicationDetail: ApplicationDetail
@@ -1651,9 +1651,9 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "S3ReferenceDataSource", required: false, type: .structure), 
-            AWSShapeProperty(label: "ReferenceSchema", required: true, type: .structure), 
-            AWSShapeProperty(label: "TableName", required: true, type: .string)
+            AWSShapeProperty(label: "S3ReferenceDataSource", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "ReferenceSchema", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "TableName", location: nil, required: true, type: .string)
         ]
         public let s3ReferenceDataSource: S3ReferenceDataSource?
         public let referenceSchema: SourceSchema
@@ -1679,9 +1679,9 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CurrentApplicationVersionId", required: true, type: .long), 
-            AWSShapeProperty(label: "ApplicationUpdate", required: true, type: .structure), 
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
+            AWSShapeProperty(label: "CurrentApplicationVersionId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "ApplicationUpdate", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "ApplicationName", location: nil, required: true, type: .string)
         ]
         /// The current application version ID. You can use the DescribeApplication operation to get this value.
         public let currentApplicationVersionId: Int64
@@ -1718,9 +1718,9 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CurrentApplicationVersionId", required: true, type: .long), 
-            AWSShapeProperty(label: "Input", required: true, type: .structure), 
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
+            AWSShapeProperty(label: "CurrentApplicationVersionId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "Input", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "ApplicationName", location: nil, required: true, type: .string)
         ]
         /// Current version of your Amazon Kinesis Analytics application. You can use the DescribeApplication operation to find the current application version.
         public let currentApplicationVersionId: Int64

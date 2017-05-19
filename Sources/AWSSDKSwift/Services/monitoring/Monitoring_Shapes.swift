@@ -33,11 +33,11 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AlarmName", required: false, type: .string), 
-            AWSShapeProperty(label: "Timestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "HistoryData", required: false, type: .string), 
-            AWSShapeProperty(label: "HistorySummary", required: false, type: .string), 
-            AWSShapeProperty(label: "HistoryItemType", required: false, type: .enum)
+            AWSShapeProperty(label: "AlarmName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Timestamp", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "HistoryData", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "HistorySummary", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "HistoryItemType", location: nil, required: false, type: .enum)
         ]
         /// The descriptive name for the alarm.
         public let alarmName: String?
@@ -71,7 +71,7 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AlarmNames", required: true, type: .list)
+            AWSShapeProperty(label: "AlarmNames", location: nil, required: true, type: .list)
         ]
         /// The names of the alarms.
         public let alarmNames: [String]
@@ -90,12 +90,12 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MetricName", required: true, type: .string), 
-            AWSShapeProperty(label: "Unit", required: false, type: .enum), 
-            AWSShapeProperty(label: "Dimensions", required: false, type: .list), 
-            AWSShapeProperty(label: "Timestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Value", required: false, type: .double), 
-            AWSShapeProperty(label: "StatisticValues", required: false, type: .structure)
+            AWSShapeProperty(label: "MetricName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Unit", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "Dimensions", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "Timestamp", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Value", location: nil, required: false, type: .double), 
+            AWSShapeProperty(label: "StatisticValues", location: nil, required: false, type: .structure)
         ]
         /// The name of the metric.
         public let metricName: String
@@ -138,8 +138,8 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MetricAlarms", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+            AWSShapeProperty(label: "MetricAlarms", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
         ]
         /// The information for the specified alarms.
         public let metricAlarms: [MetricAlarm]?
@@ -172,10 +172,10 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SampleCount", required: true, type: .double), 
-            AWSShapeProperty(label: "Minimum", required: true, type: .double), 
-            AWSShapeProperty(label: "Sum", required: true, type: .double), 
-            AWSShapeProperty(label: "Maximum", required: true, type: .double)
+            AWSShapeProperty(label: "SampleCount", location: nil, required: true, type: .double), 
+            AWSShapeProperty(label: "Minimum", location: nil, required: true, type: .double), 
+            AWSShapeProperty(label: "Sum", location: nil, required: true, type: .double), 
+            AWSShapeProperty(label: "Maximum", location: nil, required: true, type: .double)
         ]
         /// The number of samples used for the statistic set.
         public let sampleCount: Double
@@ -209,7 +209,7 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AlarmNames", required: true, type: .list)
+            AWSShapeProperty(label: "AlarmNames", location: nil, required: true, type: .list)
         ]
         /// The names of the alarms.
         public let alarmNames: [String]
@@ -228,14 +228,14 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SampleCount", required: false, type: .double), 
-            AWSShapeProperty(label: "Timestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Sum", required: false, type: .double), 
-            AWSShapeProperty(label: "Unit", required: false, type: .enum), 
-            AWSShapeProperty(label: "ExtendedStatistics", required: false, type: .map), 
-            AWSShapeProperty(label: "Minimum", required: false, type: .double), 
-            AWSShapeProperty(label: "Maximum", required: false, type: .double), 
-            AWSShapeProperty(label: "Average", required: false, type: .double)
+            AWSShapeProperty(label: "SampleCount", location: nil, required: false, type: .double), 
+            AWSShapeProperty(label: "Timestamp", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Sum", location: nil, required: false, type: .double), 
+            AWSShapeProperty(label: "Unit", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "ExtendedStatistics", location: nil, required: false, type: .map), 
+            AWSShapeProperty(label: "Minimum", location: nil, required: false, type: .double), 
+            AWSShapeProperty(label: "Maximum", location: nil, required: false, type: .double), 
+            AWSShapeProperty(label: "Average", location: nil, required: false, type: .double)
         ]
         /// The number of metric values that contributed to the aggregate value of this data point.
         public let sampleCount: Double?
@@ -285,22 +285,22 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MetricName", required: true, type: .string), 
-            AWSShapeProperty(label: "Threshold", required: true, type: .double), 
-            AWSShapeProperty(label: "Period", required: true, type: .integer), 
-            AWSShapeProperty(label: "ExtendedStatistic", required: false, type: .string), 
-            AWSShapeProperty(label: "AlarmActions", required: false, type: .list), 
-            AWSShapeProperty(label: "Statistic", required: false, type: .enum), 
-            AWSShapeProperty(label: "Unit", required: false, type: .enum), 
-            AWSShapeProperty(label: "ActionsEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Namespace", required: true, type: .string), 
-            AWSShapeProperty(label: "InsufficientDataActions", required: false, type: .list), 
-            AWSShapeProperty(label: "AlarmName", required: true, type: .string), 
-            AWSShapeProperty(label: "EvaluationPeriods", required: true, type: .integer), 
-            AWSShapeProperty(label: "ComparisonOperator", required: true, type: .enum), 
-            AWSShapeProperty(label: "Dimensions", required: false, type: .list), 
-            AWSShapeProperty(label: "AlarmDescription", required: false, type: .string), 
-            AWSShapeProperty(label: "OKActions", required: false, type: .list)
+            AWSShapeProperty(label: "MetricName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Threshold", location: nil, required: true, type: .double), 
+            AWSShapeProperty(label: "Period", location: nil, required: true, type: .integer), 
+            AWSShapeProperty(label: "ExtendedStatistic", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "AlarmActions", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "Statistic", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "Unit", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "ActionsEnabled", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "Namespace", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "InsufficientDataActions", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "AlarmName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "EvaluationPeriods", location: nil, required: true, type: .integer), 
+            AWSShapeProperty(label: "ComparisonOperator", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "Dimensions", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "AlarmDescription", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "OKActions", location: nil, required: false, type: .list)
         ]
         /// The name for the metric associated with the alarm.
         public let metricName: String
@@ -389,12 +389,12 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AlarmName", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "StartDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "HistoryItemType", required: false, type: .enum), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "EndDate", required: false, type: .timestamp)
+            AWSShapeProperty(label: "AlarmName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "MaxRecords", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "StartDate", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "HistoryItemType", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "EndDate", location: nil, required: false, type: .timestamp)
         ]
         /// The name of the alarm.
         public let alarmName: String?
@@ -432,13 +432,13 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MetricName", required: true, type: .string), 
-            AWSShapeProperty(label: "Period", required: false, type: .integer), 
-            AWSShapeProperty(label: "ExtendedStatistic", required: false, type: .string), 
-            AWSShapeProperty(label: "Statistic", required: false, type: .enum), 
-            AWSShapeProperty(label: "Unit", required: false, type: .enum), 
-            AWSShapeProperty(label: "Dimensions", required: false, type: .list), 
-            AWSShapeProperty(label: "Namespace", required: true, type: .string)
+            AWSShapeProperty(label: "MetricName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Period", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "ExtendedStatistic", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Statistic", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "Unit", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "Dimensions", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "Namespace", location: nil, required: true, type: .string)
         ]
         /// The name of the metric.
         public let metricName: String
@@ -486,12 +486,12 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "AlarmNamePrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "ActionPrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "AlarmNames", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "StateValue", required: false, type: .enum)
+            AWSShapeProperty(label: "MaxRecords", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "AlarmNamePrefix", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ActionPrefix", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "AlarmNames", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "StateValue", location: nil, required: false, type: .enum)
         ]
         /// The maximum number of alarm descriptions to retrieve.
         public let maxRecords: Int32?
@@ -529,8 +529,8 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Metrics", required: false, type: .list)
+            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Metrics", location: nil, required: false, type: .list)
         ]
         /// The token that marks the start of the next batch of returned results.
         public let nextToken: String?
@@ -556,28 +556,28 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MetricName", required: false, type: .string), 
-            AWSShapeProperty(label: "Threshold", required: false, type: .double), 
-            AWSShapeProperty(label: "Period", required: false, type: .integer), 
-            AWSShapeProperty(label: "ExtendedStatistic", required: false, type: .string), 
-            AWSShapeProperty(label: "AlarmActions", required: false, type: .list), 
-            AWSShapeProperty(label: "Statistic", required: false, type: .enum), 
-            AWSShapeProperty(label: "ActionsEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "StateUpdatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Unit", required: false, type: .enum), 
-            AWSShapeProperty(label: "StateReasonData", required: false, type: .string), 
-            AWSShapeProperty(label: "StateReason", required: false, type: .string), 
-            AWSShapeProperty(label: "InsufficientDataActions", required: false, type: .list), 
-            AWSShapeProperty(label: "Namespace", required: false, type: .string), 
-            AWSShapeProperty(label: "StateValue", required: false, type: .enum), 
-            AWSShapeProperty(label: "AlarmName", required: false, type: .string), 
-            AWSShapeProperty(label: "AlarmConfigurationUpdatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "AlarmArn", required: false, type: .string), 
-            AWSShapeProperty(label: "EvaluationPeriods", required: false, type: .integer), 
-            AWSShapeProperty(label: "ComparisonOperator", required: false, type: .enum), 
-            AWSShapeProperty(label: "Dimensions", required: false, type: .list), 
-            AWSShapeProperty(label: "AlarmDescription", required: false, type: .string), 
-            AWSShapeProperty(label: "OKActions", required: false, type: .list)
+            AWSShapeProperty(label: "MetricName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Threshold", location: nil, required: false, type: .double), 
+            AWSShapeProperty(label: "Period", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "ExtendedStatistic", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "AlarmActions", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "Statistic", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "ActionsEnabled", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "StateUpdatedTimestamp", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Unit", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "StateReasonData", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "StateReason", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "InsufficientDataActions", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "Namespace", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "StateValue", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "AlarmName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "AlarmConfigurationUpdatedTimestamp", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "AlarmArn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "EvaluationPeriods", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "ComparisonOperator", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "Dimensions", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "AlarmDescription", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "OKActions", location: nil, required: false, type: .list)
         ]
         /// The name of the metric associated with the alarm.
         public let metricName: String?
@@ -714,9 +714,9 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MetricName", required: false, type: .string), 
-            AWSShapeProperty(label: "Dimensions", required: false, type: .list), 
-            AWSShapeProperty(label: "Namespace", required: false, type: .string)
+            AWSShapeProperty(label: "MetricName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Dimensions", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "Namespace", location: nil, required: false, type: .string)
         ]
         /// The name of the metric.
         public let metricName: String?
@@ -746,10 +746,10 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Namespace", required: false, type: .string), 
-            AWSShapeProperty(label: "MetricName", required: false, type: .string), 
-            AWSShapeProperty(label: "Dimensions", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+            AWSShapeProperty(label: "Namespace", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "MetricName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Dimensions", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
         ]
         /// The namespace to filter against.
         public let namespace: String?
@@ -783,7 +783,7 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AlarmNames", required: true, type: .list)
+            AWSShapeProperty(label: "AlarmNames", location: nil, required: true, type: .list)
         ]
         /// The alarms to be deleted.
         public let alarmNames: [String]
@@ -802,8 +802,8 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Namespace", required: true, type: .string), 
-            AWSShapeProperty(label: "MetricData", required: true, type: .list)
+            AWSShapeProperty(label: "Namespace", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "MetricData", location: nil, required: true, type: .list)
         ]
         /// The namespace for the metric data. You cannot specify a namespace that begins with "AWS/". Namespaces that begin with "AWS/" are reserved for use by Amazon Web Services products.
         public let namespace: String
@@ -827,15 +827,15 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "MetricName", required: true, type: .string), 
-            AWSShapeProperty(label: "Period", required: true, type: .integer), 
-            AWSShapeProperty(label: "EndTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "ExtendedStatistics", required: false, type: .list), 
-            AWSShapeProperty(label: "Dimensions", required: false, type: .list), 
-            AWSShapeProperty(label: "Unit", required: false, type: .enum), 
-            AWSShapeProperty(label: "Statistics", required: false, type: .list), 
-            AWSShapeProperty(label: "Namespace", required: true, type: .string)
+            AWSShapeProperty(label: "StartTime", location: nil, required: true, type: .timestamp), 
+            AWSShapeProperty(label: "MetricName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Period", location: nil, required: true, type: .integer), 
+            AWSShapeProperty(label: "EndTime", location: nil, required: true, type: .timestamp), 
+            AWSShapeProperty(label: "ExtendedStatistics", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "Dimensions", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "Unit", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "Statistics", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "Namespace", location: nil, required: true, type: .string)
         ]
         /// The time stamp that determines the first data point to return. Note that start times are evaluated relative to the time that CloudWatch receives the request. The value specified is inclusive; results include data points with the specified time stamp. The time stamp must be in ISO 8601 UTC format (for example, 2016-10-03T23:00:00Z). CloudWatch rounds the specified time stamp as follows:   Start time less than 15 days ago - Round down to the nearest whole minute. For example, 12:32:34 is rounded down to 12:32:00.   Start time between 15 and 63 days ago - Round down to the nearest 5-minute clock interval. For example, 12:32:34 is rounded down to 12:30:00.   Start time greater than 63 days ago - Round down to the nearest 1-hour clock interval. For example, 12:32:34 is rounded down to 12:00:00.  
         public let startTime: Date
@@ -894,8 +894,8 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+            AWSShapeProperty(label: "Value", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string)
         ]
         /// The value representing the dimension measurement.
         public let value: String
@@ -919,8 +919,8 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Label", required: false, type: .string), 
-            AWSShapeProperty(label: "Datapoints", required: false, type: .list)
+            AWSShapeProperty(label: "Label", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Datapoints", location: nil, required: false, type: .list)
         ]
         /// A label for the specified metric.
         public let label: String?
@@ -955,8 +955,8 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "AlarmHistoryItems", required: false, type: .list)
+            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "AlarmHistoryItems", location: nil, required: false, type: .list)
         ]
         /// The token that marks the start of the next batch of returned results.
         public let nextToken: String?
@@ -982,10 +982,10 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AlarmName", required: true, type: .string), 
-            AWSShapeProperty(label: "StateReasonData", required: false, type: .string), 
-            AWSShapeProperty(label: "StateReason", required: true, type: .string), 
-            AWSShapeProperty(label: "StateValue", required: true, type: .enum)
+            AWSShapeProperty(label: "AlarmName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "StateReasonData", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "StateReason", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "StateValue", location: nil, required: true, type: .enum)
         ]
         /// The name for the alarm. This name must be unique within the AWS account. The maximum length is 255 characters.
         public let alarmName: String
@@ -1033,7 +1033,7 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MetricAlarms", required: false, type: .list)
+            AWSShapeProperty(label: "MetricAlarms", location: nil, required: false, type: .list)
         ]
         /// The information for each alarm with the specified metric.
         public let metricAlarms: [MetricAlarm]?
@@ -1055,8 +1055,8 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+            AWSShapeProperty(label: "Value", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string)
         ]
         /// The value of the dimension to be matched.
         public let value: String?

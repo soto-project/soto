@@ -33,9 +33,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "agentHash", required: false, type: .string), 
-            AWSShapeProperty(label: "dockerVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "agentVersion", required: false, type: .string)
+            AWSShapeProperty(label: "agentHash", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "dockerVersion", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "agentVersion", location: nil, required: false, type: .string)
         ]
         /// The Git commit hash for the Amazon ECS container agent build on the amazon-ecs-agent  GitHub repository.
         public let agentHash: String?
@@ -61,16 +61,16 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "desiredCount", required: true, type: .integer), 
-            AWSShapeProperty(label: "clientToken", required: false, type: .string), 
-            AWSShapeProperty(label: "placementStrategy", required: false, type: .list), 
-            AWSShapeProperty(label: "cluster", required: false, type: .string), 
-            AWSShapeProperty(label: "placementConstraints", required: false, type: .list), 
-            AWSShapeProperty(label: "serviceName", required: true, type: .string), 
-            AWSShapeProperty(label: "deploymentConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "taskDefinition", required: true, type: .string), 
-            AWSShapeProperty(label: "loadBalancers", required: false, type: .list), 
-            AWSShapeProperty(label: "role", required: false, type: .string)
+            AWSShapeProperty(label: "desiredCount", location: nil, required: true, type: .integer), 
+            AWSShapeProperty(label: "clientToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "placementStrategy", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "cluster", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "placementConstraints", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "serviceName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "deploymentConfiguration", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "taskDefinition", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "loadBalancers", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "role", location: nil, required: false, type: .string)
         ]
         /// The number of instantiations of the specified task definition to place and keep running on your cluster.
         public let desiredCount: Int32
@@ -139,8 +139,8 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "containerInstances", required: false, type: .list), 
-            AWSShapeProperty(label: "failures", required: false, type: .list)
+            AWSShapeProperty(label: "containerInstances", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "failures", location: nil, required: false, type: .list)
         ]
         /// The list of container instances.
         public let containerInstances: [ContainerInstance]?
@@ -170,14 +170,14 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "desiredCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "status", required: false, type: .string), 
-            AWSShapeProperty(label: "id", required: false, type: .string), 
-            AWSShapeProperty(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "updatedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "pendingCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "taskDefinition", required: false, type: .string), 
-            AWSShapeProperty(label: "runningCount", required: false, type: .integer)
+            AWSShapeProperty(label: "desiredCount", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "status", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "id", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "createdAt", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "updatedAt", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "pendingCount", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "taskDefinition", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "runningCount", location: nil, required: false, type: .integer)
         ]
         /// The most recent desired count of tasks that was specified for the service to deploy or maintain.
         public let desiredCount: Int32?
@@ -230,7 +230,7 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "acknowledgment", required: false, type: .string)
+            AWSShapeProperty(label: "acknowledgment", location: nil, required: false, type: .string)
         ]
         /// Acknowledgement of the state change.
         public let acknowledgment: String?
@@ -248,7 +248,7 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "attributes", required: false, type: .list)
+            AWSShapeProperty(label: "attributes", location: nil, required: false, type: .list)
         ]
         /// A list of attribute objects that were successfully deleted from your resource.
         public let attributes: [Attribute]?
@@ -270,18 +270,18 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pendingTasksCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "remainingResources", required: false, type: .list), 
-            AWSShapeProperty(label: "versionInfo", required: false, type: .structure), 
-            AWSShapeProperty(label: "attributes", required: false, type: .list), 
-            AWSShapeProperty(label: "ec2InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "containerInstanceArn", required: false, type: .string), 
-            AWSShapeProperty(label: "registeredResources", required: false, type: .list), 
-            AWSShapeProperty(label: "agentConnected", required: false, type: .boolean), 
-            AWSShapeProperty(label: "agentUpdateStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "version", required: false, type: .long), 
-            AWSShapeProperty(label: "status", required: false, type: .string), 
-            AWSShapeProperty(label: "runningTasksCount", required: false, type: .integer)
+            AWSShapeProperty(label: "pendingTasksCount", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "remainingResources", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "versionInfo", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "attributes", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "ec2InstanceId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "containerInstanceArn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "registeredResources", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "agentConnected", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "agentUpdateStatus", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "version", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "status", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "runningTasksCount", location: nil, required: false, type: .integer)
         ]
         /// The number of tasks on the container instance that are in the PENDING status.
         public let pendingTasksCount: Int32?
@@ -355,7 +355,7 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "task", required: false, type: .structure)
+            AWSShapeProperty(label: "task", location: nil, required: false, type: .structure)
         ]
         /// The task that was stopped.
         public let task: Task?
@@ -373,8 +373,8 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "taskDefinitionArns", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+            AWSShapeProperty(label: "taskDefinitionArns", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
         ]
         /// The list of task definition Amazon Resource Name (ARN) entries for the ListTaskDefinitions request.
         public let taskDefinitionArns: [String]?
@@ -396,8 +396,8 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maximumPercent", required: false, type: .integer), 
-            AWSShapeProperty(label: "minimumHealthyPercent", required: false, type: .integer)
+            AWSShapeProperty(label: "maximumPercent", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "minimumHealthyPercent", location: nil, required: false, type: .integer)
         ]
         /// The upper limit (as a percentage of the service's desiredCount) of the number of tasks that are allowed in the RUNNING or PENDING state in a service during a deployment. The maximum number of tasks during a deployment is the desiredCount multiplied by maximumPercent/100, rounded down to the nearest integer value.
         public let maximumPercent: Int32?
@@ -419,9 +419,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "containerInstances", required: true, type: .list), 
-            AWSShapeProperty(label: "status", required: true, type: .enum), 
-            AWSShapeProperty(label: "cluster", required: false, type: .string)
+            AWSShapeProperty(label: "containerInstances", location: nil, required: true, type: .list), 
+            AWSShapeProperty(label: "status", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "cluster", location: nil, required: false, type: .string)
         ]
         /// A space-separated list of container instance IDs or full Amazon Resource Name (ARN) entries.
         public let containerInstances: [String]
@@ -449,7 +449,7 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "containerInstance", required: false, type: .structure)
+            AWSShapeProperty(label: "containerInstance", location: nil, required: false, type: .structure)
         ]
         /// The container instance for which the container agent was updated.
         public let containerInstance: ContainerInstance?
@@ -474,8 +474,8 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "sourceContainer", required: false, type: .string), 
-            AWSShapeProperty(label: "readOnly", required: false, type: .boolean)
+            AWSShapeProperty(label: "sourceContainer", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "readOnly", location: nil, required: false, type: .boolean)
         ]
         /// The name of the container to mount volumes from.
         public let sourceContainer: String?
@@ -497,7 +497,7 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cluster", required: false, type: .structure)
+            AWSShapeProperty(label: "cluster", location: nil, required: false, type: .structure)
         ]
         /// The full description of your new cluster.
         public let cluster: Cluster?
@@ -515,7 +515,7 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "service", required: false, type: .structure)
+            AWSShapeProperty(label: "service", location: nil, required: false, type: .structure)
         ]
         /// The full description of the deleted service.
         public let service: Service?
@@ -533,7 +533,7 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "sourcePath", required: false, type: .string)
+            AWSShapeProperty(label: "sourcePath", location: nil, required: false, type: .string)
         ]
         /// The path on the host container instance that is presented to the container. If this parameter is empty, then the Docker daemon has assigned a host path for you. If the host parameter contains a sourcePath file location, then the data volume persists at the specified location on the host container instance until you delete it manually. If the sourcePath value does not exist on the host container instance, the Docker daemon creates it. If the location does exist, the contents of the source path folder are exported.
         public let sourcePath: String?
@@ -551,8 +551,8 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "expression", required: false, type: .string)
+            AWSShapeProperty(label: "type", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "expression", location: nil, required: false, type: .string)
         ]
         /// The type of constraint. The DistinctInstance constraint ensures that each task in a particular group is running on a different container instance. The MemberOf constraint restricts selection to be from a group of valid candidates.
         public let `type`: TaskDefinitionPlacementConstraintType?
@@ -574,8 +574,8 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "failures", required: false, type: .list), 
-            AWSShapeProperty(label: "tasks", required: false, type: .list)
+            AWSShapeProperty(label: "failures", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "tasks", location: nil, required: false, type: .list)
         ]
         /// Any failures associated with the call.
         public let failures: [Failure]?
@@ -610,8 +610,8 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer)
+            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "maxResults", location: nil, required: false, type: .integer)
         ]
         /// The nextToken value returned from a previous paginated ListClusters request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
@@ -640,8 +640,8 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "options", required: false, type: .map), 
-            AWSShapeProperty(label: "logDriver", required: true, type: .enum)
+            AWSShapeProperty(label: "options", location: nil, required: false, type: .map), 
+            AWSShapeProperty(label: "logDriver", location: nil, required: true, type: .enum)
         ]
         /// The configuration options to send to the log driver. This parameter requires version 1.19 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log into your container instance and run the following command: sudo docker version | grep "Server API version" 
         public let options: [String: String]?
@@ -668,8 +668,8 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "telemetryEndpoint", required: false, type: .string), 
-            AWSShapeProperty(label: "endpoint", required: false, type: .string)
+            AWSShapeProperty(label: "telemetryEndpoint", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "endpoint", location: nil, required: false, type: .string)
         ]
         /// The telemetry endpoint for the Amazon ECS agent.
         public let telemetryEndpoint: String?
@@ -691,9 +691,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "readOnly", required: false, type: .boolean), 
-            AWSShapeProperty(label: "sourceVolume", required: false, type: .string), 
-            AWSShapeProperty(label: "containerPath", required: false, type: .string)
+            AWSShapeProperty(label: "readOnly", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "sourceVolume", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "containerPath", location: nil, required: false, type: .string)
         ]
         /// If this value is true, the container has read-only access to the volume. If this value is false, then the container can write to the volume. The default value is false.
         public let readOnly: Bool?
@@ -719,8 +719,8 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "containerInstanceArns", required: false, type: .list)
+            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "containerInstanceArns", location: nil, required: false, type: .list)
         ]
         /// The nextToken value to include in a future ListContainerInstances request. When the results of a ListContainerInstances request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -748,7 +748,7 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cluster", required: true, type: .string)
+            AWSShapeProperty(label: "cluster", location: nil, required: true, type: .string)
         ]
         /// The short name or full Amazon Resource Name (ARN) of the cluster to delete.
         public let cluster: String
@@ -767,32 +767,32 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "memoryReservation", required: false, type: .integer), 
-            AWSShapeProperty(label: "portMappings", required: false, type: .list), 
-            AWSShapeProperty(label: "cpu", required: false, type: .integer), 
-            AWSShapeProperty(label: "readonlyRootFilesystem", required: false, type: .boolean), 
-            AWSShapeProperty(label: "mountPoints", required: false, type: .list), 
-            AWSShapeProperty(label: "memory", required: false, type: .integer), 
-            AWSShapeProperty(label: "disableNetworking", required: false, type: .boolean), 
-            AWSShapeProperty(label: "dockerLabels", required: false, type: .map), 
-            AWSShapeProperty(label: "image", required: false, type: .string), 
-            AWSShapeProperty(label: "command", required: false, type: .list), 
-            AWSShapeProperty(label: "hostname", required: false, type: .string), 
-            AWSShapeProperty(label: "volumesFrom", required: false, type: .list), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "user", required: false, type: .string), 
-            AWSShapeProperty(label: "essential", required: false, type: .boolean), 
-            AWSShapeProperty(label: "workingDirectory", required: false, type: .string), 
-            AWSShapeProperty(label: "dnsServers", required: false, type: .list), 
-            AWSShapeProperty(label: "logConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "ulimits", required: false, type: .list), 
-            AWSShapeProperty(label: "dockerSecurityOptions", required: false, type: .list), 
-            AWSShapeProperty(label: "environment", required: false, type: .list), 
-            AWSShapeProperty(label: "entryPoint", required: false, type: .list), 
-            AWSShapeProperty(label: "privileged", required: false, type: .boolean), 
-            AWSShapeProperty(label: "dnsSearchDomains", required: false, type: .list), 
-            AWSShapeProperty(label: "links", required: false, type: .list), 
-            AWSShapeProperty(label: "extraHosts", required: false, type: .list)
+            AWSShapeProperty(label: "memoryReservation", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "portMappings", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "cpu", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "readonlyRootFilesystem", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "mountPoints", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "memory", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "disableNetworking", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "dockerLabels", location: nil, required: false, type: .map), 
+            AWSShapeProperty(label: "image", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "command", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "hostname", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "volumesFrom", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "user", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "essential", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "workingDirectory", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "dnsServers", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "logConfiguration", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "ulimits", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "dockerSecurityOptions", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "environment", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "entryPoint", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "privileged", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "dnsSearchDomains", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "links", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "extraHosts", location: nil, required: false, type: .list)
         ]
         /// The soft limit (in MiB) of memory to reserve for the container. When system memory is under heavy contention, Docker attempts to keep the container memory to this soft limit; however, your container can consume more memory when it needs to, up to either the hard limit specified with the memory parameter (if applicable), or all of the available memory on the container instance, whichever comes first. This parameter maps to MemoryReservation in the Create a container section of the Docker Remote API and the --memory-reservation option to docker run. You must specify a non-zero integer for one or both of memory or memoryReservation in container definitions. If you specify both, memory must be greater than memoryReservation. If you specify memoryReservation, then that value is subtracted from the available memory resources for the container instance on which the container is placed; otherwise, the value of memory is used. For example, if your container normally uses 128 MiB of memory, but occasionally bursts to 256 MiB of memory for short periods of time, you can set a memoryReservation of 128 MiB, and a memory hard limit of 300 MiB. This configuration would allow the container to only reserve 128 MiB of memory from the remaining resources on the container instance, but also allow the container to consume more memory resources when needed.
         public let memoryReservation: Int32?
@@ -938,8 +938,8 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "service", required: true, type: .string), 
-            AWSShapeProperty(label: "cluster", required: false, type: .string)
+            AWSShapeProperty(label: "service", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "cluster", location: nil, required: false, type: .string)
         ]
         /// The name of the service to delete.
         public let service: String
@@ -968,10 +968,10 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "value", required: false, type: .string), 
-            AWSShapeProperty(label: "targetId", required: false, type: .string), 
-            AWSShapeProperty(label: "targetType", required: false, type: .enum)
+            AWSShapeProperty(label: "name", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "value", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "targetId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "targetType", location: nil, required: false, type: .enum)
         ]
         /// The name of the attribute. Up to 128 letters (uppercase and lowercase), numbers, hyphens, underscores, and periods are allowed.
         public let name: String
@@ -1009,9 +1009,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "task", required: true, type: .string), 
-            AWSShapeProperty(label: "reason", required: false, type: .string), 
-            AWSShapeProperty(label: "cluster", required: false, type: .string)
+            AWSShapeProperty(label: "task", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "reason", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "cluster", location: nil, required: false, type: .string)
         ]
         /// The task ID or full Amazon Resource Name (ARN) entry of the task to stop.
         public let task: String
@@ -1038,8 +1038,8 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "clusters", required: false, type: .list), 
-            AWSShapeProperty(label: "failures", required: false, type: .list)
+            AWSShapeProperty(label: "clusters", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "failures", location: nil, required: false, type: .list)
         ]
         /// The list of clusters.
         public let clusters: [Cluster]?
@@ -1069,12 +1069,12 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "longValue", required: false, type: .long), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "doubleValue", required: false, type: .double), 
-            AWSShapeProperty(label: "type", required: false, type: .string), 
-            AWSShapeProperty(label: "integerValue", required: false, type: .integer), 
-            AWSShapeProperty(label: "stringSetValue", required: false, type: .list)
+            AWSShapeProperty(label: "longValue", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "doubleValue", location: nil, required: false, type: .double), 
+            AWSShapeProperty(label: "type", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "integerValue", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "stringSetValue", location: nil, required: false, type: .list)
         ]
         /// When the longValue type is set, the value of the resource must be an extended precision floating-point type.
         public let longValue: Int64?
@@ -1112,12 +1112,12 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "placementConstraints", required: false, type: .list), 
-            AWSShapeProperty(label: "containerDefinitions", required: true, type: .list), 
-            AWSShapeProperty(label: "family", required: true, type: .string), 
-            AWSShapeProperty(label: "networkMode", required: false, type: .enum), 
-            AWSShapeProperty(label: "taskRoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "volumes", required: false, type: .list)
+            AWSShapeProperty(label: "placementConstraints", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "containerDefinitions", location: nil, required: true, type: .list), 
+            AWSShapeProperty(label: "family", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "networkMode", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "taskRoleArn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "volumes", location: nil, required: false, type: .list)
         ]
         /// An array of placement constraint objects to use for the task. You can specify a maximum of 10 constraints per task (this limit includes constraints in the task definition and those specified at run time).
         public let placementConstraints: [TaskDefinitionPlacementConstraint]?
@@ -1165,8 +1165,8 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "families", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+            AWSShapeProperty(label: "families", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
         ]
         /// The list of task definition family names that match the ListTaskDefinitionFamilies request.
         public let families: [String]?
@@ -1193,9 +1193,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "command", required: false, type: .list), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "environment", required: false, type: .list)
+            AWSShapeProperty(label: "command", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "environment", location: nil, required: false, type: .list)
         ]
         /// The command to send to the container that overrides the default command from the Docker image or the task definition.
         public let command: [String]?
@@ -1225,7 +1225,7 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "taskDefinition", required: true, type: .string)
+            AWSShapeProperty(label: "taskDefinition", location: nil, required: true, type: .string)
         ]
         /// The family and revision (family:revision) or full Amazon Resource Name (ARN) of the task definition to deregister. You must specify a revision.
         public let taskDefinition: String
@@ -1244,14 +1244,14 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "containerInstance", required: false, type: .string), 
-            AWSShapeProperty(label: "family", required: false, type: .string), 
-            AWSShapeProperty(label: "cluster", required: false, type: .string), 
-            AWSShapeProperty(label: "serviceName", required: false, type: .string), 
-            AWSShapeProperty(label: "desiredStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "startedBy", required: false, type: .string)
+            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "containerInstance", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "family", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "cluster", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "serviceName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "desiredStatus", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "maxResults", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "startedBy", location: nil, required: false, type: .string)
         ]
         /// The nextToken value returned from a previous paginated ListTasks request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
@@ -1297,8 +1297,8 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cluster", required: false, type: .string), 
-            AWSShapeProperty(label: "attributes", required: true, type: .list)
+            AWSShapeProperty(label: "cluster", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "attributes", location: nil, required: true, type: .list)
         ]
         /// The short name or full Amazon Resource Name (ARN) of the cluster that contains the resource to apply attributes. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
@@ -1321,22 +1321,22 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "roleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "clusterArn", required: false, type: .string), 
-            AWSShapeProperty(label: "placementStrategy", required: false, type: .list), 
-            AWSShapeProperty(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "serviceName", required: false, type: .string), 
-            AWSShapeProperty(label: "pendingCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "deployments", required: false, type: .list), 
-            AWSShapeProperty(label: "loadBalancers", required: false, type: .list), 
-            AWSShapeProperty(label: "events", required: false, type: .list), 
-            AWSShapeProperty(label: "serviceArn", required: false, type: .string), 
-            AWSShapeProperty(label: "desiredCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "status", required: false, type: .string), 
-            AWSShapeProperty(label: "placementConstraints", required: false, type: .list), 
-            AWSShapeProperty(label: "deploymentConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "taskDefinition", required: false, type: .string), 
-            AWSShapeProperty(label: "runningCount", required: false, type: .integer)
+            AWSShapeProperty(label: "roleArn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "clusterArn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "placementStrategy", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "createdAt", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "serviceName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "pendingCount", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "deployments", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "loadBalancers", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "events", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "serviceArn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "desiredCount", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "status", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "placementConstraints", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "deploymentConfiguration", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "taskDefinition", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "runningCount", location: nil, required: false, type: .integer)
         ]
         /// The Amazon Resource Name (ARN) of the IAM role associated with the service that allows the Amazon ECS container agent to register container instances with an Elastic Load Balancing load balancer.
         public let roleArn: String?
@@ -1434,11 +1434,11 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "service", required: true, type: .string), 
-            AWSShapeProperty(label: "desiredCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "deploymentConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "taskDefinition", required: false, type: .string), 
-            AWSShapeProperty(label: "cluster", required: false, type: .string)
+            AWSShapeProperty(label: "service", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "desiredCount", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "deploymentConfiguration", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "taskDefinition", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "cluster", location: nil, required: false, type: .string)
         ]
         /// The name of the service to update.
         public let service: String
@@ -1473,7 +1473,7 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "taskDefinition", required: false, type: .structure)
+            AWSShapeProperty(label: "taskDefinition", location: nil, required: false, type: .structure)
         ]
         /// The full task definition description.
         public let taskDefinition: TaskDefinition?
@@ -1491,8 +1491,8 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cluster", required: false, type: .string), 
-            AWSShapeProperty(label: "containerInstance", required: false, type: .string)
+            AWSShapeProperty(label: "cluster", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "containerInstance", location: nil, required: false, type: .string)
         ]
         /// The cluster that the container instance belongs to.
         public let cluster: String?
@@ -1514,8 +1514,8 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "failures", required: false, type: .list), 
-            AWSShapeProperty(label: "tasks", required: false, type: .list)
+            AWSShapeProperty(label: "failures", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "tasks", location: nil, required: false, type: .list)
         ]
         /// Any failures associated with the call.
         public let failures: [Failure]?
@@ -1545,8 +1545,8 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cluster", required: false, type: .string), 
-            AWSShapeProperty(label: "attributes", required: true, type: .list)
+            AWSShapeProperty(label: "cluster", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "attributes", location: nil, required: true, type: .list)
         ]
         /// The short name or full Amazon Resource Name (ARN) of the cluster that contains the resource to apply attributes. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
@@ -1569,11 +1569,11 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "filter", required: false, type: .string), 
-            AWSShapeProperty(label: "cluster", required: false, type: .string)
+            AWSShapeProperty(label: "status", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "maxResults", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "filter", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "cluster", location: nil, required: false, type: .string)
         ]
         /// The container instance status with which to filter the ListContainerInstances results. Specifying a container instance status of DRAINING limits the results to container instances that have been set to drain with the UpdateContainerInstancesState operation.
         public let status: ContainerInstanceStatus?
@@ -1613,8 +1613,8 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "host", required: false, type: .structure)
+            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "host", location: nil, required: false, type: .structure)
         ]
         /// The name of the volume. Up to 255 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed. This name is referenced in the sourceVolume parameter of container definition mountPoints.
         public let name: String?
@@ -1636,9 +1636,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "protocol", required: false, type: .enum), 
-            AWSShapeProperty(label: "containerPort", required: false, type: .integer), 
-            AWSShapeProperty(label: "hostPort", required: false, type: .integer)
+            AWSShapeProperty(label: "protocol", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "containerPort", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "hostPort", location: nil, required: false, type: .integer)
         ]
         /// The protocol used for the port mapping. Valid values are tcp and udp. The default is tcp.
         public let `protocol`: TransportProtocol?
@@ -1664,9 +1664,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "softLimit", required: true, type: .integer), 
-            AWSShapeProperty(label: "name", required: true, type: .enum), 
-            AWSShapeProperty(label: "hardLimit", required: true, type: .integer)
+            AWSShapeProperty(label: "softLimit", location: nil, required: true, type: .integer), 
+            AWSShapeProperty(label: "name", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "hardLimit", location: nil, required: true, type: .integer)
         ]
         /// The soft limit for the ulimit type.
         public let softLimit: Int32
@@ -1695,8 +1695,8 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "services", required: false, type: .list), 
-            AWSShapeProperty(label: "failures", required: false, type: .list)
+            AWSShapeProperty(label: "services", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "failures", location: nil, required: false, type: .list)
         ]
         /// The list of services described.
         public let services: [Service]?
@@ -1726,13 +1726,13 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "reason", required: false, type: .string), 
-            AWSShapeProperty(label: "networkBindings", required: false, type: .list), 
-            AWSShapeProperty(label: "containerArn", required: false, type: .string), 
-            AWSShapeProperty(label: "exitCode", required: false, type: .integer), 
-            AWSShapeProperty(label: "taskArn", required: false, type: .string), 
-            AWSShapeProperty(label: "lastStatus", required: false, type: .string)
+            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "reason", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "networkBindings", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "containerArn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "exitCode", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "taskArn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "lastStatus", location: nil, required: false, type: .string)
         ]
         /// The name of the container.
         public let name: String?
@@ -1778,7 +1778,7 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "taskDefinition", required: true, type: .string)
+            AWSShapeProperty(label: "taskDefinition", location: nil, required: true, type: .string)
         ]
         /// The family for the latest ACTIVE revision, family and revision (family:revision) for a specific revision in the family, or full Amazon Resource Name (ARN) of the task definition to describe.
         public let taskDefinition: String
@@ -1797,10 +1797,10 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "targetGroupArn", required: false, type: .string), 
-            AWSShapeProperty(label: "loadBalancerName", required: false, type: .string), 
-            AWSShapeProperty(label: "containerPort", required: false, type: .integer), 
-            AWSShapeProperty(label: "containerName", required: false, type: .string)
+            AWSShapeProperty(label: "targetGroupArn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "loadBalancerName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "containerPort", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "containerName", location: nil, required: false, type: .string)
         ]
         /// The full Amazon Resource Name (ARN) of the Elastic Load Balancing target group associated with a service.
         public let targetGroupArn: String?
@@ -1830,8 +1830,8 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "containerInstances", required: false, type: .list), 
-            AWSShapeProperty(label: "failures", required: false, type: .list)
+            AWSShapeProperty(label: "containerInstances", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "failures", location: nil, required: false, type: .list)
         ]
         /// The list of container instances.
         public let containerInstances: [ContainerInstance]?
@@ -1861,13 +1861,13 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pendingTasksCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "status", required: false, type: .string), 
-            AWSShapeProperty(label: "clusterArn", required: false, type: .string), 
-            AWSShapeProperty(label: "clusterName", required: false, type: .string), 
-            AWSShapeProperty(label: "registeredContainerInstancesCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "runningTasksCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "activeServicesCount", required: false, type: .integer)
+            AWSShapeProperty(label: "pendingTasksCount", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "status", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "clusterArn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "clusterName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "registeredContainerInstancesCount", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "runningTasksCount", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "activeServicesCount", location: nil, required: false, type: .integer)
         ]
         /// The number of tasks in the cluster that are in the PENDING state.
         public let pendingTasksCount: Int32?
@@ -1909,12 +1909,12 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "overrides", required: false, type: .structure), 
-            AWSShapeProperty(label: "taskDefinition", required: true, type: .string), 
-            AWSShapeProperty(label: "containerInstances", required: true, type: .list), 
-            AWSShapeProperty(label: "startedBy", required: false, type: .string), 
-            AWSShapeProperty(label: "group", required: false, type: .string), 
-            AWSShapeProperty(label: "cluster", required: false, type: .string)
+            AWSShapeProperty(label: "overrides", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "taskDefinition", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "containerInstances", location: nil, required: true, type: .list), 
+            AWSShapeProperty(label: "startedBy", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "group", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "cluster", location: nil, required: false, type: .string)
         ]
         /// A list of container overrides in JSON format that specify the name of a container in the specified task definition and the overrides it should receive. You can override the default command for a container (that is specified in the task definition or Docker image) with a command override. You can also override existing environment variables (that are specified in the task definition or Docker image) on a container or add new environment variables to it with an environment override.  A total of 8192 characters are allowed for overrides. This limit includes the JSON formatting characters of the override structure. 
         public let overrides: TaskOverride?
@@ -1954,16 +1954,16 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "revision", required: false, type: .integer), 
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "requiresAttributes", required: false, type: .list), 
-            AWSShapeProperty(label: "family", required: false, type: .string), 
-            AWSShapeProperty(label: "volumes", required: false, type: .list), 
-            AWSShapeProperty(label: "taskRoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "networkMode", required: false, type: .enum), 
-            AWSShapeProperty(label: "placementConstraints", required: false, type: .list), 
-            AWSShapeProperty(label: "containerDefinitions", required: false, type: .list), 
-            AWSShapeProperty(label: "taskDefinitionArn", required: false, type: .string)
+            AWSShapeProperty(label: "revision", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "status", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "requiresAttributes", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "family", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "volumes", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "taskRoleArn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "networkMode", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "placementConstraints", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "containerDefinitions", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "taskDefinitionArn", location: nil, required: false, type: .string)
         ]
         /// The revision of the task in a particular family. The revision is a version number of a task definition in a family. When you register a task definition for the first time, the revision is 1; each time you register a new revision of a task definition in the same family, the revision value always increases by one (even if you have deregistered previous revisions in this family).
         public let revision: Int32?
@@ -2033,8 +2033,8 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "hostname", required: true, type: .string), 
-            AWSShapeProperty(label: "ipAddress", required: true, type: .string)
+            AWSShapeProperty(label: "hostname", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "ipAddress", location: nil, required: true, type: .string)
         ]
         /// The hostname to use in the /etc/hosts entry.
         public let hostname: String
@@ -2058,8 +2058,8 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "field", required: false, type: .string)
+            AWSShapeProperty(label: "type", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "field", location: nil, required: false, type: .string)
         ]
         /// The type of placement strategy. The random placement strategy randomly places tasks on available candidates. The spread placement strategy spreads placement across available candidates evenly based on the field parameter. The binpack strategy places tasks on available candidates that have the least available amount of the resource that is specified with the field parameter. For example, if you binpack on memory, a task is placed on the instance with the least amount of remaining memory (but still enough to run the task).
         public let `type`: PlacementStrategyType?
@@ -2117,9 +2117,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "id", required: false, type: .string), 
-            AWSShapeProperty(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "message", required: false, type: .string)
+            AWSShapeProperty(label: "id", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "createdAt", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "message", location: nil, required: false, type: .string)
         ]
         /// The ID string of the event.
         public let id: String?
@@ -2145,7 +2145,7 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "acknowledgment", required: false, type: .string)
+            AWSShapeProperty(label: "acknowledgment", location: nil, required: false, type: .string)
         ]
         /// Acknowledgement of the state change.
         public let acknowledgment: String?
@@ -2163,7 +2163,7 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "service", required: false, type: .structure)
+            AWSShapeProperty(label: "service", location: nil, required: false, type: .structure)
         ]
         /// The full description of your service following the update call.
         public let service: Service?
@@ -2181,7 +2181,7 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "clusterName", required: false, type: .string)
+            AWSShapeProperty(label: "clusterName", location: nil, required: false, type: .string)
         ]
         /// The name of your cluster. If you do not specify a name for your cluster, you create a cluster named default. Up to 255 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed.
         public let clusterName: String?
@@ -2199,10 +2199,10 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", required: false, type: .string), 
-            AWSShapeProperty(label: "reason", required: false, type: .string), 
-            AWSShapeProperty(label: "cluster", required: false, type: .string), 
-            AWSShapeProperty(label: "task", required: false, type: .string)
+            AWSShapeProperty(label: "status", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "reason", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "cluster", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "task", location: nil, required: false, type: .string)
         ]
         /// The status of the state change request.
         public let status: String?
@@ -2232,7 +2232,7 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "taskDefinition", required: false, type: .structure)
+            AWSShapeProperty(label: "taskDefinition", location: nil, required: false, type: .structure)
         ]
         /// The full description of the registered task definition.
         public let taskDefinition: TaskDefinition?
@@ -2250,7 +2250,7 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "service", required: false, type: .structure)
+            AWSShapeProperty(label: "service", location: nil, required: false, type: .structure)
         ]
         /// The full description of your service following the create call.
         public let service: Service?
@@ -2268,9 +2268,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "force", required: false, type: .boolean), 
-            AWSShapeProperty(label: "cluster", required: false, type: .string), 
-            AWSShapeProperty(label: "containerInstance", required: true, type: .string)
+            AWSShapeProperty(label: "force", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "cluster", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "containerInstance", location: nil, required: true, type: .string)
         ]
         /// Forces the deregistration of the container instance. If you have tasks running on the container instance when you deregister it with the force option, these tasks remain running until you terminate the instance or the tasks stop through some other means, but they are orphaned (no longer monitored or accounted for by Amazon ECS). If an orphaned task on your container instance is part of an Amazon ECS service, then the service scheduler starts another copy of that task, on a different container instance if possible.  Any containers in orphaned service tasks that are registered with a Classic load balancer or an Application load balancer target group are deregistered, and they will begin connection draining according to the settings on the load balancer or target group.
         public let force: Bool?
@@ -2313,7 +2313,7 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "containerInstance", required: false, type: .structure)
+            AWSShapeProperty(label: "containerInstance", location: nil, required: false, type: .structure)
         ]
         /// The container instance that was deregistered.
         public let containerInstance: ContainerInstance?
@@ -2331,8 +2331,8 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cluster", required: false, type: .string), 
-            AWSShapeProperty(label: "tasks", required: true, type: .list)
+            AWSShapeProperty(label: "cluster", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "tasks", location: nil, required: true, type: .list)
         ]
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the task to describe. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
@@ -2355,7 +2355,7 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cluster", required: false, type: .structure)
+            AWSShapeProperty(label: "cluster", location: nil, required: false, type: .structure)
         ]
         /// The full description of the deleted cluster.
         public let cluster: Cluster?
@@ -2373,7 +2373,7 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "taskDefinition", required: false, type: .structure)
+            AWSShapeProperty(label: "taskDefinition", location: nil, required: false, type: .structure)
         ]
         /// The full description of the deregistered task.
         public let taskDefinition: TaskDefinition?
@@ -2391,11 +2391,11 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "familyPrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "sort", required: false, type: .enum)
+            AWSShapeProperty(label: "familyPrefix", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "status", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "maxResults", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "sort", location: nil, required: false, type: .enum)
         ]
         /// The full family name with which to filter the ListTaskDefinitions results. Specifying a familyPrefix limits the listed task definitions to task definition revisions that belong to that family.
         public let familyPrefix: String?
@@ -2429,7 +2429,7 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "containerInstance", required: false, type: .structure)
+            AWSShapeProperty(label: "containerInstance", location: nil, required: false, type: .structure)
         ]
         /// The container instance that was registered.
         public let containerInstance: ContainerInstance?
@@ -2447,8 +2447,8 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "services", required: true, type: .list), 
-            AWSShapeProperty(label: "cluster", required: false, type: .string)
+            AWSShapeProperty(label: "services", location: nil, required: true, type: .list), 
+            AWSShapeProperty(label: "cluster", location: nil, required: false, type: .string)
         ]
         /// A list of services to describe. You may specify up to 10 services to describe in a single operation.
         public let services: [String]
@@ -2471,14 +2471,14 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "overrides", required: false, type: .structure), 
-            AWSShapeProperty(label: "placementStrategy", required: false, type: .list), 
-            AWSShapeProperty(label: "cluster", required: false, type: .string), 
-            AWSShapeProperty(label: "count", required: false, type: .integer), 
-            AWSShapeProperty(label: "placementConstraints", required: false, type: .list), 
-            AWSShapeProperty(label: "startedBy", required: false, type: .string), 
-            AWSShapeProperty(label: "taskDefinition", required: true, type: .string), 
-            AWSShapeProperty(label: "group", required: false, type: .string)
+            AWSShapeProperty(label: "overrides", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "placementStrategy", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "cluster", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "count", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "placementConstraints", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "startedBy", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "taskDefinition", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "group", location: nil, required: false, type: .string)
         ]
         /// A list of container overrides in JSON format that specify the name of a container in the specified task definition and the overrides it should receive. You can override the default command for a container (that is specified in the task definition or Docker image) with a command override. You can also override existing environment variables (that are specified in the task definition or Docker image) on a container or add new environment variables to it with an environment override.  A total of 8192 characters are allowed for overrides. This limit includes the JSON formatting characters of the override structure. 
         public let overrides: TaskOverride?
@@ -2533,12 +2533,12 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "attributeValue", required: false, type: .string), 
-            AWSShapeProperty(label: "targetType", required: true, type: .enum), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "attributeName", required: false, type: .string), 
-            AWSShapeProperty(label: "cluster", required: false, type: .string)
+            AWSShapeProperty(label: "attributeValue", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "targetType", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "maxResults", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "attributeName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "cluster", location: nil, required: false, type: .string)
         ]
         /// The value of the attribute with which to filter results. You must also specify an attribute name to use this parameter.
         public let attributeValue: String?
@@ -2577,8 +2577,8 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "expression", required: false, type: .string)
+            AWSShapeProperty(label: "type", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "expression", location: nil, required: false, type: .string)
         ]
         /// The type of constraint. Use distinctInstance to ensure that each task in a particular group is running on a different container instance. Use memberOf to restrict selection to a group of valid candidates. Note that distinctInstance is not supported in task definitions.
         public let `type`: PlacementConstraintType?
@@ -2600,8 +2600,8 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "containerOverrides", required: false, type: .list), 
-            AWSShapeProperty(label: "taskRoleArn", required: false, type: .string)
+            AWSShapeProperty(label: "containerOverrides", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "taskRoleArn", location: nil, required: false, type: .string)
         ]
         /// One or more container overrides sent to a task.
         public let containerOverrides: [ContainerOverride]?
@@ -2627,8 +2627,8 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "taskArns", required: false, type: .list)
+            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "taskArns", location: nil, required: false, type: .list)
         ]
         /// The nextToken value to include in a future ListTasks request. When the results of a ListTasks request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -2650,8 +2650,8 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "attributes", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+            AWSShapeProperty(label: "attributes", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
         ]
         /// A list of attribute objects that meet the criteria of the request.
         public let attributes: [Attribute]?
@@ -2677,9 +2677,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "cluster", required: false, type: .string)
+            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "maxResults", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "cluster", location: nil, required: false, type: .string)
         ]
         /// The nextToken value returned from a previous paginated ListServices request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
@@ -2705,7 +2705,7 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "attributes", required: false, type: .list)
+            AWSShapeProperty(label: "attributes", location: nil, required: false, type: .list)
         ]
         /// The attributes applied to your resource.
         public let attributes: [Attribute]?
@@ -2727,13 +2727,13 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "versionInfo", required: false, type: .structure), 
-            AWSShapeProperty(label: "attributes", required: false, type: .list), 
-            AWSShapeProperty(label: "containerInstanceArn", required: false, type: .string), 
-            AWSShapeProperty(label: "cluster", required: false, type: .string), 
-            AWSShapeProperty(label: "totalResources", required: false, type: .list), 
-            AWSShapeProperty(label: "instanceIdentityDocumentSignature", required: false, type: .string), 
-            AWSShapeProperty(label: "instanceIdentityDocument", required: false, type: .string)
+            AWSShapeProperty(label: "versionInfo", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "attributes", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "containerInstanceArn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "cluster", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "totalResources", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "instanceIdentityDocumentSignature", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "instanceIdentityDocument", location: nil, required: false, type: .string)
         ]
         /// The version information for the Amazon ECS container agent and Docker daemon running on the container instance.
         public let versionInfo: VersionInfo?
@@ -2783,21 +2783,21 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "clusterArn", required: false, type: .string), 
-            AWSShapeProperty(label: "overrides", required: false, type: .structure), 
-            AWSShapeProperty(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "startedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "desiredStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "taskDefinitionArn", required: false, type: .string), 
-            AWSShapeProperty(label: "containers", required: false, type: .list), 
-            AWSShapeProperty(label: "stoppedReason", required: false, type: .string), 
-            AWSShapeProperty(label: "containerInstanceArn", required: false, type: .string), 
-            AWSShapeProperty(label: "stoppedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "version", required: false, type: .long), 
-            AWSShapeProperty(label: "taskArn", required: false, type: .string), 
-            AWSShapeProperty(label: "startedBy", required: false, type: .string), 
-            AWSShapeProperty(label: "group", required: false, type: .string), 
-            AWSShapeProperty(label: "lastStatus", required: false, type: .string)
+            AWSShapeProperty(label: "clusterArn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "overrides", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "createdAt", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "startedAt", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "desiredStatus", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "taskDefinitionArn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "containers", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "stoppedReason", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "containerInstanceArn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "stoppedAt", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "version", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "taskArn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "startedBy", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "group", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "lastStatus", location: nil, required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the cluster that hosts the task.
         public let clusterArn: String?
@@ -2875,8 +2875,8 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cluster", required: false, type: .string), 
-            AWSShapeProperty(label: "containerInstance", required: true, type: .string)
+            AWSShapeProperty(label: "cluster", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "containerInstance", location: nil, required: true, type: .string)
         ]
         /// The short name or full Amazon Resource Name (ARN) of the cluster that your container instance is running on. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
@@ -2899,8 +2899,8 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "clusterArns", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+            AWSShapeProperty(label: "clusterArns", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
         ]
         /// The list of full Amazon Resource Name (ARN) entries for each cluster associated with your account.
         public let clusterArns: [String]?
@@ -2922,7 +2922,7 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "clusters", required: false, type: .list)
+            AWSShapeProperty(label: "clusters", location: nil, required: false, type: .list)
         ]
         /// A space-separated list of up to 100 cluster names or full cluster Amazon Resource Name (ARN) entries. If you do not specify a cluster, the default cluster is assumed.
         public let clusters: [String]?
@@ -2940,8 +2940,8 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "failures", required: false, type: .list), 
-            AWSShapeProperty(label: "tasks", required: false, type: .list)
+            AWSShapeProperty(label: "failures", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "tasks", location: nil, required: false, type: .list)
         ]
         /// Any failures associated with the call.
         public let failures: [Failure]?
@@ -2971,8 +2971,8 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "serviceArns", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+            AWSShapeProperty(label: "serviceArns", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
         ]
         /// The list of full Amazon Resource Name (ARN) entries for each service associated with the specified cluster.
         public let serviceArns: [String]?
@@ -2994,8 +2994,8 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "value", required: false, type: .string)
+            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "value", location: nil, required: false, type: .string)
         ]
         /// The name of the key value pair. For environment variables, this is the name of the environment variable.
         public let name: String?
@@ -3017,13 +3017,13 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", required: false, type: .string), 
-            AWSShapeProperty(label: "reason", required: false, type: .string), 
-            AWSShapeProperty(label: "networkBindings", required: false, type: .list), 
-            AWSShapeProperty(label: "cluster", required: false, type: .string), 
-            AWSShapeProperty(label: "exitCode", required: false, type: .integer), 
-            AWSShapeProperty(label: "task", required: false, type: .string), 
-            AWSShapeProperty(label: "containerName", required: false, type: .string)
+            AWSShapeProperty(label: "status", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "reason", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "networkBindings", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "cluster", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "exitCode", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "task", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "containerName", location: nil, required: false, type: .string)
         ]
         /// The status of the state change request.
         public let status: String?
@@ -3069,10 +3069,10 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "familyPrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer)
+            AWSShapeProperty(label: "familyPrefix", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "status", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "maxResults", location: nil, required: false, type: .integer)
         ]
         /// The familyPrefix is a string that is used to filter the results of ListTaskDefinitionFamilies. If you specify a familyPrefix, only task definition family names that begin with the familyPrefix string are returned.
         public let familyPrefix: String?
@@ -3102,10 +3102,10 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "hostPort", required: false, type: .integer), 
-            AWSShapeProperty(label: "protocol", required: false, type: .enum), 
-            AWSShapeProperty(label: "containerPort", required: false, type: .integer), 
-            AWSShapeProperty(label: "bindIP", required: false, type: .string)
+            AWSShapeProperty(label: "hostPort", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "protocol", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "containerPort", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "bindIP", location: nil, required: false, type: .string)
         ]
         /// The port number on the host that is used with the network binding.
         public let hostPort: Int32?
@@ -3135,8 +3135,8 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "reason", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: false, type: .string)
+            AWSShapeProperty(label: "reason", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "arn", location: nil, required: false, type: .string)
         ]
         /// The reason for the failure.
         public let reason: String?
@@ -3158,8 +3158,8 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "containerInstances", required: true, type: .list), 
-            AWSShapeProperty(label: "cluster", required: false, type: .string)
+            AWSShapeProperty(label: "containerInstances", location: nil, required: true, type: .list), 
+            AWSShapeProperty(label: "cluster", location: nil, required: false, type: .string)
         ]
         /// A space-separated list of container instance IDs or full Amazon Resource Name (ARN) entries.
         public let containerInstances: [String]

@@ -33,9 +33,9 @@ extension Importexport {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxJobs", required: false, type: .integer), 
-            AWSShapeProperty(label: "APIVersion", required: false, type: .string)
+            AWSShapeProperty(label: "Marker", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "MaxJobs", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "APIVersion", location: nil, required: false, type: .string)
         ]
         public let marker: String?
         public let maxJobs: Int32?
@@ -58,11 +58,11 @@ extension Importexport {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "JobType", required: true, type: .enum), 
-            AWSShapeProperty(label: "ManifestAddendum", required: false, type: .string), 
-            AWSShapeProperty(label: "Manifest", required: true, type: .string), 
-            AWSShapeProperty(label: "APIVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "ValidateOnly", required: true, type: .boolean)
+            AWSShapeProperty(label: "JobType", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "ManifestAddendum", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Manifest", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "APIVersion", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ValidateOnly", location: nil, required: true, type: .boolean)
         ]
         public let jobType: JobType
         public let manifestAddendum: String?
@@ -94,18 +94,18 @@ extension Importexport {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "stateOrProvince", required: false, type: .string), 
-            AWSShapeProperty(label: "city", required: false, type: .string), 
-            AWSShapeProperty(label: "postalCode", required: false, type: .string), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "phoneNumber", required: false, type: .string), 
-            AWSShapeProperty(label: "street3", required: false, type: .string), 
-            AWSShapeProperty(label: "jobIds", required: true, type: .list), 
-            AWSShapeProperty(label: "APIVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "street2", required: false, type: .string), 
-            AWSShapeProperty(label: "street1", required: false, type: .string), 
-            AWSShapeProperty(label: "company", required: false, type: .string), 
-            AWSShapeProperty(label: "country", required: false, type: .string)
+            AWSShapeProperty(label: "stateOrProvince", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "city", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "postalCode", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "phoneNumber", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "street3", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "jobIds", location: nil, required: true, type: .list), 
+            AWSShapeProperty(label: "APIVersion", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "street2", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "street1", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "company", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "country", location: nil, required: false, type: .string)
         ]
         public let stateOrProvince: String?
         public let city: String?
@@ -156,8 +156,8 @@ extension Importexport {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "JobId", required: true, type: .string), 
-            AWSShapeProperty(label: "APIVersion", required: false, type: .string)
+            AWSShapeProperty(label: "JobId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "APIVersion", location: nil, required: false, type: .string)
         ]
         public let jobId: String
         public let aPIVersion: String?
@@ -178,12 +178,12 @@ extension Importexport {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "JobType", required: false, type: .enum), 
-            AWSShapeProperty(label: "ArtifactList", required: false, type: .list), 
-            AWSShapeProperty(label: "SignatureFileContents", required: false, type: .string), 
-            AWSShapeProperty(label: "WarningMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "Signature", required: false, type: .string), 
-            AWSShapeProperty(label: "JobId", required: false, type: .string)
+            AWSShapeProperty(label: "JobType", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "ArtifactList", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "SignatureFileContents", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "WarningMessage", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Signature", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "JobId", location: nil, required: false, type: .string)
         ]
         public let jobType: JobType?
         public let artifactList: [Artifact]?
@@ -225,8 +225,8 @@ extension Importexport {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Warning", required: false, type: .string), 
-            AWSShapeProperty(label: "ShippingLabelURL", required: false, type: .string)
+            AWSShapeProperty(label: "Warning", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ShippingLabelURL", location: nil, required: false, type: .string)
         ]
         public let warning: String?
         public let shippingLabelURL: String?
@@ -246,9 +246,9 @@ extension Importexport {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Success", required: false, type: .boolean), 
-            AWSShapeProperty(label: "WarningMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "ArtifactList", required: false, type: .list)
+            AWSShapeProperty(label: "Success", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "WarningMessage", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ArtifactList", location: nil, required: false, type: .list)
         ]
         public let success: Bool?
         public let warningMessage: String?
@@ -275,11 +275,11 @@ extension Importexport {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "JobType", required: true, type: .enum), 
-            AWSShapeProperty(label: "APIVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "Manifest", required: true, type: .string), 
-            AWSShapeProperty(label: "JobId", required: true, type: .string), 
-            AWSShapeProperty(label: "ValidateOnly", required: true, type: .boolean)
+            AWSShapeProperty(label: "JobType", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "APIVersion", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Manifest", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "JobId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "ValidateOnly", location: nil, required: true, type: .boolean)
         ]
         public let jobType: JobType
         public let aPIVersion: String?
@@ -312,10 +312,10 @@ extension Importexport {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "JobType", required: false, type: .enum), 
-            AWSShapeProperty(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "JobId", required: false, type: .string), 
-            AWSShapeProperty(label: "IsCanceled", required: false, type: .boolean)
+            AWSShapeProperty(label: "JobType", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "CreationDate", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "JobId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "IsCanceled", location: nil, required: false, type: .boolean)
         ]
         public let jobType: JobType?
         public let creationDate: Date?
@@ -341,22 +341,22 @@ extension Importexport {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Carrier", required: false, type: .string), 
-            AWSShapeProperty(label: "ArtifactList", required: false, type: .list), 
-            AWSShapeProperty(label: "Signature", required: false, type: .string), 
-            AWSShapeProperty(label: "ProgressMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "CurrentManifest", required: false, type: .string), 
-            AWSShapeProperty(label: "TrackingNumber", required: false, type: .string), 
-            AWSShapeProperty(label: "ProgressCode", required: false, type: .string), 
-            AWSShapeProperty(label: "JobId", required: false, type: .string), 
-            AWSShapeProperty(label: "LogKey", required: false, type: .string), 
-            AWSShapeProperty(label: "SignatureFileContents", required: false, type: .string), 
-            AWSShapeProperty(label: "LocationMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "JobType", required: false, type: .enum), 
-            AWSShapeProperty(label: "ErrorCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "LogBucket", required: false, type: .string), 
-            AWSShapeProperty(label: "LocationCode", required: false, type: .string)
+            AWSShapeProperty(label: "Carrier", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ArtifactList", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "Signature", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ProgressMessage", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "CreationDate", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "CurrentManifest", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "TrackingNumber", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ProgressCode", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "JobId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "LogKey", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "SignatureFileContents", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "LocationMessage", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "JobType", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "ErrorCount", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "LogBucket", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "LocationCode", location: nil, required: false, type: .string)
         ]
         public let carrier: String?
         public let artifactList: [Artifact]?
@@ -422,8 +422,8 @@ extension Importexport {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Jobs", required: false, type: .list), 
-            AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean)
+            AWSShapeProperty(label: "Jobs", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "IsTruncated", location: nil, required: false, type: .boolean)
         ]
         public let jobs: [Job]?
         public let isTruncated: Bool?
@@ -447,8 +447,8 @@ extension Importexport {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "URL", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+            AWSShapeProperty(label: "URL", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string)
         ]
         public let uRL: String?
         public let description: String?
@@ -468,8 +468,8 @@ extension Importexport {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "JobId", required: true, type: .string), 
-            AWSShapeProperty(label: "APIVersion", required: false, type: .string)
+            AWSShapeProperty(label: "JobId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "APIVersion", location: nil, required: false, type: .string)
         ]
         public let jobId: String
         public let aPIVersion: String?
@@ -490,7 +490,7 @@ extension Importexport {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Success", required: false, type: .boolean)
+            AWSShapeProperty(label: "Success", location: nil, required: false, type: .boolean)
         ]
         public let success: Bool?
 

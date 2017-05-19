@@ -33,9 +33,9 @@ extension Sts {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TokenCode", required: false, type: .string), 
-            AWSShapeProperty(label: "SerialNumber", required: false, type: .string), 
-            AWSShapeProperty(label: "DurationSeconds", required: false, type: .integer)
+            AWSShapeProperty(label: "TokenCode", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "SerialNumber", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "DurationSeconds", location: nil, required: false, type: .integer)
         ]
         /// The value provided by the MFA device, if MFA is required. If any policy requires the IAM user to submit an MFA code, specify this value. If MFA authentication is required, and the user does not provide a code when requesting a set of temporary security credentials, the user will receive an "access denied" response when requesting resources that require MFA authentication. The format for this parameter, as described by its regex pattern, is a sequence of six numeric digits.
         public let tokenCode: String?
@@ -61,7 +61,7 @@ extension Sts {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Credentials", required: false, type: .structure)
+            AWSShapeProperty(label: "Credentials", location: nil, required: false, type: .structure)
         ]
         /// The temporary security credentials, which include an access key ID, a secret access key, and a security (or session) token.  Note: The size of the security token that STS APIs return is not fixed. We strongly recommend that you make no assumptions about the maximum size. As of this writing, the typical size is less than 4096 bytes, but that can vary. Also, future updates to AWS might require larger sizes.
         public let credentials: Credentials?
@@ -79,7 +79,7 @@ extension Sts {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EncodedMessage", required: true, type: .string)
+            AWSShapeProperty(label: "EncodedMessage", location: nil, required: true, type: .string)
         ]
         /// The encoded message that was returned with the response.
         public let encodedMessage: String
@@ -98,10 +98,10 @@ extension Sts {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SessionToken", required: true, type: .string), 
-            AWSShapeProperty(label: "AccessKeyId", required: true, type: .string), 
-            AWSShapeProperty(label: "SecretAccessKey", required: true, type: .string), 
-            AWSShapeProperty(label: "Expiration", required: true, type: .timestamp)
+            AWSShapeProperty(label: "SessionToken", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "AccessKeyId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "SecretAccessKey", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Expiration", location: nil, required: true, type: .timestamp)
         ]
         /// The token that users must pass to the service API to use the temporary credentials.
         public let sessionToken: String
@@ -135,12 +135,12 @@ extension Sts {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Audience", required: false, type: .string), 
-            AWSShapeProperty(label: "Credentials", required: false, type: .structure), 
-            AWSShapeProperty(label: "SubjectFromWebIdentityToken", required: false, type: .string), 
-            AWSShapeProperty(label: "AssumedRoleUser", required: false, type: .structure), 
-            AWSShapeProperty(label: "Provider", required: false, type: .string), 
-            AWSShapeProperty(label: "PackedPolicySize", required: false, type: .integer)
+            AWSShapeProperty(label: "Audience", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Credentials", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "SubjectFromWebIdentityToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "AssumedRoleUser", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Provider", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "PackedPolicySize", location: nil, required: false, type: .integer)
         ]
         /// The intended audience (also known as client ID) of the web identity token. This is traditionally the client identifier issued to the application that requested the web identity token.
         public let audience: String?
@@ -178,9 +178,9 @@ extension Sts {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Credentials", required: false, type: .structure), 
-            AWSShapeProperty(label: "FederatedUser", required: false, type: .structure), 
-            AWSShapeProperty(label: "PackedPolicySize", required: false, type: .integer)
+            AWSShapeProperty(label: "Credentials", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "FederatedUser", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "PackedPolicySize", location: nil, required: false, type: .integer)
         ]
         /// The temporary security credentials, which include an access key ID, a secret access key, and a security (or session) token.  Note: The size of the security token that STS APIs return is not fixed. We strongly recommend that you make no assumptions about the maximum size. As of this writing, the typical size is less than 4096 bytes, but that can vary. Also, future updates to AWS might require larger sizes.
         public let credentials: Credentials?
@@ -206,12 +206,12 @@ extension Sts {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ProviderId", required: false, type: .string), 
-            AWSShapeProperty(label: "DurationSeconds", required: false, type: .integer), 
-            AWSShapeProperty(label: "RoleArn", required: true, type: .string), 
-            AWSShapeProperty(label: "WebIdentityToken", required: true, type: .string), 
-            AWSShapeProperty(label: "Policy", required: false, type: .string), 
-            AWSShapeProperty(label: "RoleSessionName", required: true, type: .string)
+            AWSShapeProperty(label: "ProviderId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "DurationSeconds", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "RoleArn", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "WebIdentityToken", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Policy", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "RoleSessionName", location: nil, required: true, type: .string)
         ]
         /// The fully qualified host component of the domain name of the identity provider. Specify this value only for OAuth 2.0 access tokens. Currently www.amazon.com and graph.facebook.com are the only supported identity providers for OAuth 2.0 access tokens. Do not include URL schemes and port numbers. Do not specify this value for OpenID Connect ID tokens.
         public let providerId: String?
@@ -252,8 +252,8 @@ extension Sts {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Arn", required: true, type: .string), 
-            AWSShapeProperty(label: "AssumedRoleId", required: true, type: .string)
+            AWSShapeProperty(label: "Arn", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "AssumedRoleId", location: nil, required: true, type: .string)
         ]
         /// The ARN of the temporary security credentials that are returned from the AssumeRole action. For more information about ARNs and how to use them in policies, see IAM Identifiers in Using IAM. 
         public let arn: String
@@ -277,7 +277,7 @@ extension Sts {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DecodedMessage", required: false, type: .string)
+            AWSShapeProperty(label: "DecodedMessage", location: nil, required: false, type: .string)
         ]
         /// An XML document that contains the decoded message.
         public let decodedMessage: String?
@@ -303,11 +303,11 @@ extension Sts {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PrincipalArn", required: true, type: .string), 
-            AWSShapeProperty(label: "DurationSeconds", required: false, type: .integer), 
-            AWSShapeProperty(label: "RoleArn", required: true, type: .string), 
-            AWSShapeProperty(label: "Policy", required: false, type: .string), 
-            AWSShapeProperty(label: "SAMLAssertion", required: true, type: .string)
+            AWSShapeProperty(label: "PrincipalArn", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "DurationSeconds", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "RoleArn", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Policy", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "SAMLAssertion", location: nil, required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the SAML provider in IAM that describes the IdP.
         public let principalArn: String
@@ -344,14 +344,14 @@ extension Sts {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Credentials", required: false, type: .structure), 
-            AWSShapeProperty(label: "AssumedRoleUser", required: false, type: .structure), 
-            AWSShapeProperty(label: "SubjectType", required: false, type: .string), 
-            AWSShapeProperty(label: "PackedPolicySize", required: false, type: .integer), 
-            AWSShapeProperty(label: "Audience", required: false, type: .string), 
-            AWSShapeProperty(label: "NameQualifier", required: false, type: .string), 
-            AWSShapeProperty(label: "Issuer", required: false, type: .string), 
-            AWSShapeProperty(label: "Subject", required: false, type: .string)
+            AWSShapeProperty(label: "Credentials", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "AssumedRoleUser", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "SubjectType", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "PackedPolicySize", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "Audience", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "NameQualifier", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Issuer", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Subject", location: nil, required: false, type: .string)
         ]
         /// The temporary security credentials, which include an access key ID, a secret access key, and a security (or session) token.  Note: The size of the security token that STS APIs return is not fixed. We strongly recommend that you make no assumptions about the maximum size. As of this writing, the typical size is less than 4096 bytes, but that can vary. Also, future updates to AWS might require larger sizes.
         public let credentials: Credentials?
@@ -397,9 +397,9 @@ extension Sts {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Policy", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "DurationSeconds", required: false, type: .integer)
+            AWSShapeProperty(label: "Policy", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "DurationSeconds", location: nil, required: false, type: .integer)
         ]
         /// An IAM policy in JSON format that is passed with the GetFederationToken call and evaluated along with the policy or policies that are attached to the IAM user whose credentials are used to call GetFederationToken. The passed policy is used to scope down the permissions that are available to the IAM user, by allowing only a subset of the permissions that are granted to the IAM user. The passed policy cannot grant more permissions than those granted to the IAM user. The final permissions for the federated user are the most restrictive set based on the intersection of the passed policy and the IAM user policy. If you do not pass a policy, the resulting temporary security credentials have no effective permissions. The only exception is when the temporary security credentials are used to access a resource that has a resource-based policy that specifically allows the federated user to access the resource. The format for this parameter, as described by its regex pattern, is a string of characters up to 2048 characters in length. The characters can be any ASCII character from the space character to the end of the valid character list (\u0020-\u00FF). It can also include the tab (\u0009), linefeed (\u000A), and carriage return (\u000D) characters.  The policy plain text must be 2048 bytes or shorter. However, an internal conversion compresses it into a packed binary format with a separate limit. The PackedPolicySize response element indicates by percentage how close to the upper size limit the policy is, with 100% equaling the maximum allowed size.  For more information about how permissions work, see Permissions for GetFederationToken.
         public let policy: String?
@@ -426,9 +426,9 @@ extension Sts {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Account", required: false, type: .string), 
-            AWSShapeProperty(label: "UserId", required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string)
+            AWSShapeProperty(label: "Account", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "UserId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Arn", location: nil, required: false, type: .string)
         ]
         /// The AWS account ID number of the account that owns or contains the calling entity.
         public let account: String?
@@ -454,13 +454,13 @@ extension Sts {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DurationSeconds", required: false, type: .integer), 
-            AWSShapeProperty(label: "ExternalId", required: false, type: .string), 
-            AWSShapeProperty(label: "TokenCode", required: false, type: .string), 
-            AWSShapeProperty(label: "RoleArn", required: true, type: .string), 
-            AWSShapeProperty(label: "Policy", required: false, type: .string), 
-            AWSShapeProperty(label: "SerialNumber", required: false, type: .string), 
-            AWSShapeProperty(label: "RoleSessionName", required: true, type: .string)
+            AWSShapeProperty(label: "DurationSeconds", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "ExternalId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "TokenCode", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "RoleArn", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Policy", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "SerialNumber", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "RoleSessionName", location: nil, required: true, type: .string)
         ]
         /// The duration, in seconds, of the role session. The value can range from 900 seconds (15 minutes) to 3600 seconds (1 hour). By default, the value is set to 3600 seconds.  This is separate from the duration of a console session that you might request using the returned credentials. The request to the federation endpoint for a console sign-in token takes a SessionDuration parameter that specifies the maximum length of the console session, separately from the DurationSeconds parameter on this API. For more information, see Creating a URL that Enables Federated Users to Access the AWS Management Console in the IAM User Guide. 
         public let durationSeconds: Int32?
@@ -504,9 +504,9 @@ extension Sts {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Credentials", required: false, type: .structure), 
-            AWSShapeProperty(label: "AssumedRoleUser", required: false, type: .structure), 
-            AWSShapeProperty(label: "PackedPolicySize", required: false, type: .integer)
+            AWSShapeProperty(label: "Credentials", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "AssumedRoleUser", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "PackedPolicySize", location: nil, required: false, type: .integer)
         ]
         /// The temporary security credentials, which include an access key ID, a secret access key, and a security (or session) token.  Note: The size of the security token that STS APIs return is not fixed. We strongly recommend that you make no assumptions about the maximum size. As of this writing, the typical size is less than 4096 bytes, but that can vary. Also, future updates to AWS might require larger sizes.
         public let credentials: Credentials?
@@ -532,8 +532,8 @@ extension Sts {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FederatedUserId", required: true, type: .string), 
-            AWSShapeProperty(label: "Arn", required: true, type: .string)
+            AWSShapeProperty(label: "FederatedUserId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Arn", location: nil, required: true, type: .string)
         ]
         /// The string that identifies the federated user associated with the credentials, similar to the unique ID of an IAM user.
         public let federatedUserId: String

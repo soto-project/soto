@@ -33,7 +33,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pageToken", required: false, type: .string)
+            AWSShapeProperty(label: "pageToken", location: nil, required: false, type: .string)
         ]
         /// A token used for advancing to the next page of results from your get operations request.
         public let pageToken: String?
@@ -51,7 +51,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "state", required: false, type: .structure)
+            AWSShapeProperty(label: "state", location: nil, required: false, type: .structure)
         ]
         /// The state of the instance.
         public let state: InstanceState?
@@ -69,8 +69,8 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "domains", required: false, type: .list), 
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string)
+            AWSShapeProperty(label: "domains", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "nextPageToken", location: nil, required: false, type: .string)
         ]
         /// An array of key-value pairs containing information about each of the domain entries in the user's account.
         public let domains: [Domain]?
@@ -96,8 +96,8 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "metricData", required: false, type: .list), 
-            AWSShapeProperty(label: "metricName", required: false, type: .enum)
+            AWSShapeProperty(label: "metricData", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "metricName", location: nil, required: false, type: .enum)
         ]
         /// An array of key-value pairs containing information about the results of your get instance metric data request.
         public let metricData: [MetricDatapoint]?
@@ -123,7 +123,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operation", required: false, type: .structure)
+            AWSShapeProperty(label: "operation", location: nil, required: false, type: .structure)
         ]
         /// An array of key-value pairs containing information about the domain resource you created.
         public let operation: Operation?
@@ -157,7 +157,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operation", required: false, type: .structure)
+            AWSShapeProperty(label: "operation", location: nil, required: false, type: .structure)
         ]
         /// An array of key-value pairs containing information about the results of your delete domain request.
         public let operation: Operation?
@@ -175,10 +175,10 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "keyPair", required: false, type: .structure), 
-            AWSShapeProperty(label: "publicKeyBase64", required: false, type: .string), 
-            AWSShapeProperty(label: "privateKeyBase64", required: false, type: .string), 
-            AWSShapeProperty(label: "operation", required: false, type: .structure)
+            AWSShapeProperty(label: "keyPair", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "publicKeyBase64", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "privateKeyBase64", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "operation", location: nil, required: false, type: .structure)
         ]
         /// An array of key-value pairs containing information about the new key pair you just created.
         public let keyPair: KeyPair?
@@ -208,8 +208,8 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "resourceName", required: true, type: .string)
+            AWSShapeProperty(label: "pageToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "resourceName", location: nil, required: true, type: .string)
         ]
         /// A token used for advancing to the next page of results from your get operations for resource request.
         public let pageToken: String?
@@ -232,8 +232,8 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "staticIpName", required: true, type: .string), 
-            AWSShapeProperty(label: "instanceName", required: true, type: .string)
+            AWSShapeProperty(label: "staticIpName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "instanceName", location: nil, required: true, type: .string)
         ]
         /// The name of the static IP.
         public let staticIpName: String
@@ -257,19 +257,19 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "state", required: false, type: .enum), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "resourceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "fromBundleId", required: false, type: .string), 
-            AWSShapeProperty(label: "supportCode", required: false, type: .string), 
-            AWSShapeProperty(label: "fromInstanceArn", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: false, type: .string), 
-            AWSShapeProperty(label: "fromBlueprintId", required: false, type: .string), 
-            AWSShapeProperty(label: "sizeInGb", required: false, type: .integer), 
-            AWSShapeProperty(label: "location", required: false, type: .structure), 
-            AWSShapeProperty(label: "fromInstanceName", required: false, type: .string), 
-            AWSShapeProperty(label: "progress", required: false, type: .string)
+            AWSShapeProperty(label: "state", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "resourceType", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "createdAt", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "fromBundleId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "supportCode", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "fromInstanceArn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "arn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "fromBlueprintId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "sizeInGb", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "location", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "fromInstanceName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "progress", location: nil, required: false, type: .string)
         ]
         /// The state the snapshot is in.
         public let state: InstanceSnapshotState?
@@ -335,14 +335,14 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "privateKey", required: false, type: .string), 
-            AWSShapeProperty(label: "ipAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "instanceName", required: false, type: .string), 
-            AWSShapeProperty(label: "protocol", required: false, type: .enum), 
-            AWSShapeProperty(label: "password", required: false, type: .string), 
-            AWSShapeProperty(label: "certKey", required: false, type: .string), 
-            AWSShapeProperty(label: "expiresAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "username", required: false, type: .string)
+            AWSShapeProperty(label: "privateKey", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ipAddress", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "instanceName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "protocol", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "password", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "certKey", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "expiresAt", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "username", location: nil, required: false, type: .string)
         ]
         /// For SSH access, the temporary private key. For OpenSSH clients (e.g., command line SSH), you should save this value to tempkey).
         public let privateKey: String?
@@ -388,8 +388,8 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "includeInactive", required: false, type: .boolean)
+            AWSShapeProperty(label: "pageToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "includeInactive", location: nil, required: false, type: .boolean)
         ]
         /// A token used for advancing to the next page of results from your get bundles request.
         public let pageToken: String?
@@ -411,7 +411,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operation", required: false, type: .structure)
+            AWSShapeProperty(label: "operation", location: nil, required: false, type: .structure)
         ]
         /// An array of key-value pairs containing information about the results of your delete domain entry request.
         public let operation: Operation?
@@ -429,7 +429,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "regions", required: false, type: .list)
+            AWSShapeProperty(label: "regions", location: nil, required: false, type: .list)
         ]
         /// An array of key-value pairs containing information about your get regions request.
         public let regions: [Region]?
@@ -457,7 +457,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instance", required: false, type: .structure)
+            AWSShapeProperty(label: "instance", location: nil, required: false, type: .structure)
         ]
         /// An array of key-value pairs containing information about the specified instance.
         public let instance: Instance?
@@ -475,7 +475,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operations", required: false, type: .list)
+            AWSShapeProperty(label: "operations", location: nil, required: false, type: .list)
         ]
         /// An array of key-value pairs containing information about the results of your delete instance request.
         public let operations: [Operation]?
@@ -511,8 +511,8 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "protocol", required: false, type: .enum), 
-            AWSShapeProperty(label: "instanceName", required: true, type: .string)
+            AWSShapeProperty(label: "protocol", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "instanceName", location: nil, required: true, type: .string)
         ]
         /// The protocol to use to connect to your instance. Defaults to ssh.
         public let `protocol`: InstanceAccessProtocol?
@@ -535,8 +535,8 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "instanceSnapshots", required: false, type: .list)
+            AWSShapeProperty(label: "nextPageToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "instanceSnapshots", location: nil, required: false, type: .list)
         ]
         /// A token used for advancing to the next page of results from your get instance snapshots request.
         public let nextPageToken: String?
@@ -562,15 +562,15 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "attachedTo", required: false, type: .string), 
-            AWSShapeProperty(label: "isAttached", required: false, type: .boolean), 
-            AWSShapeProperty(label: "location", required: false, type: .structure), 
-            AWSShapeProperty(label: "resourceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "ipAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "supportCode", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: false, type: .string)
+            AWSShapeProperty(label: "attachedTo", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "isAttached", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "location", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "resourceType", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "ipAddress", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "createdAt", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "supportCode", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "arn", location: nil, required: false, type: .string)
         ]
         /// The instance where the static IP is attached (e.g., Amazon_Linux-1GB-Virginia-1).
         public let attachedTo: String?
@@ -620,7 +620,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "portStates", required: false, type: .list)
+            AWSShapeProperty(label: "portStates", location: nil, required: false, type: .list)
         ]
         /// Information about the port states resulting from your request.
         public let portStates: [PortState]?
@@ -638,13 +638,13 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "location", required: false, type: .structure), 
-            AWSShapeProperty(label: "resourceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "fingerprint", required: false, type: .string), 
-            AWSShapeProperty(label: "supportCode", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: false, type: .string)
+            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "location", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "resourceType", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "createdAt", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "fingerprint", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "supportCode", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "arn", location: nil, required: false, type: .string)
         ]
         /// The friendly name of the SSH key pair.
         public let name: String?
@@ -686,7 +686,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "staticIpName", required: true, type: .string)
+            AWSShapeProperty(label: "staticIpName", location: nil, required: true, type: .string)
         ]
         /// The name of the static IP in Lightsail.
         public let staticIpName: String
@@ -705,8 +705,8 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "keyPairs", required: false, type: .list)
+            AWSShapeProperty(label: "nextPageToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "keyPairs", location: nil, required: false, type: .list)
         ]
         /// A token used for advancing to the next page of results from your get key pairs request.
         public let nextPageToken: String?
@@ -732,16 +732,16 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "instanceType", required: false, type: .string), 
-            AWSShapeProperty(label: "isActive", required: false, type: .boolean), 
-            AWSShapeProperty(label: "power", required: false, type: .integer), 
-            AWSShapeProperty(label: "cpuCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "ramSizeInGb", required: false, type: .float), 
-            AWSShapeProperty(label: "bundleId", required: false, type: .string), 
-            AWSShapeProperty(label: "transferPerMonthInGb", required: false, type: .integer), 
-            AWSShapeProperty(label: "diskSizeInGb", required: false, type: .integer), 
-            AWSShapeProperty(label: "price", required: false, type: .float)
+            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "instanceType", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "isActive", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "power", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "cpuCount", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "ramSizeInGb", location: nil, required: false, type: .float), 
+            AWSShapeProperty(label: "bundleId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "transferPerMonthInGb", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "diskSizeInGb", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "price", location: nil, required: false, type: .float)
         ]
         /// A friendly name for the bundle (e.g., Micro).
         public let name: String?
@@ -803,7 +803,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operations", required: false, type: .list)
+            AWSShapeProperty(label: "operations", location: nil, required: false, type: .list)
         ]
         /// An array of key-value pairs containing information about the request operation.
         public let operations: [Operation]?
@@ -825,12 +825,12 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "availabilityZone", required: true, type: .string), 
-            AWSShapeProperty(label: "instanceNames", required: true, type: .list), 
-            AWSShapeProperty(label: "bundleId", required: true, type: .string), 
-            AWSShapeProperty(label: "instanceSnapshotName", required: true, type: .string), 
-            AWSShapeProperty(label: "userData", required: false, type: .string), 
-            AWSShapeProperty(label: "keyPairName", required: false, type: .string)
+            AWSShapeProperty(label: "availabilityZone", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "instanceNames", location: nil, required: true, type: .list), 
+            AWSShapeProperty(label: "bundleId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "instanceSnapshotName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "userData", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "keyPairName", location: nil, required: false, type: .string)
         ]
         /// The Availability Zone where you want to create your instances. Use the following formatting: us-east-1a (case sensitive).
         public let availabilityZone: String
@@ -872,7 +872,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operationId", required: true, type: .string)
+            AWSShapeProperty(label: "operationId", location: nil, required: true, type: .string)
         ]
         /// A GUID used to identify the operation.
         public let operationId: String
@@ -891,7 +891,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operation", required: false, type: .structure)
+            AWSShapeProperty(label: "operation", location: nil, required: false, type: .structure)
         ]
         /// An array of key-value pairs containing information about the request operation.
         public let operation: Operation?
@@ -919,7 +919,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "domainName", required: true, type: .string)
+            AWSShapeProperty(label: "domainName", location: nil, required: true, type: .string)
         ]
         /// The specific domain name to delete.
         public let domainName: String
@@ -938,7 +938,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "keyPairName", required: true, type: .string)
+            AWSShapeProperty(label: "keyPairName", location: nil, required: true, type: .string)
         ]
         /// The name of the key pair for which you are requesting information.
         public let keyPairName: String
@@ -957,7 +957,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "staticIpName", required: true, type: .string)
+            AWSShapeProperty(label: "staticIpName", location: nil, required: true, type: .string)
         ]
         /// The name of the static IP to delete.
         public let staticIpName: String
@@ -976,7 +976,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "isPeered", required: false, type: .boolean)
+            AWSShapeProperty(label: "isPeered", location: nil, required: false, type: .boolean)
         ]
         /// Returns true if the Lightsail VPC is peered; otherwise, false.
         public let isPeered: Bool?
@@ -994,8 +994,8 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceName", required: true, type: .string), 
-            AWSShapeProperty(label: "portInfo", required: true, type: .structure)
+            AWSShapeProperty(label: "instanceName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "portInfo", location: nil, required: true, type: .structure)
         ]
         /// The name of the instance for which you want to open the public ports.
         public let instanceName: String
@@ -1019,7 +1019,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operations", required: false, type: .list)
+            AWSShapeProperty(label: "operations", location: nil, required: false, type: .list)
         ]
         /// An array of key-value pairs containing information about the results of your create instances request.
         public let operations: [Operation]?
@@ -1041,7 +1041,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceName", required: true, type: .string)
+            AWSShapeProperty(label: "instanceName", location: nil, required: true, type: .string)
         ]
         /// The name of the instance.
         public let instanceName: String
@@ -1060,8 +1060,8 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceName", required: true, type: .string), 
-            AWSShapeProperty(label: "portInfo", required: true, type: .structure)
+            AWSShapeProperty(label: "instanceName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "portInfo", location: nil, required: true, type: .structure)
         ]
         /// The name of the instance on which you're attempting to close the public ports.
         public let instanceName: String
@@ -1085,24 +1085,24 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "state", required: false, type: .structure), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "resourceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "publicIpAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "privateIpAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "sshKeyName", required: false, type: .string), 
-            AWSShapeProperty(label: "supportCode", required: false, type: .string), 
-            AWSShapeProperty(label: "bundleId", required: false, type: .string), 
-            AWSShapeProperty(label: "isStaticIp", required: false, type: .boolean), 
-            AWSShapeProperty(label: "blueprintName", required: false, type: .string), 
-            AWSShapeProperty(label: "username", required: false, type: .string), 
-            AWSShapeProperty(label: "ipv6Address", required: false, type: .string), 
-            AWSShapeProperty(label: "hardware", required: false, type: .structure), 
-            AWSShapeProperty(label: "blueprintId", required: false, type: .string), 
-            AWSShapeProperty(label: "location", required: false, type: .structure), 
-            AWSShapeProperty(label: "arn", required: false, type: .string), 
-            AWSShapeProperty(label: "networking", required: false, type: .structure)
+            AWSShapeProperty(label: "state", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "resourceType", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "publicIpAddress", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "privateIpAddress", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "createdAt", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "sshKeyName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "supportCode", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "bundleId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "isStaticIp", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "blueprintName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "username", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ipv6Address", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "hardware", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "blueprintId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "location", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "arn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "networking", location: nil, required: false, type: .structure)
         ]
         /// The status code and the state (e.g., running) for the instance.
         public let state: InstanceState?
@@ -1188,13 +1188,13 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "location", required: false, type: .structure), 
-            AWSShapeProperty(label: "resourceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "domainEntries", required: false, type: .list), 
-            AWSShapeProperty(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "supportCode", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: false, type: .string)
+            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "location", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "resourceType", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "domainEntries", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "createdAt", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "supportCode", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "arn", location: nil, required: false, type: .string)
         ]
         /// The name of the domain.
         public let name: String?
@@ -1240,7 +1240,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "staticIp", required: false, type: .structure)
+            AWSShapeProperty(label: "staticIp", location: nil, required: false, type: .structure)
         ]
         /// An array of key-value pairs containing information about the requested static IP.
         public let staticIp: StaticIp?
@@ -1258,7 +1258,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "staticIpName", required: true, type: .string)
+            AWSShapeProperty(label: "staticIpName", location: nil, required: true, type: .string)
         ]
         /// The name of the static IP to detach from the instance.
         public let staticIpName: String
@@ -1277,8 +1277,8 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "activeNames", required: false, type: .list)
+            AWSShapeProperty(label: "nextPageToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "activeNames", location: nil, required: false, type: .list)
         ]
         /// A token used for advancing to the next page of results from your get active names request.
         public let nextPageToken: String?
@@ -1300,7 +1300,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceName", required: true, type: .string)
+            AWSShapeProperty(label: "instanceName", location: nil, required: true, type: .string)
         ]
         /// The name of the instance to delete.
         public let instanceName: String
@@ -1319,8 +1319,8 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextPageCount", required: false, type: .string), 
-            AWSShapeProperty(label: "operations", required: false, type: .list)
+            AWSShapeProperty(label: "nextPageCount", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "operations", location: nil, required: false, type: .list)
         ]
         /// Returns the number of pages of results that remain.
         public let nextPageCount: String?
@@ -1362,20 +1362,20 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "isAttached", required: false, type: .boolean), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "resourceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "supportCode", required: false, type: .string), 
-            AWSShapeProperty(label: "isSystemDisk", required: false, type: .boolean), 
-            AWSShapeProperty(label: "attachmentState", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: false, type: .string), 
-            AWSShapeProperty(label: "attachedTo", required: false, type: .string), 
-            AWSShapeProperty(label: "sizeInGb", required: false, type: .integer), 
-            AWSShapeProperty(label: "location", required: false, type: .structure), 
-            AWSShapeProperty(label: "path", required: false, type: .string), 
-            AWSShapeProperty(label: "gbInUse", required: false, type: .integer), 
-            AWSShapeProperty(label: "iops", required: false, type: .integer)
+            AWSShapeProperty(label: "isAttached", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "resourceType", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "createdAt", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "supportCode", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "isSystemDisk", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "attachmentState", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "arn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "attachedTo", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "sizeInGb", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "location", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "path", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "gbInUse", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "iops", location: nil, required: false, type: .integer)
         ]
         /// A Boolean value indicating whether the disk is attached.
         public let isAttached: Bool?
@@ -1445,7 +1445,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pageToken", required: false, type: .string)
+            AWSShapeProperty(label: "pageToken", location: nil, required: false, type: .string)
         ]
         /// A token used for advancing to the next page of results from your get domains request.
         public let pageToken: String?
@@ -1463,7 +1463,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operations", required: false, type: .list)
+            AWSShapeProperty(label: "operations", location: nil, required: false, type: .list)
         ]
         /// An array of key-value pairs containing information about the request operation.
         public let operations: [Operation]?
@@ -1485,7 +1485,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pageToken", required: false, type: .string)
+            AWSShapeProperty(label: "pageToken", location: nil, required: false, type: .string)
         ]
         /// A token used for advancing to the next page of results from your get key pairs request.
         public let pageToken: String?
@@ -1503,11 +1503,11 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "options", required: false, type: .map), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "target", required: false, type: .string), 
-            AWSShapeProperty(label: "id", required: false, type: .string), 
-            AWSShapeProperty(label: "type", required: false, type: .string)
+            AWSShapeProperty(label: "options", location: nil, required: false, type: .map), 
+            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "target", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "id", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "type", location: nil, required: false, type: .string)
         ]
         /// The options for the domain entry.
         public let options: [String: String]?
@@ -1545,8 +1545,8 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "privateKeyBase64", required: false, type: .string), 
-            AWSShapeProperty(label: "publicKeyBase64", required: false, type: .string)
+            AWSShapeProperty(label: "privateKeyBase64", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "publicKeyBase64", location: nil, required: false, type: .string)
         ]
         /// A base64-encoded RSA private key.
         public let privateKeyBase64: String?
@@ -1568,7 +1568,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operations", required: false, type: .list)
+            AWSShapeProperty(label: "operations", location: nil, required: false, type: .list)
         ]
         /// An array of key-value pairs containing information about the results of your create instances from snapshot request.
         public let operations: [Operation]?
@@ -1590,8 +1590,8 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "state", required: false, type: .string), 
-            AWSShapeProperty(label: "zoneName", required: false, type: .string)
+            AWSShapeProperty(label: "state", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "zoneName", location: nil, required: false, type: .string)
         ]
         /// The state of the Availability Zone.
         public let state: String?
@@ -1652,8 +1652,8 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "domainEntry", required: true, type: .structure), 
-            AWSShapeProperty(label: "domainName", required: true, type: .string)
+            AWSShapeProperty(label: "domainEntry", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "domainName", location: nil, required: true, type: .string)
         ]
         /// An array of key-value pairs containing information about the domain entry request.
         public let domainEntry: DomainEntry
@@ -1677,8 +1677,8 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceSnapshotName", required: true, type: .string), 
-            AWSShapeProperty(label: "instanceName", required: true, type: .string)
+            AWSShapeProperty(label: "instanceSnapshotName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "instanceName", location: nil, required: true, type: .string)
         ]
         /// The name for your new snapshot.
         public let instanceSnapshotName: String
@@ -1702,7 +1702,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operations", required: false, type: .list)
+            AWSShapeProperty(label: "operations", location: nil, required: false, type: .list)
         ]
         /// An array of key-value pairs containing information about the request operation.
         public let operations: [Operation]?
@@ -1724,8 +1724,8 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "instances", required: false, type: .list)
+            AWSShapeProperty(label: "nextPageToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "instances", location: nil, required: false, type: .list)
         ]
         /// A token used for advancing to the next page of results from your get instances request.
         public let nextPageToken: String?
@@ -1760,8 +1760,8 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "code", required: false, type: .integer)
+            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "code", location: nil, required: false, type: .integer)
         ]
         /// The state of the instance (e.g., running or pending).
         public let name: String?
@@ -1783,7 +1783,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operation", required: false, type: .structure)
+            AWSShapeProperty(label: "operation", location: nil, required: false, type: .structure)
         ]
         /// An array of key-value pairs containing information about the request operation.
         public let operation: Operation?
@@ -1801,7 +1801,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceSnapshotName", required: true, type: .string)
+            AWSShapeProperty(label: "instanceSnapshotName", location: nil, required: true, type: .string)
         ]
         /// The name of the snapshot for which you are requesting information.
         public let instanceSnapshotName: String
@@ -1820,7 +1820,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operations", required: false, type: .list)
+            AWSShapeProperty(label: "operations", location: nil, required: false, type: .list)
         ]
         /// An array of key-value pairs containing information about the static IP address you allocated.
         public let operations: [Operation]?
@@ -1842,7 +1842,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operation", required: false, type: .structure)
+            AWSShapeProperty(label: "operation", location: nil, required: false, type: .structure)
         ]
         /// An array of key-value pairs containing information about the results of your delete key pair request.
         public let operation: Operation?
@@ -1860,7 +1860,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "keyPair", required: false, type: .structure)
+            AWSShapeProperty(label: "keyPair", location: nil, required: false, type: .structure)
         ]
         /// An array of key-value pairs containing information about the key pair.
         public let keyPair: KeyPair?
@@ -1878,7 +1878,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "includeAvailabilityZones", required: false, type: .boolean)
+            AWSShapeProperty(label: "includeAvailabilityZones", location: nil, required: false, type: .boolean)
         ]
         /// A Boolean value indicating whether to also include Availability Zones in your get regions request. Availability Zones are indicated with a letter: e.g., us-east-1a.
         public let includeAvailabilityZones: Bool?
@@ -1896,7 +1896,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operations", required: false, type: .list)
+            AWSShapeProperty(label: "operations", location: nil, required: false, type: .list)
         ]
         /// An array of key-value pairs containing information about your API operations.
         public let operations: [Operation]?
@@ -1918,7 +1918,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "accessDetails", required: false, type: .structure)
+            AWSShapeProperty(label: "accessDetails", location: nil, required: false, type: .structure)
         ]
         /// An array of key-value pairs containing information about a get instance access request.
         public let accessDetails: InstanceAccessDetails?
@@ -1936,8 +1936,8 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "regionName", required: false, type: .enum), 
-            AWSShapeProperty(label: "availabilityZone", required: false, type: .string)
+            AWSShapeProperty(label: "regionName", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "availabilityZone", location: nil, required: false, type: .string)
         ]
         /// The AWS Region name.
         public let regionName: RegionName?
@@ -1959,9 +1959,9 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "protocol", required: false, type: .enum), 
-            AWSShapeProperty(label: "fromPort", required: false, type: .integer), 
-            AWSShapeProperty(label: "toPort", required: false, type: .integer)
+            AWSShapeProperty(label: "protocol", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "fromPort", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "toPort", location: nil, required: false, type: .integer)
         ]
         /// The protocol. 
         public let `protocol`: NetworkProtocol?
@@ -1987,7 +1987,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pageToken", required: false, type: .string)
+            AWSShapeProperty(label: "pageToken", location: nil, required: false, type: .string)
         ]
         /// A token used for paginating results from your get active names request.
         public let pageToken: String?
@@ -2005,7 +2005,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceName", required: true, type: .string)
+            AWSShapeProperty(label: "instanceName", location: nil, required: true, type: .string)
         ]
         /// The name of the instance to reboot.
         public let instanceName: String
@@ -2024,13 +2024,13 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "sampleCount", required: false, type: .double), 
-            AWSShapeProperty(label: "unit", required: false, type: .enum), 
-            AWSShapeProperty(label: "average", required: false, type: .double), 
-            AWSShapeProperty(label: "maximum", required: false, type: .double), 
-            AWSShapeProperty(label: "minimum", required: false, type: .double), 
-            AWSShapeProperty(label: "sum", required: false, type: .double), 
-            AWSShapeProperty(label: "timestamp", required: false, type: .timestamp)
+            AWSShapeProperty(label: "sampleCount", location: nil, required: false, type: .double), 
+            AWSShapeProperty(label: "unit", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "average", location: nil, required: false, type: .double), 
+            AWSShapeProperty(label: "maximum", location: nil, required: false, type: .double), 
+            AWSShapeProperty(label: "minimum", location: nil, required: false, type: .double), 
+            AWSShapeProperty(label: "sum", location: nil, required: false, type: .double), 
+            AWSShapeProperty(label: "timestamp", location: nil, required: false, type: .timestamp)
         ]
         /// The sample count.
         public let sampleCount: Double?
@@ -2072,7 +2072,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pageToken", required: false, type: .string)
+            AWSShapeProperty(label: "pageToken", location: nil, required: false, type: .string)
         ]
         /// A token used for advancing to the next page of results from your get instances request.
         public let pageToken: String?
@@ -2090,8 +2090,8 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ports", required: false, type: .list), 
-            AWSShapeProperty(label: "monthlyTransfer", required: false, type: .structure)
+            AWSShapeProperty(label: "ports", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "monthlyTransfer", location: nil, required: false, type: .structure)
         ]
         /// An array of key-value pairs containing information about the ports on the instance.
         public let ports: [InstancePortInfo]?
@@ -2132,7 +2132,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pageToken", required: false, type: .string)
+            AWSShapeProperty(label: "pageToken", location: nil, required: false, type: .string)
         ]
         /// A token used for advancing to the next page of results from your get instance snapshots request.
         public let pageToken: String?
@@ -2150,7 +2150,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceSnapshot", required: false, type: .structure)
+            AWSShapeProperty(label: "instanceSnapshot", location: nil, required: false, type: .structure)
         ]
         /// An array of key-value pairs containing information about the results of your get instance snapshot request.
         public let instanceSnapshot: InstanceSnapshot?
@@ -2174,8 +2174,8 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "domainEntry", required: true, type: .structure), 
-            AWSShapeProperty(label: "domainName", required: true, type: .string)
+            AWSShapeProperty(label: "domainEntry", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "domainName", location: nil, required: true, type: .string)
         ]
         /// An array of key-value pairs containing information about your domain entries.
         public let domainEntry: DomainEntry
@@ -2199,18 +2199,18 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operationType", required: false, type: .enum), 
-            AWSShapeProperty(label: "isTerminal", required: false, type: .boolean), 
-            AWSShapeProperty(label: "location", required: false, type: .structure), 
-            AWSShapeProperty(label: "resourceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "id", required: false, type: .string), 
-            AWSShapeProperty(label: "errorCode", required: false, type: .string), 
-            AWSShapeProperty(label: "resourceName", required: false, type: .string), 
-            AWSShapeProperty(label: "errorDetails", required: false, type: .string), 
-            AWSShapeProperty(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "statusChangedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "operationDetails", required: false, type: .string)
+            AWSShapeProperty(label: "operationType", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "isTerminal", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "location", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "resourceType", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "id", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "errorCode", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "resourceName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "errorDetails", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "createdAt", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "status", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "statusChangedAt", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "operationDetails", location: nil, required: false, type: .string)
         ]
         /// The type of operation. 
         public let operationType: OperationType?
@@ -2272,8 +2272,8 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "operations", required: false, type: .list)
+            AWSShapeProperty(label: "nextPageToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "operations", location: nil, required: false, type: .list)
         ]
         /// A token used for advancing to the next page of results from your get operations request.
         public let nextPageToken: String?
@@ -2299,8 +2299,8 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "blueprints", required: false, type: .list)
+            AWSShapeProperty(label: "nextPageToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "blueprints", location: nil, required: false, type: .list)
         ]
         /// A token used for advancing to the next page of results from your get blueprints request.
         public let nextPageToken: String?
@@ -2326,7 +2326,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "keyPairName", required: true, type: .string)
+            AWSShapeProperty(label: "keyPairName", location: nil, required: true, type: .string)
         ]
         /// The name for your new key pair.
         public let keyPairName: String
@@ -2345,7 +2345,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operations", required: false, type: .list)
+            AWSShapeProperty(label: "operations", location: nil, required: false, type: .list)
         ]
         /// An array of key-value pairs containing information about the request operation.
         public let operations: [Operation]?
@@ -2367,7 +2367,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operations", required: false, type: .list)
+            AWSShapeProperty(label: "operations", location: nil, required: false, type: .list)
         ]
         /// An array of key-value pairs containing information about the results of your detach static IP request.
         public let operations: [Operation]?
@@ -2411,8 +2411,8 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "keyPairName", required: true, type: .string), 
-            AWSShapeProperty(label: "publicKeyBase64", required: true, type: .string)
+            AWSShapeProperty(label: "keyPairName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "publicKeyBase64", location: nil, required: true, type: .string)
         ]
         /// The name of the key pair for which you want to import the public key.
         public let keyPairName: String
@@ -2436,8 +2436,8 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "includeInactive", required: false, type: .boolean)
+            AWSShapeProperty(label: "pageToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "includeInactive", location: nil, required: false, type: .boolean)
         ]
         /// A token used for advancing to the next page of results from your get blueprints request.
         public let pageToken: String?
@@ -2459,7 +2459,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "keyPairName", required: true, type: .string)
+            AWSShapeProperty(label: "keyPairName", location: nil, required: true, type: .string)
         ]
         /// The name of the key pair to delete.
         public let keyPairName: String
@@ -2478,13 +2478,13 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "accessFrom", required: false, type: .string), 
-            AWSShapeProperty(label: "fromPort", required: false, type: .integer), 
-            AWSShapeProperty(label: "commonName", required: false, type: .string), 
-            AWSShapeProperty(label: "protocol", required: false, type: .enum), 
-            AWSShapeProperty(label: "accessDirection", required: false, type: .enum), 
-            AWSShapeProperty(label: "accessType", required: false, type: .enum), 
-            AWSShapeProperty(label: "toPort", required: false, type: .integer)
+            AWSShapeProperty(label: "accessFrom", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "fromPort", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "commonName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "protocol", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "accessDirection", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "accessType", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "toPort", location: nil, required: false, type: .integer)
         ]
         /// The location from which access is allowed (e.g., Anywhere (0.0.0.0/0)).
         public let accessFrom: String?
@@ -2526,7 +2526,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "domainName", required: true, type: .string)
+            AWSShapeProperty(label: "domainName", location: nil, required: true, type: .string)
         ]
         /// The domain name for which your want to return information about.
         public let domainName: String
@@ -2545,7 +2545,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceName", required: true, type: .string)
+            AWSShapeProperty(label: "instanceName", location: nil, required: true, type: .string)
         ]
         /// The name of the instance.
         public let instanceName: String
@@ -2564,7 +2564,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceName", required: true, type: .string)
+            AWSShapeProperty(label: "instanceName", location: nil, required: true, type: .string)
         ]
         /// The name of the instance to get state information about.
         public let instanceName: String
@@ -2583,7 +2583,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operations", required: false, type: .list)
+            AWSShapeProperty(label: "operations", location: nil, required: false, type: .list)
         ]
         /// An array of key-value pairs containing information about the results of your delete instance snapshot request.
         public let operations: [Operation]?
@@ -2605,13 +2605,13 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "availabilityZone", required: true, type: .string), 
-            AWSShapeProperty(label: "keyPairName", required: false, type: .string), 
-            AWSShapeProperty(label: "customImageName", required: false, type: .string), 
-            AWSShapeProperty(label: "instanceNames", required: true, type: .list), 
-            AWSShapeProperty(label: "bundleId", required: true, type: .string), 
-            AWSShapeProperty(label: "userData", required: false, type: .string), 
-            AWSShapeProperty(label: "blueprintId", required: true, type: .string)
+            AWSShapeProperty(label: "availabilityZone", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "keyPairName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "customImageName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "instanceNames", location: nil, required: true, type: .list), 
+            AWSShapeProperty(label: "bundleId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "userData", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "blueprintId", location: nil, required: true, type: .string)
         ]
         /// The Availability Zone in which to create your instance. Use the following format: us-east-1a (case sensitive).
         public let availabilityZone: String
@@ -2657,17 +2657,17 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "isActive", required: false, type: .boolean), 
-            AWSShapeProperty(label: "productUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "version", required: false, type: .string), 
-            AWSShapeProperty(label: "licenseUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "versionCode", required: false, type: .string), 
-            AWSShapeProperty(label: "group", required: false, type: .string), 
-            AWSShapeProperty(label: "minPower", required: false, type: .integer), 
-            AWSShapeProperty(label: "blueprintId", required: false, type: .string)
+            AWSShapeProperty(label: "type", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "isActive", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "productUrl", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "description", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "version", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "licenseUrl", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "versionCode", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "group", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "minPower", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "blueprintId", location: nil, required: false, type: .string)
         ]
         /// The type of the blueprint (e.g., os or app).
         public let `type`: BlueprintType?
@@ -2725,7 +2725,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceSnapshotName", required: true, type: .string)
+            AWSShapeProperty(label: "instanceSnapshotName", location: nil, required: true, type: .string)
         ]
         /// The name of the snapshot to delete.
         public let instanceSnapshotName: String
@@ -2744,8 +2744,8 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "bundles", required: false, type: .list)
+            AWSShapeProperty(label: "nextPageToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "bundles", location: nil, required: false, type: .list)
         ]
         /// A token used for advancing to the next page of results from your get active names request.
         public let nextPageToken: String?
@@ -2771,11 +2771,11 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "displayName", required: false, type: .string), 
-            AWSShapeProperty(label: "name", required: false, type: .enum), 
-            AWSShapeProperty(label: "continentCode", required: false, type: .string), 
-            AWSShapeProperty(label: "availabilityZones", required: false, type: .list)
+            AWSShapeProperty(label: "description", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "displayName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "name", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "continentCode", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "availabilityZones", location: nil, required: false, type: .list)
         ]
         /// The description of the AWS Region (e.g., This region is recommended to serve users in the eastern United States and eastern Canada).
         public let description: String?
@@ -2813,7 +2813,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operation", required: false, type: .structure)
+            AWSShapeProperty(label: "operation", location: nil, required: false, type: .structure)
         ]
         /// An array of key-value pairs containing information about the operation.
         public let operation: Operation?
@@ -2838,8 +2838,8 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "domainEntry", required: true, type: .structure), 
-            AWSShapeProperty(label: "domainName", required: true, type: .string)
+            AWSShapeProperty(label: "domainEntry", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "domainName", location: nil, required: true, type: .string)
         ]
         /// An array of key-value pairs containing information about the domain entry.
         public let domainEntry: DomainEntry
@@ -2863,7 +2863,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "domain", required: false, type: .structure)
+            AWSShapeProperty(label: "domain", location: nil, required: false, type: .structure)
         ]
         /// An array of key-value pairs containing information about your get domain request.
         public let domain: Domain?
@@ -2881,7 +2881,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operation", required: false, type: .structure)
+            AWSShapeProperty(label: "operation", location: nil, required: false, type: .structure)
         ]
         /// An array of key-value pairs that contains information about the operation.
         public let operation: Operation?
@@ -2899,7 +2899,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operation", required: false, type: .structure)
+            AWSShapeProperty(label: "operation", location: nil, required: false, type: .structure)
         ]
         /// An array of key-value pairs containing information about the results of your get operation request.
         public let operation: Operation?
@@ -2917,7 +2917,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "staticIpName", required: true, type: .string)
+            AWSShapeProperty(label: "staticIpName", location: nil, required: true, type: .string)
         ]
         /// The name of the static IP address.
         public let staticIpName: String
@@ -2936,7 +2936,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "gbPerMonthAllocated", required: false, type: .integer)
+            AWSShapeProperty(label: "gbPerMonthAllocated", location: nil, required: false, type: .integer)
         ]
         /// The amount allocated per month (in GB).
         public let gbPerMonthAllocated: Int32?
@@ -2954,7 +2954,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operation", required: false, type: .structure)
+            AWSShapeProperty(label: "operation", location: nil, required: false, type: .structure)
         ]
         /// An array of key-value pairs containing information about the request operation.
         public let operation: Operation?
@@ -2978,7 +2978,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceName", required: true, type: .string)
+            AWSShapeProperty(label: "instanceName", location: nil, required: true, type: .string)
         ]
         /// The name of the instance (a virtual private server) to start.
         public let instanceName: String
@@ -2997,7 +2997,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operation", required: false, type: .structure)
+            AWSShapeProperty(label: "operation", location: nil, required: false, type: .structure)
         ]
         /// An array of key-value pairs containing information about the request operation.
         public let operation: Operation?
@@ -3015,7 +3015,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operations", required: false, type: .list)
+            AWSShapeProperty(label: "operations", location: nil, required: false, type: .list)
         ]
         /// An array of key-value pairs containing information about the results of your create instances snapshot request.
         public let operations: [Operation]?
@@ -3037,7 +3037,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operations", required: false, type: .list)
+            AWSShapeProperty(label: "operations", location: nil, required: false, type: .list)
         ]
         /// An array of key-value pairs containing information about the request operation.
         public let operations: [Operation]?
@@ -3059,8 +3059,8 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "staticIps", required: false, type: .list)
+            AWSShapeProperty(label: "nextPageToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "staticIps", location: nil, required: false, type: .list)
         ]
         /// A token used for advancing to the next page of results from your get static IPs request.
         public let nextPageToken: String?
@@ -3092,13 +3092,13 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceName", required: true, type: .string), 
-            AWSShapeProperty(label: "unit", required: true, type: .enum), 
-            AWSShapeProperty(label: "statistics", required: true, type: .list), 
-            AWSShapeProperty(label: "endTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "period", required: true, type: .integer), 
-            AWSShapeProperty(label: "startTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "metricName", required: true, type: .enum)
+            AWSShapeProperty(label: "instanceName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "unit", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "statistics", location: nil, required: true, type: .list), 
+            AWSShapeProperty(label: "endTime", location: nil, required: true, type: .timestamp), 
+            AWSShapeProperty(label: "period", location: nil, required: true, type: .integer), 
+            AWSShapeProperty(label: "startTime", location: nil, required: true, type: .timestamp), 
+            AWSShapeProperty(label: "metricName", location: nil, required: true, type: .enum)
         ]
         /// The name of the instance for which you want to get metrics data.
         public let instanceName: String
@@ -3147,7 +3147,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceName", required: true, type: .string)
+            AWSShapeProperty(label: "instanceName", location: nil, required: true, type: .string)
         ]
         /// The name of the instance (a virtual private server) to stop.
         public let instanceName: String
@@ -3166,9 +3166,9 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cpuCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "disks", required: false, type: .list), 
-            AWSShapeProperty(label: "ramSizeInGb", required: false, type: .float)
+            AWSShapeProperty(label: "cpuCount", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "disks", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "ramSizeInGb", location: nil, required: false, type: .float)
         ]
         /// The number of vCPUs the instance has.
         public let cpuCount: Int32?
@@ -3198,7 +3198,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pageToken", required: false, type: .string)
+            AWSShapeProperty(label: "pageToken", location: nil, required: false, type: .string)
         ]
         /// A token used for advancing to the next page of results from your get static IPs request.
         public let pageToken: String?
@@ -3216,7 +3216,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "domainName", required: true, type: .string)
+            AWSShapeProperty(label: "domainName", location: nil, required: true, type: .string)
         ]
         /// The domain name to manage (e.g., example.com).  You cannot register a new domain name using Lightsail. You must register a domain name using Amazon Route 53 or another domain name registrar. If you have already registered your domain, you can enter its name in this parameter to manage the DNS records for that domain. 
         public let domainName: String

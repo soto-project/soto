@@ -238,14 +238,12 @@ extension AWSService {
         }
         
         let hints: [String] = structure.members.map({ member in
-            let pathForLocation: String
-            if Core.jsonKeyStyle(forService: endpointPrefix).isCamelCase {
-                pathForLocation = member.locationName?.upperFirst() ?? member.name
-            } else {
-                pathForLocation = member.locationName ?? member.name
+            var location = "nil"
+            if let locationName = member.locationName {
+                location = "\"\(locationName)\""
             }
             let hint = shape2Hint(shape: member.shape)
-            return "\(indt(3))AWSShapeProperty(label: \"\(pathForLocation)\", required: \(member.required), type: \(hint.enumStyleDescription))"
+            return "\(indt(3))AWSShapeProperty(label: \"\(member.name)\", location: \(location), required: \(member.required), type: \(hint.enumStyleDescription))"
         })
         if hints.count > 0 {
             code += "\(indt(2))public static var parsingHints: [AWSShapeProperty] = ["
@@ -265,10 +263,10 @@ extension AWSService {
         
         for member in structure.members {
             let pathForLocation: String
-            if Core.jsonKeyStyle(forService: endpointPrefix).isCamelCase {
-                pathForLocation = member.locationName?.upperFirst() ?? member.name
+            if let locationName = member.locationName {
+                pathForLocation = locationName
             } else {
-                pathForLocation = member.locationName ?? member.name
+                pathForLocation = member.name
             }
             
             switch member.shape.type {

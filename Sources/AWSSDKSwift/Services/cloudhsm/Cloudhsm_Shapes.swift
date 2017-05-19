@@ -33,7 +33,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HapgArn", required: false, type: .string)
+            AWSShapeProperty(label: "HapgArn", location: nil, required: false, type: .string)
         ]
         /// The ARN of the high-availability partition group.
         public let hapgArn: String?
@@ -51,7 +51,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: true, type: .string)
+            AWSShapeProperty(label: "Status", location: nil, required: true, type: .string)
         ]
         /// The status of the operation.
         public let status: String
@@ -70,8 +70,8 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HsmSerialNumber", required: false, type: .string), 
-            AWSShapeProperty(label: "HsmArn", required: false, type: .string)
+            AWSShapeProperty(label: "HsmSerialNumber", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "HsmArn", location: nil, required: false, type: .string)
         ]
         /// The serial number of the HSM. Either the HsmArn or the HsmSerialNumber parameter must be specified.
         public let hsmSerialNumber: String?
@@ -93,7 +93,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceArn", required: true, type: .string)
+            AWSShapeProperty(label: "ResourceArn", location: nil, required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the AWS CloudHSM resource.
         public let resourceArn: String
@@ -112,7 +112,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TagList", required: true, type: .list)
+            AWSShapeProperty(label: "TagList", location: nil, required: true, type: .list)
         ]
         /// One or more tags.
         public let tagList: [Tag]
@@ -131,7 +131,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Label", required: true, type: .string)
+            AWSShapeProperty(label: "Label", location: nil, required: true, type: .string)
         ]
         /// The label of the new high-availability partition group.
         public let label: String
@@ -150,9 +150,9 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClientArn", required: true, type: .string), 
-            AWSShapeProperty(label: "HapgList", required: true, type: .list), 
-            AWSShapeProperty(label: "ClientVersion", required: true, type: .enum)
+            AWSShapeProperty(label: "ClientArn", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "HapgList", location: nil, required: true, type: .list), 
+            AWSShapeProperty(label: "ClientVersion", location: nil, required: true, type: .enum)
         ]
         /// The ARN of the client.
         public let clientArn: String
@@ -181,9 +181,9 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Label", required: false, type: .string), 
-            AWSShapeProperty(label: "HapgArn", required: true, type: .string), 
-            AWSShapeProperty(label: "PartitionSerialList", required: false, type: .list)
+            AWSShapeProperty(label: "Label", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "HapgArn", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "PartitionSerialList", location: nil, required: false, type: .list)
         ]
         /// The new label for the high-availability partition group.
         public let label: String?
@@ -210,7 +210,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
         ]
         /// The NextToken value from a previous call to ListLunaClients. Pass null if this is the first call.
         public let nextToken: String?
@@ -228,8 +228,8 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Certificate", required: true, type: .string), 
-            AWSShapeProperty(label: "Label", required: false, type: .string)
+            AWSShapeProperty(label: "Certificate", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Label", location: nil, required: false, type: .string)
         ]
         /// The contents of a Base64-Encoded X.509 v3 certificate to be installed on the HSMs used by this client.
         public let certificate: String
@@ -264,8 +264,8 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Certificate", required: true, type: .string), 
-            AWSShapeProperty(label: "ClientArn", required: true, type: .string)
+            AWSShapeProperty(label: "Certificate", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "ClientArn", location: nil, required: true, type: .string)
         ]
         /// The new certificate for the client.
         public let certificate: String
@@ -289,8 +289,8 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClientArn", required: false, type: .string), 
-            AWSShapeProperty(label: "CertificateFingerprint", required: false, type: .string)
+            AWSShapeProperty(label: "ClientArn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "CertificateFingerprint", location: nil, required: false, type: .string)
         ]
         /// The ARN of the client.
         public let clientArn: String?
@@ -312,9 +312,9 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConfigType", required: false, type: .string), 
-            AWSShapeProperty(label: "ConfigFile", required: false, type: .string), 
-            AWSShapeProperty(label: "ConfigCred", required: false, type: .string)
+            AWSShapeProperty(label: "ConfigType", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ConfigFile", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ConfigCred", location: nil, required: false, type: .string)
         ]
         /// The type of credentials.
         public let configType: String?
@@ -351,7 +351,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HsmArn", required: true, type: .string)
+            AWSShapeProperty(label: "HsmArn", location: "HsmArn", required: true, type: .string)
         ]
         /// The ARN of the HSM to delete.
         public let hsmArn: String
@@ -370,7 +370,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
         ]
         /// The NextToken value from a previous call to ListHsms. Pass null if this is the first call.
         public let nextToken: String?
@@ -388,12 +388,12 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExternalId", required: false, type: .string), 
-            AWSShapeProperty(label: "SubnetId", required: false, type: .string), 
-            AWSShapeProperty(label: "EniIp", required: false, type: .string), 
-            AWSShapeProperty(label: "IamRoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "SyslogIp", required: false, type: .string), 
-            AWSShapeProperty(label: "HsmArn", required: true, type: .string)
+            AWSShapeProperty(label: "ExternalId", location: "ExternalId", required: false, type: .string), 
+            AWSShapeProperty(label: "SubnetId", location: "SubnetId", required: false, type: .string), 
+            AWSShapeProperty(label: "EniIp", location: "EniIp", required: false, type: .string), 
+            AWSShapeProperty(label: "IamRoleArn", location: "IamRoleArn", required: false, type: .string), 
+            AWSShapeProperty(label: "SyslogIp", location: "SyslogIp", required: false, type: .string), 
+            AWSShapeProperty(label: "HsmArn", location: "HsmArn", required: true, type: .string)
         ]
         /// The new external ID.
         public let externalId: String?
@@ -432,15 +432,15 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HsmsPendingDeletion", required: false, type: .list), 
-            AWSShapeProperty(label: "State", required: false, type: .enum), 
-            AWSShapeProperty(label: "HapgArn", required: false, type: .string), 
-            AWSShapeProperty(label: "HapgSerial", required: false, type: .string), 
-            AWSShapeProperty(label: "HsmsLastActionFailed", required: false, type: .list), 
-            AWSShapeProperty(label: "PartitionSerialList", required: false, type: .list), 
-            AWSShapeProperty(label: "HsmsPendingRegistration", required: false, type: .list), 
-            AWSShapeProperty(label: "LastModifiedTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "Label", required: false, type: .string)
+            AWSShapeProperty(label: "HsmsPendingDeletion", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "State", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "HapgArn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "HapgSerial", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "HsmsLastActionFailed", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "PartitionSerialList", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "HsmsPendingRegistration", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "LastModifiedTimestamp", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Label", location: nil, required: false, type: .string)
         ]
         public let hsmsPendingDeletion: [String]?
         /// The state of the high-availability partition group.
@@ -487,11 +487,11 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Certificate", required: false, type: .string), 
-            AWSShapeProperty(label: "LastModifiedTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "ClientArn", required: false, type: .string), 
-            AWSShapeProperty(label: "CertificateFingerprint", required: false, type: .string), 
-            AWSShapeProperty(label: "Label", required: false, type: .string)
+            AWSShapeProperty(label: "Certificate", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "LastModifiedTimestamp", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ClientArn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "CertificateFingerprint", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Label", location: nil, required: false, type: .string)
         ]
         /// The certificate installed on the HSMs used by this client.
         public let certificate: String?
@@ -525,7 +525,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: true, type: .string)
+            AWSShapeProperty(label: "Status", location: nil, required: true, type: .string)
         ]
         /// The status of the operation.
         public let status: String
@@ -544,8 +544,8 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: true, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string)
+            AWSShapeProperty(label: "Value", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Key", location: nil, required: true, type: .string)
         ]
         /// The value of the tag.
         public let value: String
@@ -569,7 +569,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: true, type: .string)
+            AWSShapeProperty(label: "Status", location: nil, required: true, type: .string)
         ]
         /// The status of the operation.
         public let status: String
@@ -588,7 +588,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HapgArn", required: true, type: .string)
+            AWSShapeProperty(label: "HapgArn", location: nil, required: true, type: .string)
         ]
         /// The ARN of the high-availability partition group to delete.
         public let hapgArn: String
@@ -607,27 +607,27 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StatusDetails", required: false, type: .string), 
-            AWSShapeProperty(label: "SubnetId", required: false, type: .string), 
-            AWSShapeProperty(label: "EniIp", required: false, type: .string), 
-            AWSShapeProperty(label: "EniId", required: false, type: .string), 
-            AWSShapeProperty(label: "HsmArn", required: false, type: .string), 
-            AWSShapeProperty(label: "SshPublicKey", required: false, type: .string), 
-            AWSShapeProperty(label: "SubscriptionEndDate", required: false, type: .string), 
-            AWSShapeProperty(label: "SshKeyLastUpdated", required: false, type: .string), 
-            AWSShapeProperty(label: "SerialNumber", required: false, type: .string), 
-            AWSShapeProperty(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "IamRoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "ServerCertLastUpdated", required: false, type: .string), 
-            AWSShapeProperty(label: "VpcId", required: false, type: .string), 
-            AWSShapeProperty(label: "SubscriptionType", required: false, type: .enum), 
-            AWSShapeProperty(label: "ServerCertUri", required: false, type: .string), 
-            AWSShapeProperty(label: "Partitions", required: false, type: .list), 
-            AWSShapeProperty(label: "SoftwareVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "HsmType", required: false, type: .string), 
-            AWSShapeProperty(label: "SubscriptionStartDate", required: false, type: .string), 
-            AWSShapeProperty(label: "VendorName", required: false, type: .string)
+            AWSShapeProperty(label: "StatusDetails", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "SubnetId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "EniIp", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "EniId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "HsmArn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "SshPublicKey", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "SubscriptionEndDate", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "SshKeyLastUpdated", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "SerialNumber", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "AvailabilityZone", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Status", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "IamRoleArn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ServerCertLastUpdated", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "VpcId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "SubscriptionType", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "ServerCertUri", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Partitions", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "SoftwareVersion", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "HsmType", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "SubscriptionStartDate", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "VendorName", location: nil, required: false, type: .string)
         ]
         /// Contains additional information about the status of the HSM.
         public let statusDetails: String?
@@ -724,8 +724,8 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ClientList", required: true, type: .list)
+            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ClientList", location: nil, required: true, type: .list)
         ]
         /// If not null, more results are available. Pass this to ListLunaClients to retrieve the next set of items.
         public let nextToken: String?
@@ -748,7 +748,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: true, type: .string)
+            AWSShapeProperty(label: "Status", location: nil, required: true, type: .string)
         ]
         /// The status of the action.
         public let status: String
@@ -767,7 +767,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AZList", required: false, type: .list)
+            AWSShapeProperty(label: "AZList", location: nil, required: false, type: .list)
         ]
         /// The list of Availability Zones that have available AWS CloudHSM capacity.
         public let aZList: [String]?
@@ -785,8 +785,8 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeProperty(label: "TagList", required: true, type: .list)
+            AWSShapeProperty(label: "ResourceArn", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "TagList", location: nil, required: true, type: .list)
         ]
         /// The Amazon Resource Name (ARN) of the AWS CloudHSM resource to tag.
         public let resourceArn: String
@@ -810,7 +810,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClientArn", required: false, type: .string)
+            AWSShapeProperty(label: "ClientArn", location: nil, required: false, type: .string)
         ]
         /// The ARN of the client.
         public let clientArn: String?
@@ -828,7 +828,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HapgArn", required: false, type: .string)
+            AWSShapeProperty(label: "HapgArn", location: nil, required: false, type: .string)
         ]
         /// The ARN of the high-availability partition group.
         public let hapgArn: String?
@@ -846,7 +846,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HsmArn", required: false, type: .string)
+            AWSShapeProperty(label: "HsmArn", location: nil, required: false, type: .string)
         ]
         /// The ARN of the HSM.
         public let hsmArn: String?
@@ -864,8 +864,8 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "HapgList", required: true, type: .list)
+            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "HapgList", location: nil, required: true, type: .list)
         ]
         /// If not null, more results are available. Pass this value to ListHapgs to retrieve the next set of items.
         public let nextToken: String?
@@ -888,14 +888,14 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetId", required: true, type: .string), 
-            AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
-            AWSShapeProperty(label: "EniIp", required: false, type: .string), 
-            AWSShapeProperty(label: "IamRoleArn", required: true, type: .string), 
-            AWSShapeProperty(label: "SshKey", required: true, type: .string), 
-            AWSShapeProperty(label: "SubscriptionType", required: true, type: .enum), 
-            AWSShapeProperty(label: "SyslogIp", required: false, type: .string), 
-            AWSShapeProperty(label: "ExternalId", required: false, type: .string)
+            AWSShapeProperty(label: "SubnetId", location: "SubnetId", required: true, type: .string), 
+            AWSShapeProperty(label: "ClientToken", location: "ClientToken", required: false, type: .string), 
+            AWSShapeProperty(label: "EniIp", location: "EniIp", required: false, type: .string), 
+            AWSShapeProperty(label: "IamRoleArn", location: "IamRoleArn", required: true, type: .string), 
+            AWSShapeProperty(label: "SshKey", location: "SshKey", required: true, type: .string), 
+            AWSShapeProperty(label: "SubscriptionType", location: "SubscriptionType", required: true, type: .enum), 
+            AWSShapeProperty(label: "SyslogIp", location: "SyslogIp", required: false, type: .string), 
+            AWSShapeProperty(label: "ExternalId", location: "ExternalId", required: false, type: .string)
         ]
         /// The identifier of the subnet in your VPC in which to place the HSM.
         public let subnetId: String
@@ -944,8 +944,8 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TagKeyList", required: true, type: .list), 
-            AWSShapeProperty(label: "ResourceArn", required: true, type: .string)
+            AWSShapeProperty(label: "TagKeyList", location: nil, required: true, type: .list), 
+            AWSShapeProperty(label: "ResourceArn", location: nil, required: true, type: .string)
         ]
         /// The tag key or keys to remove. Specify only the tag key to remove (not the value). To overwrite the value for an existing tag, use AddTagsToResource.
         public let tagKeyList: [String]
@@ -977,7 +977,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: true, type: .string)
+            AWSShapeProperty(label: "Status", location: nil, required: true, type: .string)
         ]
         /// The status of the action.
         public let status: String
@@ -996,7 +996,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClientArn", required: true, type: .string)
+            AWSShapeProperty(label: "ClientArn", location: nil, required: true, type: .string)
         ]
         /// The ARN of the client to delete.
         public let clientArn: String
@@ -1015,8 +1015,8 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HsmList", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+            AWSShapeProperty(label: "HsmList", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
         ]
         /// The list of ARNs that identify the HSMs.
         public let hsmList: [String]?
@@ -1038,7 +1038,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HapgArn", required: true, type: .string)
+            AWSShapeProperty(label: "HapgArn", location: nil, required: true, type: .string)
         ]
         /// The ARN of the high-availability partition group to describe.
         public let hapgArn: String
@@ -1057,7 +1057,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClientArn", required: false, type: .string)
+            AWSShapeProperty(label: "ClientArn", location: nil, required: false, type: .string)
         ]
         /// The ARN of the client.
         public let clientArn: String?
@@ -1075,7 +1075,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HsmArn", required: false, type: .string)
+            AWSShapeProperty(label: "HsmArn", location: nil, required: false, type: .string)
         ]
         /// The ARN of the HSM.
         public let hsmArn: String?
@@ -1093,7 +1093,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
         ]
         /// The NextToken value from a previous call to ListHapgs. Pass null if this is the first call.
         public let nextToken: String?

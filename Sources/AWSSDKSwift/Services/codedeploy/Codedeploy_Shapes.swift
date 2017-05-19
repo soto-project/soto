@@ -33,9 +33,9 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "s3Location", required: false, type: .structure), 
-            AWSShapeProperty(label: "gitHubLocation", required: false, type: .structure), 
-            AWSShapeProperty(label: "revisionType", required: false, type: .enum)
+            AWSShapeProperty(label: "s3Location", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "gitHubLocation", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "revisionType", location: nil, required: false, type: .enum)
         ]
         /// Information about the location of application artifacts stored in Amazon S3. 
         public let s3Location: S3Location?
@@ -61,7 +61,7 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentConfigInfo", required: false, type: .structure)
+            AWSShapeProperty(label: "deploymentConfigInfo", location: nil, required: false, type: .structure)
         ]
         /// Information about the deployment configuration.
         public let deploymentConfigInfo: DeploymentConfigInfo?
@@ -85,7 +85,7 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentId", required: false, type: .string)
+            AWSShapeProperty(label: "deploymentId", location: nil, required: false, type: .string)
         ]
         /// A unique deployment ID.
         public let deploymentId: String?
@@ -103,7 +103,7 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentId", required: false, type: .string)
+            AWSShapeProperty(label: "deploymentId", location: nil, required: false, type: .string)
         ]
         /// The ID of the blue/green deployment for which you want to skip the instance termination wait time.
         public let deploymentId: String?
@@ -121,7 +121,7 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentInfo", required: false, type: .structure)
+            AWSShapeProperty(label: "deploymentInfo", location: nil, required: false, type: .structure)
         ]
         /// Information about the deployment.
         public let deploymentInfo: DeploymentInfo?
@@ -139,8 +139,8 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instancesSummary", required: false, type: .list), 
-            AWSShapeProperty(label: "errorMessage", required: false, type: .string)
+            AWSShapeProperty(label: "instancesSummary", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "errorMessage", location: nil, required: false, type: .string)
         ]
         /// Information about the instance.
         public let instancesSummary: [InstanceSummary]?
@@ -166,7 +166,7 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentId", required: true, type: .string)
+            AWSShapeProperty(label: "deploymentId", location: nil, required: true, type: .string)
         ]
         /// A deployment ID associated with the applicable IAM user or AWS account.
         public let deploymentId: String
@@ -185,8 +185,8 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentType", required: false, type: .enum), 
-            AWSShapeProperty(label: "deploymentOption", required: false, type: .enum)
+            AWSShapeProperty(label: "deploymentType", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "deploymentOption", location: nil, required: false, type: .enum)
         ]
         /// Indicates whether to run a standard deployment or a blue/green deployment.
         public let deploymentType: DeploymentType?
@@ -208,29 +208,29 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "targetInstances", required: false, type: .structure), 
-            AWSShapeProperty(label: "completeTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "deploymentGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "instanceTerminationWaitTimeStarted", required: false, type: .boolean), 
-            AWSShapeProperty(label: "rollbackInfo", required: false, type: .structure), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "ignoreApplicationStopFailures", required: false, type: .boolean), 
-            AWSShapeProperty(label: "additionalDeploymentStatusInfo", required: false, type: .string), 
-            AWSShapeProperty(label: "creator", required: false, type: .enum), 
-            AWSShapeProperty(label: "loadBalancerInfo", required: false, type: .structure), 
-            AWSShapeProperty(label: "blueGreenDeploymentConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "applicationName", required: false, type: .string), 
-            AWSShapeProperty(label: "updateOutdatedInstancesOnly", required: false, type: .boolean), 
-            AWSShapeProperty(label: "revision", required: false, type: .structure), 
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "deploymentConfigName", required: false, type: .string), 
-            AWSShapeProperty(label: "deploymentStyle", required: false, type: .structure), 
-            AWSShapeProperty(label: "deploymentId", required: false, type: .string), 
-            AWSShapeProperty(label: "errorInformation", required: false, type: .structure), 
-            AWSShapeProperty(label: "autoRollbackConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "deploymentOverview", required: false, type: .structure), 
-            AWSShapeProperty(label: "createTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "startTime", required: false, type: .timestamp)
+            AWSShapeProperty(label: "targetInstances", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "completeTime", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "deploymentGroupName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "instanceTerminationWaitTimeStarted", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "rollbackInfo", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "description", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ignoreApplicationStopFailures", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "additionalDeploymentStatusInfo", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "creator", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "loadBalancerInfo", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "blueGreenDeploymentConfiguration", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "applicationName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "updateOutdatedInstancesOnly", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "revision", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "status", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "deploymentConfigName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "deploymentStyle", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "deploymentId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "errorInformation", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "autoRollbackConfiguration", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "deploymentOverview", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "createTime", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "startTime", location: nil, required: false, type: .timestamp)
         ]
         /// Information about the instances that belong to the replacement environment in a blue/green deployment.
         public let targetInstances: TargetInstances?
@@ -349,8 +349,8 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "revisions", required: true, type: .list), 
-            AWSShapeProperty(label: "applicationName", required: true, type: .string)
+            AWSShapeProperty(label: "revisions", location: nil, required: true, type: .list), 
+            AWSShapeProperty(label: "applicationName", location: nil, required: true, type: .string)
         ]
         /// Information to get about the application revisions, including type and location.
         public let revisions: [RevisionLocation]
@@ -374,8 +374,8 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "start", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "end", required: false, type: .timestamp)
+            AWSShapeProperty(label: "start", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "end", location: nil, required: false, type: .timestamp)
         ]
         /// The start time of the time range.  Specify null to leave the start time open-ended. 
         public let start: Date?
@@ -397,8 +397,8 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string)
+            AWSShapeProperty(label: "Value", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Key", location: nil, required: false, type: .string)
         ]
         /// The tag's value.
         public let value: String?
@@ -420,7 +420,7 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceNames", required: false, type: .list)
+            AWSShapeProperty(label: "instanceNames", location: nil, required: false, type: .list)
         ]
         /// The names of the on-premises instances about which to get information.
         public let instanceNames: [String]?
@@ -444,9 +444,9 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string)
+            AWSShapeProperty(label: "Type", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "Value", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Key", location: nil, required: false, type: .string)
         ]
         /// The on-premises instance tag filter type:   KEY_ONLY: Key only.   VALUE_ONLY: Value only.   KEY_AND_VALUE: Key and value.  
         public let `type`: TagFilterType?
@@ -479,8 +479,8 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "code", required: false, type: .enum), 
-            AWSShapeProperty(label: "message", required: false, type: .string)
+            AWSShapeProperty(label: "code", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "message", location: nil, required: false, type: .string)
         ]
         /// For information about additional error codes, see Error Codes for AWS CodeDeploy in the AWS CodeDeploy User Guide. The error code:   APPLICATION_MISSING: The application was missing. This error code will most likely be raised if the application is deleted after the deployment is created but before it is started.   DEPLOYMENT_GROUP_MISSING: The deployment group was missing. This error code will most likely be raised if the deployment group is deleted after the deployment is created but before it is started.   HEALTH_CONSTRAINTS: The deployment failed on too many instances to be successfully deployed within the instance health constraints specified.   HEALTH_CONSTRAINTS_INVALID: The revision cannot be successfully deployed within the instance health constraints specified.   IAM_ROLE_MISSING: The service role cannot be accessed.   IAM_ROLE_PERMISSIONS: The service role does not have the correct permissions.   INTERNAL_ERROR: There was an internal error.   NO_EC2_SUBSCRIPTION: The calling account is not subscribed to the Amazon EC2 service.   NO_INSTANCES: No instance were specified, or no instance can be found.   OVER_MAX_INSTANCES: The maximum number of instance was exceeded.   THROTTLED: The operation was throttled because the calling account exceeded the throttling limits of one or more AWS services.   TIMEOUT: The deployment has timed out.   REVISION_MISSING: The revision ID was missing. This error code will most likely be raised if the revision is deleted after the deployment is created but before it is started.  
         public let code: ErrorCode?
@@ -502,13 +502,13 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "sortOrder", required: false, type: .enum), 
-            AWSShapeProperty(label: "s3KeyPrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "s3Bucket", required: false, type: .string), 
-            AWSShapeProperty(label: "sortBy", required: false, type: .enum), 
-            AWSShapeProperty(label: "applicationName", required: true, type: .string), 
-            AWSShapeProperty(label: "deployed", required: false, type: .enum)
+            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "sortOrder", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "s3KeyPrefix", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "s3Bucket", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "sortBy", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "applicationName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "deployed", location: nil, required: false, type: .enum)
         ]
         /// An identifier returned from the previous list application revisions call. It can be used to return the next set of applications in the list.
         public let nextToken: String?
@@ -551,7 +551,7 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentsInfo", required: false, type: .list)
+            AWSShapeProperty(label: "deploymentsInfo", location: nil, required: false, type: .list)
         ]
         /// Information about the deployments.
         public let deploymentsInfo: [DeploymentInfo]?
@@ -573,7 +573,7 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "applicationName", required: true, type: .string)
+            AWSShapeProperty(label: "applicationName", location: nil, required: true, type: .string)
         ]
         /// The name of the application. This name must be unique with the applicable IAM user or AWS account.
         public let applicationName: String
@@ -592,7 +592,7 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "hooksNotCleanedUp", required: false, type: .list)
+            AWSShapeProperty(label: "hooksNotCleanedUp", location: nil, required: false, type: .list)
         ]
         /// If the output contains no data, and the corresponding deployment group contained at least one Auto Scaling group, AWS CodeDeploy successfully removed all corresponding Auto Scaling lifecycle event hooks from the AWS account. If the output contains data, AWS CodeDeploy could not remove some Auto Scaling lifecycle event hooks from the AWS account.
         public let hooksNotCleanedUp: [AutoScalingGroup]?
@@ -614,7 +614,7 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string)
+            AWSShapeProperty(label: "name", location: nil, required: false, type: .string)
         ]
         /// The name of the alarm. Maximum length is 255 characters. Each alarm name can be used only once in a list of alarms.
         public let name: String?
@@ -632,7 +632,7 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentConfigId", required: false, type: .string)
+            AWSShapeProperty(label: "deploymentConfigId", location: nil, required: false, type: .string)
         ]
         /// A unique deployment configuration ID.
         public let deploymentConfigId: String?
@@ -650,7 +650,7 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceInfo", required: false, type: .structure)
+            AWSShapeProperty(label: "instanceInfo", location: nil, required: false, type: .structure)
         ]
         /// Information about the on-premises instance.
         public let instanceInfo: InstanceInfo?
@@ -668,7 +668,7 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceSummary", required: false, type: .structure)
+            AWSShapeProperty(label: "instanceSummary", location: nil, required: false, type: .structure)
         ]
         /// Information about the instance.
         public let instanceSummary: InstanceSummary?
@@ -686,8 +686,8 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "actionOnTimeout", required: false, type: .enum), 
-            AWSShapeProperty(label: "waitTimeInMinutes", required: false, type: .integer)
+            AWSShapeProperty(label: "actionOnTimeout", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "waitTimeInMinutes", location: nil, required: false, type: .integer)
         ]
         /// Information about when to reroute traffic from an original environment to a replacement environment in a blue/green deployment.   CONTINUE_DEPLOYMENT: Register new instances with the load balancer immediately after the new application revision is installed on the instances in the replacement environment.   STOP_DEPLOYMENT: Do not register new instances with load balancer unless traffic is rerouted manually. If traffic is not rerouted manually before the end of the specified wait period, the deployment status is changed to Stopped.  
         public let actionOnTimeout: DeploymentReadyAction?
@@ -709,9 +709,9 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "rollbackDeploymentId", required: false, type: .string), 
-            AWSShapeProperty(label: "rollbackTriggeringDeploymentId", required: false, type: .string), 
-            AWSShapeProperty(label: "rollbackMessage", required: false, type: .string)
+            AWSShapeProperty(label: "rollbackDeploymentId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "rollbackTriggeringDeploymentId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "rollbackMessage", location: nil, required: false, type: .string)
         ]
         /// The ID of the deployment rollback.
         public let rollbackDeploymentId: String?
@@ -737,11 +737,11 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "createTimeRange", required: false, type: .structure), 
-            AWSShapeProperty(label: "deploymentGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "includeOnlyStatuses", required: false, type: .list), 
-            AWSShapeProperty(label: "applicationName", required: false, type: .string)
+            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "createTimeRange", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "deploymentGroupName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "includeOnlyStatuses", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "applicationName", location: nil, required: false, type: .string)
         ]
         /// An identifier returned from the previous list deployments call. It can be used to return the next set of deployments in the list.
         public let nextToken: String?
@@ -775,7 +775,7 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentIds", required: false, type: .list)
+            AWSShapeProperty(label: "deploymentIds", location: nil, required: false, type: .list)
         ]
         /// A list of deployment IDs, separated by spaces.
         public let deploymentIds: [String]?
@@ -799,7 +799,7 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "hooksNotCleanedUp", required: false, type: .list)
+            AWSShapeProperty(label: "hooksNotCleanedUp", location: nil, required: false, type: .list)
         ]
         /// If the output contains no data, and the corresponding deployment group contained at least one Auto Scaling group, AWS CodeDeploy successfully removed all corresponding Auto Scaling lifecycle event hooks from the Amazon EC2 instances in the Auto Scaling group. If the output contains data, AWS CodeDeploy could not remove some Auto Scaling lifecycle event hooks from the Amazon EC2 instances in the Auto Scaling group.
         public let hooksNotCleanedUp: [AutoScalingGroup]?
@@ -821,8 +821,8 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "revisions", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+            AWSShapeProperty(label: "revisions", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
         ]
         /// A list of locations that contain the matching revisions.
         public let revisions: [RevisionLocation]?
@@ -855,8 +855,8 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceNames", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+            AWSShapeProperty(label: "instanceNames", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
         ]
         /// The list of matching on-premises instance names.
         public let instanceNames: [String]?
@@ -878,7 +878,7 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
         ]
         /// An identifier returned from the previous list deployment configurations call. It can be used to return the next set of deployment configurations in the list. 
         public let nextToken: String?
@@ -902,7 +902,7 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "applicationsInfo", required: false, type: .list)
+            AWSShapeProperty(label: "applicationsInfo", location: nil, required: false, type: .list)
         ]
         /// Information about the applications.
         public let applicationsInfo: [ApplicationInfo]?
@@ -934,9 +934,9 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "terminateBlueInstancesOnDeploymentSuccess", required: false, type: .structure), 
-            AWSShapeProperty(label: "greenFleetProvisioningOption", required: false, type: .structure), 
-            AWSShapeProperty(label: "deploymentReadyOption", required: false, type: .structure)
+            AWSShapeProperty(label: "terminateBlueInstancesOnDeploymentSuccess", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "greenFleetProvisioningOption", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "deploymentReadyOption", location: nil, required: false, type: .structure)
         ]
         /// Information about whether to terminate instances in the original fleet during a blue/green deployment.
         public let terminateBlueInstancesOnDeploymentSuccess: BlueInstanceTerminationOption?
@@ -962,8 +962,8 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentGroupsInfo", required: false, type: .list), 
-            AWSShapeProperty(label: "errorMessage", required: false, type: .string)
+            AWSShapeProperty(label: "deploymentGroupsInfo", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "errorMessage", location: nil, required: false, type: .string)
         ]
         /// Information about the deployment groups.
         public let deploymentGroupsInfo: [DeploymentGroupInfo]?
@@ -989,7 +989,7 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentId", required: false, type: .string)
+            AWSShapeProperty(label: "deploymentId", location: nil, required: false, type: .string)
         ]
         /// The deployment ID of the blue/green deployment for which you want to start rerouting traffic to the replacement environment.
         public let deploymentId: String?
@@ -1007,7 +1007,7 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentConfigName", required: true, type: .string)
+            AWSShapeProperty(label: "deploymentConfigName", location: nil, required: true, type: .string)
         ]
         /// The name of a deployment configuration associated with the applicable IAM user or AWS account.
         public let deploymentConfigName: String
@@ -1026,8 +1026,8 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "hook", required: false, type: .string)
+            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "hook", location: nil, required: false, type: .string)
         ]
         /// The Auto Scaling group name.
         public let name: String?
@@ -1049,8 +1049,8 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "applicationName", required: true, type: .string)
+            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "applicationName", location: nil, required: true, type: .string)
         ]
         /// An identifier returned from the previous list deployment groups call. It can be used to return the next set of deployment groups in the list.
         public let nextToken: String?
@@ -1073,10 +1073,10 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceStatusFilter", required: false, type: .list), 
-            AWSShapeProperty(label: "instanceTypeFilter", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "deploymentId", required: true, type: .string)
+            AWSShapeProperty(label: "instanceStatusFilter", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "instanceTypeFilter", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "deploymentId", location: nil, required: true, type: .string)
         ]
         /// A subset of instances to list by status:   Pending: Include those instance with pending deployments.   InProgress: Include those instance where deployments are still in progress.   Succeeded: Include those instances with successful deployments.   Failed: Include those instance with failed deployments.   Skipped: Include those instance with skipped deployments.   Unknown: Include those instance with deployments in an unknown state.  
         public let instanceStatusFilter: [InstanceStatus]?
@@ -1140,7 +1140,7 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "applicationName", required: true, type: .string)
+            AWSShapeProperty(label: "applicationName", location: nil, required: true, type: .string)
         ]
         /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
         public let applicationName: String
@@ -1159,19 +1159,19 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "serviceRoleArn", required: true, type: .string), 
-            AWSShapeProperty(label: "loadBalancerInfo", required: false, type: .structure), 
-            AWSShapeProperty(label: "alarmConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "blueGreenDeploymentConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "applicationName", required: true, type: .string), 
-            AWSShapeProperty(label: "autoScalingGroups", required: false, type: .list), 
-            AWSShapeProperty(label: "deploymentConfigName", required: false, type: .string), 
-            AWSShapeProperty(label: "triggerConfigurations", required: false, type: .list), 
-            AWSShapeProperty(label: "deploymentStyle", required: false, type: .structure), 
-            AWSShapeProperty(label: "ec2TagFilters", required: false, type: .list), 
-            AWSShapeProperty(label: "onPremisesInstanceTagFilters", required: false, type: .list), 
-            AWSShapeProperty(label: "autoRollbackConfiguration", required: false, type: .structure)
+            AWSShapeProperty(label: "deploymentGroupName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "serviceRoleArn", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "loadBalancerInfo", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "alarmConfiguration", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "blueGreenDeploymentConfiguration", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "applicationName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "autoScalingGroups", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "deploymentConfigName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "triggerConfigurations", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "deploymentStyle", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "ec2TagFilters", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "onPremisesInstanceTagFilters", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "autoRollbackConfiguration", location: nil, required: false, type: .structure)
         ]
         /// The name of a new deployment group for the specified application.
         public let deploymentGroupName: String
@@ -1252,7 +1252,7 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "elbInfoList", required: false, type: .list)
+            AWSShapeProperty(label: "elbInfoList", location: nil, required: false, type: .list)
         ]
         /// An array containing information about the load balancer in Elastic Load Balancing to use in a blue/green deployment.
         public let elbInfoList: [ELBInfo]?
@@ -1274,8 +1274,8 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentId", required: true, type: .string), 
-            AWSShapeProperty(label: "instanceIds", required: true, type: .list)
+            AWSShapeProperty(label: "deploymentId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "instanceIds", location: nil, required: true, type: .list)
         ]
         /// The unique ID of a deployment.
         public let deploymentId: String
@@ -1299,7 +1299,7 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceInfos", required: false, type: .list)
+            AWSShapeProperty(label: "instanceInfos", location: nil, required: false, type: .list)
         ]
         /// Information about the on-premises instances.
         public let instanceInfos: [InstanceInfo]?
@@ -1331,8 +1331,8 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "statusMessage", required: false, type: .string)
+            AWSShapeProperty(label: "status", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "statusMessage", location: nil, required: false, type: .string)
         ]
         /// The status of the stop deployment operation:   Pending: The stop operation is pending.   Succeeded: The stop operation was successful.  
         public let status: StopStatus?
@@ -1354,8 +1354,8 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "events", required: false, type: .list), 
-            AWSShapeProperty(label: "enabled", required: false, type: .boolean)
+            AWSShapeProperty(label: "events", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "enabled", location: nil, required: false, type: .boolean)
         ]
         /// The event type or types that trigger a rollback.
         public let events: [AutoRollbackEvent]?
@@ -1377,9 +1377,9 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentGroups", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "applicationName", required: false, type: .string)
+            AWSShapeProperty(label: "deploymentGroups", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "applicationName", location: nil, required: false, type: .string)
         ]
         /// A list of corresponding deployment group names.
         public let deploymentGroups: [String]?
@@ -1405,8 +1405,8 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "deploymentConfigsList", required: false, type: .list)
+            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "deploymentConfigsList", location: nil, required: false, type: .list)
         ]
         /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list deployment configurations call to return the next set of deployment configurations in the list.
         public let nextToken: String?
@@ -1428,8 +1428,8 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "tags", required: true, type: .list), 
-            AWSShapeProperty(label: "instanceNames", required: true, type: .list)
+            AWSShapeProperty(label: "tags", location: nil, required: true, type: .list), 
+            AWSShapeProperty(label: "instanceNames", location: nil, required: true, type: .list)
         ]
         /// The tag key-value pairs to add to the on-premises instances. Keys and values are both required. Keys cannot be null or empty strings. Value-only tags are not allowed.
         public let tags: [Tag]
@@ -1464,8 +1464,8 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "commitId", required: false, type: .string), 
-            AWSShapeProperty(label: "repository", required: false, type: .string)
+            AWSShapeProperty(label: "commitId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "repository", location: nil, required: false, type: .string)
         ]
         /// The SHA1 commit ID of the GitHub commit that represents the bundled artifacts for the application revision.
         public let commitId: String?
@@ -1487,8 +1487,8 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentConfigName", required: true, type: .string), 
-            AWSShapeProperty(label: "minimumHealthyHosts", required: false, type: .structure)
+            AWSShapeProperty(label: "deploymentConfigName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "minimumHealthyHosts", location: nil, required: false, type: .structure)
         ]
         /// The name of the deployment configuration to create.
         public let deploymentConfigName: String
@@ -1511,9 +1511,9 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "tagFilters", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "registrationStatus", required: false, type: .enum)
+            AWSShapeProperty(label: "tagFilters", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "registrationStatus", location: nil, required: false, type: .enum)
         ]
         /// The on-premises instance tags that will be used to restrict the corresponding on-premises instance names returned.
         public let tagFilters: [TagFilter]?
@@ -1543,9 +1543,9 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "revision", required: true, type: .structure), 
-            AWSShapeProperty(label: "applicationName", required: true, type: .string)
+            AWSShapeProperty(label: "description", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "revision", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "applicationName", location: nil, required: true, type: .string)
         ]
         /// A comment about the revision.
         public let description: String?
@@ -1573,7 +1573,7 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "applicationId", required: false, type: .string)
+            AWSShapeProperty(label: "applicationId", location: nil, required: false, type: .string)
         ]
         /// A unique application ID.
         public let applicationId: String?
@@ -1591,8 +1591,8 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "tags", required: true, type: .list), 
-            AWSShapeProperty(label: "instanceNames", required: true, type: .list)
+            AWSShapeProperty(label: "tags", location: nil, required: true, type: .list), 
+            AWSShapeProperty(label: "instanceNames", location: nil, required: true, type: .list)
         ]
         /// The tag key-value pairs to remove from the on-premises instances.
         public let tags: [Tag]
@@ -1616,8 +1616,8 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "genericRevisionInfo", required: false, type: .structure), 
-            AWSShapeProperty(label: "revisionLocation", required: false, type: .structure)
+            AWSShapeProperty(label: "genericRevisionInfo", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "revisionLocation", location: nil, required: false, type: .structure)
         ]
         /// Information about an application revision, including usage details and associated deployment groups.
         public let genericRevisionInfo: GenericRevisionInfo?
@@ -1639,9 +1639,9 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string)
+            AWSShapeProperty(label: "Type", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "Value", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Key", location: nil, required: false, type: .string)
         ]
         /// The tag filter type:   KEY_ONLY: Key only.   VALUE_ONLY: Value only.   KEY_AND_VALUE: Key and value.  
         public let `type`: EC2TagFilterType?
@@ -1667,21 +1667,21 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "serviceRoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "loadBalancerInfo", required: false, type: .structure), 
-            AWSShapeProperty(label: "deploymentGroupId", required: false, type: .string), 
-            AWSShapeProperty(label: "alarmConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "blueGreenDeploymentConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "applicationName", required: false, type: .string), 
-            AWSShapeProperty(label: "autoScalingGroups", required: false, type: .list), 
-            AWSShapeProperty(label: "deploymentConfigName", required: false, type: .string), 
-            AWSShapeProperty(label: "triggerConfigurations", required: false, type: .list), 
-            AWSShapeProperty(label: "deploymentStyle", required: false, type: .structure), 
-            AWSShapeProperty(label: "onPremisesInstanceTagFilters", required: false, type: .list), 
-            AWSShapeProperty(label: "ec2TagFilters", required: false, type: .list), 
-            AWSShapeProperty(label: "autoRollbackConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "targetRevision", required: false, type: .structure)
+            AWSShapeProperty(label: "deploymentGroupName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "serviceRoleArn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "loadBalancerInfo", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "deploymentGroupId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "alarmConfiguration", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "blueGreenDeploymentConfiguration", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "applicationName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "autoScalingGroups", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "deploymentConfigName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "triggerConfigurations", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "deploymentStyle", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "onPremisesInstanceTagFilters", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "ec2TagFilters", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "autoRollbackConfiguration", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "targetRevision", location: nil, required: false, type: .structure)
         ]
         /// The deployment group name.
         public let deploymentGroupName: String?
@@ -1771,7 +1771,7 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
         ]
         /// An identifier returned from the previous list applications call. It can be used to return the next set of applications in the list.
         public let nextToken: String?
@@ -1789,8 +1789,8 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentId", required: true, type: .string), 
-            AWSShapeProperty(label: "autoRollbackEnabled", required: false, type: .boolean)
+            AWSShapeProperty(label: "deploymentId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "autoRollbackEnabled", location: nil, required: false, type: .boolean)
         ]
         /// The unique ID of a deployment.
         public let deploymentId: String
@@ -1820,13 +1820,13 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "iamSessionArn", required: false, type: .string), 
-            AWSShapeProperty(label: "instanceName", required: false, type: .string), 
-            AWSShapeProperty(label: "deregisterTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "tags", required: false, type: .list), 
-            AWSShapeProperty(label: "registerTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "instanceArn", required: false, type: .string), 
-            AWSShapeProperty(label: "iamUserArn", required: false, type: .string)
+            AWSShapeProperty(label: "iamSessionArn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "instanceName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "deregisterTime", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "tags", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "registerTime", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "instanceArn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "iamUserArn", location: nil, required: false, type: .string)
         ]
         /// The ARN of the IAM session associated with the on-premises instance.
         public let iamSessionArn: String?
@@ -1872,8 +1872,8 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "applications", required: false, type: .list)
+            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "applications", location: nil, required: false, type: .list)
         ]
         /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list applications call to return the next set of applications, will also be returned. in the list.
         public let nextToken: String?
@@ -1895,10 +1895,10 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "scriptName", required: false, type: .string), 
-            AWSShapeProperty(label: "message", required: false, type: .string), 
-            AWSShapeProperty(label: "errorCode", required: false, type: .enum), 
-            AWSShapeProperty(label: "logTail", required: false, type: .string)
+            AWSShapeProperty(label: "scriptName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "message", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "errorCode", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "logTail", location: nil, required: false, type: .string)
         ]
         /// The name of the script.
         public let scriptName: String?
@@ -1928,11 +1928,11 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "firstUsedTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "lastUsedTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "registerTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "deploymentGroups", required: false, type: .list)
+            AWSShapeProperty(label: "description", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "firstUsedTime", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "lastUsedTime", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "registerTime", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "deploymentGroups", location: nil, required: false, type: .list)
         ]
         /// A comment about the revision.
         public let description: String?
@@ -1972,7 +1972,7 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "applicationNames", required: false, type: .list)
+            AWSShapeProperty(label: "applicationNames", location: nil, required: false, type: .list)
         ]
         /// A list of application names separated by spaces.
         public let applicationNames: [String]?
@@ -1990,8 +1990,8 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "revision", required: true, type: .structure), 
-            AWSShapeProperty(label: "applicationName", required: true, type: .string)
+            AWSShapeProperty(label: "revision", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "applicationName", location: nil, required: true, type: .string)
         ]
         /// Information about the application revision to get, including type and location.
         public let revision: RevisionLocation
@@ -2037,10 +2037,10 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "linkedToGitHub", required: false, type: .boolean), 
-            AWSShapeProperty(label: "createTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "applicationName", required: false, type: .string), 
-            AWSShapeProperty(label: "applicationId", required: false, type: .string)
+            AWSShapeProperty(label: "linkedToGitHub", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "createTime", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "applicationName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "applicationId", location: nil, required: false, type: .string)
         ]
         /// True if the user has authenticated with GitHub for the specified application; otherwise, false.
         public let linkedToGitHub: Bool?
@@ -2076,7 +2076,7 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentGroupInfo", required: false, type: .structure)
+            AWSShapeProperty(label: "deploymentGroupInfo", location: nil, required: false, type: .structure)
         ]
         /// Information about the deployment group.
         public let deploymentGroupInfo: DeploymentGroupInfo?
@@ -2094,8 +2094,8 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "action", required: false, type: .enum), 
-            AWSShapeProperty(label: "terminationWaitTimeInMinutes", required: false, type: .integer)
+            AWSShapeProperty(label: "action", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "terminationWaitTimeInMinutes", location: nil, required: false, type: .integer)
         ]
         /// The action to take on instances in the original environment after a successful blue/green deployment.   TERMINATE: Instances are terminated after a specified wait time.   KEEP_ALIVE: Instances are left running after they are deregistered from the load balancer and removed from the deployment group.  
         public let action: InstanceAction?
@@ -2117,9 +2117,9 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "triggerEvents", required: false, type: .list), 
-            AWSShapeProperty(label: "triggerName", required: false, type: .string), 
-            AWSShapeProperty(label: "triggerTargetArn", required: false, type: .string)
+            AWSShapeProperty(label: "triggerEvents", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "triggerName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "triggerTargetArn", location: nil, required: false, type: .string)
         ]
         /// The event type or types for which notifications are triggered.
         public let triggerEvents: [TriggerEventType]?
@@ -2163,8 +2163,8 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "applicationName", required: true, type: .string)
+            AWSShapeProperty(label: "deploymentGroupName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "applicationName", location: nil, required: true, type: .string)
         ]
         /// The name of an existing deployment group for the specified application.
         public let deploymentGroupName: String
@@ -2188,9 +2188,9 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "alarms", required: false, type: .list), 
-            AWSShapeProperty(label: "enabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ignorePollAlarmFailure", required: false, type: .boolean)
+            AWSShapeProperty(label: "alarms", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "enabled", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "ignorePollAlarmFailure", location: nil, required: false, type: .boolean)
         ]
         /// A list of alarms configured for the deployment group. A maximum of 10 alarms can be added to a deployment group.
         public let alarms: [Alarm]?
@@ -2220,8 +2220,8 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentGroupNames", required: true, type: .list), 
-            AWSShapeProperty(label: "applicationName", required: true, type: .string)
+            AWSShapeProperty(label: "deploymentGroupNames", location: nil, required: true, type: .list), 
+            AWSShapeProperty(label: "applicationName", location: nil, required: true, type: .string)
         ]
         /// The deployment groups' names.
         public let deploymentGroupNames: [String]
@@ -2245,15 +2245,15 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "revision", required: false, type: .structure), 
-            AWSShapeProperty(label: "deploymentConfigName", required: false, type: .string), 
-            AWSShapeProperty(label: "targetInstances", required: false, type: .structure), 
-            AWSShapeProperty(label: "ignoreApplicationStopFailures", required: false, type: .boolean), 
-            AWSShapeProperty(label: "deploymentGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "updateOutdatedInstancesOnly", required: false, type: .boolean), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "autoRollbackConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "applicationName", required: true, type: .string)
+            AWSShapeProperty(label: "revision", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "deploymentConfigName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "targetInstances", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "ignoreApplicationStopFailures", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "deploymentGroupName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "updateOutdatedInstancesOnly", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "description", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "autoRollbackConfiguration", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "applicationName", location: nil, required: true, type: .string)
         ]
         /// The type and location of the revision to deploy.
         public let revision: RevisionLocation?
@@ -2304,11 +2304,11 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "bundleType", required: false, type: .enum), 
-            AWSShapeProperty(label: "version", required: false, type: .string), 
-            AWSShapeProperty(label: "bucket", required: false, type: .string), 
-            AWSShapeProperty(label: "key", required: false, type: .string), 
-            AWSShapeProperty(label: "eTag", required: false, type: .string)
+            AWSShapeProperty(label: "bundleType", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "version", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "bucket", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "key", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "eTag", location: nil, required: false, type: .string)
         ]
         /// The file type of the application revision. Must be one of the following:   tar: A tar archive file.   tgz: A compressed tar archive file.   zip: A zip archive file.  
         public let bundleType: BundleType?
@@ -2342,7 +2342,7 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "application", required: false, type: .structure)
+            AWSShapeProperty(label: "application", location: nil, required: false, type: .structure)
         ]
         /// Information about the application.
         public let application: ApplicationInfo?
@@ -2360,7 +2360,7 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string)
+            AWSShapeProperty(label: "name", location: nil, required: false, type: .string)
         ]
         /// The name of the load balancer that will be used to route traffic from original instances to replacement instances in a blue/green deployment.
         public let name: String?
@@ -2378,7 +2378,7 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentConfigName", required: true, type: .string)
+            AWSShapeProperty(label: "deploymentConfigName", location: nil, required: true, type: .string)
         ]
         /// The name of a deployment configuration associated with the applicable IAM user or AWS account.
         public let deploymentConfigName: String
@@ -2404,8 +2404,8 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deployments", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+            AWSShapeProperty(label: "deployments", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
         ]
         /// A list of deployment IDs.
         public let deployments: [String]?
@@ -2427,8 +2427,8 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "applicationName", required: true, type: .string)
+            AWSShapeProperty(label: "deploymentGroupName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "applicationName", location: nil, required: true, type: .string)
         ]
         /// The name of an existing deployment group for the specified application.
         public let deploymentGroupName: String
@@ -2452,8 +2452,8 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "instancesList", required: false, type: .list)
+            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "instancesList", location: nil, required: false, type: .list)
         ]
         /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list deployment instances call to return the next set of deployment instances in the list.
         public let nextToken: String?
@@ -2475,7 +2475,7 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceName", required: true, type: .string)
+            AWSShapeProperty(label: "instanceName", location: nil, required: true, type: .string)
         ]
         /// The name of the on-premises instance to deregister.
         public let instanceName: String
@@ -2494,9 +2494,9 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "revisions", required: false, type: .list), 
-            AWSShapeProperty(label: "errorMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "applicationName", required: false, type: .string)
+            AWSShapeProperty(label: "revisions", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "errorMessage", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "applicationName", location: nil, required: false, type: .string)
         ]
         /// Additional information about the revisions, including the type and location.
         public let revisions: [RevisionInfo]?
@@ -2526,7 +2526,7 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "applicationName", required: true, type: .string)
+            AWSShapeProperty(label: "applicationName", location: nil, required: true, type: .string)
         ]
         /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
         public let applicationName: String
@@ -2545,7 +2545,7 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceName", required: true, type: .string)
+            AWSShapeProperty(label: "instanceName", location: nil, required: true, type: .string)
         ]
         /// The name of the on-premises instance about which to get information.
         public let instanceName: String
@@ -2564,9 +2564,9 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "revision", required: false, type: .structure), 
-            AWSShapeProperty(label: "revisionInfo", required: false, type: .structure), 
-            AWSShapeProperty(label: "applicationName", required: false, type: .string)
+            AWSShapeProperty(label: "revision", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "revisionInfo", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "applicationName", location: nil, required: false, type: .string)
         ]
         /// Additional information about the revision, including type and location.
         public let revision: RevisionLocation?
@@ -2592,7 +2592,7 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "action", required: false, type: .enum)
+            AWSShapeProperty(label: "action", location: nil, required: false, type: .enum)
         ]
         /// The method used to add instances to a replacement environment.   DISCOVER_EXISTING: Use instances that already exist or will be created manually.   COPY_AUTO_SCALING_GROUP: Use settings from a specified Auto Scaling group to define and create instances in a new Auto Scaling group.  
         public let action: GreenFleetProvisioningAction?
@@ -2610,12 +2610,12 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InProgress", required: false, type: .long), 
-            AWSShapeProperty(label: "Pending", required: false, type: .long), 
-            AWSShapeProperty(label: "Skipped", required: false, type: .long), 
-            AWSShapeProperty(label: "Succeeded", required: false, type: .long), 
-            AWSShapeProperty(label: "Ready", required: false, type: .long), 
-            AWSShapeProperty(label: "Failed", required: false, type: .long)
+            AWSShapeProperty(label: "InProgress", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "Pending", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "Skipped", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "Succeeded", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "Ready", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "Failed", location: nil, required: false, type: .long)
         ]
         /// The number of instances in which the deployment is in progress.
         public let inProgress: Int64?
@@ -2653,8 +2653,8 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "newApplicationName", required: false, type: .string), 
-            AWSShapeProperty(label: "applicationName", required: false, type: .string)
+            AWSShapeProperty(label: "newApplicationName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "applicationName", location: nil, required: false, type: .string)
         ]
         /// The new name to give the application.
         public let newApplicationName: String?
@@ -2676,20 +2676,20 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "serviceRoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "newDeploymentGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "loadBalancerInfo", required: false, type: .structure), 
-            AWSShapeProperty(label: "alarmConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "blueGreenDeploymentConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "applicationName", required: true, type: .string), 
-            AWSShapeProperty(label: "autoScalingGroups", required: false, type: .list), 
-            AWSShapeProperty(label: "deploymentConfigName", required: false, type: .string), 
-            AWSShapeProperty(label: "triggerConfigurations", required: false, type: .list), 
-            AWSShapeProperty(label: "deploymentStyle", required: false, type: .structure), 
-            AWSShapeProperty(label: "currentDeploymentGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "onPremisesInstanceTagFilters", required: false, type: .list), 
-            AWSShapeProperty(label: "ec2TagFilters", required: false, type: .list), 
-            AWSShapeProperty(label: "autoRollbackConfiguration", required: false, type: .structure)
+            AWSShapeProperty(label: "serviceRoleArn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "newDeploymentGroupName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "loadBalancerInfo", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "alarmConfiguration", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "blueGreenDeploymentConfiguration", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "applicationName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "autoScalingGroups", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "deploymentConfigName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "triggerConfigurations", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "deploymentStyle", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "currentDeploymentGroupName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "onPremisesInstanceTagFilters", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "ec2TagFilters", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "autoRollbackConfiguration", location: nil, required: false, type: .structure)
         ]
         /// A replacement ARN for the service role, if you want to change it.
         public let serviceRoleArn: String?
@@ -2773,7 +2773,7 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentGroupId", required: false, type: .string)
+            AWSShapeProperty(label: "deploymentGroupId", location: nil, required: false, type: .string)
         ]
         /// A unique deployment group ID.
         public let deploymentGroupId: String?
@@ -2791,12 +2791,12 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "instanceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "deploymentId", required: false, type: .string), 
-            AWSShapeProperty(label: "lifecycleEvents", required: false, type: .list)
+            AWSShapeProperty(label: "instanceId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "status", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "instanceType", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "lastUpdatedAt", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "deploymentId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "lifecycleEvents", location: nil, required: false, type: .list)
         ]
         /// The instance ID.
         public let instanceId: String?
@@ -2838,9 +2838,9 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "iamSessionArn", required: false, type: .string), 
-            AWSShapeProperty(label: "iamUserArn", required: false, type: .string), 
-            AWSShapeProperty(label: "instanceName", required: true, type: .string)
+            AWSShapeProperty(label: "iamSessionArn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "iamUserArn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "instanceName", location: nil, required: true, type: .string)
         ]
         /// The ARN of the IAM session to associate with the on-premises instance.
         public let iamSessionArn: String?
@@ -2879,10 +2879,10 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentConfigName", required: false, type: .string), 
-            AWSShapeProperty(label: "minimumHealthyHosts", required: false, type: .structure), 
-            AWSShapeProperty(label: "createTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "deploymentConfigId", required: false, type: .string)
+            AWSShapeProperty(label: "deploymentConfigName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "minimumHealthyHosts", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "createTime", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "deploymentConfigId", location: nil, required: false, type: .string)
         ]
         /// The deployment configuration name.
         public let deploymentConfigName: String?
@@ -2912,11 +2912,11 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "diagnostics", required: false, type: .structure), 
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "endTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "startTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "lifecycleEventName", required: false, type: .string)
+            AWSShapeProperty(label: "diagnostics", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "status", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "endTime", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "startTime", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "lifecycleEventName", location: nil, required: false, type: .string)
         ]
         /// Diagnostic information about the deployment lifecycle event.
         public let diagnostics: Diagnostics?
@@ -2950,8 +2950,8 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "tagFilters", required: false, type: .list), 
-            AWSShapeProperty(label: "autoScalingGroups", required: false, type: .list)
+            AWSShapeProperty(label: "tagFilters", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "autoScalingGroups", location: nil, required: false, type: .list)
         ]
         /// The tag filter key, type, and value used to identify Amazon EC2 instances in a replacement environment for a blue/green deployment.
         public let tagFilters: [EC2TagFilter]?
@@ -2977,8 +2977,8 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceId", required: true, type: .string), 
-            AWSShapeProperty(label: "deploymentId", required: true, type: .string)
+            AWSShapeProperty(label: "instanceId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "deploymentId", location: nil, required: true, type: .string)
         ]
         /// The unique ID of an instance in the deployment group.
         public let instanceId: String
@@ -3002,8 +3002,8 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "value", required: false, type: .integer)
+            AWSShapeProperty(label: "type", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "value", location: nil, required: false, type: .integer)
         ]
         /// The minimum healthy instance type:   HOST_COUNT: The minimum number of healthy instance as an absolute value.   FLEET_PERCENT: The minimum number of healthy instance as a percentage of the total number of instance in the deployment.   In an example of nine instance, if a HOST_COUNT of six is specified, deploy to up to three instances at a time. The deployment will be successful if six or more instances are deployed to successfully; otherwise, the deployment fails. If a FLEET_PERCENT of 40 is specified, deploy to up to five instance at a time. The deployment will be successful if four or more instance are deployed to successfully; otherwise, the deployment fails.  In a call to the get deployment configuration operation, CodeDeployDefault.OneAtATime will return a minimum healthy instance type of MOST_CONCURRENCY and a value of 1. This means a deployment to only one instance at a time. (You cannot set the type to MOST_CONCURRENCY, only to HOST_COUNT or FLEET_PERCENT.) In addition, with CodeDeployDefault.OneAtATime, AWS CodeDeploy will try to ensure that all instances but one are kept in a healthy state during the deployment. Although this allows one instance at a time to be taken offline for a new deployment, it also means that if the deployment to the last instance fails, the overall deployment still succeeds. 
         public let `type`: MinimumHealthyHostsType?

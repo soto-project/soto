@@ -33,9 +33,9 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "X", required: false, type: .float), 
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "Y", required: false, type: .float)
+            AWSShapeProperty(label: "X", location: nil, required: false, type: .float), 
+            AWSShapeProperty(label: "Type", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "Y", location: nil, required: false, type: .float)
         ]
         /// x-coordinate from the top left of the landmark expressed as the ration of the width of the image. For example, if the images is 700x200 and the x-coordinate of the landmark is at 350 pixels, this value is 0.5. 
         public let x: Float?
@@ -61,9 +61,9 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SearchedFaceConfidence", required: false, type: .float), 
-            AWSShapeProperty(label: "FaceMatches", required: false, type: .list), 
-            AWSShapeProperty(label: "SearchedFaceBoundingBox", required: false, type: .structure)
+            AWSShapeProperty(label: "SearchedFaceConfidence", location: nil, required: false, type: .float), 
+            AWSShapeProperty(label: "FaceMatches", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "SearchedFaceBoundingBox", location: nil, required: false, type: .structure)
         ]
         /// The level of confidence that the searchedFaceBoundingBox, contains a face.
         public let searchedFaceConfidence: Float?
@@ -93,7 +93,7 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StatusCode", required: false, type: .integer)
+            AWSShapeProperty(label: "StatusCode", location: nil, required: false, type: .integer)
         ]
         /// HTTP status code that indicates the result of the operation.
         public let statusCode: Int32?
@@ -111,8 +111,8 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CollectionIds", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+            AWSShapeProperty(label: "CollectionIds", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
         ]
         /// An array of collection IDs.
         public let collectionIds: [String]?
@@ -142,8 +142,8 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Confidence", required: false, type: .float), 
-            AWSShapeProperty(label: "Type", required: false, type: .enum)
+            AWSShapeProperty(label: "Confidence", location: nil, required: false, type: .float), 
+            AWSShapeProperty(label: "Type", location: nil, required: false, type: .enum)
         ]
         /// Level of confidence in the determination.
         public let confidence: Float?
@@ -165,8 +165,8 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FaceIds", required: true, type: .list), 
-            AWSShapeProperty(label: "CollectionId", required: true, type: .string)
+            AWSShapeProperty(label: "FaceIds", location: nil, required: true, type: .list), 
+            AWSShapeProperty(label: "CollectionId", location: nil, required: true, type: .string)
         ]
         /// An array of face IDs to delete.
         public let faceIds: [String]
@@ -190,7 +190,7 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeletedFaces", required: false, type: .list)
+            AWSShapeProperty(label: "DeletedFaces", location: nil, required: false, type: .list)
         ]
         /// An array of strings (face IDs) of the faces that were deleted.
         public let deletedFaces: [String]?
@@ -208,10 +208,10 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Height", required: false, type: .float), 
-            AWSShapeProperty(label: "Top", required: false, type: .float), 
-            AWSShapeProperty(label: "Left", required: false, type: .float), 
-            AWSShapeProperty(label: "Width", required: false, type: .float)
+            AWSShapeProperty(label: "Height", location: nil, required: false, type: .float), 
+            AWSShapeProperty(label: "Top", location: nil, required: false, type: .float), 
+            AWSShapeProperty(label: "Left", location: nil, required: false, type: .float), 
+            AWSShapeProperty(label: "Width", location: nil, required: false, type: .float)
         ]
         /// Height of the bounding box as a ratio of the overall image height.
         public let height: Float?
@@ -241,9 +241,9 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Yaw", required: false, type: .float), 
-            AWSShapeProperty(label: "Roll", required: false, type: .float), 
-            AWSShapeProperty(label: "Pitch", required: false, type: .float)
+            AWSShapeProperty(label: "Yaw", location: nil, required: false, type: .float), 
+            AWSShapeProperty(label: "Roll", location: nil, required: false, type: .float), 
+            AWSShapeProperty(label: "Pitch", location: nil, required: false, type: .float)
         ]
         /// Value representing the face rotation on the yaw axis.
         public let yaw: Float?
@@ -269,8 +269,8 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Confidence", required: false, type: .float), 
-            AWSShapeProperty(label: "BoundingBox", required: false, type: .structure)
+            AWSShapeProperty(label: "Confidence", location: nil, required: false, type: .float), 
+            AWSShapeProperty(label: "BoundingBox", location: nil, required: false, type: .structure)
         ]
         /// Level of confidence that what the bounding box contains is a face.
         public let confidence: Float?
@@ -291,10 +291,10 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Image", required: true, type: .structure), 
-            AWSShapeProperty(label: "FaceMatchThreshold", required: false, type: .float), 
-            AWSShapeProperty(label: "MaxFaces", required: false, type: .integer), 
-            AWSShapeProperty(label: "CollectionId", required: true, type: .string)
+            AWSShapeProperty(label: "Image", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "FaceMatchThreshold", location: nil, required: false, type: .float), 
+            AWSShapeProperty(label: "MaxFaces", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "CollectionId", location: nil, required: true, type: .string)
         ]
         public let image: Image
         /// (Optional) Specifies the minimum confidence in the face match to return. For example, don't return any matches where confidence in matches is less than 70%.
@@ -325,8 +325,8 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Face", required: false, type: .structure), 
-            AWSShapeProperty(label: "Similarity", required: false, type: .float)
+            AWSShapeProperty(label: "Face", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Similarity", location: nil, required: false, type: .float)
         ]
         public let face: Face?
         /// Confidence in the match of this face with the input face.
@@ -347,8 +347,8 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Confidence", required: false, type: .float), 
-            AWSShapeProperty(label: "Value", required: false, type: .enum)
+            AWSShapeProperty(label: "Confidence", location: nil, required: false, type: .float), 
+            AWSShapeProperty(label: "Value", location: nil, required: false, type: .enum)
         ]
         /// Level of confidence in the determination.
         public let confidence: Float?
@@ -370,8 +370,8 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Confidence", required: false, type: .float), 
-            AWSShapeProperty(label: "Value", required: false, type: .boolean)
+            AWSShapeProperty(label: "Confidence", location: nil, required: false, type: .float), 
+            AWSShapeProperty(label: "Value", location: nil, required: false, type: .boolean)
         ]
         /// Level of confidence in the determination.
         public let confidence: Float?
@@ -393,9 +393,9 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Version", required: false, type: .string)
+            AWSShapeProperty(label: "Bucket", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Version", location: nil, required: false, type: .string)
         ]
         /// Name of the S3 bucket.
         public let bucket: String?
@@ -421,8 +421,8 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OrientationCorrection", required: false, type: .enum), 
-            AWSShapeProperty(label: "FaceDetails", required: false, type: .list)
+            AWSShapeProperty(label: "OrientationCorrection", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "FaceDetails", location: nil, required: false, type: .list)
         ]
         /// The algorithm detects the image orientation. If it detects that the image was rotated, it returns the degrees of rotation. If your application is displaying the image, you can use this value to adjust the orientation.  For example, if the service detects that the input image was rotated by 90 degrees, it corrects orientation, performs face detection, and then returns the faces. That is, the bounding box coordinates in the response are based on the corrected orientation.   If the source image Exif metadata populates the orientation field, Amazon Rekognition does not perform orientation correction and the value of OrientationCorrection will be nil. 
         public let orientationCorrection: OrientationCorrection?
@@ -448,8 +448,8 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OrientationCorrection", required: false, type: .enum), 
-            AWSShapeProperty(label: "FaceRecords", required: false, type: .list)
+            AWSShapeProperty(label: "OrientationCorrection", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "FaceRecords", location: nil, required: false, type: .list)
         ]
         /// The algorithm detects the image orientation. If it detects that the image was rotated, it returns the degree of rotation. You can use this value to correct the orientation and also appropriately analyze the bounding box coordinates that are returned.   If the source image Exif metadata populates the orientation field, Amazon Rekognition does not perform orientation correction and the value of OrientationCorrection will be nil. 
         public let orientationCorrection: OrientationCorrection?
@@ -475,8 +475,8 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Confidence", required: false, type: .float), 
-            AWSShapeProperty(label: "Name", required: false, type: .string)
+            AWSShapeProperty(label: "Confidence", location: nil, required: false, type: .float), 
+            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string)
         ]
         /// Level of confidence.
         public let confidence: Float?
@@ -498,21 +498,21 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Sunglasses", required: false, type: .structure), 
-            AWSShapeProperty(label: "Gender", required: false, type: .structure), 
-            AWSShapeProperty(label: "EyesOpen", required: false, type: .structure), 
-            AWSShapeProperty(label: "Smile", required: false, type: .structure), 
-            AWSShapeProperty(label: "MouthOpen", required: false, type: .structure), 
-            AWSShapeProperty(label: "BoundingBox", required: false, type: .structure), 
-            AWSShapeProperty(label: "Pose", required: false, type: .structure), 
-            AWSShapeProperty(label: "AgeRange", required: false, type: .structure), 
-            AWSShapeProperty(label: "Eyeglasses", required: false, type: .structure), 
-            AWSShapeProperty(label: "Landmarks", required: false, type: .list), 
-            AWSShapeProperty(label: "Beard", required: false, type: .structure), 
-            AWSShapeProperty(label: "Quality", required: false, type: .structure), 
-            AWSShapeProperty(label: "Confidence", required: false, type: .float), 
-            AWSShapeProperty(label: "Mustache", required: false, type: .structure), 
-            AWSShapeProperty(label: "Emotions", required: false, type: .list)
+            AWSShapeProperty(label: "Sunglasses", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Gender", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "EyesOpen", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Smile", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "MouthOpen", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "BoundingBox", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Pose", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "AgeRange", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Eyeglasses", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Landmarks", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "Beard", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Quality", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Confidence", location: nil, required: false, type: .float), 
+            AWSShapeProperty(label: "Mustache", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Emotions", location: nil, required: false, type: .list)
         ]
         /// Indicates whether or not the face is wearing sunglasses, and the confidence level in the determination.
         public let sunglasses: Sunglasses?
@@ -594,8 +594,8 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Face", required: false, type: .structure), 
-            AWSShapeProperty(label: "Similarity", required: false, type: .float)
+            AWSShapeProperty(label: "Face", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Similarity", location: nil, required: false, type: .float)
         ]
         /// Provides face metadata (bounding box and confidence that the bounding box actually contains a face).
         public let face: ComparedFace?
@@ -617,8 +617,8 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FaceMatches", required: false, type: .list), 
-            AWSShapeProperty(label: "SearchedFaceId", required: false, type: .string)
+            AWSShapeProperty(label: "FaceMatches", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "SearchedFaceId", location: nil, required: false, type: .string)
         ]
         /// An array of faces that matched the input face, along with the confidence in the match.
         public let faceMatches: [FaceMatch]?
@@ -644,10 +644,10 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FaceMatchThreshold", required: false, type: .float), 
-            AWSShapeProperty(label: "MaxFaces", required: false, type: .integer), 
-            AWSShapeProperty(label: "CollectionId", required: true, type: .string), 
-            AWSShapeProperty(label: "FaceId", required: true, type: .string)
+            AWSShapeProperty(label: "FaceMatchThreshold", location: nil, required: false, type: .float), 
+            AWSShapeProperty(label: "MaxFaces", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "CollectionId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "FaceId", location: nil, required: true, type: .string)
         ]
         /// Optional value specifying the minimum confidence in the face match to return. For example, don't return any matches where confidence in matches is less than 70%.
         public let faceMatchThreshold: Float?
@@ -679,8 +679,8 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Confidence", required: false, type: .float), 
-            AWSShapeProperty(label: "Value", required: false, type: .boolean)
+            AWSShapeProperty(label: "Confidence", location: nil, required: false, type: .float), 
+            AWSShapeProperty(label: "Value", location: nil, required: false, type: .boolean)
         ]
         /// Level of confidence in the determination.
         public let confidence: Float?
@@ -702,8 +702,8 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
         ]
         /// Pagination token from the previous response.
         public let nextToken: String?
@@ -725,8 +725,8 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Confidence", required: false, type: .float), 
-            AWSShapeProperty(label: "Value", required: false, type: .boolean)
+            AWSShapeProperty(label: "Confidence", location: nil, required: false, type: .float), 
+            AWSShapeProperty(label: "Value", location: nil, required: false, type: .boolean)
         ]
         /// Level of confidence in the determination.
         public let confidence: Float?
@@ -748,9 +748,9 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Image", required: true, type: .structure), 
-            AWSShapeProperty(label: "MaxLabels", required: false, type: .integer), 
-            AWSShapeProperty(label: "MinConfidence", required: false, type: .float)
+            AWSShapeProperty(label: "Image", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "MaxLabels", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "MinConfidence", location: nil, required: false, type: .float)
         ]
         /// The input image. You can provide a blob of image bytes or an S3 object.
         public let image: Image
@@ -777,8 +777,8 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CollectionArn", required: false, type: .string), 
-            AWSShapeProperty(label: "StatusCode", required: false, type: .integer)
+            AWSShapeProperty(label: "CollectionArn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "StatusCode", location: nil, required: false, type: .integer)
         ]
         /// Amazon Resource Name (ARN) of the collection. You can use this to manage permissions on your resources. 
         public let collectionArn: String?
@@ -806,8 +806,8 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Image", required: true, type: .structure), 
-            AWSShapeProperty(label: "Attributes", required: false, type: .list)
+            AWSShapeProperty(label: "Image", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "Attributes", location: nil, required: false, type: .list)
         ]
         /// The image in which you want to detect faces. You can specify a blob or an S3 object. 
         public let image: Image
@@ -830,8 +830,8 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Face", required: false, type: .structure), 
-            AWSShapeProperty(label: "FaceDetail", required: false, type: .structure)
+            AWSShapeProperty(label: "Face", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "FaceDetail", location: nil, required: false, type: .structure)
         ]
         public let face: Face?
         public let faceDetail: FaceDetail?
@@ -851,8 +851,8 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Confidence", required: false, type: .float), 
-            AWSShapeProperty(label: "Value", required: false, type: .boolean)
+            AWSShapeProperty(label: "Confidence", location: nil, required: false, type: .float), 
+            AWSShapeProperty(label: "Value", location: nil, required: false, type: .boolean)
         ]
         /// Level of confidence in the determination.
         public let confidence: Float?
@@ -874,11 +874,11 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BoundingBox", required: false, type: .structure), 
-            AWSShapeProperty(label: "ExternalImageId", required: false, type: .string), 
-            AWSShapeProperty(label: "Confidence", required: false, type: .float), 
-            AWSShapeProperty(label: "FaceId", required: false, type: .string), 
-            AWSShapeProperty(label: "ImageId", required: false, type: .string)
+            AWSShapeProperty(label: "BoundingBox", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "ExternalImageId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Confidence", location: nil, required: false, type: .float), 
+            AWSShapeProperty(label: "FaceId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ImageId", location: nil, required: false, type: .string)
         ]
         public let boundingBox: BoundingBox?
         /// Identifier that you assign to all the faces in the input image.
@@ -917,9 +917,9 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SourceImage", required: true, type: .structure), 
-            AWSShapeProperty(label: "TargetImage", required: true, type: .structure), 
-            AWSShapeProperty(label: "SimilarityThreshold", required: false, type: .float)
+            AWSShapeProperty(label: "SourceImage", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "TargetImage", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "SimilarityThreshold", location: nil, required: false, type: .float)
         ]
         /// Source image either as bytes or an S3 object
         public let sourceImage: Image
@@ -947,8 +947,8 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Confidence", required: false, type: .float), 
-            AWSShapeProperty(label: "Value", required: false, type: .boolean)
+            AWSShapeProperty(label: "Confidence", location: nil, required: false, type: .float), 
+            AWSShapeProperty(label: "Value", location: nil, required: false, type: .boolean)
         ]
         /// Level of confidence in the determination.
         public let confidence: Float?
@@ -970,8 +970,8 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Confidence", required: false, type: .float), 
-            AWSShapeProperty(label: "Value", required: false, type: .boolean)
+            AWSShapeProperty(label: "Confidence", location: nil, required: false, type: .float), 
+            AWSShapeProperty(label: "Value", location: nil, required: false, type: .boolean)
         ]
         /// Level of confidence in the determination.
         public let confidence: Float?
@@ -993,8 +993,8 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bytes", required: false, type: .blob), 
-            AWSShapeProperty(label: "S3Object", required: false, type: .structure)
+            AWSShapeProperty(label: "Bytes", location: nil, required: false, type: .blob), 
+            AWSShapeProperty(label: "S3Object", location: nil, required: false, type: .structure)
         ]
         /// Blob of image bytes up to 5 MBs.
         public let bytes: Data?
@@ -1016,8 +1016,8 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FaceMatches", required: false, type: .list), 
-            AWSShapeProperty(label: "SourceImageFace", required: false, type: .structure)
+            AWSShapeProperty(label: "FaceMatches", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "SourceImageFace", location: nil, required: false, type: .structure)
         ]
         /// Provides an array of CompareFacesMatch objects. Each object provides the bounding box, confidence that the bounding box contains a face, and the similarity between the face in the bounding box and the face in the source image.
         public let faceMatches: [CompareFacesMatch]?
@@ -1043,8 +1043,8 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "High", required: false, type: .integer), 
-            AWSShapeProperty(label: "Low", required: false, type: .integer)
+            AWSShapeProperty(label: "High", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "Low", location: nil, required: false, type: .integer)
         ]
         /// The highest estimated age.
         public let high: Int32?
@@ -1066,8 +1066,8 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Confidence", required: false, type: .float), 
-            AWSShapeProperty(label: "Value", required: false, type: .boolean)
+            AWSShapeProperty(label: "Confidence", location: nil, required: false, type: .float), 
+            AWSShapeProperty(label: "Value", location: nil, required: false, type: .boolean)
         ]
         /// Level of confidence in the determination.
         public let confidence: Float?
@@ -1089,7 +1089,7 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CollectionId", required: true, type: .string)
+            AWSShapeProperty(label: "CollectionId", location: nil, required: true, type: .string)
         ]
         /// ID of the collection to delete.
         public let collectionId: String
@@ -1137,7 +1137,7 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CollectionId", required: true, type: .string)
+            AWSShapeProperty(label: "CollectionId", location: nil, required: true, type: .string)
         ]
         /// ID for the collection that you are creating.
         public let collectionId: String
@@ -1156,9 +1156,9 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "CollectionId", required: true, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "CollectionId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
         ]
         /// If the previous response was incomplete (because there is more data to retrieve), Amazon Rekognition returns a pagination token in the response. You can use this pagination token to retrieve the next set of faces.
         public let nextToken: String?
@@ -1185,8 +1185,8 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Sharpness", required: false, type: .float), 
-            AWSShapeProperty(label: "Brightness", required: false, type: .float)
+            AWSShapeProperty(label: "Sharpness", location: nil, required: false, type: .float), 
+            AWSShapeProperty(label: "Brightness", location: nil, required: false, type: .float)
         ]
         /// Value representing sharpness of the face.
         public let sharpness: Float?
@@ -1208,8 +1208,8 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OrientationCorrection", required: false, type: .enum), 
-            AWSShapeProperty(label: "Labels", required: false, type: .list)
+            AWSShapeProperty(label: "OrientationCorrection", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "Labels", location: nil, required: false, type: .list)
         ]
         ///  Amazon Rekognition returns the orientation of the input image that was detected (clockwise direction). If your application displays the image, you can use this value to correct the orientation. If Amazon Rekognition detects that the input image was rotated (for example, by 90 degrees), it first corrects the orientation before detecting the labels.   If the source image Exif metadata populates the orientation field, Amazon Rekognition does not perform orientation correction and the value of OrientationCorrection will be nil. 
         public let orientationCorrection: OrientationCorrection?
@@ -1235,8 +1235,8 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Faces", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+            AWSShapeProperty(label: "Faces", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
         ]
         /// An array of Face objects. 
         public let faces: [Face]?
@@ -1262,10 +1262,10 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Image", required: true, type: .structure), 
-            AWSShapeProperty(label: "ExternalImageId", required: false, type: .string), 
-            AWSShapeProperty(label: "CollectionId", required: true, type: .string), 
-            AWSShapeProperty(label: "DetectionAttributes", required: false, type: .list)
+            AWSShapeProperty(label: "Image", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "ExternalImageId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "CollectionId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "DetectionAttributes", location: nil, required: false, type: .list)
         ]
         public let image: Image
         /// ID you want to assign to all the faces detected in the image.
@@ -1296,8 +1296,8 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Confidence", required: false, type: .float), 
-            AWSShapeProperty(label: "BoundingBox", required: false, type: .structure)
+            AWSShapeProperty(label: "Confidence", location: nil, required: false, type: .float), 
+            AWSShapeProperty(label: "BoundingBox", location: nil, required: false, type: .structure)
         ]
         /// Confidence level that the selected bounding box contains a face.
         public let confidence: Float?

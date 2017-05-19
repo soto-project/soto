@@ -39,9 +39,9 @@ extension Elastictranscoder {
             return ["PipelineId": "PipelineId"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Ascending", required: false, type: .string), 
-            AWSShapeProperty(label: "PipelineId", required: true, type: .string), 
-            AWSShapeProperty(label: "PageToken", required: false, type: .string)
+            AWSShapeProperty(label: "Ascending", location: "Ascending", required: false, type: .string), 
+            AWSShapeProperty(label: "PipelineId", location: "PipelineId", required: true, type: .string), 
+            AWSShapeProperty(label: "PageToken", location: "PageToken", required: false, type: .string)
         ]
         ///  To list jobs in chronological order by the date and time that they were submitted, enter true. To list jobs in reverse chronological order, enter false. 
         public let ascending: String?
@@ -71,7 +71,7 @@ extension Elastictranscoder {
             return ["Id": "Id"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+            AWSShapeProperty(label: "Id", location: "Id", required: true, type: .string)
         ]
         /// The identifier of the pipeline that you want to delete.
         public let id: String
@@ -90,11 +90,11 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Label", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string), 
-            AWSShapeProperty(label: "TimeOffset", required: false, type: .string), 
-            AWSShapeProperty(label: "Encryption", required: false, type: .structure), 
-            AWSShapeProperty(label: "Language", required: false, type: .string)
+            AWSShapeProperty(label: "Label", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Key", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "TimeOffset", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Encryption", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Language", location: nil, required: false, type: .string)
         ]
         /// The label of the caption shown in the player when choosing a language. We recommend that you put the caption language name here, in the language of the captions.
         public let label: String?
@@ -128,7 +128,7 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Preset", required: false, type: .structure)
+            AWSShapeProperty(label: "Preset", location: nil, required: false, type: .structure)
         ]
         /// A section of the response body that provides information about the preset.
         public let preset: Preset?
@@ -146,8 +146,8 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MergePolicy", required: false, type: .string), 
-            AWSShapeProperty(label: "Artwork", required: false, type: .list)
+            AWSShapeProperty(label: "MergePolicy", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Artwork", location: nil, required: false, type: .list)
         ]
         /// A policy that determines how Elastic Transcoder handles the existence of multiple album artwork files.    Replace: The specified album art replaces any existing album art.    Prepend: The specified album art is placed in front of any existing album art.    Append: The specified album art is placed after any existing album art.    Fallback: If the original input file contains artwork, Elastic Transcoder uses that artwork for the output. If the original input does not contain artwork, Elastic Transcoder uses the specified album art file.  
         public let mergePolicy: String?
@@ -173,15 +173,15 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Thumbnails", required: false, type: .structure), 
-            AWSShapeProperty(label: "Id", required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Audio", required: false, type: .structure), 
-            AWSShapeProperty(label: "Video", required: false, type: .structure), 
-            AWSShapeProperty(label: "Type", required: false, type: .string), 
-            AWSShapeProperty(label: "Container", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+            AWSShapeProperty(label: "Thumbnails", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Id", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Arn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Audio", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Video", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Type", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Container", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string)
         ]
         /// A section of the response body that provides information about the thumbnail preset values, if any.
         public let thumbnails: Thumbnails?
@@ -231,16 +231,16 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TimeSpan", required: false, type: .structure), 
-            AWSShapeProperty(label: "Interlaced", required: false, type: .string), 
-            AWSShapeProperty(label: "DetectedProperties", required: false, type: .structure), 
-            AWSShapeProperty(label: "Encryption", required: false, type: .structure), 
-            AWSShapeProperty(label: "AspectRatio", required: false, type: .string), 
-            AWSShapeProperty(label: "InputCaptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "Resolution", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string), 
-            AWSShapeProperty(label: "Container", required: false, type: .string), 
-            AWSShapeProperty(label: "FrameRate", required: false, type: .string)
+            AWSShapeProperty(label: "TimeSpan", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Interlaced", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "DetectedProperties", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Encryption", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "AspectRatio", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "InputCaptions", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Resolution", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Key", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Container", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "FrameRate", location: nil, required: false, type: .string)
         ]
         /// Settings for clipping an input. Each input can have different clip settings.
         public let timeSpan: TimeSpan?
@@ -297,8 +297,8 @@ extension Elastictranscoder {
             return ["Ascending": "Ascending", "PageToken": "PageToken"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Ascending", required: false, type: .string), 
-            AWSShapeProperty(label: "PageToken", required: false, type: .string)
+            AWSShapeProperty(label: "Ascending", location: "Ascending", required: false, type: .string), 
+            AWSShapeProperty(label: "PageToken", location: "PageToken", required: false, type: .string)
         ]
         /// To list pipelines in chronological order by the date and time that they were created, enter true. To list pipelines in reverse chronological order, enter false.
         public let ascending: String?
@@ -320,21 +320,21 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DisplayAspectRatio", required: false, type: .string), 
-            AWSShapeProperty(label: "PaddingPolicy", required: false, type: .string), 
-            AWSShapeProperty(label: "FixedGOP", required: false, type: .string), 
-            AWSShapeProperty(label: "SizingPolicy", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxHeight", required: false, type: .string), 
-            AWSShapeProperty(label: "FrameRate", required: false, type: .string), 
-            AWSShapeProperty(label: "Codec", required: false, type: .string), 
-            AWSShapeProperty(label: "KeyframesMaxDist", required: false, type: .string), 
-            AWSShapeProperty(label: "AspectRatio", required: false, type: .string), 
-            AWSShapeProperty(label: "Resolution", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxFrameRate", required: false, type: .string), 
-            AWSShapeProperty(label: "CodecOptions", required: false, type: .map), 
-            AWSShapeProperty(label: "BitRate", required: false, type: .string), 
-            AWSShapeProperty(label: "Watermarks", required: false, type: .list), 
-            AWSShapeProperty(label: "MaxWidth", required: false, type: .string)
+            AWSShapeProperty(label: "DisplayAspectRatio", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "PaddingPolicy", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "FixedGOP", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "SizingPolicy", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "MaxHeight", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "FrameRate", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Codec", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "KeyframesMaxDist", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "AspectRatio", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Resolution", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "MaxFrameRate", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "CodecOptions", location: nil, required: false, type: .map), 
+            AWSShapeProperty(label: "BitRate", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Watermarks", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "MaxWidth", location: nil, required: false, type: .string)
         ]
         /// The value that Elastic Transcoder adds to the metadata in the output file.
         public let displayAspectRatio: String?
@@ -424,12 +424,12 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Audio", required: false, type: .structure), 
-            AWSShapeProperty(label: "Container", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "Thumbnails", required: false, type: .structure), 
-            AWSShapeProperty(label: "Video", required: false, type: .structure)
+            AWSShapeProperty(label: "Audio", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Container", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Thumbnails", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Video", location: nil, required: false, type: .structure)
         ]
         /// A section of the request body that specifies the audio parameters.
         public let audio: AudioParameters?
@@ -469,8 +469,8 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Jobs", required: false, type: .list), 
-            AWSShapeProperty(label: "NextPageToken", required: false, type: .string)
+            AWSShapeProperty(label: "Jobs", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "NextPageToken", location: nil, required: false, type: .string)
         ]
         /// An array of Job objects that have the specified status.
         public let jobs: [Job]?
@@ -504,8 +504,8 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Presets", required: false, type: .list), 
-            AWSShapeProperty(label: "NextPageToken", required: false, type: .string)
+            AWSShapeProperty(label: "Presets", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "NextPageToken", location: nil, required: false, type: .string)
         ]
         /// An array of Preset objects.
         public let presets: [Preset]?
@@ -531,13 +531,13 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "HlsContentProtection", required: false, type: .structure), 
-            AWSShapeProperty(label: "OutputKeys", required: false, type: .list), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Format", required: false, type: .string), 
-            AWSShapeProperty(label: "StatusDetail", required: false, type: .string), 
-            AWSShapeProperty(label: "PlayReadyDrm", required: false, type: .structure)
+            AWSShapeProperty(label: "Status", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "HlsContentProtection", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "OutputKeys", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Format", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "StatusDetail", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "PlayReadyDrm", location: nil, required: false, type: .structure)
         ]
         /// The status of the job with which the playlist is associated.
         public let status: String?
@@ -579,8 +579,8 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Duration", required: false, type: .string), 
-            AWSShapeProperty(label: "StartTime", required: false, type: .string)
+            AWSShapeProperty(label: "Duration", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "StartTime", location: nil, required: false, type: .string)
         ]
         /// The duration of the clip. The format can be either HH:mm:ss.SSS (maximum value: 23:59:59.999; SSS is thousandths of a second) or sssss.SSS (maximum value: 86399.999). If you don't specify a value, Elastic Transcoder creates an output file from StartTime to the end of the file. If you specify a value longer than the duration of the input file, Elastic Transcoder transcodes the file and returns a warning message.
         public let duration: String?
@@ -610,14 +610,14 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InputBucket", required: true, type: .string), 
-            AWSShapeProperty(label: "AwsKmsKeyArn", required: false, type: .string), 
-            AWSShapeProperty(label: "ThumbnailConfig", required: false, type: .structure), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "Role", required: true, type: .string), 
-            AWSShapeProperty(label: "Notifications", required: false, type: .structure), 
-            AWSShapeProperty(label: "ContentConfig", required: false, type: .structure), 
-            AWSShapeProperty(label: "OutputBucket", required: false, type: .string)
+            AWSShapeProperty(label: "InputBucket", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "AwsKmsKeyArn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ThumbnailConfig", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Role", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Notifications", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "ContentConfig", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "OutputBucket", location: nil, required: false, type: .string)
         ]
         /// The Amazon S3 bucket in which you saved the media files that you want to transcode.
         public let inputBucket: String
@@ -669,8 +669,8 @@ extension Elastictranscoder {
             return ["Id": "Id"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: true, type: .string), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+            AWSShapeProperty(label: "Status", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Id", location: "Id", required: true, type: .string)
         ]
         /// The desired status of the pipeline:    Active: The pipeline is processing jobs.    Paused: The pipeline is not currently processing jobs.  
         public let status: String
@@ -694,14 +694,14 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PaddingPolicy", required: false, type: .string), 
-            AWSShapeProperty(label: "Interval", required: false, type: .string), 
-            AWSShapeProperty(label: "AspectRatio", required: false, type: .string), 
-            AWSShapeProperty(label: "Format", required: false, type: .string), 
-            AWSShapeProperty(label: "Resolution", required: false, type: .string), 
-            AWSShapeProperty(label: "SizingPolicy", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxHeight", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxWidth", required: false, type: .string)
+            AWSShapeProperty(label: "PaddingPolicy", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Interval", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "AspectRatio", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Format", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Resolution", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "SizingPolicy", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "MaxHeight", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "MaxWidth", location: nil, required: false, type: .string)
         ]
         /// When you set PaddingPolicy to Pad, Elastic Transcoder may add black bars to the top and bottom and/or left and right sides of thumbnails to make the total size of the thumbnails match the values that you specified for thumbnail MaxWidth and MaxHeight settings.
         public let paddingPolicy: String?
@@ -747,17 +747,17 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "InputBucket", required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "AwsKmsKeyArn", required: false, type: .string), 
-            AWSShapeProperty(label: "ThumbnailConfig", required: false, type: .structure), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Role", required: false, type: .string), 
-            AWSShapeProperty(label: "Notifications", required: false, type: .structure), 
-            AWSShapeProperty(label: "ContentConfig", required: false, type: .structure), 
-            AWSShapeProperty(label: "OutputBucket", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+            AWSShapeProperty(label: "Status", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "InputBucket", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Arn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "AwsKmsKeyArn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ThumbnailConfig", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Role", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Notifications", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "ContentConfig", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "OutputBucket", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Id", location: nil, required: false, type: .string)
         ]
         /// The current status of the pipeline:    Active: The pipeline is processing jobs.    Paused: The pipeline is not currently processing jobs.  
         public let status: String?
@@ -815,10 +815,10 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Role", required: true, type: .string), 
-            AWSShapeProperty(label: "InputBucket", required: true, type: .string), 
-            AWSShapeProperty(label: "Topics", required: true, type: .list), 
-            AWSShapeProperty(label: "OutputBucket", required: true, type: .string)
+            AWSShapeProperty(label: "Role", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "InputBucket", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Topics", location: nil, required: true, type: .list), 
+            AWSShapeProperty(label: "OutputBucket", location: nil, required: true, type: .string)
         ]
         /// The IAM Amazon Resource Name (ARN) for the role that you want Elastic Transcoder to test.
         public let role: String
@@ -852,8 +852,8 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Jobs", required: false, type: .list), 
-            AWSShapeProperty(label: "NextPageToken", required: false, type: .string)
+            AWSShapeProperty(label: "Jobs", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "NextPageToken", location: nil, required: false, type: .string)
         ]
         /// An array of Job objects that are in the specified pipeline.
         public let jobs: [Job]?
@@ -882,8 +882,8 @@ extension Elastictranscoder {
             return ["Id": "Id"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Notifications", required: true, type: .structure), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+            AWSShapeProperty(label: "Notifications", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "Id", location: "Id", required: true, type: .string)
         ]
         /// The topic ARN for the Amazon Simple Notification Service (Amazon SNS) topic that you want to notify to report job status.  To receive notifications, you must also subscribe to the new topic in the Amazon SNS console.     Progressing: The topic ARN for the Amazon Simple Notification Service (Amazon SNS) topic that you want to notify when Elastic Transcoder has started to process jobs that are added to this pipeline. This is the ARN that Amazon SNS returned when you created the topic.    Completed: The topic ARN for the Amazon SNS topic that you want to notify when Elastic Transcoder has finished processing a job. This is the ARN that Amazon SNS returned when you created the topic.    Warning: The topic ARN for the Amazon SNS topic that you want to notify when Elastic Transcoder encounters a warning condition. This is the ARN that Amazon SNS returned when you created the topic.    Error: The topic ARN for the Amazon SNS topic that you want to notify when Elastic Transcoder encounters an error condition. This is the ARN that Amazon SNS returned when you created the topic.  
         public let notifications: Notifications
@@ -907,12 +907,12 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Format", required: false, type: .string), 
-            AWSShapeProperty(label: "InitializationVector", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string), 
-            AWSShapeProperty(label: "KeyId", required: false, type: .string), 
-            AWSShapeProperty(label: "KeyMd5", required: false, type: .string), 
-            AWSShapeProperty(label: "LicenseAcquisitionUrl", required: false, type: .string)
+            AWSShapeProperty(label: "Format", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "InitializationVector", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Key", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "KeyId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "KeyMd5", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "LicenseAcquisitionUrl", location: nil, required: false, type: .string)
         ]
         /// The type of DRM, if any, that you want Elastic Transcoder to apply to the output files associated with this playlist.
         public let format: String?
@@ -950,9 +950,9 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MergePolicy", required: false, type: .string), 
-            AWSShapeProperty(label: "CaptionSources", required: false, type: .list), 
-            AWSShapeProperty(label: "CaptionFormats", required: false, type: .list)
+            AWSShapeProperty(label: "MergePolicy", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "CaptionSources", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "CaptionFormats", location: nil, required: false, type: .list)
         ]
         /// A policy that determines how Elastic Transcoder handles the existence of multiple captions.    MergeOverride: Elastic Transcoder transcodes both embedded and sidecar captions into outputs. If captions for a language are embedded in the input file and also appear in a sidecar file, Elastic Transcoder uses the sidecar captions and ignores the embedded captions for that language.    MergeRetain: Elastic Transcoder transcodes both embedded and sidecar captions into outputs. If captions for a language are embedded in the input file and also appear in a sidecar file, Elastic Transcoder uses the embedded captions and ignores the sidecar captions for that language. If CaptionSources is empty, Elastic Transcoder omits all sidecar captions from the output files.    Override: Elastic Transcoder transcodes only the sidecar captions that you specify in CaptionSources.    MergePolicy cannot be null.
         public let mergePolicy: String?
@@ -986,14 +986,14 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OutputKeyPrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "Input", required: false, type: .structure), 
-            AWSShapeProperty(label: "Playlists", required: false, type: .list), 
-            AWSShapeProperty(label: "Output", required: false, type: .structure), 
-            AWSShapeProperty(label: "Inputs", required: false, type: .list), 
-            AWSShapeProperty(label: "PipelineId", required: true, type: .string), 
-            AWSShapeProperty(label: "Outputs", required: false, type: .list), 
-            AWSShapeProperty(label: "UserMetadata", required: false, type: .map)
+            AWSShapeProperty(label: "OutputKeyPrefix", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Input", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Playlists", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "Output", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Inputs", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "PipelineId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Outputs", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "UserMetadata", location: nil, required: false, type: .map)
         ]
         /// The value, if any, that you want Elastic Transcoder to prepend to the names of all files that this job creates, including output files, thumbnails, and playlists.
         public let outputKeyPrefix: String?
@@ -1056,13 +1056,13 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PaddingPolicy", required: false, type: .string), 
-            AWSShapeProperty(label: "InputKey", required: false, type: .string), 
-            AWSShapeProperty(label: "Encryption", required: false, type: .structure), 
-            AWSShapeProperty(label: "SizingPolicy", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxHeight", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxWidth", required: false, type: .string), 
-            AWSShapeProperty(label: "AlbumArtFormat", required: false, type: .string)
+            AWSShapeProperty(label: "PaddingPolicy", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "InputKey", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Encryption", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "SizingPolicy", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "MaxHeight", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "MaxWidth", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "AlbumArtFormat", location: nil, required: false, type: .string)
         ]
         /// When you set PaddingPolicy to Pad, Elastic Transcoder may add white bars to the top and bottom and/or left and right sides of the output album art to make the total size of the output art match the values that you specified for MaxWidth and MaxHeight.
         public let paddingPolicy: String?
@@ -1104,7 +1104,7 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Job", required: false, type: .structure)
+            AWSShapeProperty(label: "Job", location: nil, required: false, type: .structure)
         ]
         /// A section of the response body that provides information about the job that is created.
         public let job: Job?
@@ -1122,8 +1122,8 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Pipeline", required: false, type: .structure), 
-            AWSShapeProperty(label: "Warnings", required: false, type: .list)
+            AWSShapeProperty(label: "Pipeline", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Warnings", location: nil, required: false, type: .list)
         ]
         /// A section of the response body that provides information about the pipeline that is created.
         public let pipeline: Pipeline?
@@ -1152,7 +1152,7 @@ extension Elastictranscoder {
             return ["Id": "Id"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+            AWSShapeProperty(label: "Id", location: "Id", required: true, type: .string)
         ]
         /// The identifier of the preset for which you want to get detailed information.
         public let id: String
@@ -1171,8 +1171,8 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Pipelines", required: false, type: .list), 
-            AWSShapeProperty(label: "NextPageToken", required: false, type: .string)
+            AWSShapeProperty(label: "Pipelines", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "NextPageToken", location: nil, required: false, type: .string)
         ]
         /// An array of Pipeline objects.
         public let pipelines: [Pipeline]?
@@ -1201,8 +1201,8 @@ extension Elastictranscoder {
             return ["Ascending": "Ascending", "PageToken": "PageToken"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Ascending", required: false, type: .string), 
-            AWSShapeProperty(label: "PageToken", required: false, type: .string)
+            AWSShapeProperty(label: "Ascending", location: "Ascending", required: false, type: .string), 
+            AWSShapeProperty(label: "PageToken", location: "PageToken", required: false, type: .string)
         ]
         /// To list presets in chronological order by the date and time that they were created, enter true. To list presets in reverse chronological order, enter false.
         public let ascending: String?
@@ -1224,7 +1224,7 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Job", required: false, type: .structure)
+            AWSShapeProperty(label: "Job", location: nil, required: false, type: .structure)
         ]
         /// A section of the response body that provides information about the job.
         public let job: Job?
@@ -1248,9 +1248,9 @@ extension Elastictranscoder {
             return ["Status": "Status"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: true, type: .string), 
-            AWSShapeProperty(label: "Ascending", required: false, type: .string), 
-            AWSShapeProperty(label: "PageToken", required: false, type: .string)
+            AWSShapeProperty(label: "Status", location: "Status", required: true, type: .string), 
+            AWSShapeProperty(label: "Ascending", location: "Ascending", required: false, type: .string), 
+            AWSShapeProperty(label: "PageToken", location: "PageToken", required: false, type: .string)
         ]
         /// To get information about all of the jobs associated with the current AWS account that have a given status, specify the following status: Submitted, Progressing, Complete, Canceled, or Error.
         public let status: String
@@ -1280,14 +1280,14 @@ extension Elastictranscoder {
             return ["Id": "Id"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InputBucket", required: false, type: .string), 
-            AWSShapeProperty(label: "AwsKmsKeyArn", required: false, type: .string), 
-            AWSShapeProperty(label: "ThumbnailConfig", required: false, type: .structure), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Role", required: false, type: .string), 
-            AWSShapeProperty(label: "Notifications", required: false, type: .structure), 
-            AWSShapeProperty(label: "ContentConfig", required: false, type: .structure), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+            AWSShapeProperty(label: "InputBucket", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "AwsKmsKeyArn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ThumbnailConfig", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Role", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Notifications", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "ContentConfig", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Id", location: "Id", required: true, type: .string)
         ]
         /// The Amazon S3 bucket in which you saved the media files that you want to transcode and the graphics that you want to use as watermarks.
         public let inputBucket: String?
@@ -1334,12 +1334,12 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InitializationVector", required: false, type: .string), 
-            AWSShapeProperty(label: "KeyMd5", required: false, type: .string), 
-            AWSShapeProperty(label: "KeyStoragePolicy", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string), 
-            AWSShapeProperty(label: "LicenseAcquisitionUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "Method", required: false, type: .string)
+            AWSShapeProperty(label: "InitializationVector", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "KeyMd5", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "KeyStoragePolicy", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Key", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "LicenseAcquisitionUrl", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Method", location: nil, required: false, type: .string)
         ]
         /// If Elastic Transcoder is generating your key for you, you must leave this field blank. The series of random bits created by a random bit generator, unique for every encryption operation, that you want Elastic Transcoder to use to encrypt your output files. The initialization vector must be base64-encoded, and it must be exactly 16 bytes before being base64-encoded.
         public let initializationVector: String?
@@ -1377,27 +1377,27 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PresetId", required: false, type: .string), 
-            AWSShapeProperty(label: "Height", required: false, type: .integer), 
-            AWSShapeProperty(label: "DurationMillis", required: false, type: .long), 
-            AWSShapeProperty(label: "FileSize", required: false, type: .long), 
-            AWSShapeProperty(label: "Watermarks", required: false, type: .list), 
-            AWSShapeProperty(label: "Width", required: false, type: .integer), 
-            AWSShapeProperty(label: "AlbumArt", required: false, type: .structure), 
-            AWSShapeProperty(label: "Captions", required: false, type: .structure), 
-            AWSShapeProperty(label: "ThumbnailPattern", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string), 
-            AWSShapeProperty(label: "FrameRate", required: false, type: .string), 
-            AWSShapeProperty(label: "Rotate", required: false, type: .string), 
-            AWSShapeProperty(label: "Encryption", required: false, type: .structure), 
-            AWSShapeProperty(label: "ThumbnailEncryption", required: false, type: .structure), 
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string), 
-            AWSShapeProperty(label: "Composition", required: false, type: .list), 
-            AWSShapeProperty(label: "AppliedColorSpaceConversion", required: false, type: .string), 
-            AWSShapeProperty(label: "Duration", required: false, type: .long), 
-            AWSShapeProperty(label: "StatusDetail", required: false, type: .string), 
-            AWSShapeProperty(label: "SegmentDuration", required: false, type: .string)
+            AWSShapeProperty(label: "PresetId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Height", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "DurationMillis", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "FileSize", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "Watermarks", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "Width", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "AlbumArt", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Captions", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "ThumbnailPattern", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Id", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "FrameRate", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Rotate", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Encryption", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "ThumbnailEncryption", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Status", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Key", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Composition", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "AppliedColorSpaceConversion", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Duration", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "StatusDetail", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "SegmentDuration", location: nil, required: false, type: .string)
         ]
         /// The value of the Id object for the preset that you want to use for this job. The preset determines the audio, video, and thumbnail settings that Elastic Transcoder uses for transcoding. To use a preset that you created, specify the preset ID that Elastic Transcoder returned in the response when you created the preset. You can also use the Elastic Transcoder system presets, which you can get with ListPresets.
         public let presetId: String?
@@ -1503,8 +1503,8 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MergePolicy", required: false, type: .string), 
-            AWSShapeProperty(label: "CaptionSources", required: false, type: .list)
+            AWSShapeProperty(label: "MergePolicy", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "CaptionSources", location: nil, required: false, type: .list)
         ]
         /// A policy that determines how Elastic Transcoder handles the existence of multiple captions.    MergeOverride: Elastic Transcoder transcodes both embedded and sidecar captions into outputs. If captions for a language are embedded in the input file and also appear in a sidecar file, Elastic Transcoder uses the sidecar captions and ignores the embedded captions for that language.    MergeRetain: Elastic Transcoder transcodes both embedded and sidecar captions into outputs. If captions for a language are embedded in the input file and also appear in a sidecar file, Elastic Transcoder uses the embedded captions and ignores the sidecar captions for that language. If CaptionSources is empty, Elastic Transcoder omits all sidecar captions from the output files.    Override: Elastic Transcoder transcodes only the sidecar captions that you specify in CaptionSources.    MergePolicy cannot be null.
         public let mergePolicy: String?
@@ -1530,9 +1530,9 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Permissions", required: false, type: .list), 
-            AWSShapeProperty(label: "Bucket", required: false, type: .string), 
-            AWSShapeProperty(label: "StorageClass", required: false, type: .string)
+            AWSShapeProperty(label: "Permissions", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "Bucket", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "StorageClass", location: nil, required: false, type: .string)
         ]
         /// Optional. The Permissions object specifies which users and/or predefined Amazon S3 groups you want to have access to transcoded files and playlists, and the type of access you want them to have. You can grant permissions to a maximum of 30 users and/or predefined Amazon S3 groups. If you include Permissions, Elastic Transcoder grants only the permissions that you specify. It does not grant full permissions to the owner of the role specified by Role. If you want that user to have full control, you must explicitly grant full control to the user.  If you omit Permissions, Elastic Transcoder grants full control over the transcoded files and playlists to the owner of the role specified by Role, and grants no other permissions to any other user or group.
         public let permissions: [Permission]?
@@ -1562,8 +1562,8 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Pipeline", required: false, type: .structure), 
-            AWSShapeProperty(label: "Warnings", required: false, type: .list)
+            AWSShapeProperty(label: "Pipeline", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Warnings", location: nil, required: false, type: .list)
         ]
         /// The pipeline updated by this UpdatePipelineResponse call.
         public let pipeline: Pipeline?
@@ -1589,9 +1589,9 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Pattern", required: false, type: .string), 
-            AWSShapeProperty(label: "Encryption", required: false, type: .structure), 
-            AWSShapeProperty(label: "Format", required: false, type: .string)
+            AWSShapeProperty(label: "Pattern", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Encryption", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Format", location: nil, required: false, type: .string)
         ]
         /// The prefix for caption filenames, in the form description-{language}, where:    description is a description of the video.    {language} is a literal value that Elastic Transcoder replaces with the two- or three-letter code for the language of the caption in the output file names.   If you don't include {language} in the file name pattern, Elastic Transcoder automatically appends "{language}" to the value that you specify for the description. In addition, Elastic Transcoder automatically appends the count to the end of the segment files. For example, suppose you're transcoding into srt format. When you enter "Sydney-{language}-sunrise", and the language of the captions is English (en), the name of the first caption file is be Sydney-en-sunrise00000.srt.
         public let pattern: String?
@@ -1620,7 +1620,7 @@ extension Elastictranscoder {
             return ["Id": "Id"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+            AWSShapeProperty(label: "Id", location: "Id", required: true, type: .string)
         ]
         /// The identifier of the preset for which you want to get detailed information.
         public let id: String
@@ -1642,7 +1642,7 @@ extension Elastictranscoder {
             return ["Id": "Id"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+            AWSShapeProperty(label: "Id", location: "Id", required: true, type: .string)
         ]
         /// The identifier of the job for which you want to get detailed information.
         public let id: String
@@ -1661,16 +1661,16 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VerticalOffset", required: false, type: .string), 
-            AWSShapeProperty(label: "Target", required: false, type: .string), 
-            AWSShapeProperty(label: "HorizontalOffset", required: false, type: .string), 
-            AWSShapeProperty(label: "VerticalAlign", required: false, type: .string), 
-            AWSShapeProperty(label: "HorizontalAlign", required: false, type: .string), 
-            AWSShapeProperty(label: "SizingPolicy", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxHeight", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxWidth", required: false, type: .string), 
-            AWSShapeProperty(label: "Opacity", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+            AWSShapeProperty(label: "VerticalOffset", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Target", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "HorizontalOffset", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "VerticalAlign", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "HorizontalAlign", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "SizingPolicy", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "MaxHeight", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "MaxWidth", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Opacity", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Id", location: nil, required: false, type: .string)
         ]
         ///  VerticalOffset  The amount by which you want the vertical position of the watermark to be offset from the position specified by VerticalAlign:   number of pixels (px): The minimum value is 0 pixels, and the maximum value is the value of MaxHeight.   integer percentage (%): The range of valid values is 0 to 100.   For example, if you specify Top for VerticalAlign and 5px for VerticalOffset, the top of the watermark appears 5 pixels from the top border of the output video.  VerticalOffset is only valid when the value of VerticalAlign is Top or Bottom. If you specify an offset that causes the watermark to extend beyond the top or bottom border and Elastic Transcoder has not added black bars, the watermark is cropped. If Elastic Transcoder has added black bars, the watermark extends into the black bars. If the watermark extends beyond the black bars, it is cropped. Use the value of Target to specify whether you want Elastic Transcoder to include the black bars that are added by Elastic Transcoder, if any, in the offset calculation.
         public let verticalOffset: String?
@@ -1724,9 +1724,9 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PresetWatermarkId", required: false, type: .string), 
-            AWSShapeProperty(label: "Encryption", required: false, type: .structure), 
-            AWSShapeProperty(label: "InputKey", required: false, type: .string)
+            AWSShapeProperty(label: "PresetWatermarkId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Encryption", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "InputKey", location: nil, required: false, type: .string)
         ]
         /// The ID of the watermark settings that Elastic Transcoder uses to add watermarks to the video during transcoding. The settings are in the preset specified by Preset for the current output. In that preset, the value of Watermarks Id tells Elastic Transcoder which settings to use.
         public let presetWatermarkId: String?
@@ -1752,8 +1752,8 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Warning", required: false, type: .string), 
-            AWSShapeProperty(label: "Preset", required: false, type: .structure)
+            AWSShapeProperty(label: "Warning", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Preset", location: nil, required: false, type: .structure)
         ]
         /// If the preset settings don't comply with the standards for the video codec but Elastic Transcoder created the preset, this message explains the reason the preset settings don't meet the standard. Elastic Transcoder created the preset because the settings might produce acceptable output.
         public let warning: String?
@@ -1775,8 +1775,8 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Success", required: false, type: .string), 
-            AWSShapeProperty(label: "Messages", required: false, type: .list)
+            AWSShapeProperty(label: "Success", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Messages", location: nil, required: false, type: .list)
         ]
         /// If the operation is successful, this value is true; otherwise, the value is false.
         public let success: String?
@@ -1798,11 +1798,11 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Format", required: false, type: .string), 
-            AWSShapeProperty(label: "HlsContentProtection", required: false, type: .structure), 
-            AWSShapeProperty(label: "PlayReadyDrm", required: false, type: .structure), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "OutputKeys", required: false, type: .list)
+            AWSShapeProperty(label: "Format", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "HlsContentProtection", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "PlayReadyDrm", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "OutputKeys", location: nil, required: false, type: .list)
         ]
         /// The format of the output playlist. Valid formats include HLSv3, HLSv4, and Smooth.
         public let format: String?
@@ -1836,17 +1836,17 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Captions", required: false, type: .structure), 
-            AWSShapeProperty(label: "ThumbnailPattern", required: false, type: .string), 
-            AWSShapeProperty(label: "PresetId", required: false, type: .string), 
-            AWSShapeProperty(label: "ThumbnailEncryption", required: false, type: .structure), 
-            AWSShapeProperty(label: "Rotate", required: false, type: .string), 
-            AWSShapeProperty(label: "Encryption", required: false, type: .structure), 
-            AWSShapeProperty(label: "Key", required: false, type: .string), 
-            AWSShapeProperty(label: "Composition", required: false, type: .list), 
-            AWSShapeProperty(label: "Watermarks", required: false, type: .list), 
-            AWSShapeProperty(label: "SegmentDuration", required: false, type: .string), 
-            AWSShapeProperty(label: "AlbumArt", required: false, type: .structure)
+            AWSShapeProperty(label: "Captions", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "ThumbnailPattern", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "PresetId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ThumbnailEncryption", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Rotate", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Encryption", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Key", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Composition", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "Watermarks", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "SegmentDuration", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "AlbumArt", location: nil, required: false, type: .structure)
         ]
         /// You can configure Elastic Transcoder to transcode captions, or subtitles, from one format to another. All captions must be in UTF-8. Elastic Transcoder supports two types of captions:    Embedded: Embedded captions are included in the same file as the audio and video. Elastic Transcoder supports only one embedded caption per language, to a maximum of 300 embedded captions per file. Valid input values include: CEA-608 (EIA-608, first non-empty channel only), CEA-708 (EIA-708, first non-empty channel only), and mov-text  Valid outputs include: mov-text  Elastic Transcoder supports a maximum of one embedded format per output.    Sidecar: Sidecar captions are kept in a separate metadata file from the audio and video data. Sidecar captions require a player that is capable of understanding the relationship between the video file and the sidecar file. Elastic Transcoder supports only one sidecar caption per language, to a maximum of 20 sidecar captions per file. Valid input values include: dfxp (first div element only), ebu-tt, scc, smpt, srt, ttml (first div element only), and webvtt  Valid outputs include: dfxp (first div element only), scc, srt, and webvtt.   If you want ttml or smpte-tt compatible captions, specify dfxp as your output format. Elastic Transcoder does not support OCR (Optical Character Recognition), does not accept pictures as a valid input for captions, and is not available for audio-only transcoding. Elastic Transcoder does not preserve text formatting (for example, italics) during the transcoding process. To remove captions or leave the captions empty, set Captions to null. To pass through existing captions unchanged, set the MergePolicy to MergeRetain, and pass in a null CaptionSources array. For more information on embedded files, see the Subtitles Wikipedia page. For more information on sidecar files, see the Extensible Metadata Platform and Sidecar file Wikipedia pages.
         public let captions: Captions?
@@ -1912,11 +1912,11 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Height", required: false, type: .integer), 
-            AWSShapeProperty(label: "DurationMillis", required: false, type: .long), 
-            AWSShapeProperty(label: "FileSize", required: false, type: .long), 
-            AWSShapeProperty(label: "Width", required: false, type: .integer), 
-            AWSShapeProperty(label: "FrameRate", required: false, type: .string)
+            AWSShapeProperty(label: "Height", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "DurationMillis", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "FileSize", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "Width", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "FrameRate", location: nil, required: false, type: .string)
         ]
         /// The detected height of the input file, in pixels.
         public let height: Int32?
@@ -1950,8 +1950,8 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Pipeline", required: false, type: .structure), 
-            AWSShapeProperty(label: "Warnings", required: false, type: .list)
+            AWSShapeProperty(label: "Pipeline", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Warnings", location: nil, required: false, type: .list)
         ]
         /// A section of the response body that provides information about the pipeline.
         public let pipeline: Pipeline?
@@ -1977,8 +1977,8 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Code", required: false, type: .string), 
-            AWSShapeProperty(label: "Message", required: false, type: .string)
+            AWSShapeProperty(label: "Code", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Message", location: nil, required: false, type: .string)
         ]
         /// The code of the cross-regional warning.
         public let code: String?
@@ -2000,7 +2000,7 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Pipeline", required: false, type: .structure)
+            AWSShapeProperty(label: "Pipeline", location: nil, required: false, type: .structure)
         ]
         /// A section of the response body that provides information about the pipeline associated with this notification.
         public let pipeline: Pipeline?
@@ -2018,12 +2018,12 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CodecOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "BitRate", required: false, type: .string), 
-            AWSShapeProperty(label: "Codec", required: false, type: .string), 
-            AWSShapeProperty(label: "AudioPackingMode", required: false, type: .string), 
-            AWSShapeProperty(label: "Channels", required: false, type: .string), 
-            AWSShapeProperty(label: "SampleRate", required: false, type: .string)
+            AWSShapeProperty(label: "CodecOptions", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "BitRate", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Codec", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "AudioPackingMode", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Channels", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "SampleRate", location: nil, required: false, type: .string)
         ]
         /// If you specified AAC for Audio:Codec, this is the AAC compression profile to use. Valid values include:  auto, AAC-LC, HE-AAC, HE-AACv2  If you specify auto, Elastic Transcoder chooses a profile based on the bit rate of the output file.
         public let codecOptions: AudioCodecOptions?
@@ -2061,10 +2061,10 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Completed", required: false, type: .string), 
-            AWSShapeProperty(label: "Error", required: false, type: .string), 
-            AWSShapeProperty(label: "Warning", required: false, type: .string), 
-            AWSShapeProperty(label: "Progressing", required: false, type: .string)
+            AWSShapeProperty(label: "Completed", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Error", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Warning", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Progressing", location: nil, required: false, type: .string)
         ]
         /// The Amazon SNS topic that you want to notify when Elastic Transcoder has finished processing the job.
         public let completed: String?
@@ -2094,10 +2094,10 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Signed", required: false, type: .string), 
-            AWSShapeProperty(label: "Profile", required: false, type: .string), 
-            AWSShapeProperty(label: "BitDepth", required: false, type: .string), 
-            AWSShapeProperty(label: "BitOrder", required: false, type: .string)
+            AWSShapeProperty(label: "Signed", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Profile", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "BitDepth", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "BitOrder", location: nil, required: false, type: .string)
         ]
         /// You can only choose whether an audio sample is signed when you specify pcm for the value of Audio:Codec. Whether audio samples are represented with negative and positive numbers (signed) or only positive numbers (unsigned). The supported value is Signed.
         public let signed: String?
@@ -2127,7 +2127,7 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Pipeline", required: false, type: .structure)
+            AWSShapeProperty(label: "Pipeline", location: nil, required: false, type: .structure)
         ]
         /// A section of the response body that provides information about the pipeline.
         public let pipeline: Pipeline?
@@ -2148,7 +2148,7 @@ extension Elastictranscoder {
             return ["Id": "Id"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+            AWSShapeProperty(label: "Id", location: "Id", required: true, type: .string)
         ]
         /// The identifier of the job that you want to cancel. To get a list of the jobs (including their jobId) that have a status of Submitted, use the ListJobsByStatus API action.
         public let id: String
@@ -2167,18 +2167,18 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Timing", required: false, type: .structure), 
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "OutputKeyPrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "Input", required: false, type: .structure), 
-            AWSShapeProperty(label: "UserMetadata", required: false, type: .map), 
-            AWSShapeProperty(label: "Playlists", required: false, type: .list), 
-            AWSShapeProperty(label: "Output", required: false, type: .structure), 
-            AWSShapeProperty(label: "Inputs", required: false, type: .list), 
-            AWSShapeProperty(label: "PipelineId", required: false, type: .string), 
-            AWSShapeProperty(label: "Outputs", required: false, type: .list), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+            AWSShapeProperty(label: "Timing", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Status", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Arn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "OutputKeyPrefix", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Input", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "UserMetadata", location: nil, required: false, type: .map), 
+            AWSShapeProperty(label: "Playlists", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "Output", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Inputs", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "PipelineId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Outputs", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "Id", location: nil, required: false, type: .string)
         ]
         /// Details about the timing of a job.
         public let timing: Timing?
@@ -2256,9 +2256,9 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GranteeType", required: false, type: .string), 
-            AWSShapeProperty(label: "Access", required: false, type: .list), 
-            AWSShapeProperty(label: "Grantee", required: false, type: .string)
+            AWSShapeProperty(label: "GranteeType", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Access", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "Grantee", location: nil, required: false, type: .string)
         ]
         /// The type of value that appears in the Grantee object:    Canonical: Either the canonical user ID for an AWS account or an origin access identity for an Amazon CloudFront distribution.  A canonical user ID is not the same as an AWS account number.     Email: The registered email address of an AWS account.    Group: One of the following predefined Amazon S3 groups: AllUsers, AuthenticatedUsers, or LogDelivery.  
         public let granteeType: String?
@@ -2284,10 +2284,10 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Mode", required: false, type: .string), 
-            AWSShapeProperty(label: "InitializationVector", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string), 
-            AWSShapeProperty(label: "KeyMd5", required: false, type: .string)
+            AWSShapeProperty(label: "Mode", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "InitializationVector", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Key", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "KeyMd5", location: nil, required: false, type: .string)
         ]
         /// The specific server-side encryption mode that you want Elastic Transcoder to use when decrypting your input files or encrypting your output files. Elastic Transcoder supports the following options:    S3: Amazon S3 creates and manages the keys used for encrypting your files.    S3-AWS-KMS: Amazon S3 calls the Amazon Key Management Service, which creates and manages the keys that are used for encrypting your files. If you specify S3-AWS-KMS and you don't want to use the default key, you must add the AWS-KMS key that you want to use to your pipeline.    AES-CBC-PKCS7: A padded cipher-block mode of operation originally used for HLS files.    AES-CTR: AES Counter Mode.    AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with fails the decryption process.   For all three AES options, you must provide the following settings, which must be base64-encoded:    Key     Key MD5     Initialization Vector     For the AES modes, your private encryption keys and your unencrypted data are never stored by AWS; therefore, it is important that you safely manage your encryption keys. If you lose them, you won't be able to unencrypt your data. 
         public let mode: String?
@@ -2320,7 +2320,7 @@ extension Elastictranscoder {
             return ["Id": "Id"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+            AWSShapeProperty(label: "Id", location: "Id", required: true, type: .string)
         ]
         /// The identifier of the pipeline to read.
         public let id: String
@@ -2339,7 +2339,7 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TimeSpan", required: false, type: .structure)
+            AWSShapeProperty(label: "TimeSpan", location: nil, required: false, type: .structure)
         ]
         /// Settings that determine when a clip begins and how long it lasts.
         public let timeSpan: TimeSpan?
@@ -2357,9 +2357,9 @@ extension Elastictranscoder {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTimeMillis", required: false, type: .long), 
-            AWSShapeProperty(label: "SubmitTimeMillis", required: false, type: .long), 
-            AWSShapeProperty(label: "FinishTimeMillis", required: false, type: .long)
+            AWSShapeProperty(label: "StartTimeMillis", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "SubmitTimeMillis", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "FinishTimeMillis", location: nil, required: false, type: .long)
         ]
         /// The time the job began transcoding, in epoch milliseconds.
         public let startTimeMillis: Int64?

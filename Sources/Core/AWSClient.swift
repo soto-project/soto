@@ -33,15 +33,6 @@ public struct InputContext {
     let input: AWSShape
 }
 
-public func jsonKeyStyle(forService service: String) -> DictionaryKeyStyle {
-    switch service {
-    case "apigateway":
-        return .pascal
-    default:
-        return .camel
-    }
-}
-
 public struct AWSClient {
     let signer: Signers.V4
     
@@ -191,7 +182,7 @@ public struct AWSClient {
                             continue
                         }
                         
-                        guard let hint = Output.parsingHints.filter({ $0.label == rel }).first else {
+                        guard let hint = Output.parsingHints.filter({ $0.location == rel }).first else {
                             continue
                         }
                         
@@ -364,7 +355,7 @@ public struct AWSClient {
                     body = Body(anyValue: payloadBody)
                     headers.removeValue(forKey: payload.toSwiftVariableCase())
                 } else {
-                    body = .json(try ctx.input.serializeToDictionary(keyStyle: jsonKeyStyle(forService: signer.service)))
+                    body = .json(try ctx.input.serializeToDictionary())
                 }
                 
             case .query:

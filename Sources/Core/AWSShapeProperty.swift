@@ -42,11 +42,17 @@ public struct AWSShapeProperty {
 //    }
     
     public let label: String
+    public let location: String?
     public let required: Bool
     public let type: PropertyType
     
-    public init(label: String, required: Bool, type: PropertyType) {
+    var pathForLocation: String {
+        return location ?? label
+    }
+    
+    public init(label: String, location: String?, required: Bool, type: PropertyType) {
         self.label = label
+        self.location = location
         self.required = required
         self.type = type
     }
