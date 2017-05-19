@@ -4,9 +4,6 @@ AWS SDK for the Swift programming language that works on Linux and Mac.
 
 <img src="https://camo.githubusercontent.com/93de6573350b91e48ab570a4fe710e4e8baa38b8/687474703a2f2f696d672e736869656c64732e696f2f62616467652f73776966742d332e302d627269676874677265656e2e737667"> [<img src="https://travis-ci.org/noppoMan/aws-sdk-swift.svg?branch=master">](https://travis-ci.org/noppoMan/aws-sdk-swift)
 
-## ⚠️ A Work In Progress
-aws-sdk-swift is currently pretty experimental and not well tested. So Don't use this in production.
-
 ## Documentation
 
 Visit the aws-sdk-swift [documentation](http://htmlpreview.github.io/?https://github.com/noppoMan/aws-sdk-swift-doc/blob/master/docs/index.html) for instructions and browsing api references.
