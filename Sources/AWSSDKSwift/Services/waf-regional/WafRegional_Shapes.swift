@@ -39,8 +39,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "XssMatchSets", required: false, type: .list), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+            AWSShapeProperty(label: "XssMatchSets", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "NextMarker", location: nil, required: false, type: .string)
         ]
         /// An array of XssMatchSetSummary objects.
         public let xssMatchSets: [XssMatchSetSummary]?
@@ -66,8 +66,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Action", required: true, type: .enum), 
-            AWSShapeProperty(label: "ActivatedRule", required: true, type: .structure)
+            AWSShapeProperty(label: "Action", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "ActivatedRule", location: nil, required: true, type: .structure)
         ]
         /// Specifies whether to insert a Rule into or delete a Rule from a WebACL.
         public let action: ChangeAction
@@ -91,9 +91,9 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
-            AWSShapeProperty(label: "SqlInjectionMatchSetId", required: true, type: .string), 
-            AWSShapeProperty(label: "Updates", required: true, type: .list)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "SqlInjectionMatchSetId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Updates", location: nil, required: true, type: .list)
         ]
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
@@ -122,10 +122,10 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MetricName", required: false, type: .string), 
-            AWSShapeProperty(label: "RuleId", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Predicates", required: true, type: .list)
+            AWSShapeProperty(label: "MetricName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "RuleId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Predicates", location: nil, required: true, type: .list)
         ]
         /// A friendly name or description for the metrics for this Rule. The name can contain only alphanumeric characters (A-Z, a-z, 0-9); the name can't contain whitespace. You can't change MetricName after you create the Rule.
         public let metricName: String?
@@ -157,8 +157,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Action", required: true, type: .enum), 
-            AWSShapeProperty(label: "IPSetDescriptor", required: true, type: .structure)
+            AWSShapeProperty(label: "Action", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "IPSetDescriptor", location: nil, required: true, type: .structure)
         ]
         /// Specifies whether to insert or delete an IP address with UpdateIPSet.
         public let action: ChangeAction
@@ -190,8 +190,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "NextMarker", location: nil, required: false, type: .string)
         ]
         /// Specifies the number of WebACL objects that you want AWS WAF to return for this request. If you have more WebACL objects than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of WebACL objects.
         public let limit: Int32?
@@ -213,9 +213,9 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
-            AWSShapeProperty(label: "Updates", required: true, type: .list), 
-            AWSShapeProperty(label: "SizeConstraintSetId", required: true, type: .string)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Updates", location: nil, required: true, type: .list), 
+            AWSShapeProperty(label: "SizeConstraintSetId", location: nil, required: true, type: .string)
         ]
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
@@ -244,9 +244,9 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Priority", required: true, type: .integer), 
-            AWSShapeProperty(label: "Action", required: true, type: .structure), 
-            AWSShapeProperty(label: "RuleId", required: true, type: .string)
+            AWSShapeProperty(label: "Priority", location: nil, required: true, type: .integer), 
+            AWSShapeProperty(label: "Action", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "RuleId", location: nil, required: true, type: .string)
         ]
         /// Specifies the order in which the Rules in a WebACL are evaluated. Rules with a lower value for Priority are evaluated before Rules with a higher value. The value must be a unique integer. If you add multiple Rules to a WebACL, the values don't need to be consecutive.
         public let priority: Int32
@@ -275,7 +275,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IPSetId", required: true, type: .string)
+            AWSShapeProperty(label: "IPSetId", location: nil, required: true, type: .string)
         ]
         /// The IPSetId of the IPSet that you want to get. IPSetId is returned by CreateIPSet and by ListIPSets.
         public let iPSetId: String
@@ -294,8 +294,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Action", required: true, type: .enum), 
-            AWSShapeProperty(label: "ByteMatchTuple", required: true, type: .structure)
+            AWSShapeProperty(label: "Action", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "ByteMatchTuple", location: nil, required: true, type: .structure)
         ]
         /// Specifies whether to insert or delete a ByteMatchTuple.
         public let action: ChangeAction
@@ -319,7 +319,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WebACLSummary", required: false, type: .structure)
+            AWSShapeProperty(label: "WebACLSummary", location: nil, required: false, type: .structure)
         ]
         /// Information about the web ACL that you specified in the GetWebACLForResource request. If there is no associated resource, a null WebACLSummary is returned.
         public let webACLSummary: WebACLSummary?
@@ -337,8 +337,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "NextMarker", location: nil, required: false, type: .string)
         ]
         /// Specifies the number of IPSet objects that you want AWS WAF to return for this request. If you have more IPSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of IPSet objects.
         public let limit: Int32?
@@ -373,9 +373,9 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MetricName", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "ChangeToken", required: true, type: .string)
+            AWSShapeProperty(label: "MetricName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: true, type: .string)
         ]
         /// A friendly name or description for the metrics for this Rule. The name can contain only alphanumeric characters (A-Z, a-z, 0-9); the name can't contain whitespace. You can't change the name of the metric after you create the Rule.
         public let metricName: String
@@ -404,8 +404,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FieldToMatch", required: true, type: .structure), 
-            AWSShapeProperty(label: "TextTransformation", required: true, type: .enum)
+            AWSShapeProperty(label: "FieldToMatch", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "TextTransformation", location: nil, required: true, type: .enum)
         ]
         /// Specifies where in a web request to look for snippets of malicious SQL code.
         public let fieldToMatch: FieldToMatch
@@ -429,7 +429,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceArn", required: true, type: .string)
+            AWSShapeProperty(label: "ResourceArn", location: nil, required: true, type: .string)
         ]
         /// The ARN (Amazon Resource Name) of the resource for which to get the web ACL.
         public let resourceArn: String
@@ -448,7 +448,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ByteMatchSet", required: false, type: .structure)
+            AWSShapeProperty(label: "ByteMatchSet", location: nil, required: false, type: .structure)
         ]
         /// Information about the ByteMatchSet that you specified in the GetByteMatchSet request. For more information, see the following topics:    ByteMatchSet: Contains ByteMatchSetId, ByteMatchTuples, and Name     ByteMatchTuples: Contains an array of ByteMatchTuple objects. Each ByteMatchTuple object contains FieldToMatch, PositionalConstraint, TargetString, and TextTransformation     FieldToMatch: Contains Data and Type   
         public let byteMatchSet: ByteMatchSet?
@@ -466,9 +466,9 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IPSetId", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "IPSetDescriptors", required: true, type: .list)
+            AWSShapeProperty(label: "IPSetId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "IPSetDescriptors", location: nil, required: true, type: .list)
         ]
         /// The IPSetId for an IPSet. You use IPSetId to get information about an IPSet (see GetIPSet), update an IPSet (see UpdateIPSet), insert an IPSet into a Rule or delete one from a Rule (see UpdateRule), and delete an IPSet from AWS WAF (see DeleteIPSet).  IPSetId is returned by CreateIPSet and by ListIPSets.
         public let iPSetId: String
@@ -496,7 +496,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: false, type: .string)
         ]
         /// The ChangeToken that you used to submit the DeleteRule request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
@@ -514,8 +514,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string)
         ]
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
@@ -539,7 +539,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: false, type: .string)
         ]
         /// The ChangeToken that you used to submit the UpdateSqlInjectionMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
@@ -557,7 +557,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: false, type: .string)
         ]
         /// The ChangeToken that you used to submit the UpdateIPSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
@@ -575,8 +575,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "WebACLId", required: true, type: .string)
+            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "WebACLId", location: nil, required: true, type: .string)
         ]
         /// A friendly name or description of the WebACL. You can't change the name of a WebACL after you create it.
         public let name: String
@@ -600,7 +600,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ByteMatchSetId", required: true, type: .string)
+            AWSShapeProperty(label: "ByteMatchSetId", location: nil, required: true, type: .string)
         ]
         /// The ByteMatchSetId of the ByteMatchSet that you want to get. ByteMatchSetId is returned by CreateByteMatchSet and by ListByteMatchSets.
         public let byteMatchSetId: String
@@ -619,8 +619,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: false, type: .string), 
-            AWSShapeProperty(label: "IPSet", required: false, type: .structure)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "IPSet", location: nil, required: false, type: .structure)
         ]
         /// The ChangeToken that you used to submit the CreateIPSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
@@ -642,7 +642,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: true, type: .string)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: true, type: .string)
         ]
         /// The change token for which you want to get the status. This change token was previously returned in the GetChangeToken response.
         public let changeToken: String
@@ -661,8 +661,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: false, type: .string), 
-            AWSShapeProperty(label: "XssMatchSet", required: false, type: .structure)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "XssMatchSet", location: nil, required: false, type: .structure)
         ]
         /// The ChangeToken that you used to submit the CreateXssMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
@@ -684,8 +684,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
-            AWSShapeProperty(label: "IPSetId", required: true, type: .string)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "IPSetId", location: nil, required: true, type: .string)
         ]
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
@@ -723,7 +723,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: false, type: .string)
         ]
         /// The ChangeToken that you used to submit the UpdateWebACL request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
@@ -741,8 +741,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
-            AWSShapeProperty(label: "WebACLId", required: true, type: .string)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "WebACLId", location: nil, required: true, type: .string)
         ]
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
@@ -766,8 +766,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string)
         ]
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
@@ -791,8 +791,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EndTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "StartTime", required: true, type: .timestamp)
+            AWSShapeProperty(label: "EndTime", location: nil, required: true, type: .timestamp), 
+            AWSShapeProperty(label: "StartTime", location: nil, required: true, type: .timestamp)
         ]
         /// The end of the time range from which you want GetSampledRequests to return a sample of the requests that your AWS resource received. Specify the date and time in the following format: "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
         public let endTime: Date
@@ -816,8 +816,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: false, type: .string), 
-            AWSShapeProperty(label: "SizeConstraintSet", required: false, type: .structure)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "SizeConstraintSet", location: nil, required: false, type: .structure)
         ]
         /// The ChangeToken that you used to submit the CreateSizeConstraintSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
@@ -839,10 +839,10 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FieldToMatch", required: true, type: .structure), 
-            AWSShapeProperty(label: "TextTransformation", required: true, type: .enum), 
-            AWSShapeProperty(label: "ComparisonOperator", required: true, type: .enum), 
-            AWSShapeProperty(label: "Size", required: true, type: .long)
+            AWSShapeProperty(label: "FieldToMatch", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "TextTransformation", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "ComparisonOperator", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "Size", location: nil, required: true, type: .long)
         ]
         /// Specifies where in a web request to look for the size constraint.
         public let fieldToMatch: FieldToMatch
@@ -876,8 +876,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: true, type: .enum), 
-            AWSShapeProperty(label: "Value", required: true, type: .string)
+            AWSShapeProperty(label: "Type", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "Value", location: nil, required: true, type: .string)
         ]
         /// Specify IPV4 or IPV6.
         public let `type`: IPSetDescriptorType
@@ -901,7 +901,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: false, type: .string)
         ]
         /// The ChangeToken that you used to submit the DeleteSizeConstraintSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
@@ -919,8 +919,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SizeConstraint", required: true, type: .structure), 
-            AWSShapeProperty(label: "Action", required: true, type: .enum)
+            AWSShapeProperty(label: "SizeConstraint", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "Action", location: nil, required: true, type: .enum)
         ]
         /// Specifies a constraint on the size of a part of the web request. AWS WAF uses the Size, ComparisonOperator, and FieldToMatch to build an expression in the form of "Size ComparisonOperator size in bytes of FieldToMatch". If that expression is true, the SizeConstraint is considered to match.
         public let sizeConstraint: SizeConstraint
@@ -944,7 +944,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceArns", required: false, type: .list)
+            AWSShapeProperty(label: "ResourceArns", location: nil, required: false, type: .list)
         ]
         /// An array of ARNs (Amazon Resource Names) of the resources associated with the specified web ACL. An array with zero elements is returned if there are no resources associated with the web ACL.
         public let resourceArns: [String]?
@@ -962,8 +962,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Rule", required: false, type: .structure)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Rule", location: nil, required: false, type: .structure)
         ]
         /// The ChangeToken that you used to submit the CreateRule request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
@@ -985,7 +985,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: false, type: .string)
         ]
         /// The ChangeToken that you used to submit the DeleteIPSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
@@ -1003,9 +1003,9 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "XssMatchSetId", required: true, type: .string), 
-            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
-            AWSShapeProperty(label: "Updates", required: true, type: .list)
+            AWSShapeProperty(label: "XssMatchSetId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Updates", location: nil, required: true, type: .list)
         ]
         /// The XssMatchSetId of the XssMatchSet that you want to update. XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets.
         public let xssMatchSetId: String
@@ -1034,12 +1034,12 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClientIP", required: false, type: .string), 
-            AWSShapeProperty(label: "Headers", required: false, type: .list), 
-            AWSShapeProperty(label: "Country", required: false, type: .string), 
-            AWSShapeProperty(label: "Method", required: false, type: .string), 
-            AWSShapeProperty(label: "URI", required: false, type: .string), 
-            AWSShapeProperty(label: "HTTPVersion", required: false, type: .string)
+            AWSShapeProperty(label: "ClientIP", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Headers", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "Country", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Method", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "URI", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "HTTPVersion", location: nil, required: false, type: .string)
         ]
         /// The IP address that the request originated from. If the WebACL is associated with a CloudFront distribution, this is the value of one of the following fields in CloudFront access logs:    c-ip, if the viewer did not use an HTTP proxy or a load balancer to send the request    x-forwarded-for, if the viewer did use an HTTP proxy or a load balancer to send the request  
         public let clientIP: String?
@@ -1081,8 +1081,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeProperty(label: "WebACLId", required: true, type: .string)
+            AWSShapeProperty(label: "ResourceArn", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "WebACLId", location: nil, required: true, type: .string)
         ]
         /// The ARN (Amazon Resource Name) of the resource to be protected.
         public let resourceArn: String
@@ -1106,8 +1106,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string)
+            AWSShapeProperty(label: "Value", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string)
         ]
         /// The value of one of the headers in the sampled web request.
         public let value: String?
@@ -1129,8 +1129,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "NextMarker", location: nil, required: false, type: .string)
         ]
         /// Specifies the number of Rules that you want AWS WAF to return for this request. If you have more Rules than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of Rules.
         public let limit: Int32?
@@ -1152,7 +1152,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WebACL", required: false, type: .structure)
+            AWSShapeProperty(label: "WebACL", location: nil, required: false, type: .structure)
         ]
         /// Information about the WebACL that you specified in the GetWebACL request. For more information, see the following topics:    WebACL: Contains DefaultAction, MetricName, Name, an array of Rule objects, and WebACLId     DefaultAction (Data type is WafAction): Contains Type     Rules: Contains an array of ActivatedRule objects, which contain Action, Priority, and RuleId     Action: Contains Type   
         public let webACL: WebACL?
@@ -1170,8 +1170,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "XssMatchSetId", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+            AWSShapeProperty(label: "XssMatchSetId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string)
         ]
         /// A unique identifier for an XssMatchSet. You use XssMatchSetId to get information about a XssMatchSet (see GetXssMatchSet), update an XssMatchSet (see UpdateXssMatchSet), insert an XssMatchSet into a Rule or delete one from a Rule (see UpdateRule), and delete an XssMatchSet from AWS WAF (see DeleteXssMatchSet).  XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets.
         public let xssMatchSetId: String
@@ -1195,7 +1195,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "XssMatchSetId", required: true, type: .string)
+            AWSShapeProperty(label: "XssMatchSetId", location: nil, required: true, type: .string)
         ]
         /// The XssMatchSetId of the XssMatchSet that you want to get. XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets.
         public let xssMatchSetId: String
@@ -1214,9 +1214,9 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
-            AWSShapeProperty(label: "IPSetId", required: true, type: .string), 
-            AWSShapeProperty(label: "Updates", required: true, type: .list)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "IPSetId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Updates", location: nil, required: true, type: .list)
         ]
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
@@ -1245,7 +1245,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SizeConstraintSetId", required: true, type: .string)
+            AWSShapeProperty(label: "SizeConstraintSetId", location: nil, required: true, type: .string)
         ]
         /// The SizeConstraintSetId of the SizeConstraintSet that you want to get. SizeConstraintSetId is returned by CreateSizeConstraintSet and by ListSizeConstraintSets.
         public let sizeConstraintSetId: String
@@ -1264,10 +1264,10 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MetricName", required: true, type: .string), 
-            AWSShapeProperty(label: "DefaultAction", required: true, type: .structure), 
-            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+            AWSShapeProperty(label: "MetricName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "DefaultAction", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string)
         ]
         /// A friendly name or description for the metrics for this WebACL. The name can contain only alphanumeric characters (A-Z, a-z, 0-9); the name can't contain whitespace. You can't change MetricName after you create the WebACL.
         public let metricName: String
@@ -1301,7 +1301,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: true, type: .enum)
+            AWSShapeProperty(label: "Type", location: nil, required: true, type: .enum)
         ]
         /// Specifies how you want AWS WAF to respond to requests that match the settings in a Rule. Valid settings include the following:    ALLOW: AWS WAF allows requests    BLOCK: AWS WAF blocks requests    COUNT: AWS WAF increments a counter of the requests that match all of the conditions in the rule. AWS WAF then continues to inspect the web request based on the remaining rules in the web ACL. You can't specify COUNT for the default action for a WebACL.  
         public let `type`: WafActionType
@@ -1320,8 +1320,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: false, type: .string), 
-            AWSShapeProperty(label: "WebACL", required: false, type: .structure)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "WebACL", location: nil, required: false, type: .structure)
         ]
         /// The ChangeToken that you used to submit the CreateWebACL request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
@@ -1343,8 +1343,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: false, type: .string), 
-            AWSShapeProperty(label: "SqlInjectionMatchSet", required: false, type: .structure)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "SqlInjectionMatchSet", location: nil, required: false, type: .structure)
         ]
         /// The ChangeToken that you used to submit the CreateSqlInjectionMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
@@ -1375,7 +1375,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: false, type: .string)
         ]
         /// The ChangeToken that you used in the request. Use this value in a GetChangeTokenStatus request to get the current status of the request. 
         public let changeToken: String?
@@ -1393,8 +1393,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
-            AWSShapeProperty(label: "SqlInjectionMatchSetId", required: true, type: .string)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "SqlInjectionMatchSetId", location: nil, required: true, type: .string)
         ]
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
@@ -1418,8 +1418,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string)
         ]
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
@@ -1443,10 +1443,10 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FieldToMatch", required: true, type: .structure), 
-            AWSShapeProperty(label: "TargetString", required: true, type: .blob), 
-            AWSShapeProperty(label: "TextTransformation", required: true, type: .enum), 
-            AWSShapeProperty(label: "PositionalConstraint", required: true, type: .enum)
+            AWSShapeProperty(label: "FieldToMatch", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "TargetString", location: nil, required: true, type: .blob), 
+            AWSShapeProperty(label: "TextTransformation", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "PositionalConstraint", location: nil, required: true, type: .enum)
         ]
         /// The part of a web request that you want AWS WAF to search, such as a specified header or a query string. For more information, see FieldToMatch.
         public let fieldToMatch: FieldToMatch
@@ -1480,8 +1480,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RuleId", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+            AWSShapeProperty(label: "RuleId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string)
         ]
         /// A unique identifier for a Rule. You use RuleId to get more information about a Rule (see GetRule), update a Rule (see UpdateRule), insert a Rule into a WebACL or delete one from a WebACL (see UpdateWebACL), or delete a Rule from AWS WAF (see DeleteRule).  RuleId is returned by CreateRule and by ListRules.
         public let ruleId: String
@@ -1513,8 +1513,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "XssMatchTuple", required: true, type: .structure), 
-            AWSShapeProperty(label: "Action", required: true, type: .enum)
+            AWSShapeProperty(label: "XssMatchTuple", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "Action", location: nil, required: true, type: .enum)
         ]
         /// Specifies the part of a web request that you want AWS WAF to inspect for cross-site scripting attacks and, if you want AWS WAF to inspect a header, the name of the header.
         public let xssMatchTuple: XssMatchTuple
@@ -1538,8 +1538,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "NextMarker", location: nil, required: false, type: .string)
         ]
         /// Specifies the number of XssMatchSet objects that you want AWS WAF to return for this request. If you have more XssMatchSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of Rules.
         public let limit: Int32?
@@ -1561,8 +1561,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string), 
-            AWSShapeProperty(label: "SqlInjectionMatchSets", required: false, type: .list)
+            AWSShapeProperty(label: "NextMarker", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "SqlInjectionMatchSets", location: nil, required: false, type: .list)
         ]
         /// If you have more SqlInjectionMatchSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more SqlInjectionMatchSet objects, submit another ListSqlInjectionMatchSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
         public let nextMarker: String?
@@ -1588,7 +1588,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: false, type: .string)
         ]
         /// The ChangeToken that you used to submit the UpdateRule request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
@@ -1606,7 +1606,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SizeConstraintSet", required: false, type: .structure)
+            AWSShapeProperty(label: "SizeConstraintSet", location: nil, required: false, type: .structure)
         ]
         /// Information about the SizeConstraintSet that you specified in the GetSizeConstraintSet request. For more information, see the following topics:    SizeConstraintSet: Contains SizeConstraintSetId, SizeConstraints, and Name     SizeConstraints: Contains an array of SizeConstraint objects. Each SizeConstraint object contains FieldToMatch, TextTransformation, ComparisonOperator, and Size     FieldToMatch: Contains Data and Type   
         public let sizeConstraintSet: SizeConstraintSet?
@@ -1624,9 +1624,9 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
-            AWSShapeProperty(label: "RuleId", required: true, type: .string), 
-            AWSShapeProperty(label: "Updates", required: true, type: .list)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "RuleId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Updates", location: nil, required: true, type: .list)
         ]
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
@@ -1655,8 +1655,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Action", required: true, type: .enum), 
-            AWSShapeProperty(label: "SqlInjectionMatchTuple", required: true, type: .structure)
+            AWSShapeProperty(label: "Action", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "SqlInjectionMatchTuple", location: nil, required: true, type: .structure)
         ]
         /// Specify INSERT to add a SqlInjectionMatchSetUpdate to a SqlInjectionMatchSet. Use DELETE to remove a SqlInjectionMatchSetUpdate from a SqlInjectionMatchSet.
         public let action: ChangeAction
@@ -1680,7 +1680,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: false, type: .string)
         ]
         /// The ChangeToken that you used to submit the UpdateXssMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
@@ -1698,10 +1698,10 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxItems", required: true, type: .long), 
-            AWSShapeProperty(label: "TimeWindow", required: true, type: .structure), 
-            AWSShapeProperty(label: "RuleId", required: true, type: .string), 
-            AWSShapeProperty(label: "WebAclId", required: true, type: .string)
+            AWSShapeProperty(label: "MaxItems", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "TimeWindow", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "RuleId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "WebAclId", location: nil, required: true, type: .string)
         ]
         /// The number of requests that you want AWS WAF to return from among the first 5,000 requests that your AWS resource received during the time range. If your resource received fewer requests than the value of MaxItems, GetSampledRequests returns information about all of them. 
         public let maxItems: Int64
@@ -1735,8 +1735,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
-            AWSShapeProperty(label: "RuleId", required: true, type: .string)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "RuleId", location: nil, required: true, type: .string)
         ]
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
@@ -1760,7 +1760,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: false, type: .string)
         ]
         /// The ChangeToken that you used to submit the DeleteWebACL request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
@@ -1778,7 +1778,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: false, type: .string)
         ]
         /// The ChangeToken that you used to submit the UpdateSizeConstraintSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
@@ -1796,8 +1796,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SqlInjectionMatchSetId", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+            AWSShapeProperty(label: "SqlInjectionMatchSetId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string)
         ]
         /// A unique identifier for a SqlInjectionMatchSet. You use SqlInjectionMatchSetId to get information about a SqlInjectionMatchSet (see GetSqlInjectionMatchSet), update a SqlInjectionMatchSet (see UpdateSqlInjectionMatchSet), insert a SqlInjectionMatchSet into a Rule or delete one from a Rule (see UpdateRule), and delete a SqlInjectionMatchSet from AWS WAF (see DeleteSqlInjectionMatchSet).  SqlInjectionMatchSetId is returned by CreateSqlInjectionMatchSet and by ListSqlInjectionMatchSets.
         public let sqlInjectionMatchSetId: String
@@ -1821,8 +1821,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string)
         ]
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
@@ -1846,7 +1846,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WebACLId", required: true, type: .string)
+            AWSShapeProperty(label: "WebACLId", location: nil, required: true, type: .string)
         ]
         /// The unique identifier (ID) of the web ACL for which to list the associated resources.
         public let webACLId: String
@@ -1865,8 +1865,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WebACLs", required: false, type: .list), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+            AWSShapeProperty(label: "WebACLs", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "NextMarker", location: nil, required: false, type: .string)
         ]
         /// An array of WebACLSummary objects.
         public let webACLs: [WebACLSummary]?
@@ -1892,8 +1892,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "XssMatchSetId", required: true, type: .string), 
-            AWSShapeProperty(label: "ChangeToken", required: true, type: .string)
+            AWSShapeProperty(label: "XssMatchSetId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: true, type: .string)
         ]
         /// The XssMatchSetId of the XssMatchSet that you want to delete. XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets.
         public let xssMatchSetId: String
@@ -1917,8 +1917,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "SizeConstraintSetId", required: true, type: .string)
+            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "SizeConstraintSetId", location: nil, required: true, type: .string)
         ]
         /// The name of the SizeConstraintSet, if any.
         public let name: String
@@ -1942,8 +1942,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
-            AWSShapeProperty(label: "ByteMatchSetId", required: true, type: .string)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "ByteMatchSetId", location: nil, required: true, type: .string)
         ]
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
@@ -1967,8 +1967,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: true, type: .enum), 
-            AWSShapeProperty(label: "Data", required: false, type: .string)
+            AWSShapeProperty(label: "Type", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "Data", location: nil, required: false, type: .string)
         ]
         /// The part of the web request that you want AWS WAF to search for a specified string. Parts of a request that you can search include the following:    HEADER: A specified request header, for example, the value of the User-Agent or Referer header. If you choose HEADER for the type, specify the name of the header in Data.    METHOD: The HTTP method, which indicated the type of operation that the request is asking the origin to perform. Amazon CloudFront supports the following methods: DELETE, GET, HEAD, OPTIONS, PATCH, POST, and PUT.    QUERY_STRING: A query string, which is the part of a URL that appears after a ? character, if any.    URI: The part of a web request that identifies a resource, for example, /images/daily-ad.jpg.    BODY: The part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form. The request body immediately follows the request headers. Note that only the first 8192 bytes of the request body are forwarded to AWS WAF for inspection. To allow or block requests based on the length of the body, you can create a size constraint set. For more information, see CreateSizeConstraintSet.   
         public let `type`: MatchFieldType
@@ -1998,7 +1998,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: false, type: .string)
         ]
         /// The ChangeToken that you used to submit the UpdateByteMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
@@ -2016,8 +2016,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ByteMatchSet", required: false, type: .structure)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ByteMatchSet", location: nil, required: false, type: .structure)
         ]
         /// The ChangeToken that you used to submit the CreateByteMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
@@ -2039,10 +2039,10 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Timestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Request", required: true, type: .structure), 
-            AWSShapeProperty(label: "Weight", required: true, type: .long), 
-            AWSShapeProperty(label: "Action", required: false, type: .string)
+            AWSShapeProperty(label: "Timestamp", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Request", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "Weight", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "Action", location: nil, required: false, type: .string)
         ]
         /// The time at which AWS WAF received the request from your AWS resource, in Unix time format (in seconds).
         public let timestamp: Date?
@@ -2074,8 +2074,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IPSetId", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+            AWSShapeProperty(label: "IPSetId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string)
         ]
         /// The IPSetId for an IPSet. You can use IPSetId in a GetIPSet request to get detailed information about an IPSet.
         public let iPSetId: String
@@ -2108,7 +2108,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceArn", required: true, type: .string)
+            AWSShapeProperty(label: "ResourceArn", location: nil, required: true, type: .string)
         ]
         /// The ARN (Amazon Resource Name) of the resource from which the web ACL is being removed.
         public let resourceArn: String
@@ -2127,7 +2127,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IPSet", required: false, type: .structure)
+            AWSShapeProperty(label: "IPSet", location: nil, required: false, type: .structure)
         ]
         /// Information about the IPSet that you specified in the GetIPSet request. For more information, see the following topics:    IPSet: Contains IPSetDescriptors, IPSetId, and Name     IPSetDescriptors: Contains an array of IPSetDescriptor objects. Each IPSetDescriptor object contains Type and Value   
         public let iPSet: IPSet?
@@ -2145,8 +2145,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FieldToMatch", required: true, type: .structure), 
-            AWSShapeProperty(label: "TextTransformation", required: true, type: .enum)
+            AWSShapeProperty(label: "FieldToMatch", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "TextTransformation", location: nil, required: true, type: .enum)
         ]
         /// Specifies where in a web request to look for cross-site scripting attacks.
         public let fieldToMatch: FieldToMatch
@@ -2170,8 +2170,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "NextMarker", location: nil, required: false, type: .string)
         ]
         /// Specifies the number of ByteMatchSet objects that you want AWS WAF to return for this request. If you have more ByteMatchSets objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of ByteMatchSet objects.
         public let limit: Int32?
@@ -2200,7 +2200,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: false, type: .string)
         ]
         /// The ChangeToken that you used to submit the DeleteByteMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
@@ -2218,7 +2218,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SqlInjectionMatchSetId", required: true, type: .string)
+            AWSShapeProperty(label: "SqlInjectionMatchSetId", location: nil, required: true, type: .string)
         ]
         /// The SqlInjectionMatchSetId of the SqlInjectionMatchSet that you want to get. SqlInjectionMatchSetId is returned by CreateSqlInjectionMatchSet and by ListSqlInjectionMatchSets.
         public let sqlInjectionMatchSetId: String
@@ -2246,8 +2246,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
-            AWSShapeProperty(label: "SizeConstraintSetId", required: true, type: .string)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "SizeConstraintSetId", location: nil, required: true, type: .string)
         ]
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
@@ -2271,7 +2271,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SqlInjectionMatchSet", required: false, type: .structure)
+            AWSShapeProperty(label: "SqlInjectionMatchSet", location: nil, required: false, type: .structure)
         ]
         /// Information about the SqlInjectionMatchSet that you specified in the GetSqlInjectionMatchSet request. For more information, see the following topics:    SqlInjectionMatchSet: Contains Name, SqlInjectionMatchSetId, and an array of SqlInjectionMatchTuple objects    SqlInjectionMatchTuple: Each SqlInjectionMatchTuple object contains FieldToMatch and TextTransformation     FieldToMatch: Contains Data and Type   
         public let sqlInjectionMatchSet: SqlInjectionMatchSet?
@@ -2299,7 +2299,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeTokenStatus", required: false, type: .enum)
+            AWSShapeProperty(label: "ChangeTokenStatus", location: nil, required: false, type: .enum)
         ]
         /// The status of the change token.
         public let changeTokenStatus: ChangeTokenStatus?
@@ -2317,9 +2317,9 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
-            AWSShapeProperty(label: "ByteMatchSetId", required: true, type: .string), 
-            AWSShapeProperty(label: "Updates", required: true, type: .list)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "ByteMatchSetId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Updates", location: nil, required: true, type: .list)
         ]
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
@@ -2354,9 +2354,9 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SizeConstraints", required: true, type: .list), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "SizeConstraintSetId", required: true, type: .string)
+            AWSShapeProperty(label: "SizeConstraints", location: nil, required: true, type: .list), 
+            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "SizeConstraintSetId", location: nil, required: true, type: .string)
         ]
         /// Specifies the parts of web requests that you want to inspect the size of.
         public let sizeConstraints: [SizeConstraint]
@@ -2384,7 +2384,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "XssMatchSet", required: false, type: .structure)
+            AWSShapeProperty(label: "XssMatchSet", location: nil, required: false, type: .structure)
         ]
         /// Information about the XssMatchSet that you specified in the GetXssMatchSet request. For more information, see the following topics:    XssMatchSet: Contains Name, XssMatchSetId, and an array of XssMatchTuple objects    XssMatchTuple: Each XssMatchTuple object contains FieldToMatch and TextTransformation     FieldToMatch: Contains Data and Type   
         public let xssMatchSet: XssMatchSet?
@@ -2402,10 +2402,10 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DefaultAction", required: false, type: .structure), 
-            AWSShapeProperty(label: "Updates", required: false, type: .list), 
-            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
-            AWSShapeProperty(label: "WebACLId", required: true, type: .string)
+            AWSShapeProperty(label: "DefaultAction", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "Updates", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "WebACLId", location: nil, required: true, type: .string)
         ]
         /// A default action for the web ACL, either ALLOW or BLOCK. AWS WAF performs the default action if a request doesn't match the criteria in any of the rules in a web ACL.
         public let defaultAction: WafAction?
@@ -2441,7 +2441,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WebACLId", required: true, type: .string)
+            AWSShapeProperty(label: "WebACLId", location: nil, required: true, type: .string)
         ]
         /// The WebACLId of the WebACL that you want to get. WebACLId is returned by CreateWebACL and by ListWebACLs.
         public let webACLId: String
@@ -2460,8 +2460,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "NextMarker", location: nil, required: false, type: .string)
         ]
         /// Specifies the number of SqlInjectionMatchSet objects that you want AWS WAF to return for this request. If you have more SqlInjectionMatchSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of Rules.
         public let limit: Int32?
@@ -2483,8 +2483,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ByteMatchSetId", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+            AWSShapeProperty(label: "ByteMatchSetId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string)
         ]
         /// The ByteMatchSetId for a ByteMatchSet. You use ByteMatchSetId to get information about a ByteMatchSet, update a ByteMatchSet, remove a ByteMatchSet from a Rule, and delete a ByteMatchSet from AWS WAF.  ByteMatchSetId is returned by CreateByteMatchSet and by ListByteMatchSets.
         public let byteMatchSetId: String
@@ -2508,8 +2508,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Rules", required: false, type: .list), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+            AWSShapeProperty(label: "Rules", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "NextMarker", location: nil, required: false, type: .string)
         ]
         /// An array of RuleSummary objects.
         public let rules: [RuleSummary]?
@@ -2535,9 +2535,9 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ByteMatchSetId", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "ByteMatchTuples", required: true, type: .list)
+            AWSShapeProperty(label: "ByteMatchSetId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ByteMatchTuples", location: nil, required: true, type: .list)
         ]
         /// The ByteMatchSetId for a ByteMatchSet. You use ByteMatchSetId to get information about a ByteMatchSet (see GetByteMatchSet), update a ByteMatchSet (see UpdateByteMatchSet), insert a ByteMatchSet into a Rule or delete one from a Rule (see UpdateRule), and delete a ByteMatchSet from AWS WAF (see DeleteByteMatchSet).  ByteMatchSetId is returned by CreateByteMatchSet and by ListByteMatchSets.
         public let byteMatchSetId: String
@@ -2565,8 +2565,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SizeConstraintSets", required: false, type: .list), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+            AWSShapeProperty(label: "SizeConstraintSets", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "NextMarker", location: nil, required: false, type: .string)
         ]
         /// An array of SizeConstraintSetSummary objects.
         public let sizeConstraintSets: [SizeConstraintSetSummary]?
@@ -2592,7 +2592,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Rule", required: false, type: .structure)
+            AWSShapeProperty(label: "Rule", location: nil, required: false, type: .structure)
         ]
         /// Information about the Rule that you specified in the GetRule request. For more information, see the following topics:    Rule: Contains MetricName, Name, an array of Predicate objects, and RuleId     Predicate: Each Predicate object contains DataId, Negated, and Type   
         public let rule: Rule?
@@ -2610,8 +2610,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string)
         ]
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
@@ -2635,8 +2635,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ByteMatchSets", required: false, type: .list), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+            AWSShapeProperty(label: "ByteMatchSets", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "NextMarker", location: nil, required: false, type: .string)
         ]
         /// An array of ByteMatchSetSummary objects.
         public let byteMatchSets: [ByteMatchSetSummary]?
@@ -2662,9 +2662,9 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: true, type: .enum), 
-            AWSShapeProperty(label: "Negated", required: true, type: .boolean), 
-            AWSShapeProperty(label: "DataId", required: true, type: .string)
+            AWSShapeProperty(label: "Type", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "Negated", location: nil, required: true, type: .boolean), 
+            AWSShapeProperty(label: "DataId", location: nil, required: true, type: .string)
         ]
         /// The type of predicate in a Rule, such as ByteMatchSet or IPSet.
         public let `type`: PredicateType
@@ -2693,8 +2693,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Action", required: true, type: .enum), 
-            AWSShapeProperty(label: "Predicate", required: true, type: .structure)
+            AWSShapeProperty(label: "Action", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "Predicate", location: nil, required: true, type: .structure)
         ]
         /// Specify INSERT to add a Predicate to a Rule. Use DELETE to remove a Predicate from a Rule.
         public let action: ChangeAction
@@ -2718,7 +2718,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: false, type: .string)
         ]
         /// The ChangeToken that you used to submit the DeleteSqlInjectionMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
@@ -2736,9 +2736,9 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PopulationSize", required: false, type: .long), 
-            AWSShapeProperty(label: "SampledRequests", required: false, type: .list), 
-            AWSShapeProperty(label: "TimeWindow", required: false, type: .structure)
+            AWSShapeProperty(label: "PopulationSize", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "SampledRequests", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "TimeWindow", location: nil, required: false, type: .structure)
         ]
         /// The total number of requests from which GetSampledRequests got a sample of MaxItems requests. If PopulationSize is less than MaxItems, the sample includes every request that your AWS resource received during the specified time range.
         public let populationSize: Int64?
@@ -2778,8 +2778,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IPSets", required: false, type: .list), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+            AWSShapeProperty(label: "IPSets", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "NextMarker", location: nil, required: false, type: .string)
         ]
         /// An array of IPSetSummary objects.
         public let iPSets: [IPSetSummary]?
@@ -2805,7 +2805,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
+            AWSShapeProperty(label: "ChangeToken", location: nil, required: false, type: .string)
         ]
         /// The ChangeToken that you used to submit the DeleteXssMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
@@ -2823,9 +2823,9 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "XssMatchSetId", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "XssMatchTuples", required: true, type: .list)
+            AWSShapeProperty(label: "XssMatchSetId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "XssMatchTuples", location: nil, required: true, type: .list)
         ]
         /// A unique identifier for an XssMatchSet. You use XssMatchSetId to get information about an XssMatchSet (see GetXssMatchSet), update an XssMatchSet (see UpdateXssMatchSet), insert an XssMatchSet into a Rule or delete one from a Rule (see UpdateRule), and delete an XssMatchSet from AWS WAF (see DeleteXssMatchSet).  XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets.
         public let xssMatchSetId: String
@@ -2853,7 +2853,7 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RuleId", required: true, type: .string)
+            AWSShapeProperty(label: "RuleId", location: nil, required: true, type: .string)
         ]
         /// The RuleId of the Rule that you want to get. RuleId is returned by CreateRule and by ListRules.
         public let ruleId: String
@@ -2872,11 +2872,11 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MetricName", required: false, type: .string), 
-            AWSShapeProperty(label: "DefaultAction", required: true, type: .structure), 
-            AWSShapeProperty(label: "Rules", required: true, type: .list), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "WebACLId", required: true, type: .string)
+            AWSShapeProperty(label: "MetricName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "DefaultAction", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "Rules", location: nil, required: true, type: .list), 
+            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "WebACLId", location: nil, required: true, type: .string)
         ]
         /// A friendly name or description for the metrics for this WebACL. The name can contain only alphanumeric characters (A-Z, a-z, 0-9); the name can't contain whitespace. You can't change MetricName after you create the WebACL.
         public let metricName: String?
@@ -2913,8 +2913,8 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "NextMarker", location: nil, required: false, type: .string)
         ]
         /// Specifies the number of SizeConstraintSet objects that you want AWS WAF to return for this request. If you have more SizeConstraintSets objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of SizeConstraintSet objects.
         public let limit: Int32?
@@ -2936,9 +2936,9 @@ extension WafRegional {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SqlInjectionMatchSetId", required: true, type: .string), 
-            AWSShapeProperty(label: "SqlInjectionMatchTuples", required: true, type: .list), 
-            AWSShapeProperty(label: "Name", required: false, type: .string)
+            AWSShapeProperty(label: "SqlInjectionMatchSetId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "SqlInjectionMatchTuples", location: nil, required: true, type: .list), 
+            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string)
         ]
         /// A unique identifier for a SqlInjectionMatchSet. You use SqlInjectionMatchSetId to get information about a SqlInjectionMatchSet (see GetSqlInjectionMatchSet), update a SqlInjectionMatchSet (see UpdateSqlInjectionMatchSet), insert a SqlInjectionMatchSet into a Rule or delete one from a Rule (see UpdateRule), and delete a SqlInjectionMatchSet from AWS WAF (see DeleteSqlInjectionMatchSet).  SqlInjectionMatchSetId is returned by CreateSqlInjectionMatchSet and by ListSqlInjectionMatchSets.
         public let sqlInjectionMatchSetId: String

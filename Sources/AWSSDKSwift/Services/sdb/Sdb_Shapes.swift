@@ -33,9 +33,9 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "Replace", required: false, type: .boolean)
+            AWSShapeProperty(label: "Value", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Replace", location: nil, required: false, type: .boolean)
         ]
         /// The value of the replaceable attribute.
         public let value: String
@@ -63,10 +63,10 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConsistentRead", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ItemName", required: true, type: .string), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
-            AWSShapeProperty(label: "AttributeNames", required: false, type: .structure)
+            AWSShapeProperty(label: "ConsistentRead", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "ItemName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "DomainName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "AttributeNames", location: nil, required: false, type: .structure)
         ]
         /// Determines whether or not strong consistency should be enforced when data is read from SimpleDB. If true, any data previously written to SimpleDB will be returned. Otherwise, results will be consistent eventually, and the client may not see data that was written immediately before your read.
         public let consistentRead: Bool?
@@ -98,8 +98,8 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxNumberOfDomains", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+            AWSShapeProperty(label: "MaxNumberOfDomains", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
         ]
         /// The maximum number of domain names you want returned. The range is 1 to 100. The default setting is 100.
         public let maxNumberOfDomains: Int32?
@@ -121,7 +121,7 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Attribute", required: false, type: .list)
+            AWSShapeProperty(label: "Attribute", location: "Attribute", required: false, type: .list)
         ]
         public let attribute: [Attribute]?
 
@@ -142,7 +142,7 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Attributes", required: false, type: .structure)
+            AWSShapeProperty(label: "Attributes", location: nil, required: false, type: .structure)
         ]
         /// The list of attributes returned by the operation.
         public let attributes: AttributeList?
@@ -160,9 +160,9 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConsistentRead", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "SelectExpression", required: true, type: .string)
+            AWSShapeProperty(label: "ConsistentRead", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "SelectExpression", location: nil, required: true, type: .string)
         ]
         /// Determines whether or not strong consistency should be enforced when data is read from SimpleDB. If true, any data previously written to SimpleDB will be returned. Otherwise, results will be consistent eventually, and the client may not see data that was written immediately before your read.
         public let consistentRead: Bool?
@@ -189,8 +189,8 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Items", required: true, type: .structure), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+            AWSShapeProperty(label: "Items", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "DomainName", location: nil, required: true, type: .string)
         ]
         /// A list of items on which to perform the operation.
         public let items: DeletableItemList
@@ -214,13 +214,13 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Timestamp", required: false, type: .integer), 
-            AWSShapeProperty(label: "AttributeNamesSizeBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "AttributeValuesSizeBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "ItemCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "AttributeValueCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "AttributeNameCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "ItemNamesSizeBytes", required: false, type: .long)
+            AWSShapeProperty(label: "Timestamp", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "AttributeNamesSizeBytes", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "AttributeValuesSizeBytes", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "ItemCount", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "AttributeValueCount", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "AttributeNameCount", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "ItemNamesSizeBytes", location: nil, required: false, type: .long)
         ]
         /// The data and time when metadata was calculated, in Epoch (UNIX) seconds.
         public let timestamp: Int32?
@@ -262,9 +262,9 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AlternateNameEncoding", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "Attributes", required: true, type: .structure)
+            AWSShapeProperty(label: "AlternateNameEncoding", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Attributes", location: nil, required: true, type: .structure)
         ]
         public let alternateNameEncoding: String?
         /// The name of the item.
@@ -291,10 +291,10 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AlternateNameEncoding", required: false, type: .string), 
-            AWSShapeProperty(label: "AlternateValueEncoding", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "Value", required: true, type: .string)
+            AWSShapeProperty(label: "AlternateNameEncoding", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "AlternateValueEncoding", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Value", location: nil, required: true, type: .string)
         ]
         public let alternateNameEncoding: String?
         public let alternateValueEncoding: String?
@@ -324,7 +324,7 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+            AWSShapeProperty(label: "DomainName", location: nil, required: true, type: .string)
         ]
         /// The name of the domain for which to display the metadata of.
         public let domainName: String
@@ -343,7 +343,7 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+            AWSShapeProperty(label: "DomainName", location: nil, required: true, type: .string)
         ]
         /// The name of the domain to delete.
         public let domainName: String
@@ -362,8 +362,8 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Items", required: true, type: .structure), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+            AWSShapeProperty(label: "Items", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "DomainName", location: nil, required: true, type: .string)
         ]
         /// A list of items on which to perform the operation.
         public let items: ReplaceableItemList
@@ -387,8 +387,8 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ItemName", required: true, type: .string), 
-            AWSShapeProperty(label: "Attributes", required: true, type: .structure)
+            AWSShapeProperty(label: "Name", location: "ItemName", required: true, type: .string), 
+            AWSShapeProperty(label: "Attributes", location: nil, required: true, type: .structure)
         ]
         /// The name of the replaceable item.
         public let name: String
@@ -412,7 +412,7 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Item", required: false, type: .list)
+            AWSShapeProperty(label: "Item", location: "Item", required: false, type: .list)
         ]
         public let item: [DeletableItem]?
 
@@ -433,7 +433,7 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttributeName", required: false, type: .list)
+            AWSShapeProperty(label: "AttributeName", location: "AttributeName", required: false, type: .list)
         ]
         public let attributeName: [String]?
 
@@ -450,8 +450,8 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ItemName", required: true, type: .string), 
-            AWSShapeProperty(label: "Attributes", required: false, type: .structure)
+            AWSShapeProperty(label: "Name", location: "ItemName", required: true, type: .string), 
+            AWSShapeProperty(label: "Attributes", location: nil, required: false, type: .structure)
         ]
         public let name: String
         public let attributes: DeletableAttributeList?
@@ -472,9 +472,9 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Exists", required: false, type: .boolean)
+            AWSShapeProperty(label: "Value", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Exists", location: nil, required: false, type: .boolean)
         ]
         /// The value of an attribute. This value can only be specified when the Exists parameter is equal to true.
         public let value: String?
@@ -500,7 +500,7 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Item", required: false, type: .list)
+            AWSShapeProperty(label: "Item", location: "Item", required: false, type: .list)
         ]
         public let item: [Item]?
 
@@ -521,10 +521,10 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ItemName", required: true, type: .string), 
-            AWSShapeProperty(label: "Attributes", required: true, type: .structure), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
-            AWSShapeProperty(label: "Expected", required: false, type: .structure)
+            AWSShapeProperty(label: "ItemName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Attributes", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "DomainName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Expected", location: nil, required: false, type: .structure)
         ]
         /// The name of the item.
         public let itemName: String
@@ -557,8 +557,8 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+            AWSShapeProperty(label: "Value", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string)
         ]
         /// The value of the attribute.
         public let value: String?
@@ -581,10 +581,10 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ItemName", required: true, type: .string), 
-            AWSShapeProperty(label: "Attributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
-            AWSShapeProperty(label: "Expected", required: false, type: .structure)
+            AWSShapeProperty(label: "ItemName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Attributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "DomainName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Expected", location: nil, required: false, type: .structure)
         ]
         /// The name of the item. Similar to rows on a spreadsheet, items represent individual objects that contain one or more value-attribute pairs.
         public let itemName: String
@@ -616,8 +616,8 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "DomainNames", required: false, type: .structure)
+            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "DomainNames", location: nil, required: false, type: .structure)
         ]
         /// An opaque token indicating that there are more domains than the specified MaxNumberOfDomains still available.
         public let nextToken: String?
@@ -639,7 +639,7 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Attribute", required: false, type: .list)
+            AWSShapeProperty(label: "Attribute", location: "Attribute", required: false, type: .list)
         ]
         public let attribute: [ReplaceableAttribute]?
 
@@ -660,7 +660,7 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Attribute", required: false, type: .list)
+            AWSShapeProperty(label: "Attribute", location: "Attribute", required: false, type: .list)
         ]
         public let attribute: [DeletableAttribute]?
 
@@ -681,7 +681,7 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Item", required: false, type: .list)
+            AWSShapeProperty(label: "Item", location: "Item", required: false, type: .list)
         ]
         public let item: [ReplaceableItem]?
 
@@ -702,8 +702,8 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Items", required: false, type: .structure), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+            AWSShapeProperty(label: "Items", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
         ]
         /// A list of items that match the select expression.
         public let items: ItemList?
@@ -725,7 +725,7 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+            AWSShapeProperty(label: "DomainName", location: nil, required: true, type: .string)
         ]
         /// The name of the domain to create. The name can range between 3 and 255 characters and can contain the following characters: a-z, A-Z, 0-9, '_', '-', and '.'.
         public let domainName: String
@@ -744,7 +744,7 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainName", required: false, type: .list)
+            AWSShapeProperty(label: "DomainName", location: "DomainName", required: false, type: .list)
         ]
         public let domainName: [String]?
 

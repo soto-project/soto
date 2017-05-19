@@ -33,7 +33,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeARN", required: false, type: .string)
+            AWSShapeProperty(label: "VolumeARN", location: nil, required: false, type: .string)
         ]
         public let volumeARN: String?
 
@@ -50,7 +50,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeARN", required: false, type: .string)
+            AWSShapeProperty(label: "TapeARN", location: nil, required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the virtual tape that was deleted from the virtual tape shelf (VTS).
         public let tapeARN: String?
@@ -68,7 +68,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: true, type: .string)
         ]
         public let gatewayARN: String
 
@@ -86,7 +86,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: true, type: .string)
         ]
         public let gatewayARN: String
 
@@ -104,8 +104,8 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LocalConsolePassword", required: true, type: .string), 
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+            AWSShapeProperty(label: "LocalConsolePassword", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: true, type: .string)
         ]
         /// The password you want to set for your VM local console.
         public let localConsolePassword: String
@@ -128,8 +128,8 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Tapes", required: false, type: .list)
+            AWSShapeProperty(label: "Marker", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Tapes", location: nil, required: false, type: .list)
         ]
         /// An opaque string which can be used as part of a subsequent DescribeTapes call to retrieve the next page of results. If a response does not contain a marker, then there are no more results to be retrieved.
         public let marker: String?
@@ -155,7 +155,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: false, type: .string)
         ]
         public let gatewayARN: String?
 
@@ -172,8 +172,8 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeARN", required: true, type: .string), 
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+            AWSShapeProperty(label: "TapeARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the virtual tape you want to retrieve from the virtual tape shelf (VTS).
         public let tapeARN: String
@@ -197,9 +197,9 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string), 
-            AWSShapeProperty(label: "TapeSizeInBytes", required: true, type: .long), 
-            AWSShapeProperty(label: "TapeBarcode", required: true, type: .string)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "TapeSizeInBytes", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "TapeBarcode", location: nil, required: true, type: .string)
         ]
         /// The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tape with. Use the ListGateways operation to return a list of gateways for your account and region.
         public let gatewayARN: String
@@ -228,8 +228,8 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeARN", required: true, type: .string), 
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+            AWSShapeProperty(label: "TapeARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the virtual tape you want to cancel archiving for.
         public let tapeARN: String
@@ -252,7 +252,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: false, type: .string)
         ]
         public let gatewayARN: String?
 
@@ -269,13 +269,13 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheAllocatedInBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheUsedPercentage", required: false, type: .double), 
-            AWSShapeProperty(label: "CacheDirtyPercentage", required: false, type: .double), 
-            AWSShapeProperty(label: "CacheHitPercentage", required: false, type: .double), 
-            AWSShapeProperty(label: "CacheMissPercentage", required: false, type: .double), 
-            AWSShapeProperty(label: "DiskIds", required: false, type: .list)
+            AWSShapeProperty(label: "CacheAllocatedInBytes", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "CacheUsedPercentage", location: nil, required: false, type: .double), 
+            AWSShapeProperty(label: "CacheDirtyPercentage", location: nil, required: false, type: .double), 
+            AWSShapeProperty(label: "CacheHitPercentage", location: nil, required: false, type: .double), 
+            AWSShapeProperty(label: "CacheMissPercentage", location: nil, required: false, type: .double), 
+            AWSShapeProperty(label: "DiskIds", location: nil, required: false, type: .list)
         ]
         public let cacheAllocatedInBytes: Int64?
         public let gatewayARN: String?
@@ -310,7 +310,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NFSFileShareInfoList", required: false, type: .list)
+            AWSShapeProperty(label: "NFSFileShareInfoList", location: nil, required: false, type: .list)
         ]
         /// An array containing a description for each requested file share. 
         public let nFSFileShareInfoList: [NFSFileShareInfo]?
@@ -332,10 +332,10 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OwnerId", required: false, type: .long), 
-            AWSShapeProperty(label: "FileMode", required: false, type: .string), 
-            AWSShapeProperty(label: "GroupId", required: false, type: .long), 
-            AWSShapeProperty(label: "DirectoryMode", required: false, type: .string)
+            AWSShapeProperty(label: "OwnerId", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "FileMode", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "GroupId", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "DirectoryMode", location: nil, required: false, type: .string)
         ]
         /// The default owner ID for files in the file share (unless the files have another owner ID specified). The default value is nfsnobody. 
         public let ownerId: Int64?
@@ -365,10 +365,10 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string), 
-            AWSShapeProperty(label: "TapeARNs", required: false, type: .list), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "TapeARNs", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "Marker", location: nil, required: false, type: .string)
         ]
         public let gatewayARN: String
         /// Specifies one or more unique Amazon Resource Names (ARNs) that represent the virtual tapes you want to describe. If this parameter is not specified, AWS Storage Gateway returns a description of all virtual tapes associated with the specified gateway.
@@ -398,9 +398,9 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+            AWSShapeProperty(label: "Marker", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer)
         ]
         /// An opaque string that indicates the position at which to begin describing the virtual tape recovery points.
         public let marker: String?
@@ -426,8 +426,8 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotDescription", required: true, type: .string), 
-            AWSShapeProperty(label: "VolumeARN", required: true, type: .string)
+            AWSShapeProperty(label: "SnapshotDescription", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "VolumeARN", location: nil, required: true, type: .string)
         ]
         public let snapshotDescription: String
         public let volumeARN: String
@@ -449,8 +449,8 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string), 
-            AWSShapeProperty(label: "DiskIds", required: true, type: .list)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "DiskIds", location: nil, required: true, type: .list)
         ]
         public let gatewayARN: String
         public let diskIds: [String]
@@ -472,7 +472,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: true, type: .string)
         ]
         public let gatewayARN: String
 
@@ -490,9 +490,9 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+            AWSShapeProperty(label: "ResourceARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Marker", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer)
         ]
         /// The Amazon Resource Name (ARN) of the resource for which you want to list tags.
         public let resourceARN: String
@@ -519,8 +519,8 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeviceType", required: true, type: .string), 
-            AWSShapeProperty(label: "VTLDeviceARN", required: true, type: .string)
+            AWSShapeProperty(label: "DeviceType", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "VTLDeviceARN", location: nil, required: true, type: .string)
         ]
         /// The type of medium changer you want to select.  Valid Values: "STK-L700", "AWS-Gateway-VTL"
         public let deviceType: String
@@ -544,10 +544,10 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeARN", required: false, type: .string), 
-            AWSShapeProperty(label: "TapeRecoveryPointTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "TapeStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "TapeSizeInBytes", required: false, type: .long)
+            AWSShapeProperty(label: "TapeARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "TapeRecoveryPointTime", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "TapeStatus", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "TapeSizeInBytes", location: nil, required: false, type: .long)
         ]
         /// The Amazon Resource Name (ARN) of the virtual tape.
         public let tapeARN: String?
@@ -576,7 +576,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeARN", required: false, type: .string)
+            AWSShapeProperty(label: "TapeARN", location: nil, required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the retrieved virtual tape.
         public let tapeARN: String?
@@ -594,8 +594,8 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: true, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string)
+            AWSShapeProperty(label: "Value", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Key", location: nil, required: true, type: .string)
         ]
         public let value: String
         public let key: String
@@ -617,7 +617,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: false, type: .string)
         ]
         public let gatewayARN: String?
 
@@ -634,7 +634,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: true, type: .string)
         ]
         public let gatewayARN: String
 
@@ -652,8 +652,8 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "TapeInfos", required: false, type: .list)
+            AWSShapeProperty(label: "Marker", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "TapeInfos", location: nil, required: false, type: .list)
         ]
         /// A string that indicates the position at which to begin returning the next list of tapes. Use the marker in your next request to continue pagination of tapes. If there are no more tapes to list, this element does not appear in the response body.
         public let marker: String?
@@ -678,11 +678,11 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeARN", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeProperty(label: "TapeStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "TapeSizeInBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "TapeBarcode", required: false, type: .string)
+            AWSShapeProperty(label: "TapeARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "TapeStatus", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "TapeSizeInBytes", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "TapeBarcode", location: nil, required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of a virtual tape.
         public let tapeARN: String?
@@ -716,9 +716,9 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayTimezone", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayName", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+            AWSShapeProperty(label: "GatewayTimezone", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "GatewayName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: true, type: .string)
         ]
         public let gatewayTimezone: String?
         public let gatewayName: String?
@@ -742,10 +742,10 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string), 
-            AWSShapeProperty(label: "HourOfDay", required: true, type: .integer), 
-            AWSShapeProperty(label: "MinuteOfHour", required: true, type: .integer), 
-            AWSShapeProperty(label: "DayOfWeek", required: true, type: .integer)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "HourOfDay", location: nil, required: true, type: .integer), 
+            AWSShapeProperty(label: "MinuteOfHour", location: nil, required: true, type: .integer), 
+            AWSShapeProperty(label: "DayOfWeek", location: nil, required: true, type: .integer)
         ]
         public let gatewayARN: String
         /// The hour component of the maintenance start time represented as hh, where hh is the hour (00 to 23). The hour of the day is in the time zone of the gateway.
@@ -778,7 +778,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeARN", required: true, type: .string)
+            AWSShapeProperty(label: "VolumeARN", location: nil, required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes.
         public let volumeARN: String
@@ -797,7 +797,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeARN", required: true, type: .string)
+            AWSShapeProperty(label: "VolumeARN", location: nil, required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes.
         public let volumeARN: String
@@ -816,8 +816,8 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeProperty(label: "TagKeys", required: true, type: .list)
+            AWSShapeProperty(label: "ResourceARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "TagKeys", location: nil, required: true, type: .list)
         ]
         /// The Amazon Resource Name (ARN) of the resource you want to remove the tags from.
         public let resourceARN: String
@@ -841,7 +841,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: true, type: .string)
         ]
         public let gatewayARN: String
 
@@ -859,10 +859,10 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DiskIds", required: false, type: .list), 
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeProperty(label: "WorkingStorageUsedInBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "WorkingStorageAllocatedInBytes", required: false, type: .long)
+            AWSShapeProperty(label: "DiskIds", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "WorkingStorageUsedInBytes", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "WorkingStorageAllocatedInBytes", location: nil, required: false, type: .long)
         ]
         /// An array of the gateway's local disk IDs that are configured as working storage. Each local disk ID is specified as a string (minimum length of 1 and maximum length of 300). If no local disks are configured as working storage, then the DiskIds array is empty.
         public let diskIds: [String]?
@@ -891,7 +891,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeARN", required: true, type: .string)
+            AWSShapeProperty(label: "TapeARN", location: nil, required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the virtual tape to delete from the virtual tape shelf (VTS).
         public let tapeARN: String
@@ -910,13 +910,13 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DiskStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "DiskSizeInBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "DiskId", required: false, type: .string), 
-            AWSShapeProperty(label: "DiskNode", required: false, type: .string), 
-            AWSShapeProperty(label: "DiskPath", required: false, type: .string), 
-            AWSShapeProperty(label: "DiskAllocationType", required: false, type: .string), 
-            AWSShapeProperty(label: "DiskAllocationResource", required: false, type: .string)
+            AWSShapeProperty(label: "DiskStatus", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "DiskSizeInBytes", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "DiskId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "DiskNode", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "DiskPath", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "DiskAllocationType", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "DiskAllocationResource", location: nil, required: false, type: .string)
         ]
         public let diskStatus: String?
         public let diskSizeInBytes: Int64?
@@ -951,7 +951,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VTLDeviceARN", required: false, type: .string)
+            AWSShapeProperty(label: "VTLDeviceARN", location: nil, required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the medium changer you have selected.
         public let vTLDeviceARN: String?
@@ -969,8 +969,8 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetARN", required: false, type: .string), 
-            AWSShapeProperty(label: "InitiatorName", required: false, type: .string)
+            AWSShapeProperty(label: "TargetARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "InitiatorName", location: nil, required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the target. This is the same target specified in the request.
         public let targetARN: String?
@@ -992,13 +992,13 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ActivationKey", required: true, type: .string), 
-            AWSShapeProperty(label: "GatewayType", required: false, type: .string), 
-            AWSShapeProperty(label: "MediumChangerType", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayTimezone", required: true, type: .string), 
-            AWSShapeProperty(label: "GatewayRegion", required: true, type: .string), 
-            AWSShapeProperty(label: "GatewayName", required: true, type: .string), 
-            AWSShapeProperty(label: "TapeDriveType", required: false, type: .string)
+            AWSShapeProperty(label: "ActivationKey", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "GatewayType", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "MediumChangerType", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "GatewayTimezone", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "GatewayRegion", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "GatewayName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "TapeDriveType", location: nil, required: false, type: .string)
         ]
         /// Your gateway activation key. You can obtain the activation key by sending an HTTP GET request with redirects enabled to the gateway IP address (port 80). The redirect URL returned in the response provides you the activation key for your gateway in the query string parameter activationKey. It may also include other activation-related parameters, however, these are merely defaults -- the arguments you pass to the ActivateGateway API call determine the actual configuration of your gateway.
         public let activationKey: String
@@ -1044,18 +1044,18 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KMSEncrypted", required: false, type: .boolean), 
-            AWSShapeProperty(label: "FileShareStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeProperty(label: "KMSKey", required: false, type: .string), 
-            AWSShapeProperty(label: "FileShareId", required: false, type: .string), 
-            AWSShapeProperty(label: "Role", required: false, type: .string), 
-            AWSShapeProperty(label: "Path", required: false, type: .string), 
-            AWSShapeProperty(label: "NFSFileShareDefaults", required: false, type: .structure), 
-            AWSShapeProperty(label: "ClientList", required: false, type: .list), 
-            AWSShapeProperty(label: "FileShareARN", required: false, type: .string), 
-            AWSShapeProperty(label: "LocationARN", required: false, type: .string), 
-            AWSShapeProperty(label: "DefaultStorageClass", required: false, type: .string)
+            AWSShapeProperty(label: "KMSEncrypted", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "FileShareStatus", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "KMSKey", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "FileShareId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Role", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Path", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "NFSFileShareDefaults", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "ClientList", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "FileShareARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "LocationARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "DefaultStorageClass", location: nil, required: false, type: .string)
         ]
         /// True to use Amazon S3 server side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional. 
         public let kMSEncrypted: Bool?
@@ -1107,8 +1107,8 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeProperty(label: "Tags", required: true, type: .list)
+            AWSShapeProperty(label: "ResourceARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Tags", location: nil, required: true, type: .list)
         ]
         /// The Amazon Resource Name (ARN) of the resource you want to add tags to.
         public let resourceARN: String
@@ -1132,7 +1132,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: false, type: .string)
         ]
         public let gatewayARN: String?
 
@@ -1149,7 +1149,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: false, type: .string)
         ]
         public let gatewayARN: String?
 
@@ -1166,7 +1166,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeARN", required: false, type: .string)
+            AWSShapeProperty(label: "TapeARN", location: nil, required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the virtual tape for which archiving was canceled.
         public let tapeARN: String?
@@ -1184,9 +1184,9 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Ipv6Address", required: false, type: .string), 
-            AWSShapeProperty(label: "MacAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "Ipv4Address", required: false, type: .string)
+            AWSShapeProperty(label: "Ipv6Address", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "MacAddress", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Ipv4Address", location: nil, required: false, type: .string)
         ]
         /// The Internet Protocol version 6 (IPv6) address of the interface. Currently not supported.
         public let ipv6Address: String?
@@ -1212,10 +1212,10 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetARN", required: false, type: .string), 
-            AWSShapeProperty(label: "ChapEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NetworkInterfaceId", required: false, type: .string), 
-            AWSShapeProperty(label: "NetworkInterfacePort", required: false, type: .integer)
+            AWSShapeProperty(label: "TargetARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ChapEnabled", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "NetworkInterfaceId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "NetworkInterfacePort", location: nil, required: false, type: .integer)
         ]
         /// Specifies the unique Amazon Resource Name(ARN) that encodes the iSCSI qualified name(iqn) of a tape drive or media changer target.
         public let targetARN: String?
@@ -1245,8 +1245,8 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeARN", required: true, type: .string), 
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+            AWSShapeProperty(label: "TapeARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the virtual tape you want to cancel retrieval for.
         public let tapeARN: String
@@ -1269,7 +1269,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: false, type: .string)
         ]
         public let gatewayARN: String?
 
@@ -1286,7 +1286,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeARNs", required: true, type: .list)
+            AWSShapeProperty(label: "VolumeARNs", location: nil, required: true, type: .list)
         ]
         public let volumeARNs: [String]
 
@@ -1304,13 +1304,13 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeARN", required: false, type: .string), 
-            AWSShapeProperty(label: "CompletionTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "TapeCreatedDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "TapeBarcode", required: false, type: .string), 
-            AWSShapeProperty(label: "RetrievedTo", required: false, type: .string), 
-            AWSShapeProperty(label: "TapeStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "TapeSizeInBytes", required: false, type: .long)
+            AWSShapeProperty(label: "TapeARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "CompletionTime", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "TapeCreatedDate", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "TapeBarcode", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "RetrievedTo", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "TapeStatus", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "TapeSizeInBytes", location: nil, required: false, type: .long)
         ]
         /// The Amazon Resource Name (ARN) of an archived virtual tape.
         public let tapeARN: String?
@@ -1351,9 +1351,9 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "TapeARNs", required: false, type: .list), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+            AWSShapeProperty(label: "Marker", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "TapeARNs", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer)
         ]
         /// A string that indicates the position at which to begin the returned list of tapes.
         public let marker: String?
@@ -1378,7 +1378,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeARN", required: true, type: .string)
+            AWSShapeProperty(label: "VolumeARN", location: nil, required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes for the gateway.
         public let volumeARN: String
@@ -1397,8 +1397,8 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotId", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeARN", required: false, type: .string)
+            AWSShapeProperty(label: "SnapshotId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "VolumeARN", location: nil, required: false, type: .string)
         ]
         /// The snapshot ID that is used to refer to the snapshot in future operations such as describing snapshots (Amazon Elastic Compute Cloud API DescribeSnapshots) or creating a volume from a snapshot (CreateStorediSCSIVolume).
         public let snapshotId: String?
@@ -1420,15 +1420,15 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string), 
-            AWSShapeProperty(label: "ClientToken", required: true, type: .string), 
-            AWSShapeProperty(label: "KMSKey", required: false, type: .string), 
-            AWSShapeProperty(label: "Role", required: true, type: .string), 
-            AWSShapeProperty(label: "NFSFileShareDefaults", required: false, type: .structure), 
-            AWSShapeProperty(label: "ClientList", required: false, type: .list), 
-            AWSShapeProperty(label: "LocationARN", required: true, type: .string), 
-            AWSShapeProperty(label: "DefaultStorageClass", required: false, type: .string), 
-            AWSShapeProperty(label: "KMSEncrypted", required: false, type: .boolean)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "ClientToken", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "KMSKey", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Role", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "NFSFileShareDefaults", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "ClientList", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "LocationARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "DefaultStorageClass", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "KMSEncrypted", location: nil, required: false, type: .boolean)
         ]
         /// The Amazon Resource Name (ARN) of the file gateway on which you want to create a file share.
         public let gatewayARN: String
@@ -1482,9 +1482,9 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceARN", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string)
+            AWSShapeProperty(label: "ResourceARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Tags", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "Marker", location: nil, required: false, type: .string)
         ]
         /// he Amazon Resource Name (ARN) of the resource for which you want to list tags.
         public let resourceARN: String?
@@ -1514,8 +1514,8 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetARN", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeARN", required: false, type: .string)
+            AWSShapeProperty(label: "TargetARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "VolumeARN", location: nil, required: false, type: .string)
         ]
         public let targetARN: String?
         public let volumeARN: String?
@@ -1535,9 +1535,9 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+            AWSShapeProperty(label: "Marker", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer)
         ]
         /// A string that indicates the position at which to begin the returned list of volumes. Obtain the marker from the response of a previous List iSCSI Volumes request.
         public let marker: String?
@@ -1562,7 +1562,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceARN", required: false, type: .string)
+            AWSShapeProperty(label: "ResourceARN", location: nil, required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the resource that the tags were removed from.
         public let resourceARN: String?
@@ -1580,10 +1580,10 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetARN", required: true, type: .string), 
-            AWSShapeProperty(label: "SecretToAuthenticateTarget", required: false, type: .string), 
-            AWSShapeProperty(label: "SecretToAuthenticateInitiator", required: true, type: .string), 
-            AWSShapeProperty(label: "InitiatorName", required: true, type: .string)
+            AWSShapeProperty(label: "TargetARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "SecretToAuthenticateTarget", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "SecretToAuthenticateInitiator", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "InitiatorName", location: nil, required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the iSCSI volume target. Use the DescribeStorediSCSIVolumes operation to return the TargetARN for specified VolumeARN.
         public let targetARN: String
@@ -1616,7 +1616,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FileShareARN", required: false, type: .string)
+            AWSShapeProperty(label: "FileShareARN", location: nil, required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the newly created file share. 
         public let fileShareARN: String?
@@ -1634,7 +1634,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeARN", required: false, type: .string)
+            AWSShapeProperty(label: "VolumeARN", location: nil, required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the storage volume that was deleted. It is the same ARN you provided in the request.
         public let volumeARN: String?
@@ -1652,8 +1652,8 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeARN", required: true, type: .string), 
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+            AWSShapeProperty(label: "TapeARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the virtual tape for which you want to retrieve the recovery point.
         public let tapeARN: String
@@ -1676,9 +1676,9 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AverageDownloadRateLimitInBitsPerSec", required: false, type: .long), 
-            AWSShapeProperty(label: "AverageUploadRateLimitInBitsPerSec", required: false, type: .long), 
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string)
+            AWSShapeProperty(label: "AverageDownloadRateLimitInBitsPerSec", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "AverageUploadRateLimitInBitsPerSec", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: false, type: .string)
         ]
         /// The average download bandwidth rate limit in bits per second. This field does not appear in the response if the download rate limit is not set.
         public let averageDownloadRateLimitInBitsPerSec: Int64?
@@ -1703,7 +1703,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: false, type: .string)
         ]
         public let gatewayARN: String?
 
@@ -1720,7 +1720,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeARN", required: false, type: .string)
+            AWSShapeProperty(label: "VolumeARN", location: nil, required: false, type: .string)
         ]
         public let volumeARN: String?
 
@@ -1737,7 +1737,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChapCredentials", required: false, type: .list)
+            AWSShapeProperty(label: "ChapCredentials", location: nil, required: false, type: .list)
         ]
         /// An array of ChapInfo objects that represent CHAP credentials. Each object in the array contains CHAP credential information for one target-initiator pair. If no CHAP credentials are set, an empty array is returned. CHAP credential information is provided in a JSON object with the following fields:    InitiatorName: The iSCSI initiator that connects to the target.    SecretToAuthenticateInitiator: The secret key that the initiator (for example, the Windows client) must provide to participate in mutual CHAP with the target.    SecretToAuthenticateTarget: The secret key that the target must provide to participate in mutual CHAP with the initiator (e.g. Windows client).    TargetARN: The Amazon Resource Name (ARN) of the storage volume.  
         public let chapCredentials: [ChapInfo]?
@@ -1759,12 +1759,12 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KMSKey", required: false, type: .string), 
-            AWSShapeProperty(label: "NFSFileShareDefaults", required: false, type: .structure), 
-            AWSShapeProperty(label: "FileShareARN", required: true, type: .string), 
-            AWSShapeProperty(label: "ClientList", required: false, type: .list), 
-            AWSShapeProperty(label: "DefaultStorageClass", required: false, type: .string), 
-            AWSShapeProperty(label: "KMSEncrypted", required: false, type: .boolean)
+            AWSShapeProperty(label: "KMSKey", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "NFSFileShareDefaults", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "FileShareARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "ClientList", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "DefaultStorageClass", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "KMSEncrypted", location: nil, required: false, type: .boolean)
         ]
         /// The KMS key used for Amazon S3 server side encryption. This value can only be set when KmsEncrypted is true. Optional. 
         public let kMSKey: String?
@@ -1803,8 +1803,8 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Disks", required: false, type: .list), 
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string)
+            AWSShapeProperty(label: "Disks", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: false, type: .string)
         ]
         public let disks: [Disk]?
         public let gatewayARN: String?
@@ -1828,7 +1828,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: false, type: .string)
         ]
         public let gatewayARN: String?
 
@@ -1845,8 +1845,8 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BandwidthType", required: true, type: .string), 
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+            AWSShapeProperty(label: "BandwidthType", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: true, type: .string)
         ]
         /// One of the BandwidthType values that indicates the gateway bandwidth rate limit to delete. Valid Values: Upload, Download, All.
         public let bandwidthType: String
@@ -1869,8 +1869,8 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeARN", required: true, type: .string), 
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+            AWSShapeProperty(label: "TapeARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the virtual tape to delete.
         public let tapeARN: String
@@ -1894,7 +1894,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: false, type: .string)
         ]
         public let gatewayARN: String?
 
@@ -1911,11 +1911,11 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VTLDeviceVendor", required: false, type: .string), 
-            AWSShapeProperty(label: "VTLDeviceType", required: false, type: .string), 
-            AWSShapeProperty(label: "VTLDeviceARN", required: false, type: .string), 
-            AWSShapeProperty(label: "DeviceiSCSIAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "VTLDeviceProductIdentifier", required: false, type: .string)
+            AWSShapeProperty(label: "VTLDeviceVendor", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "VTLDeviceType", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "VTLDeviceARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "DeviceiSCSIAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "VTLDeviceProductIdentifier", location: nil, required: false, type: .string)
         ]
         public let vTLDeviceVendor: String?
         public let vTLDeviceType: String?
@@ -1946,11 +1946,11 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayType", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayOperationalState", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayName", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayId", required: false, type: .string)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "GatewayType", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "GatewayOperationalState", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "GatewayName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "GatewayId", location: nil, required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and region.
         public let gatewayARN: String?
@@ -1984,8 +1984,8 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotDescription", required: true, type: .string), 
-            AWSShapeProperty(label: "VolumeARN", required: true, type: .string)
+            AWSShapeProperty(label: "SnapshotDescription", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "VolumeARN", location: nil, required: true, type: .string)
         ]
         /// Textual description of the snapshot that appears in the Amazon EC2 console, Elastic Block Store snapshots panel in the Description field, and in the AWS Storage Gateway snapshot Details pane, Description field
         public let snapshotDescription: String
@@ -2009,9 +2009,9 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AverageDownloadRateLimitInBitsPerSec", required: false, type: .long), 
-            AWSShapeProperty(label: "AverageUploadRateLimitInBitsPerSec", required: false, type: .long), 
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+            AWSShapeProperty(label: "AverageDownloadRateLimitInBitsPerSec", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "AverageUploadRateLimitInBitsPerSec", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: true, type: .string)
         ]
         /// The average download bandwidth rate limit in bits per second.
         public let averageDownloadRateLimitInBitsPerSec: Int64?
@@ -2037,7 +2037,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: true, type: .string)
         ]
         public let gatewayARN: String
 
@@ -2055,7 +2055,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: false, type: .string)
         ]
         public let gatewayARN: String?
 
@@ -2072,9 +2072,9 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+            AWSShapeProperty(label: "Marker", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer)
         ]
         /// Opaque pagination token returned from a previous ListFileShares operation. If present, Marker specifies where to continue the list from after a previous call to ListFileShares. Optional.
         public let marker: String?
@@ -2100,7 +2100,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: false, type: .string)
         ]
         public let gatewayARN: String?
 
@@ -2117,10 +2117,10 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeRecoveryPointTime", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeARN", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeUsageInBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "VolumeSizeInBytes", required: false, type: .long)
+            AWSShapeProperty(label: "VolumeRecoveryPointTime", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "VolumeARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "VolumeUsageInBytes", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "VolumeSizeInBytes", location: nil, required: false, type: .long)
         ]
         public let volumeRecoveryPointTime: String?
         public let volumeARN: String?
@@ -2146,8 +2146,8 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeArchives", required: false, type: .list), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string)
+            AWSShapeProperty(label: "TapeArchives", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "Marker", location: nil, required: false, type: .string)
         ]
         /// An array of virtual tape objects in the virtual tape shelf (VTS). The description includes of the Amazon Resource Name(ARN) of the virtual tapes. The information returned includes the Amazon Resource Names (ARNs) of the tapes, size of the tapes, status of the tapes, progress of the description and tape barcode.
         public let tapeArchives: [TapeArchive]?
@@ -2173,17 +2173,17 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeiSCSIAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "SourceSnapshotId", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeType", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeId", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeSizeInBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "PreservedExistingData", required: false, type: .boolean), 
-            AWSShapeProperty(label: "CreatedDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "VolumeARN", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeProgress", required: false, type: .double), 
-            AWSShapeProperty(label: "VolumeDiskId", required: false, type: .string)
+            AWSShapeProperty(label: "VolumeiSCSIAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "SourceSnapshotId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "VolumeType", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "VolumeStatus", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "VolumeId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "VolumeSizeInBytes", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "PreservedExistingData", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "CreatedDate", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "VolumeARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "VolumeProgress", location: nil, required: false, type: .double), 
+            AWSShapeProperty(label: "VolumeDiskId", location: nil, required: false, type: .string)
         ]
         /// An VolumeiSCSIAttributes object that represents a collection of iSCSI attributes for one stored volume.
         public let volumeiSCSIAttributes: VolumeiSCSIAttributes?
@@ -2240,11 +2240,11 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NumTapesToCreate", required: true, type: .integer), 
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string), 
-            AWSShapeProperty(label: "ClientToken", required: true, type: .string), 
-            AWSShapeProperty(label: "TapeSizeInBytes", required: true, type: .long), 
-            AWSShapeProperty(label: "TapeBarcodePrefix", required: true, type: .string)
+            AWSShapeProperty(label: "NumTapesToCreate", location: nil, required: true, type: .integer), 
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "ClientToken", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "TapeSizeInBytes", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "TapeBarcodePrefix", location: nil, required: true, type: .string)
         ]
         /// The number of virtual tapes that you want to create.
         public let numTapesToCreate: Int32
@@ -2283,15 +2283,15 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SourceSnapshotId", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeType", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeId", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeSizeInBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "VolumeARN", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeProgress", required: false, type: .double), 
-            AWSShapeProperty(label: "VolumeiSCSIAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "CreatedDate", required: false, type: .timestamp)
+            AWSShapeProperty(label: "SourceSnapshotId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "VolumeType", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "VolumeStatus", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "VolumeId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "VolumeSizeInBytes", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "VolumeARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "VolumeProgress", location: nil, required: false, type: .double), 
+            AWSShapeProperty(label: "VolumeiSCSIAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "CreatedDate", location: nil, required: false, type: .timestamp)
         ]
         /// If the cached volume was created from a snapshot, this field contains the snapshot ID used, e.g. snap-78e22663. Otherwise, this field is not included.
         public let sourceSnapshotId: String?
@@ -2340,7 +2340,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceARN", required: false, type: .string)
+            AWSShapeProperty(label: "ResourceARN", location: nil, required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the resource you want to add tags to.
         public let resourceARN: String?
@@ -2358,7 +2358,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetARN", required: true, type: .string)
+            AWSShapeProperty(label: "TargetARN", location: nil, required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the iSCSI volume target. Use the DescribeStorediSCSIVolumes operation to return to retrieve the TargetARN for specified VolumeARN.
         public let targetARN: String
@@ -2377,7 +2377,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FileShareARN", required: false, type: .string)
+            AWSShapeProperty(label: "FileShareARN", location: nil, required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the deleted file share. 
         public let fileShareARN: String?
@@ -2395,7 +2395,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: true, type: .string)
         ]
         public let gatewayARN: String
 
@@ -2413,13 +2413,13 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeARN", required: false, type: .string), 
-            AWSShapeProperty(label: "VTLDevice", required: false, type: .string), 
-            AWSShapeProperty(label: "Progress", required: false, type: .double), 
-            AWSShapeProperty(label: "TapeCreatedDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "TapeBarcode", required: false, type: .string), 
-            AWSShapeProperty(label: "TapeStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "TapeSizeInBytes", required: false, type: .long)
+            AWSShapeProperty(label: "TapeARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "VTLDevice", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Progress", location: nil, required: false, type: .double), 
+            AWSShapeProperty(label: "TapeCreatedDate", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "TapeBarcode", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "TapeStatus", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "TapeSizeInBytes", location: nil, required: false, type: .long)
         ]
         /// The Amazon Resource Name (ARN) of the virtual tape.
         public let tapeARN: String?
@@ -2460,7 +2460,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeARN", required: false, type: .string)
+            AWSShapeProperty(label: "TapeARN", location: nil, required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the deleted virtual tape.
         public let tapeARN: String?
@@ -2478,7 +2478,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeARNs", required: true, type: .list)
+            AWSShapeProperty(label: "VolumeARNs", location: nil, required: true, type: .list)
         ]
         /// An array of strings where each string represents the Amazon Resource Name (ARN) of a stored volume. All of the specified stored volumes must from the same gateway. Use ListVolumes to get volume ARNs for a gateway.
         public let volumeARNs: [String]
@@ -2497,9 +2497,9 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "TapeARNs", required: false, type: .list), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+            AWSShapeProperty(label: "Marker", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "TapeARNs", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer)
         ]
         /// An opaque string that indicates the position at which to begin describing virtual tapes.
         public let marker: String?
@@ -2525,7 +2525,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: true, type: .string)
         ]
         public let gatewayARN: String
 
@@ -2543,7 +2543,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeARN", required: false, type: .string)
+            AWSShapeProperty(label: "TapeARN", location: nil, required: false, type: .string)
         ]
         /// A unique Amazon Resource Name (ARN) that represents the virtual tape that was created.
         public let tapeARN: String?
@@ -2561,8 +2561,8 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string), 
-            AWSShapeProperty(label: "DiskIds", required: true, type: .list)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "DiskIds", location: nil, required: true, type: .list)
         ]
         public let gatewayARN: String
         /// An array of strings that identify disks that are to be configured as working storage. Each string have a minimum length of 1 and maximum length of 300. You can get the disk IDs from the ListLocalDisks API.
@@ -2585,8 +2585,8 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetARN", required: true, type: .string), 
-            AWSShapeProperty(label: "InitiatorName", required: true, type: .string)
+            AWSShapeProperty(label: "TargetARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "InitiatorName", location: nil, required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the iSCSI volume target. Use the DescribeStorediSCSIVolumes operation to return to retrieve the TargetARN for specified VolumeARN.
         public let targetARN: String
@@ -2675,7 +2675,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FileShareARNList", required: true, type: .list)
+            AWSShapeProperty(label: "FileShareARNList", location: nil, required: true, type: .list)
         ]
         /// An array containing the Amazon Resource Name (ARN) of each file share to be described. 
         public let fileShareARNList: [String]
@@ -2694,7 +2694,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StorediSCSIVolumes", required: false, type: .list)
+            AWSShapeProperty(label: "StorediSCSIVolumes", location: nil, required: false, type: .list)
         ]
         public let storediSCSIVolumes: [StorediSCSIVolume]?
 
@@ -2715,10 +2715,10 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeProperty(label: "UploadBufferUsedInBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "UploadBufferAllocatedInBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "DiskIds", required: false, type: .list)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "UploadBufferUsedInBytes", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "UploadBufferAllocatedInBytes", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "DiskIds", location: nil, required: false, type: .list)
         ]
         public let gatewayARN: String?
         public let uploadBufferUsedInBytes: Int64?
@@ -2744,7 +2744,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FileShareARN", required: false, type: .string)
+            AWSShapeProperty(label: "FileShareARN", location: nil, required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the updated file share. 
         public let fileShareARN: String?
@@ -2762,9 +2762,9 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeInfos", required: false, type: .list)
+            AWSShapeProperty(label: "Marker", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "VolumeInfos", location: nil, required: false, type: .list)
         ]
         public let marker: String?
         public let gatewayARN: String?
@@ -2791,7 +2791,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CachediSCSIVolumes", required: false, type: .list)
+            AWSShapeProperty(label: "CachediSCSIVolumes", location: nil, required: false, type: .list)
         ]
         /// An array of objects where each object contains metadata about one cached volume.
         public let cachediSCSIVolumes: [CachediSCSIVolume]?
@@ -2813,7 +2813,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeARN", required: true, type: .string)
+            AWSShapeProperty(label: "VolumeARN", location: nil, required: true, type: .string)
         ]
         public let volumeARN: String
 
@@ -2831,7 +2831,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeARNs", required: false, type: .list)
+            AWSShapeProperty(label: "TapeARNs", location: nil, required: false, type: .list)
         ]
         /// A list of unique Amazon Resource Names (ARNs) that represents the virtual tapes that were created.
         public let tapeARNs: [String]?
@@ -2849,9 +2849,9 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetARN", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeARN", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeSizeInBytes", required: false, type: .long)
+            AWSShapeProperty(label: "TargetARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "VolumeARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "VolumeSizeInBytes", location: nil, required: false, type: .long)
         ]
         /// he Amazon Resource Name (ARN) of the volume target that includes the iSCSI name that initiators can use to connect to the target.
         public let targetARN: String?
@@ -2877,7 +2877,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: true, type: .string)
         ]
         public let gatewayARN: String
 
@@ -2895,9 +2895,9 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeARN", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeRecoveryPointTime", required: false, type: .string), 
-            AWSShapeProperty(label: "SnapshotId", required: false, type: .string)
+            AWSShapeProperty(label: "VolumeARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "VolumeRecoveryPointTime", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "SnapshotId", location: nil, required: false, type: .string)
         ]
         public let volumeARN: String?
         public let volumeRecoveryPointTime: String?
@@ -2920,15 +2920,15 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayState", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayType", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayTimezone", required: false, type: .string), 
-            AWSShapeProperty(label: "LastSoftwareUpdate", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayNetworkInterfaces", required: false, type: .list), 
-            AWSShapeProperty(label: "NextUpdateAvailabilityDate", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayName", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayId", required: false, type: .string)
+            AWSShapeProperty(label: "GatewayState", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "GatewayType", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "GatewayTimezone", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "LastSoftwareUpdate", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "GatewayNetworkInterfaces", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "NextUpdateAvailabilityDate", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "GatewayName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "GatewayId", location: nil, required: false, type: .string)
         ]
         /// A value that indicates the operating state of the gateway.
         public let gatewayState: String?
@@ -2981,10 +2981,10 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FileShareId", required: false, type: .string), 
-            AWSShapeProperty(label: "FileShareStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "FileShareARN", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string)
+            AWSShapeProperty(label: "FileShareId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "FileShareStatus", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "FileShareARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: false, type: .string)
         ]
         public let fileShareId: String?
         public let fileShareStatus: String?
@@ -3010,10 +3010,10 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RecurrenceInHours", required: true, type: .integer), 
-            AWSShapeProperty(label: "StartAt", required: true, type: .integer), 
-            AWSShapeProperty(label: "VolumeARN", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+            AWSShapeProperty(label: "RecurrenceInHours", location: nil, required: true, type: .integer), 
+            AWSShapeProperty(label: "StartAt", location: nil, required: true, type: .integer), 
+            AWSShapeProperty(label: "VolumeARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string)
         ]
         /// Frequency of snapshots. Specify the number of hours between snapshots.
         public let recurrenceInHours: Int32
@@ -3046,9 +3046,9 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "VTLDevices", required: false, type: .list), 
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string)
+            AWSShapeProperty(label: "Marker", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "VTLDevices", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: false, type: .string)
         ]
         /// An opaque string that indicates the position at which the VTL devices that were fetched for description ended. Use the marker in your next request to fetch the next set of VTL devices in the list. If there are no more VTL devices to describe, this field does not appear in the response.
         public let marker: String?
@@ -3077,8 +3077,8 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetARN", required: false, type: .string), 
-            AWSShapeProperty(label: "InitiatorName", required: false, type: .string)
+            AWSShapeProperty(label: "TargetARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "InitiatorName", location: nil, required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the target.
         public let targetARN: String?
@@ -3100,8 +3100,8 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayName", required: false, type: .string)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "GatewayName", location: nil, required: false, type: .string)
         ]
         public let gatewayARN: String?
         public let gatewayName: String?
@@ -3121,11 +3121,11 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeProperty(label: "HourOfDay", required: false, type: .integer), 
-            AWSShapeProperty(label: "MinuteOfHour", required: false, type: .integer), 
-            AWSShapeProperty(label: "Timezone", required: false, type: .string), 
-            AWSShapeProperty(label: "DayOfWeek", required: false, type: .integer)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "HourOfDay", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "MinuteOfHour", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "Timezone", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "DayOfWeek", location: nil, required: false, type: .integer)
         ]
         public let gatewayARN: String?
         /// The hour component of the maintenance start time represented as hh, where hh is the hour (0 to 23). The hour of the day is in the time zone of the gateway.
@@ -3157,11 +3157,11 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartAt", required: false, type: .integer), 
-            AWSShapeProperty(label: "RecurrenceInHours", required: false, type: .integer), 
-            AWSShapeProperty(label: "VolumeARN", required: false, type: .string), 
-            AWSShapeProperty(label: "Timezone", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+            AWSShapeProperty(label: "StartAt", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "RecurrenceInHours", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "VolumeARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Timezone", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string)
         ]
         public let startAt: Int32?
         public let recurrenceInHours: Int32?
@@ -3190,7 +3190,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FileShareARN", required: true, type: .string)
+            AWSShapeProperty(label: "FileShareARN", location: nil, required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the file share to be deleted. 
         public let fileShareARN: String
@@ -3209,9 +3209,9 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeProperty(label: "TapeRecoveryPointInfos", required: false, type: .list)
+            AWSShapeProperty(label: "Marker", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "TapeRecoveryPointInfos", location: nil, required: false, type: .list)
         ]
         /// An opaque string that indicates the position at which the virtual tape recovery points that were listed for description ended. Use this marker in your next request to list the next set of virtual tape recovery points in the list. If there are no more recovery points to describe, this field does not appear in the response.
         public let marker: String?
@@ -3240,7 +3240,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: true, type: .string)
         ]
         public let gatewayARN: String
 
@@ -3258,7 +3258,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: false, type: .string)
         ]
         public let gatewayARN: String?
 
@@ -3275,9 +3275,9 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "FileShareInfoList", required: false, type: .list), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+            AWSShapeProperty(label: "Marker", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "FileShareInfoList", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "NextMarker", location: nil, required: false, type: .string)
         ]
         /// If the request includes Marker, the response returns that value in this field. 
         public let marker: String?
@@ -3307,7 +3307,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: true, type: .string)
         ]
         public let gatewayARN: String
 
@@ -3325,10 +3325,10 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "VTLDeviceARNs", required: false, type: .list)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "Marker", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "VTLDeviceARNs", location: nil, required: false, type: .list)
         ]
         public let gatewayARN: String
         /// Specifies that the number of VTL devices described be limited to the specified number.
@@ -3358,11 +3358,11 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetARN", required: false, type: .string), 
-            AWSShapeProperty(label: "ChapEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NetworkInterfaceId", required: false, type: .string), 
-            AWSShapeProperty(label: "NetworkInterfacePort", required: false, type: .integer), 
-            AWSShapeProperty(label: "LunNumber", required: false, type: .integer)
+            AWSShapeProperty(label: "TargetARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ChapEnabled", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "NetworkInterfaceId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "NetworkInterfacePort", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "LunNumber", location: nil, required: false, type: .integer)
         ]
         /// The Amazon Resource Name (ARN) of the volume target.
         public let targetARN: String?
@@ -3396,8 +3396,8 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeRecoveryPointInfos", required: false, type: .list)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "VolumeRecoveryPointInfos", location: nil, required: false, type: .list)
         ]
         public let gatewayARN: String?
         public let volumeRecoveryPointInfos: [VolumeRecoveryPointInfo]?
@@ -3421,8 +3421,8 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+            AWSShapeProperty(label: "Marker", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer)
         ]
         /// An opaque string that indicates the position at which to begin the returned list of gateways.
         public let marker: String?
@@ -3444,12 +3444,12 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotId", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string), 
-            AWSShapeProperty(label: "PreserveExistingData", required: true, type: .boolean), 
-            AWSShapeProperty(label: "NetworkInterfaceId", required: true, type: .string), 
-            AWSShapeProperty(label: "DiskId", required: true, type: .string), 
-            AWSShapeProperty(label: "TargetName", required: true, type: .string)
+            AWSShapeProperty(label: "SnapshotId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "PreserveExistingData", location: nil, required: true, type: .boolean), 
+            AWSShapeProperty(label: "NetworkInterfaceId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "DiskId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "TargetName", location: nil, required: true, type: .string)
         ]
         /// The snapshot ID (e.g. "snap-1122aabb") of the snapshot to restore as the new stored volume. Specify this field if you want to create the iSCSI storage volume from a snapshot otherwise do not include this field. To list snapshots for your account use DescribeSnapshots in the Amazon Elastic Compute Cloud API Reference.
         public let snapshotId: String?
@@ -3491,10 +3491,10 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetARN", required: false, type: .string), 
-            AWSShapeProperty(label: "SecretToAuthenticateTarget", required: false, type: .string), 
-            AWSShapeProperty(label: "SecretToAuthenticateInitiator", required: false, type: .string), 
-            AWSShapeProperty(label: "InitiatorName", required: false, type: .string)
+            AWSShapeProperty(label: "TargetARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "SecretToAuthenticateTarget", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "SecretToAuthenticateInitiator", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "InitiatorName", location: nil, required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the volume.  Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens (-).
         public let targetARN: String?
@@ -3524,8 +3524,8 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "errorCode", required: false, type: .enum), 
-            AWSShapeProperty(label: "errorDetails", required: false, type: .map)
+            AWSShapeProperty(label: "errorCode", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "errorDetails", location: nil, required: false, type: .map)
         ]
         /// Additional information about the error.
         public let errorCode: ErrorCode?
@@ -3551,12 +3551,12 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeSizeInBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeType", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeARN", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeId", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayId", required: false, type: .string)
+            AWSShapeProperty(label: "VolumeSizeInBytes", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "VolumeType", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "VolumeARN", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "VolumeId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "GatewayId", location: nil, required: false, type: .string)
         ]
         /// The size of the volume in bytes. Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens (-).
         public let volumeSizeInBytes: Int64?
@@ -3592,7 +3592,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: false, type: .string)
         ]
         public let gatewayARN: String?
 
@@ -3609,7 +3609,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeARN", required: false, type: .string)
+            AWSShapeProperty(label: "TapeARN", location: nil, required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the virtual tape for which retrieval was canceled.
         public let tapeARN: String?
@@ -3627,7 +3627,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Initiators", required: false, type: .list)
+            AWSShapeProperty(label: "Initiators", location: nil, required: false, type: .list)
         ]
         /// The host names and port numbers of all iSCSI initiators that are connected to the gateway.
         public let initiators: [String]?
@@ -3645,7 +3645,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: true, type: .string)
         ]
         public let gatewayARN: String
 
@@ -3663,7 +3663,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: true, type: .string)
         ]
         public let gatewayARN: String
 
@@ -3681,13 +3681,13 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string), 
-            AWSShapeProperty(label: "NetworkInterfaceId", required: true, type: .string), 
-            AWSShapeProperty(label: "ClientToken", required: true, type: .string), 
-            AWSShapeProperty(label: "VolumeSizeInBytes", required: true, type: .long), 
-            AWSShapeProperty(label: "SnapshotId", required: false, type: .string), 
-            AWSShapeProperty(label: "TargetName", required: true, type: .string), 
-            AWSShapeProperty(label: "SourceVolumeARN", required: false, type: .string)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "NetworkInterfaceId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "ClientToken", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "VolumeSizeInBytes", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "SnapshotId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "TargetName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "SourceVolumeARN", location: nil, required: false, type: .string)
         ]
         public let gatewayARN: String
         public let networkInterfaceId: String
@@ -3728,8 +3728,8 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Gateways", required: false, type: .list)
+            AWSShapeProperty(label: "Marker", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Gateways", location: nil, required: false, type: .list)
         ]
         public let marker: String?
         public let gateways: [GatewayInfo]?
@@ -3753,7 +3753,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: true, type: .string)
         ]
         public let gatewayARN: String
 
@@ -3771,7 +3771,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeARN", required: false, type: .string)
+            AWSShapeProperty(label: "TapeARN", location: nil, required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the virtual tape for which the recovery point was retrieved.
         public let tapeARN: String?
@@ -3789,7 +3789,7 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: false, type: .string)
         ]
         /// The unique Amazon Resource Name of the disabled gateway.
         public let gatewayARN: String?
@@ -3807,8 +3807,8 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string), 
-            AWSShapeProperty(label: "DiskIds", required: true, type: .list)
+            AWSShapeProperty(label: "GatewayARN", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "DiskIds", location: nil, required: true, type: .list)
         ]
         public let gatewayARN: String
         public let diskIds: [String]

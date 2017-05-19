@@ -33,8 +33,8 @@ extension Polly {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Content", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string)
+            AWSShapeProperty(label: "Content", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string)
         ]
         /// Lexicon content in string format. The content of a lexicon must be in PLS format.
         public let content: String?
@@ -59,8 +59,8 @@ extension Polly {
             return ["LanguageCode": "LanguageCode", "NextToken": "NextToken"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LanguageCode", required: false, type: .enum), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+            AWSShapeProperty(label: "LanguageCode", location: "LanguageCode", required: false, type: .enum), 
+            AWSShapeProperty(label: "NextToken", location: "NextToken", required: false, type: .string)
         ]
         ///  The language identification tag (ISO 639 code for the language name-ISO 3166 country code) for filtering the list of voices returned. If you don't specify this optional parameter, all available voices are returned. 
         public let languageCode: LanguageCode?
@@ -170,9 +170,9 @@ extension Polly {
             return ["Content-Type": "ContentType", "x-amzn-RequestCharacters": "RequestCharacters"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Content-Type", required: false, type: .string), 
-            AWSShapeProperty(label: "AudioStream", required: false, type: .blob), 
-            AWSShapeProperty(label: "X-amzn-RequestCharacters", required: false, type: .integer)
+            AWSShapeProperty(label: "ContentType", location: "Content-Type", required: false, type: .string), 
+            AWSShapeProperty(label: "AudioStream", location: nil, required: false, type: .blob), 
+            AWSShapeProperty(label: "RequestCharacters", location: "x-amzn-RequestCharacters", required: false, type: .integer)
         ]
         ///  Specifies the type audio stream. This should reflect the OutputFormat parameter in your request.     If you request mp3 as the OutputFormat, the ContentType returned is audio/mpeg.     If you request ogg_vorbis as the OutputFormat, the ContentType returned is audio/ogg.     If you request pcm as the OutputFormat, the ContentType returned is audio/pcm in a signed 16-bit, 1 channel (mono), little-endian format.     
         public let contentType: String?
@@ -190,7 +190,7 @@ extension Polly {
         public init(dictionary: [String: Any]) throws {
             self.contentType = dictionary["Content-Type"] as? String
             self.audioStream = dictionary["AudioStream"] as? Data
-            self.requestCharacters = dictionary["X-amzn-RequestCharacters"] as? Int32
+            self.requestCharacters = dictionary["x-amzn-RequestCharacters"] as? Int32
         }
     }
 
@@ -201,8 +201,8 @@ extension Polly {
             return ["LexiconName": "Name"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Content", required: true, type: .string), 
-            AWSShapeProperty(label: "LexiconName", required: true, type: .string)
+            AWSShapeProperty(label: "Content", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "Name", location: "LexiconName", required: true, type: .string)
         ]
         /// Content of the PLS lexicon as string data.
         public let content: String
@@ -226,8 +226,8 @@ extension Polly {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Lexicon", required: false, type: .structure), 
-            AWSShapeProperty(label: "LexiconAttributes", required: false, type: .structure)
+            AWSShapeProperty(label: "Lexicon", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "LexiconAttributes", location: nil, required: false, type: .structure)
         ]
         /// Lexicon object that provides name and the string content of the lexicon. 
         public let lexicon: Lexicon?
@@ -256,8 +256,8 @@ extension Polly {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Lexicons", required: false, type: .list)
+            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Lexicons", location: nil, required: false, type: .list)
         ]
         /// The pagination token to use in the next request to continue the listing of lexicons. NextToken is returned only if the response is truncated.
         public let nextToken: String?
@@ -286,7 +286,7 @@ extension Polly {
             return ["LexiconName": "Name"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LexiconName", required: true, type: .string)
+            AWSShapeProperty(label: "Name", location: "LexiconName", required: true, type: .string)
         ]
         /// Name of the lexicon.
         public let name: String
@@ -313,12 +313,12 @@ extension Polly {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OutputFormat", required: true, type: .enum), 
-            AWSShapeProperty(label: "VoiceId", required: true, type: .enum), 
-            AWSShapeProperty(label: "LexiconNames", required: false, type: .list), 
-            AWSShapeProperty(label: "TextType", required: false, type: .enum), 
-            AWSShapeProperty(label: "Text", required: true, type: .string), 
-            AWSShapeProperty(label: "SampleRate", required: false, type: .string)
+            AWSShapeProperty(label: "OutputFormat", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "VoiceId", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "LexiconNames", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "TextType", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "Text", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "SampleRate", location: nil, required: false, type: .string)
         ]
         ///  The audio format in which the resulting stream will be encoded. 
         public let outputFormat: OutputFormat
@@ -359,8 +359,8 @@ extension Polly {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Voices", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+            AWSShapeProperty(label: "Voices", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
         ]
         /// A list of voices with their properties.
         public let voices: [Voice]?
@@ -389,7 +389,7 @@ extension Polly {
             return ["NextToken": "NextToken"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+            AWSShapeProperty(label: "NextToken", location: "NextToken", required: false, type: .string)
         ]
         /// An opaque pagination token returned from previous ListLexicons operation. If present, indicates where to continue the list of lexicons.
         public let nextToken: String?
@@ -407,12 +407,12 @@ extension Polly {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LexiconArn", required: false, type: .string), 
-            AWSShapeProperty(label: "LastModified", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "LexemesCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "LanguageCode", required: false, type: .enum), 
-            AWSShapeProperty(label: "Alphabet", required: false, type: .string), 
-            AWSShapeProperty(label: "Size", required: false, type: .integer)
+            AWSShapeProperty(label: "LexiconArn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "LastModified", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "LexemesCount", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "LanguageCode", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "Alphabet", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Size", location: nil, required: false, type: .integer)
         ]
         /// Amazon Resource Name (ARN) of the lexicon.
         public let lexiconArn: String?
@@ -450,8 +450,8 @@ extension Polly {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Attributes", required: false, type: .structure)
+            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Attributes", location: nil, required: false, type: .structure)
         ]
         /// Name of the lexicon.
         public let name: String?
@@ -490,7 +490,7 @@ extension Polly {
             return ["LexiconName": "Name"]
         }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LexiconName", required: true, type: .string)
+            AWSShapeProperty(label: "Name", location: "LexiconName", required: true, type: .string)
         ]
         /// The name of the lexicon to delete. Must be an existing lexicon in the region.
         public let name: String
@@ -509,11 +509,11 @@ extension Polly {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LanguageName", required: false, type: .string), 
-            AWSShapeProperty(label: "LanguageCode", required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Gender", required: false, type: .enum), 
-            AWSShapeProperty(label: "Id", required: false, type: .enum)
+            AWSShapeProperty(label: "LanguageName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "LanguageCode", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "Gender", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "Id", location: nil, required: false, type: .enum)
         ]
         /// Human readable name of the language in English.
         public let languageName: String?

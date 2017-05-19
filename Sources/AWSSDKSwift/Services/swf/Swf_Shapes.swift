@@ -33,9 +33,9 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "runId", required: false, type: .string), 
-            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
-            AWSShapeProperty(label: "domain", required: true, type: .string)
+            AWSShapeProperty(label: "runId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "workflowId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "domain", location: nil, required: true, type: .string)
         ]
         /// The runId of the workflow execution to cancel.
         public let runId: String?
@@ -63,13 +63,13 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "typeFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "closeStatusFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "tagFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "executionFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "closeTimeFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "startTimeFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "domain", required: true, type: .string)
+            AWSShapeProperty(label: "typeFilter", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "closeStatusFilter", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "tagFilter", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "executionFilter", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "closeTimeFilter", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "startTimeFilter", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "domain", location: nil, required: true, type: .string)
         ]
         /// If specified, indicates the type of the workflow executions to be counted. closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
         public let typeFilter: WorkflowTypeFilter?
@@ -112,9 +112,9 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "scheduledEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "timeoutType", required: false, type: .enum)
+            AWSShapeProperty(label: "scheduledEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "startedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "timeoutType", location: nil, required: false, type: .enum)
         ]
         /// The ID of the LambdaFunctionScheduled event that was recorded when this AWS Lambda function was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let scheduledEventId: Int64
@@ -142,8 +142,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "version", required: true, type: .string)
+            AWSShapeProperty(label: "name", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "version", location: nil, required: true, type: .string)
         ]
         /// The name of this activity. The combination of activity type name and version must be unique within a domain.
         public let name: String
@@ -167,13 +167,13 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "previousStartedEventId", required: false, type: .long), 
-            AWSShapeProperty(label: "taskToken", required: true, type: .string), 
-            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
-            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "events", required: true, type: .list), 
-            AWSShapeProperty(label: "workflowExecution", required: true, type: .structure), 
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string)
+            AWSShapeProperty(label: "previousStartedEventId", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "taskToken", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "workflowType", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "startedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "events", location: nil, required: true, type: .list), 
+            AWSShapeProperty(label: "workflowExecution", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "nextPageToken", location: nil, required: false, type: .string)
         ]
         /// The ID of the DecisionTaskStarted event of the previous decision task of this workflow execution that was processed by the decider. This can be used to determine the events in the history new since the last decision task received by the decider.
         public let previousStartedEventId: Int64?
@@ -226,12 +226,12 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
-            AWSShapeProperty(label: "cause", required: true, type: .enum), 
-            AWSShapeProperty(label: "control", required: false, type: .string)
+            AWSShapeProperty(label: "initiatedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "workflowType", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "workflowId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "cause", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "control", location: nil, required: false, type: .string)
         ]
         /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let initiatedEventId: Int64
@@ -286,15 +286,15 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "execution", required: true, type: .structure), 
-            AWSShapeProperty(label: "startTimestamp", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "parent", required: false, type: .structure), 
-            AWSShapeProperty(label: "tagList", required: false, type: .list), 
-            AWSShapeProperty(label: "cancelRequested", required: false, type: .boolean), 
-            AWSShapeProperty(label: "closeTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "closeStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
-            AWSShapeProperty(label: "executionStatus", required: true, type: .enum)
+            AWSShapeProperty(label: "execution", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "startTimestamp", location: nil, required: true, type: .timestamp), 
+            AWSShapeProperty(label: "parent", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "tagList", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "cancelRequested", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "closeTimestamp", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "closeStatus", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "workflowType", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "executionStatus", location: nil, required: true, type: .enum)
         ]
         /// The workflow execution this information is about.
         public let execution: WorkflowExecution
@@ -348,7 +348,7 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "details", required: false, type: .string)
+            AWSShapeProperty(label: "details", location: nil, required: false, type: .string)
         ]
         /// Optional. details of the cancellation.
         public let details: String?
@@ -372,8 +372,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "version", required: true, type: .string)
+            AWSShapeProperty(label: "name", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "version", location: nil, required: true, type: .string)
         ]
         /// Required. The name of the workflow type. The combination of workflow type name and version must be unique with in a domain.
         public let name: String
@@ -397,12 +397,12 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "identity", required: false, type: .string), 
-            AWSShapeProperty(label: "maximumPageSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "taskList", required: true, type: .structure), 
-            AWSShapeProperty(label: "reverseOrder", required: false, type: .boolean), 
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "domain", required: true, type: .string)
+            AWSShapeProperty(label: "identity", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "maximumPageSize", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "taskList", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "reverseOrder", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "nextPageToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "domain", location: nil, required: true, type: .string)
         ]
         /// Identity of the decider making the request, which is recorded in the DecisionTaskStarted event in the workflow history. This enables diagnostic tracing when problems arise. The form of this identity is user defined.
         public let identity: String?
@@ -442,8 +442,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "typeInfo", required: true, type: .structure), 
-            AWSShapeProperty(label: "configuration", required: true, type: .structure)
+            AWSShapeProperty(label: "typeInfo", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "configuration", location: nil, required: true, type: .structure)
         ]
         /// General information about the workflow type. The status of the workflow type (returned in the WorkflowTypeInfo structure) can be one of the following.   REGISTERED: The type is registered and available. Workers supporting this type should be running.  DEPRECATED: The type was deprecated using DeprecateWorkflowType, but is still in use. You should keep workers supporting this type running. You cannot create new workflow executions of this type. 
         public let typeInfo: WorkflowTypeInfo
@@ -467,9 +467,9 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "scheduledEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "executionContext", required: false, type: .string)
+            AWSShapeProperty(label: "scheduledEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "startedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "executionContext", location: nil, required: false, type: .string)
         ]
         /// The ID of the DecisionTaskScheduled event that was recorded when this decision task was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let scheduledEventId: Int64
@@ -497,8 +497,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "domainInfo", required: true, type: .structure), 
-            AWSShapeProperty(label: "configuration", required: true, type: .structure)
+            AWSShapeProperty(label: "domainInfo", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "configuration", location: nil, required: true, type: .structure)
         ]
         public let domainInfo: DomainInfo
         public let configuration: DomainConfiguration
@@ -520,9 +520,9 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "details", required: false, type: .string), 
-            AWSShapeProperty(label: "taskToken", required: true, type: .string), 
-            AWSShapeProperty(label: "reason", required: false, type: .string)
+            AWSShapeProperty(label: "details", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "taskToken", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "reason", location: nil, required: false, type: .string)
         ]
         /// Optional. Detailed information about the failure.
         public let details: String?
@@ -549,9 +549,9 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "cause", required: true, type: .enum), 
-            AWSShapeProperty(label: "timerId", required: true, type: .string)
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "cause", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "timerId", location: nil, required: true, type: .string)
         ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the CancelTimer decision to cancel this timer. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
@@ -580,7 +580,7 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string)
+            AWSShapeProperty(label: "name", location: nil, required: true, type: .string)
         ]
         /// The name of the domain to describe.
         public let name: String
@@ -606,9 +606,9 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "timerId", required: true, type: .string), 
-            AWSShapeProperty(label: "startToFireTimeout", required: true, type: .string), 
-            AWSShapeProperty(label: "control", required: false, type: .string)
+            AWSShapeProperty(label: "timerId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "startToFireTimeout", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "control", location: nil, required: false, type: .string)
         ]
         /// Required. The unique ID of the timer. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
         public let timerId: String
@@ -636,8 +636,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "domain", required: true, type: .string), 
-            AWSShapeProperty(label: "workflowType", required: true, type: .structure)
+            AWSShapeProperty(label: "domain", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "workflowType", location: nil, required: true, type: .structure)
         ]
         /// The name of the domain in which this workflow type is registered.
         public let domain: String
@@ -661,8 +661,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "oldestDate", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "latestDate", required: false, type: .timestamp)
+            AWSShapeProperty(label: "oldestDate", location: nil, required: true, type: .timestamp), 
+            AWSShapeProperty(label: "latestDate", location: nil, required: false, type: .timestamp)
         ]
         /// Specifies the oldest start or close date and time to return.
         public let oldestDate: Date
@@ -685,9 +685,9 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "identity", required: false, type: .string), 
-            AWSShapeProperty(label: "domain", required: true, type: .string), 
-            AWSShapeProperty(label: "taskList", required: true, type: .structure)
+            AWSShapeProperty(label: "identity", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "domain", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "taskList", location: nil, required: true, type: .structure)
         ]
         /// Identity of the worker making the request, recorded in the ActivityTaskStarted event in the workflow history. This enables diagnostic tracing when problems arise. The form of this identity is user defined.
         public let identity: String?
@@ -715,16 +715,16 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "typeFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "closeStatusFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "tagFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "maximumPageSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "executionFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "closeTimeFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "startTimeFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "reverseOrder", required: false, type: .boolean), 
-            AWSShapeProperty(label: "domain", required: true, type: .string), 
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string)
+            AWSShapeProperty(label: "typeFilter", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "closeStatusFilter", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "tagFilter", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "maximumPageSize", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "executionFilter", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "closeTimeFilter", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "startTimeFilter", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "reverseOrder", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "domain", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "nextPageToken", location: nil, required: false, type: .string)
         ]
         /// If specified, only executions of the type specified in the filter are returned. closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
         public let typeFilter: WorkflowTypeFilter?
@@ -779,12 +779,12 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "taskToken", required: true, type: .string), 
-            AWSShapeProperty(label: "input", required: false, type: .string), 
-            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "workflowExecution", required: true, type: .structure), 
-            AWSShapeProperty(label: "activityId", required: true, type: .string), 
-            AWSShapeProperty(label: "activityType", required: true, type: .structure)
+            AWSShapeProperty(label: "taskToken", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "input", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "startedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "workflowExecution", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "activityId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "activityType", location: nil, required: true, type: .structure)
         ]
         /// The opaque string used as a handle on the task. This token is used by workers to communicate progress and response information back to the system about the task.
         public let taskToken: String
@@ -827,8 +827,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "activityType", required: true, type: .structure), 
-            AWSShapeProperty(label: "domain", required: true, type: .string)
+            AWSShapeProperty(label: "activityType", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "domain", location: nil, required: true, type: .string)
         ]
         /// The activity type to get information about. Activity types are identified by the name and version that were supplied when the activity was registered.
         public let activityType: ActivityType
@@ -852,7 +852,7 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "tag", required: true, type: .string)
+            AWSShapeProperty(label: "tag", location: nil, required: true, type: .string)
         ]
         /// Required. Specifies the tag that must be associated with the execution for it to meet the filter criteria.
         public let tag: String
@@ -871,7 +871,7 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string)
+            AWSShapeProperty(label: "name", location: nil, required: true, type: .string)
         ]
         /// The name of the task list.
         public let name: String
@@ -896,10 +896,10 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "details", required: false, type: .string), 
-            AWSShapeProperty(label: "reason", required: false, type: .string), 
-            AWSShapeProperty(label: "childPolicy", required: true, type: .enum), 
-            AWSShapeProperty(label: "cause", required: false, type: .enum)
+            AWSShapeProperty(label: "details", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "reason", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "childPolicy", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "cause", location: nil, required: false, type: .enum)
         ]
         /// The details provided for the termination (if any).
         public let details: String?
@@ -936,10 +936,10 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "activityType", required: true, type: .structure), 
-            AWSShapeProperty(label: "activityId", required: true, type: .string), 
-            AWSShapeProperty(label: "cause", required: true, type: .enum)
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "activityType", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "activityId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "cause", location: nil, required: true, type: .enum)
         ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision that resulted in the scheduling of this activity task. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
@@ -973,9 +973,9 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "runId", required: false, type: .string), 
-            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
-            AWSShapeProperty(label: "control", required: false, type: .string)
+            AWSShapeProperty(label: "runId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "workflowId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "control", location: nil, required: false, type: .string)
         ]
         /// The runId of the external workflow execution to cancel.
         public let runId: String?
@@ -1002,17 +1002,17 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "lambdaRole", required: false, type: .string), 
-            AWSShapeProperty(label: "executionStartToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "taskList", required: false, type: .structure), 
-            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
-            AWSShapeProperty(label: "taskPriority", required: false, type: .string), 
-            AWSShapeProperty(label: "tagList", required: false, type: .list), 
-            AWSShapeProperty(label: "input", required: false, type: .string), 
-            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
-            AWSShapeProperty(label: "taskStartToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "childPolicy", required: false, type: .enum), 
-            AWSShapeProperty(label: "domain", required: true, type: .string)
+            AWSShapeProperty(label: "lambdaRole", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "executionStartToCloseTimeout", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "taskList", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "workflowId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "taskPriority", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "tagList", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "input", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "workflowType", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "taskStartToCloseTimeout", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "childPolicy", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "domain", location: nil, required: true, type: .string)
         ]
         /// The ARN of an IAM role that authorizes Amazon SWF to invoke AWS Lambda functions. In order for this workflow execution to invoke AWS Lambda functions, an appropriate IAM role must be specified either as a default for the workflow type or through this field.
         public let lambdaRole: String?
@@ -1073,12 +1073,12 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maximumPageSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "reverseOrder", required: false, type: .boolean), 
-            AWSShapeProperty(label: "domain", required: true, type: .string), 
-            AWSShapeProperty(label: "registrationStatus", required: true, type: .enum)
+            AWSShapeProperty(label: "maximumPageSize", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "nextPageToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "reverseOrder", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "domain", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "registrationStatus", location: nil, required: true, type: .enum)
         ]
         /// The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
         public let maximumPageSize: Int32?
@@ -1118,10 +1118,10 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "id", required: true, type: .string), 
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "cause", required: true, type: .enum)
+            AWSShapeProperty(label: "name", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "id", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "cause", location: nil, required: true, type: .enum)
         ]
         /// The name of the scheduled AWS Lambda function.
         public let name: String
@@ -1170,11 +1170,11 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "details", required: false, type: .string), 
-            AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
-            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "workflowExecution", required: true, type: .structure)
+            AWSShapeProperty(label: "details", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "initiatedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "workflowType", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "startedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "workflowExecution", location: nil, required: true, type: .structure)
         ]
         /// Details of the cancellation (if provided).
         public let details: String?
@@ -1212,16 +1212,16 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "taskList", required: false, type: .structure), 
-            AWSShapeProperty(label: "activityId", required: true, type: .string), 
-            AWSShapeProperty(label: "scheduleToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "scheduleToStartTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "taskPriority", required: false, type: .string), 
-            AWSShapeProperty(label: "startToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "input", required: false, type: .string), 
-            AWSShapeProperty(label: "control", required: false, type: .string), 
-            AWSShapeProperty(label: "heartbeatTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "activityType", required: true, type: .structure)
+            AWSShapeProperty(label: "taskList", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "activityId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "scheduleToCloseTimeout", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "scheduleToStartTimeout", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "taskPriority", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "startToCloseTimeout", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "input", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "control", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "heartbeatTimeout", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "activityType", location: nil, required: true, type: .structure)
         ]
         /// If set, specifies the name of the task list in which to schedule the activity task. If not specified, the defaultTaskList registered with the activity type will be used. A task list for this activity task must be specified either as a default for the activity type or through this field. If neither this field is set nor a default task list was specified at registration time then a fault will be returned. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
         public let taskList: TaskList?
@@ -1277,10 +1277,10 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
-            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "workflowExecution", required: true, type: .structure)
+            AWSShapeProperty(label: "initiatedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "workflowType", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "startedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "workflowExecution", location: nil, required: true, type: .structure)
         ]
         /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let initiatedEventId: Int64
@@ -1314,17 +1314,17 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "lambdaRole", required: false, type: .string), 
-            AWSShapeProperty(label: "taskList", required: false, type: .structure), 
-            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
-            AWSShapeProperty(label: "taskPriority", required: false, type: .string), 
-            AWSShapeProperty(label: "control", required: false, type: .string), 
-            AWSShapeProperty(label: "tagList", required: false, type: .list), 
-            AWSShapeProperty(label: "input", required: false, type: .string), 
-            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
-            AWSShapeProperty(label: "childPolicy", required: false, type: .enum), 
-            AWSShapeProperty(label: "taskStartToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "executionStartToCloseTimeout", required: false, type: .string)
+            AWSShapeProperty(label: "lambdaRole", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "taskList", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "workflowId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "taskPriority", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "control", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "tagList", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "input", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "workflowType", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "childPolicy", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "taskStartToCloseTimeout", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "executionStartToCloseTimeout", location: nil, required: false, type: .string)
         ]
         /// The ARN of an IAM role that authorizes Amazon SWF to invoke AWS Lambda functions. In order for this workflow execution to invoke AWS Lambda functions, an appropriate IAM role must be specified either as a default for the workflow type or through this field.
         public let lambdaRole: String?
@@ -1384,11 +1384,11 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "openLambdaFunctions", required: false, type: .integer), 
-            AWSShapeProperty(label: "openActivityTasks", required: true, type: .integer), 
-            AWSShapeProperty(label: "openTimers", required: true, type: .integer), 
-            AWSShapeProperty(label: "openChildWorkflowExecutions", required: true, type: .integer), 
-            AWSShapeProperty(label: "openDecisionTasks", required: true, type: .integer)
+            AWSShapeProperty(label: "openLambdaFunctions", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "openActivityTasks", location: nil, required: true, type: .integer), 
+            AWSShapeProperty(label: "openTimers", location: nil, required: true, type: .integer), 
+            AWSShapeProperty(label: "openChildWorkflowExecutions", location: nil, required: true, type: .integer), 
+            AWSShapeProperty(label: "openDecisionTasks", location: nil, required: true, type: .integer)
         ]
         /// The count of AWS Lambda functions that are currently executing.
         public let openLambdaFunctions: Int32?
@@ -1426,11 +1426,11 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "typeFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "executionFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "startTimeFilter", required: true, type: .structure), 
-            AWSShapeProperty(label: "tagFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "domain", required: true, type: .string)
+            AWSShapeProperty(label: "typeFilter", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "executionFilter", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "startTimeFilter", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "tagFilter", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "domain", location: nil, required: true, type: .string)
         ]
         /// Specifies the type of the workflow executions to be counted. executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
         public let typeFilter: WorkflowTypeFilter?
@@ -1466,11 +1466,11 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "timeoutType", required: true, type: .enum), 
-            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
-            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "workflowExecution", required: true, type: .structure)
+            AWSShapeProperty(label: "initiatedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "timeoutType", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "workflowType", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "startedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "workflowExecution", location: nil, required: true, type: .structure)
         ]
         /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let initiatedEventId: Int64
@@ -1509,11 +1509,11 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "input", required: false, type: .string), 
-            AWSShapeProperty(label: "startToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "id", required: true, type: .string), 
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long)
+            AWSShapeProperty(label: "name", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "input", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "startToCloseTimeout", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "id", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", location: nil, required: true, type: .long)
         ]
         /// The name of the scheduled AWS Lambda function.
         public let name: String
@@ -1550,8 +1550,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "timerId", required: true, type: .string)
+            AWSShapeProperty(label: "startedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "timerId", location: nil, required: true, type: .string)
         ]
         /// The ID of the TimerStarted event that was recorded when this timer was started. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let startedEventId: Int64
@@ -1575,9 +1575,9 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "workflowExecution", required: true, type: .structure), 
-            AWSShapeProperty(label: "workflowType", required: true, type: .structure)
+            AWSShapeProperty(label: "initiatedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "workflowExecution", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "workflowType", location: nil, required: true, type: .structure)
         ]
         /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let initiatedEventId: Int64
@@ -1614,8 +1614,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "domain", required: true, type: .string), 
-            AWSShapeProperty(label: "workflowType", required: true, type: .structure)
+            AWSShapeProperty(label: "domain", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "workflowType", location: nil, required: true, type: .structure)
         ]
         /// The name of the domain in which the workflow type is registered.
         public let domain: String
@@ -1639,7 +1639,7 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", required: true, type: .enum)
+            AWSShapeProperty(label: "status", location: nil, required: true, type: .enum)
         ]
         /// Required. The close status that must match the close status of an execution for it to meet the criteria of this filter.
         public let status: CloseStatus
@@ -1663,9 +1663,9 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "externalWorkflowExecution", required: false, type: .structure), 
-            AWSShapeProperty(label: "cause", required: false, type: .enum), 
-            AWSShapeProperty(label: "externalInitiatedEventId", required: false, type: .long)
+            AWSShapeProperty(label: "externalWorkflowExecution", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "cause", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "externalInitiatedEventId", location: nil, required: false, type: .long)
         ]
         /// The external workflow execution for which the cancellation was requested.
         public let externalWorkflowExecution: WorkflowExecution?
@@ -1691,8 +1691,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "activityId", required: true, type: .string)
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "activityId", location: nil, required: true, type: .string)
         ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the RequestCancelActivityTask decision for this cancellation request. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
@@ -1716,8 +1716,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "details", required: false, type: .string), 
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long)
+            AWSShapeProperty(label: "details", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", location: nil, required: true, type: .long)
         ]
         /// Details for the cancellation (if any).
         public let details: String?
@@ -1740,8 +1740,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "events", required: true, type: .list)
+            AWSShapeProperty(label: "nextPageToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "events", location: nil, required: true, type: .list)
         ]
         /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.
         public let nextPageToken: String?
@@ -1764,7 +1764,7 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "workflowExecutionRetentionPeriodInDays", required: true, type: .string)
+            AWSShapeProperty(label: "workflowExecutionRetentionPeriodInDays", location: nil, required: true, type: .string)
         ]
         /// The retention period for workflow executions in this domain.
         public let workflowExecutionRetentionPeriodInDays: String
@@ -1783,18 +1783,18 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "lambdaRole", required: false, type: .string), 
-            AWSShapeProperty(label: "parentWorkflowExecution", required: false, type: .structure), 
-            AWSShapeProperty(label: "executionStartToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "taskList", required: true, type: .structure), 
-            AWSShapeProperty(label: "taskPriority", required: false, type: .string), 
-            AWSShapeProperty(label: "tagList", required: false, type: .list), 
-            AWSShapeProperty(label: "parentInitiatedEventId", required: false, type: .long), 
-            AWSShapeProperty(label: "input", required: false, type: .string), 
-            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
-            AWSShapeProperty(label: "childPolicy", required: true, type: .enum), 
-            AWSShapeProperty(label: "taskStartToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "continuedExecutionRunId", required: false, type: .string)
+            AWSShapeProperty(label: "lambdaRole", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "parentWorkflowExecution", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "executionStartToCloseTimeout", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "taskList", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "taskPriority", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "tagList", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "parentInitiatedEventId", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "input", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "workflowType", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "childPolicy", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "taskStartToCloseTimeout", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "continuedExecutionRunId", location: nil, required: false, type: .string)
         ]
         /// The IAM role attached to this workflow execution to use when invoking AWS Lambda functions.
         public let lambdaRole: String?
@@ -1858,12 +1858,12 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "lambdaRole", required: false, type: .string), 
-            AWSShapeProperty(label: "executionStartToCloseTimeout", required: true, type: .string), 
-            AWSShapeProperty(label: "taskList", required: true, type: .structure), 
-            AWSShapeProperty(label: "taskStartToCloseTimeout", required: true, type: .string), 
-            AWSShapeProperty(label: "taskPriority", required: false, type: .string), 
-            AWSShapeProperty(label: "childPolicy", required: true, type: .enum)
+            AWSShapeProperty(label: "lambdaRole", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "executionStartToCloseTimeout", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "taskList", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "taskStartToCloseTimeout", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "taskPriority", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "childPolicy", location: nil, required: true, type: .enum)
         ]
         /// The IAM role used by this workflow execution when invoking AWS Lambda functions.
         public let lambdaRole: String?
@@ -1905,8 +1905,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "executionInfos", required: true, type: .list)
+            AWSShapeProperty(label: "nextPageToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "executionInfos", location: nil, required: true, type: .list)
         ]
         /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.
         public let nextPageToken: String?
@@ -1937,8 +1937,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "typeInfo", required: true, type: .structure), 
-            AWSShapeProperty(label: "configuration", required: true, type: .structure)
+            AWSShapeProperty(label: "typeInfo", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "configuration", location: nil, required: true, type: .structure)
         ]
         /// General information about the activity type. The status of activity type (returned in the ActivityTypeInfo structure) can be one of the following.   REGISTERED: The type is registered and available. Workers supporting this type should be running.   DEPRECATED: The type was deprecated using DeprecateActivityType, but is still in use. You should keep workers supporting this type running. You cannot create new tasks of this type.  
         public let typeInfo: ActivityTypeInfo
@@ -1962,16 +1962,16 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "defaultTaskStartToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "defaultLambdaRole", required: false, type: .string), 
-            AWSShapeProperty(label: "defaultExecutionStartToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "version", required: true, type: .string), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "defaultTaskPriority", required: false, type: .string), 
-            AWSShapeProperty(label: "defaultTaskList", required: false, type: .structure), 
-            AWSShapeProperty(label: "domain", required: true, type: .string), 
-            AWSShapeProperty(label: "defaultChildPolicy", required: false, type: .enum)
+            AWSShapeProperty(label: "name", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "defaultTaskStartToCloseTimeout", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "defaultLambdaRole", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "defaultExecutionStartToCloseTimeout", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "version", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "description", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "defaultTaskPriority", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "defaultTaskList", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "domain", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "defaultChildPolicy", location: nil, required: false, type: .enum)
         ]
         /// The name of the workflow type. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
         public let name: String
@@ -2086,7 +2086,7 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "result", required: false, type: .string)
+            AWSShapeProperty(label: "result", location: nil, required: false, type: .string)
         ]
         /// The result of the workflow execution. The form of the result is implementation defined.
         public let result: String?
@@ -2104,11 +2104,11 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "status", required: true, type: .enum), 
-            AWSShapeProperty(label: "deprecationDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "creationDate", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "activityType", required: true, type: .structure)
+            AWSShapeProperty(label: "description", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "status", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "deprecationDate", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "creationDate", location: nil, required: true, type: .timestamp), 
+            AWSShapeProperty(label: "activityType", location: nil, required: true, type: .structure)
         ]
         /// The description of the activity type provided in RegisterActivityType.
         public let description: String?
@@ -2145,8 +2145,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "cause", required: true, type: .enum)
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "cause", location: nil, required: true, type: .enum)
         ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the CompleteWorkflowExecution decision to complete this execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
@@ -2170,10 +2170,10 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "timerId", required: true, type: .string), 
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "startToFireTimeout", required: true, type: .string), 
-            AWSShapeProperty(label: "control", required: false, type: .string)
+            AWSShapeProperty(label: "timerId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "startToFireTimeout", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "control", location: nil, required: false, type: .string)
         ]
         /// The unique ID of the timer that was started.
         public let timerId: String
@@ -2206,8 +2206,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "workflowExecution", required: true, type: .structure)
+            AWSShapeProperty(label: "initiatedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "workflowExecution", location: nil, required: true, type: .structure)
         ]
         /// The ID of the SignalExternalWorkflowExecutionInitiated event corresponding to the SignalExternalWorkflowExecution decision to request this signal. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let initiatedEventId: Int64
@@ -2231,10 +2231,10 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "details", required: false, type: .string), 
-            AWSShapeProperty(label: "reason", required: false, type: .string), 
-            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "scheduledEventId", required: true, type: .long)
+            AWSShapeProperty(label: "details", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "reason", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "startedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "scheduledEventId", location: nil, required: true, type: .long)
         ]
         /// The details of the failure (if any).
         public let details: String?
@@ -2266,9 +2266,9 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "scheduledEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "timeoutType", required: true, type: .enum)
+            AWSShapeProperty(label: "scheduledEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "startedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "timeoutType", location: nil, required: true, type: .enum)
         ]
         /// The ID of the DecisionTaskScheduled event that was recorded when this decision task was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let scheduledEventId: Int64
@@ -2297,8 +2297,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "details", required: false, type: .string), 
-            AWSShapeProperty(label: "taskToken", required: true, type: .string)
+            AWSShapeProperty(label: "details", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "taskToken", location: nil, required: true, type: .string)
         ]
         /// If specified, contains details about the progress of the task.
         public let details: String?
@@ -2321,12 +2321,12 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "runId", required: false, type: .string), 
-            AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
-            AWSShapeProperty(label: "cause", required: true, type: .enum), 
-            AWSShapeProperty(label: "control", required: false, type: .string)
+            AWSShapeProperty(label: "runId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "initiatedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "workflowId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "cause", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "control", location: nil, required: false, type: .string)
         ]
         /// The runId of the external workflow execution.
         public let runId: String?
@@ -2367,8 +2367,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "taskToken", required: true, type: .string), 
-            AWSShapeProperty(label: "result", required: false, type: .string)
+            AWSShapeProperty(label: "taskToken", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "result", location: nil, required: false, type: .string)
         ]
         /// The taskToken of the ActivityTask.  taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results.
         public let taskToken: String
@@ -2391,14 +2391,14 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "typeFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "tagFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "maximumPageSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "executionFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "startTimeFilter", required: true, type: .structure), 
-            AWSShapeProperty(label: "reverseOrder", required: false, type: .boolean), 
-            AWSShapeProperty(label: "domain", required: true, type: .string), 
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string)
+            AWSShapeProperty(label: "typeFilter", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "tagFilter", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "maximumPageSize", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "executionFilter", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "startTimeFilter", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "reverseOrder", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "domain", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "nextPageToken", location: nil, required: false, type: .string)
         ]
         /// If specified, only executions of the type specified in the filter are returned. executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
         public let typeFilter: WorkflowTypeFilter?
@@ -2446,7 +2446,7 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "timerId", required: true, type: .string)
+            AWSShapeProperty(label: "timerId", location: nil, required: true, type: .string)
         ]
         /// Required. The unique ID of the timer to cancel.
         public let timerId: String
@@ -2465,8 +2465,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "scheduledEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "identity", required: false, type: .string)
+            AWSShapeProperty(label: "scheduledEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "identity", location: nil, required: false, type: .string)
         ]
         /// The ID of the ActivityTaskScheduled event that was recorded when this activity task was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let scheduledEventId: Int64
@@ -2489,8 +2489,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "details", required: false, type: .string), 
-            AWSShapeProperty(label: "markerName", required: true, type: .string)
+            AWSShapeProperty(label: "details", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "markerName", location: nil, required: true, type: .string)
         ]
         /// Optional. details of the marker.
         public let details: String?
@@ -2513,7 +2513,7 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "scheduledEventId", required: true, type: .long)
+            AWSShapeProperty(label: "scheduledEventId", location: nil, required: true, type: .long)
         ]
         /// The ID of the LambdaFunctionScheduled event that was recorded when this AWS Lambda function was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let scheduledEventId: Int64
@@ -2532,9 +2532,9 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "status", required: true, type: .enum)
+            AWSShapeProperty(label: "description", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "name", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "status", location: nil, required: true, type: .enum)
         ]
         /// The description of the domain provided through RegisterDomain.
         public let description: String?
@@ -2562,7 +2562,7 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "workflowId", required: true, type: .string)
+            AWSShapeProperty(label: "workflowId", location: nil, required: true, type: .string)
         ]
         /// The workflowId to pass of match the criteria of this filter.
         public let workflowId: String
@@ -2581,11 +2581,11 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "runId", required: false, type: .string), 
-            AWSShapeProperty(label: "signalName", required: true, type: .string), 
-            AWSShapeProperty(label: "input", required: false, type: .string), 
-            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
-            AWSShapeProperty(label: "control", required: false, type: .string)
+            AWSShapeProperty(label: "runId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "signalName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "input", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "workflowId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "control", location: nil, required: false, type: .string)
         ]
         /// The runId of the workflow execution to be signaled.
         public let runId: String?
@@ -2621,9 +2621,9 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "scheduledEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "result", required: false, type: .string), 
-            AWSShapeProperty(label: "startedEventId", required: true, type: .long)
+            AWSShapeProperty(label: "scheduledEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "result", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "startedEventId", location: nil, required: true, type: .long)
         ]
         /// The ID of the ActivityTaskScheduled event that was recorded when this activity task was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let scheduledEventId: Int64
@@ -2651,9 +2651,9 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "activityId", required: true, type: .string), 
-            AWSShapeProperty(label: "cause", required: true, type: .enum)
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "activityId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "cause", location: nil, required: true, type: .enum)
         ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the RequestCancelActivityTask decision for this cancellation request. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
@@ -2682,63 +2682,63 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "scheduleActivityTaskFailedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "activityTaskCompletedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "workflowExecutionFailedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "activityTaskTimedOutEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "workflowExecutionTerminatedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "decisionTaskStartedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "eventId", required: true, type: .long), 
-            AWSShapeProperty(label: "timerFiredEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "startChildWorkflowExecutionFailedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "externalWorkflowExecutionSignaledEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "activityTaskCancelRequestedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "requestCancelExternalWorkflowExecutionInitiatedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "workflowExecutionCancelRequestedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "lambdaFunctionScheduledEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "workflowExecutionTimedOutEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "workflowExecutionCanceledEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "signalExternalWorkflowExecutionInitiatedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "lambdaFunctionFailedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "childWorkflowExecutionCompletedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "workflowExecutionContinuedAsNewEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "failWorkflowExecutionFailedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "markerRecordedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "childWorkflowExecutionTimedOutEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "timerCanceledEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "recordMarkerFailedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "completeWorkflowExecutionFailedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "cancelWorkflowExecutionFailedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "signalExternalWorkflowExecutionFailedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "startLambdaFunctionFailedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "activityTaskCanceledEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "lambdaFunctionStartedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "workflowExecutionCompletedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "childWorkflowExecutionFailedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "continueAsNewWorkflowExecutionFailedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "eventType", required: true, type: .enum), 
-            AWSShapeProperty(label: "lambdaFunctionTimedOutEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "startChildWorkflowExecutionInitiatedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "decisionTaskTimedOutEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "lambdaFunctionCompletedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "workflowExecutionSignaledEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "childWorkflowExecutionTerminatedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "childWorkflowExecutionCanceledEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "workflowExecutionStartedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "childWorkflowExecutionStartedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "activityTaskScheduledEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "requestCancelActivityTaskFailedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "externalWorkflowExecutionCancelRequestedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "decisionTaskScheduledEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "timerStartedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "activityTaskFailedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "startTimerFailedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "activityTaskStartedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "cancelTimerFailedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "decisionTaskCompletedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "requestCancelExternalWorkflowExecutionFailedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "scheduleLambdaFunctionFailedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "eventTimestamp", required: true, type: .timestamp)
+            AWSShapeProperty(label: "scheduleActivityTaskFailedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "activityTaskCompletedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "workflowExecutionFailedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "activityTaskTimedOutEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "workflowExecutionTerminatedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "decisionTaskStartedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "eventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "timerFiredEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "startChildWorkflowExecutionFailedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "externalWorkflowExecutionSignaledEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "activityTaskCancelRequestedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "requestCancelExternalWorkflowExecutionInitiatedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "workflowExecutionCancelRequestedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "lambdaFunctionScheduledEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "workflowExecutionTimedOutEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "workflowExecutionCanceledEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "signalExternalWorkflowExecutionInitiatedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "lambdaFunctionFailedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "childWorkflowExecutionCompletedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "workflowExecutionContinuedAsNewEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "failWorkflowExecutionFailedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "markerRecordedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "childWorkflowExecutionTimedOutEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "timerCanceledEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "recordMarkerFailedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "completeWorkflowExecutionFailedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "cancelWorkflowExecutionFailedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "signalExternalWorkflowExecutionFailedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "startLambdaFunctionFailedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "activityTaskCanceledEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "lambdaFunctionStartedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "workflowExecutionCompletedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "childWorkflowExecutionFailedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "continueAsNewWorkflowExecutionFailedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "eventType", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "lambdaFunctionTimedOutEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "startChildWorkflowExecutionInitiatedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "decisionTaskTimedOutEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "lambdaFunctionCompletedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "workflowExecutionSignaledEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "childWorkflowExecutionTerminatedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "childWorkflowExecutionCanceledEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "workflowExecutionStartedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "childWorkflowExecutionStartedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "activityTaskScheduledEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "requestCancelActivityTaskFailedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "externalWorkflowExecutionCancelRequestedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "decisionTaskScheduledEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "timerStartedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "activityTaskFailedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "startTimerFailedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "activityTaskStartedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "cancelTimerFailedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "decisionTaskCompletedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "requestCancelExternalWorkflowExecutionFailedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "scheduleLambdaFunctionFailedEventAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "eventTimestamp", location: nil, required: true, type: .timestamp)
         ]
         /// If the event is of type ScheduleActivityTaskFailed then this member is set and provides detailed information about the event. It is not set for other event types.
         public let scheduleActivityTaskFailedEventAttributes: ScheduleActivityTaskFailedEventAttributes?
@@ -2976,8 +2976,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "runId", required: true, type: .string), 
-            AWSShapeProperty(label: "workflowId", required: true, type: .string)
+            AWSShapeProperty(label: "runId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "workflowId", location: nil, required: true, type: .string)
         ]
         /// A system-generated unique identifier for the workflow execution.
         public let runId: String
@@ -3001,7 +3001,7 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "runId", required: false, type: .string)
+            AWSShapeProperty(label: "runId", location: nil, required: false, type: .string)
         ]
         /// The runId of a workflow execution. This ID is generated by the service and can be used to uniquely identify the workflow execution within a domain.
         public let runId: String?
@@ -3019,9 +3019,9 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "scheduledEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "result", required: false, type: .string)
+            AWSShapeProperty(label: "scheduledEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "startedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "result", location: nil, required: false, type: .string)
         ]
         /// The ID of the LambdaFunctionScheduled event that was recorded when this AWS Lambda function was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let scheduledEventId: Int64
@@ -3049,8 +3049,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "domain", required: true, type: .string), 
-            AWSShapeProperty(label: "taskList", required: true, type: .structure)
+            AWSShapeProperty(label: "domain", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "taskList", location: nil, required: true, type: .structure)
         ]
         /// The name of the domain that contains the task list.
         public let domain: String
@@ -3074,9 +3074,9 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "details", required: false, type: .string), 
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "reason", required: false, type: .string)
+            AWSShapeProperty(label: "details", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "reason", location: nil, required: false, type: .string)
         ]
         /// The details of the failure (if any).
         public let details: String?
@@ -3113,9 +3113,9 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "workflowExecutionRetentionPeriodInDays", required: true, type: .string)
+            AWSShapeProperty(label: "description", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "name", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "workflowExecutionRetentionPeriodInDays", location: nil, required: true, type: .string)
         ]
         /// A text description of the domain.
         public let description: String?
@@ -3143,8 +3143,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "result", required: false, type: .string)
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "result", location: nil, required: false, type: .string)
         ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the CompleteWorkflowExecution decision to complete this execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
@@ -3167,9 +3167,9 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "markerName", required: true, type: .string), 
-            AWSShapeProperty(label: "cause", required: true, type: .enum)
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "markerName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "cause", location: nil, required: true, type: .enum)
         ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the RecordMarkerFailed decision for this cancellation request. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
@@ -3198,8 +3198,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "scheduledEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "identity", required: false, type: .string)
+            AWSShapeProperty(label: "scheduledEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "identity", location: nil, required: false, type: .string)
         ]
         /// The ID of the DecisionTaskScheduled event that was recorded when this decision task was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let scheduledEventId: Int64
@@ -3222,7 +3222,7 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string)
+            AWSShapeProperty(label: "name", location: nil, required: true, type: .string)
         ]
         /// The name of the domain to deprecate.
         public let name: String
@@ -3241,18 +3241,18 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "lambdaRole", required: false, type: .string), 
-            AWSShapeProperty(label: "taskList", required: true, type: .structure), 
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
-            AWSShapeProperty(label: "taskPriority", required: false, type: .string), 
-            AWSShapeProperty(label: "control", required: false, type: .string), 
-            AWSShapeProperty(label: "tagList", required: false, type: .list), 
-            AWSShapeProperty(label: "input", required: false, type: .string), 
-            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
-            AWSShapeProperty(label: "childPolicy", required: true, type: .enum), 
-            AWSShapeProperty(label: "taskStartToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "executionStartToCloseTimeout", required: false, type: .string)
+            AWSShapeProperty(label: "lambdaRole", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "taskList", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "workflowId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "taskPriority", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "control", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "tagList", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "input", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "workflowType", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "childPolicy", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "taskStartToCloseTimeout", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "executionStartToCloseTimeout", location: nil, required: false, type: .string)
         ]
         /// The IAM role attached to this workflow execution to use when invoking AWS Lambda functions.
         public let lambdaRole: String?
@@ -3319,10 +3319,10 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "runId", required: false, type: .string), 
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
-            AWSShapeProperty(label: "control", required: false, type: .string)
+            AWSShapeProperty(label: "runId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "workflowId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "control", location: nil, required: false, type: .string)
         ]
         /// The runId of the external workflow execution to be canceled.
         public let runId: String?
@@ -3354,10 +3354,10 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maximumPageSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "reverseOrder", required: false, type: .boolean), 
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "registrationStatus", required: true, type: .enum)
+            AWSShapeProperty(label: "maximumPageSize", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "reverseOrder", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "nextPageToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "registrationStatus", location: nil, required: true, type: .enum)
         ]
         /// The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
         public let maximumPageSize: Int32?
@@ -3388,12 +3388,12 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "defaultExecutionStartToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "defaultTaskStartToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "defaultTaskPriority", required: false, type: .string), 
-            AWSShapeProperty(label: "defaultTaskList", required: false, type: .structure), 
-            AWSShapeProperty(label: "defaultLambdaRole", required: false, type: .string), 
-            AWSShapeProperty(label: "defaultChildPolicy", required: false, type: .enum)
+            AWSShapeProperty(label: "defaultExecutionStartToCloseTimeout", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "defaultTaskStartToCloseTimeout", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "defaultTaskPriority", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "defaultTaskList", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "defaultLambdaRole", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "defaultChildPolicy", location: nil, required: false, type: .enum)
         ]
         /// Optional. The default maximum duration, specified when registering the workflow type, for executions of this workflow type. This default can be overridden when starting a workflow execution using the StartWorkflowExecution action or the StartChildWorkflowExecution decision. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
         public let defaultExecutionStartToCloseTimeout: String?
@@ -3431,8 +3431,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "cause", required: true, type: .enum)
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "cause", location: nil, required: true, type: .enum)
         ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the FailWorkflowExecution decision to fail this execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
@@ -3468,8 +3468,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "details", required: false, type: .string), 
-            AWSShapeProperty(label: "taskToken", required: true, type: .string)
+            AWSShapeProperty(label: "details", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "taskToken", location: nil, required: true, type: .string)
         ]
         /// Optional. Information about the cancellation.
         public let details: String?
@@ -3492,16 +3492,16 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "defaultTaskStartToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "defaultTaskScheduleToStartTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "version", required: true, type: .string), 
-            AWSShapeProperty(label: "defaultTaskHeartbeatTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "defaultTaskPriority", required: false, type: .string), 
-            AWSShapeProperty(label: "defaultTaskList", required: false, type: .structure), 
-            AWSShapeProperty(label: "domain", required: true, type: .string), 
-            AWSShapeProperty(label: "defaultTaskScheduleToCloseTimeout", required: false, type: .string)
+            AWSShapeProperty(label: "name", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "defaultTaskStartToCloseTimeout", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "defaultTaskScheduleToStartTimeout", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "description", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "version", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "defaultTaskHeartbeatTimeout", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "defaultTaskPriority", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "defaultTaskList", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "domain", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "defaultTaskScheduleToCloseTimeout", location: nil, required: false, type: .string)
         ]
         /// The name of the activity type within the domain. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
         public let name: String
@@ -3565,10 +3565,10 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "details", required: false, type: .string), 
-            AWSShapeProperty(label: "timeoutType", required: true, type: .enum), 
-            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "scheduledEventId", required: true, type: .long)
+            AWSShapeProperty(label: "details", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "timeoutType", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "startedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "scheduledEventId", location: nil, required: true, type: .long)
         ]
         /// Contains the content of the details parameter for the last call made by the activity to RecordActivityTaskHeartbeat.
         public let details: String?
@@ -3601,7 +3601,7 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cancelRequested", required: true, type: .boolean)
+            AWSShapeProperty(label: "cancelRequested", location: nil, required: true, type: .boolean)
         ]
         /// Set to true if cancellation of the task is requested.
         public let cancelRequested: Bool
@@ -3626,17 +3626,17 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "taskList", required: true, type: .structure), 
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "activityId", required: true, type: .string), 
-            AWSShapeProperty(label: "scheduleToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "scheduleToStartTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "taskPriority", required: false, type: .string), 
-            AWSShapeProperty(label: "startToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "input", required: false, type: .string), 
-            AWSShapeProperty(label: "control", required: false, type: .string), 
-            AWSShapeProperty(label: "heartbeatTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "activityType", required: true, type: .structure)
+            AWSShapeProperty(label: "taskList", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "activityId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "scheduleToCloseTimeout", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "scheduleToStartTimeout", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "taskPriority", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "startToCloseTimeout", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "input", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "control", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "heartbeatTimeout", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "activityType", location: nil, required: true, type: .structure)
         ]
         /// The task list in which the activity task has been scheduled.
         public let taskList: TaskList
@@ -3698,12 +3698,12 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "runId", required: false, type: .string), 
-            AWSShapeProperty(label: "details", required: false, type: .string), 
-            AWSShapeProperty(label: "reason", required: false, type: .string), 
-            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
-            AWSShapeProperty(label: "domain", required: true, type: .string), 
-            AWSShapeProperty(label: "childPolicy", required: false, type: .enum)
+            AWSShapeProperty(label: "runId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "details", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "reason", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "workflowId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "domain", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "childPolicy", location: nil, required: false, type: .enum)
         ]
         /// The runId of the workflow execution to terminate.
         public let runId: String?
@@ -3743,12 +3743,12 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "details", required: false, type: .string), 
-            AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "reason", required: false, type: .string), 
-            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
-            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "workflowExecution", required: true, type: .structure)
+            AWSShapeProperty(label: "details", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "initiatedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "reason", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "workflowType", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "startedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "workflowExecution", location: nil, required: true, type: .structure)
         ]
         /// The details of the failure (if provided).
         public let details: String?
@@ -3790,11 +3790,11 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
-            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "result", required: false, type: .string), 
-            AWSShapeProperty(label: "workflowExecution", required: true, type: .structure)
+            AWSShapeProperty(label: "initiatedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "workflowType", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "startedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "result", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "workflowExecution", location: nil, required: true, type: .structure)
         ]
         /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let initiatedEventId: Int64
@@ -3853,7 +3853,7 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "activityId", required: true, type: .string)
+            AWSShapeProperty(label: "activityId", location: nil, required: true, type: .string)
         ]
         /// The activityId of the activity task to be canceled.
         public let activityId: String
@@ -3872,15 +3872,15 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "lambdaRole", required: false, type: .string), 
-            AWSShapeProperty(label: "workflowTypeVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "taskList", required: false, type: .structure), 
-            AWSShapeProperty(label: "taskPriority", required: false, type: .string), 
-            AWSShapeProperty(label: "tagList", required: false, type: .list), 
-            AWSShapeProperty(label: "input", required: false, type: .string), 
-            AWSShapeProperty(label: "childPolicy", required: false, type: .enum), 
-            AWSShapeProperty(label: "taskStartToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "executionStartToCloseTimeout", required: false, type: .string)
+            AWSShapeProperty(label: "lambdaRole", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "workflowTypeVersion", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "taskList", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "taskPriority", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "tagList", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "input", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "childPolicy", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "taskStartToCloseTimeout", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "executionStartToCloseTimeout", location: nil, required: false, type: .string)
         ]
         /// The ARN of an IAM role that authorizes Amazon SWF to invoke AWS Lambda functions. In order for this workflow execution to invoke AWS Lambda functions, an appropriate IAM role must be specified either as a default for the workflow type or through this field.
         public let lambdaRole: String?
@@ -3933,9 +3933,9 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "scheduledEventId", required: false, type: .long), 
-            AWSShapeProperty(label: "cause", required: false, type: .enum), 
-            AWSShapeProperty(label: "message", required: false, type: .string)
+            AWSShapeProperty(label: "scheduledEventId", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "cause", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "message", location: nil, required: false, type: .string)
         ]
         /// The ID of the LambdaFunctionScheduled event that was recorded when this AWS Lambda function was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let scheduledEventId: Int64?
@@ -3961,12 +3961,12 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "runId", required: false, type: .string), 
-            AWSShapeProperty(label: "signalName", required: true, type: .string), 
-            AWSShapeProperty(label: "input", required: false, type: .string), 
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
-            AWSShapeProperty(label: "control", required: false, type: .string)
+            AWSShapeProperty(label: "runId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "signalName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "input", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "workflowId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "control", location: nil, required: false, type: .string)
         ]
         /// The runId of the external workflow execution to send the signal to.
         public let runId: String?
@@ -4007,8 +4007,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "version", required: false, type: .string)
+            AWSShapeProperty(label: "name", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "version", location: nil, required: false, type: .string)
         ]
         /// Required. Name of the workflow type.
         public let name: String
@@ -4031,11 +4031,11 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maximumPageSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "execution", required: true, type: .structure), 
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "reverseOrder", required: false, type: .boolean), 
-            AWSShapeProperty(label: "domain", required: true, type: .string)
+            AWSShapeProperty(label: "maximumPageSize", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "execution", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "nextPageToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "reverseOrder", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "domain", location: nil, required: true, type: .string)
         ]
         /// The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
         public let maximumPageSize: Int32?
@@ -4076,12 +4076,12 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "defaultTaskScheduleToStartTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "defaultTaskStartToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "defaultTaskPriority", required: false, type: .string), 
-            AWSShapeProperty(label: "defaultTaskList", required: false, type: .structure), 
-            AWSShapeProperty(label: "defaultTaskScheduleToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "defaultTaskHeartbeatTimeout", required: false, type: .string)
+            AWSShapeProperty(label: "defaultTaskScheduleToStartTimeout", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "defaultTaskStartToCloseTimeout", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "defaultTaskPriority", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "defaultTaskList", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "defaultTaskScheduleToCloseTimeout", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "defaultTaskHeartbeatTimeout", location: nil, required: false, type: .string)
         ]
         /// Optional. The default maximum duration, specified when registering the activity type, that a task of an activity type can wait before being assigned to a worker. You can override this default when scheduling a task through the ScheduleActivityTask decision. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
         public let defaultTaskScheduleToStartTimeout: String?
@@ -4119,9 +4119,9 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "timerId", required: true, type: .string)
+            AWSShapeProperty(label: "startedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "timerId", location: nil, required: true, type: .string)
         ]
         /// The ID of the TimerStarted event that was recorded when this timer was started. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let startedEventId: Int64
@@ -4150,12 +4150,12 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maximumPageSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "reverseOrder", required: false, type: .boolean), 
-            AWSShapeProperty(label: "domain", required: true, type: .string), 
-            AWSShapeProperty(label: "registrationStatus", required: true, type: .enum)
+            AWSShapeProperty(label: "maximumPageSize", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "nextPageToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "reverseOrder", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "domain", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "registrationStatus", location: nil, required: true, type: .enum)
         ]
         /// The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
         public let maximumPageSize: Int32?
@@ -4195,8 +4195,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "details", required: false, type: .string), 
-            AWSShapeProperty(label: "reason", required: false, type: .string)
+            AWSShapeProperty(label: "details", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "reason", location: nil, required: false, type: .string)
         ]
         /// Optional. Details of the failure.
         public let details: String?
@@ -4218,8 +4218,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "truncated", required: false, type: .boolean), 
-            AWSShapeProperty(label: "count", required: true, type: .integer)
+            AWSShapeProperty(label: "truncated", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "count", location: nil, required: true, type: .integer)
         ]
         /// If set to true, indicates that the actual count was more than the maximum supported by this API and the count returned is the truncated value.
         public let truncated: Bool?
@@ -4242,17 +4242,17 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "lambdaRole", required: false, type: .string), 
-            AWSShapeProperty(label: "taskList", required: true, type: .structure), 
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "newExecutionRunId", required: true, type: .string), 
-            AWSShapeProperty(label: "taskPriority", required: false, type: .string), 
-            AWSShapeProperty(label: "tagList", required: false, type: .list), 
-            AWSShapeProperty(label: "input", required: false, type: .string), 
-            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
-            AWSShapeProperty(label: "childPolicy", required: true, type: .enum), 
-            AWSShapeProperty(label: "taskStartToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "executionStartToCloseTimeout", required: false, type: .string)
+            AWSShapeProperty(label: "lambdaRole", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "taskList", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "newExecutionRunId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "taskPriority", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "tagList", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "input", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "workflowType", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "childPolicy", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "taskStartToCloseTimeout", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "executionStartToCloseTimeout", location: nil, required: false, type: .string)
         ]
         /// The IAM role attached to this workflow execution to use when invoking AWS Lambda functions.
         public let lambdaRole: String?
@@ -4320,20 +4320,20 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "scheduleActivityTaskDecisionAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "requestCancelExternalWorkflowExecutionDecisionAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "cancelTimerDecisionAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "signalExternalWorkflowExecutionDecisionAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "requestCancelActivityTaskDecisionAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "recordMarkerDecisionAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "failWorkflowExecutionDecisionAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "cancelWorkflowExecutionDecisionAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "decisionType", required: true, type: .enum), 
-            AWSShapeProperty(label: "continueAsNewWorkflowExecutionDecisionAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "startTimerDecisionAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "startChildWorkflowExecutionDecisionAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "completeWorkflowExecutionDecisionAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "scheduleLambdaFunctionDecisionAttributes", required: false, type: .structure)
+            AWSShapeProperty(label: "scheduleActivityTaskDecisionAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "requestCancelExternalWorkflowExecutionDecisionAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "cancelTimerDecisionAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "signalExternalWorkflowExecutionDecisionAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "requestCancelActivityTaskDecisionAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "recordMarkerDecisionAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "failWorkflowExecutionDecisionAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "cancelWorkflowExecutionDecisionAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "decisionType", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "continueAsNewWorkflowExecutionDecisionAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "startTimerDecisionAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "startChildWorkflowExecutionDecisionAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "completeWorkflowExecutionDecisionAttributes", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "scheduleLambdaFunctionDecisionAttributes", location: nil, required: false, type: .structure)
         ]
         /// Provides details of the ScheduleActivityTask decision. It is not set for other decision types.
         public let scheduleActivityTaskDecisionAttributes: ScheduleActivityTaskDecisionAttributes?
@@ -4403,11 +4403,11 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "status", required: true, type: .enum), 
-            AWSShapeProperty(label: "deprecationDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "creationDate", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "workflowType", required: true, type: .structure)
+            AWSShapeProperty(label: "description", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "status", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "deprecationDate", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "creationDate", location: nil, required: true, type: .timestamp), 
+            AWSShapeProperty(label: "workflowType", location: nil, required: true, type: .structure)
         ]
         /// The description of the type registered through RegisterWorkflowType.
         public let description: String?
@@ -4444,10 +4444,10 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "signalName", required: true, type: .string), 
-            AWSShapeProperty(label: "input", required: false, type: .string), 
-            AWSShapeProperty(label: "externalWorkflowExecution", required: false, type: .structure), 
-            AWSShapeProperty(label: "externalInitiatedEventId", required: false, type: .long)
+            AWSShapeProperty(label: "signalName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "input", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "externalWorkflowExecution", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "externalInitiatedEventId", location: nil, required: false, type: .long)
         ]
         /// The name of the signal received. The decider can use the signal name and inputs to determine how to the process the signal.
         public let signalName: String
@@ -4478,8 +4478,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "typeInfos", required: true, type: .list)
+            AWSShapeProperty(label: "nextPageToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "typeInfos", location: nil, required: true, type: .list)
         ]
         /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.
         public let nextPageToken: String?
@@ -4502,9 +4502,9 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "taskToken", required: true, type: .string), 
-            AWSShapeProperty(label: "executionContext", required: false, type: .string), 
-            AWSShapeProperty(label: "decisions", required: false, type: .list)
+            AWSShapeProperty(label: "taskToken", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "executionContext", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "decisions", location: nil, required: false, type: .list)
         ]
         /// The taskToken from the DecisionTask. taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results.
         public let taskToken: String
@@ -4535,9 +4535,9 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "details", required: false, type: .string), 
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "markerName", required: true, type: .string)
+            AWSShapeProperty(label: "details", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "markerName", location: nil, required: true, type: .string)
         ]
         /// Details of the marker (if any).
         public let details: String?
@@ -4565,8 +4565,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "childPolicy", required: true, type: .enum), 
-            AWSShapeProperty(label: "timeoutType", required: true, type: .enum)
+            AWSShapeProperty(label: "childPolicy", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "timeoutType", location: nil, required: true, type: .enum)
         ]
         /// The policy used for the child workflow executions of this workflow execution. The supported child policies are:  TERMINATE: the child executions will be terminated. REQUEST_CANCEL: a request to cancel will be attempted for each child execution by recording a WorkflowExecutionCancelRequested event in its history. It is up to the decider to take appropriate actions when it receives an execution history with this event. ABANDON: no action will be taken. The child executions will continue to run. 
         public let childPolicy: ChildPolicy
@@ -4590,10 +4590,10 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "input", required: false, type: .string), 
-            AWSShapeProperty(label: "startToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "id", required: true, type: .string)
+            AWSShapeProperty(label: "name", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "input", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "startToCloseTimeout", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "id", location: nil, required: true, type: .string)
         ]
         /// Required. The name of the AWS Lambda function to invoke.
         public let name: String
@@ -4647,8 +4647,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "execution", required: true, type: .structure), 
-            AWSShapeProperty(label: "domain", required: true, type: .string)
+            AWSShapeProperty(label: "execution", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "domain", location: nil, required: true, type: .string)
         ]
         /// The workflow execution to describe.
         public let execution: WorkflowExecution
@@ -4672,8 +4672,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "cause", required: true, type: .enum)
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "cause", location: nil, required: true, type: .enum)
         ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the ContinueAsNewWorkflowExecution decision that started this execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
@@ -4697,11 +4697,11 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "openCounts", required: true, type: .structure), 
-            AWSShapeProperty(label: "executionInfo", required: true, type: .structure), 
-            AWSShapeProperty(label: "latestActivityTaskTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "executionConfiguration", required: true, type: .structure), 
-            AWSShapeProperty(label: "latestExecutionContext", required: false, type: .string)
+            AWSShapeProperty(label: "openCounts", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "executionInfo", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "latestActivityTaskTimestamp", location: nil, required: false, type: .timestamp), 
+            AWSShapeProperty(label: "executionConfiguration", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "latestExecutionContext", location: nil, required: false, type: .string)
         ]
         /// The number of tasks for this workflow execution. This includes open and closed tasks of all types.
         public let openCounts: WorkflowExecutionOpenCounts
@@ -4738,8 +4738,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "workflowExecution", required: true, type: .structure)
+            AWSShapeProperty(label: "initiatedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "workflowExecution", location: nil, required: true, type: .structure)
         ]
         /// The ID of the RequestCancelExternalWorkflowExecutionInitiated event corresponding to the RequestCancelExternalWorkflowExecution decision to cancel this external workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let initiatedEventId: Int64
@@ -4770,8 +4770,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "typeInfos", required: true, type: .list)
+            AWSShapeProperty(label: "nextPageToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "typeInfos", location: nil, required: true, type: .list)
         ]
         /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.
         public let nextPageToken: String?
@@ -4794,8 +4794,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "cause", required: true, type: .enum)
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "cause", location: nil, required: true, type: .enum)
         ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the CancelWorkflowExecution decision for this cancellation request. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
@@ -4819,10 +4819,10 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "details", required: false, type: .string), 
-            AWSShapeProperty(label: "latestCancelRequestedEventId", required: false, type: .long), 
-            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "scheduledEventId", required: true, type: .long)
+            AWSShapeProperty(label: "details", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "latestCancelRequestedEventId", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "startedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "scheduledEventId", location: nil, required: true, type: .long)
         ]
         /// Details of the cancellation (if any).
         public let details: String?
@@ -4854,8 +4854,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "truncated", required: false, type: .boolean), 
-            AWSShapeProperty(label: "count", required: true, type: .integer)
+            AWSShapeProperty(label: "truncated", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "count", location: nil, required: true, type: .integer)
         ]
         /// If set to true, indicates that the actual count was more than the maximum supported by this API and the count returned is the truncated value.
         public let truncated: Bool?
@@ -4878,8 +4878,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "domain", required: true, type: .string), 
-            AWSShapeProperty(label: "taskList", required: true, type: .structure)
+            AWSShapeProperty(label: "domain", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "taskList", location: nil, required: true, type: .structure)
         ]
         /// The name of the domain that contains the task list.
         public let domain: String
@@ -4903,8 +4903,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "domainInfos", required: true, type: .list)
+            AWSShapeProperty(label: "nextPageToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "domainInfos", location: nil, required: true, type: .list)
         ]
         /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.
         public let nextPageToken: String?
@@ -4927,11 +4927,11 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "runId", required: false, type: .string), 
-            AWSShapeProperty(label: "signalName", required: true, type: .string), 
-            AWSShapeProperty(label: "input", required: false, type: .string), 
-            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
-            AWSShapeProperty(label: "domain", required: true, type: .string)
+            AWSShapeProperty(label: "runId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "signalName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "input", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "workflowId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "domain", location: nil, required: true, type: .string)
         ]
         /// The runId of the workflow execution to signal.
         public let runId: String?
@@ -4968,12 +4968,12 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "runId", required: false, type: .string), 
-            AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
-            AWSShapeProperty(label: "cause", required: true, type: .enum), 
-            AWSShapeProperty(label: "control", required: false, type: .string)
+            AWSShapeProperty(label: "runId", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "initiatedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "workflowId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "cause", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "control", location: nil, required: false, type: .string)
         ]
         /// The runId of the external workflow execution that the signal was being delivered to.
         public let runId: String?
@@ -5014,10 +5014,10 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "details", required: false, type: .string), 
-            AWSShapeProperty(label: "reason", required: false, type: .string), 
-            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "scheduledEventId", required: true, type: .long)
+            AWSShapeProperty(label: "details", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "reason", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "startedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "scheduledEventId", location: nil, required: true, type: .long)
         ]
         /// The details of the failure (if any).
         public let details: String?
@@ -5055,9 +5055,9 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "cause", required: true, type: .enum), 
-            AWSShapeProperty(label: "timerId", required: true, type: .string)
+            AWSShapeProperty(label: "decisionTaskCompletedEventId", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "cause", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "timerId", location: nil, required: true, type: .string)
         ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the StartTimer decision for this activity task. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
@@ -5086,9 +5086,9 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "startToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "taskPriority", required: false, type: .string), 
-            AWSShapeProperty(label: "taskList", required: true, type: .structure)
+            AWSShapeProperty(label: "startToCloseTimeout", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "taskPriority", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "taskList", location: nil, required: true, type: .structure)
         ]
         /// The maximum duration for this decision task. The task is considered timed out if it does not completed within this duration. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
         public let startToCloseTimeout: String?
@@ -5115,8 +5115,8 @@ extension Swf {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "activityType", required: true, type: .structure), 
-            AWSShapeProperty(label: "domain", required: true, type: .string)
+            AWSShapeProperty(label: "activityType", location: nil, required: true, type: .structure), 
+            AWSShapeProperty(label: "domain", location: nil, required: true, type: .string)
         ]
         /// The activity type to deprecate.
         public let activityType: ActivityType

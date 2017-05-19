@@ -33,9 +33,9 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "revision", required: true, type: .integer), 
-            AWSShapeProperty(label: "jobDefinitionArn", required: true, type: .string), 
-            AWSShapeProperty(label: "jobDefinitionName", required: true, type: .string)
+            AWSShapeProperty(label: "revision", location: nil, required: true, type: .integer), 
+            AWSShapeProperty(label: "jobDefinitionArn", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "jobDefinitionName", location: nil, required: true, type: .string)
         ]
         /// The revision of the job definition.
         public let revision: Int32
@@ -64,8 +64,8 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobId", required: true, type: .string), 
-            AWSShapeProperty(label: "reason", required: true, type: .string)
+            AWSShapeProperty(label: "jobId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "reason", location: nil, required: true, type: .string)
         ]
         /// Job IDs to be terminated. Up to 100 jobs can be specified.
         public let jobId: String
@@ -100,8 +100,8 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobId", required: true, type: .string), 
-            AWSShapeProperty(label: "jobName", required: true, type: .string)
+            AWSShapeProperty(label: "jobId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "jobName", location: nil, required: true, type: .string)
         ]
         /// The ID of the job.
         public let jobId: String
@@ -139,13 +139,13 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "state", required: true, type: .enum), 
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "computeEnvironmentOrder", required: true, type: .list), 
-            AWSShapeProperty(label: "jobQueueArn", required: true, type: .string), 
-            AWSShapeProperty(label: "statusReason", required: false, type: .string), 
-            AWSShapeProperty(label: "jobQueueName", required: true, type: .string), 
-            AWSShapeProperty(label: "priority", required: true, type: .integer)
+            AWSShapeProperty(label: "state", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "status", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "computeEnvironmentOrder", location: nil, required: true, type: .list), 
+            AWSShapeProperty(label: "jobQueueArn", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "statusReason", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "jobQueueName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "priority", location: nil, required: true, type: .integer)
         ]
         /// Describes the ability of the queue to accept new jobs.
         public let state: JQState
@@ -192,8 +192,8 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobName", required: true, type: .string), 
-            AWSShapeProperty(label: "jobId", required: true, type: .string)
+            AWSShapeProperty(label: "jobName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "jobId", location: nil, required: true, type: .string)
         ]
         /// The name of the job. 
         public let jobName: String
@@ -217,18 +217,18 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "user", required: false, type: .string), 
-            AWSShapeProperty(label: "readonlyRootFilesystem", required: false, type: .boolean), 
-            AWSShapeProperty(label: "mountPoints", required: false, type: .list), 
-            AWSShapeProperty(label: "image", required: true, type: .string), 
-            AWSShapeProperty(label: "volumes", required: false, type: .list), 
-            AWSShapeProperty(label: "vcpus", required: true, type: .integer), 
-            AWSShapeProperty(label: "privileged", required: false, type: .boolean), 
-            AWSShapeProperty(label: "environment", required: false, type: .list), 
-            AWSShapeProperty(label: "command", required: false, type: .list), 
-            AWSShapeProperty(label: "jobRoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "ulimits", required: false, type: .list), 
-            AWSShapeProperty(label: "memory", required: true, type: .integer)
+            AWSShapeProperty(label: "user", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "readonlyRootFilesystem", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "mountPoints", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "image", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "volumes", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "vcpus", location: nil, required: true, type: .integer), 
+            AWSShapeProperty(label: "privileged", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "environment", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "command", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "jobRoleArn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ulimits", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "memory", location: nil, required: true, type: .integer)
         ]
         /// The user name to use inside the container. This parameter maps to User in the Create a container section of the Docker Remote API and the --user option to docker run.
         public let user: String?
@@ -314,18 +314,18 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ec2KeyPair", required: false, type: .string), 
-            AWSShapeProperty(label: "bidPercentage", required: false, type: .integer), 
-            AWSShapeProperty(label: "subnets", required: true, type: .list), 
-            AWSShapeProperty(label: "spotIamFleetRole", required: false, type: .string), 
-            AWSShapeProperty(label: "instanceTypes", required: true, type: .list), 
-            AWSShapeProperty(label: "maxvCpus", required: true, type: .integer), 
-            AWSShapeProperty(label: "securityGroupIds", required: true, type: .list), 
-            AWSShapeProperty(label: "instanceRole", required: true, type: .string), 
-            AWSShapeProperty(label: "tags", required: false, type: .map), 
-            AWSShapeProperty(label: "minvCpus", required: true, type: .integer), 
-            AWSShapeProperty(label: "type", required: true, type: .enum), 
-            AWSShapeProperty(label: "desiredvCpus", required: false, type: .integer)
+            AWSShapeProperty(label: "ec2KeyPair", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "bidPercentage", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "subnets", location: nil, required: true, type: .list), 
+            AWSShapeProperty(label: "spotIamFleetRole", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "instanceTypes", location: nil, required: true, type: .list), 
+            AWSShapeProperty(label: "maxvCpus", location: nil, required: true, type: .integer), 
+            AWSShapeProperty(label: "securityGroupIds", location: nil, required: true, type: .list), 
+            AWSShapeProperty(label: "instanceRole", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "tags", location: nil, required: false, type: .map), 
+            AWSShapeProperty(label: "minvCpus", location: nil, required: true, type: .integer), 
+            AWSShapeProperty(label: "type", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "desiredvCpus", location: nil, required: false, type: .integer)
         ]
         /// The EC2 key pair that is used for instances launched in the compute environment.
         public let ec2KeyPair: String?
@@ -398,15 +398,15 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "state", required: false, type: .enum), 
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "computeEnvironmentArn", required: true, type: .string), 
-            AWSShapeProperty(label: "computeEnvironmentName", required: true, type: .string), 
-            AWSShapeProperty(label: "statusReason", required: false, type: .string), 
-            AWSShapeProperty(label: "ecsClusterArn", required: true, type: .string), 
-            AWSShapeProperty(label: "computeResources", required: false, type: .structure), 
-            AWSShapeProperty(label: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "serviceRole", required: false, type: .string)
+            AWSShapeProperty(label: "state", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "status", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "computeEnvironmentArn", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "computeEnvironmentName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "statusReason", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "ecsClusterArn", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "computeResources", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "type", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "serviceRole", location: nil, required: false, type: .string)
         ]
         /// The state of the compute environment. The valid values are ENABLED or DISABLED. An ENABLED state indicates that you can register instances with the compute environment and that the associated instances can accept jobs. 
         public let state: CEState?
@@ -477,8 +477,8 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "computeEnvironmentName", required: false, type: .string), 
-            AWSShapeProperty(label: "computeEnvironmentArn", required: false, type: .string)
+            AWSShapeProperty(label: "computeEnvironmentName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "computeEnvironmentArn", location: nil, required: false, type: .string)
         ]
         /// The name of compute environment.
         public let computeEnvironmentName: String?
@@ -500,10 +500,10 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "state", required: false, type: .enum), 
-            AWSShapeProperty(label: "jobQueue", required: true, type: .string), 
-            AWSShapeProperty(label: "computeEnvironmentOrder", required: false, type: .list), 
-            AWSShapeProperty(label: "priority", required: false, type: .integer)
+            AWSShapeProperty(label: "state", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "jobQueue", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "computeEnvironmentOrder", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "priority", location: nil, required: false, type: .integer)
         ]
         /// Describes the queue's ability to accept new jobs.
         public let state: JQState?
@@ -538,11 +538,11 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "state", required: false, type: .enum), 
-            AWSShapeProperty(label: "type", required: true, type: .enum), 
-            AWSShapeProperty(label: "serviceRole", required: true, type: .string), 
-            AWSShapeProperty(label: "computeEnvironmentName", required: true, type: .string), 
-            AWSShapeProperty(label: "computeResources", required: false, type: .structure)
+            AWSShapeProperty(label: "state", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "type", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "serviceRole", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "computeEnvironmentName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "computeResources", location: nil, required: false, type: .structure)
         ]
         /// The state of the compute environment. If the state is ENABLED, then the compute environment accepts jobs from a queue and can scale out automatically based on queues.
         public let state: CEState?
@@ -587,9 +587,9 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "computeEnvironments", required: false, type: .list), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+            AWSShapeProperty(label: "computeEnvironments", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "maxResults", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
         ]
         /// A list of up to 100 compute environment names or full Amazon Resource Name (ARN) entries. 
         public let computeEnvironments: [String]?
@@ -615,7 +615,7 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "computeEnvironment", required: true, type: .string)
+            AWSShapeProperty(label: "computeEnvironment", location: nil, required: true, type: .string)
         ]
         /// The name or Amazon Resource Name (ARN) of the compute environment to delete. 
         public let computeEnvironment: String
@@ -634,8 +634,8 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "computeEnvironments", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+            AWSShapeProperty(label: "computeEnvironments", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
         ]
         /// The list of compute environments.
         public let computeEnvironments: [ComputeEnvironmentDetail]?
@@ -661,7 +661,7 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobDefinition", required: true, type: .string)
+            AWSShapeProperty(label: "jobDefinition", location: nil, required: true, type: .string)
         ]
         /// The name and revision (name:revision) or full Amazon Resource Name (ARN) of the job definition to deregister. 
         public let jobDefinition: String
@@ -688,21 +688,21 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "reason", required: false, type: .string), 
-            AWSShapeProperty(label: "readonlyRootFilesystem", required: false, type: .boolean), 
-            AWSShapeProperty(label: "mountPoints", required: false, type: .list), 
-            AWSShapeProperty(label: "user", required: false, type: .string), 
-            AWSShapeProperty(label: "vcpus", required: false, type: .integer), 
-            AWSShapeProperty(label: "ulimits", required: false, type: .list), 
-            AWSShapeProperty(label: "memory", required: false, type: .integer), 
-            AWSShapeProperty(label: "environment", required: false, type: .list), 
-            AWSShapeProperty(label: "containerInstanceArn", required: false, type: .string), 
-            AWSShapeProperty(label: "image", required: false, type: .string), 
-            AWSShapeProperty(label: "volumes", required: false, type: .list), 
-            AWSShapeProperty(label: "privileged", required: false, type: .boolean), 
-            AWSShapeProperty(label: "exitCode", required: false, type: .integer), 
-            AWSShapeProperty(label: "command", required: false, type: .list), 
-            AWSShapeProperty(label: "jobRoleArn", required: false, type: .string)
+            AWSShapeProperty(label: "reason", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "readonlyRootFilesystem", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "mountPoints", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "user", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "vcpus", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "ulimits", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "memory", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "environment", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "containerInstanceArn", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "image", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "volumes", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "privileged", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "exitCode", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "command", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "jobRoleArn", location: nil, required: false, type: .string)
         ]
         /// A short (255 max characters) human-readable string to provide additional details about a running or stopped container.
         public let reason: String?
@@ -792,9 +792,9 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "sourceVolume", required: false, type: .string), 
-            AWSShapeProperty(label: "readOnly", required: false, type: .boolean), 
-            AWSShapeProperty(label: "containerPath", required: false, type: .string)
+            AWSShapeProperty(label: "sourceVolume", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "readOnly", location: nil, required: false, type: .boolean), 
+            AWSShapeProperty(label: "containerPath", location: nil, required: false, type: .string)
         ]
         /// The name of the volume to mount.
         public let sourceVolume: String?
@@ -820,10 +820,10 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "state", required: false, type: .enum), 
-            AWSShapeProperty(label: "computeEnvironment", required: true, type: .string), 
-            AWSShapeProperty(label: "computeResources", required: false, type: .structure), 
-            AWSShapeProperty(label: "serviceRole", required: false, type: .string)
+            AWSShapeProperty(label: "state", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "computeEnvironment", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "computeResources", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "serviceRole", location: nil, required: false, type: .string)
         ]
         /// The state of the compute environment. Compute environments in the ENABLED state can accept jobs from a queue and scale in or out automatically based on the workload demand of its associated queues.
         public let state: CEState?
@@ -854,8 +854,8 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobQueueName", required: true, type: .string), 
-            AWSShapeProperty(label: "jobQueueArn", required: true, type: .string)
+            AWSShapeProperty(label: "jobQueueName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "jobQueueArn", location: nil, required: true, type: .string)
         ]
         /// The name of the job queue.
         public let jobQueueName: String
@@ -885,7 +885,7 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "sourcePath", required: false, type: .string)
+            AWSShapeProperty(label: "sourcePath", location: nil, required: false, type: .string)
         ]
         /// The path on the host container instance that is presented to the container. If this parameter is empty, then the Docker daemon has assigned a host path for you. If the host parameter contains a sourcePath file location, then the data volume persists at the specified location on the host container instance until you delete it manually. If the sourcePath value does not exist on the host container instance, the Docker daemon creates it. If the location does exist, the contents of the source path folder are exported.
         public let sourcePath: String?
@@ -903,7 +903,7 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobs", required: true, type: .list)
+            AWSShapeProperty(label: "jobs", location: nil, required: true, type: .list)
         ]
         /// A space-separated list of up to 100 job IDs.
         public let jobs: [String]
@@ -922,10 +922,10 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "vcpus", required: false, type: .integer), 
-            AWSShapeProperty(label: "environment", required: false, type: .list), 
-            AWSShapeProperty(label: "command", required: false, type: .list), 
-            AWSShapeProperty(label: "memory", required: false, type: .integer)
+            AWSShapeProperty(label: "vcpus", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "environment", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "command", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "memory", location: nil, required: false, type: .integer)
         ]
         /// The number of vCPUs to reserve for the container. This value overrides the value set in the job definition.
         public let vcpus: Int32?
@@ -959,18 +959,18 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobQueue", required: true, type: .string), 
-            AWSShapeProperty(label: "status", required: true, type: .enum), 
-            AWSShapeProperty(label: "jobName", required: true, type: .string), 
-            AWSShapeProperty(label: "createdAt", required: false, type: .long), 
-            AWSShapeProperty(label: "stoppedAt", required: false, type: .long), 
-            AWSShapeProperty(label: "parameters", required: false, type: .map), 
-            AWSShapeProperty(label: "startedAt", required: true, type: .long), 
-            AWSShapeProperty(label: "container", required: false, type: .structure), 
-            AWSShapeProperty(label: "statusReason", required: false, type: .string), 
-            AWSShapeProperty(label: "jobDefinition", required: true, type: .string), 
-            AWSShapeProperty(label: "dependsOn", required: false, type: .list), 
-            AWSShapeProperty(label: "jobId", required: true, type: .string)
+            AWSShapeProperty(label: "jobQueue", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "status", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "jobName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "createdAt", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "stoppedAt", location: nil, required: false, type: .long), 
+            AWSShapeProperty(label: "parameters", location: nil, required: false, type: .map), 
+            AWSShapeProperty(label: "startedAt", location: nil, required: true, type: .long), 
+            AWSShapeProperty(label: "container", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "statusReason", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "jobDefinition", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "dependsOn", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "jobId", location: nil, required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the job queue with which the job is associated.
         public let jobQueue: String
@@ -1046,12 +1046,12 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobQueue", required: true, type: .string), 
-            AWSShapeProperty(label: "jobName", required: true, type: .string), 
-            AWSShapeProperty(label: "jobDefinition", required: true, type: .string), 
-            AWSShapeProperty(label: "dependsOn", required: false, type: .list), 
-            AWSShapeProperty(label: "containerOverrides", required: false, type: .structure), 
-            AWSShapeProperty(label: "parameters", required: false, type: .map)
+            AWSShapeProperty(label: "jobQueue", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "jobName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "jobDefinition", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "dependsOn", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "containerOverrides", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "parameters", location: nil, required: false, type: .map)
         ]
         /// The job queue into which the job will be submitted. You can specify either the name or the Amazon Resource Name (ARN) of the queue. 
         public let jobQueue: String
@@ -1100,7 +1100,7 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobs", required: false, type: .list)
+            AWSShapeProperty(label: "jobs", location: nil, required: false, type: .list)
         ]
         /// The list of jobs. 
         public let jobs: [JobDetail]?
@@ -1136,8 +1136,8 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "jobSummaryList", required: true, type: .list)
+            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "jobSummaryList", location: nil, required: true, type: .list)
         ]
         /// The nextToken value to include in a future ListJobs request. When the results of a ListJobs request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -1160,11 +1160,11 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobDefinitionName", required: false, type: .string), 
-            AWSShapeProperty(label: "status", required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "jobDefinitions", required: false, type: .list)
+            AWSShapeProperty(label: "jobDefinitionName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "status", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "maxResults", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "jobDefinitions", location: nil, required: false, type: .list)
         ]
         /// The name of the job definition to describe.
         public let jobDefinitionName: String?
@@ -1198,10 +1198,10 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobDefinitionName", required: true, type: .string), 
-            AWSShapeProperty(label: "type", required: true, type: .enum), 
-            AWSShapeProperty(label: "containerProperties", required: false, type: .structure), 
-            AWSShapeProperty(label: "parameters", required: false, type: .map)
+            AWSShapeProperty(label: "jobDefinitionName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "type", location: nil, required: true, type: .enum), 
+            AWSShapeProperty(label: "containerProperties", location: nil, required: false, type: .structure), 
+            AWSShapeProperty(label: "parameters", location: nil, required: false, type: .map)
         ]
         /// The name of the job definition to register. 
         public let jobDefinitionName: String
@@ -1237,10 +1237,10 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobQueue", required: true, type: .string), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "jobStatus", required: false, type: .enum)
+            AWSShapeProperty(label: "jobQueue", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "maxResults", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "jobStatus", location: nil, required: false, type: .enum)
         ]
         /// The name or full Amazon Resource Name (ARN) of the job queue with which to list jobs.
         public let jobQueue: String
@@ -1271,9 +1271,9 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobQueues", required: false, type: .list), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+            AWSShapeProperty(label: "jobQueues", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "maxResults", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
         ]
         /// A list of up to 100 queue names or full queue Amazon Resource Name (ARN) entries.
         public let jobQueues: [String]?
@@ -1299,8 +1299,8 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobQueues", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+            AWSShapeProperty(label: "jobQueues", location: nil, required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
         ]
         /// The list of job queues. 
         public let jobQueues: [JobQueueDetail]?
@@ -1326,8 +1326,8 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "jobDefinitions", required: false, type: .list)
+            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "jobDefinitions", location: nil, required: false, type: .list)
         ]
         /// The nextToken value to include in a future DescribeJobDefinitions request. When the results of a DescribeJobDefinitions request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -1353,7 +1353,7 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobQueue", required: true, type: .string)
+            AWSShapeProperty(label: "jobQueue", location: nil, required: true, type: .string)
         ]
         /// The short name or full Amazon Resource Name (ARN) of the queue to delete. 
         public let jobQueue: String
@@ -1372,13 +1372,13 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "revision", required: true, type: .integer), 
-            AWSShapeProperty(label: "status", required: false, type: .string), 
-            AWSShapeProperty(label: "jobDefinitionName", required: true, type: .string), 
-            AWSShapeProperty(label: "parameters", required: false, type: .map), 
-            AWSShapeProperty(label: "jobDefinitionArn", required: true, type: .string), 
-            AWSShapeProperty(label: "type", required: true, type: .string), 
-            AWSShapeProperty(label: "containerProperties", required: false, type: .structure)
+            AWSShapeProperty(label: "revision", location: nil, required: true, type: .integer), 
+            AWSShapeProperty(label: "status", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "jobDefinitionName", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "parameters", location: nil, required: false, type: .map), 
+            AWSShapeProperty(label: "jobDefinitionArn", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "type", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "containerProperties", location: nil, required: false, type: .structure)
         ]
         /// The revision of the job definition.
         public let revision: Int32
@@ -1428,8 +1428,8 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "value", required: false, type: .string)
+            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "value", location: nil, required: false, type: .string)
         ]
         /// The name of the key value pair. For environment variables, this is the name of the environment variable.
         public let name: String?
@@ -1451,10 +1451,10 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "state", required: false, type: .enum), 
-            AWSShapeProperty(label: "computeEnvironmentOrder", required: true, type: .list), 
-            AWSShapeProperty(label: "priority", required: true, type: .integer), 
-            AWSShapeProperty(label: "jobQueueName", required: true, type: .string)
+            AWSShapeProperty(label: "state", location: nil, required: false, type: .enum), 
+            AWSShapeProperty(label: "computeEnvironmentOrder", location: nil, required: true, type: .list), 
+            AWSShapeProperty(label: "priority", location: nil, required: true, type: .integer), 
+            AWSShapeProperty(label: "jobQueueName", location: nil, required: true, type: .string)
         ]
         /// The state of the job queue. If the job queue state is ENABLED, it is able to accept jobs.
         public let state: JQState?
@@ -1487,8 +1487,8 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobId", required: true, type: .string), 
-            AWSShapeProperty(label: "reason", required: true, type: .string)
+            AWSShapeProperty(label: "jobId", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "reason", location: nil, required: true, type: .string)
         ]
         /// A list of up to 100 job IDs to cancel.
         public let jobId: String
@@ -1512,8 +1512,8 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "computeEnvironmentName", required: false, type: .string), 
-            AWSShapeProperty(label: "computeEnvironmentArn", required: false, type: .string)
+            AWSShapeProperty(label: "computeEnvironmentName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "computeEnvironmentArn", location: nil, required: false, type: .string)
         ]
         /// The name of the compute environment.
         public let computeEnvironmentName: String?
@@ -1551,8 +1551,8 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobQueueName", required: false, type: .string), 
-            AWSShapeProperty(label: "jobQueueArn", required: false, type: .string)
+            AWSShapeProperty(label: "jobQueueName", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "jobQueueArn", location: nil, required: false, type: .string)
         ]
         /// The name of the job queue.
         public let jobQueueName: String?
@@ -1574,8 +1574,8 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "host", required: false, type: .structure)
+            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
+            AWSShapeProperty(label: "host", location: nil, required: false, type: .structure)
         ]
         /// The name of the volume. Up to 255 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed. This name is referenced in the sourceVolume parameter of container definition mountPoints.
         public let name: String?
@@ -1597,9 +1597,9 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maxvCpus", required: false, type: .integer), 
-            AWSShapeProperty(label: "minvCpus", required: false, type: .integer), 
-            AWSShapeProperty(label: "desiredvCpus", required: false, type: .integer)
+            AWSShapeProperty(label: "maxvCpus", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "minvCpus", location: nil, required: false, type: .integer), 
+            AWSShapeProperty(label: "desiredvCpus", location: nil, required: false, type: .integer)
         ]
         /// The maximum number of EC2 vCPUs that an environment can reach.
         public let maxvCpus: Int32?
@@ -1625,7 +1625,7 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobId", required: false, type: .string)
+            AWSShapeProperty(label: "jobId", location: nil, required: false, type: .string)
         ]
         /// The job ID of the AWS Batch job associated with this dependency.
         public let jobId: String?
@@ -1643,9 +1643,9 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "softLimit", required: true, type: .integer), 
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "hardLimit", required: true, type: .integer)
+            AWSShapeProperty(label: "softLimit", location: nil, required: true, type: .integer), 
+            AWSShapeProperty(label: "name", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "hardLimit", location: nil, required: true, type: .integer)
         ]
         /// The soft limit for the ulimit type.
         public let softLimit: Int32
@@ -1674,8 +1674,8 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "computeEnvironment", required: true, type: .string), 
-            AWSShapeProperty(label: "order", required: true, type: .integer)
+            AWSShapeProperty(label: "computeEnvironment", location: nil, required: true, type: .string), 
+            AWSShapeProperty(label: "order", location: nil, required: true, type: .integer)
         ]
         /// The Amazon Resource Name (ARN) of the compute environment.
         public let computeEnvironment: String
