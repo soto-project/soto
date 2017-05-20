@@ -33,11 +33,11 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BatchPredictionName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "BatchPredictionId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "OutputUri", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "BatchPredictionDataSourceId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "MLModelId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "BatchPredictionName", required: false, type: .string), 
+            AWSShapeProperty(label: "BatchPredictionId", required: true, type: .string), 
+            AWSShapeProperty(label: "OutputUri", required: true, type: .string), 
+            AWSShapeProperty(label: "BatchPredictionDataSourceId", required: true, type: .string), 
+            AWSShapeProperty(label: "MLModelId", required: true, type: .string)
         ]
         /// A user-supplied name or description of the BatchPrediction. BatchPredictionName can only use the UTF-8 character set.
         public let batchPredictionName: String?
@@ -75,11 +75,11 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataSourceId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DataSourceName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ComputeStatistics", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "DataSpec", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "RoleARN", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "DataSourceId", required: true, type: .string), 
+            AWSShapeProperty(label: "DataSourceName", required: false, type: .string), 
+            AWSShapeProperty(label: "ComputeStatistics", required: false, type: .boolean), 
+            AWSShapeProperty(label: "DataSpec", required: true, type: .structure), 
+            AWSShapeProperty(label: "RoleARN", required: true, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the DataSource.
         public let dataSourceId: String
@@ -116,7 +116,7 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataSourceId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "DataSourceId", required: false, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the DataSource. This value should be identical to the value of the DataSourceID in the request. 
         public let dataSourceId: String?
@@ -134,10 +134,10 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataLocationS3", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DataSchema", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "DataSchemaLocationS3", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "DataRearrangement", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "DataLocationS3", required: true, type: .string), 
+            AWSShapeProperty(label: "DataSchema", required: false, type: .string), 
+            AWSShapeProperty(label: "DataSchemaLocationS3", required: false, type: .string), 
+            AWSShapeProperty(label: "DataRearrangement", required: false, type: .string)
         ]
         /// The location of the data file(s) used by a DataSource. The URI specifies a data file or an Amazon Simple Storage Service (Amazon S3) directory or bucket containing data files.
         public let dataLocationS3: String
@@ -168,8 +168,8 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Results", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Results", required: false, type: .list)
         ]
         /// An ID of the next page in the paginated results that indicates at least one more page follows.
         public let nextToken: String?
@@ -195,7 +195,7 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BatchPredictionId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "BatchPredictionId", required: false, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the BatchPrediction. This value should be identical to the value of the BatchPredictionID in the request.
         public let batchPredictionId: String?
@@ -213,8 +213,8 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MLModelId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Verbose", location: nil, required: false, type: .boolean)
+            AWSShapeProperty(label: "MLModelId", required: true, type: .string), 
+            AWSShapeProperty(label: "Verbose", required: false, type: .boolean)
         ]
         /// The ID assigned to the MLModel at creation.
         public let mLModelId: String
@@ -237,9 +237,9 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SelectSqlQuery", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "DatabaseUserName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "RedshiftDatabase", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "SelectSqlQuery", required: false, type: .string), 
+            AWSShapeProperty(label: "DatabaseUserName", required: false, type: .string), 
+            AWSShapeProperty(label: "RedshiftDatabase", required: false, type: .structure)
         ]
         ///  The SQL query that is specified during CreateDataSourceFromRedshift. Returns only if Verbose is true in GetDataSourceInput. 
         public let selectSqlQuery: String?
@@ -263,8 +263,8 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceIdentifier", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DatabaseName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "InstanceIdentifier", required: true, type: .string), 
+            AWSShapeProperty(label: "DatabaseName", required: true, type: .string)
         ]
         /// The ID of an RDS DB instance.
         public let instanceIdentifier: String
@@ -301,7 +301,7 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BatchPredictionId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "BatchPredictionId", required: true, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the BatchPrediction.
         public let batchPredictionId: String
@@ -329,9 +329,9 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MLModelId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "ScoreThreshold", location: nil, required: false, type: .float), 
-            AWSShapeProperty(label: "MLModelName", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "MLModelId", required: true, type: .string), 
+            AWSShapeProperty(label: "ScoreThreshold", required: false, type: .float), 
+            AWSShapeProperty(label: "MLModelName", required: false, type: .string)
         ]
         /// The ID assigned to the MLModel during creation.
         public let mLModelId: String
@@ -370,8 +370,8 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Results", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Results", required: false, type: .list)
         ]
         /// The ID of the next page in the paginated results that indicates at least one more page follows.
         public let nextToken: String?
@@ -397,8 +397,8 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Key", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Value", required: false, type: .string), 
+            AWSShapeProperty(label: "Key", required: false, type: .string)
         ]
         /// An optional string, typically used to describe or define the tag. Valid characters include Unicode letters, digits, white space, _, ., /, =, +, -, %, and @.
         public let value: String?
@@ -426,10 +426,10 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EvaluationName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "EvaluationId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "MLModelId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "EvaluationDataSourceId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "EvaluationName", required: false, type: .string), 
+            AWSShapeProperty(label: "EvaluationId", required: true, type: .string), 
+            AWSShapeProperty(label: "MLModelId", required: true, type: .string), 
+            AWSShapeProperty(label: "EvaluationDataSourceId", required: true, type: .string)
         ]
         /// A user-supplied name or description of the Evaluation.
         public let evaluationName: String?
@@ -462,10 +462,10 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PeakRequestsPerSecond", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "EndpointUrl", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "EndpointStatus", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "PeakRequestsPerSecond", required: false, type: .integer), 
+            AWSShapeProperty(label: "EndpointUrl", required: false, type: .string), 
+            AWSShapeProperty(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "EndpointStatus", required: false, type: .enum)
         ]
         ///  The maximum processing rate for the real-time endpoint for MLModel, measured in incoming requests per second.
         public let peakRequestsPerSecond: Int32?
@@ -495,8 +495,8 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Results", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Results", required: false, type: .list)
         ]
         /// The ID of the next page in the paginated results that indicates at least one more page follows.
         public let nextToken: String?
@@ -528,26 +528,26 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataSizeInBytes", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "Message", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "NumberOfFiles", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "RoleARN", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "DataSourceSchema", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedByIamUser", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "RDSMetadata", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "FinishedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ComputeTime", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "LastUpdatedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "DataRearrangement", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "DataSourceId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "DataLocationS3", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Status", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "RedshiftMetadata", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "LogUri", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "StartedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ComputeStatistics", location: nil, required: false, type: .boolean)
+            AWSShapeProperty(label: "DataSizeInBytes", required: false, type: .long), 
+            AWSShapeProperty(label: "Message", required: false, type: .string), 
+            AWSShapeProperty(label: "NumberOfFiles", required: false, type: .long), 
+            AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
+            AWSShapeProperty(label: "DataSourceSchema", required: false, type: .string), 
+            AWSShapeProperty(label: "CreatedByIamUser", required: false, type: .string), 
+            AWSShapeProperty(label: "RDSMetadata", required: false, type: .structure), 
+            AWSShapeProperty(label: "FinishedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "ComputeTime", required: false, type: .long), 
+            AWSShapeProperty(label: "LastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "DataRearrangement", required: false, type: .string), 
+            AWSShapeProperty(label: "DataSourceId", required: false, type: .string), 
+            AWSShapeProperty(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "DataLocationS3", required: false, type: .string), 
+            AWSShapeProperty(label: "Status", required: false, type: .enum), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "RedshiftMetadata", required: false, type: .structure), 
+            AWSShapeProperty(label: "LogUri", required: false, type: .string), 
+            AWSShapeProperty(label: "StartedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "ComputeStatistics", required: false, type: .boolean)
         ]
         /// The total size of observations in the data files.
         public let dataSizeInBytes: Int64?
@@ -638,9 +638,9 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MLModelId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "PredictEndpoint", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Record", location: nil, required: true, type: .map)
+            AWSShapeProperty(label: "MLModelId", required: true, type: .string), 
+            AWSShapeProperty(label: "PredictEndpoint", required: true, type: .string), 
+            AWSShapeProperty(label: "Record", required: true, type: .map)
         ]
         /// A unique identifier of the MLModel.
         public let mLModelId: String
@@ -667,8 +667,8 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MLModelId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "RealtimeEndpointInfo", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "MLModelId", required: false, type: .string), 
+            AWSShapeProperty(label: "RealtimeEndpointInfo", required: false, type: .structure)
         ]
         /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelId in the request.
         public let mLModelId: String?
@@ -690,8 +690,8 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Results", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Results", required: false, type: .list)
         ]
         /// The ID of the next page in the paginated results that indicates at least one more page follows.
         public let nextToken: String?
@@ -717,17 +717,17 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataSchemaUri", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "DatabaseCredentials", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "S3StagingLocation", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "ResourceRole", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DatabaseInformation", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "DataSchema", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "SubnetId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "SecurityGroupIds", location: nil, required: true, type: .list), 
-            AWSShapeProperty(label: "SelectSqlQuery", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "ServiceRole", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DataRearrangement", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "DataSchemaUri", required: false, type: .string), 
+            AWSShapeProperty(label: "DatabaseCredentials", required: true, type: .structure), 
+            AWSShapeProperty(label: "S3StagingLocation", required: true, type: .string), 
+            AWSShapeProperty(label: "ResourceRole", required: true, type: .string), 
+            AWSShapeProperty(label: "DatabaseInformation", required: true, type: .structure), 
+            AWSShapeProperty(label: "DataSchema", required: false, type: .string), 
+            AWSShapeProperty(label: "SubnetId", required: true, type: .string), 
+            AWSShapeProperty(label: "SecurityGroupIds", required: true, type: .list), 
+            AWSShapeProperty(label: "SelectSqlQuery", required: true, type: .string), 
+            AWSShapeProperty(label: "ServiceRole", required: true, type: .string), 
+            AWSShapeProperty(label: "DataRearrangement", required: false, type: .string)
         ]
         /// The Amazon S3 location of the DataSchema. 
         public let dataSchemaUri: String?
@@ -793,10 +793,10 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "details", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "predictedScores", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "predictedLabel", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "predictedValue", location: nil, required: false, type: .float)
+            AWSShapeProperty(label: "details", required: false, type: .map), 
+            AWSShapeProperty(label: "predictedScores", required: false, type: .map), 
+            AWSShapeProperty(label: "predictedLabel", required: false, type: .string), 
+            AWSShapeProperty(label: "predictedValue", required: false, type: .float)
         ]
         public let details: [DetailsAttributes: String]?
         public let predictedScores: [String: Float]?
@@ -832,7 +832,7 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MLModelId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "MLModelId", required: true, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the MLModel.
         public let mLModelId: String
@@ -856,7 +856,7 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BatchPredictionId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "BatchPredictionId", required: true, type: .string)
         ]
         /// An ID assigned to the BatchPrediction at creation.
         public let batchPredictionId: String
@@ -875,11 +875,11 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataSourceId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "RDSData", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "DataSourceName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ComputeStatistics", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "RoleARN", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "DataSourceId", required: true, type: .string), 
+            AWSShapeProperty(label: "RDSData", required: true, type: .structure), 
+            AWSShapeProperty(label: "DataSourceName", required: false, type: .string), 
+            AWSShapeProperty(label: "ComputeStatistics", required: false, type: .boolean), 
+            AWSShapeProperty(label: "RoleARN", required: true, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the DataSource. Typically, an Amazon Resource Number (ARN) becomes the ID for a DataSource.
         public let dataSourceId: String
@@ -916,13 +916,13 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataSchemaUri", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "DatabaseCredentials", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "S3StagingLocation", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DatabaseInformation", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "DataSchema", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "SelectSqlQuery", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DataRearrangement", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "DataSchemaUri", required: false, type: .string), 
+            AWSShapeProperty(label: "DatabaseCredentials", required: true, type: .structure), 
+            AWSShapeProperty(label: "S3StagingLocation", required: true, type: .string), 
+            AWSShapeProperty(label: "DatabaseInformation", required: true, type: .structure), 
+            AWSShapeProperty(label: "DataSchema", required: false, type: .string), 
+            AWSShapeProperty(label: "SelectSqlQuery", required: true, type: .string), 
+            AWSShapeProperty(label: "DataRearrangement", required: false, type: .string)
         ]
         /// Describes the schema location for an Amazon Redshift DataSource.
         public let dataSchemaUri: String?
@@ -968,20 +968,20 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PerformanceMetrics", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "EvaluationId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Message", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MLModelId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedByIamUser", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ComputeTime", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "FinishedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "LastUpdatedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "InputDataLocationS3", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Status", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "StartedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "EvaluationDataSourceId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "PerformanceMetrics", required: false, type: .structure), 
+            AWSShapeProperty(label: "EvaluationId", required: false, type: .string), 
+            AWSShapeProperty(label: "Message", required: false, type: .string), 
+            AWSShapeProperty(label: "MLModelId", required: false, type: .string), 
+            AWSShapeProperty(label: "CreatedByIamUser", required: false, type: .string), 
+            AWSShapeProperty(label: "ComputeTime", required: false, type: .long), 
+            AWSShapeProperty(label: "FinishedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "LastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "InputDataLocationS3", required: false, type: .string), 
+            AWSShapeProperty(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Status", required: false, type: .enum), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "StartedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "EvaluationDataSourceId", required: false, type: .string)
         ]
         /// Measurements of how well the MLModel performed, using observations referenced by the DataSource. One of the following metrics is returned, based on the type of the MLModel:    BinaryAUC: A binary MLModel uses the Area Under the Curve (AUC) technique to measure performance.    RegressionRMSE: A regression MLModel uses the Root Mean Square Error (RMSE) technique to measure performance. RMSE measures the difference between predicted and actual values for a single variable.   MulticlassAvgFScore: A multiclass MLModel uses the F1 score technique to measure performance.     For more information about performance metrics, please see the Amazon Machine Learning Developer Guide. 
         public let performanceMetrics: PerformanceMetrics?
@@ -1048,7 +1048,7 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataSourceId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "DataSourceId", required: false, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the datasource. This value should be identical to the value of the DataSourceID in the request. 
         public let dataSourceId: String?
@@ -1066,12 +1066,12 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DatabaseUserName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "DataPipelineId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceRole", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ServiceRole", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Database", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "SelectSqlQuery", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "DatabaseUserName", required: false, type: .string), 
+            AWSShapeProperty(label: "DataPipelineId", required: false, type: .string), 
+            AWSShapeProperty(label: "ResourceRole", required: false, type: .string), 
+            AWSShapeProperty(label: "ServiceRole", required: false, type: .string), 
+            AWSShapeProperty(label: "Database", required: false, type: .structure), 
+            AWSShapeProperty(label: "SelectSqlQuery", required: false, type: .string)
         ]
         public let databaseUserName: String?
         /// The ID of the Data Pipeline instance that is used to carry to copy data from Amazon RDS to Amazon S3. You can use the ID to find details about the instance in the Data Pipeline console.
@@ -1108,9 +1108,9 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "ResourceType", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "ResourceId", required: false, type: .string), 
+            AWSShapeProperty(label: "Tags", required: false, type: .list), 
+            AWSShapeProperty(label: "ResourceType", required: false, type: .enum)
         ]
         /// The ID of the tagged ML object.
         public let resourceId: String?
@@ -1140,7 +1140,7 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EvaluationId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "EvaluationId", required: false, type: .string)
         ]
         /// The user-supplied ID that uniquely identifies the Evaluation. This value should be identical to the value of the EvaluationId in the request.
         public let evaluationId: String?
@@ -1158,8 +1158,8 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceType", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "ResourceId", required: false, type: .string), 
+            AWSShapeProperty(label: "ResourceType", required: false, type: .enum)
         ]
         /// The ID of the ML object that was tagged.
         public let resourceId: String?
@@ -1181,7 +1181,7 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataSourceId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "DataSourceId", required: true, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the DataSource.
         public let dataSourceId: String
@@ -1200,8 +1200,8 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataSourceId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DataSourceName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "DataSourceId", required: true, type: .string), 
+            AWSShapeProperty(label: "DataSourceName", required: true, type: .string)
         ]
         /// The ID assigned to the DataSource during creation.
         public let dataSourceId: String
@@ -1225,23 +1225,23 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Message", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MLModelId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedByIamUser", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "TotalRecordCount", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "InvalidRecordCount", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "BatchPredictionId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ComputeTime", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "FinishedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "LastUpdatedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "InputDataLocationS3", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Status", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "LogUri", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "StartedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "OutputUri", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "BatchPredictionDataSourceId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Message", required: false, type: .string), 
+            AWSShapeProperty(label: "MLModelId", required: false, type: .string), 
+            AWSShapeProperty(label: "CreatedByIamUser", required: false, type: .string), 
+            AWSShapeProperty(label: "TotalRecordCount", required: false, type: .long), 
+            AWSShapeProperty(label: "InvalidRecordCount", required: false, type: .long), 
+            AWSShapeProperty(label: "BatchPredictionId", required: false, type: .string), 
+            AWSShapeProperty(label: "ComputeTime", required: false, type: .long), 
+            AWSShapeProperty(label: "FinishedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "LastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "InputDataLocationS3", required: false, type: .string), 
+            AWSShapeProperty(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Status", required: false, type: .enum), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "LogUri", required: false, type: .string), 
+            AWSShapeProperty(label: "StartedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "OutputUri", required: false, type: .string), 
+            AWSShapeProperty(label: "BatchPredictionDataSourceId", required: false, type: .string)
         ]
         /// A description of the most recent details about processing the batch prediction request.
         public let message: String?
@@ -1323,8 +1323,8 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BatchPredictionName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "BatchPredictionId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "BatchPredictionName", required: true, type: .string), 
+            AWSShapeProperty(label: "BatchPredictionId", required: true, type: .string)
         ]
         /// A new user-supplied name or description of the BatchPrediction.
         public let batchPredictionName: String
@@ -1348,8 +1348,8 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Password", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Username", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Password", required: true, type: .string), 
+            AWSShapeProperty(label: "Username", required: true, type: .string)
         ]
         public let password: String
         public let username: String
@@ -1383,7 +1383,7 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EvaluationId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "EvaluationId", required: false, type: .string)
         ]
         /// The ID assigned to the Evaluation during creation. This value should be identical to the value of the Evaluation in the request.
         public let evaluationId: String?
@@ -1401,8 +1401,8 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EvaluationName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "EvaluationId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "EvaluationName", required: true, type: .string), 
+            AWSShapeProperty(label: "EvaluationId", required: true, type: .string)
         ]
         /// A new user-supplied name or description of the Evaluation that will replace the current content. 
         public let evaluationName: String
@@ -1426,7 +1426,7 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BatchPredictionId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "BatchPredictionId", required: false, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the BatchPrediction. This value is identical to the value of the BatchPredictionId in the request.
         public let batchPredictionId: String?
@@ -1444,17 +1444,17 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NE", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "EQ", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "GT", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "FilterVariable", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "LT", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Prefix", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "LE", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "SortOrder", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "GE", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "NE", required: false, type: .string), 
+            AWSShapeProperty(label: "EQ", required: false, type: .string), 
+            AWSShapeProperty(label: "GT", required: false, type: .string), 
+            AWSShapeProperty(label: "FilterVariable", required: false, type: .enum), 
+            AWSShapeProperty(label: "LT", required: false, type: .string), 
+            AWSShapeProperty(label: "Prefix", required: false, type: .string), 
+            AWSShapeProperty(label: "LE", required: false, type: .string), 
+            AWSShapeProperty(label: "SortOrder", required: false, type: .enum), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "GE", required: false, type: .string)
         ]
         /// The not equal to operator. The Evaluation results will have FilterVariable values not equal to the value specified with NE.
         public let nE: String?
@@ -1512,7 +1512,7 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MLModelId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "MLModelId", required: false, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelId in the request. 
         public let mLModelId: String?
@@ -1530,8 +1530,8 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterIdentifier", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DatabaseName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "ClusterIdentifier", required: true, type: .string), 
+            AWSShapeProperty(label: "DatabaseName", required: true, type: .string)
         ]
         public let clusterIdentifier: String
         public let databaseName: String
@@ -1553,7 +1553,7 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MLModelId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "MLModelId", required: false, type: .string)
         ]
         /// The ID assigned to the MLModel during creation. This value should be identical to the value of the MLModelID in the request.
         public let mLModelId: String?
@@ -1571,22 +1571,22 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Message", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MLModelId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedByIamUser", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "TotalRecordCount", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "InvalidRecordCount", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "BatchPredictionId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ComputeTime", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "FinishedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "LastUpdatedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "InputDataLocationS3", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Status", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "StartedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "OutputUri", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "BatchPredictionDataSourceId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Message", required: false, type: .string), 
+            AWSShapeProperty(label: "MLModelId", required: false, type: .string), 
+            AWSShapeProperty(label: "CreatedByIamUser", required: false, type: .string), 
+            AWSShapeProperty(label: "TotalRecordCount", required: false, type: .long), 
+            AWSShapeProperty(label: "InvalidRecordCount", required: false, type: .long), 
+            AWSShapeProperty(label: "BatchPredictionId", required: false, type: .string), 
+            AWSShapeProperty(label: "ComputeTime", required: false, type: .long), 
+            AWSShapeProperty(label: "FinishedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "LastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "InputDataLocationS3", required: false, type: .string), 
+            AWSShapeProperty(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Status", required: false, type: .enum), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "StartedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "OutputUri", required: false, type: .string), 
+            AWSShapeProperty(label: "BatchPredictionDataSourceId", required: false, type: .string)
         ]
         /// A description of the most recent details about processing the batch prediction request.
         public let message: String?
@@ -1659,10 +1659,10 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataSourceId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DataSourceName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "DataSpec", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "ComputeStatistics", location: nil, required: false, type: .boolean)
+            AWSShapeProperty(label: "DataSourceId", required: true, type: .string), 
+            AWSShapeProperty(label: "DataSourceName", required: false, type: .string), 
+            AWSShapeProperty(label: "DataSpec", required: true, type: .structure), 
+            AWSShapeProperty(label: "ComputeStatistics", required: false, type: .boolean)
         ]
         /// A user-supplied identifier that uniquely identifies the DataSource. 
         public let dataSourceId: String
@@ -1694,7 +1694,7 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EvaluationId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "EvaluationId", required: true, type: .string)
         ]
         /// The ID of the Evaluation to retrieve. The evaluation of each MLModel is recorded and cataloged. The ID provides the means to access the information. 
         public let evaluationId: String
@@ -1713,8 +1713,8 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Password", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Username", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Password", required: true, type: .string), 
+            AWSShapeProperty(label: "Username", required: true, type: .string)
         ]
         public let password: String
         public let username: String
@@ -1736,7 +1736,7 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MLModelId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "MLModelId", required: true, type: .string)
         ]
         /// The ID assigned to the MLModel during creation.
         public let mLModelId: String
@@ -1755,7 +1755,7 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MLModelId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "MLModelId", required: true, type: .string)
         ]
         /// The ID assigned to the MLModel during creation.
         public let mLModelId: String
@@ -1774,7 +1774,7 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataSourceId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "DataSourceId", required: false, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the DataSource. This value should be identical to the value of the DataSourceID in the request.
         public let dataSourceId: String?
@@ -1792,27 +1792,27 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ScoreThresholdLastUpdatedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Message", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "TrainingDataSourceId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MLModelId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Recipe", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "EndpointInfo", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "CreatedByIamUser", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Schema", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MLModelType", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "FinishedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ComputeTime", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "LastUpdatedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Status", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "CreatedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "InputDataLocationS3", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ScoreThreshold", location: nil, required: false, type: .float), 
-            AWSShapeProperty(label: "SizeInBytes", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "LogUri", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "StartedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "TrainingParameters", location: nil, required: false, type: .map)
+            AWSShapeProperty(label: "ScoreThresholdLastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Message", required: false, type: .string), 
+            AWSShapeProperty(label: "TrainingDataSourceId", required: false, type: .string), 
+            AWSShapeProperty(label: "MLModelId", required: false, type: .string), 
+            AWSShapeProperty(label: "Recipe", required: false, type: .string), 
+            AWSShapeProperty(label: "EndpointInfo", required: false, type: .structure), 
+            AWSShapeProperty(label: "CreatedByIamUser", required: false, type: .string), 
+            AWSShapeProperty(label: "Schema", required: false, type: .string), 
+            AWSShapeProperty(label: "MLModelType", required: false, type: .enum), 
+            AWSShapeProperty(label: "FinishedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "ComputeTime", required: false, type: .long), 
+            AWSShapeProperty(label: "LastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Status", required: false, type: .enum), 
+            AWSShapeProperty(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "InputDataLocationS3", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "ScoreThreshold", required: false, type: .float), 
+            AWSShapeProperty(label: "SizeInBytes", required: false, type: .long), 
+            AWSShapeProperty(label: "LogUri", required: false, type: .string), 
+            AWSShapeProperty(label: "StartedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "TrainingParameters", required: false, type: .map)
         ]
         /// The time of the most recent edit to the ScoreThreshold. The time is expressed in epoch time.
         public let scoreThresholdLastUpdatedAt: Date?
@@ -1913,7 +1913,7 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataSourceId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "DataSourceId", required: false, type: .string)
         ]
         /// The ID assigned to the DataSource during creation. This value should be identical to the value of the DataSourceID in the request.
         public let dataSourceId: String?
@@ -1931,8 +1931,8 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "ResourceType", location: nil, required: true, type: .enum)
+            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
+            AWSShapeProperty(label: "ResourceType", required: true, type: .enum)
         ]
         /// The ID of the ML object. For example, exampleModelId. 
         public let resourceId: String
@@ -1956,7 +1956,7 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EvaluationId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "EvaluationId", required: true, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the Evaluation to delete.
         public let evaluationId: String
@@ -1975,25 +1975,25 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Algorithm", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "ScoreThresholdLastUpdatedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Message", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MLModelId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "TrainingDataSourceId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MLModelType", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "CreatedByIamUser", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "EndpointInfo", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "ComputeTime", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "FinishedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "LastUpdatedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "InputDataLocationS3", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Status", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ScoreThreshold", location: nil, required: false, type: .float), 
-            AWSShapeProperty(label: "SizeInBytes", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "StartedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "TrainingParameters", location: nil, required: false, type: .map)
+            AWSShapeProperty(label: "Algorithm", required: false, type: .enum), 
+            AWSShapeProperty(label: "ScoreThresholdLastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Message", required: false, type: .string), 
+            AWSShapeProperty(label: "MLModelId", required: false, type: .string), 
+            AWSShapeProperty(label: "TrainingDataSourceId", required: false, type: .string), 
+            AWSShapeProperty(label: "MLModelType", required: false, type: .enum), 
+            AWSShapeProperty(label: "CreatedByIamUser", required: false, type: .string), 
+            AWSShapeProperty(label: "EndpointInfo", required: false, type: .structure), 
+            AWSShapeProperty(label: "ComputeTime", required: false, type: .long), 
+            AWSShapeProperty(label: "FinishedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "LastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "InputDataLocationS3", required: false, type: .string), 
+            AWSShapeProperty(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Status", required: false, type: .enum), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "ScoreThreshold", required: false, type: .float), 
+            AWSShapeProperty(label: "SizeInBytes", required: false, type: .long), 
+            AWSShapeProperty(label: "StartedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "TrainingParameters", required: false, type: .map)
         ]
         /// The algorithm used to train the MLModel. The following algorithm is supported:   SGD -- Stochastic gradient descent. The goal of SGD is to minimize the gradient of the loss function.  
         public let algorithm: Algorithm?
@@ -2090,24 +2090,24 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataSizeInBytes", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "Message", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "NumberOfFiles", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "RoleARN", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedByIamUser", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "RDSMetadata", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "ComputeTime", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "FinishedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "LastUpdatedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "DataRearrangement", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "DataSourceId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "DataLocationS3", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Status", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "RedshiftMetadata", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "StartedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ComputeStatistics", location: nil, required: false, type: .boolean)
+            AWSShapeProperty(label: "DataSizeInBytes", required: false, type: .long), 
+            AWSShapeProperty(label: "Message", required: false, type: .string), 
+            AWSShapeProperty(label: "NumberOfFiles", required: false, type: .long), 
+            AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
+            AWSShapeProperty(label: "CreatedByIamUser", required: false, type: .string), 
+            AWSShapeProperty(label: "RDSMetadata", required: false, type: .structure), 
+            AWSShapeProperty(label: "ComputeTime", required: false, type: .long), 
+            AWSShapeProperty(label: "FinishedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "LastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "DataRearrangement", required: false, type: .string), 
+            AWSShapeProperty(label: "DataSourceId", required: false, type: .string), 
+            AWSShapeProperty(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "DataLocationS3", required: false, type: .string), 
+            AWSShapeProperty(label: "Status", required: false, type: .enum), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "RedshiftMetadata", required: false, type: .structure), 
+            AWSShapeProperty(label: "StartedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "ComputeStatistics", required: false, type: .boolean)
         ]
         /// The total number of observations contained in the data files that the DataSource references.
         public let dataSizeInBytes: Int64?
@@ -2187,7 +2187,7 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Prediction", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Prediction", required: false, type: .structure)
         ]
         public let prediction: Prediction?
 
@@ -2204,7 +2204,7 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Properties", location: nil, required: false, type: .map)
+            AWSShapeProperty(label: "Properties", required: false, type: .map)
         ]
         public let properties: [String: String]?
 
@@ -2225,17 +2225,17 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NE", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "EQ", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "GT", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "FilterVariable", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "LT", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Prefix", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "LE", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "SortOrder", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "GE", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "NE", required: false, type: .string), 
+            AWSShapeProperty(label: "EQ", required: false, type: .string), 
+            AWSShapeProperty(label: "GT", required: false, type: .string), 
+            AWSShapeProperty(label: "FilterVariable", required: false, type: .enum), 
+            AWSShapeProperty(label: "LT", required: false, type: .string), 
+            AWSShapeProperty(label: "Prefix", required: false, type: .string), 
+            AWSShapeProperty(label: "LE", required: false, type: .string), 
+            AWSShapeProperty(label: "SortOrder", required: false, type: .enum), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "GE", required: false, type: .string)
         ]
         /// The not equal to operator. The MLModel results will have FilterVariable values not equal to the value specified with NE.
         public let nE: String?
@@ -2293,9 +2293,9 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "ResourceType", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "TagKeys", location: nil, required: true, type: .list)
+            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
+            AWSShapeProperty(label: "ResourceType", required: true, type: .enum), 
+            AWSShapeProperty(label: "TagKeys", required: true, type: .list)
         ]
         /// The ID of the tagged ML object. For example, exampleModelId.
         public let resourceId: String
@@ -2331,21 +2331,21 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PerformanceMetrics", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "EvaluationId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Message", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MLModelId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedByIamUser", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ComputeTime", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "FinishedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "LastUpdatedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "InputDataLocationS3", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Status", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "LogUri", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "StartedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "EvaluationDataSourceId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "PerformanceMetrics", required: false, type: .structure), 
+            AWSShapeProperty(label: "EvaluationId", required: false, type: .string), 
+            AWSShapeProperty(label: "Message", required: false, type: .string), 
+            AWSShapeProperty(label: "MLModelId", required: false, type: .string), 
+            AWSShapeProperty(label: "CreatedByIamUser", required: false, type: .string), 
+            AWSShapeProperty(label: "ComputeTime", required: false, type: .long), 
+            AWSShapeProperty(label: "FinishedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "LastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "InputDataLocationS3", required: false, type: .string), 
+            AWSShapeProperty(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Status", required: false, type: .enum), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "LogUri", required: false, type: .string), 
+            AWSShapeProperty(label: "StartedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "EvaluationDataSourceId", required: false, type: .string)
         ]
         /// Measurements of how well the MLModel performed using observations referenced by the DataSource. One of the following metric is returned based on the type of the MLModel:    BinaryAUC: A binary MLModel uses the Area Under the Curve (AUC) technique to measure performance.    RegressionRMSE: A regression MLModel uses the Root Mean Square Error (RMSE) technique to measure performance. RMSE measures the difference between predicted and actual values for a single variable.   MulticlassAvgFScore: A multiclass MLModel uses the F1 score technique to measure performance.     For more information about performance metrics, please see the Amazon Machine Learning Developer Guide. 
         public let performanceMetrics: PerformanceMetrics?
@@ -2419,9 +2419,9 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Tags", location: nil, required: true, type: .list), 
-            AWSShapeProperty(label: "ResourceType", location: nil, required: true, type: .enum)
+            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
+            AWSShapeProperty(label: "Tags", required: true, type: .list), 
+            AWSShapeProperty(label: "ResourceType", required: true, type: .enum)
         ]
         /// The ID of the ML object to tag. For example, exampleModelId.
         public let resourceId: String
@@ -2450,7 +2450,7 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MLModelId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "MLModelId", required: false, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelID in the request.
         public let mLModelId: String?
@@ -2468,7 +2468,7 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataSourceId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "DataSourceId", required: false, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the datasource. This value should be identical to the value of the DataSourceID in the request. 
         public let dataSourceId: String?
@@ -2486,7 +2486,7 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BatchPredictionId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "BatchPredictionId", required: false, type: .string)
         ]
         /// The ID assigned to the BatchPrediction during creation. This value should be identical to the value of the BatchPredictionId in the request.
         public let batchPredictionId: String?
@@ -2504,8 +2504,8 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MLModelId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "RealtimeEndpointInfo", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "MLModelId", required: false, type: .string), 
+            AWSShapeProperty(label: "RealtimeEndpointInfo", required: false, type: .structure)
         ]
         /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelId in the request.
         public let mLModelId: String?
@@ -2527,13 +2527,13 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RecipeUri", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "TrainingDataSourceId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "MLModelId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Recipe", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MLModelType", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "Parameters", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "MLModelName", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "RecipeUri", required: false, type: .string), 
+            AWSShapeProperty(label: "TrainingDataSourceId", required: true, type: .string), 
+            AWSShapeProperty(label: "MLModelId", required: true, type: .string), 
+            AWSShapeProperty(label: "Recipe", required: false, type: .string), 
+            AWSShapeProperty(label: "MLModelType", required: true, type: .enum), 
+            AWSShapeProperty(label: "Parameters", required: false, type: .map), 
+            AWSShapeProperty(label: "MLModelName", required: false, type: .string)
         ]
         /// The Amazon Simple Storage Service (Amazon S3) location and file name that contains the MLModel recipe. You must specify either the recipe or its URI. If you don't specify a recipe or its URI, Amazon ML creates a default.
         public let recipeUri: String?
@@ -2582,17 +2582,17 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NE", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "EQ", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "GT", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "FilterVariable", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "LT", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Prefix", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "LE", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "SortOrder", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "GE", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "NE", required: false, type: .string), 
+            AWSShapeProperty(label: "EQ", required: false, type: .string), 
+            AWSShapeProperty(label: "GT", required: false, type: .string), 
+            AWSShapeProperty(label: "FilterVariable", required: false, type: .enum), 
+            AWSShapeProperty(label: "LT", required: false, type: .string), 
+            AWSShapeProperty(label: "Prefix", required: false, type: .string), 
+            AWSShapeProperty(label: "LE", required: false, type: .string), 
+            AWSShapeProperty(label: "SortOrder", required: false, type: .enum), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "GE", required: false, type: .string)
         ]
         /// The not equal to operator. The BatchPrediction results will have FilterVariable values not equal to the value specified with NE.
         public let nE: String?
@@ -2650,17 +2650,17 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NE", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "EQ", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "GT", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "FilterVariable", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "LT", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Prefix", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "LE", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "SortOrder", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "GE", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "NE", required: false, type: .string), 
+            AWSShapeProperty(label: "EQ", required: false, type: .string), 
+            AWSShapeProperty(label: "GT", required: false, type: .string), 
+            AWSShapeProperty(label: "FilterVariable", required: false, type: .enum), 
+            AWSShapeProperty(label: "LT", required: false, type: .string), 
+            AWSShapeProperty(label: "Prefix", required: false, type: .string), 
+            AWSShapeProperty(label: "LE", required: false, type: .string), 
+            AWSShapeProperty(label: "SortOrder", required: false, type: .enum), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "GE", required: false, type: .string)
         ]
         /// The not equal to operator. The DataSource results will have FilterVariable values not equal to the value specified with NE.
         public let nE: String?
@@ -2718,8 +2718,8 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceType", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "ResourceId", required: false, type: .string), 
+            AWSShapeProperty(label: "ResourceType", required: false, type: .enum)
         ]
         /// The ID of the ML object from which tags were deleted.
         public let resourceId: String?
@@ -2741,8 +2741,8 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataSourceId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Verbose", location: nil, required: false, type: .boolean)
+            AWSShapeProperty(label: "DataSourceId", required: true, type: .string), 
+            AWSShapeProperty(label: "Verbose", required: false, type: .boolean)
         ]
         /// The ID assigned to the DataSource at creation.
         public let dataSourceId: String
@@ -2783,7 +2783,7 @@ extension Machinelearning {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EvaluationId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "EvaluationId", required: false, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the Evaluation. This value should be identical to the value of the EvaluationId in the request.
         public let evaluationId: String?

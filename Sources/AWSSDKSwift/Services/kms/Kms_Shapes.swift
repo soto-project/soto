@@ -33,9 +33,9 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Truncated", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "PolicyNames", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextMarker", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Truncated", required: false, type: .boolean), 
+            AWSShapeProperty(label: "PolicyNames", required: false, type: .list), 
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
         ]
         /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To retrieve more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
         public let truncated: Bool?
@@ -66,9 +66,9 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "WrappingAlgorithm", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "WrappingKeySpec", location: nil, required: true, type: .enum)
+            AWSShapeProperty(label: "KeyId", required: true, type: .string), 
+            AWSShapeProperty(label: "WrappingAlgorithm", required: true, type: .enum), 
+            AWSShapeProperty(label: "WrappingKeySpec", required: true, type: .enum)
         ]
         /// The identifier of the CMK into which you will import key material. The CMK's Origin must be EXTERNAL. A valid identifier is the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:   Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab   
         public let keyId: String
@@ -97,8 +97,8 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tags", location: nil, required: true, type: .list), 
-            AWSShapeProperty(label: "KeyId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Tags", required: true, type: .list), 
+            AWSShapeProperty(label: "KeyId", required: true, type: .string)
         ]
         /// One or more tags. Each tag consists of a tag key and a tag value.
         public let tags: [Tag]
@@ -122,7 +122,7 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NumberOfBytes", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "NumberOfBytes", required: false, type: .integer)
         ]
         /// The length of the byte string.
         public let numberOfBytes: Int32?
@@ -140,8 +140,8 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AliasName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "TargetKeyId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "AliasName", required: true, type: .string), 
+            AWSShapeProperty(label: "TargetKeyId", required: true, type: .string)
         ]
         /// String that contains the name of the alias to be modified. The name must start with the word "alias" followed by a forward slash (alias/). Aliases that begin with "alias/aws" are reserved.
         public let aliasName: String
@@ -165,11 +165,11 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DestinationEncryptionContext", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "GrantTokens", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "CiphertextBlob", location: nil, required: true, type: .blob), 
-            AWSShapeProperty(label: "SourceEncryptionContext", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "DestinationKeyId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "DestinationEncryptionContext", required: false, type: .map), 
+            AWSShapeProperty(label: "GrantTokens", required: false, type: .list), 
+            AWSShapeProperty(label: "CiphertextBlob", required: true, type: .blob), 
+            AWSShapeProperty(label: "SourceEncryptionContext", required: false, type: .map), 
+            AWSShapeProperty(label: "DestinationKeyId", required: true, type: .string)
         ]
         /// Encryption context to use when the data is reencrypted.
         public let destinationEncryptionContext: [String: String]?
@@ -219,9 +219,9 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CiphertextBlob", location: nil, required: false, type: .blob), 
-            AWSShapeProperty(label: "SourceKeyId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "KeyId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "CiphertextBlob", required: false, type: .blob), 
+            AWSShapeProperty(label: "SourceKeyId", required: false, type: .string), 
+            AWSShapeProperty(label: "KeyId", required: false, type: .string)
         ]
         /// The reencrypted data.
         public let ciphertextBlob: Data?
@@ -247,8 +247,8 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "KeyId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "KeyArn", required: false, type: .string), 
+            AWSShapeProperty(label: "KeyId", required: false, type: .string)
         ]
         /// ARN of the key.
         public let keyArn: String?
@@ -270,8 +270,8 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GrantTokens", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "KeyId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "GrantTokens", required: false, type: .list), 
+            AWSShapeProperty(label: "KeyId", required: true, type: .string)
         ]
         /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
         public let grantTokens: [String]?
@@ -301,7 +301,7 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Policy", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Policy", required: false, type: .string)
         ]
         /// A policy document in JSON format.
         public let policy: String?
@@ -319,9 +319,9 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CiphertextBlob", location: nil, required: true, type: .blob), 
-            AWSShapeProperty(label: "EncryptionContext", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "GrantTokens", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "CiphertextBlob", required: true, type: .blob), 
+            AWSShapeProperty(label: "EncryptionContext", required: false, type: .map), 
+            AWSShapeProperty(label: "GrantTokens", required: false, type: .list)
         ]
         /// Ciphertext to be decrypted. The blob includes metadata.
         public let ciphertextBlob: Data
@@ -352,9 +352,9 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Aliases", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "Truncated", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "NextMarker", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Aliases", required: false, type: .list), 
+            AWSShapeProperty(label: "Truncated", required: false, type: .boolean), 
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
         ]
         /// A list of key aliases in the user's account.
         public let aliases: [AliasListEntry]?
@@ -384,8 +384,8 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TagValue", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "TagKey", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "TagValue", required: true, type: .string), 
+            AWSShapeProperty(label: "TagKey", required: true, type: .string)
         ]
         /// The value of the tag.
         public let tagValue: String
@@ -409,7 +409,7 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyRotationEnabled", location: nil, required: false, type: .boolean)
+            AWSShapeProperty(label: "KeyRotationEnabled", required: false, type: .boolean)
         ]
         /// A Boolean value that specifies whether key rotation is enabled.
         public let keyRotationEnabled: Bool?
@@ -427,10 +427,10 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BypassPolicyLockoutSafetyCheck", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "KeyId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Policy", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "PolicyName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "BypassPolicyLockoutSafetyCheck", required: false, type: .boolean), 
+            AWSShapeProperty(label: "KeyId", required: true, type: .string), 
+            AWSShapeProperty(label: "Policy", required: true, type: .string), 
+            AWSShapeProperty(label: "PolicyName", required: true, type: .string)
         ]
         /// A flag to indicate whether to bypass the key policy lockout safety check.  Setting this value to true increases the likelihood that the CMK becomes unmanageable. Do not set this value to true indiscriminately. For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide.  Use this parameter only when you intend to prevent the principal that is making the request from making a subsequent PutKeyPolicy request on the CMK. The default value is false.
         public let bypassPolicyLockoutSafetyCheck: Bool?
@@ -463,18 +463,18 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Arn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "KeyId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Origin", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "ExpirationModel", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "AWSAccountId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Enabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "KeyState", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "CreationDate", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "KeyUsage", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "ValidTo", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "DeletionDate", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Arn", required: false, type: .string), 
+            AWSShapeProperty(label: "KeyId", required: true, type: .string), 
+            AWSShapeProperty(label: "Origin", required: false, type: .enum), 
+            AWSShapeProperty(label: "ExpirationModel", required: false, type: .enum), 
+            AWSShapeProperty(label: "AWSAccountId", required: false, type: .string), 
+            AWSShapeProperty(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "KeyState", required: false, type: .enum), 
+            AWSShapeProperty(label: "CreationDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "KeyUsage", required: false, type: .enum), 
+            AWSShapeProperty(label: "ValidTo", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "DeletionDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the CMK. For examples, see AWS Key Management Service (AWS KMS) in the Example ARNs section of the AWS General Reference.
         public let arn: String?
@@ -537,7 +537,7 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "KeyId", required: true, type: .string)
         ]
         /// The unique identifier for the customer master key (CMK) for which to cancel deletion. To specify this value, use the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:   Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab   Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab   To obtain the unique key ID and key ARN for a given CMK, use ListKeys or DescribeKey.
         public let keyId: String
@@ -556,9 +556,9 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "KeyId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "KeyId", required: true, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer)
         ]
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
         public let marker: String?
@@ -585,8 +585,8 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AliasName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "TargetKeyId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "AliasName", required: true, type: .string), 
+            AWSShapeProperty(label: "TargetKeyId", required: true, type: .string)
         ]
         /// String that contains the display name. The name must start with the word "alias" followed by a forward slash (alias/). Aliases that begin with "alias/AWS" are reserved.
         public let aliasName: String
@@ -615,8 +615,8 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PendingWindowInDays", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "KeyId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "PendingWindowInDays", required: false, type: .integer), 
+            AWSShapeProperty(label: "KeyId", required: true, type: .string)
         ]
         /// The waiting period, specified in number of days. After the waiting period ends, AWS KMS deletes the customer master key (CMK). This value is optional. If you include a value, it must be between 7 and 30, inclusive. If you do not include a value, it defaults to 30.
         public let pendingWindowInDays: Int32?
@@ -639,8 +639,8 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GrantToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "GrantId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "GrantToken", required: false, type: .string), 
+            AWSShapeProperty(label: "GrantId", required: false, type: .string)
         ]
         /// The grant token. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
         public let grantToken: String?
@@ -662,9 +662,9 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "RetiringPrincipal", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "RetiringPrincipal", required: true, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer)
         ]
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
         public let marker: String?
@@ -691,8 +691,8 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer)
         ]
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
         public let marker: String?
@@ -714,10 +714,10 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ImportToken", location: nil, required: false, type: .blob), 
-            AWSShapeProperty(label: "PublicKey", location: nil, required: false, type: .blob), 
-            AWSShapeProperty(label: "KeyId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ParametersValidTo", location: nil, required: false, type: .timestamp)
+            AWSShapeProperty(label: "ImportToken", required: false, type: .blob), 
+            AWSShapeProperty(label: "PublicKey", required: false, type: .blob), 
+            AWSShapeProperty(label: "KeyId", required: false, type: .string), 
+            AWSShapeProperty(label: "ParametersValidTo", required: false, type: .timestamp)
         ]
         /// The import token to send in a subsequent ImportKeyMaterial request.
         public let importToken: Data?
@@ -747,7 +747,7 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "KeyId", required: true, type: .string)
         ]
         /// A unique identifier for the customer master key. This value can be a globally unique identifier or the fully specified ARN to a key.   Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012   Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012  
         public let keyId: String
@@ -766,9 +766,9 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "KeyId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "KeyId", required: true, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer)
         ]
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received. Do not attempt to construct this value. Use only the value of NextMarker from the truncated response you just received.
         public let marker: String?
@@ -795,7 +795,7 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "KeyId", required: true, type: .string)
         ]
         /// A unique identifier for the customer master key. This value can be a globally unique identifier or the fully specified ARN to a key.   Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012   Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012  
         public let keyId: String
@@ -822,10 +822,10 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EncryptionContext", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "Plaintext", location: nil, required: true, type: .blob), 
-            AWSShapeProperty(label: "KeyId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "GrantTokens", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "EncryptionContext", required: false, type: .map), 
+            AWSShapeProperty(label: "Plaintext", required: true, type: .blob), 
+            AWSShapeProperty(label: "KeyId", required: true, type: .string), 
+            AWSShapeProperty(label: "GrantTokens", required: false, type: .list)
         ]
         /// Name-value pair that specifies the encryption context to be used for authenticated encryption. If used here, the same value must be supplied to the Decrypt API or decryption will fail. For more information, see Encryption Context.
         public let encryptionContext: [String: String]?
@@ -867,7 +867,7 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "KeyId", required: true, type: .string)
         ]
         /// A unique identifier for the customer master key. This value can be a globally unique identifier or the fully specified ARN to a key.   Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012   Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012  
         public let keyId: String
@@ -886,8 +886,8 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GrantId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "KeyId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "GrantId", required: true, type: .string), 
+            AWSShapeProperty(label: "KeyId", required: true, type: .string)
         ]
         /// Identifier of the grant to be revoked.
         public let grantId: String
@@ -911,9 +911,9 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GrantToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "GrantId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "KeyId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "GrantToken", required: false, type: .string), 
+            AWSShapeProperty(label: "GrantId", required: false, type: .string), 
+            AWSShapeProperty(label: "KeyId", required: false, type: .string)
         ]
         /// Token that identifies the grant to be retired.
         public let grantToken: String?
@@ -939,7 +939,7 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "KeyId", required: false, type: .string)
         ]
         /// The unique identifier of the master key for which deletion is canceled.
         public let keyId: String?
@@ -957,7 +957,7 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Plaintext", location: nil, required: false, type: .blob)
+            AWSShapeProperty(label: "Plaintext", required: false, type: .blob)
         ]
         /// The unpredictable byte string.
         public let plaintext: Data?
@@ -975,13 +975,13 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "RetiringPrincipal", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Operations", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "GranteePrincipal", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "GrantTokens", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "Constraints", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "KeyId", required: true, type: .string), 
+            AWSShapeProperty(label: "RetiringPrincipal", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "Operations", required: false, type: .list), 
+            AWSShapeProperty(label: "GranteePrincipal", required: true, type: .string), 
+            AWSShapeProperty(label: "GrantTokens", required: false, type: .list), 
+            AWSShapeProperty(label: "Constraints", required: false, type: .structure)
         ]
         /// The unique identifier for the customer master key (CMK) that the grant applies to. To specify this value, use the globally unique key ID or the Amazon Resource Name (ARN) of the key. Examples:   Globally unique key ID: 12345678-1234-1234-1234-123456789012   Key ARN: arn:aws:kms:us-west-2:123456789012:key/12345678-1234-1234-1234-123456789012  
         public let keyId: String
@@ -1025,7 +1025,7 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyMetadata", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "KeyMetadata", required: false, type: .structure)
         ]
         /// Metadata associated with the key.
         public let keyMetadata: KeyMetadata?
@@ -1043,8 +1043,8 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Description", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "KeyId", required: true, type: .string), 
+            AWSShapeProperty(label: "Description", required: true, type: .string)
         ]
         /// A unique identifier for the CMK. This value can be a globally unique identifier or the fully specified ARN to a key.   Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012   Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012  
         public let keyId: String
@@ -1068,8 +1068,8 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "PolicyName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "KeyId", required: true, type: .string), 
+            AWSShapeProperty(label: "PolicyName", required: true, type: .string)
         ]
         /// A unique identifier for the customer master key. This value can be a globally unique identifier or the fully specified ARN to a key.   Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012   Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012  
         public let keyId: String
@@ -1093,11 +1093,11 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EncryptionContext", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "NumberOfBytes", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "KeyId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "GrantTokens", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "KeySpec", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "EncryptionContext", required: false, type: .map), 
+            AWSShapeProperty(label: "NumberOfBytes", required: false, type: .integer), 
+            AWSShapeProperty(label: "KeyId", required: true, type: .string), 
+            AWSShapeProperty(label: "GrantTokens", required: false, type: .list), 
+            AWSShapeProperty(label: "KeySpec", required: false, type: .enum)
         ]
         /// A set of key-value pairs that represents additional authenticated data. For more information, see Encryption Context in the AWS Key Management Service Developer Guide.
         public let encryptionContext: [String: String]?
@@ -1144,9 +1144,9 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Truncated", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "Keys", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextMarker", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Truncated", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Keys", required: false, type: .list), 
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
         ]
         /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To retrieve more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
         public let truncated: Bool?
@@ -1176,9 +1176,9 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Truncated", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "Grants", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextMarker", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Truncated", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Grants", required: false, type: .list), 
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
         ]
         /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To retrieve more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
         public let truncated: Bool?
@@ -1208,7 +1208,7 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AliasName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "AliasName", required: true, type: .string)
         ]
         /// The alias to be deleted. The name must start with the word "alias" followed by a forward slash (alias/). Aliases that begin with "alias/AWS" are reserved.
         public let aliasName: String
@@ -1227,8 +1227,8 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer)
         ]
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
         public let marker: String?
@@ -1250,8 +1250,8 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Plaintext", location: nil, required: false, type: .blob), 
-            AWSShapeProperty(label: "KeyId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Plaintext", required: false, type: .blob), 
+            AWSShapeProperty(label: "KeyId", required: false, type: .string)
         ]
         /// Decrypted plaintext data. This value may not be returned if the customer master key is not available or if you didn't have permission to use it.
         public let plaintext: Data?
@@ -1273,9 +1273,9 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CiphertextBlob", location: nil, required: false, type: .blob), 
-            AWSShapeProperty(label: "Plaintext", location: nil, required: false, type: .blob), 
-            AWSShapeProperty(label: "KeyId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "CiphertextBlob", required: false, type: .blob), 
+            AWSShapeProperty(label: "Plaintext", required: false, type: .blob), 
+            AWSShapeProperty(label: "KeyId", required: false, type: .string)
         ]
         /// The encrypted data encryption key.
         public let ciphertextBlob: Data?
@@ -1314,8 +1314,8 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeletionDate", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "KeyId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "DeletionDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "KeyId", required: false, type: .string)
         ]
         /// The date and time after which AWS KMS deletes the customer master key (CMK).
         public let deletionDate: Date?
@@ -1337,7 +1337,7 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "KeyId", required: true, type: .string)
         ]
         /// The identifier of the CMK whose key material to delete. The CMK's Origin must be EXTERNAL. A valid identifier is the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:   Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab   
         public let keyId: String
@@ -1356,11 +1356,11 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EncryptionContext", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "NumberOfBytes", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "KeyId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "GrantTokens", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "KeySpec", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "EncryptionContext", required: false, type: .map), 
+            AWSShapeProperty(label: "NumberOfBytes", required: false, type: .integer), 
+            AWSShapeProperty(label: "KeyId", required: true, type: .string), 
+            AWSShapeProperty(label: "GrantTokens", required: false, type: .list), 
+            AWSShapeProperty(label: "KeySpec", required: false, type: .enum)
         ]
         /// A set of key-value pairs that represents additional authenticated data. For more information, see Encryption Context in the AWS Key Management Service Developer Guide.
         public let encryptionContext: [String: String]?
@@ -1399,7 +1399,7 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyMetadata", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "KeyMetadata", required: false, type: .structure)
         ]
         /// Metadata associated with the CMK.
         public let keyMetadata: KeyMetadata?
@@ -1417,15 +1417,15 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "RetiringPrincipal", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Operations", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "GrantId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "IssuingAccount", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "CreationDate", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "GranteePrincipal", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Constraints", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "KeyId", required: false, type: .string), 
+            AWSShapeProperty(label: "RetiringPrincipal", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "Operations", required: false, type: .list), 
+            AWSShapeProperty(label: "GrantId", required: false, type: .string), 
+            AWSShapeProperty(label: "IssuingAccount", required: false, type: .string), 
+            AWSShapeProperty(label: "CreationDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "GranteePrincipal", required: false, type: .string), 
+            AWSShapeProperty(label: "Constraints", required: false, type: .structure)
         ]
         /// The unique identifier for the customer master key (CMK) to which the grant applies.
         public let keyId: String?
@@ -1475,9 +1475,9 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "KeyId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "KeyId", required: true, type: .string)
         ]
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
         public let marker: String?
@@ -1504,8 +1504,8 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EncryptionContextSubset", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "EncryptionContextEquals", location: nil, required: false, type: .map)
+            AWSShapeProperty(label: "EncryptionContextSubset", required: false, type: .map), 
+            AWSShapeProperty(label: "EncryptionContextEquals", required: false, type: .map)
         ]
         /// Contains a list of key-value pairs, a subset of which must be present in the encryption context of a subsequent operation permitted by the grant. When a subsequent operation permitted by the grant includes an encryption context that matches this list or is a subset of this list, the grant allows the operation. Otherwise, the operation is not allowed.
         public let encryptionContextSubset: [String: String]?
@@ -1535,7 +1535,7 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "KeyId", required: true, type: .string)
         ]
         /// A unique identifier for the customer master key. This value can be a globally unique identifier or the fully specified ARN to a key.   Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012   Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012  
         public let keyId: String
@@ -1554,7 +1554,7 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "KeyId", required: true, type: .string)
         ]
         /// A unique identifier for the CMK. Use the CMK's unique identifier or its Amazon Resource Name (ARN). For example:   Unique ID: 1234abcd-12ab-34cd-56ef-1234567890ab   ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab  
         public let keyId: String
@@ -1579,9 +1579,9 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AliasName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "AliasArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "TargetKeyId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "AliasName", required: false, type: .string), 
+            AWSShapeProperty(label: "AliasArn", required: false, type: .string), 
+            AWSShapeProperty(label: "TargetKeyId", required: false, type: .string)
         ]
         /// String that contains the alias.
         public let aliasName: String?
@@ -1607,11 +1607,11 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ImportToken", location: nil, required: true, type: .blob), 
-            AWSShapeProperty(label: "EncryptedKeyMaterial", location: nil, required: true, type: .blob), 
-            AWSShapeProperty(label: "ExpirationModel", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "KeyId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "ValidTo", location: nil, required: false, type: .timestamp)
+            AWSShapeProperty(label: "ImportToken", required: true, type: .blob), 
+            AWSShapeProperty(label: "EncryptedKeyMaterial", required: true, type: .blob), 
+            AWSShapeProperty(label: "ExpirationModel", required: false, type: .enum), 
+            AWSShapeProperty(label: "KeyId", required: true, type: .string), 
+            AWSShapeProperty(label: "ValidTo", required: false, type: .timestamp)
         ]
         /// The import token that you received in the response to a previous GetParametersForImport request. It must be from the same response that contained the public key that you used to encrypt the key material.
         public let importToken: Data
@@ -1648,8 +1648,8 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CiphertextBlob", location: nil, required: false, type: .blob), 
-            AWSShapeProperty(label: "KeyId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "CiphertextBlob", required: false, type: .blob), 
+            AWSShapeProperty(label: "KeyId", required: false, type: .string)
         ]
         /// The encrypted plaintext. If you are using the CLI, the value is Base64 encoded. Otherwise, it is not encoded.
         public let ciphertextBlob: Data?
@@ -1671,12 +1671,12 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BypassPolicyLockoutSafetyCheck", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "KeyUsage", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Origin", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Tags", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "Policy", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "BypassPolicyLockoutSafetyCheck", required: false, type: .boolean), 
+            AWSShapeProperty(label: "KeyUsage", required: false, type: .enum), 
+            AWSShapeProperty(label: "Origin", required: false, type: .enum), 
+            AWSShapeProperty(label: "Tags", required: false, type: .list), 
+            AWSShapeProperty(label: "Policy", required: false, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
         /// A flag to indicate whether to bypass the key policy lockout safety check.  Setting this value to true increases the likelihood that the CMK becomes unmanageable. Do not set this value to true indiscriminately. For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide.  Use this parameter only when you include a policy in the request and you intend to prevent the principal that is making the request from making a subsequent PutKeyPolicy request on the CMK. The default value is false.
         public let bypassPolicyLockoutSafetyCheck: Bool?
@@ -1718,8 +1718,8 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "TagKeys", location: nil, required: true, type: .list)
+            AWSShapeProperty(label: "KeyId", required: true, type: .string), 
+            AWSShapeProperty(label: "TagKeys", required: true, type: .list)
         ]
         /// A unique identifier for the CMK from which you are removing tags. You can use the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:   Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab   
         public let keyId: String
@@ -1743,9 +1743,9 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Truncated", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "Tags", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextMarker", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Truncated", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Tags", required: false, type: .list), 
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
         ]
         /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To retrieve more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
         public let truncated: Bool?
@@ -1775,8 +1775,8 @@ extension Kms {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CiphertextBlob", location: nil, required: false, type: .blob), 
-            AWSShapeProperty(label: "KeyId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "CiphertextBlob", required: false, type: .blob), 
+            AWSShapeProperty(label: "KeyId", required: false, type: .string)
         ]
         /// The encrypted data encryption key.
         public let ciphertextBlob: Data?

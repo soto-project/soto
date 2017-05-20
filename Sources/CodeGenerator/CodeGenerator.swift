@@ -12,6 +12,46 @@ import Foundation
 import SwiftyJSON
 import Core
 
+extension Location {
+    func enumStyleDescription() -> String {
+        switch self {
+        case .uri(locationName: let name):
+            return ".uri(locationName: \"\(name)\")"
+        case .querystring(locationName: let name):
+            return ".querystring(locationName: \"\(name)\")"
+        case .header(locationName: let name):
+            return ".header(locationName: \"\(name)\")"
+        case .body(locationName: let name):
+            return ".body(locationName: \"\(name)\")"
+        }
+    }
+    
+    init?(key: String, json: JSON) {
+        guard let name = json["locationName"].string else {
+            return nil
+        }
+        
+        let loc = json["location"].string ?? "body"
+        
+        switch loc.lowercased() {
+        case "uri":
+            self = .uri(locationName: name)
+            
+        case "querystring":
+            self = .querystring(locationName: name)
+            
+        case "header":
+            self = .header(locationName: name)
+            
+        case  "body":
+            self = .body(locationName: name)
+            
+        default:
+            return nil
+        }
+    }
+}
+
 extension Core.Operation {
     func generateSwiftFunctionCode() -> String {
         var code = ""
@@ -238,12 +278,16 @@ extension AWSService {
         }
         
         let hints: [String] = structure.members.map({ member in
-            var location = "nil"
-            if let locationName = member.locationName {
-                location = "\"\(locationName)\""
-            }
             let hint = shape2Hint(shape: member.shape)
-            return "\(indt(3))AWSShapeProperty(label: \"\(member.name)\", location: \(location), required: \(member.required), type: \(hint.enumStyleDescription))"
+            
+            var code = ""
+            code += "\(indt(3))AWSShapeProperty(label: \"\(member.name)\""
+            if let location = member.location?.enumStyleDescription() {
+                code += ", location: \(location)"
+            }
+            code += ", required: \(member.required), type: \(hint.enumStyleDescription))"
+            
+            return code
         })
         if hints.count > 0 {
             code += "\(indt(2))public static var parsingHints: [AWSShapeProperty] = ["
@@ -577,25 +621,6 @@ extension AWSService {
                     code += "\(indt(2))public static let payload: String? = \"\(payload)\"\n"
                 } else {
                     code += "\(indt(2))public static let payload: String? = nil\n"
-                }
-                
-                let requestParam = type.members.toRequestParam()
-                if !requestParam.headerParams.isEmpty {
-                    code += "\(indt(2))public static var headerParams: [String: String] {\n"
-                    code += "\(indt(3))return \(requestParam.headerParams)\n"
-                    code += "\(indt(2))}\n"
-                }
-                
-                if !requestParam.queryParams.isEmpty {
-                    code += "\(indt(2))public static var queryParams: [String: String] {\n"
-                    code += "\(indt(3))return \(requestParam.queryParams)\n"
-                    code += "\(indt(2))}\n"
-                }
-                
-                if !requestParam.pathParams.isEmpty {
-                    code += "\(indt(2))public static var pathParams: [String: String] {\n"
-                    code += "\(indt(3))return \(requestParam.pathParams)\n"
-                    code += "\(indt(2))}\n"
                 }
                 
                 code += "\(generateParsingHints(type))"

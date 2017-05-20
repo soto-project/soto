@@ -33,10 +33,10 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maxResults", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "repositoryNames", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "registryId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
+            AWSShapeProperty(label: "repositoryNames", required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "registryId", required: false, type: .string)
         ]
         /// The maximum number of repository results returned by DescribeRepositories in paginated output. When this parameter is used, DescribeRepositories only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeRepositories request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeRepositories returns up to 100 results and a nextToken value, if applicable.
         public let maxResults: Int32?
@@ -66,8 +66,8 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "imageIds", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "imageIds", required: false, type: .list)
         ]
         /// The nextToken value to include in a future ListImages request. When the results of a ListImages request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -93,9 +93,9 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "authorizationToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "expiresAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "proxyEndpoint", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "authorizationToken", required: false, type: .string), 
+            AWSShapeProperty(label: "expiresAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "proxyEndpoint", required: false, type: .string)
         ]
         /// A base64-encoded string that contains authorization data for the specified Amazon ECR registry. When the string is decoded, it is presented in the format user:password for private registry authentication using docker login.
         public let authorizationToken: String?
@@ -121,8 +121,8 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "failures", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "imageIds", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "failures", required: false, type: .list), 
+            AWSShapeProperty(label: "imageIds", required: false, type: .list)
         ]
         /// Any failures associated with the call.
         public let failures: [ImageFailure]?
@@ -152,8 +152,8 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "imageDetails", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "imageDetails", required: false, type: .list)
         ]
         /// The nextToken value to include in a future DescribeImages request. When the results of a DescribeImages request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -179,7 +179,7 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "repository", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "repository", required: false, type: .structure)
         ]
         /// The repository that was deleted.
         public let repository: Repository?
@@ -197,10 +197,10 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "layerSize", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "layerAvailability", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "mediaType", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "layerDigest", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "layerSize", required: false, type: .long), 
+            AWSShapeProperty(label: "layerAvailability", required: false, type: .enum), 
+            AWSShapeProperty(label: "mediaType", required: false, type: .string), 
+            AWSShapeProperty(label: "layerDigest", required: false, type: .string)
         ]
         /// The size, in bytes, of the image layer.
         public let layerSize: Int64?
@@ -230,12 +230,12 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maxResults", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "imageIds", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "filter", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "repositoryName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "registryId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "imageIds", required: false, type: .list), 
+            AWSShapeProperty(label: "filter", required: false, type: .structure), 
+            AWSShapeProperty(label: "repositoryName", required: true, type: .string), 
+            AWSShapeProperty(label: "registryId", required: false, type: .string)
         ]
         /// The maximum number of repository results returned by DescribeImages in paginated output. When this parameter is used, DescribeImages only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeImages request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeImages returns up to 100 results and a nextToken value, if applicable.
         public let maxResults: Int32?
@@ -278,8 +278,8 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "imageTag", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "imageDigest", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "imageTag", required: false, type: .string), 
+            AWSShapeProperty(label: "imageDigest", required: false, type: .string)
         ]
         /// The tag used for the image.
         public let imageTag: String?
@@ -301,9 +301,9 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyText", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "registryId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "repositoryName", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "policyText", required: false, type: .string), 
+            AWSShapeProperty(label: "registryId", required: false, type: .string), 
+            AWSShapeProperty(label: "repositoryName", required: false, type: .string)
         ]
         /// The JSON repository policy that was deleted from the repository.
         public let policyText: String?
@@ -329,9 +329,9 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "layerDigest", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "failureCode", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "failureReason", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "layerDigest", required: false, type: .string), 
+            AWSShapeProperty(label: "failureCode", required: false, type: .enum), 
+            AWSShapeProperty(label: "failureReason", required: false, type: .string)
         ]
         /// The layer digest associated with the failure.
         public let layerDigest: String?
@@ -357,9 +357,9 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "imageId", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "failureCode", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "failureReason", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "imageId", required: false, type: .structure), 
+            AWSShapeProperty(label: "failureCode", required: false, type: .enum), 
+            AWSShapeProperty(label: "failureReason", required: false, type: .string)
         ]
         /// The image ID associated with the failure.
         public let imageId: ImageIdentifier?
@@ -385,8 +385,8 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "failures", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "images", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "failures", required: false, type: .list), 
+            AWSShapeProperty(label: "images", required: false, type: .list)
         ]
         /// Any failures associated with the call.
         public let failures: [ImageFailure]?
@@ -422,9 +422,9 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyText", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "registryId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "repositoryName", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "policyText", required: false, type: .string), 
+            AWSShapeProperty(label: "registryId", required: false, type: .string), 
+            AWSShapeProperty(label: "repositoryName", required: false, type: .string)
         ]
         /// The JSON repository policy text applied to the repository.
         public let policyText: String?
@@ -450,7 +450,7 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "registryIds", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "registryIds", required: false, type: .list)
         ]
         /// A list of AWS account IDs that are associated with the registries for which to get authorization tokens. If you do not specify a registry, the default registry is assumed.
         public let registryIds: [String]?
@@ -474,12 +474,12 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "imageSizeInBytes", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "repositoryName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "imageDigest", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "imageTags", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "imagePushedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "registryId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "imageSizeInBytes", required: false, type: .long), 
+            AWSShapeProperty(label: "repositoryName", required: false, type: .string), 
+            AWSShapeProperty(label: "imageDigest", required: false, type: .string), 
+            AWSShapeProperty(label: "imageTags", required: false, type: .list), 
+            AWSShapeProperty(label: "imagePushedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "registryId", required: false, type: .string)
         ]
         /// The size, in bytes, of the image in the repository.  Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size, so it may return a larger image size than the image sizes returned by DescribeImages. 
         public let imageSizeInBytes: Int64?
@@ -517,7 +517,7 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "authorizationData", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "authorizationData", required: false, type: .list)
         ]
         /// A list of authorization token data objects that correspond to the registryIds values in the request.
         public let authorizationData: [AuthorizationData]?
@@ -539,8 +539,8 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "uploadId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "partSize", location: nil, required: false, type: .long)
+            AWSShapeProperty(label: "uploadId", required: false, type: .string), 
+            AWSShapeProperty(label: "partSize", required: false, type: .long)
         ]
         /// The upload ID for the layer upload. This parameter is passed to further UploadLayerPart and CompleteLayerUpload operations.
         public let uploadId: String?
@@ -562,10 +562,10 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "acceptedMediaTypes", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "imageIds", location: nil, required: true, type: .list), 
-            AWSShapeProperty(label: "repositoryName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "registryId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "acceptedMediaTypes", required: false, type: .list), 
+            AWSShapeProperty(label: "imageIds", required: true, type: .list), 
+            AWSShapeProperty(label: "repositoryName", required: true, type: .string), 
+            AWSShapeProperty(label: "registryId", required: false, type: .string)
         ]
         /// The accepted media types for the request. Valid values: application/vnd.docker.distribution.manifest.v1+json | application/vnd.docker.distribution.manifest.v2+json | application/vnd.oci.image.manifest.v1+json 
         public let acceptedMediaTypes: [String]?
@@ -597,8 +597,8 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "registryId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "repositoryName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "registryId", required: false, type: .string), 
+            AWSShapeProperty(label: "repositoryName", required: true, type: .string)
         ]
         /// The AWS account ID associated with the registry that contains the repository policy to delete. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
@@ -621,8 +621,8 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "layerDigest", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "downloadUrl", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "layerDigest", required: false, type: .string), 
+            AWSShapeProperty(label: "downloadUrl", required: false, type: .string)
         ]
         /// The digest of the image layer to download.
         public let layerDigest: String?
@@ -644,10 +644,10 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "imageManifest", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "imageId", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "repositoryName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "registryId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "imageManifest", required: false, type: .string), 
+            AWSShapeProperty(label: "imageId", required: false, type: .structure), 
+            AWSShapeProperty(label: "repositoryName", required: false, type: .string), 
+            AWSShapeProperty(label: "registryId", required: false, type: .string)
         ]
         /// The image manifest associated with the image.
         public let imageManifest: String?
@@ -677,7 +677,7 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "repositoryName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "repositoryName", required: true, type: .string)
         ]
         /// The name to use for the repository. The repository name may be specified on its own (such as nginx-web-app) or it can be prepended with a namespace to group the repository into a category (such as project-a/nginx-web-app).
         public let repositoryName: String
@@ -696,9 +696,9 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyText", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "registryId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "repositoryName", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "policyText", required: false, type: .string), 
+            AWSShapeProperty(label: "registryId", required: false, type: .string), 
+            AWSShapeProperty(label: "repositoryName", required: false, type: .string)
         ]
         /// The JSON repository policy text associated with the repository.
         public let policyText: String?
@@ -724,9 +724,9 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "layerDigest", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "registryId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "repositoryName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "layerDigest", required: true, type: .string), 
+            AWSShapeProperty(label: "registryId", required: false, type: .string), 
+            AWSShapeProperty(label: "repositoryName", required: true, type: .string)
         ]
         /// The digest of the image layer to download.
         public let layerDigest: String
@@ -754,7 +754,7 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "tagStatus", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "tagStatus", required: false, type: .enum)
         ]
         /// The tag status with which to filter your ListImages results. You can filter results based on whether they are TAGGED or UNTAGGED.
         public let tagStatus: TagStatus?
@@ -772,10 +772,10 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "force", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "policyText", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "repositoryName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "registryId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "force", required: false, type: .boolean), 
+            AWSShapeProperty(label: "policyText", required: true, type: .string), 
+            AWSShapeProperty(label: "repositoryName", required: true, type: .string), 
+            AWSShapeProperty(label: "registryId", required: false, type: .string)
         ]
         /// If the policy you are attempting to set on a repository policy would prevent you from setting another policy in the future, you must force the SetRepositoryPolicy operation. This is intended to prevent accidental repository lock outs.
         public let force: Bool?
@@ -807,7 +807,7 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "repository", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "repository", required: false, type: .structure)
         ]
         /// The repository that was created.
         public let repository: Repository?
@@ -825,9 +825,9 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "layerDigests", location: nil, required: true, type: .list), 
-            AWSShapeProperty(label: "registryId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "repositoryName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "layerDigests", required: true, type: .list), 
+            AWSShapeProperty(label: "registryId", required: false, type: .string), 
+            AWSShapeProperty(label: "repositoryName", required: true, type: .string)
         ]
         /// The digests of the image layers to check.
         public let layerDigests: [String]
@@ -855,8 +855,8 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "registryId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "repositoryName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "registryId", required: false, type: .string), 
+            AWSShapeProperty(label: "repositoryName", required: true, type: .string)
         ]
         /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
@@ -879,10 +879,10 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "uploadId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "repositoryName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "registryId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "lastByteReceived", location: nil, required: false, type: .long)
+            AWSShapeProperty(label: "uploadId", required: false, type: .string), 
+            AWSShapeProperty(label: "repositoryName", required: false, type: .string), 
+            AWSShapeProperty(label: "registryId", required: false, type: .string), 
+            AWSShapeProperty(label: "lastByteReceived", required: false, type: .long)
         ]
         /// The upload ID associated with the request.
         public let uploadId: String?
@@ -912,8 +912,8 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "failures", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "layers", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "failures", required: false, type: .list), 
+            AWSShapeProperty(label: "layers", required: false, type: .list)
         ]
         /// Any failures associated with the call.
         public let failures: [LayerFailure]?
@@ -943,10 +943,10 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "imageTag", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "imageManifest", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "repositoryName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "registryId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "imageTag", required: false, type: .string), 
+            AWSShapeProperty(label: "imageManifest", required: true, type: .string), 
+            AWSShapeProperty(label: "repositoryName", required: true, type: .string), 
+            AWSShapeProperty(label: "registryId", required: false, type: .string)
         ]
         /// The tag to associate with the image. This parameter is required for images that use the Docker Image Manifest V2 Schema 2 or OCI formats.
         public let imageTag: String?
@@ -978,8 +978,8 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "repositories", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "repositories", required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
         /// A list of repository objects corresponding to valid repositories.
         public let repositories: [Repository]?
@@ -1005,8 +1005,8 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "registryId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "repositoryName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "registryId", required: false, type: .string), 
+            AWSShapeProperty(label: "repositoryName", required: true, type: .string)
         ]
         /// The AWS account ID associated with the registry that you intend to upload layers to. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
@@ -1038,9 +1038,9 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "force", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "registryId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "repositoryName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "force", required: false, type: .boolean), 
+            AWSShapeProperty(label: "registryId", required: false, type: .string), 
+            AWSShapeProperty(label: "repositoryName", required: true, type: .string)
         ]
         /// Force the deletion of the repository if it contains images.
         public let force: Bool?
@@ -1067,7 +1067,7 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "image", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "image", required: false, type: .structure)
         ]
         /// Details of the image uploaded.
         public let image: Image?
@@ -1085,11 +1085,11 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "repositoryName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "repositoryUri", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "registryId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "createdAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "repositoryArn", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "repositoryName", required: false, type: .string), 
+            AWSShapeProperty(label: "repositoryUri", required: false, type: .string), 
+            AWSShapeProperty(label: "registryId", required: false, type: .string), 
+            AWSShapeProperty(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "repositoryArn", required: false, type: .string)
         ]
         /// The name of the repository.
         public let repositoryName: String?
@@ -1123,9 +1123,9 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "registryId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "imageIds", location: nil, required: true, type: .list), 
-            AWSShapeProperty(label: "repositoryName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "registryId", required: false, type: .string), 
+            AWSShapeProperty(label: "imageIds", required: true, type: .list), 
+            AWSShapeProperty(label: "repositoryName", required: true, type: .string)
         ]
         /// The AWS account ID associated with the registry that contains the image to delete. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
@@ -1153,10 +1153,10 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "uploadId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "repositoryName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "registryId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "layerDigest", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "uploadId", required: false, type: .string), 
+            AWSShapeProperty(label: "repositoryName", required: false, type: .string), 
+            AWSShapeProperty(label: "registryId", required: false, type: .string), 
+            AWSShapeProperty(label: "layerDigest", required: false, type: .string)
         ]
         /// The upload ID associated with the layer.
         public let uploadId: String?
@@ -1186,12 +1186,12 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "uploadId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "layerPartBlob", location: nil, required: true, type: .blob), 
-            AWSShapeProperty(label: "repositoryName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "partLastByte", location: nil, required: true, type: .long), 
-            AWSShapeProperty(label: "registryId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "partFirstByte", location: nil, required: true, type: .long)
+            AWSShapeProperty(label: "uploadId", required: true, type: .string), 
+            AWSShapeProperty(label: "layerPartBlob", required: true, type: .blob), 
+            AWSShapeProperty(label: "repositoryName", required: true, type: .string), 
+            AWSShapeProperty(label: "partLastByte", required: true, type: .long), 
+            AWSShapeProperty(label: "registryId", required: false, type: .string), 
+            AWSShapeProperty(label: "partFirstByte", required: true, type: .long)
         ]
         /// The upload ID from a previous InitiateLayerUpload operation to associate with the layer part upload.
         public let uploadId: String
@@ -1234,10 +1234,10 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "uploadId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "repositoryName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "registryId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "layerDigests", location: nil, required: true, type: .list)
+            AWSShapeProperty(label: "uploadId", required: true, type: .string), 
+            AWSShapeProperty(label: "repositoryName", required: true, type: .string), 
+            AWSShapeProperty(label: "registryId", required: false, type: .string), 
+            AWSShapeProperty(label: "layerDigests", required: true, type: .list)
         ]
         /// The upload ID from a previous InitiateLayerUpload operation to associate with the image layer.
         public let uploadId: String
@@ -1276,7 +1276,7 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "tagStatus", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "tagStatus", required: false, type: .enum)
         ]
         /// The tag status with which to filter your DescribeImages results. You can filter results based on whether they are TAGGED or UNTAGGED.
         public let tagStatus: TagStatus?
@@ -1294,11 +1294,11 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "filter", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "repositoryName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "registryId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "filter", required: false, type: .structure), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
+            AWSShapeProperty(label: "repositoryName", required: true, type: .string), 
+            AWSShapeProperty(label: "registryId", required: false, type: .string)
         ]
         /// The filter key and value with which to filter your ListImages results.
         public let filter: ListImagesFilter?

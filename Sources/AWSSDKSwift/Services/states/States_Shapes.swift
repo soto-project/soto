@@ -33,8 +33,8 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "input", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "name", required: true, type: .string), 
+            AWSShapeProperty(label: "input", required: false, type: .string)
         ]
         /// The name of the state.
         public let name: String
@@ -65,7 +65,7 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "stopDate", location: nil, required: true, type: .timestamp)
+            AWSShapeProperty(label: "stopDate", required: true, type: .timestamp)
         ]
         /// The date the execution was stopped.
         public let stopDate: Date
@@ -84,8 +84,8 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "activityArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "creationDate", location: nil, required: true, type: .timestamp)
+            AWSShapeProperty(label: "activityArn", required: true, type: .string), 
+            AWSShapeProperty(label: "creationDate", required: true, type: .timestamp)
         ]
         /// The Amazon Resource Name (ARN) that identifies the created activity.
         public let activityArn: String
@@ -109,8 +109,8 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maxResults", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
         /// The maximum number of results that will be returned per call. nextToken can be used to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
         public let maxResults: Int32?
@@ -132,8 +132,8 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "events", location: nil, required: true, type: .list), 
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "events", required: true, type: .list), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
         /// The list of events that occurred in the execution.
         public let events: [HistoryEvent]
@@ -156,8 +156,8 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cause", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "error", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "cause", required: false, type: .string), 
+            AWSShapeProperty(label: "error", required: false, type: .string)
         ]
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -179,9 +179,9 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "activityArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "creationDate", location: nil, required: true, type: .timestamp)
+            AWSShapeProperty(label: "activityArn", required: true, type: .string), 
+            AWSShapeProperty(label: "name", required: true, type: .string), 
+            AWSShapeProperty(label: "creationDate", required: true, type: .timestamp)
         ]
         /// The Amazon Resource Name (ARN) that identifies the activity.
         public let activityArn: String
@@ -210,9 +210,9 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "activityArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "creationDate", location: nil, required: true, type: .timestamp)
+            AWSShapeProperty(label: "activityArn", required: true, type: .string), 
+            AWSShapeProperty(label: "name", required: true, type: .string), 
+            AWSShapeProperty(label: "creationDate", required: true, type: .timestamp)
         ]
         /// The Amazon Resource Name (ARN) that identifies the activity.
         public let activityArn: String
@@ -241,12 +241,12 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "stateMachineArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "startDate", location: nil, required: true, type: .timestamp), 
-            AWSShapeProperty(label: "stopDate", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "executionArn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "status", required: true, type: .enum), 
+            AWSShapeProperty(label: "name", required: true, type: .string), 
+            AWSShapeProperty(label: "stateMachineArn", required: true, type: .string), 
+            AWSShapeProperty(label: "startDate", required: true, type: .timestamp), 
+            AWSShapeProperty(label: "stopDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "executionArn", required: true, type: .string)
         ]
         /// The current status of the execution.
         public let status: ExecutionStatus
@@ -289,9 +289,9 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "input", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "stateMachineArn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "input", required: false, type: .string), 
+            AWSShapeProperty(label: "stateMachineArn", required: true, type: .string)
         ]
         /// The name of the execution. This name must be unique for your AWS account and region.
         public let name: String?
@@ -361,12 +361,12 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "stateMachineArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "creationDate", location: nil, required: true, type: .timestamp), 
-            AWSShapeProperty(label: "definition", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "roleArn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "status", required: false, type: .enum), 
+            AWSShapeProperty(label: "name", required: true, type: .string), 
+            AWSShapeProperty(label: "stateMachineArn", required: true, type: .string), 
+            AWSShapeProperty(label: "creationDate", required: true, type: .timestamp), 
+            AWSShapeProperty(label: "definition", required: true, type: .string), 
+            AWSShapeProperty(label: "roleArn", required: true, type: .string)
         ]
         /// The current status of the state machine.
         public let status: StateMachineStatus?
@@ -409,8 +409,8 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cause", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "error", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "cause", required: false, type: .string), 
+            AWSShapeProperty(label: "error", required: false, type: .string)
         ]
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -432,8 +432,8 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cause", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "error", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "cause", required: false, type: .string), 
+            AWSShapeProperty(label: "error", required: false, type: .string)
         ]
         /// A more detailed explanation of the cause of the timeout.
         public let cause: String?
@@ -455,8 +455,8 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "startDate", location: nil, required: true, type: .timestamp), 
-            AWSShapeProperty(label: "executionArn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "startDate", required: true, type: .timestamp), 
+            AWSShapeProperty(label: "executionArn", required: true, type: .string)
         ]
         /// The date the execution was started.
         public let startDate: Date
@@ -480,29 +480,29 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "lambdaFunctionSucceededEventDetails", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "lambdaFunctionFailedEventDetails", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "executionSucceededEventDetails", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "activityFailedEventDetails", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "executionTimedOutEventDetails", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "lambdaFunctionTimedOutEventDetails", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "executionAbortedEventDetails", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "executionFailedEventDetails", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "activityScheduledEventDetails", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "activityStartedEventDetails", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "type", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "stateEnteredEventDetails", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "executionStartedEventDetails", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "activityScheduleFailedEventDetails", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "timestamp", location: nil, required: true, type: .timestamp), 
-            AWSShapeProperty(label: "previousEventId", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "id", location: nil, required: true, type: .long), 
-            AWSShapeProperty(label: "activityTimedOutEventDetails", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "lambdaFunctionScheduledEventDetails", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "activitySucceededEventDetails", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "stateExitedEventDetails", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "lambdaFunctionScheduleFailedEventDetails", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "lambdaFunctionStartFailedEventDetails", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "lambdaFunctionSucceededEventDetails", required: false, type: .structure), 
+            AWSShapeProperty(label: "lambdaFunctionFailedEventDetails", required: false, type: .structure), 
+            AWSShapeProperty(label: "executionSucceededEventDetails", required: false, type: .structure), 
+            AWSShapeProperty(label: "activityFailedEventDetails", required: false, type: .structure), 
+            AWSShapeProperty(label: "executionTimedOutEventDetails", required: false, type: .structure), 
+            AWSShapeProperty(label: "lambdaFunctionTimedOutEventDetails", required: false, type: .structure), 
+            AWSShapeProperty(label: "executionAbortedEventDetails", required: false, type: .structure), 
+            AWSShapeProperty(label: "executionFailedEventDetails", required: false, type: .structure), 
+            AWSShapeProperty(label: "activityScheduledEventDetails", required: false, type: .structure), 
+            AWSShapeProperty(label: "activityStartedEventDetails", required: false, type: .structure), 
+            AWSShapeProperty(label: "type", required: true, type: .enum), 
+            AWSShapeProperty(label: "stateEnteredEventDetails", required: false, type: .structure), 
+            AWSShapeProperty(label: "executionStartedEventDetails", required: false, type: .structure), 
+            AWSShapeProperty(label: "activityScheduleFailedEventDetails", required: false, type: .structure), 
+            AWSShapeProperty(label: "timestamp", required: true, type: .timestamp), 
+            AWSShapeProperty(label: "previousEventId", required: false, type: .long), 
+            AWSShapeProperty(label: "id", required: true, type: .long), 
+            AWSShapeProperty(label: "activityTimedOutEventDetails", required: false, type: .structure), 
+            AWSShapeProperty(label: "lambdaFunctionScheduledEventDetails", required: false, type: .structure), 
+            AWSShapeProperty(label: "activitySucceededEventDetails", required: false, type: .structure), 
+            AWSShapeProperty(label: "stateExitedEventDetails", required: false, type: .structure), 
+            AWSShapeProperty(label: "lambdaFunctionScheduleFailedEventDetails", required: false, type: .structure), 
+            AWSShapeProperty(label: "lambdaFunctionStartFailedEventDetails", required: false, type: .structure)
         ]
         public let lambdaFunctionSucceededEventDetails: LambdaFunctionSucceededEventDetails?
         public let lambdaFunctionFailedEventDetails: LambdaFunctionFailedEventDetails?
@@ -592,8 +592,8 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "activities", location: nil, required: true, type: .list), 
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "activities", required: true, type: .list), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
         /// The list of activities.
         public let activities: [ActivityListItem]
@@ -624,8 +624,8 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maxResults", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
         /// The maximum number of results that will be returned per call. nextToken can be used to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
         public let maxResults: Int32?
@@ -647,8 +647,8 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "executions", location: nil, required: true, type: .list), 
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "executions", required: true, type: .list), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
         /// The list of matching executions.
         public let executions: [ExecutionListItem]
@@ -671,9 +671,9 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "definition", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "roleArn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "name", required: true, type: .string), 
+            AWSShapeProperty(label: "definition", required: true, type: .string), 
+            AWSShapeProperty(label: "roleArn", required: true, type: .string)
         ]
         /// The name of the state machine. This name must be unique for your AWS account and region.
         public let name: String
@@ -702,7 +702,7 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "taskToken", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "taskToken", required: true, type: .string)
         ]
         /// The token that represents this task. Task tokens are generated by the service when the tasks are assigned to a worker (see GetActivityTask::taskToken).
         public let taskToken: String
@@ -721,8 +721,8 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cause", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "error", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "cause", required: false, type: .string), 
+            AWSShapeProperty(label: "error", required: false, type: .string)
         ]
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -750,7 +750,7 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "output", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "output", required: false, type: .string)
         ]
         /// The JSON data output by the activity task.
         public let output: String?
@@ -768,9 +768,9 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "taskToken", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "cause", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "error", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "taskToken", required: true, type: .string), 
+            AWSShapeProperty(label: "cause", required: false, type: .string), 
+            AWSShapeProperty(label: "error", required: false, type: .string)
         ]
         /// The token that represents this task. Task tokens are generated by the service when the tasks are assigned to a worker (see GetActivityTask::taskToken).
         public let taskToken: String
@@ -797,8 +797,8 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "workerName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "activityArn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "workerName", required: false, type: .string), 
+            AWSShapeProperty(label: "activityArn", required: true, type: .string)
         ]
         /// An arbitrary name may be provided in order to identify the worker that the task is assigned to. This name will be used when it is logged in the execution history.
         public let workerName: String?
@@ -821,7 +821,7 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "activityArn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "activityArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the activity to describe.
         public let activityArn: String
@@ -840,9 +840,9 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "timeoutInSeconds", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "input", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "resource", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "timeoutInSeconds", required: false, type: .long), 
+            AWSShapeProperty(label: "input", required: false, type: .string), 
+            AWSShapeProperty(label: "resource", required: true, type: .string)
         ]
         /// The maximum allowed duration of the lambda function.
         public let timeoutInSeconds: Int64?
@@ -877,8 +877,8 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "taskToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "input", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "taskToken", required: false, type: .string), 
+            AWSShapeProperty(label: "input", required: false, type: .string)
         ]
         /// A token that identifies the scheduled task. This token must be copied and included in subsequent calls to SendTaskHeartbeat, SendTaskSuccess or SendTaskFailure in order to report the progress or completion of the task.
         public let taskToken: String?
@@ -900,8 +900,8 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "output", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "name", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "output", required: false, type: .string), 
+            AWSShapeProperty(label: "name", required: true, type: .string)
         ]
         /// The JSON output data of the state.
         public let output: String?
@@ -933,7 +933,7 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "output", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "output", required: false, type: .string)
         ]
         /// The JSON data output by the lambda function.
         public let output: String?
@@ -951,10 +951,10 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "timeoutInSeconds", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "input", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "heartbeatInSeconds", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "resource", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "timeoutInSeconds", required: false, type: .long), 
+            AWSShapeProperty(label: "input", required: false, type: .string), 
+            AWSShapeProperty(label: "heartbeatInSeconds", required: false, type: .long), 
+            AWSShapeProperty(label: "resource", required: true, type: .string)
         ]
         /// The maximum allowed duration of the activity task.
         public let timeoutInSeconds: Int64?
@@ -985,8 +985,8 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "stateMachineArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "creationDate", location: nil, required: true, type: .timestamp)
+            AWSShapeProperty(label: "stateMachineArn", required: true, type: .string), 
+            AWSShapeProperty(label: "creationDate", required: true, type: .timestamp)
         ]
         /// The Amazon Resource Name (ARN) that identifies the created state machine.
         public let stateMachineArn: String
@@ -1010,7 +1010,7 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "executionArn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "executionArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the execution to describe.
         public let executionArn: String
@@ -1029,7 +1029,7 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "activityArn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "activityArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the activity to delete.
         public let activityArn: String
@@ -1048,7 +1048,7 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "stateMachineArn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "stateMachineArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the state machine to delete.
         public let stateMachineArn: String
@@ -1067,7 +1067,7 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "stateMachineArn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "stateMachineArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the state machine to describe.
         public let stateMachineArn: String
@@ -1086,8 +1086,8 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "output", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "taskToken", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "output", required: true, type: .string), 
+            AWSShapeProperty(label: "taskToken", required: true, type: .string)
         ]
         /// The JSON output of the task.
         public let output: String
@@ -1111,8 +1111,8 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cause", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "error", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "cause", required: false, type: .string), 
+            AWSShapeProperty(label: "error", required: false, type: .string)
         ]
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -1134,8 +1134,8 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cause", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "error", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "cause", required: false, type: .string), 
+            AWSShapeProperty(label: "error", required: false, type: .string)
         ]
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -1157,8 +1157,8 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "stateMachines", location: nil, required: true, type: .list)
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "stateMachines", required: true, type: .list)
         ]
         /// If a nextToken is returned, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextToken. Keep all other arguments unchanged. The configured maxResults determines how many results can be returned in a single call.
         public let nextToken: String?
@@ -1180,7 +1180,7 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "name", required: true, type: .string)
         ]
         /// The name of the activity to create. This name must be unique for your AWS account and region.
         public let name: String
@@ -1199,10 +1199,10 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "statusFilter", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "maxResults", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "stateMachineArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "statusFilter", required: false, type: .enum), 
+            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
+            AWSShapeProperty(label: "stateMachineArn", required: true, type: .string), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
         /// If specified, only list the executions whose current execution status matches the given filter.
         public let statusFilter: ExecutionStatus?
@@ -1233,8 +1233,8 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cause", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "error", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "cause", required: false, type: .string), 
+            AWSShapeProperty(label: "error", required: false, type: .string)
         ]
         /// A more detailed explanation of the cause of the timeout.
         public let cause: String?
@@ -1256,10 +1256,10 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "reverseOrder", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "executionArn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
+            AWSShapeProperty(label: "reverseOrder", required: false, type: .boolean), 
+            AWSShapeProperty(label: "executionArn", required: true, type: .string)
         ]
         /// If a nextToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextToken. Keep all other arguments unchanged. The configured maxResults determines how many results can be returned in a single call.
         public let nextToken: String?
@@ -1290,8 +1290,8 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "roleArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "input", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "roleArn", required: false, type: .string), 
+            AWSShapeProperty(label: "input", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the IAM role used for executing AWS Lambda tasks.
         public let roleArn: String?
@@ -1313,8 +1313,8 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cause", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "error", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "cause", required: false, type: .string), 
+            AWSShapeProperty(label: "error", required: false, type: .string)
         ]
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -1336,7 +1336,7 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "workerName", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "workerName", required: false, type: .string)
         ]
         /// The name of the worker that the task was assigned to. These names are provided by the workers when calling GetActivityTask.
         public let workerName: String?
@@ -1354,9 +1354,9 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "stateMachineArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "creationDate", location: nil, required: true, type: .timestamp)
+            AWSShapeProperty(label: "stateMachineArn", required: true, type: .string), 
+            AWSShapeProperty(label: "name", required: true, type: .string), 
+            AWSShapeProperty(label: "creationDate", required: true, type: .timestamp)
         ]
         /// The Amazon Resource Name (ARN) that identifies the state machine.
         public let stateMachineArn: String
@@ -1393,8 +1393,8 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cause", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "error", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "cause", required: false, type: .string), 
+            AWSShapeProperty(label: "error", required: false, type: .string)
         ]
         /// A more detailed explanation of the cause of the timeout.
         public let cause: String?
@@ -1416,8 +1416,8 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cause", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "error", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "cause", required: false, type: .string), 
+            AWSShapeProperty(label: "error", required: false, type: .string)
         ]
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -1439,7 +1439,7 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "output", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "output", required: false, type: .string)
         ]
         /// The JSON data output by the execution.
         public let output: String?
@@ -1457,14 +1457,14 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "stopDate", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "startDate", location: nil, required: true, type: .timestamp), 
-            AWSShapeProperty(label: "output", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "executionArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "input", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "stateMachineArn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "status", required: true, type: .enum), 
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "stopDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "startDate", required: true, type: .timestamp), 
+            AWSShapeProperty(label: "output", required: false, type: .string), 
+            AWSShapeProperty(label: "executionArn", required: true, type: .string), 
+            AWSShapeProperty(label: "input", required: true, type: .string), 
+            AWSShapeProperty(label: "stateMachineArn", required: true, type: .string)
         ]
         /// The current status of the execution.
         public let status: ExecutionStatus
@@ -1515,9 +1515,9 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "error", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "executionArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "cause", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "error", required: false, type: .string), 
+            AWSShapeProperty(label: "executionArn", required: true, type: .string), 
+            AWSShapeProperty(label: "cause", required: false, type: .string)
         ]
         /// An arbitrary error code that identifies the cause of the termination.
         public let error: String?

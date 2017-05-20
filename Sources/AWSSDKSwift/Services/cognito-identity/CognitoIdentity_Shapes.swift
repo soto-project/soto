@@ -33,10 +33,10 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Claim", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "MatchType", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "Value", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "RoleARN", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Claim", required: true, type: .string), 
+            AWSShapeProperty(label: "MatchType", required: true, type: .enum), 
+            AWSShapeProperty(label: "Value", required: true, type: .string), 
+            AWSShapeProperty(label: "RoleARN", required: true, type: .string)
         ]
         /// The claim name that must be present in the token, for example, "isAdmin" or "paid".
         public let claim: String
@@ -70,13 +70,13 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OpenIdConnectProviderARNs", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "CognitoIdentityProviders", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "DeveloperProviderName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "IdentityPoolName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "AllowUnauthenticatedIdentities", location: nil, required: true, type: .boolean), 
-            AWSShapeProperty(label: "SupportedLoginProviders", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "SamlProviderARNs", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "OpenIdConnectProviderARNs", required: false, type: .list), 
+            AWSShapeProperty(label: "CognitoIdentityProviders", required: false, type: .list), 
+            AWSShapeProperty(label: "DeveloperProviderName", required: false, type: .string), 
+            AWSShapeProperty(label: "IdentityPoolName", required: true, type: .string), 
+            AWSShapeProperty(label: "AllowUnauthenticatedIdentities", required: true, type: .boolean), 
+            AWSShapeProperty(label: "SupportedLoginProviders", required: false, type: .map), 
+            AWSShapeProperty(label: "SamlProviderARNs", required: false, type: .list)
         ]
         /// A list of OpendID Connect provider ARNs.
         public let openIdConnectProviderARNs: [String]?
@@ -128,8 +128,8 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: true, type: .integer)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: true, type: .integer)
         ]
         /// A pagination token.
         public let nextToken: String?
@@ -152,10 +152,10 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SecretKey", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "AccessKeyId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "SessionToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Expiration", location: nil, required: false, type: .timestamp)
+            AWSShapeProperty(label: "SecretKey", required: false, type: .string), 
+            AWSShapeProperty(label: "AccessKeyId", required: false, type: .string), 
+            AWSShapeProperty(label: "SessionToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Expiration", required: false, type: .timestamp)
         ]
         /// The Secret Access Key portion of the credentials
         public let secretKey: String?
@@ -185,9 +185,9 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CustomRoleArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Logins", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "IdentityId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "CustomRoleArn", required: false, type: .string), 
+            AWSShapeProperty(label: "Logins", required: false, type: .map), 
+            AWSShapeProperty(label: "IdentityId", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the role to be assumed when multiple roles were received in the token from the identity provider. For example, a SAML-based identity provider. This parameter is optional for identity providers that do not support role customization.
         public let customRoleArn: String?
@@ -218,11 +218,11 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeveloperUserIdentifier", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "IdentityId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "IdentityPoolId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "DeveloperUserIdentifier", required: false, type: .string), 
+            AWSShapeProperty(label: "IdentityId", required: false, type: .string), 
+            AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// A unique ID used by your backend authentication process to identify a user. Typically, a developer identity provider would issue many developer user identifiers, in keeping with the number of users.
         public let developerUserIdentifier: String?
@@ -257,7 +257,7 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Rules", location: nil, required: true, type: .list)
+            AWSShapeProperty(label: "Rules", required: true, type: .list)
         ]
         /// An array of rules. You can specify up to 25 rules per identity provider. Rules are evaluated in order. The first one to match specifies the role.
         public let rules: [MappingRule]
@@ -276,14 +276,14 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OpenIdConnectProviderARNs", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "CognitoIdentityProviders", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "DeveloperProviderName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "IdentityPoolName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "AllowUnauthenticatedIdentities", location: nil, required: true, type: .boolean), 
-            AWSShapeProperty(label: "SupportedLoginProviders", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "IdentityPoolId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "SamlProviderARNs", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "OpenIdConnectProviderARNs", required: false, type: .list), 
+            AWSShapeProperty(label: "CognitoIdentityProviders", required: false, type: .list), 
+            AWSShapeProperty(label: "DeveloperProviderName", required: false, type: .string), 
+            AWSShapeProperty(label: "IdentityPoolName", required: true, type: .string), 
+            AWSShapeProperty(label: "AllowUnauthenticatedIdentities", required: true, type: .boolean), 
+            AWSShapeProperty(label: "SupportedLoginProviders", required: false, type: .map), 
+            AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string), 
+            AWSShapeProperty(label: "SamlProviderARNs", required: false, type: .list)
         ]
         /// A list of OpendID Connect provider ARNs.
         public let openIdConnectProviderARNs: [String]?
@@ -340,8 +340,8 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IdentityPoolId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "IdentityPoolName", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "IdentityPoolId", required: false, type: .string), 
+            AWSShapeProperty(label: "IdentityPoolName", required: false, type: .string)
         ]
         /// An identity pool ID in the format REGION:GUID.
         public let identityPoolId: String?
@@ -363,10 +363,10 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HideDisabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "IdentityPoolId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: true, type: .integer)
+            AWSShapeProperty(label: "HideDisabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: true, type: .integer)
         ]
         /// An optional boolean parameter that allows you to hide disabled identities. If omitted, the ListIdentities API will include disabled identities in the response.
         public let hideDisabled: Bool?
@@ -398,7 +398,7 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IdentityPoolId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string)
         ]
         /// An identity pool ID in the format REGION:GUID.
         public let identityPoolId: String
@@ -417,8 +417,8 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Credentials", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "IdentityId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Credentials", required: false, type: .structure), 
+            AWSShapeProperty(label: "IdentityId", required: false, type: .string)
         ]
         /// Credentials for the provided identity ID.
         public let credentials: Credentials?
@@ -440,10 +440,10 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DestinationUserIdentifier", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "IdentityPoolId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "SourceUserIdentifier", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DeveloperProviderName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "DestinationUserIdentifier", required: true, type: .string), 
+            AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string), 
+            AWSShapeProperty(label: "SourceUserIdentifier", required: true, type: .string), 
+            AWSShapeProperty(label: "DeveloperProviderName", required: true, type: .string)
         ]
         /// User identifier for the destination user. The value should be a DeveloperUserIdentifier.
         public let destinationUserIdentifier: String
@@ -477,7 +477,7 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UnprocessedIdentityIds", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "UnprocessedIdentityIds", required: false, type: .list)
         ]
         /// An array of UnprocessedIdentityId objects, each of which contains an ErrorCode and IdentityId.
         public let unprocessedIdentityIds: [UnprocessedIdentityId]?
@@ -499,10 +499,10 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TokenDuration", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "IdentityId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "IdentityPoolId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Logins", location: nil, required: true, type: .map)
+            AWSShapeProperty(label: "TokenDuration", required: false, type: .long), 
+            AWSShapeProperty(label: "IdentityId", required: false, type: .string), 
+            AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string), 
+            AWSShapeProperty(label: "Logins", required: true, type: .map)
         ]
         /// The expiration time of the token, in seconds. You can specify a custom expiration time for the token so that you can cache it. If you don't provide an expiration time, the token is valid for 15 minutes. You can exchange the token with Amazon STS for temporary AWS credentials, which are valid for a maximum of one hour. The maximum token duration you can set is 24 hours. You should take care in setting the expiration time for a token, as there are significant security implications: an attacker could use a leaked token to access your AWS resources for the token's duration.
         public let tokenDuration: Int64?
@@ -534,8 +534,8 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Logins", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "IdentityId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Logins", required: false, type: .map), 
+            AWSShapeProperty(label: "IdentityId", required: true, type: .string)
         ]
         /// A set of optional name-value pairs that map provider names to provider tokens. When using graph.facebook.com and www.amazon.com, supply the access_token returned from the provider's authflow. For accounts.google.com, an Amazon Cognito Identity Provider, or any other OpenId Connect provider, always include the id_token.
         public let logins: [String: String]?
@@ -562,7 +562,7 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IdentityIdsToDelete", location: nil, required: true, type: .list)
+            AWSShapeProperty(label: "IdentityIdsToDelete", required: true, type: .list)
         ]
         /// A list of 1-60 identities that you want to delete.
         public let identityIdsToDelete: [String]
@@ -581,9 +581,9 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "IdentityPoolId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Logins", location: nil, required: false, type: .map)
+            AWSShapeProperty(label: "AccountId", required: false, type: .string), 
+            AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string), 
+            AWSShapeProperty(label: "Logins", required: false, type: .map)
         ]
         /// A standard AWS account ID (9+ digits).
         public let accountId: String?
@@ -614,8 +614,8 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IdentityPools", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "IdentityPools", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// The identity pools returned by the ListIdentityPools action.
         public let identityPools: [IdentityPoolShortDescription]?
@@ -641,9 +641,9 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IdentityPoolId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "RoleMappings", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "Roles", location: nil, required: false, type: .map)
+            AWSShapeProperty(label: "IdentityPoolId", required: false, type: .string), 
+            AWSShapeProperty(label: "RoleMappings", required: false, type: .map), 
+            AWSShapeProperty(label: "Roles", required: false, type: .map)
         ]
         /// An identity pool ID in the format REGION:GUID.
         public let identityPoolId: String?
@@ -682,8 +682,8 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Token", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "IdentityId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Token", required: false, type: .string), 
+            AWSShapeProperty(label: "IdentityId", required: false, type: .string)
         ]
         /// An OpenID token.
         public let token: String?
@@ -705,7 +705,7 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IdentityPoolId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string)
         ]
         /// An identity pool ID in the format REGION:GUID.
         public let identityPoolId: String
@@ -724,7 +724,7 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IdentityPoolId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string)
         ]
         /// An identity pool ID in the format REGION:GUID.
         public let identityPoolId: String
@@ -743,10 +743,10 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeveloperUserIdentifier", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "IdentityId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "IdentityPoolId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DeveloperProviderName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "DeveloperUserIdentifier", required: true, type: .string), 
+            AWSShapeProperty(label: "IdentityId", required: true, type: .string), 
+            AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string), 
+            AWSShapeProperty(label: "DeveloperProviderName", required: true, type: .string)
         ]
         /// A unique ID used by your backend authentication process to identify a user.
         public let developerUserIdentifier: String
@@ -780,7 +780,7 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IdentityId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "IdentityId", required: false, type: .string)
         ]
         /// A unique identifier in the format REGION:GUID.
         public let identityId: String?
@@ -810,10 +810,10 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LastModifiedDate", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "CreationDate", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "IdentityId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Logins", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "LastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "CreationDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "IdentityId", required: false, type: .string), 
+            AWSShapeProperty(label: "Logins", required: false, type: .list)
         ]
         /// Date on which the identity was last modified.
         public let lastModifiedDate: Date?
@@ -843,9 +843,9 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IdentityPoolId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "RoleMappings", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "Roles", location: nil, required: true, type: .map)
+            AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string), 
+            AWSShapeProperty(label: "RoleMappings", required: false, type: .map), 
+            AWSShapeProperty(label: "Roles", required: true, type: .map)
         ]
         /// An identity pool ID in the format REGION:GUID.
         public let identityPoolId: String
@@ -882,9 +882,9 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Logins", location: nil, required: true, type: .map), 
-            AWSShapeProperty(label: "LoginsToRemove", location: nil, required: true, type: .list), 
-            AWSShapeProperty(label: "IdentityId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Logins", required: true, type: .map), 
+            AWSShapeProperty(label: "LoginsToRemove", required: true, type: .list), 
+            AWSShapeProperty(label: "IdentityId", required: true, type: .string)
         ]
         /// A set of optional name-value pairs that map provider names to provider tokens.
         public let logins: [String: String]
@@ -913,8 +913,8 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Token", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "IdentityId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Token", required: false, type: .string), 
+            AWSShapeProperty(label: "IdentityId", required: false, type: .string)
         ]
         /// An OpenID token, valid for 15 minutes.
         public let token: String?
@@ -936,9 +936,9 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServerSideTokenCheck", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "ProviderName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ClientId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "ServerSideTokenCheck", required: false, type: .boolean), 
+            AWSShapeProperty(label: "ProviderName", required: false, type: .string), 
+            AWSShapeProperty(label: "ClientId", required: false, type: .string)
         ]
         /// TRUE if server-side token validation is enabled for the identity provider’s token.
         public let serverSideTokenCheck: Bool?
@@ -964,9 +964,9 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IdentityPoolId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Identities", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "IdentityPoolId", required: false, type: .string), 
+            AWSShapeProperty(label: "Identities", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// An identity pool ID in the format REGION:GUID.
         public let identityPoolId: String?
@@ -996,9 +996,9 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeveloperUserIdentifierList", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "IdentityId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "DeveloperUserIdentifierList", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "IdentityId", required: false, type: .string)
         ]
         /// This is the list of developer user identifiers associated with an identity ID. Cognito supports the association of multiple developer user identifiers with an identity ID.
         public let developerUserIdentifierList: [String]?
@@ -1024,8 +1024,8 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ErrorCode", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "IdentityId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "ErrorCode", required: false, type: .enum), 
+            AWSShapeProperty(label: "IdentityId", required: false, type: .string)
         ]
         /// The error code indicating the type of error that occurred.
         public let errorCode: ErrorCode?
@@ -1047,7 +1047,7 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IdentityId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "IdentityId", required: false, type: .string)
         ]
         /// A unique identifier in the format REGION:GUID.
         public let identityId: String?
@@ -1073,9 +1073,9 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "RulesConfiguration", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "AmbiguousRoleResolution", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "Type", required: true, type: .enum), 
+            AWSShapeProperty(label: "RulesConfiguration", required: false, type: .structure), 
+            AWSShapeProperty(label: "AmbiguousRoleResolution", required: false, type: .enum)
         ]
         /// The role mapping type. Token will use cognito:roles and cognito:preferred_role claims from the Cognito identity provider token to map groups to roles. Rules will attempt to match claims from the token to map to a role.
         public let `type`: RoleMappingType
@@ -1108,7 +1108,7 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IdentityId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "IdentityId", required: true, type: .string)
         ]
         /// A unique identifier in the format REGION:GUID.
         public let identityId: String

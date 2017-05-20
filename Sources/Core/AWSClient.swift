@@ -182,7 +182,7 @@ public struct AWSClient {
                             continue
                         }
                         
-                        guard let hint = Output.parsingHints.filter({ $0.location == rel }).first else {
+                        guard let hint = Output.parsingHints.filter({ $0.location?.name == rel }).first else {
                             continue
                         }
                         

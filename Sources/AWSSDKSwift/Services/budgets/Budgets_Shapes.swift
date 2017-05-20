@@ -33,8 +33,8 @@ extension Budgets {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "BudgetName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "BudgetName", required: true, type: .string)
         ]
         public let accountId: String
         public let budgetName: String
@@ -56,8 +56,8 @@ extension Budgets {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Budgets", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Budgets", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         public let budgets: [Budget]?
         public let nextToken: String?
@@ -81,8 +81,8 @@ extension Budgets {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "BudgetName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "BudgetName", required: true, type: .string)
         ]
         public let accountId: String
         public let budgetName: String
@@ -104,7 +104,7 @@ extension Budgets {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Budget", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Budget", required: false, type: .structure)
         ]
         public let budget: Budget?
 
@@ -121,9 +121,9 @@ extension Budgets {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Notification", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "BudgetName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "Notification", required: true, type: .structure), 
+            AWSShapeProperty(label: "BudgetName", required: true, type: .string)
         ]
         public let accountId: String
         public let notification: Notification
@@ -149,8 +149,8 @@ extension Budgets {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Subscribers", location: nil, required: true, type: .list), 
-            AWSShapeProperty(label: "Notification", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "Subscribers", required: true, type: .list), 
+            AWSShapeProperty(label: "Notification", required: true, type: .structure)
         ]
         public let subscribers: [Subscriber]
         public let notification: Notification
@@ -172,11 +172,11 @@ extension Budgets {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Notification", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "OldSubscriber", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "BudgetName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "NewSubscriber", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "Notification", required: true, type: .structure), 
+            AWSShapeProperty(label: "OldSubscriber", required: true, type: .structure), 
+            AWSShapeProperty(label: "BudgetName", required: true, type: .string), 
+            AWSShapeProperty(label: "NewSubscriber", required: true, type: .structure)
         ]
         public let accountId: String
         public let notification: Notification
@@ -224,10 +224,10 @@ extension Budgets {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Notification", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "Subscribers", location: nil, required: true, type: .list), 
-            AWSShapeProperty(label: "BudgetName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "Notification", required: true, type: .structure), 
+            AWSShapeProperty(label: "Subscribers", required: true, type: .list), 
+            AWSShapeProperty(label: "BudgetName", required: true, type: .string)
         ]
         public let accountId: String
         public let notification: Notification
@@ -265,8 +265,8 @@ extension Budgets {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Notifications", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Notifications", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         public let notifications: [Notification]?
         public let nextToken: String?
@@ -290,10 +290,10 @@ extension Budgets {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Subscriber", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "Notification", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "BudgetName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "Subscriber", required: true, type: .structure), 
+            AWSShapeProperty(label: "Notification", required: true, type: .structure), 
+            AWSShapeProperty(label: "BudgetName", required: true, type: .string)
         ]
         public let accountId: String
         public let subscriber: Subscriber
@@ -331,9 +331,9 @@ extension Budgets {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IncludeSubscription", location: nil, required: true, type: .boolean), 
-            AWSShapeProperty(label: "UseBlended", location: nil, required: true, type: .boolean), 
-            AWSShapeProperty(label: "IncludeTax", location: nil, required: true, type: .boolean)
+            AWSShapeProperty(label: "IncludeSubscription", required: true, type: .boolean), 
+            AWSShapeProperty(label: "UseBlended", required: true, type: .boolean), 
+            AWSShapeProperty(label: "IncludeTax", required: true, type: .boolean)
         ]
         public let includeSubscription: Bool
         public let useBlended: Bool
@@ -367,9 +367,9 @@ extension Budgets {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         public let accountId: String
         public let nextToken: String?
@@ -401,9 +401,9 @@ extension Budgets {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Budget", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "NotificationsWithSubscribers", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "Budget", required: true, type: .structure), 
+            AWSShapeProperty(label: "NotificationsWithSubscribers", required: false, type: .list)
         ]
         public let accountId: String
         public let budget: Budget
@@ -440,10 +440,10 @@ extension Budgets {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "OldNotification", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "NewNotification", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "BudgetName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "OldNotification", required: true, type: .structure), 
+            AWSShapeProperty(label: "NewNotification", required: true, type: .structure), 
+            AWSShapeProperty(label: "BudgetName", required: true, type: .string)
         ]
         public let accountId: String
         public let oldNotification: Notification
@@ -495,11 +495,11 @@ extension Budgets {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Notification", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "BudgetName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "Notification", required: true, type: .structure), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "BudgetName", required: true, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         public let accountId: String
         public let notification: Notification
@@ -531,10 +531,10 @@ extension Budgets {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Subscriber", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "Notification", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "BudgetName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "Subscriber", required: true, type: .structure), 
+            AWSShapeProperty(label: "Notification", required: true, type: .structure), 
+            AWSShapeProperty(label: "BudgetName", required: true, type: .string)
         ]
         public let accountId: String
         public let subscriber: Subscriber
@@ -572,9 +572,9 @@ extension Budgets {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ComparisonOperator", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "Threshold", location: nil, required: true, type: .double), 
-            AWSShapeProperty(label: "NotificationType", location: nil, required: true, type: .enum)
+            AWSShapeProperty(label: "ComparisonOperator", required: true, type: .enum), 
+            AWSShapeProperty(label: "Threshold", required: true, type: .double), 
+            AWSShapeProperty(label: "NotificationType", required: true, type: .enum)
         ]
         public let comparisonOperator: ComparisonOperator
         public let threshold: Double
@@ -600,8 +600,8 @@ extension Budgets {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Address", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "SubscriptionType", location: nil, required: true, type: .enum)
+            AWSShapeProperty(label: "Address", required: true, type: .string), 
+            AWSShapeProperty(label: "SubscriptionType", required: true, type: .enum)
         ]
         public let address: String
         public let subscriptionType: SubscriptionType
@@ -623,10 +623,10 @@ extension Budgets {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "BudgetName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "BudgetName", required: true, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         public let accountId: String
         public let nextToken: String?
@@ -654,8 +654,8 @@ extension Budgets {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "NewBudget", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "NewBudget", required: true, type: .structure)
         ]
         public let accountId: String
         public let newBudget: Budget
@@ -684,14 +684,14 @@ extension Budgets {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TimeUnit", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "BudgetLimit", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "BudgetName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "TimePeriod", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "BudgetType", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "CostFilters", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "CalculatedSpend", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "CostTypes", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "TimeUnit", required: true, type: .enum), 
+            AWSShapeProperty(label: "BudgetLimit", required: true, type: .structure), 
+            AWSShapeProperty(label: "BudgetName", required: true, type: .string), 
+            AWSShapeProperty(label: "TimePeriod", required: true, type: .structure), 
+            AWSShapeProperty(label: "BudgetType", required: true, type: .enum), 
+            AWSShapeProperty(label: "CostFilters", required: false, type: .map), 
+            AWSShapeProperty(label: "CalculatedSpend", required: false, type: .structure), 
+            AWSShapeProperty(label: "CostTypes", required: true, type: .structure)
         ]
         public let timeUnit: TimeUnit
         public let budgetLimit: Spend
@@ -744,8 +744,8 @@ extension Budgets {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Start", location: nil, required: true, type: .timestamp), 
-            AWSShapeProperty(label: "End", location: nil, required: true, type: .timestamp)
+            AWSShapeProperty(label: "Start", required: true, type: .timestamp), 
+            AWSShapeProperty(label: "End", required: true, type: .timestamp)
         ]
         public let start: Date
         public let end: Date
@@ -767,8 +767,8 @@ extension Budgets {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ForecastedSpend", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "ActualSpend", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "ForecastedSpend", required: false, type: .structure), 
+            AWSShapeProperty(label: "ActualSpend", required: true, type: .structure)
         ]
         public let forecastedSpend: Spend?
         public let actualSpend: Spend
@@ -789,8 +789,8 @@ extension Budgets {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Unit", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Amount", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Unit", required: true, type: .string), 
+            AWSShapeProperty(label: "Amount", required: true, type: .string)
         ]
         public let unit: String
         public let amount: String
@@ -812,8 +812,8 @@ extension Budgets {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Subscribers", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Subscribers", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         public let subscribers: [Subscriber]?
         public let nextToken: String?

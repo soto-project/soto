@@ -33,11 +33,11 @@ extension Runtimelex {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "attachmentLinkUrl", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "title", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "imageUrl", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "buttons", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "subTitle", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "attachmentLinkUrl", required: false, type: .string), 
+            AWSShapeProperty(label: "title", required: false, type: .string), 
+            AWSShapeProperty(label: "imageUrl", required: false, type: .string), 
+            AWSShapeProperty(label: "buttons", required: false, type: .list), 
+            AWSShapeProperty(label: "subTitle", required: false, type: .string)
         ]
         public let attachmentLinkUrl: String?
         /// Title of the option.
@@ -74,9 +74,9 @@ extension Runtimelex {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "genericAttachments", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "version", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "contentType", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "genericAttachments", required: false, type: .list), 
+            AWSShapeProperty(label: "version", required: false, type: .string), 
+            AWSShapeProperty(label: "contentType", required: false, type: .enum)
         ]
         /// An array of attachment objects representing options.
         public let genericAttachments: [GenericAttachment]?
@@ -116,13 +116,13 @@ extension Runtimelex {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "slotToElicit", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "slots", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "sessionAttributes", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "message", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "dialogState", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "intentName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "responseCard", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "slotToElicit", required: false, type: .string), 
+            AWSShapeProperty(label: "slots", required: false, type: .map), 
+            AWSShapeProperty(label: "sessionAttributes", required: false, type: .map), 
+            AWSShapeProperty(label: "message", required: false, type: .string), 
+            AWSShapeProperty(label: "dialogState", required: false, type: .enum), 
+            AWSShapeProperty(label: "intentName", required: false, type: .string), 
+            AWSShapeProperty(label: "responseCard", required: false, type: .structure)
         ]
         /// If dialogState value is ElicitSlot, returns the name of the slot for which Amazon Lex is eliciting a value. 
         public let slotToElicit: String?
@@ -171,15 +171,12 @@ extension Runtimelex {
     public struct PostTextRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["botAlias": "botAlias", "userId": "userId", "botName": "botName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "botAlias", location: "botAlias", required: true, type: .string), 
-            AWSShapeProperty(label: "sessionAttributes", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "userId", location: "userId", required: true, type: .string), 
-            AWSShapeProperty(label: "inputText", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "botName", location: "botName", required: true, type: .string)
+            AWSShapeProperty(label: "botAlias", location: .uri(locationName: "botAlias"), required: true, type: .string), 
+            AWSShapeProperty(label: "sessionAttributes", required: false, type: .map), 
+            AWSShapeProperty(label: "userId", location: .uri(locationName: "userId"), required: true, type: .string), 
+            AWSShapeProperty(label: "inputText", required: true, type: .string), 
+            AWSShapeProperty(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string)
         ]
         /// Alias of the Amazon Lex bot.
         public let botAlias: String
@@ -226,8 +223,8 @@ extension Runtimelex {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "text", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "value", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "text", required: true, type: .string), 
+            AWSShapeProperty(label: "value", required: true, type: .string)
         ]
         /// Text visible to the user on the button.
         public let text: String

@@ -79,27 +79,21 @@ public struct XMLNamespace {
 }
 
 public enum Location {
-    case uri(locationName: String, replaceTo: String)
-    case querystring(locationName: String, replaceTo: String)
-    case header(locationName: String, replaceTo: String)
+    case uri(locationName: String)
+    case querystring(locationName: String)
+    case header(locationName: String)
+    case body(locationName: String)
     
-    public init?(key: String, json: JSON) {
-        guard let loc = json["location"].string, let name = json["locationName"].string else {
-            return nil
-        }
-        
-        switch loc.lowercased() {
-        case "uri":
-            self = .uri(locationName: name, replaceTo: key)
-            
-        case "querystring":
-            self = .querystring(locationName: name, replaceTo: key)
-            
-        case "header":
-            self = .header(locationName: name, replaceTo: key)
-            
-        default:
-            return nil
+    var name: String {
+        switch self {
+        case .uri(locationName: let name):
+            return name
+        case .querystring(locationName: let name):
+            return name
+        case .header(locationName: let name):
+            return name
+        case .body(locationName: let name):
+            return name
         }
     }
 }

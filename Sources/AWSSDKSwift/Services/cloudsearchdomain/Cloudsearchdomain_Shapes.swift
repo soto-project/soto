@@ -33,8 +33,8 @@ extension Cloudsearchdomain {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "value", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "count", location: nil, required: false, type: .long)
+            AWSShapeProperty(label: "value", required: false, type: .string), 
+            AWSShapeProperty(label: "count", required: false, type: .long)
         ]
         /// The facet value being counted.
         public let value: String?
@@ -56,8 +56,8 @@ extension Cloudsearchdomain {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "suggest", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "status", required: false, type: .structure), 
+            AWSShapeProperty(label: "suggest", required: false, type: .structure)
         ]
         /// The status of a SuggestRequest. Contains the resource ID (rid) and how long it took to process the request (timems).
         public let status: SuggestStatus?
@@ -87,14 +87,14 @@ extension Cloudsearchdomain {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "stddev", location: nil, required: false, type: .double), 
-            AWSShapeProperty(label: "max", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "count", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "min", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "missing", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "sumOfSquares", location: nil, required: false, type: .double), 
-            AWSShapeProperty(label: "sum", location: nil, required: false, type: .double), 
-            AWSShapeProperty(label: "mean", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "stddev", required: false, type: .double), 
+            AWSShapeProperty(label: "max", required: false, type: .string), 
+            AWSShapeProperty(label: "count", required: false, type: .long), 
+            AWSShapeProperty(label: "min", required: false, type: .string), 
+            AWSShapeProperty(label: "missing", required: false, type: .long), 
+            AWSShapeProperty(label: "sumOfSquares", required: false, type: .double), 
+            AWSShapeProperty(label: "sum", required: false, type: .double), 
+            AWSShapeProperty(label: "mean", required: false, type: .string)
         ]
         /// The standard deviation of the values in the specified field in the result set.
         public let stddev: Double?
@@ -140,8 +140,8 @@ extension Cloudsearchdomain {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "rid", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "timems", location: nil, required: false, type: .long)
+            AWSShapeProperty(label: "rid", required: false, type: .string), 
+            AWSShapeProperty(label: "timems", required: false, type: .long)
         ]
         /// The encrypted resource ID for the request.
         public let rid: String?
@@ -163,10 +163,10 @@ extension Cloudsearchdomain {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "hits", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "status", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "stats", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "facets", location: nil, required: false, type: .map)
+            AWSShapeProperty(label: "hits", required: false, type: .structure), 
+            AWSShapeProperty(label: "status", required: false, type: .structure), 
+            AWSShapeProperty(label: "stats", required: false, type: .map), 
+            AWSShapeProperty(label: "facets", required: false, type: .map)
         ]
         /// The documents that match the search criteria.
         public let hits: Hits?
@@ -213,13 +213,10 @@ extension Cloudsearchdomain {
     public struct SuggestRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["suggester": "suggester", "size": "size", "q": "query"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "suggester", location: "suggester", required: true, type: .string), 
-            AWSShapeProperty(label: "size", location: "size", required: false, type: .long), 
-            AWSShapeProperty(label: "query", location: "q", required: true, type: .string)
+            AWSShapeProperty(label: "suggester", location: .querystring(locationName: "suggester"), required: true, type: .string), 
+            AWSShapeProperty(label: "size", location: .querystring(locationName: "size"), required: false, type: .long), 
+            AWSShapeProperty(label: "query", location: .querystring(locationName: "q"), required: true, type: .string)
         ]
         /// Specifies the name of the suggester to use to find suggested matches.
         public let suggester: String
@@ -247,9 +244,9 @@ extension Cloudsearchdomain {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "suggestions", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "found", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "query", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "suggestions", required: false, type: .list), 
+            AWSShapeProperty(label: "found", required: false, type: .long), 
+            AWSShapeProperty(label: "query", required: false, type: .string)
         ]
         /// The documents that match the query string.
         public let suggestions: [SuggestionMatch]?
@@ -285,7 +282,7 @@ extension Cloudsearchdomain {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "message", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "message", required: false, type: .string)
         ]
         /// The description for a warning returned by the document service.
         public let message: String?
@@ -303,10 +300,10 @@ extension Cloudsearchdomain {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "hit", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "cursor", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "start", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "found", location: nil, required: false, type: .long)
+            AWSShapeProperty(label: "hit", required: false, type: .list), 
+            AWSShapeProperty(label: "cursor", required: false, type: .string), 
+            AWSShapeProperty(label: "start", required: false, type: .long), 
+            AWSShapeProperty(label: "found", required: false, type: .long)
         ]
         /// A document that matches the search request.
         public let hit: [Hit]?
@@ -340,9 +337,9 @@ extension Cloudsearchdomain {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "id", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "score", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "suggestion", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "id", required: false, type: .string), 
+            AWSShapeProperty(label: "score", required: false, type: .long), 
+            AWSShapeProperty(label: "suggestion", required: false, type: .string)
         ]
         /// The document ID of the suggested document.
         public let id: String?
@@ -367,12 +364,9 @@ extension Cloudsearchdomain {
     public struct UploadDocumentsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = "documents"
-        public static var headerParams: [String: String] {
-            return ["Content-Type": "contentType"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "documents", location: nil, required: true, type: .blob), 
-            AWSShapeProperty(label: "contentType", location: "Content-Type", required: true, type: .enum)
+            AWSShapeProperty(label: "documents", required: true, type: .blob), 
+            AWSShapeProperty(label: "contentType", location: .header(locationName: "Content-Type"), required: true, type: .enum)
         ]
         /// A batch of documents formatted in JSON or HTML.
         public let documents: Data
@@ -396,7 +390,7 @@ extension Cloudsearchdomain {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "buckets", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "buckets", required: false, type: .list)
         ]
         /// A list of the calculated facet values and counts.
         public let buckets: [Bucket]?
@@ -418,8 +412,8 @@ extension Cloudsearchdomain {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "rid", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "timems", location: nil, required: false, type: .long)
+            AWSShapeProperty(label: "rid", required: false, type: .string), 
+            AWSShapeProperty(label: "timems", required: false, type: .long)
         ]
         /// The encrypted resource ID for the request.
         public let rid: String?
@@ -441,10 +435,10 @@ extension Cloudsearchdomain {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "fields", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "id", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "exprs", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "highlights", location: nil, required: false, type: .map)
+            AWSShapeProperty(label: "fields", required: false, type: .map), 
+            AWSShapeProperty(label: "id", required: false, type: .string), 
+            AWSShapeProperty(label: "exprs", required: false, type: .map), 
+            AWSShapeProperty(label: "highlights", required: false, type: .map)
         ]
         /// The fields returned from a document that matches the search request.
         public let fields: [String: [String]]?
@@ -490,24 +484,21 @@ extension Cloudsearchdomain {
     public struct SearchRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["sort": "sort", "expr": "expr", "size": "size", "highlight": "highlight", "q.options": "queryOptions", "q": "query", "start": "start", "stats": "stats", "facet": "facet", "fq": "filterQuery", "return": "return", "partial": "partial", "cursor": "cursor", "q.parser": "queryParser"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "sort", location: "sort", required: false, type: .string), 
-            AWSShapeProperty(label: "expr", location: "expr", required: false, type: .string), 
-            AWSShapeProperty(label: "size", location: "size", required: false, type: .long), 
-            AWSShapeProperty(label: "highlight", location: "highlight", required: false, type: .string), 
-            AWSShapeProperty(label: "query", location: "q", required: true, type: .string), 
-            AWSShapeProperty(label: "start", location: "start", required: false, type: .long), 
-            AWSShapeProperty(label: "stats", location: "stats", required: false, type: .string), 
-            AWSShapeProperty(label: "queryParser", location: "q.parser", required: false, type: .enum), 
-            AWSShapeProperty(label: "facet", location: "facet", required: false, type: .string), 
-            AWSShapeProperty(label: "filterQuery", location: "fq", required: false, type: .string), 
-            AWSShapeProperty(label: "return", location: "return", required: false, type: .string), 
-            AWSShapeProperty(label: "partial", location: "partial", required: false, type: .boolean), 
-            AWSShapeProperty(label: "cursor", location: "cursor", required: false, type: .string), 
-            AWSShapeProperty(label: "queryOptions", location: "q.options", required: false, type: .string)
+            AWSShapeProperty(label: "sort", location: .querystring(locationName: "sort"), required: false, type: .string), 
+            AWSShapeProperty(label: "expr", location: .querystring(locationName: "expr"), required: false, type: .string), 
+            AWSShapeProperty(label: "size", location: .querystring(locationName: "size"), required: false, type: .long), 
+            AWSShapeProperty(label: "highlight", location: .querystring(locationName: "highlight"), required: false, type: .string), 
+            AWSShapeProperty(label: "query", location: .querystring(locationName: "q"), required: true, type: .string), 
+            AWSShapeProperty(label: "start", location: .querystring(locationName: "start"), required: false, type: .long), 
+            AWSShapeProperty(label: "stats", location: .querystring(locationName: "stats"), required: false, type: .string), 
+            AWSShapeProperty(label: "queryParser", location: .querystring(locationName: "q.parser"), required: false, type: .enum), 
+            AWSShapeProperty(label: "facet", location: .querystring(locationName: "facet"), required: false, type: .string), 
+            AWSShapeProperty(label: "filterQuery", location: .querystring(locationName: "fq"), required: false, type: .string), 
+            AWSShapeProperty(label: "return", location: .querystring(locationName: "return"), required: false, type: .string), 
+            AWSShapeProperty(label: "partial", location: .querystring(locationName: "partial"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "cursor", location: .querystring(locationName: "cursor"), required: false, type: .string), 
+            AWSShapeProperty(label: "queryOptions", location: .querystring(locationName: "q.options"), required: false, type: .string)
         ]
         /// Specifies the fields or custom expressions to use to sort the search results. Multiple fields or expressions are specified as a comma-separated list. You must specify the sort direction (asc or desc) for each field; for example, year desc,title asc. To use a field to sort results, the field must be sort-enabled in the domain configuration. Array type fields cannot be used for sorting. If no sort parameter is specified, results are sorted by their default relevance scores in descending order: _score desc. You can also sort by document ID (_id asc) and version (_version desc). For more information, see Sorting Results in the Amazon CloudSearch Developer Guide.
         public let sort: String?
@@ -578,10 +569,10 @@ extension Cloudsearchdomain {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "deletes", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "adds", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "warnings", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "status", required: false, type: .string), 
+            AWSShapeProperty(label: "deletes", required: false, type: .long), 
+            AWSShapeProperty(label: "adds", required: false, type: .long), 
+            AWSShapeProperty(label: "warnings", required: false, type: .list)
         ]
         /// The status of an UploadDocumentsRequest.
         public let status: String?

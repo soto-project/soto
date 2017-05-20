@@ -33,8 +33,8 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyRange", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "BucketArn", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "KeyRange", required: false, type: .structure), 
+            AWSShapeProperty(label: "BucketArn", required: false, type: .string)
         ]
         /// For export jobs, you can provide an optional KeyRange within a specific Amazon S3 bucket. The length of the range is defined at job creation, and has either an inclusive BeginMarker, an inclusive EndMarker, or both. Ranges are UTF-8 binary sorted.
         public let keyRange: KeyRange?
@@ -56,14 +56,14 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ShippingOption", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "SnowballCapacityPreference", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "AddressId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "RoleARN", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Notification", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Resources", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "JobId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "ShippingOption", required: false, type: .enum), 
+            AWSShapeProperty(label: "SnowballCapacityPreference", required: false, type: .enum), 
+            AWSShapeProperty(label: "AddressId", required: false, type: .string), 
+            AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
+            AWSShapeProperty(label: "Notification", required: false, type: .structure), 
+            AWSShapeProperty(label: "Resources", required: false, type: .structure), 
+            AWSShapeProperty(label: "JobId", required: true, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
         /// The updated shipping option value of this job's ShippingDetails object.
         public let shippingOption: ShippingOption?
@@ -118,8 +118,8 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "S3Resources", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "LambdaResources", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "S3Resources", required: false, type: .list), 
+            AWSShapeProperty(label: "LambdaResources", required: false, type: .list)
         ]
         /// An array of S3Resource objects.
         public let s3Resources: [S3Resource]?
@@ -149,7 +149,7 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "ClusterId", required: true, type: .string)
         ]
         /// The 39-character ID for the cluster that you want to cancel, for example CID123e4567-e89b-12d3-a456-426655440000.
         public let clusterId: String
@@ -168,9 +168,9 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ShippingOption", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "InboundShipment", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "OutboundShipment", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "ShippingOption", required: false, type: .enum), 
+            AWSShapeProperty(label: "InboundShipment", required: false, type: .structure), 
+            AWSShapeProperty(label: "OutboundShipment", required: false, type: .structure)
         ]
         /// The shipping speed for a particular job. This speed doesn't dictate how soon you'll get the Snowball from the job's creation date. This speed represents how quickly it moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, Snowballs shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snowballs shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snowballs are delivered in one to seven days.   In the United States of America (US), you have access to one-day shipping and two-day shipping.  
         public let shippingOption: ShippingOption?
@@ -196,9 +196,9 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ClusterId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "ClusterId", required: true, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// HTTP requests are stateless. To identify what object comes "next" in the list of JobListEntry objects, you have the option of specifying NextToken as the starting point for your returned list.
         public let nextToken: String?
@@ -233,7 +233,7 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EventResourceARN", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "EventResourceARN", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) for any local Amazon S3 resource that is an AWS Lambda function's event trigger associated with this job.
         public let eventResourceARN: String?
@@ -251,7 +251,7 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "JobId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "JobId", required: true, type: .string)
         ]
         /// The ID for the job that you want to get the UnlockCode value for, for example JID123e4567-e89b-12d3-a456-426655440000.
         public let jobId: String
@@ -270,8 +270,8 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BeginMarker", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "EndMarker", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "BeginMarker", required: false, type: .string), 
+            AWSShapeProperty(label: "EndMarker", required: false, type: .string)
         ]
         /// The key that starts an optional key range for an export job. Ranges are inclusive and UTF-8 binary sorted.
         public let beginMarker: String?
@@ -299,7 +299,7 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterMetadata", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "ClusterMetadata", required: false, type: .structure)
         ]
         /// Information about a specific cluster, including shipping information, cluster status, and other important metadata.
         public let clusterMetadata: ClusterMetadata?
@@ -317,19 +317,19 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Landmark", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "PhoneNumber", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Country", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Street1", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "PostalCode", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Street2", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "StateOrProvince", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "PrefectureOrDistrict", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "AddressId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "City", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Street3", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Company", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Landmark", required: false, type: .string), 
+            AWSShapeProperty(label: "PhoneNumber", required: false, type: .string), 
+            AWSShapeProperty(label: "Country", required: false, type: .string), 
+            AWSShapeProperty(label: "Street1", required: false, type: .string), 
+            AWSShapeProperty(label: "PostalCode", required: false, type: .string), 
+            AWSShapeProperty(label: "Street2", required: false, type: .string), 
+            AWSShapeProperty(label: "StateOrProvince", required: false, type: .string), 
+            AWSShapeProperty(label: "PrefectureOrDistrict", required: false, type: .string), 
+            AWSShapeProperty(label: "AddressId", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "City", required: false, type: .string), 
+            AWSShapeProperty(label: "Street3", required: false, type: .string), 
+            AWSShapeProperty(label: "Company", required: false, type: .string)
         ]
         /// The landmark identifying the address that the appliance will be shipped to.
         public let landmark: String?
@@ -404,8 +404,8 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterListEntries", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "ClusterListEntries", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// Each ClusterListEntry object contains a cluster's state, a cluster's ID, and other important status information.
         public let clusterListEntries: [ClusterListEntry]?
@@ -463,7 +463,7 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "ClusterId", required: false, type: .string)
         ]
         /// The automatically generated ID for a cluster.
         public let clusterId: String?
@@ -481,15 +481,15 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ShippingOption", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "AddressId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "KmsKeyARN", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "JobType", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "Notification", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "RoleARN", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "SnowballType", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Resources", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "ShippingOption", required: true, type: .enum), 
+            AWSShapeProperty(label: "AddressId", required: true, type: .string), 
+            AWSShapeProperty(label: "KmsKeyARN", required: false, type: .string), 
+            AWSShapeProperty(label: "JobType", required: true, type: .enum), 
+            AWSShapeProperty(label: "Notification", required: false, type: .structure), 
+            AWSShapeProperty(label: "RoleARN", required: true, type: .string), 
+            AWSShapeProperty(label: "SnowballType", required: false, type: .enum), 
+            AWSShapeProperty(label: "Resources", required: true, type: .structure), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
         /// The shipping speed for each node in this cluster. This speed doesn't dictate how soon you'll get each Snowball Edge appliance, rather it represents how quickly each appliance moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, appliances shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snowball Edges shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snowball Edges are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.  
         public let shippingOption: ShippingOption
@@ -544,7 +544,7 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "ClusterId", required: true, type: .string)
         ]
         /// The automatically generated ID for a cluster.
         public let clusterId: String
@@ -563,8 +563,8 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// HTTP requests are stateless. To identify what object comes "next" in the list of ClusterListEntry objects, you have the option of specifying NextToken as the starting point for your returned list.
         public let nextToken: String?
@@ -586,7 +586,7 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Address", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "Address", required: true, type: .structure)
         ]
         /// The address that you want the Snowball shipped to.
         public let address: Address
@@ -605,8 +605,8 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Addresses", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Addresses", required: false, type: .list)
         ]
         /// HTTP requests are stateless. If you use the automatically generated NextToken value in your next DescribeAddresses call, your list of returned addresses will start from this point in the array.
         public let nextToken: String?
@@ -640,7 +640,7 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UnlockCode", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "UnlockCode", required: false, type: .string)
         ]
         /// The UnlockCode value for the specified job. The UnlockCode value can be accessed for up to 90 days after the job has been created.
         public let unlockCode: String?
@@ -658,10 +658,10 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ObjectsTransferred", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "BytesTransferred", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "TotalBytes", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "TotalObjects", location: nil, required: false, type: .long)
+            AWSShapeProperty(label: "ObjectsTransferred", required: false, type: .long), 
+            AWSShapeProperty(label: "BytesTransferred", required: false, type: .long), 
+            AWSShapeProperty(label: "TotalBytes", required: false, type: .long), 
+            AWSShapeProperty(label: "TotalObjects", required: false, type: .long)
         ]
         /// The number of objects transferred between a Snowball and Amazon S3.
         public let objectsTransferred: Int64?
@@ -699,7 +699,7 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "JobId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "JobId", required: true, type: .string)
         ]
         /// The ID for a job that you want to get the manifest file for, for example JID123e4567-e89b-12d3-a456-426655440000.
         public let jobId: String
@@ -718,7 +718,7 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AddressId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "AddressId", required: true, type: .string)
         ]
         /// The automatically generated ID for a specific address.
         public let addressId: String
@@ -737,7 +737,7 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "JobId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "JobId", required: true, type: .string)
         ]
         /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
         public let jobId: String
@@ -756,8 +756,8 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "JobListEntries", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "JobListEntries", required: false, type: .list)
         ]
         /// HTTP requests are stateless. If you use this automatically generated NextToken value in your next ListJobs call, your returned JobListEntry objects will start from this point in the array.
         public let nextToken: String?
@@ -783,7 +783,7 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "JobId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "JobId", required: false, type: .string)
         ]
         /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
         public let jobId: String?
@@ -801,7 +801,7 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Address", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Address", required: false, type: .structure)
         ]
         /// The address that you want the Snowball or Snowballs associated with a specific job to be shipped to.
         public let address: Address?
@@ -827,8 +827,8 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LambdaArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "EventTriggers", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "LambdaArn", required: false, type: .string), 
+            AWSShapeProperty(label: "EventTriggers", required: false, type: .list)
         ]
         /// An Amazon Resource Name (ARN) that represents an AWS Lambda function to be triggered by PUT object actions on the associated local Amazon S3 resource.
         public let lambdaArn: String?
@@ -854,18 +854,18 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterState", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "ShippingOption", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "AddressId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "RoleARN", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "JobType", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "KmsKeyARN", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "CreationDate", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "SnowballType", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Notification", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "ClusterId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Resources", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "ClusterState", required: false, type: .enum), 
+            AWSShapeProperty(label: "ShippingOption", required: false, type: .enum), 
+            AWSShapeProperty(label: "AddressId", required: false, type: .string), 
+            AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
+            AWSShapeProperty(label: "JobType", required: false, type: .enum), 
+            AWSShapeProperty(label: "KmsKeyARN", required: false, type: .string), 
+            AWSShapeProperty(label: "CreationDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "SnowballType", required: false, type: .enum), 
+            AWSShapeProperty(label: "Notification", required: false, type: .structure), 
+            AWSShapeProperty(label: "ClusterId", required: false, type: .string), 
+            AWSShapeProperty(label: "Resources", required: false, type: .structure), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
         /// The current status of the cluster.
         public let clusterState: ClusterState?
@@ -927,9 +927,9 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NotifyAll", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "JobStatesToNotify", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "SnsTopicARN", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "NotifyAll", required: false, type: .boolean), 
+            AWSShapeProperty(label: "JobStatesToNotify", required: false, type: .list), 
+            AWSShapeProperty(label: "SnsTopicARN", required: false, type: .string)
         ]
         /// Any change in job state will trigger a notification for this job.
         public let notifyAll: Bool?
@@ -962,8 +962,8 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// HTTP requests are stateless. To identify what object comes "next" in the list of JobListEntry objects, you have the option of specifying NextToken as the starting point for your returned list.
         public let nextToken: String?
@@ -985,8 +985,8 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "TrackingNumber", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Status", required: false, type: .string), 
+            AWSShapeProperty(label: "TrackingNumber", required: false, type: .string)
         ]
         /// Status information for a shipment. Valid statuses include NEW, IN_TRANSIT, and DELIVERED.
         public let status: String?
@@ -1008,8 +1008,8 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// HTTP requests are stateless. To identify what object comes "next" in the list of ADDRESS objects, you have the option of specifying a value for NextToken as the starting point for your list of returned addresses.
         public let nextToken: String?
@@ -1031,13 +1031,13 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ShippingOption", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "AddressId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "RoleARN", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Notification", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Resources", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "ClusterId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "ShippingOption", required: false, type: .enum), 
+            AWSShapeProperty(label: "AddressId", required: false, type: .string), 
+            AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
+            AWSShapeProperty(label: "Notification", required: false, type: .structure), 
+            AWSShapeProperty(label: "Resources", required: false, type: .structure), 
+            AWSShapeProperty(label: "ClusterId", required: true, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
         /// The updated shipping option value of this cluster's ShippingDetails object.
         public let shippingOption: ShippingOption?
@@ -1080,8 +1080,8 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "JobMetadata", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "SubJobMetadata", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "JobMetadata", required: false, type: .structure), 
+            AWSShapeProperty(label: "SubJobMetadata", required: false, type: .list)
         ]
         /// Information about a specific job, including shipping information, job status, and other important metadata.
         public let jobMetadata: JobMetadata?
@@ -1107,13 +1107,13 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IsMaster", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "JobType", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "JobState", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "CreationDate", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "SnowballType", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "JobId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "IsMaster", required: false, type: .boolean), 
+            AWSShapeProperty(label: "JobType", required: false, type: .enum), 
+            AWSShapeProperty(label: "JobState", required: false, type: .enum), 
+            AWSShapeProperty(label: "CreationDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "SnowballType", required: false, type: .enum), 
+            AWSShapeProperty(label: "JobId", required: false, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
         /// A value that indicates that this job is a master job. A master job represents a successful request to create an export job. Master jobs aren't associated with any Snowballs. Instead, each master job will have at least one job part, and each job part is associated with a Snowball. It might take some time before the job parts associated with a particular master job are listed, because they are created after the master job is created.
         public let isMaster: Bool?
@@ -1155,8 +1155,8 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "JobListEntries", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "JobListEntries", required: false, type: .list)
         ]
         /// HTTP requests are stateless. If you use the automatically generated NextToken value in your next ListClusterJobsResult call, your list of returned jobs will start from this point in the array.
         public let nextToken: String?
@@ -1182,7 +1182,7 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AddressId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "AddressId", required: false, type: .string)
         ]
         /// The automatically generated ID for a specific address. You'll use this ID when you create a job to specify which address you want the Snowball for that job shipped to.
         public let addressId: String?
@@ -1200,7 +1200,7 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "JobId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "JobId", required: true, type: .string)
         ]
         /// The 39-character job ID for the job that you want to cancel, for example JID123e4567-e89b-12d3-a456-426655440000.
         public let jobId: String
@@ -1219,10 +1219,10 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterState", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "CreationDate", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ClusterId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "ClusterState", required: false, type: .enum), 
+            AWSShapeProperty(label: "CreationDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "ClusterId", required: false, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
         /// The current state of this cluster. For information about the state of a specific node, see JobListEntry$JobState.
         public let clusterState: ClusterState?
@@ -1252,22 +1252,22 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataTransferProgress", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "SnowballCapacityPreference", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "RoleARN", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "JobState", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "KmsKeyARN", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "CreationDate", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "JobId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ShippingDetails", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "AddressId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Notification", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "JobType", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "SnowballType", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "JobLogInfo", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "ClusterId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Resources", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "DataTransferProgress", required: false, type: .structure), 
+            AWSShapeProperty(label: "SnowballCapacityPreference", required: false, type: .enum), 
+            AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
+            AWSShapeProperty(label: "JobState", required: false, type: .enum), 
+            AWSShapeProperty(label: "KmsKeyARN", required: false, type: .string), 
+            AWSShapeProperty(label: "CreationDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "JobId", required: false, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string), 
+            AWSShapeProperty(label: "ShippingDetails", required: false, type: .structure), 
+            AWSShapeProperty(label: "AddressId", required: false, type: .string), 
+            AWSShapeProperty(label: "Notification", required: false, type: .structure), 
+            AWSShapeProperty(label: "JobType", required: false, type: .enum), 
+            AWSShapeProperty(label: "SnowballType", required: false, type: .enum), 
+            AWSShapeProperty(label: "JobLogInfo", required: false, type: .structure), 
+            AWSShapeProperty(label: "ClusterId", required: false, type: .string), 
+            AWSShapeProperty(label: "Resources", required: false, type: .structure)
         ]
         /// A value that defines the real-time status of a Snowball's data transfer while the appliance is at AWS. This data is only available while a job has a JobState value of InProgress, for both import and export jobs.
         public let dataTransferProgress: DataTransfer?
@@ -1345,9 +1345,9 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "JobFailureLogURI", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "JobSuccessLogURI", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "JobCompletionReportURI", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "JobFailureLogURI", required: false, type: .string), 
+            AWSShapeProperty(label: "JobSuccessLogURI", required: false, type: .string), 
+            AWSShapeProperty(label: "JobCompletionReportURI", required: false, type: .string)
         ]
         /// A link to an Amazon S3 presigned URL where the job failure log is located.
         public let jobFailureLogURI: String?
@@ -1373,8 +1373,8 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnowballLimit", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "SnowballsInUse", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "SnowballLimit", required: false, type: .integer), 
+            AWSShapeProperty(label: "SnowballsInUse", required: false, type: .integer)
         ]
         /// The service limit for number of Snowballs this account can have at once. The default service limit is 1 (one).
         public let snowballLimit: Int32?
@@ -1396,17 +1396,17 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ShippingOption", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "SnowballCapacityPreference", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "AddressId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "RoleARN", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "JobType", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Notification", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "KmsKeyARN", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "SnowballType", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Resources", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "ClusterId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "ShippingOption", required: false, type: .enum), 
+            AWSShapeProperty(label: "SnowballCapacityPreference", required: false, type: .enum), 
+            AWSShapeProperty(label: "AddressId", required: false, type: .string), 
+            AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
+            AWSShapeProperty(label: "JobType", required: false, type: .enum), 
+            AWSShapeProperty(label: "Notification", required: false, type: .structure), 
+            AWSShapeProperty(label: "KmsKeyARN", required: false, type: .string), 
+            AWSShapeProperty(label: "SnowballType", required: false, type: .enum), 
+            AWSShapeProperty(label: "Resources", required: false, type: .structure), 
+            AWSShapeProperty(label: "ClusterId", required: false, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
         /// The shipping speed for this job. This speed doesn't dictate how soon you'll get the Snowball, rather it represents how quickly the Snowball moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, Snowballs shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snowballs shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snowballs are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.  
         public let shippingOption: ShippingOption?
@@ -1464,7 +1464,7 @@ extension Snowball {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ManifestURI", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "ManifestURI", required: false, type: .string)
         ]
         /// The Amazon S3 presigned URL for the manifest file associated with the specified JobId value.
         public let manifestURI: String?

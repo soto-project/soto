@@ -33,7 +33,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FleetId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "FleetId", required: true, type: .string)
         ]
         /// Unique identifier for a fleet to be deleted.
         public let fleetId: String
@@ -52,10 +52,10 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MinSize", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "MaxSize", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "DesiredInstances", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "FleetId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "MinSize", required: false, type: .integer), 
+            AWSShapeProperty(label: "MaxSize", required: false, type: .integer), 
+            AWSShapeProperty(label: "DesiredInstances", required: false, type: .integer), 
+            AWSShapeProperty(label: "FleetId", required: true, type: .string)
         ]
         /// Minimum value allowed for the fleet's instance count. Default if not set is 0.
         public let minSize: Int32?
@@ -86,12 +86,12 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PlayerId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "GameSessionId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "PlayerSessionStatusFilter", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "PlayerSessionId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "PlayerId", required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "GameSessionId", required: false, type: .string), 
+            AWSShapeProperty(label: "PlayerSessionStatusFilter", required: false, type: .string), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "PlayerSessionId", required: false, type: .string)
         ]
         /// Unique identifier for a player to retrieve player sessions for.
         public let playerId: String?
@@ -129,12 +129,12 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SortExpression", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "FilterExpression", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "FleetId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "AliasId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "SortExpression", required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "FilterExpression", required: false, type: .string), 
+            AWSShapeProperty(label: "FleetId", required: false, type: .string), 
+            AWSShapeProperty(label: "AliasId", required: false, type: .string), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// Instructions on how to sort the search results. If no sort expression is included, the request returns results in random order. A sort expression consists of the following elements:    Operand -- Name of a game session attribute. Valid values are gameSessionName, gameSessionId, creationTimeMillis, playerSessionCount, maximumSessions, hasAvailablePlayerSessions.    Order -- Valid sort orders are ASC (ascending) and DESC (descending).   For example, this sort expression returns the oldest active sessions first: "SortExpression": "creationTimeMillis ASC". Results with a null value for the sort operand are returned at the end of the list.
         public let sortExpression: String?
@@ -172,7 +172,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Name", required: false, type: .string)
         ]
         /// Descriptive label that is associated with a scaling policy. Policy names do not need to be unique.
         public let name: String?
@@ -220,15 +220,15 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Threshold", location: nil, required: false, type: .double), 
-            AWSShapeProperty(label: "Status", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "MetricName", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "EvaluationPeriods", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ScalingAdjustment", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "ComparisonOperator", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "ScalingAdjustmentType", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "FleetId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Threshold", required: false, type: .double), 
+            AWSShapeProperty(label: "Status", required: false, type: .enum), 
+            AWSShapeProperty(label: "MetricName", required: false, type: .enum), 
+            AWSShapeProperty(label: "EvaluationPeriods", required: false, type: .integer), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "ScalingAdjustment", required: false, type: .integer), 
+            AWSShapeProperty(label: "ComparisonOperator", required: false, type: .enum), 
+            AWSShapeProperty(label: "ScalingAdjustmentType", required: false, type: .enum), 
+            AWSShapeProperty(label: "FleetId", required: false, type: .string)
         ]
         /// Metric value used to trigger a scaling event.
         public let threshold: Double?
@@ -278,7 +278,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PreSignedUrl", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "PreSignedUrl", required: false, type: .string)
         ]
         /// Location of the requested game session logs, available for download.
         public let preSignedUrl: String?
@@ -307,13 +307,13 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Version", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "OperatingSystem", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "CreationTime", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "SizeOnDisk", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "BuildId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Status", required: false, type: .enum), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "Version", required: false, type: .string), 
+            AWSShapeProperty(label: "OperatingSystem", required: false, type: .enum), 
+            AWSShapeProperty(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "SizeOnDisk", required: false, type: .long), 
+            AWSShapeProperty(label: "BuildId", required: false, type: .string)
         ]
         /// Current status of the build. Possible build statuses include the following:    INITIALIZED – A new build has been defined, but no files have been uploaded. You cannot create fleets for builds that are in this status. When a build is successfully created, the build status is set to this value.     READY – The game build has been successfully uploaded. You can now create new fleets for this build.    FAILED – The game build upload failed. You cannot create new fleets for this build.   
         public let status: BuildStatus?
@@ -355,7 +355,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BuildId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "BuildId", required: true, type: .string)
         ]
         /// Unique identifier for a build to retrieve properties for.
         public let buildId: String
@@ -374,7 +374,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FleetId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "FleetId", required: true, type: .string)
         ]
         /// Unique identifier for a fleet to retrieve port settings for.
         public let fleetId: String
@@ -393,8 +393,8 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "FleetUtilization", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "FleetUtilization", required: false, type: .list)
         ]
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
@@ -420,7 +420,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GameSession", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "GameSession", required: false, type: .structure)
         ]
         /// Object that contains the updated game session metadata.
         public let gameSession: GameSession?
@@ -470,7 +470,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FleetId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "FleetId", required: false, type: .string)
         ]
         /// Fleet identifier that is associated with the requested alias.
         public let fleetId: String?
@@ -488,7 +488,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AliasId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "AliasId", required: true, type: .string)
         ]
         /// Unique identifier for a fleet alias. Specify the alias you want to retrieve.
         public let aliasId: String
@@ -507,9 +507,9 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Destinations", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "TimeoutInSeconds", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "Destinations", required: false, type: .list), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "TimeoutInSeconds", required: false, type: .integer)
         ]
         /// List of fleets that can be used to fulfill game session placement requests in the queue. Fleets are identified by either a fleet ARN or a fleet alias ARN. Destinations are listed in default preference order.
         public let destinations: [GameSessionQueueDestination]?
@@ -552,7 +552,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GameSessionPlacement", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "GameSessionPlacement", required: false, type: .structure)
         ]
         /// Object that describes the requested game session placement.
         public let gameSessionPlacement: GameSessionPlacement?
@@ -570,19 +570,19 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TerminationTime", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "CreationTime", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "GameSessionId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaximumPlayerSessionCount", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "Status", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "IpAddress", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "CreatorId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "PlayerSessionCreationPolicy", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "GameProperties", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "FleetId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "CurrentPlayerSessionCount", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "Port", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "TerminationTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "GameSessionId", required: false, type: .string), 
+            AWSShapeProperty(label: "MaximumPlayerSessionCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "Status", required: false, type: .enum), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "IpAddress", required: false, type: .string), 
+            AWSShapeProperty(label: "CreatorId", required: false, type: .string), 
+            AWSShapeProperty(label: "PlayerSessionCreationPolicy", required: false, type: .enum), 
+            AWSShapeProperty(label: "GameProperties", required: false, type: .list), 
+            AWSShapeProperty(label: "FleetId", required: false, type: .string), 
+            AWSShapeProperty(label: "CurrentPlayerSessionCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "Port", required: false, type: .integer)
         ]
         /// Time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let terminationTime: Date?
@@ -652,8 +652,8 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Builds", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Builds", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// Collection of build records that match the request.
         public let builds: [Build]?
@@ -687,8 +687,8 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ScalingPolicies", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "ScalingPolicies", required: false, type: .list)
         ]
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
@@ -714,17 +714,17 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Status", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "GameSessionRegion", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "GameSessionArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "PlacementId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "PlayerLatencies", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "EndTime", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "GameSessionQueueName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "GameProperties", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "MaximumPlayerSessionCount", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "GameSessionName", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Status", required: false, type: .enum), 
+            AWSShapeProperty(label: "GameSessionRegion", required: false, type: .string), 
+            AWSShapeProperty(label: "GameSessionArn", required: false, type: .string), 
+            AWSShapeProperty(label: "PlacementId", required: false, type: .string), 
+            AWSShapeProperty(label: "PlayerLatencies", required: false, type: .list), 
+            AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "GameSessionQueueName", required: false, type: .string), 
+            AWSShapeProperty(label: "GameProperties", required: false, type: .list), 
+            AWSShapeProperty(label: "MaximumPlayerSessionCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "GameSessionName", required: false, type: .string)
         ]
         /// Time stamp indicating when this request was placed in the queue. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let startTime: Date?
@@ -790,9 +790,9 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "Status", required: false, type: .enum), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer)
         ]
         /// Build status to filter results by. To retrieve all builds, leave this parameter empty. Possible build statuses include the following:    INITIALIZED – A new build has been defined, but no files have been uploaded. You cannot create fleets for builds that are in this status. When a build is successfully created, the build status is set to this value.     READY – The game build has been successfully uploaded. You can now create new fleets for this build.    FAILED – The game build upload failed. You cannot create new fleets for this build.   
         public let status: BuildStatus?
@@ -818,7 +818,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServerProcesses", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "ServerProcesses", required: false, type: .list)
         ]
         /// Collection of server process configurations describing what server processes to run on each instance in a fleet
         public let serverProcesses: [ServerProcess]?
@@ -840,13 +840,13 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "InstanceId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "IpAddress", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "OperatingSystem", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "CreationTime", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Type", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "FleetId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Status", required: false, type: .enum), 
+            AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
+            AWSShapeProperty(label: "IpAddress", required: false, type: .string), 
+            AWSShapeProperty(label: "OperatingSystem", required: false, type: .enum), 
+            AWSShapeProperty(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Type", required: false, type: .enum), 
+            AWSShapeProperty(label: "FleetId", required: false, type: .string)
         ]
         /// Current status of the instance. Possible statuses include the following:    PENDING – The instance is in the process of being created and launching server processes as defined in the fleet's runtime configuration.     ACTIVE – The instance has been successfully created and at least one server process has successfully launched and reported back to Amazon GameLift that it is ready to host a game session. The instance is now considered ready to host game sessions.     TERMINATING – The instance is in the process of shutting down. This may happen to reduce capacity during a scaling down event or to recycle resources in the event of a problem.  
         public let status: InstanceStatus?
@@ -888,9 +888,9 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CurrentInstances", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "EC2InstanceType", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "InstanceLimit", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "CurrentInstances", required: false, type: .integer), 
+            AWSShapeProperty(label: "EC2InstanceType", required: false, type: .enum), 
+            AWSShapeProperty(label: "InstanceLimit", required: false, type: .integer)
         ]
         /// Number of instances of the specified type that are currently in use by this AWS account.
         public let currentInstances: Int32?
@@ -924,8 +924,8 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FleetAttributes", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "FleetAttributes", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// Collection of objects containing attribute metadata for each requested fleet ID.
         public let fleetAttributes: [FleetAttributes]?
@@ -951,7 +951,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceAccess", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "InstanceAccess", required: false, type: .structure)
         ]
         /// Object that contains connection information for a fleet instance, including IP address and access credentials.
         public let instanceAccess: InstanceAccess?
@@ -969,7 +969,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GameSessionPlacement", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "GameSessionPlacement", required: false, type: .structure)
         ]
         /// Object that describes the newly created game session placement. This object includes all the information provided in the request, as well as start/end time stamps and placement status. 
         public let gameSessionPlacement: GameSessionPlacement?
@@ -987,7 +987,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GameSession", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "GameSession", required: false, type: .structure)
         ]
         /// Object that describes the newly created game session record.
         public let gameSession: GameSession?
@@ -1005,10 +1005,10 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RoutingStrategyType", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "RoutingStrategyType", required: false, type: .enum), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// Type of routing to filter results on. Use this parameter to retrieve only aliases of a certain type. To retrieve all aliases, leave this parameter empty. Possible routing types include the following:    SIMPLE – The alias resolves to one specific fleet. Use this type when routing to active fleets.    TERMINAL – The alias does not resolve to a fleet but instead can be used to display a message to the user. A terminal alias throws a TerminalRoutingStrategyException with the RoutingStrategy message embedded.  
         public let routingStrategyType: RoutingStrategyType?
@@ -1038,7 +1038,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RuntimeConfiguration", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "RuntimeConfiguration", required: false, type: .structure)
         ]
         /// The runtime configuration currently in force. If the update was successful, this object matches the one in the request.
         public let runtimeConfiguration: RuntimeConfiguration?
@@ -1056,7 +1056,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BuildId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "BuildId", required: true, type: .string)
         ]
         /// Unique identifier for a build to get credentials for.
         public let buildId: String
@@ -1083,7 +1083,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PlacementId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "PlacementId", required: true, type: .string)
         ]
         /// Unique identifier for a game session placement to cancel.
         public let placementId: String
@@ -1102,17 +1102,17 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceCreationLimitPolicy", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "EC2InstanceType", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "BuildId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "ServerLaunchParameters", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "NewGameSessionProtectionPolicy", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "EC2InboundPermissions", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "RuntimeConfiguration", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "LogPaths", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "ServerLaunchPath", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "ResourceCreationLimitPolicy", required: false, type: .structure), 
+            AWSShapeProperty(label: "EC2InstanceType", required: true, type: .enum), 
+            AWSShapeProperty(label: "BuildId", required: true, type: .string), 
+            AWSShapeProperty(label: "ServerLaunchParameters", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "NewGameSessionProtectionPolicy", required: false, type: .enum), 
+            AWSShapeProperty(label: "EC2InboundPermissions", required: false, type: .list), 
+            AWSShapeProperty(label: "RuntimeConfiguration", required: false, type: .structure), 
+            AWSShapeProperty(label: "LogPaths", required: false, type: .list), 
+            AWSShapeProperty(label: "ServerLaunchPath", required: false, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
         /// Policy that limits the number of game sessions an individual player can create over a span of time for this fleet.
         public let resourceCreationLimitPolicy: ResourceCreationLimitPolicy?
@@ -1177,9 +1177,9 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BuildId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Version", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "BuildId", required: true, type: .string), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "Version", required: false, type: .string)
         ]
         /// Unique identifier for a build to update.
         public let buildId: String
@@ -1206,7 +1206,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AliasId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "AliasId", required: true, type: .string)
         ]
         /// Unique identifier for the alias you want to resolve.
         public let aliasId: String
@@ -1225,9 +1225,9 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PlayerId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "RegionIdentifier", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "LatencyInMilliseconds", location: nil, required: false, type: .float)
+            AWSShapeProperty(label: "PlayerId", required: false, type: .string), 
+            AWSShapeProperty(label: "RegionIdentifier", required: false, type: .string), 
+            AWSShapeProperty(label: "LatencyInMilliseconds", required: false, type: .float)
         ]
         /// Unique identifier for a player associated with the latency data.
         public let playerId: String?
@@ -1253,9 +1253,9 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GameSessionId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "PlayerIds", location: nil, required: true, type: .list), 
-            AWSShapeProperty(label: "PlayerDataMap", location: nil, required: false, type: .map)
+            AWSShapeProperty(label: "GameSessionId", required: true, type: .string), 
+            AWSShapeProperty(label: "PlayerIds", required: true, type: .list), 
+            AWSShapeProperty(label: "PlayerDataMap", required: false, type: .map)
         ]
         /// Unique identifier for the game session to add players to.
         public let gameSessionId: String
@@ -1287,7 +1287,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InboundPermissions", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "InboundPermissions", required: false, type: .list)
         ]
         /// Object that contains port settings for the requested fleet ID.
         public let inboundPermissions: [IpPermission]?
@@ -1309,7 +1309,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AliasId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "AliasId", required: true, type: .string)
         ]
         /// Unique identifier for a fleet alias. Specify the alias you want to delete.
         public let aliasId: String
@@ -1328,9 +1328,9 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Names", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "Names", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer)
         ]
         /// List of queue names to retrieve information for. To request settings for all queues, leave this parameter empty.
         public let names: [String]?
@@ -1356,13 +1356,13 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LastUpdatedTime", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "RoutingStrategy", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "CreationTime", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "AliasArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "AliasId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "LastUpdatedTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "RoutingStrategy", required: false, type: .structure), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "AliasArn", required: false, type: .string), 
+            AWSShapeProperty(label: "AliasId", required: false, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
         /// Time stamp indicating when this data object was last modified. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let lastUpdatedTime: Date?
@@ -1404,9 +1404,9 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GameSessionId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "PlayerData", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "PlayerId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "GameSessionId", required: true, type: .string), 
+            AWSShapeProperty(label: "PlayerData", required: false, type: .string), 
+            AWSShapeProperty(label: "PlayerId", required: true, type: .string)
         ]
         /// Unique identifier for the game session to add a player to.
         public let gameSessionId: String
@@ -1434,11 +1434,11 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Message", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "EventCode", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "EventTime", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "EventId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Message", required: false, type: .string), 
+            AWSShapeProperty(label: "ResourceId", required: false, type: .string), 
+            AWSShapeProperty(label: "EventCode", required: false, type: .enum), 
+            AWSShapeProperty(label: "EventTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "EventId", required: false, type: .string)
         ]
         /// Additional information related to the event.
         public let message: String?
@@ -1472,7 +1472,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GameSessionQueue", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "GameSessionQueue", required: false, type: .structure)
         ]
         /// Object that describes the newly updated game session queue.
         public let gameSessionQueue: GameSessionQueue?
@@ -1496,7 +1496,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DestinationArn", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "DestinationArn", required: false, type: .string)
         ]
         /// Amazon Resource Name (ARN) assigned to fleet or fleet alias. ARNs, which include a fleet ID or alias ID and a region name, provide a unique identifier across all regions. 
         public let destinationArn: String?
@@ -1514,8 +1514,8 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PlayerData", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "PlayerId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "PlayerData", required: false, type: .string), 
+            AWSShapeProperty(label: "PlayerId", required: false, type: .string)
         ]
         /// Developer-defined information related to a player. Amazon GameLift does not use this data, so it can be formatted as needed for use in the game.
         public let playerData: String?
@@ -1537,9 +1537,9 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FleetIds", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "FleetIds", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer)
         ]
         /// Unique identifier for a fleet(s) to retrieve utilization data for. To request utilization data for all fleets, leave this parameter empty.
         public let fleetIds: [String]?
@@ -1565,9 +1565,9 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RoutingStrategy", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "RoutingStrategy", required: true, type: .structure), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
         /// Object that specifies the fleet and routing type to use for the alias.
         public let routingStrategy: RoutingStrategy
@@ -1595,8 +1595,8 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NewGameSessionsPerCreator", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "PolicyPeriodInMinutes", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "NewGameSessionsPerCreator", required: false, type: .integer), 
+            AWSShapeProperty(label: "PolicyPeriodInMinutes", required: false, type: .integer)
         ]
         /// Maximum number of game sessions that an individual can create during the policy period. 
         public let newGameSessionsPerCreator: Int32?
@@ -1618,14 +1618,14 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Threshold", location: nil, required: true, type: .double), 
-            AWSShapeProperty(label: "MetricName", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "EvaluationPeriods", location: nil, required: true, type: .integer), 
-            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "ScalingAdjustment", location: nil, required: true, type: .integer), 
-            AWSShapeProperty(label: "ComparisonOperator", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "ScalingAdjustmentType", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "FleetId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Threshold", required: true, type: .double), 
+            AWSShapeProperty(label: "MetricName", required: true, type: .enum), 
+            AWSShapeProperty(label: "EvaluationPeriods", required: true, type: .integer), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "ScalingAdjustment", required: true, type: .integer), 
+            AWSShapeProperty(label: "ComparisonOperator", required: true, type: .enum), 
+            AWSShapeProperty(label: "ScalingAdjustmentType", required: true, type: .enum), 
+            AWSShapeProperty(label: "FleetId", required: true, type: .string)
         ]
         /// Metric value used to trigger a scaling event.
         public let threshold: Double
@@ -1679,7 +1679,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BuildId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "BuildId", required: true, type: .string)
         ]
         /// Unique identifier for a build to delete.
         public let buildId: String
@@ -1704,7 +1704,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FleetId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "FleetId", required: false, type: .string)
         ]
         /// Unique identifier for a fleet that was updated.
         public let fleetId: String?
@@ -1722,12 +1722,12 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StatusFilter", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "GameSessionId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "FleetId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "AliasId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "StatusFilter", required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "GameSessionId", required: false, type: .string), 
+            AWSShapeProperty(label: "FleetId", required: false, type: .string), 
+            AWSShapeProperty(label: "AliasId", required: false, type: .string), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// Game session status to filter results on. Possible game session statuses include ACTIVE, TERMINATED, ACTIVATING, and TERMINATING (the last two are transitory). 
         public let statusFilter: String?
@@ -1765,7 +1765,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FleetAttributes", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "FleetAttributes", required: false, type: .structure)
         ]
         /// Properties for the newly created fleet.
         public let fleetAttributes: FleetAttributes?
@@ -1783,9 +1783,9 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Destinations", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "TimeoutInSeconds", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "Destinations", required: false, type: .list), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "TimeoutInSeconds", required: false, type: .integer)
         ]
         /// List of fleets that can be used to fulfill game session placement requests in the queue. Fleets are identified by either a fleet ARN or a fleet alias ARN. Destinations are listed in default preference order.
         public let destinations: [GameSessionQueueDestination]?
@@ -1815,8 +1815,8 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "FleetCapacity", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "FleetCapacity", required: false, type: .list)
         ]
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
@@ -1842,12 +1842,12 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StatusFilter", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "GameSessionId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "FleetId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "AliasId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "StatusFilter", required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "GameSessionId", required: false, type: .string), 
+            AWSShapeProperty(label: "FleetId", required: false, type: .string), 
+            AWSShapeProperty(label: "AliasId", required: false, type: .string), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// Game session status to filter results on. Possible game session statuses include ACTIVE, TERMINATED, ACTIVATING and TERMINATING (the last two are transitory). 
         public let statusFilter: String?
@@ -1885,9 +1885,9 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InboundPermissionAuthorizations", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "FleetId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "InboundPermissionRevocations", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "InboundPermissionAuthorizations", required: false, type: .list), 
+            AWSShapeProperty(label: "FleetId", required: true, type: .string), 
+            AWSShapeProperty(label: "InboundPermissionRevocations", required: false, type: .list)
         ]
         /// Collection of port settings to be added to the fleet record.
         public let inboundPermissionAuthorizations: [IpPermission]?
@@ -1922,9 +1922,9 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FleetIds", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "FleetIds", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer)
         ]
         /// Unique identifier for a fleet(s) to retrieve capacity information for. To request capacity information for all fleets, leave this parameter empty.
         public let fleetIds: [String]?
@@ -1950,8 +1950,8 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Secret", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "UserName", required: false, type: .string), 
+            AWSShapeProperty(label: "Secret", required: false, type: .string)
         ]
         /// User login string.
         public let userName: String?
@@ -1973,9 +1973,9 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Parameters", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "LaunchPath", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "ConcurrentExecutions", location: nil, required: true, type: .integer)
+            AWSShapeProperty(label: "Parameters", required: false, type: .string), 
+            AWSShapeProperty(label: "LaunchPath", required: true, type: .string), 
+            AWSShapeProperty(label: "ConcurrentExecutions", required: true, type: .integer)
         ]
         /// Optional list of parameters to pass to the server executable on launch.
         public let parameters: String?
@@ -2003,8 +2003,8 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StorageLocation", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "UploadCredentials", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "StorageLocation", required: false, type: .structure), 
+            AWSShapeProperty(label: "UploadCredentials", required: false, type: .structure)
         ]
         /// Amazon S3 path and key, identifying where the game build files are stored.
         public let storageLocation: S3Location?
@@ -2033,8 +2033,8 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Key", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Value", required: true, type: .string), 
+            AWSShapeProperty(label: "Key", required: true, type: .string)
         ]
         /// TBD
         public let value: String
@@ -2065,7 +2065,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Build", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Build", required: false, type: .structure)
         ]
         /// Object that contains the updated build record.
         public let build: Build?
@@ -2083,9 +2083,9 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FleetIds", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "FleetIds", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer)
         ]
         /// Unique identifier for a fleet(s) to retrieve attributes for. To request attributes for all fleets, leave this parameter empty.
         public let fleetIds: [String]?
@@ -2111,7 +2111,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EC2InstanceType", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "EC2InstanceType", required: false, type: .enum)
         ]
         /// Name of an EC2 instance type that is supported in Amazon GameLift. A fleet instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. Amazon GameLift supports the following EC2 instance types. See Amazon EC2 Instance Types for detailed descriptions. Leave this parameter blank to retrieve limits for all types.
         public let eC2InstanceType: EC2InstanceType?
@@ -2129,7 +2129,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PlayerSessions", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "PlayerSessions", required: false, type: .list)
         ]
         /// Collection of player session objects created for the added players.
         public let playerSessions: [PlayerSession]?
@@ -2151,7 +2151,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GameSessionId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "GameSessionId", required: true, type: .string)
         ]
         /// Unique identifier for the game session to get logs for.
         public let gameSessionId: String
@@ -2170,7 +2170,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EC2InstanceLimits", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "EC2InstanceLimits", required: false, type: .list)
         ]
         /// Object that contains the maximum number of instances for the specified instance type.
         public let eC2InstanceLimits: [EC2InstanceLimit]?
@@ -2192,13 +2192,13 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TERMINATING", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "MINIMUM", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "PENDING", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "MAXIMUM", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "IDLE", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "DESIRED", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "ACTIVE", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "TERMINATING", required: false, type: .integer), 
+            AWSShapeProperty(label: "MINIMUM", required: false, type: .integer), 
+            AWSShapeProperty(label: "PENDING", required: false, type: .integer), 
+            AWSShapeProperty(label: "MAXIMUM", required: false, type: .integer), 
+            AWSShapeProperty(label: "IDLE", required: false, type: .integer), 
+            AWSShapeProperty(label: "DESIRED", required: false, type: .integer), 
+            AWSShapeProperty(label: "ACTIVE", required: false, type: .integer)
         ]
         /// Number of instances in the fleet that are no longer active but haven't yet been terminated.
         public let tERMINATING: Int32?
@@ -2240,8 +2240,8 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "PlayerSessions", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "PlayerSessions", required: false, type: .list)
         ]
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
@@ -2267,9 +2267,9 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceType", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "FleetId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceCounts", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "InstanceType", required: false, type: .enum), 
+            AWSShapeProperty(label: "FleetId", required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceCounts", required: false, type: .structure)
         ]
         /// Name of an EC2 instance type that is supported in Amazon GameLift. A fleet instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. Amazon GameLift supports the following EC2 instance types. See Amazon EC2 Instance Types for detailed descriptions.
         public let instanceType: EC2InstanceType?
@@ -2295,8 +2295,8 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ProtectionPolicy", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "GameSession", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "ProtectionPolicy", required: false, type: .enum), 
+            AWSShapeProperty(label: "GameSession", required: false, type: .structure)
         ]
         /// Current status of protection for the game session.    NoProtection – The game session can be terminated during a scale-down event.    FullProtection – If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.  
         public let protectionPolicy: ProtectionPolicy?
@@ -2318,10 +2318,10 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OperatingSystem", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "StorageLocation", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Version", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "OperatingSystem", required: false, type: .enum), 
+            AWSShapeProperty(label: "StorageLocation", required: false, type: .structure), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "Version", required: false, type: .string)
         ]
         /// Operating system that the game server binaries are built to run on. This value determines the type of fleet resources that you can use for this build. If your game build contains multiple executables, they all must run on the same operating system.
         public let operatingSystem: OperatingSystem?
@@ -2351,8 +2351,8 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Instances", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Instances", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// Collection of objects containing properties for each instance returned.
         public let instances: [Instance]?
@@ -2378,10 +2378,10 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "FleetId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "FleetId", required: true, type: .string), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceId", required: false, type: .string)
         ]
         /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int32?
@@ -2412,9 +2412,9 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccessKeyId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "SecretAccessKey", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "SessionToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "AccessKeyId", required: false, type: .string), 
+            AWSShapeProperty(label: "SecretAccessKey", required: false, type: .string), 
+            AWSShapeProperty(label: "SessionToken", required: false, type: .string)
         ]
         /// Access key for an AWS account.
         public let accessKeyId: String?
@@ -2440,9 +2440,9 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BuildId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "BuildId", required: false, type: .string), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer)
         ]
         /// Unique identifier for a build to return fleets for. Use this parameter to return only fleets using the specified build. To retrieve all fleets, leave this parameter empty.
         public let buildId: String?
@@ -2468,8 +2468,8 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FleetId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "FleetId", required: true, type: .string), 
+            AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
         /// Unique identifier for a fleet to be deleted.
         public let fleetId: String
@@ -2502,16 +2502,16 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "PlayerSessionId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "IpAddress", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "PlayerData", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "CreationTime", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "TerminationTime", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "PlayerId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "GameSessionId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "FleetId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Port", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "Status", required: false, type: .enum), 
+            AWSShapeProperty(label: "PlayerSessionId", required: false, type: .string), 
+            AWSShapeProperty(label: "IpAddress", required: false, type: .string), 
+            AWSShapeProperty(label: "PlayerData", required: false, type: .string), 
+            AWSShapeProperty(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "TerminationTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "PlayerId", required: false, type: .string), 
+            AWSShapeProperty(label: "GameSessionId", required: false, type: .string), 
+            AWSShapeProperty(label: "FleetId", required: false, type: .string), 
+            AWSShapeProperty(label: "Port", required: false, type: .integer)
         ]
         /// Current status of the player session. Possible player session statuses include the following:    RESERVED – The player session request has been received, but the player has not yet connected to the server process and/or been validated.     ACTIVE – The player has been validated by the server process and is currently connected.    COMPLETED – The player connection has been dropped.    TIMEDOUT – A player session request was received, but the player did not connect and/or was not validated within the time-out limit (60 seconds).  
         public let status: PlayerSessionStatus?
@@ -2565,11 +2565,11 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaximumPlayerSessionCount", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "ActiveServerProcessCount", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "ActiveGameSessionCount", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "CurrentPlayerSessionCount", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "FleetId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "MaximumPlayerSessionCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "ActiveServerProcessCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "ActiveGameSessionCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "CurrentPlayerSessionCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "FleetId", required: false, type: .string)
         ]
         /// Maximum players allowed across all game sessions currently being hosted on all instances in the fleet.
         public let maximumPlayerSessionCount: Int32?
@@ -2603,8 +2603,8 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GameSessionQueues", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "GameSessionQueues", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// Collection of objects that describes the requested game session queues.
         public let gameSessionQueues: [GameSessionQueue]?
@@ -2630,8 +2630,8 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GameSessions", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "GameSessions", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// Collection of objects containing game session properties for each session matching the request.
         public let gameSessions: [GameSession]?
@@ -2663,11 +2663,11 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "EndTime", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "FleetId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "FleetId", required: true, type: .string), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// Earliest date to retrieve event logs for. If no start time is specified, this call returns entries starting from when the fleet was created to the specified end time. Format is a number expressed in Unix time as milliseconds (ex: "1469498468.057").
         public let startTime: Date?
@@ -2723,9 +2723,9 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "RoleArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Key", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Bucket", required: false, type: .string), 
+            AWSShapeProperty(label: "RoleArn", required: false, type: .string), 
+            AWSShapeProperty(label: "Key", required: false, type: .string)
         ]
         /// Amazon S3 bucket identifier. This is the name of your S3 bucket.
         public let bucket: String?
@@ -2751,13 +2751,13 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FleetId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "CreatorId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "GameProperties", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "GameSessionId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaximumPlayerSessionCount", location: nil, required: true, type: .integer), 
-            AWSShapeProperty(label: "AliasId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "FleetId", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "CreatorId", required: false, type: .string), 
+            AWSShapeProperty(label: "GameProperties", required: false, type: .list), 
+            AWSShapeProperty(label: "GameSessionId", required: false, type: .string), 
+            AWSShapeProperty(label: "MaximumPlayerSessionCount", required: true, type: .integer), 
+            AWSShapeProperty(label: "AliasId", required: false, type: .string)
         ]
         /// Unique identifier for a fleet to create a game session in. Each request must reference either a fleet ID or alias ID, but not both.
         public let fleetId: String?
@@ -2804,11 +2804,11 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PlayerSessionCreationPolicy", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "ProtectionPolicy", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "GameSessionId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaximumPlayerSessionCount", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "PlayerSessionCreationPolicy", required: false, type: .enum), 
+            AWSShapeProperty(label: "ProtectionPolicy", required: false, type: .enum), 
+            AWSShapeProperty(label: "GameSessionId", required: true, type: .string), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "MaximumPlayerSessionCount", required: false, type: .integer)
         ]
         /// Policy determining whether or not the game session accepts new players.
         public let playerSessionCreationPolicy: PlayerSessionCreationPolicy?
@@ -2843,9 +2843,9 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StorageLocation", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "UploadCredentials", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Build", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "StorageLocation", required: false, type: .structure), 
+            AWSShapeProperty(label: "UploadCredentials", required: false, type: .structure), 
+            AWSShapeProperty(label: "Build", required: false, type: .structure)
         ]
         /// Amazon S3 location specified in the request.
         public let storageLocation: S3Location?
@@ -2871,20 +2871,20 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TerminationTime", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "FleetArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "CreationTime", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "NewGameSessionProtectionPolicy", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "LogPaths", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "ServerLaunchPath", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceCreationLimitPolicy", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Status", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "BuildId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ServerLaunchParameters", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "OperatingSystem", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "FleetId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "TerminationTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "FleetArn", required: false, type: .string), 
+            AWSShapeProperty(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "NewGameSessionProtectionPolicy", required: false, type: .enum), 
+            AWSShapeProperty(label: "LogPaths", required: false, type: .list), 
+            AWSShapeProperty(label: "ServerLaunchPath", required: false, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string), 
+            AWSShapeProperty(label: "ResourceCreationLimitPolicy", required: false, type: .structure), 
+            AWSShapeProperty(label: "Status", required: false, type: .enum), 
+            AWSShapeProperty(label: "BuildId", required: false, type: .string), 
+            AWSShapeProperty(label: "ServerLaunchParameters", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "OperatingSystem", required: false, type: .enum), 
+            AWSShapeProperty(label: "FleetId", required: false, type: .string)
         ]
         /// Time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let terminationTime: Date?
@@ -2954,11 +2954,11 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OperatingSystem", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Credentials", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "FleetId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "IpAddress", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "OperatingSystem", required: false, type: .enum), 
+            AWSShapeProperty(label: "Credentials", required: false, type: .structure), 
+            AWSShapeProperty(label: "FleetId", required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
+            AWSShapeProperty(label: "IpAddress", required: false, type: .string)
         ]
         /// Operating system that is running on the instance.
         public let operatingSystem: OperatingSystem?
@@ -2992,7 +2992,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GameSessionPlacement", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "GameSessionPlacement", required: false, type: .structure)
         ]
         /// Object that describes the cancelled game session placement, with cancelled status and an end time stamp. 
         public let gameSessionPlacement: GameSessionPlacement?
@@ -3016,7 +3016,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GameSessionQueue", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "GameSessionQueue", required: false, type: .structure)
         ]
         /// Object that describes the newly created game session queue.
         public let gameSessionQueue: GameSessionQueue?
@@ -3034,7 +3034,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PlayerSession", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "PlayerSession", required: false, type: .structure)
         ]
         /// Object that describes the newly created player session record.
         public let playerSession: PlayerSession?
@@ -3052,8 +3052,8 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "GameSessionDetails", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "GameSessionDetails", required: false, type: .list)
         ]
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
@@ -3079,13 +3079,13 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DesiredPlayerSessions", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "PlacementId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "PlayerLatencies", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "GameSessionQueueName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "GameProperties", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "GameSessionName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaximumPlayerSessionCount", location: nil, required: true, type: .integer)
+            AWSShapeProperty(label: "DesiredPlayerSessions", required: false, type: .list), 
+            AWSShapeProperty(label: "PlacementId", required: true, type: .string), 
+            AWSShapeProperty(label: "PlayerLatencies", required: false, type: .list), 
+            AWSShapeProperty(label: "GameSessionQueueName", required: true, type: .string), 
+            AWSShapeProperty(label: "GameProperties", required: false, type: .list), 
+            AWSShapeProperty(label: "GameSessionName", required: false, type: .string), 
+            AWSShapeProperty(label: "MaximumPlayerSessionCount", required: true, type: .integer)
         ]
         /// Set of information on each player to create a player session for.
         public let desiredPlayerSessions: [DesiredPlayerSession]?
@@ -3142,7 +3142,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Alias", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Alias", required: false, type: .structure)
         ]
         /// Object that describes the newly created alias record.
         public let alias: Alias?
@@ -3160,10 +3160,10 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StatusFilter", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "FleetId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "StatusFilter", required: false, type: .enum), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "FleetId", required: true, type: .string), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// Scaling policy status to filter results on. A scaling policy is only in force when in an ACTIVE status.    ACTIVE – The scaling policy is currently in force.    UPDATEREQUESTED – A request to update the scaling policy has been received.    UPDATING – A change is being made to the scaling policy.    DELETEREQUESTED – A request to delete the scaling policy has been received.    DELETING – The scaling policy is being deleted.    DELETED – The scaling policy has been deleted.    ERROR – An error occurred in creating the policy. It should be removed and recreated.  
         public let statusFilter: ScalingStatusType?
@@ -3194,7 +3194,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Build", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Build", required: false, type: .structure)
         ]
         /// Set of properties describing the requested build.
         public let build: Build?
@@ -3212,7 +3212,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FleetId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "FleetId", required: false, type: .string)
         ]
         /// Unique identifier for a fleet that was updated.
         public let fleetId: String?
@@ -3230,11 +3230,11 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceCreationLimitPolicy", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "FleetId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "NewGameSessionProtectionPolicy", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "ResourceCreationLimitPolicy", required: false, type: .structure), 
+            AWSShapeProperty(label: "Description", required: false, type: .string), 
+            AWSShapeProperty(label: "FleetId", required: true, type: .string), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "NewGameSessionProtectionPolicy", required: false, type: .enum)
         ]
         /// Policy that limits the number of game sessions an individual player can create over a span of time. 
         public let resourceCreationLimitPolicy: ResourceCreationLimitPolicy?
@@ -3269,7 +3269,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
         /// Descriptive label that is associated with queue. Queue names must be unique within each region.
         public let name: String
@@ -3288,8 +3288,8 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Aliases", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Aliases", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// Collection of alias records that match the list request.
         public let aliases: [Alias]?
@@ -3315,10 +3315,10 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FromPort", location: nil, required: true, type: .integer), 
-            AWSShapeProperty(label: "ToPort", location: nil, required: true, type: .integer), 
-            AWSShapeProperty(label: "Protocol", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "IpRange", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "FromPort", required: true, type: .integer), 
+            AWSShapeProperty(label: "ToPort", required: true, type: .integer), 
+            AWSShapeProperty(label: "Protocol", required: true, type: .enum), 
+            AWSShapeProperty(label: "IpRange", required: true, type: .string)
         ]
         /// Starting value for a range of allowed port numbers.
         public let fromPort: Int32
@@ -3352,8 +3352,8 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Events", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Events", required: false, type: .list)
         ]
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
@@ -3379,7 +3379,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Alias", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Alias", required: false, type: .structure)
         ]
         /// Object that contains the requested alias.
         public let alias: Alias?
@@ -3397,8 +3397,8 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FleetId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "InstanceId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "FleetId", required: true, type: .string), 
+            AWSShapeProperty(label: "InstanceId", required: true, type: .string)
         ]
         /// Unique identifier for a fleet that contains the instance you want access to. The fleet can be in any of the following statuses: ACTIVATING, ACTIVE, or ERROR. Fleets with an ERROR status may be accessible for a short time before they are deleted.
         public let fleetId: String
@@ -3429,7 +3429,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FleetId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "FleetId", required: true, type: .string)
         ]
         /// Unique identifier for a fleet to get the runtime configuration for.
         public let fleetId: String
@@ -3454,7 +3454,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PlacementId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "PlacementId", required: true, type: .string)
         ]
         /// Unique identifier for a game session placement to retrieve.
         public let placementId: String
@@ -3473,9 +3473,9 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "FleetId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Message", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Type", required: false, type: .enum), 
+            AWSShapeProperty(label: "FleetId", required: false, type: .string), 
+            AWSShapeProperty(label: "Message", required: false, type: .string)
         ]
         /// Type of routing strategy. Possible routing types include the following:    SIMPLE – The alias resolves to one specific fleet. Use this type when routing to active fleets.    TERMINAL – The alias does not resolve to a fleet but instead can be used to display a message to the user. A terminal alias throws a TerminalRoutingStrategyException with the RoutingStrategy message embedded.  
         public let `type`: RoutingStrategyType?
@@ -3501,10 +3501,10 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "AliasId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "RoutingStrategy", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Description", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "AliasId", required: true, type: .string), 
+            AWSShapeProperty(label: "RoutingStrategy", required: false, type: .structure)
         ]
         /// Human-readable description of an alias.
         public let description: String?
@@ -3535,7 +3535,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FleetId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "FleetId", required: false, type: .string)
         ]
         /// Unique identifier for a fleet that was updated.
         public let fleetId: String?
@@ -3553,8 +3553,8 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FleetId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "RuntimeConfiguration", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "FleetId", required: true, type: .string), 
+            AWSShapeProperty(label: "RuntimeConfiguration", required: true, type: .structure)
         ]
         /// Unique identifier for a fleet to update runtime configuration for.
         public let fleetId: String
@@ -3578,9 +3578,9 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Destinations", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "TimeoutInSeconds", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "Destinations", required: false, type: .list), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "TimeoutInSeconds", required: false, type: .integer)
         ]
         /// List of fleets that can be used to fulfill game session placement requests in the queue. Fleets are identified by either a fleet ARN or a fleet alias ARN. Destinations are listed in default preference order.
         public let destinations: [GameSessionQueueDestination]?
@@ -3611,8 +3611,8 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GameSessions", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "GameSessions", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// Collection of objects containing game session properties for each session matching the request.
         public let gameSessions: [GameSession]?
@@ -3638,7 +3638,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Alias", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Alias", required: false, type: .structure)
         ]
         /// Object that contains the updated alias configuration.
         public let alias: Alias?
@@ -3656,7 +3656,7 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RuntimeConfiguration", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "RuntimeConfiguration", required: false, type: .structure)
         ]
         /// Instructions describing how server processes should be launched and maintained on each instance in the fleet.
         public let runtimeConfiguration: RuntimeConfiguration?
@@ -3674,8 +3674,8 @@ extension Gamelift {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "FleetIds", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "FleetIds", required: false, type: .list)
         ]
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
         public let nextToken: String?

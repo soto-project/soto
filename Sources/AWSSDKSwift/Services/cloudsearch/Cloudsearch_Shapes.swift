@@ -33,7 +33,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "DomainName", required: true, type: .string)
         ]
         public let domainName: String
 
@@ -51,12 +51,12 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReturnEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "FacetEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "SourceField", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "SearchEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "SortEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "DefaultValue", location: nil, required: false, type: .long)
+            AWSShapeProperty(label: "ReturnEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "FacetEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "SourceField", required: false, type: .string), 
+            AWSShapeProperty(label: "SearchEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "SortEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "DefaultValue", required: false, type: .long)
         ]
         /// Whether the contents of the field can be returned in the search results.
         public let returnEnabled: Bool?
@@ -94,8 +94,8 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Options", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "Status", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "Options", required: true, type: .structure), 
+            AWSShapeProperty(label: "Status", required: true, type: .structure)
         ]
         /// The expression that is evaluated for sorting while processing a search request.
         public let options: Expression
@@ -118,7 +118,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ScalingParameters", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "ScalingParameters", required: true, type: .structure)
         ]
         public let scalingParameters: ScalingParametersStatus
 
@@ -136,9 +136,9 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AnalysisSchemeLanguage", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "AnalysisSchemeName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "AnalysisOptions", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "AnalysisSchemeLanguage", required: true, type: .enum), 
+            AWSShapeProperty(label: "AnalysisSchemeName", required: true, type: .string), 
+            AWSShapeProperty(label: "AnalysisOptions", required: false, type: .structure)
         ]
         public let analysisSchemeLanguage: AnalysisSchemeLanguage
         public let analysisSchemeName: String
@@ -163,8 +163,8 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IndexFieldName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DomainName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "IndexFieldName", required: true, type: .string), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string)
         ]
         /// The name of the index field your want to remove from the domain's indexing options.
         public let indexFieldName: String
@@ -187,7 +187,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Expression", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "Expression", required: true, type: .structure)
         ]
         /// The status of the expression being deleted.
         public let expression: ExpressionStatus
@@ -206,12 +206,12 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReturnEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "FacetEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "SourceField", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "SearchEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "SortEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "DefaultValue", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "ReturnEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "FacetEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "SourceField", required: false, type: .string), 
+            AWSShapeProperty(label: "SearchEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "SortEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "DefaultValue", required: false, type: .string)
         ]
         /// Whether the contents of the field can be returned in the search results.
         public let returnEnabled: Bool?
@@ -248,9 +248,9 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AnalysisSchemeNames", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "Deployed", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "DomainName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "AnalysisSchemeNames", required: false, type: .list), 
+            AWSShapeProperty(label: "Deployed", required: false, type: .boolean), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string)
         ]
         /// The analysis schemes you want to describe.
         public let analysisSchemeNames: [String]?
@@ -277,11 +277,11 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UpdateVersion", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "PendingDeletion", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "CreationDate", location: nil, required: true, type: .timestamp), 
-            AWSShapeProperty(label: "State", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "UpdateDate", location: nil, required: true, type: .timestamp)
+            AWSShapeProperty(label: "UpdateVersion", required: false, type: .integer), 
+            AWSShapeProperty(label: "PendingDeletion", required: false, type: .boolean), 
+            AWSShapeProperty(label: "CreationDate", required: true, type: .timestamp), 
+            AWSShapeProperty(label: "State", required: true, type: .enum), 
+            AWSShapeProperty(label: "UpdateDate", required: true, type: .timestamp)
         ]
         /// A unique integer that indicates when this option was last updated.
         public let updateVersion: Int32?
@@ -318,7 +318,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainNames", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "DomainNames", required: false, type: .list)
         ]
         /// The names of the domains you want to include in the response.
         public let domainNames: [String]?
@@ -336,7 +336,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccessPolicies", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "AccessPolicies", required: true, type: .structure)
         ]
         /// The access rules configured for the domain.
         public let accessPolicies: AccessPoliciesStatus
@@ -355,11 +355,11 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReturnEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "SourceFields", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "FacetEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "SearchEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "DefaultValue", location: nil, required: false, type: .double)
+            AWSShapeProperty(label: "ReturnEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "SourceFields", required: false, type: .string), 
+            AWSShapeProperty(label: "FacetEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "SearchEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "DefaultValue", required: false, type: .double)
         ]
         /// Whether the contents of the field can be returned in the search results.
         public let returnEnabled: Bool?
@@ -393,19 +393,19 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Limits", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Processing", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "Created", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "ARN", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "DocService", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "RequiresIndexDocuments", location: nil, required: true, type: .boolean), 
-            AWSShapeProperty(label: "SearchService", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "SearchPartitionCount", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "SearchInstanceType", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "DomainName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "SearchInstanceCount", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "Deleted", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "DomainId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Limits", required: false, type: .structure), 
+            AWSShapeProperty(label: "Processing", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Created", required: false, type: .boolean), 
+            AWSShapeProperty(label: "ARN", required: false, type: .string), 
+            AWSShapeProperty(label: "DocService", required: false, type: .structure), 
+            AWSShapeProperty(label: "RequiresIndexDocuments", required: true, type: .boolean), 
+            AWSShapeProperty(label: "SearchService", required: false, type: .structure), 
+            AWSShapeProperty(label: "SearchPartitionCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "SearchInstanceType", required: false, type: .string), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
+            AWSShapeProperty(label: "SearchInstanceCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "Deleted", required: false, type: .boolean), 
+            AWSShapeProperty(label: "DomainId", required: true, type: .string)
         ]
         public let limits: Limits?
         /// True if processing is being done to activate the current domain configuration.
@@ -478,7 +478,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ScalingParameters", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "ScalingParameters", required: true, type: .structure)
         ]
         public let scalingParameters: ScalingParametersStatus
 
@@ -496,7 +496,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainNames", location: nil, required: false, type: .map)
+            AWSShapeProperty(label: "DomainNames", required: false, type: .map)
         ]
         /// The names of the search domains owned by an account.
         public let domainNames: [String: String]?
@@ -518,8 +518,8 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Deployed", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "DomainName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Deployed", required: false, type: .boolean), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string)
         ]
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
         public let deployed: Bool?
@@ -542,7 +542,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IndexField", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "IndexField", required: true, type: .structure)
         ]
         /// The status of the index field being deleted.
         public let indexField: IndexFieldStatus
@@ -561,8 +561,8 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Suggester", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "DomainName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Suggester", required: true, type: .structure), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string)
         ]
         public let suggester: Suggester
         public let domainName: String
@@ -584,9 +584,9 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Deployed", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "FieldNames", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "DomainName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Deployed", required: false, type: .boolean), 
+            AWSShapeProperty(label: "FieldNames", required: false, type: .list), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string)
         ]
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
         public let deployed: Bool?
@@ -625,7 +625,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainStatus", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "DomainStatus", required: false, type: .structure)
         ]
         public let domainStatus: DomainStatus?
 
@@ -649,8 +649,8 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SuggesterName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DocumentSuggesterOptions", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "SuggesterName", required: true, type: .string), 
+            AWSShapeProperty(label: "DocumentSuggesterOptions", required: true, type: .structure)
         ]
         public let suggesterName: String
         public let documentSuggesterOptions: DocumentSuggesterOptions
@@ -672,9 +672,9 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DesiredReplicationCount", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "DesiredInstanceType", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "DesiredPartitionCount", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "DesiredReplicationCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "DesiredInstanceType", required: false, type: .enum), 
+            AWSShapeProperty(label: "DesiredPartitionCount", required: false, type: .integer)
         ]
         /// The number of replicas you want to preconfigure for each index partition.
         public let desiredReplicationCount: Int32?
@@ -700,8 +700,8 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Deployed", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "DomainName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Deployed", required: false, type: .boolean), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string)
         ]
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
         public let deployed: Bool?
@@ -724,7 +724,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainStatus", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "DomainStatus", required: false, type: .structure)
         ]
         public let domainStatus: DomainStatus?
 
@@ -741,9 +741,9 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SortExpression", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "FuzzyMatching", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "SourceField", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "SortExpression", required: false, type: .string), 
+            AWSShapeProperty(label: "FuzzyMatching", required: false, type: .enum), 
+            AWSShapeProperty(label: "SourceField", required: true, type: .string)
         ]
         /// An expression that computes a score for each suggestion to control how they are sorted. The scores are rounded to the nearest integer, with a floor of 0 and a ceiling of 2^31-1. A document's relevance score is not computed for suggestions, so sort expressions cannot reference the _score value. To sort suggestions using a numeric field or existing expression, simply specify the name of the field or expression. If no expression is configured for the suggester, the suggestions are sorted with the closest matches listed first.
         public let sortExpression: String?
@@ -770,8 +770,8 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Expression", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
+            AWSShapeProperty(label: "Expression", required: true, type: .structure)
         ]
         public let domainName: String
         public let expression: Expression
@@ -793,11 +793,11 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AnalysisScheme", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ReturnEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "SourceFields", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "HighlightEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "DefaultValue", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "AnalysisScheme", required: false, type: .string), 
+            AWSShapeProperty(label: "ReturnEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "SourceFields", required: false, type: .string), 
+            AWSShapeProperty(label: "HighlightEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "DefaultValue", required: false, type: .string)
         ]
         /// The name of an analysis scheme for a text-array field.
         public let analysisScheme: String?
@@ -831,7 +831,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainStatusList", location: nil, required: true, type: .list)
+            AWSShapeProperty(label: "DomainStatusList", required: true, type: .list)
         ]
         public let domainStatusList: [DomainStatus]
 
@@ -849,7 +849,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Suggester", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "Suggester", required: true, type: .structure)
         ]
         /// The status of the suggester being deleted.
         public let suggester: SuggesterStatus
@@ -868,8 +868,8 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IndexField", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "DomainName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "IndexField", required: true, type: .structure), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string)
         ]
         /// The index field and field options you want to configure. 
         public let indexField: IndexField
@@ -907,8 +907,8 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AnalysisScheme", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "DomainName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "AnalysisScheme", required: true, type: .structure), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string)
         ]
         public let analysisScheme: AnalysisScheme
         public let domainName: String
@@ -930,7 +930,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "DomainName", required: true, type: .string)
         ]
         /// The name of the domain you want to permanently delete.
         public let domainName: String
@@ -949,7 +949,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "DomainName", required: true, type: .string)
         ]
         public let domainName: String
 
@@ -967,8 +967,8 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExpressionName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DomainName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "ExpressionName", required: true, type: .string), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string)
         ]
         /// The name of the Expression to delete.
         public let expressionName: String
@@ -991,8 +991,8 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Options", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "Status", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "Options", required: true, type: .structure), 
+            AWSShapeProperty(label: "Status", required: true, type: .structure)
         ]
         public let options: IndexField
         public let status: OptionStatus
@@ -1014,8 +1014,8 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AnalysisSchemeName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DomainName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "AnalysisSchemeName", required: true, type: .string), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string)
         ]
         /// The name of the analysis scheme you want to delete.
         public let analysisSchemeName: String
@@ -1038,8 +1038,8 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Options", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "Status", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "Options", required: true, type: .structure), 
+            AWSShapeProperty(label: "Status", required: true, type: .structure)
         ]
         public let options: ScalingParameters
         public let status: OptionStatus
@@ -1061,11 +1061,11 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StemmingDictionary", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "JapaneseTokenizationDictionary", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Stopwords", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "AlgorithmicStemming", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Synonyms", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "StemmingDictionary", required: false, type: .string), 
+            AWSShapeProperty(label: "JapaneseTokenizationDictionary", required: false, type: .string), 
+            AWSShapeProperty(label: "Stopwords", required: false, type: .string), 
+            AWSShapeProperty(label: "AlgorithmicStemming", required: false, type: .enum), 
+            AWSShapeProperty(label: "Synonyms", required: false, type: .string)
         ]
         /// A JSON object that contains a collection of string:value pairs that each map a term to its stem. For example, {"term1": "stem1", "term2": "stem2", "term3": "stem3"}. The stemming dictionary is applied in addition to any algorithmic stemming. This enables you to override the results of the algorithmic stemming to correct specific cases of overstemming or understemming. The maximum size of a stemming dictionary is 500 KB.
         public let stemmingDictionary: String?
@@ -1099,8 +1099,8 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccessPolicies", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DomainName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "AccessPolicies", required: true, type: .string), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string)
         ]
         /// The access rules you want to configure. These rules replace any existing rules. 
         public let accessPolicies: String
@@ -1123,11 +1123,11 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReturnEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "SourceFields", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "FacetEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "SearchEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "DefaultValue", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "ReturnEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "SourceFields", required: false, type: .string), 
+            AWSShapeProperty(label: "FacetEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "SearchEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "DefaultValue", required: false, type: .string)
         ]
         /// Whether the contents of the field can be returned in the search results.
         public let returnEnabled: Bool?
@@ -1161,7 +1161,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AnalysisScheme", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "AnalysisScheme", required: true, type: .structure)
         ]
         /// The status of the analysis scheme being deleted.
         public let analysisScheme: AnalysisSchemeStatus
@@ -1180,7 +1180,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FieldNames", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "FieldNames", required: false, type: .list)
         ]
         public let fieldNames: [String]?
 
@@ -1197,8 +1197,8 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Options", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "Status", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "Options", required: true, type: .structure), 
+            AWSShapeProperty(label: "Status", required: true, type: .structure)
         ]
         public let options: AnalysisScheme
         public let status: OptionStatus
@@ -1220,8 +1220,8 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Options", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Status", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "Options", required: true, type: .string), 
+            AWSShapeProperty(label: "Status", required: true, type: .structure)
         ]
         public let options: String
         public let status: OptionStatus
@@ -1243,12 +1243,12 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AnalysisScheme", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ReturnEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "SourceField", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "HighlightEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "SortEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "DefaultValue", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "AnalysisScheme", required: false, type: .string), 
+            AWSShapeProperty(label: "ReturnEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "SourceField", required: false, type: .string), 
+            AWSShapeProperty(label: "HighlightEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "SortEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "DefaultValue", required: false, type: .string)
         ]
         /// The name of an analysis scheme for a text field.
         public let analysisScheme: String?
@@ -1285,7 +1285,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FieldNames", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "FieldNames", required: false, type: .list)
         ]
         /// The names of the fields that are currently being indexed.
         public let fieldNames: [String]?
@@ -1303,7 +1303,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Expression", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "Expression", required: true, type: .structure)
         ]
         public let expression: ExpressionStatus
 
@@ -1321,7 +1321,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AvailabilityOptions", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "AvailabilityOptions", required: false, type: .structure)
         ]
         /// The newly-configured availability options. Indicates whether Multi-AZ is enabled for the domain. 
         public let availabilityOptions: AvailabilityOptionsStatus?
@@ -1339,11 +1339,11 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReturnEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "SourceFields", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "FacetEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "SearchEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "DefaultValue", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "ReturnEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "SourceFields", required: false, type: .string), 
+            AWSShapeProperty(label: "FacetEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "SearchEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "DefaultValue", required: false, type: .string)
         ]
         /// Whether the contents of the field can be returned in the search results.
         public let returnEnabled: Bool?
@@ -1377,11 +1377,11 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReturnEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "SourceFields", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "FacetEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "SearchEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "DefaultValue", location: nil, required: false, type: .long)
+            AWSShapeProperty(label: "ReturnEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "SourceFields", required: false, type: .string), 
+            AWSShapeProperty(label: "FacetEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "SearchEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "DefaultValue", required: false, type: .long)
         ]
         /// Whether the contents of the field can be returned in the search results.
         public let returnEnabled: Bool?
@@ -1415,7 +1415,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AnalysisSchemes", location: nil, required: true, type: .list)
+            AWSShapeProperty(label: "AnalysisSchemes", required: true, type: .list)
         ]
         /// The analysis scheme descriptions.
         public let analysisSchemes: [AnalysisSchemeStatus]
@@ -1434,7 +1434,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Expressions", location: nil, required: true, type: .list)
+            AWSShapeProperty(label: "Expressions", required: true, type: .list)
         ]
         /// The expressions configured for the domain.
         public let expressions: [ExpressionStatus]
@@ -1453,8 +1453,8 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExpressionValue", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "ExpressionName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "ExpressionValue", required: true, type: .string), 
+            AWSShapeProperty(label: "ExpressionName", required: true, type: .string)
         ]
         public let expressionValue: String
         public let expressionName: String
@@ -1476,8 +1476,8 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Options", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "Status", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "Options", required: true, type: .structure), 
+            AWSShapeProperty(label: "Status", required: true, type: .structure)
         ]
         public let options: Suggester
         public let status: OptionStatus
@@ -1499,9 +1499,9 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Deployed", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "SuggesterNames", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "DomainName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Deployed", required: false, type: .boolean), 
+            AWSShapeProperty(label: "SuggesterNames", required: false, type: .list), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string)
         ]
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
         public let deployed: Bool?
@@ -1528,19 +1528,19 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IntOptions", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "DateOptions", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "TextArrayOptions", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "DoubleOptions", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "LiteralArrayOptions", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "IntArrayOptions", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "IndexFieldType", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "IndexFieldName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DateArrayOptions", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "LiteralOptions", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "LatLonOptions", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "TextOptions", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "DoubleArrayOptions", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "IntOptions", required: false, type: .structure), 
+            AWSShapeProperty(label: "DateOptions", required: false, type: .structure), 
+            AWSShapeProperty(label: "TextArrayOptions", required: false, type: .structure), 
+            AWSShapeProperty(label: "DoubleOptions", required: false, type: .structure), 
+            AWSShapeProperty(label: "LiteralArrayOptions", required: false, type: .structure), 
+            AWSShapeProperty(label: "IntArrayOptions", required: false, type: .structure), 
+            AWSShapeProperty(label: "IndexFieldType", required: true, type: .enum), 
+            AWSShapeProperty(label: "IndexFieldName", required: true, type: .string), 
+            AWSShapeProperty(label: "DateArrayOptions", required: false, type: .structure), 
+            AWSShapeProperty(label: "LiteralOptions", required: false, type: .structure), 
+            AWSShapeProperty(label: "LatLonOptions", required: false, type: .structure), 
+            AWSShapeProperty(label: "TextOptions", required: false, type: .structure), 
+            AWSShapeProperty(label: "DoubleArrayOptions", required: false, type: .structure)
         ]
         public let intOptions: IntOptions?
         public let dateOptions: DateOptions?
@@ -1596,12 +1596,12 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReturnEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "FacetEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "SourceField", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "SearchEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "SortEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "DefaultValue", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "ReturnEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "FacetEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "SourceField", required: false, type: .string), 
+            AWSShapeProperty(label: "SearchEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "SortEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "DefaultValue", required: false, type: .string)
         ]
         /// Whether the contents of the field can be returned in the search results.
         public let returnEnabled: Bool?
@@ -1677,9 +1677,9 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Deployed", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "ExpressionNames", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "DomainName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Deployed", required: false, type: .boolean), 
+            AWSShapeProperty(label: "ExpressionNames", required: false, type: .list), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string)
         ]
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
         public let deployed: Bool?
@@ -1706,12 +1706,12 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReturnEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "FacetEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "SourceField", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "SearchEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "SortEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "DefaultValue", location: nil, required: false, type: .double)
+            AWSShapeProperty(label: "ReturnEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "FacetEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "SourceField", required: false, type: .string), 
+            AWSShapeProperty(label: "SearchEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "SortEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "DefaultValue", required: false, type: .double)
         ]
         /// Whether the contents of the field can be returned in the search results.
         public let returnEnabled: Bool?
@@ -1749,12 +1749,12 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReturnEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "FacetEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "SourceField", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "SearchEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "SortEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "DefaultValue", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "ReturnEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "FacetEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "SourceField", required: false, type: .string), 
+            AWSShapeProperty(label: "SearchEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "SortEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "DefaultValue", required: false, type: .string)
         ]
         /// Whether the contents of the field can be returned in the search results.
         public let returnEnabled: Bool?
@@ -1791,8 +1791,8 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MultiAZ", location: nil, required: true, type: .boolean), 
-            AWSShapeProperty(label: "DomainName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "MultiAZ", required: true, type: .boolean), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string)
         ]
         /// You expand an existing search domain to a second Availability Zone by setting the Multi-AZ option to true. Similarly, you can turn off the Multi-AZ option to downgrade the domain to a single Availability Zone by setting the Multi-AZ option to false. 
         public let multiAZ: Bool
@@ -1815,7 +1815,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccessPolicies", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "AccessPolicies", required: true, type: .structure)
         ]
         /// The access rules configured for the domain specified in the request.
         public let accessPolicies: AccessPoliciesStatus
@@ -1834,7 +1834,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "DomainName", required: true, type: .string)
         ]
         public let domainName: String
 
@@ -1852,8 +1852,8 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Options", location: nil, required: true, type: .boolean), 
-            AWSShapeProperty(label: "Status", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "Options", required: true, type: .boolean), 
+            AWSShapeProperty(label: "Status", required: true, type: .structure)
         ]
         /// The availability options configured for the domain.
         public let options: Bool
@@ -1876,7 +1876,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Endpoint", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Endpoint", required: false, type: .string)
         ]
         public let endpoint: String?
 
@@ -1893,8 +1893,8 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SuggesterName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DomainName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "SuggesterName", required: true, type: .string), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string)
         ]
         /// Specifies the name of the suggester you want to delete.
         public let suggesterName: String
@@ -1917,8 +1917,8 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaximumReplicationCount", location: nil, required: true, type: .integer), 
-            AWSShapeProperty(label: "MaximumPartitionCount", location: nil, required: true, type: .integer)
+            AWSShapeProperty(label: "MaximumReplicationCount", required: true, type: .integer), 
+            AWSShapeProperty(label: "MaximumPartitionCount", required: true, type: .integer)
         ]
         public let maximumReplicationCount: Int32
         public let maximumPartitionCount: Int32
@@ -1940,7 +1940,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IndexFields", location: nil, required: true, type: .list)
+            AWSShapeProperty(label: "IndexFields", required: true, type: .list)
         ]
         /// The index fields configured for the domain.
         public let indexFields: [IndexFieldStatus]
@@ -1959,8 +1959,8 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ScalingParameters", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "DomainName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "ScalingParameters", required: true, type: .structure), 
+            AWSShapeProperty(label: "DomainName", required: true, type: .string)
         ]
         public let scalingParameters: ScalingParameters
         public let domainName: String
@@ -1982,7 +1982,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AnalysisScheme", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "AnalysisScheme", required: true, type: .structure)
         ]
         public let analysisScheme: AnalysisSchemeStatus
 
@@ -2000,7 +2000,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Suggester", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "Suggester", required: true, type: .structure)
         ]
         public let suggester: SuggesterStatus
 
@@ -2018,7 +2018,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IndexField", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "IndexField", required: true, type: .structure)
         ]
         public let indexField: IndexFieldStatus
 
@@ -2036,7 +2036,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Suggesters", location: nil, required: true, type: .list)
+            AWSShapeProperty(label: "Suggesters", required: true, type: .list)
         ]
         /// The suggesters configured for the domain specified in the request.
         public let suggesters: [SuggesterStatus]
@@ -2063,7 +2063,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AvailabilityOptions", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "AvailabilityOptions", required: false, type: .structure)
         ]
         /// The availability options configured for the domain. Indicates whether Multi-AZ is enabled for the domain. 
         public let availabilityOptions: AvailabilityOptionsStatus?
@@ -2081,7 +2081,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "DomainName", required: true, type: .string)
         ]
         /// A name for the domain you are creating. Allowed characters are a-z (lower-case letters), 0-9, and hyphen (-). Domain names must start with a letter or number and be at least 3 and no more than 28 characters long.
         public let domainName: String

@@ -27,38 +27,3 @@ public struct Member {
         self.isStreaming = isStreaming
     }
 }
-
-extension Collection where Iterator.Element == Member {
-    public func toRequestParam() -> RequestParam {
-        var headersParams: [String: String] = [:]
-        var queryParams: [String: String] = [:]
-        var pathParams: [String: String] = [:]
-        
-        for member in self {
-            guard let location = member.location else { continue }
-            switch location {
-            case .header(let replaceTo, let keyForHeader):
-                headersParams[replaceTo] = keyForHeader
-
-            case .querystring(let replaceTo, let keyForQuery):
-                queryParams[replaceTo] = keyForQuery
-
-            case .uri(let replaceTo, let replaceToKey):
-                pathParams[replaceTo] = replaceToKey
-            }
-        }
-        return RequestParam(pathParams: pathParams, queryParams: queryParams, headerParams: headersParams)
-    }
-}
-
-public struct RequestParam {
-    public let pathParams: [String: String]
-    public let queryParams: [String: String]
-    public let headerParams: [String: String]
-    
-    public init(pathParams: [String: String], queryParams: [String: String], headerParams: [String: String]) {
-        self.pathParams = pathParams
-        self.queryParams = queryParams
-        self.headerParams = headerParams
-    }
-}

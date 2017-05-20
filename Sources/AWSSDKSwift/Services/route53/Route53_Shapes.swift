@@ -33,11 +33,11 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Config", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "ResourceRecordSetCount", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "CallerReference", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Id", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Config", required: false, type: .structure), 
+            AWSShapeProperty(label: "ResourceRecordSetCount", required: false, type: .long), 
+            AWSShapeProperty(label: "CallerReference", required: true, type: .string), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
         /// A complex type that includes the Comment and PrivateZone elements. If you omitted the HostedZoneConfig and Comment elements from the request, the Config and Comment elements don't appear in the response.
         public let config: HostedZoneConfig?
@@ -81,7 +81,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NameServer", location: "NameServer", required: false, type: .list)
+            AWSShapeProperty(label: "NameServer", required: false, type: .list)
         ]
         public let nameServer: [String]?
 
@@ -108,13 +108,10 @@ extension Route53 {
     public struct ListHostedZonesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["marker": "Marker", "delegationsetid": "DelegationSetId", "maxitems": "MaxItems"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DelegationSetId", location: "delegationsetid", required: false, type: .string), 
-            AWSShapeProperty(label: "Marker", location: "marker", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", location: "maxitems", required: false, type: .string)
+            AWSShapeProperty(label: "DelegationSetId", location: .querystring(locationName: "delegationsetid"), required: false, type: .string), 
+            AWSShapeProperty(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string)
         ]
         /// If you're using reusable delegation sets and you want to list all of the hosted zones that are associated with a reusable delegation set, specify the ID of that reusable delegation set. 
         public let delegationSetId: String?
@@ -139,11 +136,8 @@ extension Route53 {
     public struct GetTrafficPolicyInstanceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["Id": "Id"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", location: "Id", required: true, type: .string)
+            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The ID of the traffic policy instance that you want to get information about.
         public let id: String
@@ -162,7 +156,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TrafficPolicyInstance", location: "TrafficPolicyInstance", required: false, type: .list)
+            AWSShapeProperty(label: "TrafficPolicyInstance", required: false, type: .list)
         ]
         public let trafficPolicyInstance: [TrafficPolicyInstance]?
 
@@ -183,7 +177,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GeoLocationDetails", location: "GeoLocationDetails", required: false, type: .list)
+            AWSShapeProperty(label: "GeoLocationDetails", required: false, type: .list)
         ]
         public let geoLocationDetails: [GeoLocationDetails]?
 
@@ -204,7 +198,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HealthCheckObservations", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "HealthCheckObservations", required: true, type: .structure)
         ]
         /// A list that contains one HealthCheckObservation element for each Amazon Route 53 health checker that is reporting a status about the health check endpoint.
         public let healthCheckObservations: HealthCheckObservations
@@ -222,16 +216,10 @@ extension Route53 {
     public struct ListVPCAssociationAuthorizationsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["maxresults": "MaxResults", "nexttoken": "NextToken"]
-        }
-        public static var pathParams: [String: String] {
-            return ["Id": "HostedZoneId"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: "nexttoken", required: false, type: .string), 
-            AWSShapeProperty(label: "HostedZoneId", location: "Id", required: true, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: "maxresults", required: false, type: .string)
+            AWSShapeProperty(label: "NextToken", location: .querystring(locationName: "nexttoken"), required: false, type: .string), 
+            AWSShapeProperty(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string), 
+            AWSShapeProperty(label: "MaxResults", location: .querystring(locationName: "maxresults"), required: false, type: .string)
         ]
         ///  Optional: If a response includes a NextToken element, there are more VPCs that can be associated with the specified hosted zone. To get the next page of results, submit another request, and include the value of the NextToken element in from the response in the NextToken parameter in another ListVPCAssociationAuthorizations request.
         public let nextToken: String?
@@ -257,11 +245,8 @@ extension Route53 {
     public struct DeleteReusableDelegationSetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["Id": "Id"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", location: "Id", required: true, type: .string)
+            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The ID of the reusable delegation set you want to delete.
         public let id: String
@@ -279,12 +264,9 @@ extension Route53 {
     public struct CreateHealthCheckResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var headerParams: [String: String] {
-            return ["Location": "Location"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HealthCheck", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "Location", location: "Location", required: true, type: .string)
+            AWSShapeProperty(label: "HealthCheck", required: true, type: .structure), 
+            AWSShapeProperty(label: "Location", location: .header(locationName: "Location"), required: true, type: .string)
         ]
         /// A complex type that contains identifying information about the health check.
         public let healthCheck: HealthCheck
@@ -307,16 +289,13 @@ extension Route53 {
     public struct TestDNSAnswerRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["resolverip": "ResolverIP", "edns0clientsubnetip": "EDNS0ClientSubnetIP", "recordname": "RecordName", "hostedzoneid": "HostedZoneId", "edns0clientsubnetmask": "EDNS0ClientSubnetMask", "recordtype": "RecordType"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RecordType", location: "recordtype", required: true, type: .enum), 
-            AWSShapeProperty(label: "EDNS0ClientSubnetIP", location: "edns0clientsubnetip", required: false, type: .string), 
-            AWSShapeProperty(label: "EDNS0ClientSubnetMask", location: "edns0clientsubnetmask", required: false, type: .string), 
-            AWSShapeProperty(label: "RecordName", location: "recordname", required: true, type: .string), 
-            AWSShapeProperty(label: "HostedZoneId", location: "hostedzoneid", required: true, type: .string), 
-            AWSShapeProperty(label: "ResolverIP", location: "resolverip", required: false, type: .string)
+            AWSShapeProperty(label: "RecordType", location: .querystring(locationName: "recordtype"), required: true, type: .enum), 
+            AWSShapeProperty(label: "EDNS0ClientSubnetIP", location: .querystring(locationName: "edns0clientsubnetip"), required: false, type: .string), 
+            AWSShapeProperty(label: "EDNS0ClientSubnetMask", location: .querystring(locationName: "edns0clientsubnetmask"), required: false, type: .string), 
+            AWSShapeProperty(label: "RecordName", location: .querystring(locationName: "recordname"), required: true, type: .string), 
+            AWSShapeProperty(label: "HostedZoneId", location: .querystring(locationName: "hostedzoneid"), required: true, type: .string), 
+            AWSShapeProperty(label: "ResolverIP", location: .querystring(locationName: "resolverip"), required: false, type: .string)
         ]
         /// The type of the resource record set.
         public let recordType: RRType
@@ -357,10 +336,10 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IsTruncated", location: nil, required: true, type: .boolean), 
-            AWSShapeProperty(label: "MaxItems", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicyIdMarker", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicySummaries", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "IsTruncated", required: true, type: .boolean), 
+            AWSShapeProperty(label: "MaxItems", required: true, type: .string), 
+            AWSShapeProperty(label: "TrafficPolicyIdMarker", required: true, type: .string), 
+            AWSShapeProperty(label: "TrafficPolicySummaries", required: true, type: .structure)
         ]
         /// A flag that indicates whether there are more traffic policies to be listed. If the response was truncated, you can get the next group of MaxItems traffic policies by calling ListTrafficPolicies again and specifying the value of the TrafficPolicyIdMarker element in the TrafficPolicyIdMarker request parameter. Valid Values: true | false 
         public let isTruncated: Bool
@@ -394,7 +373,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TrafficPolicyInstanceCount", location: nil, required: true, type: .integer)
+            AWSShapeProperty(label: "TrafficPolicyInstanceCount", required: true, type: .integer)
         ]
         /// The number of traffic policy instances that are associated with the current AWS account.
         public let trafficPolicyInstanceCount: Int32
@@ -412,11 +391,8 @@ extension Route53 {
     public struct GetHealthCheckLastFailureReasonRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["HealthCheckId": "HealthCheckId"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HealthCheckId", location: "HealthCheckId", required: true, type: .string)
+            AWSShapeProperty(label: "HealthCheckId", location: .uri(locationName: "HealthCheckId"), required: true, type: .string)
         ]
         /// The ID for the health check for which you want the last failure reason. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element.
         public let healthCheckId: String
@@ -435,11 +411,11 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LatestVersion", location: nil, required: true, type: .integer), 
-            AWSShapeProperty(label: "Type", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicyCount", location: nil, required: true, type: .integer), 
-            AWSShapeProperty(label: "Id", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "LatestVersion", required: true, type: .integer), 
+            AWSShapeProperty(label: "Type", required: true, type: .enum), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "TrafficPolicyCount", required: true, type: .integer), 
+            AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
         /// The version number of the latest version of the traffic policy.
         public let latestVersion: Int32
@@ -478,8 +454,8 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Changes", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "Comment", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Changes", required: true, type: .structure), 
+            AWSShapeProperty(label: "Comment", required: false, type: .string)
         ]
         /// Information about the changes to make to the record sets.
         public let changes: Changes
@@ -501,14 +477,11 @@ extension Route53 {
     public struct UpdateTrafficPolicyInstanceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["Id": "Id"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TrafficPolicyVersion", location: nil, required: true, type: .integer), 
-            AWSShapeProperty(label: "TrafficPolicyId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "TTL", location: nil, required: true, type: .long), 
-            AWSShapeProperty(label: "Id", location: "Id", required: true, type: .string)
+            AWSShapeProperty(label: "TrafficPolicyVersion", required: true, type: .integer), 
+            AWSShapeProperty(label: "TrafficPolicyId", required: true, type: .string), 
+            AWSShapeProperty(label: "TTL", required: true, type: .long), 
+            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The version of the traffic policy that you want Amazon Route 53 to use to update resource record sets for the specified traffic policy instance.
         public let trafficPolicyVersion: Int32
@@ -541,13 +514,10 @@ extension Route53 {
     public struct ListHostedZonesByNameRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["dnsname": "DNSName", "maxitems": "MaxItems", "hostedzoneid": "HostedZoneId"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxItems", location: "maxitems", required: false, type: .string), 
-            AWSShapeProperty(label: "HostedZoneId", location: "hostedzoneid", required: false, type: .string), 
-            AWSShapeProperty(label: "DNSName", location: "dnsname", required: false, type: .string)
+            AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string), 
+            AWSShapeProperty(label: "HostedZoneId", location: .querystring(locationName: "hostedzoneid"), required: false, type: .string), 
+            AWSShapeProperty(label: "DNSName", location: .querystring(locationName: "dnsname"), required: false, type: .string)
         ]
         /// The maximum number of hosted zones to be included in the response body for this request. If you have more than maxitems hosted zones, then the value of the IsTruncated element in the response is true, and the values of NextDNSName and NextHostedZoneId specify the first hosted zone in the next group of maxitems hosted zones. 
         public let maxItems: String?
@@ -573,7 +543,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HealthCheckObservation", location: "HealthCheckObservation", required: false, type: .list)
+            AWSShapeProperty(label: "HealthCheckObservation", required: false, type: .list)
         ]
         public let healthCheckObservation: [HealthCheckObservation]?
 
@@ -634,7 +604,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HealthCheck", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "HealthCheck", required: true, type: .structure)
         ]
         public let healthCheck: HealthCheck
 
@@ -652,11 +622,11 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IsTruncated", location: nil, required: true, type: .boolean), 
-            AWSShapeProperty(label: "MaxItems", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicyInstances", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "TrafficPolicyInstanceTypeMarker", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "TrafficPolicyInstanceNameMarker", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "IsTruncated", required: true, type: .boolean), 
+            AWSShapeProperty(label: "MaxItems", required: true, type: .string), 
+            AWSShapeProperty(label: "TrafficPolicyInstances", required: true, type: .structure), 
+            AWSShapeProperty(label: "TrafficPolicyInstanceTypeMarker", required: false, type: .enum), 
+            AWSShapeProperty(label: "TrafficPolicyInstanceNameMarker", required: false, type: .string)
         ]
         /// A flag that indicates whether there are more traffic policy instances to be listed. If the response was truncated, you can get the next group of MaxItems traffic policy instances by calling ListTrafficPolicyInstancesByHostedZone again and specifying the values of the HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker elements in the corresponding request parameters.
         public let isTruncated: Bool
@@ -700,13 +670,10 @@ extension Route53 {
     public struct AssociateVPCWithHostedZoneRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["Id": "HostedZoneId"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VPC", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "HostedZoneId", location: "Id", required: true, type: .string), 
-            AWSShapeProperty(label: "Comment", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "VPC", required: true, type: .structure), 
+            AWSShapeProperty(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string), 
+            AWSShapeProperty(label: "Comment", required: false, type: .string)
         ]
         /// A complex type that contains information about the VPC that you want to associate with a private hosted zone.
         public let vPC: VPC
@@ -734,7 +701,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Value", required: true, type: .string)
         ]
         /// The current or new DNS record value, not to exceed 4,000 characters. In the case of a DELETE action, if the current value does not match the actual value, an error is returned. For descriptions about how to format Value for different record types, see Supported DNS Resource Record Types in the Amazon Route 53 Developer Guide. You can specify more than one value for all record types except CNAME and SOA.   If you're creating an alias resource record set, omit Value. 
         public let value: String
@@ -752,11 +719,8 @@ extension Route53 {
     public struct GetHealthCheckStatusRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["HealthCheckId": "HealthCheckId"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HealthCheckId", location: "HealthCheckId", required: true, type: .string)
+            AWSShapeProperty(label: "HealthCheckId", location: .uri(locationName: "HealthCheckId"), required: true, type: .string)
         ]
         /// The ID for the health check for which you want the current status. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element.  If you want to check the status of a calculated health check, you must use the Amazon Route 53 console or the CloudWatch console. You can't use GetHealthCheckStatus to get the status of a calculated health check. 
         public let healthCheckId: String
@@ -775,8 +739,8 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Key", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Value", required: false, type: .string), 
+            AWSShapeProperty(label: "Key", required: false, type: .string)
         ]
         /// The value of Value depends on the operation that you want to perform:    Add a tag to a health check or hosted zone: Value is the value that you want to give the new tag.    Edit a tag: Value is the new value that you want to assign the tag.  
         public let value: String?
@@ -798,9 +762,9 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NameServers", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "CallerReference", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Id", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "NameServers", required: true, type: .structure), 
+            AWSShapeProperty(label: "CallerReference", required: false, type: .string), 
+            AWSShapeProperty(label: "Id", required: false, type: .string)
         ]
         /// A complex type that contains a list of the authoritative name servers for the hosted zone.
         public let nameServers: DelegationSetNameServers
@@ -827,7 +791,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VPC", location: "VPC", required: false, type: .list)
+            AWSShapeProperty(label: "VPC", required: false, type: .list)
         ]
         public let vPC: [VPC]?
 
@@ -848,7 +812,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChildHealthCheck", location: "ChildHealthCheck", required: false, type: .list)
+            AWSShapeProperty(label: "ChildHealthCheck", required: false, type: .list)
         ]
         public let childHealthCheck: [String]?
 
@@ -864,13 +828,10 @@ extension Route53 {
     public struct UpdateTrafficPolicyCommentRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["Id": "Id", "Version": "Version"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Comment", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Version", location: "Version", required: true, type: .integer), 
-            AWSShapeProperty(label: "Id", location: "Id", required: true, type: .string)
+            AWSShapeProperty(label: "Comment", required: true, type: .string), 
+            AWSShapeProperty(label: "Version", location: .uri(locationName: "Version"), required: true, type: .integer), 
+            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The new comment for the specified traffic policy and version.
         public let comment: String
@@ -898,12 +859,9 @@ extension Route53 {
     public struct CreateTrafficPolicyVersionResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var headerParams: [String: String] {
-            return ["Location": "Location"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Location", location: "Location", required: true, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicy", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "Location", location: .header(locationName: "Location"), required: true, type: .string), 
+            AWSShapeProperty(label: "TrafficPolicy", required: true, type: .structure)
         ]
         /// A unique URL that represents a new traffic policy version.
         public let location: String
@@ -927,12 +885,12 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IsTruncated", location: nil, required: true, type: .boolean), 
-            AWSShapeProperty(label: "HostedZoneIdMarker", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicyInstances", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "MaxItems", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicyInstanceNameMarker", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicyInstanceTypeMarker", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "IsTruncated", required: true, type: .boolean), 
+            AWSShapeProperty(label: "HostedZoneIdMarker", required: false, type: .string), 
+            AWSShapeProperty(label: "TrafficPolicyInstances", required: true, type: .structure), 
+            AWSShapeProperty(label: "MaxItems", required: true, type: .string), 
+            AWSShapeProperty(label: "TrafficPolicyInstanceNameMarker", required: false, type: .string), 
+            AWSShapeProperty(label: "TrafficPolicyInstanceTypeMarker", required: false, type: .enum)
         ]
         /// A flag that indicates whether there are more traffic policy instances to be listed. If the response was truncated, you can get the next group of MaxItems traffic policy instances by calling ListTrafficPolicyInstances again and specifying the values of the HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker elements in the corresponding request parameters.
         public let isTruncated: Bool
@@ -973,13 +931,13 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HostedZones", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "MaxItems", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "IsTruncated", location: nil, required: true, type: .boolean), 
-            AWSShapeProperty(label: "NextHostedZoneId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "DNSName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "NextDNSName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "HostedZoneId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "HostedZones", required: true, type: .structure), 
+            AWSShapeProperty(label: "MaxItems", required: true, type: .string), 
+            AWSShapeProperty(label: "IsTruncated", required: true, type: .boolean), 
+            AWSShapeProperty(label: "NextHostedZoneId", required: false, type: .string), 
+            AWSShapeProperty(label: "DNSName", required: false, type: .string), 
+            AWSShapeProperty(label: "NextDNSName", required: false, type: .string), 
+            AWSShapeProperty(label: "HostedZoneId", required: false, type: .string)
         ]
         /// A complex type that contains general information about the hosted zone.
         public let hostedZones: HostedZones
@@ -1024,8 +982,8 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HealthCheckConfig", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "CallerReference", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "HealthCheckConfig", required: true, type: .structure), 
+            AWSShapeProperty(label: "CallerReference", required: true, type: .string)
         ]
         /// A complex type that contains the response to a CreateHealthCheck request. 
         public let healthCheckConfig: HealthCheckConfig
@@ -1048,12 +1006,9 @@ extension Route53 {
     public struct CreateReusableDelegationSetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var headerParams: [String: String] {
-            return ["Location": "Location"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Location", location: "Location", required: true, type: .string), 
-            AWSShapeProperty(label: "DelegationSet", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "Location", location: .header(locationName: "Location"), required: true, type: .string), 
+            AWSShapeProperty(label: "DelegationSet", required: true, type: .structure)
         ]
         /// The unique URL representing the new reusable delegation set.
         public let location: String
@@ -1077,7 +1032,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeInfo", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "ChangeInfo", required: true, type: .structure)
         ]
         /// A complex type that describes the changes made to your hosted zone.
         public let changeInfo: ChangeInfo
@@ -1096,11 +1051,11 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HealthCheckVersion", location: nil, required: true, type: .long), 
-            AWSShapeProperty(label: "HealthCheckConfig", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "CloudWatchAlarmConfiguration", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "CallerReference", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Id", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "HealthCheckVersion", required: true, type: .long), 
+            AWSShapeProperty(label: "HealthCheckConfig", required: true, type: .structure), 
+            AWSShapeProperty(label: "CloudWatchAlarmConfiguration", required: false, type: .structure), 
+            AWSShapeProperty(label: "CallerReference", required: true, type: .string), 
+            AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
         /// The version of the health check. You can optionally pass this value in a call to UpdateHealthCheck to prevent overwriting another change to the health check.
         public let healthCheckVersion: Int64
@@ -1138,14 +1093,14 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Threshold", location: nil, required: true, type: .double), 
-            AWSShapeProperty(label: "MetricName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Period", location: nil, required: true, type: .integer), 
-            AWSShapeProperty(label: "EvaluationPeriods", location: nil, required: true, type: .integer), 
-            AWSShapeProperty(label: "ComparisonOperator", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "Statistic", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "Namespace", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Dimensions", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Threshold", required: true, type: .double), 
+            AWSShapeProperty(label: "MetricName", required: true, type: .string), 
+            AWSShapeProperty(label: "Period", required: true, type: .integer), 
+            AWSShapeProperty(label: "EvaluationPeriods", required: true, type: .integer), 
+            AWSShapeProperty(label: "ComparisonOperator", required: true, type: .enum), 
+            AWSShapeProperty(label: "Statistic", required: true, type: .enum), 
+            AWSShapeProperty(label: "Namespace", required: true, type: .string), 
+            AWSShapeProperty(label: "Dimensions", required: false, type: .structure)
         ]
         /// For the metric that the CloudWatch alarm is associated with, the value the metric is compared with.
         public let threshold: Double
@@ -1198,7 +1153,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeInfo", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "ChangeInfo", required: true, type: .structure)
         ]
         /// A complex type that describes the changes made to the specified private hosted zone.
         public let changeInfo: ChangeInfo
@@ -1217,7 +1172,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeInfo", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "ChangeInfo", required: true, type: .structure)
         ]
         /// A complex type that contains information about the specified change batch.
         public let changeInfo: ChangeInfo
@@ -1235,25 +1190,22 @@ extension Route53 {
     public struct UpdateHealthCheckRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["HealthCheckId": "HealthCheckId"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HealthCheckVersion", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "IPAddress", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ChildHealthChecks", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "ResourcePath", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "InsufficientDataHealthStatus", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Inverted", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "AlarmIdentifier", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "HealthCheckId", location: "HealthCheckId", required: true, type: .string), 
-            AWSShapeProperty(label: "Regions", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "HealthThreshold", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "SearchString", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "FullyQualifiedDomainName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "FailureThreshold", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "EnableSNI", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "Port", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "HealthCheckVersion", required: false, type: .long), 
+            AWSShapeProperty(label: "IPAddress", required: false, type: .string), 
+            AWSShapeProperty(label: "ChildHealthChecks", required: false, type: .structure), 
+            AWSShapeProperty(label: "ResourcePath", required: false, type: .string), 
+            AWSShapeProperty(label: "InsufficientDataHealthStatus", required: false, type: .enum), 
+            AWSShapeProperty(label: "Inverted", required: false, type: .boolean), 
+            AWSShapeProperty(label: "AlarmIdentifier", required: false, type: .structure), 
+            AWSShapeProperty(label: "HealthCheckId", location: .uri(locationName: "HealthCheckId"), required: true, type: .string), 
+            AWSShapeProperty(label: "Regions", required: false, type: .structure), 
+            AWSShapeProperty(label: "HealthThreshold", required: false, type: .integer), 
+            AWSShapeProperty(label: "SearchString", required: false, type: .string), 
+            AWSShapeProperty(label: "FullyQualifiedDomainName", required: false, type: .string), 
+            AWSShapeProperty(label: "FailureThreshold", required: false, type: .integer), 
+            AWSShapeProperty(label: "EnableSNI", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Port", required: false, type: .integer)
         ]
         /// A sequential counter that Amazon Route 53 sets to 1 when you create a health check and increments by 1 each time you update settings for the health check. We recommend that you use GetHealthCheck or ListHealthChecks to get the current value of HealthCheckVersion for the health check that you want to update, and that you include that value in your UpdateHealthCheck request. This prevents Amazon Route 53 from overwriting an intervening update:   f the value in the UpdateHealthCheck request matches the value of HealthCheckVersion in the health check, Amazon Route 53 updates the health check with the new settings.   If the value of HealthCheckVersion in the health check is greater, the health check was changed after you got the version number. Amazon Route 53 does not update the health check, and it returns a HealthCheckVersionMismatch error.  
         public let healthCheckVersion: Int64?
@@ -1326,12 +1278,9 @@ extension Route53 {
     public struct ListReusableDelegationSetsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["marker": "Marker", "maxitems": "MaxItems"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", location: "marker", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", location: "maxitems", required: false, type: .string)
+            AWSShapeProperty(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string)
         ]
         /// If you're making the second or subsequent call to ListReusableDelegationSets, the Marker element matches the value that you specified in the marker parameter in the previous request.
         public let marker: String?
@@ -1353,7 +1302,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Change", location: "Change", required: false, type: .list)
+            AWSShapeProperty(label: "Change", required: false, type: .list)
         ]
         public let change: [Change]?
 
@@ -1373,12 +1322,9 @@ extension Route53 {
     public struct ListTagsForResourceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["ResourceId": "ResourceId", "ResourceType": "ResourceType"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", location: "ResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "ResourceType", location: "ResourceType", required: true, type: .enum)
+            AWSShapeProperty(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
+            AWSShapeProperty(label: "ResourceType", location: .uri(locationName: "ResourceType"), required: true, type: .enum)
         ]
         /// The ID of the resource for which you want to retrieve tags.
         public let resourceId: String
@@ -1401,12 +1347,9 @@ extension Route53 {
     public struct CreateTrafficPolicyResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var headerParams: [String: String] {
-            return ["Location": "Location"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Location", location: "Location", required: true, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicy", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "Location", location: .header(locationName: "Location"), required: true, type: .string), 
+            AWSShapeProperty(label: "TrafficPolicy", required: true, type: .structure)
         ]
         /// A unique URL that represents a new traffic policy.
         public let location: String
@@ -1430,7 +1373,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceTagSet", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "ResourceTagSet", required: true, type: .structure)
         ]
         /// A ResourceTagSet containing tags associated with the specified resource.
         public let resourceTagSet: ResourceTagSet
@@ -1455,9 +1398,9 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DNSName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "HostedZoneId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "EvaluateTargetHealth", location: nil, required: true, type: .boolean)
+            AWSShapeProperty(label: "DNSName", required: true, type: .string), 
+            AWSShapeProperty(label: "HostedZoneId", required: true, type: .string), 
+            AWSShapeProperty(label: "EvaluateTargetHealth", required: true, type: .boolean)
         ]
         ///  Alias resource record sets only: The value that you specify depends on where you want to route queries:  CloudFront distribution  Specify the domain name that CloudFront assigned when you created your distribution. Your CloudFront distribution must include an alternate domain name that matches the name of the resource record set. For example, if the name of the resource record set is acme.example.com, your CloudFront distribution must include acme.example.com as one of the alternate domain names. For more information, see Using Alternate Domain Names (CNAMEs) in the Amazon CloudFront Developer Guide.  Elastic Beanstalk environment  Specify the CNAME attribute for the environment. (The environment must have a regionalized domain name.) You can use the following methods to get the value of the CNAME attribute:    AWS Management Console: For information about how to get the value by using the console, see Using Custom Domains with AWS Elastic Beanstalk in the AWS Elastic Beanstalk Developer Guide.    Elastic Beanstalk API: Use the DescribeEnvironments action to get the value of the CNAME attribute. For more information, see DescribeEnvironments in the AWS Elastic Beanstalk API Reference.    AWS CLI: Use the describe-environments command to get the value of the CNAME attribute. For more information, see describe-environments in the AWS Command Line Interface Reference.    ELB load balancer  Specify the DNS name that is associated with the load balancer. Get the DNS name by using the AWS Management Console, the ELB API, or the AWS CLI.     AWS Management Console: Go to the EC2 page, choose Load Balancers in the navigation pane, choose the load balancer, choose the Description tab, and get the value of the DNS name field. (If you're routing traffic to a Classic Load Balancer, get the value that begins with dualstack.)     Elastic Load Balancing API: Use DescribeLoadBalancers to get the value of DNSName. For more information, see the applicable guide:   Classic Load Balancer: DescribeLoadBalancers    Application Load Balancer: DescribeLoadBalancers       AWS CLI: Use  describe-load-balancers  to get the value of DNSName.    Amazon S3 bucket that is configured as a static website  Specify the domain name of the Amazon S3 website endpoint in which you created the bucket, for example, s3-website-us-east-2.amazonaws.com. For more information about valid values, see the table Amazon Simple Storage Service (S3) Website Endpoints in the Amazon Web Services General Reference. For more information about using S3 buckets for websites, see Getting Started with Amazon Route 53 in the Amazon Route 53 Developer Guide.   Another Amazon Route 53 resource record set  Specify the value of the Name element for a resource record set in the current hosted zone.  
         public let dNSName: String
@@ -1486,15 +1429,15 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicyType", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "Message", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "State", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicyVersion", location: nil, required: true, type: .integer), 
-            AWSShapeProperty(label: "TrafficPolicyId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "TTL", location: nil, required: true, type: .long), 
-            AWSShapeProperty(label: "HostedZoneId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Id", required: true, type: .string), 
+            AWSShapeProperty(label: "TrafficPolicyType", required: true, type: .enum), 
+            AWSShapeProperty(label: "Message", required: true, type: .string), 
+            AWSShapeProperty(label: "State", required: true, type: .string), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "TrafficPolicyVersion", required: true, type: .integer), 
+            AWSShapeProperty(label: "TrafficPolicyId", required: true, type: .string), 
+            AWSShapeProperty(label: "TTL", required: true, type: .long), 
+            AWSShapeProperty(label: "HostedZoneId", required: true, type: .string)
         ]
         /// The ID that Amazon Route 53 assigned to the new traffic policy instance.
         public let id: String
@@ -1553,7 +1496,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TrafficPolicyInstance", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "TrafficPolicyInstance", required: true, type: .structure)
         ]
         /// A complex type that contains settings for the updated traffic policy instance.
         public let trafficPolicyInstance: TrafficPolicyInstance
@@ -1571,12 +1514,9 @@ extension Route53 {
     public struct ListTrafficPoliciesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["trafficpolicyid": "TrafficPolicyIdMarker", "maxitems": "MaxItems"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TrafficPolicyIdMarker", location: "trafficpolicyid", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", location: "maxitems", required: false, type: .string)
+            AWSShapeProperty(label: "TrafficPolicyIdMarker", location: .querystring(locationName: "trafficpolicyid"), required: false, type: .string), 
+            AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string)
         ]
         /// (Conditional) For your first request to ListTrafficPolicies, do not include the TrafficPolicyIdMarker parameter. If you have more traffic policies than the value of MaxItems, ListTrafficPolicies returns only the first MaxItems traffic policies. To get the next group of MaxItems policies, submit another request to ListTrafficPolicies. For the value of TrafficPolicyIdMarker, specify the value of the TrafficPolicyIdMarker element that was returned in the previous response. Policies are listed in the order in which they were created.
         public let trafficPolicyIdMarker: String?
@@ -1598,7 +1538,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DelegationSet", location: "DelegationSet", required: false, type: .list)
+            AWSShapeProperty(label: "DelegationSet", required: false, type: .list)
         ]
         public let delegationSet: [DelegationSet]?
 
@@ -1618,13 +1558,10 @@ extension Route53 {
     public struct GetGeoLocationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["subdivisioncode": "SubdivisionCode", "countrycode": "CountryCode", "continentcode": "ContinentCode"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ContinentCode", location: "continentcode", required: false, type: .string), 
-            AWSShapeProperty(label: "SubdivisionCode", location: "subdivisioncode", required: false, type: .string), 
-            AWSShapeProperty(label: "CountryCode", location: "countrycode", required: false, type: .string)
+            AWSShapeProperty(label: "ContinentCode", location: .querystring(locationName: "continentcode"), required: false, type: .string), 
+            AWSShapeProperty(label: "SubdivisionCode", location: .querystring(locationName: "subdivisioncode"), required: false, type: .string), 
+            AWSShapeProperty(label: "CountryCode", location: .querystring(locationName: "countrycode"), required: false, type: .string)
         ]
         /// Amazon Route 53 supports the following continent codes:    AF: Africa    AN: Antarctica    AS: Asia    EU: Europe    OC: Oceania    NA: North America    SA: South America  
         public let continentCode: String?
@@ -1649,13 +1586,10 @@ extension Route53 {
     public struct DisassociateVPCFromHostedZoneRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["Id": "HostedZoneId"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VPC", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "HostedZoneId", location: "Id", required: true, type: .string), 
-            AWSShapeProperty(label: "Comment", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "VPC", required: true, type: .structure), 
+            AWSShapeProperty(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string), 
+            AWSShapeProperty(label: "Comment", required: false, type: .string)
         ]
         /// A complex type that contains information about the VPC that you're disassociating from the specified hosted zone.
         public let vPC: VPC
@@ -1682,11 +1616,8 @@ extension Route53 {
     public struct DeleteHealthCheckRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["HealthCheckId": "HealthCheckId"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HealthCheckId", location: "HealthCheckId", required: true, type: .string)
+            AWSShapeProperty(label: "HealthCheckId", location: .uri(locationName: "HealthCheckId"), required: true, type: .string)
         ]
         /// The ID of the health check that you want to delete.
         public let healthCheckId: String
@@ -1705,7 +1636,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Region", location: "Region", required: false, type: .list)
+            AWSShapeProperty(label: "Region", required: false, type: .list)
         ]
         public let region: [HealthCheckRegion]?
 
@@ -1721,15 +1652,12 @@ extension Route53 {
     public struct CreateHostedZoneResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var headerParams: [String: String] {
-            return ["Location": "Location"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeInfo", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "HostedZone", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "VPC", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Location", location: "Location", required: true, type: .string), 
-            AWSShapeProperty(label: "DelegationSet", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "ChangeInfo", required: true, type: .structure), 
+            AWSShapeProperty(label: "HostedZone", required: true, type: .structure), 
+            AWSShapeProperty(label: "VPC", required: false, type: .structure), 
+            AWSShapeProperty(label: "Location", location: .header(locationName: "Location"), required: true, type: .string), 
+            AWSShapeProperty(label: "DelegationSet", required: true, type: .structure)
         ]
         /// A complex type that describes the changes made to your hosted zone.
         public let changeInfo: ChangeInfo
@@ -1767,7 +1695,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TrafficPolicy", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "TrafficPolicy", required: true, type: .structure)
         ]
         /// A complex type that contains settings for the specified traffic policy.
         public let trafficPolicy: TrafficPolicy
@@ -1786,8 +1714,8 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "CheckedTime", location: nil, required: false, type: .timestamp)
+            AWSShapeProperty(label: "Status", required: false, type: .string), 
+            AWSShapeProperty(label: "CheckedTime", required: false, type: .timestamp)
         ]
         /// A description of the status of the health check endpoint as reported by one of the Amazon Route 53 health checkers.
         public let status: String?
@@ -1809,7 +1737,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceRecordSet", location: "ResourceRecordSet", required: false, type: .list)
+            AWSShapeProperty(label: "ResourceRecordSet", required: false, type: .list)
         ]
         public let resourceRecordSet: [ResourceRecordSet]?
 
@@ -1830,12 +1758,12 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Comment", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Version", location: nil, required: true, type: .integer), 
-            AWSShapeProperty(label: "Type", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Document", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Id", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Comment", required: false, type: .string), 
+            AWSShapeProperty(label: "Version", required: true, type: .integer), 
+            AWSShapeProperty(label: "Type", required: true, type: .enum), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "Document", required: true, type: .string), 
+            AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
         /// The comment that you specify in the CreateTrafficPolicy request, if any.
         public let comment: String?
@@ -1878,7 +1806,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GeoLocationDetails", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "GeoLocationDetails", required: true, type: .structure)
         ]
         /// A complex type that contains the codes and full continent, country, and subdivision names for the specified geolocation code.
         public let geoLocationDetails: GeoLocationDetails
@@ -1905,12 +1833,12 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextContinentCode", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "IsTruncated", location: nil, required: true, type: .boolean), 
-            AWSShapeProperty(label: "MaxItems", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "NextSubdivisionCode", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "GeoLocationDetailsList", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "NextCountryCode", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "NextContinentCode", required: false, type: .string), 
+            AWSShapeProperty(label: "IsTruncated", required: true, type: .boolean), 
+            AWSShapeProperty(label: "MaxItems", required: true, type: .string), 
+            AWSShapeProperty(label: "NextSubdivisionCode", required: false, type: .string), 
+            AWSShapeProperty(label: "GeoLocationDetailsList", required: true, type: .structure), 
+            AWSShapeProperty(label: "NextCountryCode", required: false, type: .string)
         ]
         /// If IsTruncated is true, you can make a follow-up request to display more locations. Enter the value of NextContinentCode in the StartContinentCode parameter in another GET ListGeoLocations request.
         public let nextContinentCode: String?
@@ -1951,9 +1879,9 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StatusReport", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "IPAddress", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Region", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "StatusReport", required: false, type: .structure), 
+            AWSShapeProperty(label: "IPAddress", required: false, type: .string), 
+            AWSShapeProperty(label: "Region", required: false, type: .enum)
         ]
         /// A complex type that contains the last failure reason as reported by one Amazon Route 53 health checker and the time of the failed health check.
         public let statusReport: StatusReport?
@@ -1979,7 +1907,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HealthCheck", location: "HealthCheck", required: false, type: .list)
+            AWSShapeProperty(label: "HealthCheck", required: false, type: .list)
         ]
         public let healthCheck: [HealthCheck]?
 
@@ -2000,8 +1928,8 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Value", required: true, type: .string), 
+            AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
         /// For the metric that the CloudWatch alarm is associated with, the value of one dimension.
         public let value: String
@@ -2024,11 +1952,8 @@ extension Route53 {
     public struct GetReusableDelegationSetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["Id": "Id"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", location: "Id", required: true, type: .string)
+            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The ID of the reusable delegation set for which you want to get a list of the name server.
         public let id: String
@@ -2046,12 +1971,9 @@ extension Route53 {
     public struct CreateVPCAssociationAuthorizationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["Id": "HostedZoneId"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HostedZoneId", location: "Id", required: true, type: .string), 
-            AWSShapeProperty(label: "VPC", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string), 
+            AWSShapeProperty(label: "VPC", required: true, type: .structure)
         ]
         /// The ID of the private hosted zone that you want to authorize associating a VPC with.
         public let hostedZoneId: String
@@ -2083,7 +2005,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", location: "ResourceId", required: false, type: .list)
+            AWSShapeProperty(label: "ResourceId", required: false, type: .list)
         ]
         public let resourceId: [String]?
 
@@ -2100,7 +2022,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Dimension", location: "Dimension", required: false, type: .list)
+            AWSShapeProperty(label: "Dimension", required: false, type: .list)
         ]
         public let dimension: [Dimension]?
 
@@ -2129,12 +2051,12 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextRecordName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceRecordSets", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "IsTruncated", location: nil, required: true, type: .boolean), 
-            AWSShapeProperty(label: "NextRecordType", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "NextRecordIdentifier", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "NextRecordName", required: false, type: .string), 
+            AWSShapeProperty(label: "ResourceRecordSets", required: true, type: .structure), 
+            AWSShapeProperty(label: "IsTruncated", required: true, type: .boolean), 
+            AWSShapeProperty(label: "NextRecordType", required: false, type: .enum), 
+            AWSShapeProperty(label: "NextRecordIdentifier", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxItems", required: true, type: .string)
         ]
         /// If the results were truncated, the name of the next record in the list. This element is present only if IsTruncated is true. 
         public let nextRecordName: String?
@@ -2175,11 +2097,11 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HostedZones", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "IsTruncated", location: nil, required: true, type: .boolean), 
-            AWSShapeProperty(label: "MaxItems", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "NextMarker", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Marker", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "HostedZones", required: true, type: .structure), 
+            AWSShapeProperty(label: "IsTruncated", required: true, type: .boolean), 
+            AWSShapeProperty(label: "MaxItems", required: true, type: .string), 
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string), 
+            AWSShapeProperty(label: "Marker", required: true, type: .string)
         ]
         /// A complex type that contains general information about the hosted zone.
         public let hostedZones: HostedZones
@@ -2216,12 +2138,9 @@ extension Route53 {
     public struct CreateTrafficPolicyInstanceResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var headerParams: [String: String] {
-            return ["Location": "Location"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Location", location: "Location", required: true, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicyInstance", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "Location", location: .header(locationName: "Location"), required: true, type: .string), 
+            AWSShapeProperty(label: "TrafficPolicyInstance", required: true, type: .structure)
         ]
         /// A unique URL that represents a new traffic policy instance.
         public let location: String
@@ -2257,12 +2176,12 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IsTruncated", location: nil, required: true, type: .boolean), 
-            AWSShapeProperty(label: "HostedZoneIdMarker", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicyInstances", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "MaxItems", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicyInstanceNameMarker", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicyInstanceTypeMarker", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "IsTruncated", required: true, type: .boolean), 
+            AWSShapeProperty(label: "HostedZoneIdMarker", required: false, type: .string), 
+            AWSShapeProperty(label: "TrafficPolicyInstances", required: true, type: .structure), 
+            AWSShapeProperty(label: "MaxItems", required: true, type: .string), 
+            AWSShapeProperty(label: "TrafficPolicyInstanceNameMarker", required: false, type: .string), 
+            AWSShapeProperty(label: "TrafficPolicyInstanceTypeMarker", required: false, type: .enum)
         ]
         /// A flag that indicates whether there are more traffic policy instances to be listed. If the response was truncated, you can get the next group of MaxItems traffic policy instances by calling ListTrafficPolicyInstancesByPolicy again and specifying the values of the HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker elements in the corresponding request parameters.
         public let isTruncated: Bool
@@ -2303,10 +2222,10 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Comment", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Status", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "SubmittedAt", location: nil, required: true, type: .timestamp), 
-            AWSShapeProperty(label: "Id", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Comment", required: false, type: .string), 
+            AWSShapeProperty(label: "Status", required: true, type: .enum), 
+            AWSShapeProperty(label: "SubmittedAt", required: true, type: .timestamp), 
+            AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
         /// A complex type that describes change information about changes made to your hosted zone. This element contains an ID that you use when performing a GetChange action to get detailed information about the change.
         public let comment: String?
@@ -2354,9 +2273,9 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ContinentCode", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "SubdivisionCode", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "CountryCode", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "ContinentCode", required: false, type: .string), 
+            AWSShapeProperty(label: "SubdivisionCode", required: false, type: .string), 
+            AWSShapeProperty(label: "CountryCode", required: false, type: .string)
         ]
         /// The two-letter code for the continent. Valid values: AF | AN | AS | EU | OC | NA | SA  Constraint: Specifying ContinentCode with either CountryCode or SubdivisionCode returns an InvalidInput error.
         public let continentCode: String?
@@ -2381,18 +2300,12 @@ extension Route53 {
     public struct ListResourceRecordSetsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["name": "StartRecordName", "type": "StartRecordType", "maxitems": "MaxItems", "identifier": "StartRecordIdentifier"]
-        }
-        public static var pathParams: [String: String] {
-            return ["Id": "HostedZoneId"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartRecordIdentifier", location: "identifier", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", location: "maxitems", required: false, type: .string), 
-            AWSShapeProperty(label: "StartRecordName", location: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "StartRecordType", location: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "HostedZoneId", location: "Id", required: true, type: .string)
+            AWSShapeProperty(label: "StartRecordIdentifier", location: .querystring(locationName: "identifier"), required: false, type: .string), 
+            AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string), 
+            AWSShapeProperty(label: "StartRecordName", location: .querystring(locationName: "name"), required: false, type: .string), 
+            AWSShapeProperty(label: "StartRecordType", location: .querystring(locationName: "type"), required: false, type: .enum), 
+            AWSShapeProperty(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         ///  Weighted resource record sets only: If results were truncated for a given DNS name and type, specify the value of NextRecordIdentifier from the previous response to get the next resource record set that has the current DNS name and type.
         public let startRecordIdentifier: String?
@@ -2427,7 +2340,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HealthCheckObservations", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "HealthCheckObservations", required: true, type: .structure)
         ]
         /// A list that contains one Observation element for each Amazon Route 53 health checker that is reporting a last failure reason. 
         public let healthCheckObservations: HealthCheckObservations
@@ -2445,13 +2358,10 @@ extension Route53 {
     public struct CreateTrafficPolicyVersionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["Id": "Id"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Document", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Comment", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Id", location: "Id", required: true, type: .string)
+            AWSShapeProperty(label: "Document", required: true, type: .string), 
+            AWSShapeProperty(label: "Comment", required: false, type: .string), 
+            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The definition of this version of the traffic policy, in JSON format. You specified the JSON in the CreateTrafficPolicyVersion request. For more information about the JSON format, see CreateTrafficPolicy.
         public let document: String
@@ -2479,12 +2389,12 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubdivisionName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "SubdivisionCode", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "CountryCode", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ContinentName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "CountryName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ContinentCode", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "SubdivisionName", required: false, type: .string), 
+            AWSShapeProperty(label: "SubdivisionCode", required: false, type: .string), 
+            AWSShapeProperty(label: "CountryCode", required: false, type: .string), 
+            AWSShapeProperty(label: "ContinentName", required: false, type: .string), 
+            AWSShapeProperty(label: "CountryName", required: false, type: .string), 
+            AWSShapeProperty(label: "ContinentCode", required: false, type: .string)
         ]
         /// The full name of the subdivision, for example, a state in the United States or a province in Canada.
         public let subdivisionName: String?
@@ -2530,7 +2440,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceTagSet", location: "ResourceTagSet", required: false, type: .list)
+            AWSShapeProperty(label: "ResourceTagSet", required: false, type: .list)
         ]
         public let resourceTagSet: [ResourceTagSet]?
 
@@ -2559,10 +2469,10 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IsTruncated", location: nil, required: true, type: .boolean), 
-            AWSShapeProperty(label: "MaxItems", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicyVersionMarker", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicies", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "IsTruncated", required: true, type: .boolean), 
+            AWSShapeProperty(label: "MaxItems", required: true, type: .string), 
+            AWSShapeProperty(label: "TrafficPolicyVersionMarker", required: true, type: .string), 
+            AWSShapeProperty(label: "TrafficPolicies", required: true, type: .structure)
         ]
         /// A flag that indicates whether there are more traffic policies to be listed. If the response was truncated, you can get the next group of maxitems traffic policies by calling ListTrafficPolicyVersions again and specifying the value of the NextMarker element in the marker parameter.
         public let isTruncated: Bool
@@ -2596,7 +2506,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tag", location: "Tag", required: false, type: .list)
+            AWSShapeProperty(label: "Tag", required: false, type: .list)
         ]
         public let tag: [Tag]?
 
@@ -2616,11 +2526,8 @@ extension Route53 {
     public struct GetHealthCheckRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["HealthCheckId": "HealthCheckId"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HealthCheckId", location: "HealthCheckId", required: true, type: .string)
+            AWSShapeProperty(label: "HealthCheckId", location: .uri(locationName: "HealthCheckId"), required: true, type: .string)
         ]
         /// The identifier that Amazon Route 53 assigned to the health check when you created it. When you add or update a resource record set, you use this value to specify which health check to use. The value can be up to 64 characters long.
         public let healthCheckId: String
@@ -2638,12 +2545,9 @@ extension Route53 {
     public struct ListHealthChecksRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["marker": "Marker", "maxitems": "MaxItems"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", location: "marker", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", location: "maxitems", required: false, type: .string)
+            AWSShapeProperty(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string)
         ]
         /// If the response to a ListHealthChecks is more than one page, marker is the health check ID for the first health check on the next page of results. For more information, see ListHealthChecksResponse$MaxItems.
         public let marker: String?
@@ -2665,7 +2569,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RecordDataEntry", location: "RecordDataEntry", required: false, type: .list)
+            AWSShapeProperty(label: "RecordDataEntry", required: false, type: .list)
         ]
         public let recordDataEntry: [String]?
 
@@ -2682,7 +2586,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceTagSets", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "ResourceTagSets", required: true, type: .structure)
         ]
         /// A list of ResourceTagSets containing tags associated with the specified resources.
         public let resourceTagSets: ResourceTagSetList
@@ -2701,11 +2605,11 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IsTruncated", location: nil, required: true, type: .boolean), 
-            AWSShapeProperty(label: "MaxItems", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "NextMarker", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Marker", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DelegationSets", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "IsTruncated", required: true, type: .boolean), 
+            AWSShapeProperty(label: "MaxItems", required: true, type: .string), 
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string), 
+            AWSShapeProperty(label: "Marker", required: true, type: .string), 
+            AWSShapeProperty(label: "DelegationSets", required: true, type: .structure)
         ]
         /// A flag that indicates whether there are more reusable delegation sets to be listed. If the response is truncated, you can get the next group of maxitems reusable delegation sets by calling ListReusableDelegationSets again and specifying the value of the NextMarker element in the marker parameter.
         public let isTruncated: Bool
@@ -2743,8 +2647,8 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Region", location: nil, required: true, type: .enum)
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "Region", required: true, type: .enum)
         ]
         /// The name of the CloudWatch alarm that you want Amazon Route 53 health checkers to use to determine whether this health check is healthy.
         public let name: String
@@ -2767,16 +2671,13 @@ extension Route53 {
     public struct ListTrafficPolicyInstancesByPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["version": "TrafficPolicyVersion", "hostedzoneid": "HostedZoneIdMarker", "trafficpolicyinstancetype": "TrafficPolicyInstanceTypeMarker", "trafficpolicyinstancename": "TrafficPolicyInstanceNameMarker", "maxitems": "MaxItems", "id": "TrafficPolicyId"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxItems", location: "maxitems", required: false, type: .string), 
-            AWSShapeProperty(label: "HostedZoneIdMarker", location: "hostedzoneid", required: false, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicyInstanceTypeMarker", location: "trafficpolicyinstancetype", required: false, type: .enum), 
-            AWSShapeProperty(label: "TrafficPolicyVersion", location: "version", required: true, type: .integer), 
-            AWSShapeProperty(label: "TrafficPolicyInstanceNameMarker", location: "trafficpolicyinstancename", required: false, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicyId", location: "id", required: true, type: .string)
+            AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string), 
+            AWSShapeProperty(label: "HostedZoneIdMarker", location: .querystring(locationName: "hostedzoneid"), required: false, type: .string), 
+            AWSShapeProperty(label: "TrafficPolicyInstanceTypeMarker", location: .querystring(locationName: "trafficpolicyinstancetype"), required: false, type: .enum), 
+            AWSShapeProperty(label: "TrafficPolicyVersion", location: .querystring(locationName: "version"), required: true, type: .integer), 
+            AWSShapeProperty(label: "TrafficPolicyInstanceNameMarker", location: .querystring(locationName: "trafficpolicyinstancename"), required: false, type: .string), 
+            AWSShapeProperty(label: "TrafficPolicyId", location: .querystring(locationName: "id"), required: true, type: .string)
         ]
         /// The maximum number of traffic policy instances to be included in the response body for this request. If you have more than MaxItems traffic policy instances, the value of the IsTruncated element in the response is true, and the values of HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker represent the first traffic policy instance in the next group of MaxItems traffic policy instances.
         public let maxItems: String?
@@ -2816,18 +2717,18 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Failover", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "GeoLocation", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "TrafficPolicyInstanceId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Weight", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "Region", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "AliasTarget", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "HealthCheckId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "SetIdentifier", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Type", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "ResourceRecords", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "TTL", location: nil, required: false, type: .long)
+            AWSShapeProperty(label: "Failover", required: false, type: .enum), 
+            AWSShapeProperty(label: "GeoLocation", required: false, type: .structure), 
+            AWSShapeProperty(label: "TrafficPolicyInstanceId", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "Weight", required: false, type: .long), 
+            AWSShapeProperty(label: "Region", required: false, type: .enum), 
+            AWSShapeProperty(label: "AliasTarget", required: false, type: .structure), 
+            AWSShapeProperty(label: "HealthCheckId", required: false, type: .string), 
+            AWSShapeProperty(label: "SetIdentifier", required: false, type: .string), 
+            AWSShapeProperty(label: "Type", required: true, type: .enum), 
+            AWSShapeProperty(label: "ResourceRecords", required: false, type: .structure), 
+            AWSShapeProperty(label: "TTL", required: false, type: .long)
         ]
         ///  Failover resource record sets only: To configure failover, you add the Failover element to two resource record sets. For one resource record set, you specify PRIMARY as the value for Failover; for the other resource record set, you specify SECONDARY. In addition, you include the HealthCheckId element and specify the health check that you want Amazon Route 53 to perform for each resource record set. Except where noted, the following failover behaviors assume that you have included the HealthCheckId element in both resource record sets:   When the primary resource record set is healthy, Amazon Route 53 responds to DNS queries with the applicable value from the primary resource record set regardless of the health of the secondary resource record set.   When the primary resource record set is unhealthy and the secondary resource record set is healthy, Amazon Route 53 responds to DNS queries with the applicable value from the secondary resource record set.   When the secondary resource record set is unhealthy, Amazon Route 53 responds to DNS queries with the applicable value from the primary resource record set regardless of the health of the primary resource record set.   If you omit the HealthCheckId element for the secondary resource record set, and if the primary resource record set is unhealthy, Amazon Route 53 always responds to DNS queries with the applicable value from the secondary resource record set. This is true regardless of the health of the associated endpoint.   You can't create non-failover resource record sets that have the same values for the Name and Type elements as failover resource record sets. For failover alias resource record sets, you must also include the EvaluateTargetHealth element and set the value to true. For more information about configuring failover for Amazon Route 53, see the following topics in the Amazon Route 53 Developer Guide:     Amazon Route 53 Health Checks and DNS Failover     Configuring Failover in a Private Hosted Zone    Valid values: PRIMARY | SECONDARY 
         public let failover: ResourceRecordSetFailover?
@@ -2898,12 +2799,9 @@ extension Route53 {
     public struct DeleteTrafficPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["Id": "Id", "Version": "Version"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Version", location: "Version", required: true, type: .integer), 
-            AWSShapeProperty(label: "Id", location: "Id", required: true, type: .string)
+            AWSShapeProperty(label: "Version", location: .uri(locationName: "Version"), required: true, type: .integer), 
+            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The version number of the traffic policy that you want to delete.
         public let version: Int32
@@ -2927,9 +2825,9 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "ResourceType", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "ResourceId", required: false, type: .string), 
+            AWSShapeProperty(label: "Tags", required: false, type: .structure), 
+            AWSShapeProperty(label: "ResourceType", required: false, type: .enum)
         ]
         /// The ID for the specified resource.
         public let resourceId: String?
@@ -2955,9 +2853,9 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "VPCs", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "HostedZoneId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "VPCs", required: true, type: .structure), 
+            AWSShapeProperty(label: "HostedZoneId", required: true, type: .string)
         ]
         /// When the response includes a NextToken element, there are more VPCs that can be associated with the specified hosted zone. To get the next page of VPCs, submit another ListVPCAssociationAuthorizations request, and include the value of the NextToken element from the response in the NextToken request parameter:  /2013-04-01/hostedzone/hosted zone ID/authorizevpcassociation?MaxItems=VPCs per page&amp;NextToken=  
         public let nextToken: String?
@@ -2985,22 +2883,22 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IPAddress", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ChildHealthChecks", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "MeasureLatency", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "ResourcePath", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "InsufficientDataHealthStatus", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Inverted", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "AlarmIdentifier", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Regions", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "HealthThreshold", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "SearchString", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "FullyQualifiedDomainName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "RequestInterval", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "Type", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "EnableSNI", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "Port", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "FailureThreshold", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "IPAddress", required: false, type: .string), 
+            AWSShapeProperty(label: "ChildHealthChecks", required: false, type: .structure), 
+            AWSShapeProperty(label: "MeasureLatency", required: false, type: .boolean), 
+            AWSShapeProperty(label: "ResourcePath", required: false, type: .string), 
+            AWSShapeProperty(label: "InsufficientDataHealthStatus", required: false, type: .enum), 
+            AWSShapeProperty(label: "Inverted", required: false, type: .boolean), 
+            AWSShapeProperty(label: "AlarmIdentifier", required: false, type: .structure), 
+            AWSShapeProperty(label: "Regions", required: false, type: .structure), 
+            AWSShapeProperty(label: "HealthThreshold", required: false, type: .integer), 
+            AWSShapeProperty(label: "SearchString", required: false, type: .string), 
+            AWSShapeProperty(label: "FullyQualifiedDomainName", required: false, type: .string), 
+            AWSShapeProperty(label: "RequestInterval", required: false, type: .integer), 
+            AWSShapeProperty(label: "Type", required: true, type: .enum), 
+            AWSShapeProperty(label: "EnableSNI", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Port", required: false, type: .integer), 
+            AWSShapeProperty(label: "FailureThreshold", required: false, type: .integer)
         ]
         /// The IPv4 or IPv6 IP address of the endpoint that you want Amazon Route 53 to perform health checks on. If you don't specify a value for IPAddress, Amazon Route 53 sends a DNS request to resolve the domain name that you specify in FullyQualifiedDomainName at the interval that you specify in RequestInterval. Using an IP address returned by DNS, Amazon Route 53 then checks the health of the endpoint. Use one of the following formats for the value of IPAddress:     IPv4 address: four values between 0 and 255, separated by periods (.), for example, 192.0.2.44.    IPv6 address: eight groups of four hexadecimal values, separated by colons (:), for example, 2001:0db8:85a3:0000:0000:abcd:0001:2345. You can also shorten IPv6 addresses as described in RFC 5952, for example, 2001:db8:85a3::abcd:1:2345.   If the endpoint is an EC2 instance, we recommend that you create an Elastic IP address, associate it with your EC2 instance, and specify the Elastic IP address for IPAddress. This ensures that the IP address of your instance will never change. For more information, see HealthCheckConfig$FullyQualifiedDomainName. Constraints: Amazon Route 53 can't check the health of endpoints for which the IP address is in local, private, non-routable, or multicast ranges. For more information about IP addresses for which you can't create health checks, see the following documents:    RFC 5735, Special Use IPv4 Addresses     RFC 6598, IANA-Reserved IPv4 Prefix for Shared Address Space     RFC 5156, Special-Use IPv6 Addresses    When the value of Type is CALCULATED or CLOUDWATCH_METRIC, omit IPAddress.
         public let iPAddress: String?
@@ -3087,16 +2985,10 @@ extension Route53 {
     public struct ListTrafficPolicyVersionsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["trafficpolicyversion": "TrafficPolicyVersionMarker", "maxitems": "MaxItems"]
-        }
-        public static var pathParams: [String: String] {
-            return ["Id": "Id"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", location: "Id", required: true, type: .string), 
-            AWSShapeProperty(label: "MaxItems", location: "maxitems", required: false, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicyVersionMarker", location: "trafficpolicyversion", required: false, type: .string)
+            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
+            AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string), 
+            AWSShapeProperty(label: "TrafficPolicyVersionMarker", location: .querystring(locationName: "trafficpolicyversion"), required: false, type: .string)
         ]
         /// Specify the value of Id of the traffic policy for which you want to list all versions.
         public let id: String
@@ -3122,14 +3014,11 @@ extension Route53 {
     public struct ListTrafficPolicyInstancesByHostedZoneRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["trafficpolicyinstancename": "TrafficPolicyInstanceNameMarker", "trafficpolicyinstancetype": "TrafficPolicyInstanceTypeMarker", "id": "HostedZoneId", "maxitems": "MaxItems"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxItems", location: "maxitems", required: false, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicyInstanceTypeMarker", location: "trafficpolicyinstancetype", required: false, type: .enum), 
-            AWSShapeProperty(label: "TrafficPolicyInstanceNameMarker", location: "trafficpolicyinstancename", required: false, type: .string), 
-            AWSShapeProperty(label: "HostedZoneId", location: "id", required: true, type: .string)
+            AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string), 
+            AWSShapeProperty(label: "TrafficPolicyInstanceTypeMarker", location: .querystring(locationName: "trafficpolicyinstancetype"), required: false, type: .enum), 
+            AWSShapeProperty(label: "TrafficPolicyInstanceNameMarker", location: .querystring(locationName: "trafficpolicyinstancename"), required: false, type: .string), 
+            AWSShapeProperty(label: "HostedZoneId", location: .querystring(locationName: "id"), required: true, type: .string)
         ]
         /// The maximum number of traffic policy instances to be included in the response body for this request. If you have more than MaxItems traffic policy instances, the value of the IsTruncated element in the response is true, and the values of HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker represent the first traffic policy instance in the next group of MaxItems traffic policy instances.
         public let maxItems: String?
@@ -3160,11 +3049,11 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IsTruncated", location: nil, required: true, type: .boolean), 
-            AWSShapeProperty(label: "HealthChecks", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "NextMarker", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Marker", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "MaxItems", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "IsTruncated", required: true, type: .boolean), 
+            AWSShapeProperty(label: "HealthChecks", required: true, type: .structure), 
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string), 
+            AWSShapeProperty(label: "Marker", required: true, type: .string), 
+            AWSShapeProperty(label: "MaxItems", required: true, type: .string)
         ]
         /// A flag that indicates whether there are more health checks to be listed. If the response was truncated, you can get the next group of maxitems health checks by calling ListHealthChecks again and specifying the value of the NextMarker element in the marker parameter. Valid Values: true | false 
         public let isTruncated: Bool
@@ -3202,7 +3091,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceRecord", location: "ResourceRecord", required: false, type: .list)
+            AWSShapeProperty(label: "ResourceRecord", required: false, type: .list)
         ]
         public let resourceRecord: [ResourceRecord]?
 
@@ -3223,9 +3112,9 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HostedZone", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "VPCs", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "DelegationSet", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "HostedZone", required: true, type: .structure), 
+            AWSShapeProperty(label: "VPCs", required: false, type: .structure), 
+            AWSShapeProperty(label: "DelegationSet", required: false, type: .structure)
         ]
         /// A complex type that contains general information about the hosted zone.
         public let hostedZone: HostedZone
@@ -3251,14 +3140,11 @@ extension Route53 {
     public struct ChangeTagsForResourceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["ResourceId": "ResourceId", "ResourceType": "ResourceType"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AddTags", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "ResourceId", location: "ResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "RemoveTagKeys", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "ResourceType", location: "ResourceType", required: true, type: .enum)
+            AWSShapeProperty(label: "AddTags", required: false, type: .structure), 
+            AWSShapeProperty(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
+            AWSShapeProperty(label: "RemoveTagKeys", required: false, type: .structure), 
+            AWSShapeProperty(label: "ResourceType", location: .uri(locationName: "ResourceType"), required: true, type: .enum)
         ]
         /// A complex type that contains a list of the tags that you want to add to the specified health check or hosted zone and/or the tags for which you want to edit the Value element. You can add a maximum of 10 tags to a health check or a hosted zone.
         public let addTags: TagList?
@@ -3289,12 +3175,9 @@ extension Route53 {
     public struct UpdateHostedZoneCommentRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["Id": "Id"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Comment", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Id", location: "Id", required: true, type: .string)
+            AWSShapeProperty(label: "Comment", required: false, type: .string), 
+            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The new comment for the hosted zone. If you don't specify a value for Comment, Amazon Route 53 deletes the existing value of the Comment element, if any.
         public let comment: String?
@@ -3317,7 +3200,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Key", location: "Key", required: false, type: .list)
+            AWSShapeProperty(label: "Key", required: false, type: .list)
         ]
         public let key: [String]?
 
@@ -3333,12 +3216,9 @@ extension Route53 {
     public struct DeleteVPCAssociationAuthorizationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["Id": "HostedZoneId"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HostedZoneId", location: "Id", required: true, type: .string), 
-            AWSShapeProperty(label: "VPC", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string), 
+            AWSShapeProperty(label: "VPC", required: true, type: .structure)
         ]
         /// When removing authorization to associate a VPC that was created by one AWS account with a hosted zone that was created with a different AWS account, the ID of the hosted zone.
         public let hostedZoneId: String
@@ -3362,11 +3242,11 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DelegationSetId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "VPC", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "CallerReference", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "HostedZoneConfig", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "DelegationSetId", required: false, type: .string), 
+            AWSShapeProperty(label: "VPC", required: false, type: .structure), 
+            AWSShapeProperty(label: "CallerReference", required: true, type: .string), 
+            AWSShapeProperty(label: "HostedZoneConfig", required: false, type: .structure), 
+            AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
         /// If you want to associate a reusable delegation set with this hosted zone, the ID that Amazon Route 53 assigned to the reusable delegation set when you created it. For more information about reusable delegation sets, see CreateReusableDelegationSet.  Type  String  Default  None  Parent   CreatedHostedZoneRequest   
         public let delegationSetId: String?
@@ -3402,7 +3282,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeInfo", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "ChangeInfo", required: true, type: .structure)
         ]
         /// A complex type that contains the ID, the status, and the date and time of your delete request.
         public let changeInfo: ChangeInfo
@@ -3421,7 +3301,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HostedZoneCount", location: nil, required: true, type: .long)
+            AWSShapeProperty(label: "HostedZoneCount", required: true, type: .long)
         ]
         /// The total number of public and private hosted zones associated with the current AWS account.
         public let hostedZoneCount: Int64
@@ -3456,7 +3336,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HealthCheck", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "HealthCheck", required: true, type: .structure)
         ]
         /// A complex type that contains information about one health check that is associated with the current AWS account.
         public let healthCheck: HealthCheck
@@ -3475,7 +3355,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TrafficPolicy", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "TrafficPolicy", required: true, type: .structure)
         ]
         /// A complex type that contains settings for the specified traffic policy.
         public let trafficPolicy: TrafficPolicy
@@ -3502,7 +3382,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HostedZone", location: "HostedZone", required: false, type: .list)
+            AWSShapeProperty(label: "HostedZone", required: false, type: .list)
         ]
         public let hostedZone: [HostedZone]?
 
@@ -3523,7 +3403,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HostedZone", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "HostedZone", required: true, type: .structure)
         ]
         public let hostedZone: HostedZone
 
@@ -3541,8 +3421,8 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceRecordSet", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "Action", location: nil, required: true, type: .enum)
+            AWSShapeProperty(label: "ResourceRecordSet", required: true, type: .structure), 
+            AWSShapeProperty(label: "Action", required: true, type: .enum)
         ]
         /// Information about the resource record set to create, delete, or update.
         public let resourceRecordSet: ResourceRecordSet
@@ -3565,11 +3445,8 @@ extension Route53 {
     public struct GetChangeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["Id": "Id"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", location: "Id", required: true, type: .string)
+            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The ID of the change batch request. The value that you specify here is the value that ChangeResourceRecordSets returned in the Id element when you submitted the request.
         public let id: String
@@ -3588,7 +3465,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CheckerIpRanges", location: nil, required: true, type: .list)
+            AWSShapeProperty(label: "CheckerIpRanges", required: true, type: .list)
         ]
         public let checkerIpRanges: [String]
 
@@ -3605,11 +3482,8 @@ extension Route53 {
     public struct GetHostedZoneRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["Id": "Id"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", location: "Id", required: true, type: .string)
+            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The ID of the hosted zone for which you want to get a list of the name servers in the delegation set.
         public let id: String
@@ -3627,11 +3501,8 @@ extension Route53 {
     public struct DeleteHostedZoneRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["Id": "Id"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", location: "Id", required: true, type: .string)
+            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The ID of the hosted zone you want to delete.
         public let id: String
@@ -3650,8 +3521,8 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CallerReference", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "HostedZoneId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "CallerReference", required: true, type: .string), 
+            AWSShapeProperty(label: "HostedZoneId", required: false, type: .string)
         ]
         /// A unique string that identifies the request, and that allows you to retry failed CreateReusableDelegationSet requests without the risk of executing the operation twice. You must use a unique CallerReference string every time you submit a CreateReusableDelegationSet request. CallerReference can be any unique string, for example a date/time stamp.
         public let callerReference: String
@@ -3674,7 +3545,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HealthCheckCount", location: nil, required: true, type: .long)
+            AWSShapeProperty(label: "HealthCheckCount", required: true, type: .long)
         ]
         /// The number of health checks associated with the current AWS account.
         public let healthCheckCount: Int64
@@ -3693,8 +3564,8 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PrivateZone", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "Comment", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "PrivateZone", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Comment", required: false, type: .string)
         ]
         /// A value that indicates whether this is a private hosted zone.
         public let privateZone: Bool?
@@ -3716,7 +3587,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TrafficPolicySummary", location: "TrafficPolicySummary", required: false, type: .list)
+            AWSShapeProperty(label: "TrafficPolicySummary", required: false, type: .list)
         ]
         public let trafficPolicySummary: [TrafficPolicySummary]?
 
@@ -3737,8 +3608,8 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HostedZoneId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "VPC", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "HostedZoneId", required: true, type: .string), 
+            AWSShapeProperty(label: "VPC", required: true, type: .structure)
         ]
         /// The ID of the hosted zone that you authorized associating a VPC with.
         public let hostedZoneId: String
@@ -3761,11 +3632,8 @@ extension Route53 {
     public struct DeleteTrafficPolicyInstanceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["Id": "Id"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", location: "Id", required: true, type: .string)
+            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The ID of the traffic policy instance that you want to delete.   When you delete a traffic policy instance, Amazon Route 53 also deletes all of the resource record sets that were created when you created the traffic policy instance. 
         public let id: String
@@ -3784,12 +3652,12 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Protocol", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "ResponseCode", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "RecordData", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "RecordName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "RecordType", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "Nameserver", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Protocol", required: true, type: .string), 
+            AWSShapeProperty(label: "ResponseCode", required: true, type: .string), 
+            AWSShapeProperty(label: "RecordData", required: true, type: .structure), 
+            AWSShapeProperty(label: "RecordName", required: true, type: .string), 
+            AWSShapeProperty(label: "RecordType", required: true, type: .enum), 
+            AWSShapeProperty(label: "Nameserver", required: true, type: .string)
         ]
         /// The protocol that Amazon Route 53 used to respond to the request, either UDP or TCP. 
         public let `protocol`: String
@@ -3832,12 +3700,9 @@ extension Route53 {
     public struct ChangeResourceRecordSetsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["Id": "HostedZoneId"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeBatch", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "HostedZoneId", location: "Id", required: true, type: .string)
+            AWSShapeProperty(label: "ChangeBatch", required: true, type: .structure), 
+            AWSShapeProperty(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// A complex type that contains an optional comment and the Changes element.
         public let changeBatch: ChangeBatch
@@ -3860,14 +3725,11 @@ extension Route53 {
     public struct ListTrafficPolicyInstancesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["hostedzoneid": "HostedZoneIdMarker", "trafficpolicyinstancetype": "TrafficPolicyInstanceTypeMarker", "trafficpolicyinstancename": "TrafficPolicyInstanceNameMarker", "maxitems": "MaxItems"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxItems", location: "maxitems", required: false, type: .string), 
-            AWSShapeProperty(label: "HostedZoneIdMarker", location: "hostedzoneid", required: false, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicyInstanceTypeMarker", location: "trafficpolicyinstancetype", required: false, type: .enum), 
-            AWSShapeProperty(label: "TrafficPolicyInstanceNameMarker", location: "trafficpolicyinstancename", required: false, type: .string)
+            AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string), 
+            AWSShapeProperty(label: "HostedZoneIdMarker", location: .querystring(locationName: "hostedzoneid"), required: false, type: .string), 
+            AWSShapeProperty(label: "TrafficPolicyInstanceTypeMarker", location: .querystring(locationName: "trafficpolicyinstancetype"), required: false, type: .enum), 
+            AWSShapeProperty(label: "TrafficPolicyInstanceNameMarker", location: .querystring(locationName: "trafficpolicyinstancename"), required: false, type: .string)
         ]
         /// The maximum number of traffic policy instances to be included in the response body for this request. If you have more than MaxItems traffic policy instances, the value of the IsTruncated element in the response is true, and the values of HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker represent the first traffic policy instance in the next group of MaxItems traffic policy instances.
         public let maxItems: String?
@@ -3897,8 +3759,8 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VPCId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "VPCRegion", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "VPCId", required: false, type: .string), 
+            AWSShapeProperty(label: "VPCRegion", required: false, type: .enum)
         ]
         public let vPCId: String?
         /// The region in which you created the VPC that you want to associate with the specified Amazon Route 53 hosted zone.
@@ -3918,14 +3780,11 @@ extension Route53 {
     public struct ListGeoLocationsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["startsubdivisioncode": "StartSubdivisionCode", "startcountrycode": "StartCountryCode", "maxitems": "MaxItems", "startcontinentcode": "StartContinentCode"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxItems", location: "maxitems", required: false, type: .string), 
-            AWSShapeProperty(label: "StartContinentCode", location: "startcontinentcode", required: false, type: .string), 
-            AWSShapeProperty(label: "StartSubdivisionCode", location: "startsubdivisioncode", required: false, type: .string), 
-            AWSShapeProperty(label: "StartCountryCode", location: "startcountrycode", required: false, type: .string)
+            AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string), 
+            AWSShapeProperty(label: "StartContinentCode", location: .querystring(locationName: "startcontinentcode"), required: false, type: .string), 
+            AWSShapeProperty(label: "StartSubdivisionCode", location: .querystring(locationName: "startsubdivisioncode"), required: false, type: .string), 
+            AWSShapeProperty(label: "StartCountryCode", location: .querystring(locationName: "startcountrycode"), required: false, type: .string)
         ]
         /// (Optional) The maximum number of geolocations to be included in the response body for this request. If more than MaxItems geolocations remain to be listed, then the value of the IsTruncated element in the response is true.
         public let maxItems: String?
@@ -3955,7 +3814,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Message", location: "Message", required: false, type: .list)
+            AWSShapeProperty(label: "Message", required: false, type: .list)
         ]
         public let message: [String]?
 
@@ -3972,7 +3831,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TrafficPolicyInstance", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "TrafficPolicyInstance", required: true, type: .structure)
         ]
         /// A complex type that contains settings for the traffic policy instance.
         public let trafficPolicyInstance: TrafficPolicyInstance
@@ -3990,12 +3849,9 @@ extension Route53 {
     public struct ListTagsForResourcesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["ResourceType": "ResourceType"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceIds", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "ResourceType", location: "ResourceType", required: true, type: .enum)
+            AWSShapeProperty(label: "ResourceIds", required: true, type: .structure), 
+            AWSShapeProperty(label: "ResourceType", location: .uri(locationName: "ResourceType"), required: true, type: .enum)
         ]
         /// A complex type that contains the ResourceId element for each resource for which you want to get a list of tags.
         public let resourceIds: TagResourceIdList
@@ -4038,11 +3894,11 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TrafficPolicyVersion", location: nil, required: true, type: .integer), 
-            AWSShapeProperty(label: "TrafficPolicyId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "TTL", location: nil, required: true, type: .long), 
-            AWSShapeProperty(label: "HostedZoneId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "TrafficPolicyVersion", required: true, type: .integer), 
+            AWSShapeProperty(label: "TrafficPolicyId", required: true, type: .string), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "TTL", required: true, type: .long), 
+            AWSShapeProperty(label: "HostedZoneId", required: true, type: .string)
         ]
         /// The version of the traffic policy that you want to use to create resource record sets in the specified hosted zone.
         public let trafficPolicyVersion: Int32
@@ -4081,7 +3937,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DelegationSet", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "DelegationSet", required: true, type: .structure)
         ]
         /// A complex type that contains information about the reusable delegation set.
         public let delegationSet: DelegationSet
@@ -4100,7 +3956,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeInfo", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "ChangeInfo", required: true, type: .structure)
         ]
         /// A complex type that contains information about changes made to your hosted zone. This element contains an ID that you use when performing a GetChange action to get detailed information about the change.
         public let changeInfo: ChangeInfo
@@ -4119,7 +3975,7 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TrafficPolicy", location: "TrafficPolicy", required: false, type: .list)
+            AWSShapeProperty(label: "TrafficPolicy", required: false, type: .list)
         ]
         public let trafficPolicy: [TrafficPolicy]?
 
@@ -4140,9 +3996,9 @@ extension Route53 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Document", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Comment", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Document", required: true, type: .string), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "Comment", required: false, type: .string)
         ]
         /// The definition of this traffic policy in JSON format. For more information, see Traffic Policy Document Format.
         public let document: String
@@ -4169,12 +4025,9 @@ extension Route53 {
     public struct GetTrafficPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["Id": "Id", "Version": "Version"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Version", location: "Version", required: true, type: .integer), 
-            AWSShapeProperty(label: "Id", location: "Id", required: true, type: .string)
+            AWSShapeProperty(label: "Version", location: .uri(locationName: "Version"), required: true, type: .integer), 
+            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The version number of the traffic policy that you want to get information about.
         public let version: Int32

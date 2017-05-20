@@ -33,9 +33,9 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Traces", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "UnprocessedTraceIds", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Traces", required: false, type: .list), 
+            AWSShapeProperty(label: "UnprocessedTraceIds", required: false, type: .list)
         ]
         /// Pagination token. Not used.
         public let nextToken: String?
@@ -65,11 +65,11 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TotalResponseTime", location: nil, required: false, type: .double), 
-            AWSShapeProperty(label: "FaultStatistics", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "OkCount", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "ErrorStatistics", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "TotalCount", location: nil, required: false, type: .long)
+            AWSShapeProperty(label: "TotalResponseTime", required: false, type: .double), 
+            AWSShapeProperty(label: "FaultStatistics", required: false, type: .structure), 
+            AWSShapeProperty(label: "OkCount", required: false, type: .long), 
+            AWSShapeProperty(label: "ErrorStatistics", required: false, type: .structure), 
+            AWSShapeProperty(label: "TotalCount", required: false, type: .long)
         ]
         /// The aggregate response time of completed requests.
         public let totalResponseTime: Double?
@@ -103,8 +103,8 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Document", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Id", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Document", required: false, type: .string), 
+            AWSShapeProperty(label: "Id", required: false, type: .string)
         ]
         /// The segment document.
         public let document: String?
@@ -126,9 +126,9 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Names", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "Type", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "Names", required: false, type: .list)
         ]
         /// The type of the alias.
         public let `type`: String?
@@ -154,8 +154,8 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServiceIds", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "AnnotationValue", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "ServiceIds", required: false, type: .list), 
+            AWSShapeProperty(label: "AnnotationValue", required: false, type: .structure)
         ]
         /// Services to which the annotation applies.
         public let serviceIds: [ServiceId]?
@@ -181,8 +181,8 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", location: nil, required: false, type: .double), 
-            AWSShapeProperty(label: "Count", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "Value", required: false, type: .double), 
+            AWSShapeProperty(label: "Count", required: false, type: .integer)
         ]
         /// The value of the entry.
         public let value: Double?
@@ -204,9 +204,9 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ErrorCode", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Message", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Id", required: false, type: .string), 
+            AWSShapeProperty(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeProperty(label: "Message", required: false, type: .string)
         ]
         /// The segment's ID.
         public let id: String?
@@ -232,10 +232,10 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TracesProcessedCount", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "TraceSummaries", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ApproximateTime", location: nil, required: false, type: .timestamp)
+            AWSShapeProperty(label: "TracesProcessedCount", required: false, type: .long), 
+            AWSShapeProperty(label: "TraceSummaries", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "ApproximateTime", required: false, type: .timestamp)
         ]
         /// The number of traces that were processed to get this set of summaries.
         public let tracesProcessedCount: Int64?
@@ -269,12 +269,12 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "SummaryStatistics", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "EndTime", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ReferenceId", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "Aliases", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "ResponseTimeHistogram", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "SummaryStatistics", required: false, type: .structure), 
+            AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "ReferenceId", required: false, type: .integer), 
+            AWSShapeProperty(label: "Aliases", required: false, type: .list), 
+            AWSShapeProperty(label: "ResponseTimeHistogram", required: false, type: .list)
         ]
         /// The start time of the first segment on the edge.
         public let startTime: Date?
@@ -320,9 +320,9 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TotalCount", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "OtherCount", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "ThrottleCount", location: nil, required: false, type: .long)
+            AWSShapeProperty(label: "TotalCount", required: false, type: .long), 
+            AWSShapeProperty(label: "OtherCount", required: false, type: .long), 
+            AWSShapeProperty(label: "ThrottleCount", required: false, type: .long)
         ]
         /// The total number of requests that failed with a 4xx Client Error status code.
         public let totalCount: Int64?
@@ -348,9 +348,9 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EndTime", location: nil, required: true, type: .timestamp), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "StartTime", location: nil, required: true, type: .timestamp)
+            AWSShapeProperty(label: "EndTime", required: true, type: .timestamp), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "StartTime", required: true, type: .timestamp)
         ]
         /// The end of the time frame for which to generate a graph.
         public let endTime: Date
@@ -378,7 +378,7 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UnprocessedTraceSegments", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "UnprocessedTraceSegments", required: false, type: .list)
         ]
         /// Segments that failed processing.
         public let unprocessedTraceSegments: [UnprocessedTraceSegment]?
@@ -400,9 +400,9 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BooleanValue", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "StringValue", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "NumberValue", location: nil, required: false, type: .double)
+            AWSShapeProperty(label: "BooleanValue", required: false, type: .boolean), 
+            AWSShapeProperty(label: "StringValue", required: false, type: .string), 
+            AWSShapeProperty(label: "NumberValue", required: false, type: .double)
         ]
         /// Value for a Boolean annotation.
         public let booleanValue: Bool?
@@ -428,10 +428,10 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "EndTime", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Services", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Services", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// The start of the time frame for which the graph was generated.
         public let startTime: Date?
@@ -465,8 +465,8 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServiceIds", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "UserName", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "ServiceIds", required: false, type: .list), 
+            AWSShapeProperty(label: "UserName", required: false, type: .string)
         ]
         /// Services that the user's request hit.
         public let serviceIds: [ServiceId]?
@@ -492,8 +492,8 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TotalCount", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "OtherCount", location: nil, required: false, type: .long)
+            AWSShapeProperty(label: "TotalCount", required: false, type: .long), 
+            AWSShapeProperty(label: "OtherCount", required: false, type: .long)
         ]
         /// The total number of requests that failed with a 5xx Server Error status code.
         public let totalCount: Int64?
@@ -515,11 +515,11 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClientIp", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "HttpURL", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "HttpMethod", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "HttpStatus", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "UserAgent", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "ClientIp", required: false, type: .string), 
+            AWSShapeProperty(label: "HttpURL", required: false, type: .string), 
+            AWSShapeProperty(label: "HttpMethod", required: false, type: .string), 
+            AWSShapeProperty(label: "HttpStatus", required: false, type: .integer), 
+            AWSShapeProperty(label: "UserAgent", required: false, type: .string)
         ]
         /// The IP address of the requestor.
         public let clientIp: String?
@@ -553,11 +553,11 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TotalResponseTime", location: nil, required: false, type: .double), 
-            AWSShapeProperty(label: "FaultStatistics", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "OkCount", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "ErrorStatistics", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "TotalCount", location: nil, required: false, type: .long)
+            AWSShapeProperty(label: "TotalResponseTime", required: false, type: .double), 
+            AWSShapeProperty(label: "FaultStatistics", required: false, type: .structure), 
+            AWSShapeProperty(label: "OkCount", required: false, type: .long), 
+            AWSShapeProperty(label: "ErrorStatistics", required: false, type: .structure), 
+            AWSShapeProperty(label: "TotalCount", required: false, type: .long)
         ]
         /// The aggregate response time of completed requests.
         public let totalResponseTime: Double?
@@ -591,8 +591,8 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TraceIds", location: nil, required: true, type: .list), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "TraceIds", required: true, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// Trace IDs of requests for which to generate a service graph.
         public let traceIds: [String]
@@ -615,8 +615,8 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Services", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Services", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// The services that have processed one of the specified requests.
         public let services: [Service]?
@@ -642,9 +642,9 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Segments", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "Duration", location: nil, required: false, type: .double), 
-            AWSShapeProperty(label: "Id", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Segments", required: false, type: .list), 
+            AWSShapeProperty(label: "Duration", required: false, type: .double), 
+            AWSShapeProperty(label: "Id", required: false, type: .string)
         ]
         /// Segment documents for the segments and subsegments that comprise the trace.
         public let segments: [Segment]?
@@ -674,7 +674,7 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TraceSegmentDocuments", location: nil, required: true, type: .list)
+            AWSShapeProperty(label: "TraceSegmentDocuments", required: true, type: .list)
         ]
         /// A JSON document defining one or more segments or subsegments. Segments must include the following fields.  Required Segment Document Fields     name - The name of the service that handled the request.    id - A 64-bit identifier for the segment, unique among segments in the same trace, in 16 hexadecimal digits.    trace_id - A unique identifier that connects all segments and subsegments originating from a single client request.    start_time - Time the segment or subsegment was created, in floating point seconds in epoch time, accurate to milliseconds. For example, 1480615200.010 or 1.480615200010E9.    end_time - Time the segment or subsegment was closed. For example, 1480615200.090 or 1.480615200090E9. Specify either an end_time or in_progress.    in_progress - Set to true instead of specifying an end_time to record that a segment has been started, but is not complete. Send an in progress segment when your application receives a request that will take a long time to serve, to trace the fact that the request was received. When the response is sent, send the complete segment to overwrite the in-progress segment.   A trace_id consists of three numbers separated by hyphens. For example, 1-58406520-a006649127e371903a2de979. This includes:  Trace ID Format    The version number, i.e. 1.   The time of the original request, in Unix epoch time, in 8 hexadecimal digits. For example, 10:00AM December 2nd, 2016 PST in epoch time is 1480615200 seconds, or 58406520 in hexadecimal.   A 96-bit identifier for the trace, globally unique, in 24 hexadecimal digits.  
         public let traceSegmentDocuments: [String]
@@ -693,11 +693,11 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", location: nil, required: true, type: .timestamp), 
-            AWSShapeProperty(label: "EndTime", location: nil, required: true, type: .timestamp), 
-            AWSShapeProperty(label: "FilterExpression", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Sampling", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "StartTime", required: true, type: .timestamp), 
+            AWSShapeProperty(label: "EndTime", required: true, type: .timestamp), 
+            AWSShapeProperty(label: "FilterExpression", required: false, type: .string), 
+            AWSShapeProperty(label: "Sampling", required: false, type: .boolean), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// The start of the time frame for which to retrieve traces.
         public let startTime: Date
@@ -741,10 +741,10 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EC2InstanceId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Hostname", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "TelemetryRecords", location: nil, required: true, type: .list), 
-            AWSShapeProperty(label: "ResourceARN", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "EC2InstanceId", required: false, type: .string), 
+            AWSShapeProperty(label: "Hostname", required: false, type: .string), 
+            AWSShapeProperty(label: "TelemetryRecords", required: true, type: .list), 
+            AWSShapeProperty(label: "ResourceARN", required: false, type: .string)
         ]
         public let eC2InstanceId: String?
         public let hostname: String?
@@ -771,18 +771,18 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "SummaryStatistics", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "DurationHistogram", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "AccountId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Root", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "State", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "EndTime", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ReferenceId", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "Names", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "Edges", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "Type", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "SummaryStatistics", required: false, type: .structure), 
+            AWSShapeProperty(label: "DurationHistogram", required: false, type: .list), 
+            AWSShapeProperty(label: "AccountId", required: false, type: .string), 
+            AWSShapeProperty(label: "Root", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "State", required: false, type: .string), 
+            AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "ReferenceId", required: false, type: .integer), 
+            AWSShapeProperty(label: "Names", required: false, type: .list), 
+            AWSShapeProperty(label: "Edges", required: false, type: .list), 
+            AWSShapeProperty(label: "Type", required: false, type: .string)
         ]
         /// The start time of the first segment that the service generated.
         public let startTime: Date?
@@ -852,10 +852,10 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Names", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "Type", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "AccountId", required: false, type: .string), 
+            AWSShapeProperty(label: "Names", required: false, type: .list), 
+            AWSShapeProperty(label: "Type", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: false, type: .string)
         ]
         public let accountId: String?
         public let names: [String]?
@@ -881,12 +881,12 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConnectionRefusedCount", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "TimeoutCount", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "UnknownHostCount", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "HTTPCode5XXCount", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "OtherCount", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "HTTPCode4XXCount", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "ConnectionRefusedCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "TimeoutCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "UnknownHostCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "HTTPCode5XXCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "OtherCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "HTTPCode4XXCount", required: false, type: .integer)
         ]
         public let connectionRefusedCount: Int32?
         public let timeoutCount: Int32?
@@ -918,12 +918,12 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SegmentsRejectedCount", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "Timestamp", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "SegmentsReceivedCount", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "SegmentsSentCount", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "SegmentsSpilloverCount", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "BackendConnectionErrors", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "SegmentsRejectedCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "Timestamp", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "SegmentsReceivedCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "SegmentsSentCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "SegmentsSpilloverCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "BackendConnectionErrors", required: false, type: .structure)
         ]
         public let segmentsRejectedCount: Int32?
         public let timestamp: Date?
@@ -955,8 +955,8 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TraceIds", location: nil, required: true, type: .list), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "TraceIds", required: true, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// Specify the trace IDs of requests for which to retrieve segments.
         public let traceIds: [String]
@@ -979,17 +979,17 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IsPartial", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "ServiceIds", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "Http", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "HasError", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "Id", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "HasThrottle", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "Users", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "Annotations", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "Duration", location: nil, required: false, type: .double), 
-            AWSShapeProperty(label: "HasFault", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "ResponseTime", location: nil, required: false, type: .double)
+            AWSShapeProperty(label: "IsPartial", required: false, type: .boolean), 
+            AWSShapeProperty(label: "ServiceIds", required: false, type: .list), 
+            AWSShapeProperty(label: "Http", required: false, type: .structure), 
+            AWSShapeProperty(label: "HasError", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Id", required: false, type: .string), 
+            AWSShapeProperty(label: "HasThrottle", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Users", required: false, type: .list), 
+            AWSShapeProperty(label: "Annotations", required: false, type: .map), 
+            AWSShapeProperty(label: "Duration", required: false, type: .double), 
+            AWSShapeProperty(label: "HasFault", required: false, type: .boolean), 
+            AWSShapeProperty(label: "ResponseTime", required: false, type: .double)
         ]
         /// One or more of the segment documents is in progress.
         public let isPartial: Bool?
