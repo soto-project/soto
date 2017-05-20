@@ -24,33 +24,17 @@ public struct AWSShapeProperty {
         case timestamp
         case any
     }
-
-//    public indirect enum PropertyType {
-//        case structure(AWSShape.Type)
-//        case `enum`(AWSShape.Type)
-//        case map(PropertyType, PropertyType)
-//        case list(PropertyType)
-//        case string
-//        case integer
-//        case blob
-//        case long
-//        case double
-//        case float
-//        case boolean
-//        case timestamp
-//        case any
-//    }
     
     public let label: String
-    public let location: String?
+    public let location: Location?
     public let required: Bool
     public let type: PropertyType
     
     var pathForLocation: String {
-        return location ?? label
+        return location?.name ?? label
     }
     
-    public init(label: String, location: String?, required: Bool, type: PropertyType) {
+    public init(label: String, location: Location? = nil, required: Bool, type: PropertyType) {
         self.label = label
         self.location = location
         self.required = required

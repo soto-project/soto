@@ -33,12 +33,12 @@ extension Mobileanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "metrics", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "session", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "attributes", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "timestamp", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "eventType", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "version", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "metrics", required: false, type: .map), 
+            AWSShapeProperty(label: "session", required: false, type: .structure), 
+            AWSShapeProperty(label: "attributes", required: false, type: .map), 
+            AWSShapeProperty(label: "timestamp", required: true, type: .string), 
+            AWSShapeProperty(label: "eventType", required: true, type: .string), 
+            AWSShapeProperty(label: "version", required: false, type: .string)
         ]
         /// A collection of key-value pairs that gives additional, measurable context to the event. The key-value pairs are specified by the developer. This collection can be empty or the attribute object can be omitted.
         public let metrics: [String: Double]?
@@ -86,10 +86,10 @@ extension Mobileanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "startTimestamp", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "id", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "stopTimestamp", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "duration", location: nil, required: false, type: .long)
+            AWSShapeProperty(label: "startTimestamp", required: false, type: .string), 
+            AWSShapeProperty(label: "id", required: false, type: .string), 
+            AWSShapeProperty(label: "stopTimestamp", required: false, type: .string), 
+            AWSShapeProperty(label: "duration", required: false, type: .long)
         ]
         /// The time the event started in ISO 8601 standard date time format. For example, 2014-06-30T19:07:47.885Z
         public let startTimestamp: String?
@@ -118,13 +118,10 @@ extension Mobileanalytics {
     public struct PutEventsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var headerParams: [String: String] {
-            return ["x-amz-Client-Context-Encoding": "clientContextEncoding", "x-amz-Client-Context": "clientContext"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "clientContext", location: "x-amz-Client-Context", required: true, type: .string), 
-            AWSShapeProperty(label: "clientContextEncoding", location: "x-amz-Client-Context-Encoding", required: false, type: .string), 
-            AWSShapeProperty(label: "events", location: nil, required: true, type: .list)
+            AWSShapeProperty(label: "clientContext", location: .header(locationName: "x-amz-Client-Context"), required: true, type: .string), 
+            AWSShapeProperty(label: "clientContextEncoding", location: .header(locationName: "x-amz-Client-Context-Encoding"), required: false, type: .string), 
+            AWSShapeProperty(label: "events", required: true, type: .list)
         ]
         /// The client context including the client ID, app title, app version and package name.
         public let clientContext: String

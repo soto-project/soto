@@ -41,11 +41,11 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttributeDefinitions", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "ProvisionedThroughput", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "TableName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "GlobalSecondaryIndexUpdates", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "StreamSpecification", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "AttributeDefinitions", required: false, type: .list), 
+            AWSShapeProperty(label: "ProvisionedThroughput", required: false, type: .structure), 
+            AWSShapeProperty(label: "TableName", required: true, type: .string), 
+            AWSShapeProperty(label: "GlobalSecondaryIndexUpdates", required: false, type: .list), 
+            AWSShapeProperty(label: "StreamSpecification", required: false, type: .structure)
         ]
         /// An array of attributes that describe the key schema for the table and indexes. If you are adding a new global secondary index to the table, AttributeDefinitions must include the key element(s) of the new index.
         public let attributeDefinitions: [AttributeDefinition]?
@@ -88,7 +88,7 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Key", location: nil, required: true, type: .map)
+            AWSShapeProperty(label: "Key", required: true, type: .map)
         ]
         /// A map of attribute name to attribute values, representing the primary key of the item to delete. All of the table's primary key attributes must be specified, and their data types must match those of the table's key schema.
         public let key: [String: AttributeValue]
@@ -112,10 +112,10 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Projection", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "IndexName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "KeySchema", location: nil, required: true, type: .list), 
-            AWSShapeProperty(label: "ProvisionedThroughput", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "Projection", required: true, type: .structure), 
+            AWSShapeProperty(label: "IndexName", required: true, type: .string), 
+            AWSShapeProperty(label: "KeySchema", required: true, type: .list), 
+            AWSShapeProperty(label: "ProvisionedThroughput", required: true, type: .structure)
         ]
         /// Represents attributes that are copied (projected) from the table into an index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
         public let projection: Projection
@@ -149,8 +149,8 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NonKeyAttributes", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "ProjectionType", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "NonKeyAttributes", required: false, type: .list), 
+            AWSShapeProperty(label: "ProjectionType", required: false, type: .enum)
         ]
         /// Represents the non-key attribute names which will be projected into the index. For local secondary indexes, the total count of NonKeyAttributes summed across all of the local secondary indexes, must not exceed 20. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.
         public let nonKeyAttributes: [String]?
@@ -172,8 +172,8 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttributeName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "KeyType", location: nil, required: true, type: .enum)
+            AWSShapeProperty(label: "AttributeName", required: true, type: .string), 
+            AWSShapeProperty(label: "KeyType", required: true, type: .enum)
         ]
         /// The name of a key attribute.
         public let attributeName: String
@@ -197,8 +197,8 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Tags", location: nil, required: true, type: .list)
+            AWSShapeProperty(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeProperty(label: "Tags", required: true, type: .list)
         ]
         /// Identifies the Amazon DynamoDB resource to which tags should be added. This value is an Amazon Resource Name (ARN).
         public let resourceArn: String
@@ -222,8 +222,8 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WriteCapacityUnits", location: nil, required: true, type: .long), 
-            AWSShapeProperty(label: "ReadCapacityUnits", location: nil, required: true, type: .long)
+            AWSShapeProperty(label: "WriteCapacityUnits", required: true, type: .long), 
+            AWSShapeProperty(label: "ReadCapacityUnits", required: true, type: .long)
         ]
         /// The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException. For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide.
         public let writeCapacityUnits: Int64
@@ -260,7 +260,7 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TimeToLiveDescription", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "TimeToLiveDescription", required: false, type: .structure)
         ]
         public let timeToLiveDescription: TimeToLiveDescription?
 
@@ -277,11 +277,11 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CapacityUnits", location: nil, required: false, type: .double), 
-            AWSShapeProperty(label: "Table", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "TableName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "LocalSecondaryIndexes", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "GlobalSecondaryIndexes", location: nil, required: false, type: .map)
+            AWSShapeProperty(label: "CapacityUnits", required: false, type: .double), 
+            AWSShapeProperty(label: "Table", required: false, type: .structure), 
+            AWSShapeProperty(label: "TableName", required: false, type: .string), 
+            AWSShapeProperty(label: "LocalSecondaryIndexes", required: false, type: .map), 
+            AWSShapeProperty(label: "GlobalSecondaryIndexes", required: false, type: .map)
         ]
         /// The total number of capacity units consumed by the operation.
         public let capacityUnits: Double?
@@ -341,10 +341,10 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttributeValueList", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "ComparisonOperator", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Value", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Exists", location: nil, required: false, type: .boolean)
+            AWSShapeProperty(label: "AttributeValueList", required: false, type: .list), 
+            AWSShapeProperty(label: "ComparisonOperator", required: false, type: .enum), 
+            AWSShapeProperty(label: "Value", required: false, type: .structure), 
+            AWSShapeProperty(label: "Exists", required: false, type: .boolean)
         ]
         /// One or more values to evaluate against the supplied attribute. The number of values in the list depends on the ComparisonOperator being used. For type Number, value comparisons are numeric. String value comparisons for greater than, equals, or less than are based on ASCII character code values. For example, a is greater than A, and a is greater than B. For a list of code values, see http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters. For Binary, DynamoDB treats each byte of the binary data as unsigned when it compares binary values. For information on specifying data types in JSON, see JSON Data Format in the Amazon DynamoDB Developer Guide.
         public let attributeValueList: [AttributeValue]?
@@ -378,23 +378,23 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConsistentRead", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "ExpressionAttributeNames", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "ProjectionExpression", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "QueryFilter", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "KeyConditions", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "KeyConditionExpression", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "IndexName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Select", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "ExclusiveStartKey", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "AttributesToGet", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "ConditionalOperator", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "ExpressionAttributeValues", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "TableName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "ReturnConsumedCapacity", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "ScanIndexForward", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "FilterExpression", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "ConsistentRead", required: false, type: .boolean), 
+            AWSShapeProperty(label: "ExpressionAttributeNames", required: false, type: .map), 
+            AWSShapeProperty(label: "ProjectionExpression", required: false, type: .string), 
+            AWSShapeProperty(label: "QueryFilter", required: false, type: .map), 
+            AWSShapeProperty(label: "KeyConditions", required: false, type: .map), 
+            AWSShapeProperty(label: "KeyConditionExpression", required: false, type: .string), 
+            AWSShapeProperty(label: "IndexName", required: false, type: .string), 
+            AWSShapeProperty(label: "Select", required: false, type: .enum), 
+            AWSShapeProperty(label: "ExclusiveStartKey", required: false, type: .map), 
+            AWSShapeProperty(label: "AttributesToGet", required: false, type: .list), 
+            AWSShapeProperty(label: "ConditionalOperator", required: false, type: .enum), 
+            AWSShapeProperty(label: "ExpressionAttributeValues", required: false, type: .map), 
+            AWSShapeProperty(label: "TableName", required: true, type: .string), 
+            AWSShapeProperty(label: "ReturnConsumedCapacity", required: false, type: .enum), 
+            AWSShapeProperty(label: "ScanIndexForward", required: false, type: .boolean), 
+            AWSShapeProperty(label: "FilterExpression", required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer)
         ]
         /// Determines the read consistency model: If set to true, then the operation uses strongly consistent reads; otherwise, the operation uses eventually consistent reads. Strongly consistent reads are not supported on global secondary indexes. If you query a global secondary index with ConsistentRead set to true, you will receive a ValidationException.
         public let consistentRead: Bool?
@@ -522,9 +522,9 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConsumedCapacity", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Attributes", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "ItemCollectionMetrics", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "ConsumedCapacity", required: false, type: .structure), 
+            AWSShapeProperty(label: "Attributes", required: false, type: .map), 
+            AWSShapeProperty(label: "ItemCollectionMetrics", required: false, type: .structure)
         ]
         /// The capacity units consumed by the PutItem operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see Provisioned Throughput in the Amazon DynamoDB Developer Guide.
         public let consumedCapacity: ConsumedCapacity?
@@ -559,8 +559,8 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Key", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Value", required: true, type: .string), 
+            AWSShapeProperty(label: "Key", required: true, type: .string)
         ]
         /// The value of the tag. Tag values are case-sensitive and can be null.
         public let value: String
@@ -584,13 +584,13 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConsistentRead", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "ExpressionAttributeNames", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "ProjectionExpression", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "AttributesToGet", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "Key", location: nil, required: true, type: .map), 
-            AWSShapeProperty(label: "TableName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "ReturnConsumedCapacity", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "ConsistentRead", required: false, type: .boolean), 
+            AWSShapeProperty(label: "ExpressionAttributeNames", required: false, type: .map), 
+            AWSShapeProperty(label: "ProjectionExpression", required: false, type: .string), 
+            AWSShapeProperty(label: "AttributesToGet", required: false, type: .list), 
+            AWSShapeProperty(label: "Key", required: true, type: .map), 
+            AWSShapeProperty(label: "TableName", required: true, type: .string), 
+            AWSShapeProperty(label: "ReturnConsumedCapacity", required: false, type: .enum)
         ]
         /// Determines the read consistency model: If set to true, then the operation uses strongly consistent reads; otherwise, the operation uses eventually consistent reads.
         public let consistentRead: Bool?
@@ -642,8 +642,8 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Action", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Value", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Action", required: false, type: .enum), 
+            AWSShapeProperty(label: "Value", required: false, type: .structure)
         ]
         /// Specifies how to perform the update. Valid values are PUT (default), DELETE, and ADD. The behavior depends on whether the specified primary key already exists in the table.  If an item with the specified Key is found in the table:     PUT - Adds the specified attribute to the item. If the attribute already exists, it is replaced by the new value.     DELETE - If no value is specified, the attribute and its value are removed from the item. The data type of the specified value must match the existing value's data type. If a set of values is specified, then those values are subtracted from the old set. For example, if the attribute value was the set [a,b,c] and the DELETE action specified [a,c], then the final attribute value would be [b]. Specifying an empty set is an error.    ADD - If the attribute does not already exist, then the attribute and its values are added to the item. If the attribute does exist, then the behavior of ADD depends on the data type of the attribute:   If the existing attribute is a number, and if Value is also a number, then the Value is mathematically added to the existing attribute. If Value is a negative number, then it is subtracted from the existing attribute.   If you use ADD to increment or decrement a number value for an item that doesn't exist before the update, DynamoDB uses 0 as the initial value. In addition, if you use ADD to update an existing item, and intend to increment or decrement an attribute value which does not yet exist, DynamoDB uses 0 as the initial value. For example, suppose that the item you want to update does not yet have an attribute named itemcount, but you decide to ADD the number 3 to this attribute anyway, even though it currently does not exist. DynamoDB will create the itemcount attribute, set its initial value to 0, and finally add 3 to it. The result will be a new itemcount attribute in the item, with a value of 3.    If the existing data type is a set, and if the Value is also a set, then the Value is added to the existing set. (This is a set operation, not mathematical addition.) For example, if the attribute value was the set [1,2], and the ADD action specified [3], then the final attribute value would be [1,2,3]. An error occurs if an Add action is specified for a set attribute and the attribute type specified does not match the existing set type.  Both sets must have the same primitive data type. For example, if the existing data type is a set of strings, the Value must also be a set of strings. The same holds true for number sets and binary sets.   This action is only valid for an existing attribute whose data type is number or is a set. Do not use ADD for any other data types.    If no item with the specified Key is found:     PUT - DynamoDB creates a new item with the specified primary key, and then adds the attribute.     DELETE - Nothing happens; there is no attribute to delete.    ADD - DynamoDB creates an item with the supplied primary key and number (or set of numbers) for the attribute value. The only data types allowed are number and number set; no other data types can be specified.  
         public let action: AttributeAction?
@@ -672,8 +672,8 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeleteRequest", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "PutRequest", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "DeleteRequest", required: false, type: .structure), 
+            AWSShapeProperty(label: "PutRequest", required: false, type: .structure)
         ]
         /// A request to perform a DeleteItem operation.
         public let deleteRequest: DeleteRequest?
@@ -695,7 +695,7 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TableDescription", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "TableDescription", required: false, type: .structure)
         ]
         /// Represents the properties of the table.
         public let tableDescription: TableDescription?
@@ -713,8 +713,8 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttributeName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Enabled", location: nil, required: true, type: .boolean)
+            AWSShapeProperty(label: "AttributeName", required: true, type: .string), 
+            AWSShapeProperty(label: "Enabled", required: true, type: .boolean)
         ]
         /// The name of the Time to Live attribute used to store the expiration time for items in the table.
         public let attributeName: String
@@ -738,8 +738,8 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// The Amazon DynamoDB resource with tags to be listed. This value is an Amazon Resource Name (ARN).
         public let resourceArn: String
@@ -770,7 +770,7 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TableName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "TableName", required: true, type: .string)
         ]
         /// The name of the table to delete.
         public let tableName: String
@@ -789,11 +789,11 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LastEvaluatedKey", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "ConsumedCapacity", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "ScannedCount", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "Items", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "Count", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "LastEvaluatedKey", required: false, type: .map), 
+            AWSShapeProperty(label: "ConsumedCapacity", required: false, type: .structure), 
+            AWSShapeProperty(label: "ScannedCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "Items", required: false, type: .list), 
+            AWSShapeProperty(label: "Count", required: false, type: .integer)
         ]
         /// The primary key of the item where the operation stopped, inclusive of the previous result set. Use this value to start a new operation, excluding this value in the new request. If LastEvaluatedKey is empty, then the "last page" of results has been processed and there is no more data to be retrieved. If LastEvaluatedKey is not empty, it does not necessarily mean that there is more data in the result set. The only way to know when you have reached the end of the result set is when LastEvaluatedKey is empty.
         public let lastEvaluatedKey: [String: AttributeValue]?
@@ -848,10 +848,10 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Projection", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "IndexName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "KeySchema", location: nil, required: true, type: .list), 
-            AWSShapeProperty(label: "ProvisionedThroughput", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "Projection", required: true, type: .structure), 
+            AWSShapeProperty(label: "IndexName", required: true, type: .string), 
+            AWSShapeProperty(label: "KeySchema", required: true, type: .list), 
+            AWSShapeProperty(label: "ProvisionedThroughput", required: true, type: .structure)
         ]
         /// Represents attributes that are copied (projected) from the table into the global secondary index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. 
         public let projection: Projection
@@ -891,7 +891,7 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Item", location: nil, required: true, type: .map)
+            AWSShapeProperty(label: "Item", required: true, type: .map)
         ]
         /// A map of attribute name to attribute values, representing the primary key of an item to be processed by PutItem. All of the table's primary key attributes must be specified, and their data types must match those of the table's key schema. If any attributes are present in the item which are part of an index key schema for the table, their types must match the index key schema.
         public let item: [String: AttributeValue]
@@ -915,13 +915,13 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttributeDefinitions", location: nil, required: true, type: .list), 
-            AWSShapeProperty(label: "KeySchema", location: nil, required: true, type: .list), 
-            AWSShapeProperty(label: "ProvisionedThroughput", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "LocalSecondaryIndexes", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "GlobalSecondaryIndexes", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "TableName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "StreamSpecification", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "AttributeDefinitions", required: true, type: .list), 
+            AWSShapeProperty(label: "KeySchema", required: true, type: .list), 
+            AWSShapeProperty(label: "ProvisionedThroughput", required: true, type: .structure), 
+            AWSShapeProperty(label: "LocalSecondaryIndexes", required: false, type: .list), 
+            AWSShapeProperty(label: "GlobalSecondaryIndexes", required: false, type: .list), 
+            AWSShapeProperty(label: "TableName", required: true, type: .string), 
+            AWSShapeProperty(label: "StreamSpecification", required: false, type: .structure)
         ]
         /// An array of attributes that describe the key schema for the table and indexes.
         public let attributeDefinitions: [AttributeDefinition]
@@ -975,8 +975,8 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExclusiveStartTableName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "ExclusiveStartTableName", required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer)
         ]
         /// The first table name that this operation will evaluate. Use the value that was returned for LastEvaluatedTableName in a previous operation, so that you can obtain the next page of results.
         public let exclusiveStartTableName: String?
@@ -998,8 +998,8 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TimeToLiveStatus", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "AttributeName", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "TimeToLiveStatus", required: false, type: .enum), 
+            AWSShapeProperty(label: "AttributeName", required: false, type: .string)
         ]
         ///  The Time to Live status for the table.
         public let timeToLiveStatus: TimeToLiveStatus?
@@ -1021,8 +1021,8 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReturnConsumedCapacity", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "RequestItems", location: nil, required: true, type: .map)
+            AWSShapeProperty(label: "ReturnConsumedCapacity", required: false, type: .enum), 
+            AWSShapeProperty(label: "RequestItems", required: true, type: .map)
         ]
         public let returnConsumedCapacity: ReturnConsumedCapacity?
         /// A map of one or more table names and, for each table, a map that describes one or more items to retrieve from that table. Each table name can be used only once per BatchGetItem request. Each element in the map of items to retrieve consists of the following:    ConsistentRead - If true, a strongly consistent read is used; if false (the default), an eventually consistent read is used.    ExpressionAttributeNames - One or more substitution tokens for attribute names in the ProjectionExpression parameter. The following are some use cases for using ExpressionAttributeNames:   To access an attribute whose name conflicts with a DynamoDB reserved word.   To create a placeholder for repeating occurrences of an attribute name in an expression.   To prevent special characters in an attribute name from being misinterpreted in an expression.   Use the # character in an expression to dereference an attribute name. For example, consider the following attribute name:    Percentile    The name of this attribute conflicts with a reserved word, so it cannot be used directly in an expression. (For the complete list of reserved words, see Reserved Words in the Amazon DynamoDB Developer Guide). To work around this, you could specify the following for ExpressionAttributeNames:    {"#P":"Percentile"}    You could then use this substitution in an expression, as in this example:    #P = :val     Tokens that begin with the : character are expression attribute values, which are placeholders for the actual value at runtime.  For more information on expression attribute names, see Accessing Item Attributes in the Amazon DynamoDB Developer Guide.    Keys - An array of primary key attribute values that define specific items in the table. For each primary key, you must provide all of the key attributes. For example, with a simple primary key, you only need to provide the partition key value. For a composite key, you must provide both the partition key value and the sort key value.    ProjectionExpression - A string that identifies one or more attributes to retrieve from the table. These attributes can include scalars, sets, or elements of a JSON document. The attributes in the expression must be separated by commas. If no attribute names are specified, then all attributes will be returned. If any of the requested attributes are not found, they will not appear in the result. For more information, see Accessing Item Attributes in the Amazon DynamoDB Developer Guide.    AttributesToGet - This is a legacy parameter. Use ProjectionExpression instead. For more information, see AttributesToGet in the Amazon DynamoDB Developer Guide.   
@@ -1049,20 +1049,20 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LatestStreamArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ProvisionedThroughput", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "KeySchema", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "TableArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ItemCount", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "StreamSpecification", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "AttributeDefinitions", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "CreationDateTime", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "LocalSecondaryIndexes", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "GlobalSecondaryIndexes", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "TableSizeBytes", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "TableName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "TableStatus", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "LatestStreamLabel", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "LatestStreamArn", required: false, type: .string), 
+            AWSShapeProperty(label: "ProvisionedThroughput", required: false, type: .structure), 
+            AWSShapeProperty(label: "KeySchema", required: false, type: .list), 
+            AWSShapeProperty(label: "TableArn", required: false, type: .string), 
+            AWSShapeProperty(label: "ItemCount", required: false, type: .long), 
+            AWSShapeProperty(label: "StreamSpecification", required: false, type: .structure), 
+            AWSShapeProperty(label: "AttributeDefinitions", required: false, type: .list), 
+            AWSShapeProperty(label: "CreationDateTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "LocalSecondaryIndexes", required: false, type: .list), 
+            AWSShapeProperty(label: "GlobalSecondaryIndexes", required: false, type: .list), 
+            AWSShapeProperty(label: "TableSizeBytes", required: false, type: .long), 
+            AWSShapeProperty(label: "TableName", required: false, type: .string), 
+            AWSShapeProperty(label: "TableStatus", required: false, type: .enum), 
+            AWSShapeProperty(label: "LatestStreamLabel", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) that uniquely identifies the latest stream for this table.
         public let latestStreamArn: String?
@@ -1157,11 +1157,11 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LastEvaluatedKey", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "ConsumedCapacity", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "ScannedCount", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "Items", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "Count", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "LastEvaluatedKey", required: false, type: .map), 
+            AWSShapeProperty(label: "ConsumedCapacity", required: false, type: .structure), 
+            AWSShapeProperty(label: "ScannedCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "Items", required: false, type: .list), 
+            AWSShapeProperty(label: "Count", required: false, type: .integer)
         ]
         /// The primary key of the item where the operation stopped, inclusive of the previous result set. Use this value to start a new operation, excluding this value in the new request. If LastEvaluatedKey is empty, then the "last page" of results has been processed and there is no more data to be retrieved. If LastEvaluatedKey is not empty, it does not necessarily mean that there is more data in the result set. The only way to know when you have reached the end of the result set is when LastEvaluatedKey is empty.
         public let lastEvaluatedKey: [String: AttributeValue]?
@@ -1216,8 +1216,8 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "TagKeys", location: nil, required: true, type: .list)
+            AWSShapeProperty(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeProperty(label: "TagKeys", required: true, type: .list)
         ]
         /// The Amazon DyanamoDB resource the tags will be removed from. This value is an Amazon Resource Name (ARN).
         public let resourceArn: String
@@ -1241,12 +1241,12 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Projection", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "IndexName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "KeySchema", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "IndexSizeBytes", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "IndexArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ItemCount", location: nil, required: false, type: .long)
+            AWSShapeProperty(label: "Projection", required: false, type: .structure), 
+            AWSShapeProperty(label: "IndexName", required: false, type: .string), 
+            AWSShapeProperty(label: "KeySchema", required: false, type: .list), 
+            AWSShapeProperty(label: "IndexSizeBytes", required: false, type: .long), 
+            AWSShapeProperty(label: "IndexArn", required: false, type: .string), 
+            AWSShapeProperty(label: "ItemCount", required: false, type: .long)
         ]
         /// Represents attributes that are copied (projected) from the table into the global secondary index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. 
         public let projection: Projection?
@@ -1288,8 +1288,8 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StreamViewType", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "StreamEnabled", location: nil, required: false, type: .boolean)
+            AWSShapeProperty(label: "StreamViewType", required: false, type: .enum), 
+            AWSShapeProperty(label: "StreamEnabled", required: false, type: .boolean)
         ]
         ///  When an item in the table is modified, StreamViewType determines what information is written to the stream for this table. Valid values for StreamViewType are:    KEYS_ONLY - Only the key attributes of the modified item are written to the stream.    NEW_IMAGE - The entire item, as it appears after it was modified, is written to the stream.    OLD_IMAGE - The entire item, as it appeared before it was modified, is written to the stream.    NEW_AND_OLD_IMAGES - Both the new and the old item images of the item are written to the stream.  
         public let streamViewType: StreamViewType?
@@ -1311,7 +1311,7 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TableName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "TableName", required: true, type: .string)
         ]
         /// The name of the table to be described.
         public let tableName: String
@@ -1338,16 +1338,16 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExpressionAttributeNames", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "ConditionExpression", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ConditionalOperator", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "ReturnItemCollectionMetrics", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "ReturnValues", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Key", location: nil, required: true, type: .map), 
-            AWSShapeProperty(label: "TableName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "ReturnConsumedCapacity", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Expected", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "ExpressionAttributeValues", location: nil, required: false, type: .map)
+            AWSShapeProperty(label: "ExpressionAttributeNames", required: false, type: .map), 
+            AWSShapeProperty(label: "ConditionExpression", required: false, type: .string), 
+            AWSShapeProperty(label: "ConditionalOperator", required: false, type: .enum), 
+            AWSShapeProperty(label: "ReturnItemCollectionMetrics", required: false, type: .enum), 
+            AWSShapeProperty(label: "ReturnValues", required: false, type: .enum), 
+            AWSShapeProperty(label: "Key", required: true, type: .map), 
+            AWSShapeProperty(label: "TableName", required: true, type: .string), 
+            AWSShapeProperty(label: "ReturnConsumedCapacity", required: false, type: .enum), 
+            AWSShapeProperty(label: "Expected", required: false, type: .map), 
+            AWSShapeProperty(label: "ExpressionAttributeValues", required: false, type: .map)
         ]
         /// One or more substitution tokens for attribute names in an expression. The following are some use cases for using ExpressionAttributeNames:   To access an attribute whose name conflicts with a DynamoDB reserved word.   To create a placeholder for repeating occurrences of an attribute name in an expression.   To prevent special characters in an attribute name from being misinterpreted in an expression.   Use the # character in an expression to dereference an attribute name. For example, consider the following attribute name:    Percentile    The name of this attribute conflicts with a reserved word, so it cannot be used directly in an expression. (For the complete list of reserved words, see Reserved Words in the Amazon DynamoDB Developer Guide). To work around this, you could specify the following for ExpressionAttributeNames:    {"#P":"Percentile"}    You could then use this substitution in an expression, as in this example:    #P = :val     Tokens that begin with the : character are expression attribute values, which are placeholders for the actual value at runtime.  For more information on expression attribute names, see Accessing Item Attributes in the Amazon DynamoDB Developer Guide.
         public let expressionAttributeNames: [String: String]?
@@ -1436,7 +1436,7 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Table", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Table", required: false, type: .structure)
         ]
         /// The properties of the table.
         public let table: TableDescription?
@@ -1454,8 +1454,8 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TableName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "TimeToLiveSpecification", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "TableName", required: true, type: .string), 
+            AWSShapeProperty(label: "TimeToLiveSpecification", required: true, type: .structure)
         ]
         /// The name of the table to be configured.
         public let tableName: String
@@ -1487,22 +1487,22 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConsistentRead", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "ExpressionAttributeNames", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "ProjectionExpression", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ScanFilter", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "TotalSegments", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "IndexName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Select", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "ExclusiveStartKey", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "Segment", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "AttributesToGet", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "ExpressionAttributeValues", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "ConditionalOperator", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "TableName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "ReturnConsumedCapacity", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "FilterExpression", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "ConsistentRead", required: false, type: .boolean), 
+            AWSShapeProperty(label: "ExpressionAttributeNames", required: false, type: .map), 
+            AWSShapeProperty(label: "ProjectionExpression", required: false, type: .string), 
+            AWSShapeProperty(label: "ScanFilter", required: false, type: .map), 
+            AWSShapeProperty(label: "TotalSegments", required: false, type: .integer), 
+            AWSShapeProperty(label: "IndexName", required: false, type: .string), 
+            AWSShapeProperty(label: "Select", required: false, type: .enum), 
+            AWSShapeProperty(label: "ExclusiveStartKey", required: false, type: .map), 
+            AWSShapeProperty(label: "Segment", required: false, type: .integer), 
+            AWSShapeProperty(label: "AttributesToGet", required: false, type: .list), 
+            AWSShapeProperty(label: "ExpressionAttributeValues", required: false, type: .map), 
+            AWSShapeProperty(label: "ConditionalOperator", required: false, type: .enum), 
+            AWSShapeProperty(label: "TableName", required: true, type: .string), 
+            AWSShapeProperty(label: "ReturnConsumedCapacity", required: false, type: .enum), 
+            AWSShapeProperty(label: "FilterExpression", required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer)
         ]
         /// A Boolean value that determines the read consistency model during the scan:   If ConsistentRead is false, then the data returned from Scan might not contain the results from other recently completed write operations (PutItem, UpdateItem or DeleteItem).   If ConsistentRead is true, then all of the write operations that completed before the Scan began are guaranteed to be contained in the Scan response.   The default setting for ConsistentRead is false. The ConsistentRead parameter is not supported on global secondary indexes. If you scan a global secondary index with ConsistentRead set to true, you will receive a ValidationException.
         public let consistentRead: Bool?
@@ -1611,9 +1611,9 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UnprocessedItems", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "ConsumedCapacity", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "ItemCollectionMetrics", location: nil, required: false, type: .map)
+            AWSShapeProperty(label: "UnprocessedItems", required: false, type: .map), 
+            AWSShapeProperty(label: "ConsumedCapacity", required: false, type: .list), 
+            AWSShapeProperty(label: "ItemCollectionMetrics", required: false, type: .map)
         ]
         /// A map of tables and requests against those tables that were not processed. The UnprocessedItems value is in the same form as RequestItems, so you can provide this value directly to a subsequent BatchGetItem operation. For more information, see RequestItems in the Request Parameters section. Each UnprocessedItems entry consists of a table name and, for that table, a list of operations to perform (DeleteRequest or PutRequest).    DeleteRequest - Perform a DeleteItem operation on the specified item. The item to be deleted is identified by a Key subelement:    Key - A map of primary key attribute values that uniquely identify the item. Each entry in this map consists of an attribute name and an attribute value.      PutRequest - Perform a PutItem operation on the specified item. The item to be put is identified by an Item subelement:    Item - A map of attributes and their values. Each entry in this map consists of an attribute name and an attribute value. Attribute values must not be null; string and binary type attributes must have lengths greater than zero; and set type attributes must not be empty. Requests that contain empty values will be rejected with a ValidationException exception. If you specify any attributes that are part of an index key, then the data types for those attributes must match those of the schema in the table's attribute definition.     If there are no unprocessed items remaining, the response contains an empty UnprocessedItems map.
         public let unprocessedItems: [String: [WriteRequest]]?
@@ -1663,7 +1663,7 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TableDescription", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "TableDescription", required: false, type: .structure)
         ]
         /// Represents the properties of a table.
         public let tableDescription: TableDescription?
@@ -1681,11 +1681,11 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WriteCapacityUnits", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "LastIncreaseDateTime", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ReadCapacityUnits", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "LastDecreaseDateTime", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "NumberOfDecreasesToday", location: nil, required: false, type: .long)
+            AWSShapeProperty(label: "WriteCapacityUnits", required: false, type: .long), 
+            AWSShapeProperty(label: "LastIncreaseDateTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "ReadCapacityUnits", required: false, type: .long), 
+            AWSShapeProperty(label: "LastDecreaseDateTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "NumberOfDecreasesToday", required: false, type: .long)
         ]
         /// The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException.
         public let writeCapacityUnits: Int64?
@@ -1719,16 +1719,16 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExpressionAttributeNames", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "ConditionExpression", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ConditionalOperator", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "ReturnItemCollectionMetrics", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "ReturnValues", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Item", location: nil, required: true, type: .map), 
-            AWSShapeProperty(label: "TableName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "ReturnConsumedCapacity", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Expected", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "ExpressionAttributeValues", location: nil, required: false, type: .map)
+            AWSShapeProperty(label: "ExpressionAttributeNames", required: false, type: .map), 
+            AWSShapeProperty(label: "ConditionExpression", required: false, type: .string), 
+            AWSShapeProperty(label: "ConditionalOperator", required: false, type: .enum), 
+            AWSShapeProperty(label: "ReturnItemCollectionMetrics", required: false, type: .enum), 
+            AWSShapeProperty(label: "ReturnValues", required: false, type: .enum), 
+            AWSShapeProperty(label: "Item", required: true, type: .map), 
+            AWSShapeProperty(label: "TableName", required: true, type: .string), 
+            AWSShapeProperty(label: "ReturnConsumedCapacity", required: false, type: .enum), 
+            AWSShapeProperty(label: "Expected", required: false, type: .map), 
+            AWSShapeProperty(label: "ExpressionAttributeValues", required: false, type: .map)
         ]
         /// One or more substitution tokens for attribute names in an expression. The following are some use cases for using ExpressionAttributeNames:   To access an attribute whose name conflicts with a DynamoDB reserved word.   To create a placeholder for repeating occurrences of an attribute name in an expression.   To prevent special characters in an attribute name from being misinterpreted in an expression.   Use the # character in an expression to dereference an attribute name. For example, consider the following attribute name:    Percentile    The name of this attribute conflicts with a reserved word, so it cannot be used directly in an expression. (For the complete list of reserved words, see Reserved Words in the Amazon DynamoDB Developer Guide). To work around this, you could specify the following for ExpressionAttributeNames:    {"#P":"Percentile"}    You could then use this substitution in an expression, as in this example:    #P = :val     Tokens that begin with the : character are expression attribute values, which are placeholders for the actual value at runtime.  For more information on expression attribute names, see Accessing Item Attributes in the Amazon DynamoDB Developer Guide.
         public let expressionAttributeNames: [String: String]?
@@ -1810,8 +1810,8 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ComparisonOperator", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "AttributeValueList", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "ComparisonOperator", required: true, type: .enum), 
+            AWSShapeProperty(label: "AttributeValueList", required: false, type: .list)
         ]
         /// A comparator for evaluating attributes. For example, equals, greater than, less than, etc. The following comparison operators are available:  EQ | NE | LE | LT | GE | GT | NOT_NULL | NULL | CONTAINS | NOT_CONTAINS | BEGINS_WITH | IN | BETWEEN  The following are descriptions of each comparison operator.    EQ : Equal. EQ is supported for all data types, including lists and maps.  AttributeValueList can contain only one AttributeValue element of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not equal {"NS":["6", "2", "1"]}.     NE : Not equal. NE is supported for all data types, including lists and maps.  AttributeValueList can contain only one AttributeValue of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not equal {"NS":["6", "2", "1"]}.     LE : Less than or equal.   AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}.     LT : Less than.   AttributeValueList can contain only one AttributeValue of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}.     GE : Greater than or equal.   AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}.     GT : Greater than.   AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}.     NOT_NULL : The attribute exists. NOT_NULL is supported for all data types, including lists and maps.  This operator tests for the existence of an attribute, not its data type. If the data type of attribute "a" is null, and you evaluate it using NOT_NULL, the result is a Boolean true. This result is because the attribute "a" exists; its data type is not relevant to the NOT_NULL comparison operator.     NULL : The attribute does not exist. NULL is supported for all data types, including lists and maps.  This operator tests for the nonexistence of an attribute, not its data type. If the data type of attribute "a" is null, and you evaluate it using NULL, the result is a Boolean false. This is because the attribute "a" exists; its data type is not relevant to the NULL comparison operator.     CONTAINS : Checks for a subsequence, or value in a set.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is of type String, then the operator checks for a substring match. If the target attribute of the comparison is of type Binary, then the operator looks for a subsequence of the target that matches the input. If the target attribute of the comparison is a set ("SS", "NS", or "BS"), then the operator evaluates to true if it finds an exact match with any member of the set. CONTAINS is supported for lists: When evaluating "a CONTAINS b", "a" can be a list; however, "b" cannot be a set, a map, or a list.    NOT_CONTAINS : Checks for absence of a subsequence, or absence of a value in a set.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is a String, then the operator checks for the absence of a substring match. If the target attribute of the comparison is Binary, then the operator checks for the absence of a subsequence of the target that matches the input. If the target attribute of the comparison is a set ("SS", "NS", or "BS"), then the operator evaluates to true if it does not find an exact match with any member of the set. NOT_CONTAINS is supported for lists: When evaluating "a NOT CONTAINS b", "a" can be a list; however, "b" cannot be a set, a map, or a list.    BEGINS_WITH : Checks for a prefix.   AttributeValueList can contain only one AttributeValue of type String or Binary (not a Number or a set type). The target attribute of the comparison must be of type String or Binary (not a Number or a set type).     IN : Checks for matching elements in a list.  AttributeValueList can contain one or more AttributeValue elements of type String, Number, or Binary. These attributes are compared against an existing attribute of an item. If any elements of the input are equal to the item attribute, the expression evaluates to true.    BETWEEN : Greater than or equal to the first value, and less than or equal to the second value.   AttributeValueList must contain two AttributeValue elements of the same type, either String, Number, or Binary (not a set type). A target attribute matches if the target value is greater than, or equal to, the first element and less than, or equal to, the second element. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not compare to {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}    For usage examples of AttributeValueList and ComparisonOperator, see Legacy Conditional Parameters in the Amazon DynamoDB Developer Guide.
         public let comparisonOperator: ComparisonOperator
@@ -1838,15 +1838,15 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IndexName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "KeySchema", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "IndexArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ProvisionedThroughput", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "ItemCount", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "Projection", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "IndexSizeBytes", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "IndexStatus", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Backfilling", location: nil, required: false, type: .boolean)
+            AWSShapeProperty(label: "IndexName", required: false, type: .string), 
+            AWSShapeProperty(label: "KeySchema", required: false, type: .list), 
+            AWSShapeProperty(label: "IndexArn", required: false, type: .string), 
+            AWSShapeProperty(label: "ProvisionedThroughput", required: false, type: .structure), 
+            AWSShapeProperty(label: "ItemCount", required: false, type: .long), 
+            AWSShapeProperty(label: "Projection", required: false, type: .structure), 
+            AWSShapeProperty(label: "IndexSizeBytes", required: false, type: .long), 
+            AWSShapeProperty(label: "IndexStatus", required: false, type: .enum), 
+            AWSShapeProperty(label: "Backfilling", required: false, type: .boolean)
         ]
         /// The name of the global secondary index.
         public let indexName: String?
@@ -1900,9 +1900,9 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConsumedCapacity", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Attributes", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "ItemCollectionMetrics", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "ConsumedCapacity", required: false, type: .structure), 
+            AWSShapeProperty(label: "Attributes", required: false, type: .map), 
+            AWSShapeProperty(label: "ItemCollectionMetrics", required: false, type: .structure)
         ]
         /// The capacity units consumed by the DeleteItem operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see Provisioned Throughput in the Amazon DynamoDB Developer Guide.
         public let consumedCapacity: ConsumedCapacity?
@@ -1937,10 +1937,10 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TableMaxWriteCapacityUnits", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "TableMaxReadCapacityUnits", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "AccountMaxReadCapacityUnits", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "AccountMaxWriteCapacityUnits", location: nil, required: false, type: .long)
+            AWSShapeProperty(label: "TableMaxWriteCapacityUnits", required: false, type: .long), 
+            AWSShapeProperty(label: "TableMaxReadCapacityUnits", required: false, type: .long), 
+            AWSShapeProperty(label: "AccountMaxReadCapacityUnits", required: false, type: .long), 
+            AWSShapeProperty(label: "AccountMaxWriteCapacityUnits", required: false, type: .long)
         ]
         /// The maximum write capacity units that your account allows you to provision for a new table that you are creating in this region, including the write capacity units provisioned for its global secondary indexes (GSIs).
         public let tableMaxWriteCapacityUnits: Int64?
@@ -1970,9 +1970,9 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UnprocessedKeys", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "ConsumedCapacity", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "Responses", location: nil, required: false, type: .map)
+            AWSShapeProperty(label: "UnprocessedKeys", required: false, type: .map), 
+            AWSShapeProperty(label: "ConsumedCapacity", required: false, type: .list), 
+            AWSShapeProperty(label: "Responses", required: false, type: .map)
         ]
         /// A map of tables and their respective keys that were not processed with the current response. The UnprocessedKeys value is in the same form as RequestItems, so the value can be provided directly to a subsequent BatchGetItem operation. For more information, see RequestItems in the Request Parameters section. Each element consists of:    Keys - An array of primary key attribute values that define specific items in the table.    ProjectionExpression - One or more attributes to be retrieved from the table or index. By default, all attributes are returned. If a requested attribute is not found, it does not appear in the result.    ConsistentRead - The consistency of a read operation. If set to true, then a strongly consistent read is used; otherwise, an eventually consistent read is used.   If there are no unprocessed keys remaining, the response contains an empty UnprocessedKeys map.
         public let unprocessedKeys: [String: KeysAndAttributes]?
@@ -2043,9 +2043,9 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReturnItemCollectionMetrics", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "ReturnConsumedCapacity", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "RequestItems", location: nil, required: true, type: .map)
+            AWSShapeProperty(label: "ReturnItemCollectionMetrics", required: false, type: .enum), 
+            AWSShapeProperty(label: "ReturnConsumedCapacity", required: false, type: .enum), 
+            AWSShapeProperty(label: "RequestItems", required: true, type: .map)
         ]
         /// Determines whether item collection metrics are returned. If set to SIZE, the response includes statistics about item collections, if any, that were modified during the operation are returned in the response. If set to NONE (the default), no statistics are returned.
         public let returnItemCollectionMetrics: ReturnItemCollectionMetrics?
@@ -2077,18 +2077,18 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttributeUpdates", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "ExpressionAttributeNames", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "ConditionExpression", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ConditionalOperator", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "ReturnItemCollectionMetrics", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "ReturnValues", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Key", location: nil, required: true, type: .map), 
-            AWSShapeProperty(label: "TableName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "ReturnConsumedCapacity", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Expected", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "ExpressionAttributeValues", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "UpdateExpression", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "AttributeUpdates", required: false, type: .map), 
+            AWSShapeProperty(label: "ExpressionAttributeNames", required: false, type: .map), 
+            AWSShapeProperty(label: "ConditionExpression", required: false, type: .string), 
+            AWSShapeProperty(label: "ConditionalOperator", required: false, type: .enum), 
+            AWSShapeProperty(label: "ReturnItemCollectionMetrics", required: false, type: .enum), 
+            AWSShapeProperty(label: "ReturnValues", required: false, type: .enum), 
+            AWSShapeProperty(label: "Key", required: true, type: .map), 
+            AWSShapeProperty(label: "TableName", required: true, type: .string), 
+            AWSShapeProperty(label: "ReturnConsumedCapacity", required: false, type: .enum), 
+            AWSShapeProperty(label: "Expected", required: false, type: .map), 
+            AWSShapeProperty(label: "ExpressionAttributeValues", required: false, type: .map), 
+            AWSShapeProperty(label: "UpdateExpression", required: false, type: .string)
         ]
         /// This is a legacy parameter. Use UpdateExpression instead. For more information, see AttributeUpdates in the Amazon DynamoDB Developer Guide.
         public let attributeUpdates: [String: AttributeValueUpdate]?
@@ -2187,8 +2187,8 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Item", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "ConsumedCapacity", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Item", required: false, type: .map), 
+            AWSShapeProperty(label: "ConsumedCapacity", required: false, type: .structure)
         ]
         /// A map of attribute names to AttributeValue objects, as specified by ProjectionExpression.
         public let item: [String: AttributeValue]?
@@ -2219,8 +2219,8 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ItemCollectionKey", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "SizeEstimateRangeGB", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "ItemCollectionKey", required: false, type: .map), 
+            AWSShapeProperty(label: "SizeEstimateRangeGB", required: false, type: .list)
         ]
         /// The partition key value of the item collection. This value is the same as the partition key value of the item.
         public let itemCollectionKey: [String: AttributeValue]?
@@ -2251,9 +2251,9 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Projection", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "IndexName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "KeySchema", location: nil, required: true, type: .list)
+            AWSShapeProperty(label: "Projection", required: true, type: .structure), 
+            AWSShapeProperty(label: "IndexName", required: true, type: .string), 
+            AWSShapeProperty(label: "KeySchema", required: true, type: .list)
         ]
         /// Represents attributes that are copied (projected) from the table into the local secondary index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. 
         public let projection: Projection
@@ -2282,7 +2282,7 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IndexName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "IndexName", required: true, type: .string)
         ]
         /// The name of the global secondary index to be deleted.
         public let indexName: String
@@ -2301,7 +2301,7 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TimeToLiveSpecification", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "TimeToLiveSpecification", required: false, type: .structure)
         ]
         /// Represents the output of an UpdateTimeToLive operation.
         public let timeToLiveSpecification: TimeToLiveSpecification?
@@ -2319,8 +2319,8 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttributeType", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "AttributeName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "AttributeType", required: true, type: .enum), 
+            AWSShapeProperty(label: "AttributeName", required: true, type: .string)
         ]
         /// The data type for the attribute, where:    S - the attribute is of type String    N - the attribute is of type Number    B - the attribute is of type Binary  
         public let attributeType: ScalarAttributeType
@@ -2344,11 +2344,11 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConsistentRead", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "ExpressionAttributeNames", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "ProjectionExpression", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Keys", location: nil, required: true, type: .list), 
-            AWSShapeProperty(label: "AttributesToGet", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "ConsistentRead", required: false, type: .boolean), 
+            AWSShapeProperty(label: "ExpressionAttributeNames", required: false, type: .map), 
+            AWSShapeProperty(label: "ProjectionExpression", required: false, type: .string), 
+            AWSShapeProperty(label: "Keys", required: true, type: .list), 
+            AWSShapeProperty(label: "AttributesToGet", required: false, type: .list)
         ]
         /// The consistency of a read operation. If set to true, then a strongly consistent read is used; otherwise, an eventually consistent read is used.
         public let consistentRead: Bool?
@@ -2395,8 +2395,8 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Tags", required: false, type: .list)
         ]
         /// If this value is returned, there are additional results to be displayed. To retrieve them, call ListTagsOfResource again, with NextToken set to this value.
         public let nextToken: String?
@@ -2422,7 +2422,7 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TableName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "TableName", required: true, type: .string)
         ]
         /// The name of the table to describe.
         public let tableName: String
@@ -2441,8 +2441,8 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TableNames", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "LastEvaluatedTableName", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "TableNames", required: false, type: .list), 
+            AWSShapeProperty(label: "LastEvaluatedTableName", required: false, type: .string)
         ]
         /// The names of the tables associated with the current account at the current endpoint. The maximum size of this array is 100. If LastEvaluatedTableName also appears in the output, you can use this value as the ExclusiveStartTableName parameter in a subsequent ListTables request and obtain the next page of results.
         public let tableNames: [String]?
@@ -2464,16 +2464,16 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NS", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "N", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "BOOL", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "BS", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "L", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NULL", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "B", location: nil, required: false, type: .blob), 
-            AWSShapeProperty(label: "M", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "SS", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "S", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "NS", required: false, type: .list), 
+            AWSShapeProperty(label: "N", required: false, type: .string), 
+            AWSShapeProperty(label: "BOOL", required: false, type: .boolean), 
+            AWSShapeProperty(label: "BS", required: false, type: .list), 
+            AWSShapeProperty(label: "L", required: false, type: .list), 
+            AWSShapeProperty(label: "NULL", required: false, type: .boolean), 
+            AWSShapeProperty(label: "B", required: false, type: .blob), 
+            AWSShapeProperty(label: "M", required: false, type: .map), 
+            AWSShapeProperty(label: "SS", required: false, type: .list), 
+            AWSShapeProperty(label: "S", required: false, type: .string)
         ]
         /// An attribute of type Number Set. For example:  "NS": ["42.2", "-19", "7.5", "3.14"]  Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
         public let nS: [String]?
@@ -2540,7 +2540,7 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TableDescription", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "TableDescription", required: false, type: .structure)
         ]
         /// Represents the properties of the table.
         public let tableDescription: TableDescription?
@@ -2558,9 +2558,9 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConsumedCapacity", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Attributes", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "ItemCollectionMetrics", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "ConsumedCapacity", required: false, type: .structure), 
+            AWSShapeProperty(label: "Attributes", required: false, type: .map), 
+            AWSShapeProperty(label: "ItemCollectionMetrics", required: false, type: .structure)
         ]
         /// The capacity units consumed by the UpdateItem operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see Provisioned Throughput in the Amazon DynamoDB Developer Guide.
         public let consumedCapacity: ConsumedCapacity?
@@ -2595,8 +2595,8 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IndexName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "ProvisionedThroughput", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "IndexName", required: true, type: .string), 
+            AWSShapeProperty(label: "ProvisionedThroughput", required: true, type: .structure)
         ]
         /// The name of the global secondary index to be updated.
         public let indexName: String
@@ -2620,7 +2620,7 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CapacityUnits", location: nil, required: false, type: .double)
+            AWSShapeProperty(label: "CapacityUnits", required: false, type: .double)
         ]
         /// The total number of capacity units consumed on a table or an index.
         public let capacityUnits: Double?
@@ -2655,9 +2655,9 @@ extension Dynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Create", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Update", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Delete", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Create", required: false, type: .structure), 
+            AWSShapeProperty(label: "Update", required: false, type: .structure), 
+            AWSShapeProperty(label: "Delete", required: false, type: .structure)
         ]
         /// The parameters required for creating a global secondary index on an existing table:    IndexName      KeySchema      AttributeDefinitions      Projection      ProvisionedThroughput    
         public let create: CreateGlobalSecondaryIndexAction?

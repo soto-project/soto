@@ -32,12 +32,9 @@ extension Lambda {
     public struct ListFunctionsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["Marker": "Marker", "MaxItems": "MaxItems"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", location: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", location: "MaxItems", required: false, type: .integer)
+            AWSShapeProperty(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
+            AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer)
         ]
         /// Optional string. An opaque pagination token returned from a previous ListFunctions operation. If present, indicates where to continue the listing. 
         public let marker: String?
@@ -59,14 +56,14 @@ extension Lambda {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LastModified", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "UUID", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "BatchSize", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "EventSourceArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "FunctionArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "State", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "LastProcessingResult", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "StateTransitionReason", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "LastModified", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "UUID", required: false, type: .string), 
+            AWSShapeProperty(label: "BatchSize", required: false, type: .integer), 
+            AWSShapeProperty(label: "EventSourceArn", required: false, type: .string), 
+            AWSShapeProperty(label: "FunctionArn", required: false, type: .string), 
+            AWSShapeProperty(label: "State", required: false, type: .string), 
+            AWSShapeProperty(label: "LastProcessingResult", required: false, type: .string), 
+            AWSShapeProperty(label: "StateTransitionReason", required: false, type: .string)
         ]
         /// The UTC time string indicating the last time the event mapping was updated.
         public let lastModified: Date?
@@ -121,15 +118,9 @@ extension Lambda {
     public struct DeleteFunctionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["Qualifier": "Qualifier"]
-        }
-        public static var pathParams: [String: String] {
-            return ["FunctionName": "FunctionName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FunctionName", location: "FunctionName", required: true, type: .string), 
-            AWSShapeProperty(label: "Qualifier", location: "Qualifier", required: false, type: .string)
+            AWSShapeProperty(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
+            AWSShapeProperty(label: "Qualifier", location: .querystring(locationName: "Qualifier"), required: false, type: .string)
         ]
         /// The Lambda function to delete.  You can specify the function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). If you are using versioning, you can also provide a qualified function ARN (ARN that is qualified with function version or alias name as suffix). AWS Lambda also allows you to specify only the function name with the account ID qualifier (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
         public let functionName: String
@@ -151,14 +142,11 @@ extension Lambda {
     public struct UpdateAliasRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["Name": "Name", "FunctionName": "FunctionName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FunctionName", location: "FunctionName", required: true, type: .string), 
-            AWSShapeProperty(label: "FunctionVersion", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Name", location: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
+            AWSShapeProperty(label: "FunctionVersion", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", location: .uri(locationName: "Name"), required: true, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
         /// The function name for which the alias is created.
         public let functionName: String
@@ -189,22 +177,13 @@ extension Lambda {
     public struct InvocationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = "Payload"
-        public static var headerParams: [String: String] {
-            return ["X-Amz-Log-Type": "LogType", "X-Amz-Client-Context": "ClientContext", "X-Amz-Invocation-Type": "InvocationType"]
-        }
-        public static var queryParams: [String: String] {
-            return ["Qualifier": "Qualifier"]
-        }
-        public static var pathParams: [String: String] {
-            return ["FunctionName": "FunctionName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FunctionName", location: "FunctionName", required: true, type: .string), 
-            AWSShapeProperty(label: "InvocationType", location: "X-Amz-Invocation-Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "Payload", location: nil, required: false, type: .blob), 
-            AWSShapeProperty(label: "ClientContext", location: "X-Amz-Client-Context", required: false, type: .string), 
-            AWSShapeProperty(label: "LogType", location: "X-Amz-Log-Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "Qualifier", location: "Qualifier", required: false, type: .string)
+            AWSShapeProperty(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
+            AWSShapeProperty(label: "InvocationType", location: .header(locationName: "X-Amz-Invocation-Type"), required: false, type: .enum), 
+            AWSShapeProperty(label: "Payload", required: false, type: .blob), 
+            AWSShapeProperty(label: "ClientContext", location: .header(locationName: "X-Amz-Client-Context"), required: false, type: .string), 
+            AWSShapeProperty(label: "LogType", location: .header(locationName: "X-Amz-Log-Type"), required: false, type: .enum), 
+            AWSShapeProperty(label: "Qualifier", location: .querystring(locationName: "Qualifier"), required: false, type: .string)
         ]
         /// The Lambda function name.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
         public let functionName: String
@@ -243,7 +222,7 @@ extension Lambda {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetArn", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "TargetArn", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic you specify as your Dead Letter Queue (DLQ).
         public let targetArn: String?
@@ -260,21 +239,15 @@ extension Lambda {
     public struct AddPermissionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["Qualifier": "Qualifier"]
-        }
-        public static var pathParams: [String: String] {
-            return ["FunctionName": "FunctionName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StatementId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "FunctionName", location: "FunctionName", required: true, type: .string), 
-            AWSShapeProperty(label: "Action", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "SourceArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "SourceAccount", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Principal", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "EventSourceToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Qualifier", location: "Qualifier", required: false, type: .string)
+            AWSShapeProperty(label: "StatementId", required: true, type: .string), 
+            AWSShapeProperty(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
+            AWSShapeProperty(label: "Action", required: true, type: .string), 
+            AWSShapeProperty(label: "SourceArn", required: false, type: .string), 
+            AWSShapeProperty(label: "SourceAccount", required: false, type: .string), 
+            AWSShapeProperty(label: "Principal", required: true, type: .string), 
+            AWSShapeProperty(label: "EventSourceToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Qualifier", location: .querystring(locationName: "Qualifier"), required: false, type: .string)
         ]
         /// A unique statement identifier.
         public let statementId: String
@@ -324,12 +297,12 @@ extension Lambda {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FunctionName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "BatchSize", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "StartingPositionTimestamp", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "EventSourceArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "StartingPosition", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "Enabled", location: nil, required: false, type: .boolean)
+            AWSShapeProperty(label: "FunctionName", required: true, type: .string), 
+            AWSShapeProperty(label: "BatchSize", required: false, type: .integer), 
+            AWSShapeProperty(label: "StartingPositionTimestamp", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "EventSourceArn", required: true, type: .string), 
+            AWSShapeProperty(label: "StartingPosition", required: true, type: .enum), 
+            AWSShapeProperty(label: "Enabled", required: false, type: .boolean)
         ]
         /// The Lambda function to invoke when AWS Lambda detects an event on the stream.  You can specify the function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail).   If you are using versioning, you can also provide a qualified function ARN (ARN that is qualified with function version or alias name as suffix). For more information about versioning, see AWS Lambda Function Versioning and Aliases  AWS Lambda also allows you to specify only the function name with the account ID qualifier (for example, account-id:Thumbnail).  Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length.
         public let functionName: String
@@ -370,8 +343,8 @@ extension Lambda {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ErrorCode", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Message", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeProperty(label: "Message", required: false, type: .string)
         ]
         /// The error code returned by the environment error object.
         public let errorCode: String?
@@ -392,12 +365,9 @@ extension Lambda {
     public struct InvokeAsyncRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = "InvokeArgs"
-        public static var pathParams: [String: String] {
-            return ["FunctionName": "FunctionName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FunctionName", location: "FunctionName", required: true, type: .string), 
-            AWSShapeProperty(label: "InvokeArgs", location: nil, required: true, type: .blob)
+            AWSShapeProperty(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
+            AWSShapeProperty(label: "InvokeArgs", required: true, type: .blob)
         ]
         /// The Lambda function name.
         public let functionName: String
@@ -421,7 +391,7 @@ extension Lambda {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Variables", location: nil, required: false, type: .map)
+            AWSShapeProperty(label: "Variables", required: false, type: .map)
         ]
         /// The key-value pairs that represent your environment's configuration settings. The value you specify cannot contain a ",".
         public let variables: [String: String]?
@@ -442,16 +412,10 @@ extension Lambda {
     public struct ListVersionsByFunctionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["Marker": "Marker", "MaxItems": "MaxItems"]
-        }
-        public static var pathParams: [String: String] {
-            return ["FunctionName": "FunctionName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", location: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", location: "MaxItems", required: false, type: .integer), 
-            AWSShapeProperty(label: "FunctionName", location: "FunctionName", required: true, type: .string)
+            AWSShapeProperty(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
+            AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer), 
+            AWSShapeProperty(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string)
         ]
         ///  Optional string. An opaque pagination token returned from a previous ListVersionsByFunction operation. If present, indicates where to continue the listing. 
         public let marker: String?
@@ -478,8 +442,8 @@ extension Lambda {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Aliases", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextMarker", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Aliases", required: false, type: .list), 
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
         ]
         /// A list of aliases.
         public let aliases: [AliasConfiguration]?
@@ -505,10 +469,10 @@ extension Lambda {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "S3ObjectVersion", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "S3Key", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "S3Bucket", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ZipFile", location: nil, required: false, type: .blob)
+            AWSShapeProperty(label: "S3ObjectVersion", required: false, type: .string), 
+            AWSShapeProperty(label: "S3Key", required: false, type: .string), 
+            AWSShapeProperty(label: "S3Bucket", required: false, type: .string), 
+            AWSShapeProperty(label: "ZipFile", required: false, type: .blob)
         ]
         /// The Amazon S3 object (the deployment package) version you want to upload.
         public let s3ObjectVersion: String?
@@ -538,8 +502,8 @@ extension Lambda {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Location", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "RepositoryType", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Location", required: false, type: .string), 
+            AWSShapeProperty(label: "RepositoryType", required: false, type: .string)
         ]
         /// The presigned URL you can use to download the function's .zip file that you previously uploaded. The URL is valid for up to 10 minutes.
         public let location: String?
@@ -567,16 +531,13 @@ extension Lambda {
     public struct UpdateFunctionCodeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["FunctionName": "FunctionName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "S3ObjectVersion", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "FunctionName", location: "FunctionName", required: true, type: .string), 
-            AWSShapeProperty(label: "S3Bucket", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Publish", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "S3Key", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ZipFile", location: nil, required: false, type: .blob)
+            AWSShapeProperty(label: "S3ObjectVersion", required: false, type: .string), 
+            AWSShapeProperty(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
+            AWSShapeProperty(label: "S3Bucket", required: false, type: .string), 
+            AWSShapeProperty(label: "Publish", required: false, type: .boolean), 
+            AWSShapeProperty(label: "S3Key", required: false, type: .string), 
+            AWSShapeProperty(label: "ZipFile", required: false, type: .blob)
         ]
         /// The Amazon S3 object (the deployment package) version you want to upload.
         public let s3ObjectVersion: String?
@@ -614,16 +575,10 @@ extension Lambda {
     public struct RemovePermissionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["Qualifier": "Qualifier"]
-        }
-        public static var pathParams: [String: String] {
-            return ["FunctionName": "FunctionName", "StatementId": "StatementId"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Qualifier", location: "Qualifier", required: false, type: .string), 
-            AWSShapeProperty(label: "FunctionName", location: "FunctionName", required: true, type: .string), 
-            AWSShapeProperty(label: "StatementId", location: "StatementId", required: true, type: .string)
+            AWSShapeProperty(label: "Qualifier", location: .querystring(locationName: "Qualifier"), required: false, type: .string), 
+            AWSShapeProperty(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
+            AWSShapeProperty(label: "StatementId", location: .uri(locationName: "StatementId"), required: true, type: .string)
         ]
         /// You can specify this optional parameter to remove permission associated with a specific function version or function alias. If you don't specify this parameter, the API removes permission associated with the unqualified function ARN.
         public let qualifier: String?
@@ -663,14 +618,11 @@ extension Lambda {
     public struct ListEventSourceMappingsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["MaxItems": "MaxItems", "FunctionName": "FunctionName", "EventSourceArn": "EventSourceArn", "Marker": "Marker"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxItems", location: "MaxItems", required: false, type: .integer), 
-            AWSShapeProperty(label: "FunctionName", location: "FunctionName", required: false, type: .string), 
-            AWSShapeProperty(label: "EventSourceArn", location: "EventSourceArn", required: false, type: .string), 
-            AWSShapeProperty(label: "Marker", location: "Marker", required: false, type: .string)
+            AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer), 
+            AWSShapeProperty(label: "FunctionName", location: .querystring(locationName: "FunctionName"), required: false, type: .string), 
+            AWSShapeProperty(label: "EventSourceArn", location: .querystring(locationName: "EventSourceArn"), required: false, type: .string), 
+            AWSShapeProperty(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string)
         ]
         /// Optional integer. Specifies the maximum number of event sources to return in response. This value must be greater than 0.
         public let maxItems: Int32?
@@ -699,14 +651,11 @@ extension Lambda {
     public struct CreateAliasRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["FunctionName": "FunctionName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FunctionName", location: "FunctionName", required: true, type: .string), 
-            AWSShapeProperty(label: "FunctionVersion", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
+            AWSShapeProperty(label: "FunctionVersion", required: true, type: .string), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
         /// Name of the Lambda function for which you want to create an alias.
         public let functionName: String
@@ -738,14 +687,11 @@ extension Lambda {
     public struct UpdateEventSourceMappingRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["UUID": "UUID"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UUID", location: "UUID", required: true, type: .string), 
-            AWSShapeProperty(label: "FunctionName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "BatchSize", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "Enabled", location: nil, required: false, type: .boolean)
+            AWSShapeProperty(label: "UUID", location: .uri(locationName: "UUID"), required: true, type: .string), 
+            AWSShapeProperty(label: "FunctionName", required: false, type: .string), 
+            AWSShapeProperty(label: "BatchSize", required: false, type: .integer), 
+            AWSShapeProperty(label: "Enabled", required: false, type: .boolean)
         ]
         /// The event source mapping identifier.
         public let uUID: String
@@ -775,15 +721,9 @@ extension Lambda {
     public struct GetFunctionConfigurationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["Qualifier": "Qualifier"]
-        }
-        public static var pathParams: [String: String] {
-            return ["FunctionName": "FunctionName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FunctionName", location: "FunctionName", required: true, type: .string), 
-            AWSShapeProperty(label: "Qualifier", location: "Qualifier", required: false, type: .string)
+            AWSShapeProperty(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
+            AWSShapeProperty(label: "Qualifier", location: .querystring(locationName: "Qualifier"), required: false, type: .string)
         ]
         /// The name of the Lambda function for which you want to retrieve the configuration information.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
         public let functionName: String
@@ -806,7 +746,7 @@ extension Lambda {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "Status", required: false, type: .integer)
         ]
         /// It will be 202 upon success.
         public let status: Int32?
@@ -831,12 +771,9 @@ extension Lambda {
     public struct GetAliasRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["Name": "Name", "FunctionName": "FunctionName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", location: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "FunctionName", location: "FunctionName", required: true, type: .string)
+            AWSShapeProperty(label: "Name", location: .uri(locationName: "Name"), required: true, type: .string), 
+            AWSShapeProperty(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string)
         ]
         /// Name of the alias for which you want to retrieve information.
         public let name: String
@@ -859,14 +796,11 @@ extension Lambda {
     public struct InvocationResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "Payload"
-        public static var headerParams: [String: String] {
-            return ["X-Amz-Log-Result": "LogResult", "X-Amz-Function-Error": "FunctionError"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StatusCode", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "LogResult", location: "X-Amz-Log-Result", required: false, type: .string), 
-            AWSShapeProperty(label: "Payload", location: nil, required: false, type: .blob), 
-            AWSShapeProperty(label: "FunctionError", location: "X-Amz-Function-Error", required: false, type: .string)
+            AWSShapeProperty(label: "StatusCode", required: false, type: .integer), 
+            AWSShapeProperty(label: "LogResult", location: .header(locationName: "X-Amz-Log-Result"), required: false, type: .string), 
+            AWSShapeProperty(label: "Payload", required: false, type: .blob), 
+            AWSShapeProperty(label: "FunctionError", location: .header(locationName: "X-Amz-Function-Error"), required: false, type: .string)
         ]
         /// The HTTP status code will be in the 200 range for successful request. For the RequestResonse invocation type this status code will be 200. For the Event invocation type this status code will be 202. For the DryRun invocation type the status code will be 204. 
         public let statusCode: Int32?
@@ -896,7 +830,7 @@ extension Lambda {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Statement", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Statement", required: false, type: .string)
         ]
         /// The permission statement you specified in the request. The response returns the same as a string using a backslash ("\") as an escape character in the JSON.
         public let statement: String?
@@ -913,21 +847,18 @@ extension Lambda {
     public struct UpdateFunctionConfigurationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["FunctionName": "FunctionName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KMSKeyArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Handler", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "FunctionName", location: "FunctionName", required: true, type: .string), 
-            AWSShapeProperty(label: "VpcConfig", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "MemorySize", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "Role", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Environment", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Runtime", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "DeadLetterConfig", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Timeout", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "KMSKeyArn", required: false, type: .string), 
+            AWSShapeProperty(label: "Handler", required: false, type: .string), 
+            AWSShapeProperty(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
+            AWSShapeProperty(label: "VpcConfig", required: false, type: .structure), 
+            AWSShapeProperty(label: "MemorySize", required: false, type: .integer), 
+            AWSShapeProperty(label: "Role", required: false, type: .string), 
+            AWSShapeProperty(label: "Environment", required: false, type: .structure), 
+            AWSShapeProperty(label: "Runtime", required: false, type: .enum), 
+            AWSShapeProperty(label: "DeadLetterConfig", required: false, type: .structure), 
+            AWSShapeProperty(label: "Timeout", required: false, type: .integer), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the KMS key used to encrypt your function's environment variables. If you elect to use the AWS Lambda default service key, pass in an empty string ("") for this parameter.
         public let kMSKeyArn: String?
@@ -985,8 +916,8 @@ extension Lambda {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Functions", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextMarker", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Functions", required: false, type: .list), 
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
         ]
         /// A list of Lambda functions.
         public let functions: [FunctionConfiguration]?
@@ -1012,19 +943,19 @@ extension Lambda {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcConfig", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "DeadLetterConfig", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Timeout", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "Runtime", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "Publish", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "KMSKeyArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "FunctionName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Code", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "MemorySize", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "Role", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Environment", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Handler", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "VpcConfig", required: false, type: .structure), 
+            AWSShapeProperty(label: "DeadLetterConfig", required: false, type: .structure), 
+            AWSShapeProperty(label: "Timeout", required: false, type: .integer), 
+            AWSShapeProperty(label: "Runtime", required: true, type: .enum), 
+            AWSShapeProperty(label: "Publish", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Description", required: false, type: .string), 
+            AWSShapeProperty(label: "KMSKeyArn", required: false, type: .string), 
+            AWSShapeProperty(label: "FunctionName", required: true, type: .string), 
+            AWSShapeProperty(label: "Code", required: true, type: .structure), 
+            AWSShapeProperty(label: "MemorySize", required: false, type: .integer), 
+            AWSShapeProperty(label: "Role", required: true, type: .string), 
+            AWSShapeProperty(label: "Environment", required: false, type: .structure), 
+            AWSShapeProperty(label: "Handler", required: true, type: .string)
         ]
         /// If your Lambda function accesses resources in a VPC, you provide this parameter identifying the list of security group IDs and subnet IDs. These must belong to the same VPC. You must provide at least one security group and one subnet ID.
         public let vpcConfig: VpcConfig?
@@ -1101,9 +1032,9 @@ extension Lambda {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "SubnetIds", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "SecurityGroupIds", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "VpcId", required: false, type: .string), 
+            AWSShapeProperty(label: "SubnetIds", required: false, type: .list), 
+            AWSShapeProperty(label: "SecurityGroupIds", required: false, type: .list)
         ]
         /// The VPC ID associated with you Lambda function.
         public let vpcId: String?
@@ -1128,15 +1059,9 @@ extension Lambda {
     public struct GetPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["Qualifier": "Qualifier"]
-        }
-        public static var pathParams: [String: String] {
-            return ["FunctionName": "FunctionName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FunctionName", location: "FunctionName", required: true, type: .string), 
-            AWSShapeProperty(label: "Qualifier", location: "Qualifier", required: false, type: .string)
+            AWSShapeProperty(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
+            AWSShapeProperty(label: "Qualifier", location: .querystring(locationName: "Qualifier"), required: false, type: .string)
         ]
         /// Function name whose resource policy you want to retrieve.  You can specify the function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). If you are using versioning, you can also provide a qualified function ARN (ARN that is qualified with function version or alias name as suffix). AWS Lambda also allows you to specify only the function name with the account ID qualifier (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
         public let functionName: String
@@ -1159,22 +1084,22 @@ extension Lambda {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcConfig", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "DeadLetterConfig", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Timeout", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "Runtime", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "CodeSha256", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "LastModified", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "KMSKeyArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "FunctionName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MemorySize", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "FunctionArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Version", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Role", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "CodeSize", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "Environment", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Handler", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "VpcConfig", required: false, type: .structure), 
+            AWSShapeProperty(label: "DeadLetterConfig", required: false, type: .structure), 
+            AWSShapeProperty(label: "Timeout", required: false, type: .integer), 
+            AWSShapeProperty(label: "Runtime", required: false, type: .enum), 
+            AWSShapeProperty(label: "CodeSha256", required: false, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string), 
+            AWSShapeProperty(label: "LastModified", required: false, type: .string), 
+            AWSShapeProperty(label: "KMSKeyArn", required: false, type: .string), 
+            AWSShapeProperty(label: "FunctionName", required: false, type: .string), 
+            AWSShapeProperty(label: "MemorySize", required: false, type: .integer), 
+            AWSShapeProperty(label: "FunctionArn", required: false, type: .string), 
+            AWSShapeProperty(label: "Version", required: false, type: .string), 
+            AWSShapeProperty(label: "Role", required: false, type: .string), 
+            AWSShapeProperty(label: "CodeSize", required: false, type: .long), 
+            AWSShapeProperty(label: "Environment", required: false, type: .structure), 
+            AWSShapeProperty(label: "Handler", required: false, type: .string)
         ]
         /// VPC configuration associated with your Lambda function.
         public let vpcConfig: VpcConfigResponse?
@@ -1252,7 +1177,7 @@ extension Lambda {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Policy", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Policy", required: false, type: .string)
         ]
         /// The resource policy associated with the specified function. The response returns the same as a string using a backslash ("\") as an escape character in the JSON.
         public let policy: String?
@@ -1270,8 +1195,8 @@ extension Lambda {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Versions", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextMarker", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Versions", required: false, type: .list), 
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
         ]
         /// A list of Lambda function versions.
         public let versions: [FunctionConfiguration]?
@@ -1297,10 +1222,10 @@ extension Lambda {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CodeSizeZipped", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "CodeSizeUnzipped", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "ConcurrentExecutions", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "TotalCodeSize", location: nil, required: false, type: .long)
+            AWSShapeProperty(label: "CodeSizeZipped", required: false, type: .long), 
+            AWSShapeProperty(label: "CodeSizeUnzipped", required: false, type: .long), 
+            AWSShapeProperty(label: "ConcurrentExecutions", required: false, type: .integer), 
+            AWSShapeProperty(label: "TotalCodeSize", required: false, type: .long)
         ]
         /// Size, in bytes, of a single zipped code/dependencies package you can upload for your Lambda function(.zip/.jar file). Try using Amazon S3 for uploading larger files. Default limit is 50 MB.
         public let codeSizeZipped: Int64?
@@ -1330,10 +1255,10 @@ extension Lambda {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FunctionVersion", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "AliasArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "FunctionVersion", required: false, type: .string), 
+            AWSShapeProperty(label: "AliasArn", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
         /// Function version to which the alias points.
         public let functionVersion: String?
@@ -1362,12 +1287,9 @@ extension Lambda {
     public struct DeleteAliasRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["Name": "Name", "FunctionName": "FunctionName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", location: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "FunctionName", location: "FunctionName", required: true, type: .string)
+            AWSShapeProperty(label: "Name", location: .uri(locationName: "Name"), required: true, type: .string), 
+            AWSShapeProperty(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string)
         ]
         /// Name of the alias to delete.
         public let name: String
@@ -1390,17 +1312,11 @@ extension Lambda {
     public struct ListAliasesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["FunctionVersion": "FunctionVersion", "MaxItems": "MaxItems", "Marker": "Marker"]
-        }
-        public static var pathParams: [String: String] {
-            return ["FunctionName": "FunctionName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxItems", location: "MaxItems", required: false, type: .integer), 
-            AWSShapeProperty(label: "FunctionName", location: "FunctionName", required: true, type: .string), 
-            AWSShapeProperty(label: "FunctionVersion", location: "FunctionVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "Marker", location: "Marker", required: false, type: .string)
+            AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer), 
+            AWSShapeProperty(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
+            AWSShapeProperty(label: "FunctionVersion", location: .querystring(locationName: "FunctionVersion"), required: false, type: .string), 
+            AWSShapeProperty(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string)
         ]
         /// Optional integer. Specifies the maximum number of aliases to return in response. This parameter value must be greater than 0.
         public let maxItems: Int32?
@@ -1431,8 +1347,8 @@ extension Lambda {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Error", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Variables", location: nil, required: false, type: .map)
+            AWSShapeProperty(label: "Error", required: false, type: .structure), 
+            AWSShapeProperty(label: "Variables", required: false, type: .map)
         ]
         public let error: EnvironmentError?
         /// The key-value pairs returned that represent your environment's configuration settings or error information.
@@ -1457,8 +1373,8 @@ extension Lambda {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FunctionCount", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "TotalCodeSize", location: nil, required: false, type: .long)
+            AWSShapeProperty(label: "FunctionCount", required: false, type: .long), 
+            AWSShapeProperty(label: "TotalCodeSize", required: false, type: .long)
         ]
         /// The number of your account's existing functions per region.
         public let functionCount: Int64?
@@ -1480,8 +1396,8 @@ extension Lambda {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetIds", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "SecurityGroupIds", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "SubnetIds", required: false, type: .list), 
+            AWSShapeProperty(label: "SecurityGroupIds", required: false, type: .list)
         ]
         /// A list of one or more subnet IDs in your VPC.
         public let subnetIds: [String]?
@@ -1502,11 +1418,8 @@ extension Lambda {
     public struct DeleteEventSourceMappingRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["UUID": "UUID"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UUID", location: "UUID", required: true, type: .string)
+            AWSShapeProperty(label: "UUID", location: .uri(locationName: "UUID"), required: true, type: .string)
         ]
         /// The event source mapping ID.
         public let uUID: String
@@ -1524,11 +1437,8 @@ extension Lambda {
     public struct GetEventSourceMappingRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["UUID": "UUID"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UUID", location: "UUID", required: true, type: .string)
+            AWSShapeProperty(label: "UUID", location: .uri(locationName: "UUID"), required: true, type: .string)
         ]
         /// The AWS Lambda assigned ID of the event source mapping.
         public let uUID: String
@@ -1546,13 +1456,10 @@ extension Lambda {
     public struct PublishVersionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["FunctionName": "FunctionName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "CodeSha256", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "FunctionName", location: "FunctionName", required: true, type: .string)
+            AWSShapeProperty(label: "Description", required: false, type: .string), 
+            AWSShapeProperty(label: "CodeSha256", required: false, type: .string), 
+            AWSShapeProperty(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string)
         ]
         /// The description for the version you are publishing. If not provided, AWS Lambda copies the description from the $LATEST version.
         public let description: String?
@@ -1579,8 +1486,8 @@ extension Lambda {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Configuration", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Code", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Configuration", required: false, type: .structure), 
+            AWSShapeProperty(label: "Code", required: false, type: .structure)
         ]
         public let configuration: FunctionConfiguration?
         public let code: FunctionCodeLocation?
@@ -1599,15 +1506,9 @@ extension Lambda {
     public struct GetFunctionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["Qualifier": "Qualifier"]
-        }
-        public static var pathParams: [String: String] {
-            return ["FunctionName": "FunctionName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FunctionName", location: "FunctionName", required: true, type: .string), 
-            AWSShapeProperty(label: "Qualifier", location: "Qualifier", required: false, type: .string)
+            AWSShapeProperty(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
+            AWSShapeProperty(label: "Qualifier", location: .querystring(locationName: "Qualifier"), required: false, type: .string)
         ]
         /// The Lambda function name.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
         public let functionName: String
@@ -1630,8 +1531,8 @@ extension Lambda {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EventSourceMappings", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextMarker", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "EventSourceMappings", required: false, type: .list), 
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
         ]
         /// An array of EventSourceMappingConfiguration objects.
         public let eventSourceMappings: [EventSourceMappingConfiguration]?
@@ -1657,8 +1558,8 @@ extension Lambda {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountUsage", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "AccountLimit", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "AccountUsage", required: false, type: .structure), 
+            AWSShapeProperty(label: "AccountLimit", required: false, type: .structure)
         ]
         public let accountUsage: AccountUsage?
         public let accountLimit: AccountLimit?

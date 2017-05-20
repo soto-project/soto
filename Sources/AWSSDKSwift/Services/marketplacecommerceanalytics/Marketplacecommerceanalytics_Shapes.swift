@@ -63,13 +63,13 @@ extension Marketplacecommerceanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "snsTopicArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "dataSetType", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "destinationS3Prefix", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "customerDefinedValues", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "destinationS3BucketName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "roleNameArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "dataSetPublicationDate", location: nil, required: true, type: .timestamp)
+            AWSShapeProperty(label: "snsTopicArn", required: true, type: .string), 
+            AWSShapeProperty(label: "dataSetType", required: true, type: .enum), 
+            AWSShapeProperty(label: "destinationS3Prefix", required: false, type: .string), 
+            AWSShapeProperty(label: "customerDefinedValues", required: false, type: .map), 
+            AWSShapeProperty(label: "destinationS3BucketName", required: true, type: .string), 
+            AWSShapeProperty(label: "roleNameArn", required: true, type: .string), 
+            AWSShapeProperty(label: "dataSetPublicationDate", required: true, type: .timestamp)
         ]
         /// Amazon Resource Name (ARN) for the SNS Topic that will be notified when the data set has been published or if an error has occurred.
         public let snsTopicArn: String
@@ -120,7 +120,7 @@ extension Marketplacecommerceanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "dataSetRequestId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "dataSetRequestId", required: false, type: .string)
         ]
         /// A unique identifier representing a specific request to the StartSupportDataExport operation. This identifier can be used to correlate a request with notifications from the SNS topic.
         public let dataSetRequestId: String?
@@ -138,13 +138,13 @@ extension Marketplacecommerceanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "snsTopicArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "dataSetType", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "destinationS3Prefix", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "customerDefinedValues", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "destinationS3BucketName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "fromDate", location: nil, required: true, type: .timestamp), 
-            AWSShapeProperty(label: "roleNameArn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "snsTopicArn", required: true, type: .string), 
+            AWSShapeProperty(label: "dataSetType", required: true, type: .enum), 
+            AWSShapeProperty(label: "destinationS3Prefix", required: false, type: .string), 
+            AWSShapeProperty(label: "customerDefinedValues", required: false, type: .map), 
+            AWSShapeProperty(label: "destinationS3BucketName", required: true, type: .string), 
+            AWSShapeProperty(label: "fromDate", required: true, type: .timestamp), 
+            AWSShapeProperty(label: "roleNameArn", required: true, type: .string)
         ]
         /// Amazon Resource Name (ARN) for the SNS Topic that will be notified when the data set has been published or if an error has occurred.
         public let snsTopicArn: String
@@ -195,7 +195,7 @@ extension Marketplacecommerceanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "dataSetRequestId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "dataSetRequestId", required: false, type: .string)
         ]
         /// A unique identifier representing a specific request to the GenerateDataSet operation. This identifier can be used to correlate a request with notifications from the SNS topic.
         public let dataSetRequestId: String?

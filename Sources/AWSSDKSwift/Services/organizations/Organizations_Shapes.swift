@@ -33,8 +33,8 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ActionType", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "ParentHandshakeId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "ActionType", required: false, type: .enum), 
+            AWSShapeProperty(label: "ParentHandshakeId", required: false, type: .string)
         ]
         /// Specifies the type of handshake action. If you specify ActionType, you cannot also specify ParentHandshakeId.
         public let actionType: ActionType?
@@ -56,7 +56,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Policy", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Policy", required: false, type: .structure)
         ]
         /// A structure that contains details about the newly created policy.
         public let policy: Policy?
@@ -74,8 +74,8 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Accounts", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Accounts", required: false, type: .list)
         ]
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
         public let nextToken: String?
@@ -120,8 +120,8 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Content", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "PolicySummary", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Content", required: false, type: .string), 
+            AWSShapeProperty(label: "PolicySummary", required: false, type: .structure)
         ]
         /// The text content of the policy.
         public let content: String?
@@ -143,8 +143,8 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Notes", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Target", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "Notes", required: false, type: .string), 
+            AWSShapeProperty(label: "Target", required: true, type: .structure)
         ]
         /// Additional information that you want to include in the generated email to the recipient account owner.
         public let notes: String?
@@ -167,7 +167,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Handshake", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Handshake", required: false, type: .structure)
         ]
         /// A structure that contains details about the handshake that you canceled.
         public let handshake: Handshake?
@@ -198,13 +198,13 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "RequestedTimestamp", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "State", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "AccountName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "CompletedTimestamp", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "FailureReason", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Id", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "AccountId", required: false, type: .string), 
+            AWSShapeProperty(label: "RequestedTimestamp", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "State", required: false, type: .enum), 
+            AWSShapeProperty(label: "AccountName", required: false, type: .string), 
+            AWSShapeProperty(label: "CompletedTimestamp", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "FailureReason", required: false, type: .enum), 
+            AWSShapeProperty(label: "Id", required: false, type: .string)
         ]
         /// If the account was created successfully, the unique identifier (ID) of the new account. The regex pattern for an account ID string requires exactly 12 digits.
         public let accountId: String?
@@ -262,7 +262,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Handshake", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Handshake", required: false, type: .structure)
         ]
         /// A structure that contains details about the declined handshake. The state is updated to show the value DECLINED.
         public let handshake: Handshake?
@@ -280,8 +280,8 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Targets", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Targets", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// A list of structures, each of which contains details about one of the entities to which the specified policy is attached.
         public let targets: [PolicyTargetSummary]?
@@ -307,9 +307,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Filter", location: nil, required: true, type: .enum)
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Filter", required: true, type: .enum)
         ]
         /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int32?
@@ -336,10 +336,10 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Filter", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "TargetId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "Filter", required: true, type: .enum), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "TargetId", required: true, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// The type of policy that you want to include in the returned list.
         public let filter: PolicyType
@@ -371,9 +371,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "PolicyId", required: true, type: .string), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// The unique identifier (ID) of the policy for which you want to know its attachments. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
         public let policyId: String
@@ -400,8 +400,8 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "OrganizationalUnits", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "OrganizationalUnits", required: false, type: .list)
         ]
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
         public let nextToken: String?
@@ -427,9 +427,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Value", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Resources", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "Type", required: false, type: .enum), 
+            AWSShapeProperty(label: "Value", required: false, type: .string), 
+            AWSShapeProperty(label: "Resources", required: false, type: .list)
         ]
         /// The type of information being passed, specifying how the value is to be interpreted by the other party:    ACCOUNT - Specifies an AWS account ID number.    ORGANIZATION - Specifies an organization ID number.    EMAIL - Specifies the email address that is associated with the account that receives the handshake.     OWNER_EMAIL - Specifies the email address associated with the master account. Included as information about an organization.     OWNER_NAME - Specifies the name associated with the master account. Included as information about an organization.     NOTES - Additional text provided by the handshake initiator and intended for the recipient to read.  
         public let `type`: HandshakeResourceType?
@@ -459,7 +459,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Handshake", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Handshake", required: false, type: .structure)
         ]
         /// A structure that contains details about the handshake created to support this request to enable all features in the organization.
         public let handshake: Handshake?
@@ -477,7 +477,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OrganizationalUnit", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "OrganizationalUnit", required: false, type: .structure)
         ]
         /// A structure that contains details about the specified OU.
         public let organizationalUnit: OrganizationalUnit?
@@ -495,7 +495,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Handshake", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Handshake", required: false, type: .structure)
         ]
         /// A structure that contains details about the handshake that is created to support this invitation request.
         public let handshake: Handshake?
@@ -513,7 +513,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OrganizationalUnitId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "OrganizationalUnitId", required: true, type: .string)
         ]
         /// The unique identifier (ID) of the organizational unit that you want details about. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.
         public let organizationalUnitId: String
@@ -532,7 +532,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OrganizationalUnit", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "OrganizationalUnit", required: false, type: .structure)
         ]
         /// A structure that contains the details about the specified OU, including its new name.
         public let organizationalUnit: OrganizationalUnit?
@@ -550,7 +550,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CreateAccountStatus", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "CreateAccountStatus", required: false, type: .structure)
         ]
         /// A structure that contains details about the request to create an account. This response structure might not be fully populated when you first receive it because account creation is an asynchronous process. You can pass the returned CreateAccountStatus ID as a parameter to  DescribeCreateAccountStatus  to get status about the progress of the request at later times. 
         public let createAccountStatus: CreateAccountStatus?
@@ -568,8 +568,8 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyType", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "RootId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "PolicyType", required: true, type: .enum), 
+            AWSShapeProperty(label: "RootId", required: true, type: .string)
         ]
         /// The policy type that you want to enable.
         public let policyType: PolicyType
@@ -593,8 +593,8 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "ParentId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "ParentId", required: true, type: .string)
         ]
         /// The friendly name to assign to the new OU.
         public let name: String
@@ -618,7 +618,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CreateAccountStatus", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "CreateAccountStatus", required: false, type: .structure)
         ]
         /// A structure that contains the current status of an account creation request.
         public let createAccountStatus: CreateAccountStatus?
@@ -636,8 +636,8 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Roots", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Roots", required: false, type: .list)
         ]
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
         public let nextToken: String?
@@ -663,9 +663,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "States", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "States", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// A list of one or more states that you want included in the response. If this parameter is not present, then all requests are included in the response.
         public let states: [CreateAccountState]?
@@ -691,7 +691,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Organization", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Organization", required: false, type: .structure)
         ]
         /// A structure that contains details about the newly created organization.
         public let organization: Organization?
@@ -709,9 +709,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "SourceParentId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DestinationParentId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
+            AWSShapeProperty(label: "SourceParentId", required: true, type: .string), 
+            AWSShapeProperty(label: "DestinationParentId", required: true, type: .string)
         ]
         /// The unique identifier (ID) of the account that you want to move. The regex pattern for an account ID string requires exactly 12 digits.
         public let accountId: String
@@ -760,8 +760,8 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "TargetId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "PolicyId", required: true, type: .string), 
+            AWSShapeProperty(label: "TargetId", required: true, type: .string)
         ]
         /// The unique identifier (ID) of the policy that you want to attach to the target. You can get the ID for the policy by calling the ListPolicies operation. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
         public let policyId: String
@@ -785,8 +785,8 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Parents", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Parents", required: false, type: .list)
         ]
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
         public let nextToken: String?
@@ -812,10 +812,10 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Content", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "PolicyId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Content", required: false, type: .string), 
+            AWSShapeProperty(label: "PolicyId", required: true, type: .string), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
         /// If provided, the new content for the policy. The text must be correctly formatted JSON that complies with the syntax for the policy's type. For more information, see Service Control Policy Syntax in the AWS Organizations User Guide.
         public let content: String?
@@ -846,13 +846,13 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MasterAccountEmail", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "AvailablePolicyTypes", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "MasterAccountArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "FeatureSet", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "MasterAccountId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Id", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "MasterAccountEmail", required: false, type: .string), 
+            AWSShapeProperty(label: "Arn", required: false, type: .string), 
+            AWSShapeProperty(label: "AvailablePolicyTypes", required: false, type: .list), 
+            AWSShapeProperty(label: "MasterAccountArn", required: false, type: .string), 
+            AWSShapeProperty(label: "FeatureSet", required: false, type: .enum), 
+            AWSShapeProperty(label: "MasterAccountId", required: false, type: .string), 
+            AWSShapeProperty(label: "Id", required: false, type: .string)
         ]
         /// The email address that is associated with the AWS account that is designated as the master account for the organization.
         public let masterAccountEmail: String?
@@ -898,8 +898,8 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Id", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Type", required: false, type: .enum), 
+            AWSShapeProperty(label: "Id", required: false, type: .string)
         ]
         /// The type of this child entity.
         public let `type`: ChildType?
@@ -953,10 +953,10 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChildType", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "ParentId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "ChildType", required: true, type: .enum), 
+            AWSShapeProperty(label: "ParentId", required: true, type: .string), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// Filters the output to include only the specified child type.
         public let childType: ChildType
@@ -995,8 +995,8 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Status", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "Type", required: false, type: .enum), 
+            AWSShapeProperty(label: "Status", required: false, type: .enum)
         ]
         /// The name of the policy type.
         public let `type`: PolicyType?
@@ -1018,7 +1018,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HandshakeId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "HandshakeId", required: true, type: .string)
         ]
         /// The unique identifier (ID) of the handshake that you want to decline. You can get the ID from the ListHandshakesForAccount operation. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
         public let handshakeId: String
@@ -1037,7 +1037,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HandshakeId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "HandshakeId", required: true, type: .string)
         ]
         /// The unique identifier (ID) of the handshake that you want to accept. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
         public let handshakeId: String
@@ -1056,12 +1056,12 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "JoinedTimestamp", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Status", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Arn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "JoinedMethod", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Id", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "JoinedTimestamp", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Status", required: false, type: .enum), 
+            AWSShapeProperty(label: "Arn", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "JoinedMethod", required: false, type: .enum), 
+            AWSShapeProperty(label: "Id", required: false, type: .string)
         ]
         /// The date the account became a part of the organization.
         public let joinedTimestamp: Date?
@@ -1099,8 +1099,8 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
@@ -1122,8 +1122,8 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Id", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Type", required: false, type: .enum), 
+            AWSShapeProperty(label: "Id", required: false, type: .string)
         ]
         /// The type of party.
         public let `type`: HandshakePartyType?
@@ -1145,9 +1145,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Filter", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Filter", required: false, type: .structure)
         ]
         /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int32?
@@ -1173,8 +1173,8 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CreateAccountStatuses", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "CreateAccountStatuses", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// A list of objects with details about the requests. Certain elements, such as the accountId number, are present in the output only after the account has been successfully created.
         public let createAccountStatuses: [CreateAccountStatus]?
@@ -1200,8 +1200,8 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Id", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Type", required: false, type: .enum), 
+            AWSShapeProperty(label: "Id", required: false, type: .string)
         ]
         /// The type of the parent entity.
         public let `type`: ParentType?
@@ -1230,7 +1230,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Policy", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Policy", required: false, type: .structure)
         ]
         /// A structure that contains details about the specified policy.
         public let policy: Policy?
@@ -1248,8 +1248,8 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OrganizationalUnitId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "OrganizationalUnitId", required: true, type: .string), 
+            AWSShapeProperty(label: "Name", required: false, type: .string)
         ]
         /// The unique identifier (ID) of the OU that you want to rename. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.
         public let organizationalUnitId: String
@@ -1272,8 +1272,8 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Policies", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Policies", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// A list of policies that match the filter criteria in the request. The output list does not include the policy contents. To see the content for a policy, see DescribePolicy.
         public let policies: [PolicySummary]?
@@ -1299,8 +1299,8 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Children", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Children", required: false, type: .list)
         ]
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
         public let nextToken: String?
@@ -1326,8 +1326,8 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyType", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "RootId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "PolicyType", required: true, type: .enum), 
+            AWSShapeProperty(label: "RootId", required: true, type: .string)
         ]
         /// The policy type that you want to disable in this root.
         public let policyType: PolicyType
@@ -1351,8 +1351,8 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "TargetId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "PolicyId", required: true, type: .string), 
+            AWSShapeProperty(label: "TargetId", required: true, type: .string)
         ]
         /// The unique identifier (ID) of the policy you want to detach. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
         public let policyId: String
@@ -1376,10 +1376,10 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Email", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "RoleName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "IamUserAccessToBilling", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "AccountName", required: true, type: .string), 
+            AWSShapeProperty(label: "Email", required: true, type: .string), 
+            AWSShapeProperty(label: "RoleName", required: false, type: .string), 
+            AWSShapeProperty(label: "IamUserAccessToBilling", required: false, type: .enum)
         ]
         /// The friendly name of the member account.
         public let accountName: String
@@ -1411,9 +1411,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChildId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "ChildId", required: true, type: .string), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// The unique identifier (ID) of the OU or account whose parent containers you want to list. Do not specify a root. The regex pattern for a child ID string requires one of the following:   Account: a string that consists of exactly 12 digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
         public let childId: String
@@ -1440,7 +1440,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CreateAccountRequestId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "CreateAccountRequestId", required: true, type: .string)
         ]
         /// Specifies the operationId that uniquely identifies the request. You can get the ID from the response to an earlier CreateAccount request, or from the ListCreateAccountStatus operation. The regex pattern for an create account request ID string requires "car-" followed by from 8 to 32 lower-case letters or digits.
         public let createAccountRequestId: String
@@ -1466,7 +1466,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "PolicyId", required: true, type: .string)
         ]
         /// The unique identifier (ID) of the policy that you want to delete. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
         public let policyId: String
@@ -1485,7 +1485,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Root", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Root", required: false, type: .structure)
         ]
         /// A structure that shows the root with the updated list of enabled policy types.
         public let root: Root?
@@ -1503,7 +1503,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OrganizationalUnit", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "OrganizationalUnit", required: false, type: .structure)
         ]
         /// A structure that contains details about the newly created OU.
         public let organizationalUnit: OrganizationalUnit?
@@ -1521,7 +1521,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HandshakeId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "HandshakeId", required: true, type: .string)
         ]
         /// The unique identifier (ID) of the handshake that you want information about. You can get the ID from the original call to InviteAccountToOrganization, or from a call to ListHandshakesForAccount or ListHandshakesForOrganization. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
         public let handshakeId: String
@@ -1548,7 +1548,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Policy", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Policy", required: false, type: .structure)
         ]
         /// A structure that contains details about the updated policy, showing the requested changes.
         public let policy: Policy?
@@ -1566,8 +1566,8 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Policies", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Policies", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// The list of policies that match the criteria in the request.
         public let policies: [PolicySummary]?
@@ -1593,8 +1593,8 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Accounts", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Accounts", required: false, type: .list)
         ]
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
         public let nextToken: String?
@@ -1620,9 +1620,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Filter", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Filter", required: false, type: .structure)
         ]
         /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int32?
@@ -1648,7 +1648,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "AccountId", required: true, type: .string)
         ]
         /// The unique identifier (ID) of the member account that you want to remove from the organization. The regex pattern for an account ID string requires exactly 12 digits.
         public let accountId: String
@@ -1667,10 +1667,10 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Content", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Type", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Description", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Content", required: true, type: .string), 
+            AWSShapeProperty(label: "Type", required: true, type: .enum), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "Description", required: true, type: .string)
         ]
         /// The policy content to add to the new policy. For example, if you create a service control policy (SCP), this string must be JSON text that specifies the permissions that admins in attached accounts can delegate to their users, groups, and roles. For more information about the SCP syntax, see Service Control Policy Syntax in the AWS Organizations User Guide.
         public let content: String
@@ -1704,12 +1704,12 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "AwsManaged", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "Type", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Id", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Description", required: false, type: .string), 
+            AWSShapeProperty(label: "Arn", required: false, type: .string), 
+            AWSShapeProperty(label: "AwsManaged", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Type", required: false, type: .enum), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "Id", required: false, type: .string)
         ]
         /// The description of the policy.
         public let description: String?
@@ -1747,7 +1747,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Root", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Root", required: false, type: .structure)
         ]
         /// A structure that shows the root with the updated list of enabled policy types.
         public let root: Root?
@@ -1765,8 +1765,8 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Handshakes", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Handshakes", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// A list of Handshake objects with details about each of the handshakes that are associated with an organization.
         public let handshakes: [Handshake]?
@@ -1792,14 +1792,14 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RequestedTimestamp", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Arn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Action", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "State", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "ExpirationTimestamp", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Resources", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "Parties", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "Id", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "RequestedTimestamp", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Arn", required: false, type: .string), 
+            AWSShapeProperty(label: "Action", required: false, type: .enum), 
+            AWSShapeProperty(label: "State", required: false, type: .enum), 
+            AWSShapeProperty(label: "ExpirationTimestamp", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Resources", required: false, type: .list), 
+            AWSShapeProperty(label: "Parties", required: false, type: .list), 
+            AWSShapeProperty(label: "Id", required: false, type: .string)
         ]
         /// The date and time that the handshake request was made.
         public let requestedTimestamp: Date?
@@ -1853,7 +1853,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Handshake", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Handshake", required: false, type: .structure)
         ]
         /// A structure that contains information about the specified handshake.
         public let handshake: Handshake?
@@ -1883,7 +1883,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HandshakeId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "HandshakeId", required: true, type: .string)
         ]
         /// The unique identifier (ID) of the handshake that you want to cancel. You can get the ID from the ListHandshakesForOrganization operation. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
         public let handshakeId: String
@@ -1902,7 +1902,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FeatureSet", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "FeatureSet", required: false, type: .enum)
         ]
         /// Specifies the feature set supported by the new organization. Each feature set supports different levels of functionality.    CONSOLIDATED_BILLING: All member accounts have their bills consolidated to and paid by the master account. For more information, see Consolidated Billing in the AWS Organizations User Guide.    ALL: In addition to all the features supported by the consolidated billing feature set, the master account can also apply any type of policy to any member account in the organization. For more information, see All features in the AWS Organizations User Guide.  
         public let featureSet: OrganizationFeatureSet?
@@ -1920,9 +1920,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ParentId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "ParentId", required: true, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
@@ -1957,10 +1957,10 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Arn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Type", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "TargetId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Arn", required: false, type: .string), 
+            AWSShapeProperty(label: "Type", required: false, type: .enum), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "TargetId", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the policy target. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let arn: String?
@@ -1990,7 +1990,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Handshake", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Handshake", required: false, type: .structure)
         ]
         /// A structure that contains details about the accepted handshake.
         public let handshake: Handshake?
@@ -2013,8 +2013,8 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Handshakes", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Handshakes", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// A list of Handshake objects with details about each of the handshakes that is associated with the specified account.
         public let handshakes: [Handshake]?
@@ -2040,9 +2040,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Id", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "Arn", required: false, type: .string), 
+            AWSShapeProperty(label: "Id", required: false, type: .string)
         ]
         /// The friendly name of this OU. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
         public let name: String?
@@ -2068,7 +2068,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "AccountId", required: true, type: .string)
         ]
         /// The unique identifier (ID) of the AWS account that you want information about. You can get the ID from the ListAccounts or ListAccountsForParent operations. The regex pattern for an account ID string requires exactly 12 digits.
         public let accountId: String
@@ -2087,10 +2087,10 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Arn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "PolicyTypes", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Id", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Arn", required: false, type: .string), 
+            AWSShapeProperty(label: "PolicyTypes", required: false, type: .list), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "Id", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the root. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let arn: String?
@@ -2130,7 +2130,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Account", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Account", required: false, type: .structure)
         ]
         /// A structure that contains information about the requested account.
         public let account: Account?
@@ -2148,7 +2148,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "PolicyId", required: true, type: .string)
         ]
         /// The unique identifier (ID) of the policy that you want details about. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
         public let policyId: String
@@ -2167,7 +2167,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OrganizationalUnitId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "OrganizationalUnitId", required: true, type: .string)
         ]
         /// The unique identifier (ID) of the organizational unit that you want to delete. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.
         public let organizationalUnitId: String
@@ -2186,9 +2186,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ParentId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "ParentId", required: true, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
@@ -2215,8 +2215,8 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
@@ -2238,7 +2238,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Organization", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Organization", required: false, type: .structure)
         ]
         /// A structure that contains information about the organization.
         public let organization: Organization?

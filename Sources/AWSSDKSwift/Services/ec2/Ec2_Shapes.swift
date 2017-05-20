@@ -33,7 +33,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Vpcs", location: "vpcSet", required: false, type: .structure)
+            AWSShapeProperty(label: "Vpcs", location: .body(locationName: "vpcSet"), required: false, type: .structure)
         ]
         /// The ClassicLink status of one or more VPCs.
         public let vpcs: VpcClassicLinkList?
@@ -51,9 +51,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WakeUp", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "InstanceId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: nil, required: false, type: .boolean)
+            AWSShapeProperty(label: "WakeUp", required: false, type: .boolean), 
+            AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
         /// When set to true, acts as keystroke input and wakes up an instance that's in standby or "sleep" mode.
         public let wakeUp: Bool?
@@ -80,10 +80,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AssociationIds", location: "AssociationId", required: false, type: .structure), 
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "AssociationIds", location: .body(locationName: "AssociationId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// One or more IAM instance profile associations.
         public let associationIds: AssociationIdList?
@@ -113,7 +113,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [InstanceCount]?
 
@@ -140,9 +140,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "InstanceId", location: "instanceId", required: true, type: .string), 
-            AWSShapeProperty(label: "Attribute", location: "attribute", required: true, type: .enum)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: true, type: .string), 
+            AWSShapeProperty(label: "Attribute", location: .body(locationName: "attribute"), required: true, type: .enum)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -170,7 +170,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", location: "value", required: false, type: .blob)
+            AWSShapeProperty(label: "Value", location: .body(locationName: "value"), required: false, type: .blob)
         ]
         public let value: Data?
 
@@ -187,9 +187,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AutoEnableIO", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "VolumeId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "AutoEnableIO", required: false, type: .structure), 
+            AWSShapeProperty(label: "VolumeId", required: true, type: .string)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -234,8 +234,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcId", location: "vpcId", required: false, type: .string), 
-            AWSShapeProperty(label: "State", location: "state", required: false, type: .enum)
+            AWSShapeProperty(label: "VpcId", location: .body(locationName: "vpcId"), required: false, type: .string), 
+            AWSShapeProperty(label: "State", location: .body(locationName: "state"), required: false, type: .enum)
         ]
         /// The ID of the VPC.
         public let vpcId: String?
@@ -257,8 +257,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ScheduledInstanceAvailabilitySet", location: "scheduledInstanceAvailabilitySet", required: false, type: .structure)
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "ScheduledInstanceAvailabilitySet", location: .body(locationName: "scheduledInstanceAvailabilitySet"), required: false, type: .structure)
         ]
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -280,7 +280,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [RouteTableAssociation]?
 
@@ -301,7 +301,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Addresses", location: "addressesSet", required: false, type: .structure)
+            AWSShapeProperty(label: "Addresses", location: .body(locationName: "addressesSet"), required: false, type: .structure)
         ]
         /// Information about one or more Elastic IP addresses.
         public let addresses: AddressList?
@@ -319,8 +319,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NatGateways", location: "natGatewaySet", required: false, type: .structure), 
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string)
+            AWSShapeProperty(label: "NatGateways", location: .body(locationName: "natGatewaySet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
         /// Information about the NAT gateways.
         public let natGateways: NatGatewayList?
@@ -342,9 +342,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "ClientToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: nil, required: false, type: .boolean)
+            AWSShapeProperty(label: "VpcId", required: true, type: .string), 
+            AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
+            AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
         /// The ID of the VPC for which to create the egress-only Internet gateway.
         public let vpcId: String
@@ -371,9 +371,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcId", location: "vpcId", required: true, type: .string), 
-            AWSShapeProperty(label: "EnableDnsSupport", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "EnableDnsHostnames", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "VpcId", location: .body(locationName: "vpcId"), required: true, type: .string), 
+            AWSShapeProperty(label: "EnableDnsSupport", required: false, type: .structure), 
+            AWSShapeProperty(label: "EnableDnsHostnames", required: false, type: .structure)
         ]
         /// The ID of the VPC.
         public let vpcId: String
@@ -400,10 +400,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PeerOwnerId", location: "peerOwnerId", required: false, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "VpcId", location: "vpcId", required: false, type: .string), 
-            AWSShapeProperty(label: "PeerVpcId", location: "peerVpcId", required: false, type: .string)
+            AWSShapeProperty(label: "PeerOwnerId", location: .body(locationName: "peerOwnerId"), required: false, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "VpcId", location: .body(locationName: "vpcId"), required: false, type: .string), 
+            AWSShapeProperty(label: "PeerVpcId", location: .body(locationName: "peerVpcId"), required: false, type: .string)
         ]
         /// The AWS account ID of the owner of the peer VPC. Default: Your AWS account ID
         public let peerOwnerId: String?
@@ -433,15 +433,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClientToken", location: "clientToken", required: false, type: .string), 
-            AWSShapeProperty(label: "AutoPlacement", location: "autoPlacement", required: false, type: .enum), 
-            AWSShapeProperty(label: "HostId", location: "hostId", required: false, type: .string), 
-            AWSShapeProperty(label: "State", location: "state", required: false, type: .enum), 
-            AWSShapeProperty(label: "AvailableCapacity", location: "availableCapacity", required: false, type: .structure), 
-            AWSShapeProperty(label: "HostReservationId", location: "hostReservationId", required: false, type: .string), 
-            AWSShapeProperty(label: "Instances", location: "instances", required: false, type: .structure), 
-            AWSShapeProperty(label: "HostProperties", location: "hostProperties", required: false, type: .structure), 
-            AWSShapeProperty(label: "AvailabilityZone", location: "availabilityZone", required: false, type: .string)
+            AWSShapeProperty(label: "ClientToken", location: .body(locationName: "clientToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "AutoPlacement", location: .body(locationName: "autoPlacement"), required: false, type: .enum), 
+            AWSShapeProperty(label: "HostId", location: .body(locationName: "hostId"), required: false, type: .string), 
+            AWSShapeProperty(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeProperty(label: "AvailableCapacity", location: .body(locationName: "availableCapacity"), required: false, type: .structure), 
+            AWSShapeProperty(label: "HostReservationId", location: .body(locationName: "hostReservationId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Instances", location: .body(locationName: "instances"), required: false, type: .structure), 
+            AWSShapeProperty(label: "HostProperties", location: .body(locationName: "hostProperties"), required: false, type: .structure), 
+            AWSShapeProperty(label: "AvailabilityZone", location: .body(locationName: "availabilityZone"), required: false, type: .string)
         ]
         /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see How to Ensure Idempotency in the Amazon Elastic Compute Cloud User Guide. 
         public let clientToken: String?
@@ -491,7 +491,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [ReservedInstancesId]?
 
@@ -512,8 +512,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetConfiguration", location: "targetConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "ReservationValue", location: "reservationValue", required: false, type: .structure)
+            AWSShapeProperty(label: "TargetConfiguration", location: .body(locationName: "targetConfiguration"), required: false, type: .structure), 
+            AWSShapeProperty(label: "ReservationValue", location: .body(locationName: "reservationValue"), required: false, type: .structure)
         ]
         /// The configuration of the Convertible Reserved Instances that make up the exchange.
         public let targetConfiguration: TargetConfiguration?
@@ -535,8 +535,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyName", location: "keyName", required: false, type: .string), 
-            AWSShapeProperty(label: "KeyFingerprint", location: "keyFingerprint", required: false, type: .string)
+            AWSShapeProperty(label: "KeyName", location: .body(locationName: "keyName"), required: false, type: .string), 
+            AWSShapeProperty(label: "KeyFingerprint", location: .body(locationName: "keyFingerprint"), required: false, type: .string)
         ]
         /// The key pair name you provided.
         public let keyName: String?
@@ -558,7 +558,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [SpotFleetRequestConfig]?
 
@@ -579,7 +579,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [CancelSpotFleetRequestsErrorItem]?
 
@@ -600,8 +600,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Snapshots", location: "snapshotSet", required: false, type: .structure)
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "Snapshots", location: .body(locationName: "snapshotSet"), required: false, type: .structure)
         ]
         /// The NextToken value to include in a future DescribeSnapshots request. When the results of a DescribeSnapshots request exceed MaxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -623,12 +623,12 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "IncludeAllInstances", location: "includeAllInstances", required: false, type: .boolean), 
-            AWSShapeProperty(label: "InstanceIds", location: "InstanceId", required: false, type: .structure), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "IncludeAllInstances", location: .body(locationName: "includeAllInstances"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "InstanceIds", location: .body(locationName: "InstanceId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// One or more filters.    availability-zone - The Availability Zone of the instance.    event.code - The code for the scheduled event (instance-reboot | system-reboot | system-maintenance | instance-retirement | instance-stop).    event.description - A description of the event.    event.not-after - The latest end time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    event.not-before - The earliest start time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    instance-state-code - The code for the instance state, as a 16-bit unsigned integer. The high byte is an opaque internal value and should be ignored. The low byte is set based on the state represented. The valid values are 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-status.reachability - Filters on instance status where the name is reachability (passed | failed | initializing | insufficient-data).    instance-status.status - The status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).    system-status.reachability - Filters on system status where the name is reachability (passed | failed | initializing | insufficient-data).    system-status.status - The system status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).  
         public let filters: FilterList?
@@ -666,11 +666,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Actions", location: "actionsSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "VolumeStatus", location: "volumeStatus", required: false, type: .structure), 
-            AWSShapeProperty(label: "Events", location: "eventsSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "AvailabilityZone", location: "availabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeId", location: "volumeId", required: false, type: .string)
+            AWSShapeProperty(label: "Actions", location: .body(locationName: "actionsSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "VolumeStatus", location: .body(locationName: "volumeStatus"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Events", location: .body(locationName: "eventsSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "AvailabilityZone", location: .body(locationName: "availabilityZone"), required: false, type: .string), 
+            AWSShapeProperty(label: "VolumeId", location: .body(locationName: "volumeId"), required: false, type: .string)
         ]
         /// The details of the operation.
         public let actions: VolumeStatusActionsList?
@@ -704,7 +704,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RouteTable", location: "routeTable", required: false, type: .structure)
+            AWSShapeProperty(label: "RouteTable", location: .body(locationName: "routeTable"), required: false, type: .structure)
         ]
         /// Information about the route table.
         public let routeTable: RouteTable?
@@ -722,8 +722,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcId", location: "vpcId", required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "VpcId", location: .body(locationName: "vpcId"), required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// The ID of the VPC.
         public let vpcId: String
@@ -746,21 +746,21 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetId", location: "subnetId", required: false, type: .string), 
-            AWSShapeProperty(label: "NetworkInterfaceId", location: "networkInterfaceId", required: false, type: .string), 
-            AWSShapeProperty(label: "MacAddress", location: "macAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "SourceDestCheck", location: "sourceDestCheck", required: false, type: .boolean), 
-            AWSShapeProperty(label: "PrivateDnsName", location: "privateDnsName", required: false, type: .string), 
-            AWSShapeProperty(label: "OwnerId", location: "ownerId", required: false, type: .string), 
-            AWSShapeProperty(label: "Attachment", location: "attachment", required: false, type: .structure), 
-            AWSShapeProperty(label: "Description", location: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "PrivateIpAddress", location: "privateIpAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", location: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "PrivateIpAddresses", location: "privateIpAddressesSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "VpcId", location: "vpcId", required: false, type: .string), 
-            AWSShapeProperty(label: "Ipv6Addresses", location: "ipv6AddressesSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "Groups", location: "groupSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "Association", location: "association", required: false, type: .structure)
+            AWSShapeProperty(label: "SubnetId", location: .body(locationName: "subnetId"), required: false, type: .string), 
+            AWSShapeProperty(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "MacAddress", location: .body(locationName: "macAddress"), required: false, type: .string), 
+            AWSShapeProperty(label: "SourceDestCheck", location: .body(locationName: "sourceDestCheck"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "PrivateDnsName", location: .body(locationName: "privateDnsName"), required: false, type: .string), 
+            AWSShapeProperty(label: "OwnerId", location: .body(locationName: "ownerId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Attachment", location: .body(locationName: "attachment"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeProperty(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress"), required: false, type: .string), 
+            AWSShapeProperty(label: "Status", location: .body(locationName: "status"), required: false, type: .enum), 
+            AWSShapeProperty(label: "PrivateIpAddresses", location: .body(locationName: "privateIpAddressesSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "VpcId", location: .body(locationName: "vpcId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Ipv6Addresses", location: .body(locationName: "ipv6AddressesSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Groups", location: .body(locationName: "groupSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Association", location: .body(locationName: "association"), required: false, type: .structure)
         ]
         /// The ID of the subnet.
         public let subnetId: String?
@@ -834,7 +834,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NetworkInterface", location: "networkInterface", required: false, type: .structure)
+            AWSShapeProperty(label: "NetworkInterface", location: .body(locationName: "networkInterface"), required: false, type: .structure)
         ]
         /// Information about the network interface.
         public let networkInterface: NetworkInterface?
@@ -852,7 +852,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [ReservedInstancesModification]?
 
@@ -873,9 +873,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "InstanceId", location: "instanceId", required: true, type: .string), 
-            AWSShapeProperty(label: "Attribute", location: "attribute", required: true, type: .enum)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: true, type: .string), 
+            AWSShapeProperty(label: "Attribute", location: .body(locationName: "attribute"), required: true, type: .enum)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -903,7 +903,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "State", location: "state", required: false, type: .enum)
+            AWSShapeProperty(label: "State", location: .body(locationName: "state"), required: false, type: .enum)
         ]
         /// Indicates whether detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
         public let state: MonitoringState?
@@ -921,22 +921,22 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BlockDeviceMappings", location: "blockDeviceMapping", required: false, type: .structure), 
-            AWSShapeProperty(label: "SubnetId", location: "subnetId", required: false, type: .string), 
-            AWSShapeProperty(label: "UserData", location: "userData", required: false, type: .string), 
-            AWSShapeProperty(label: "EbsOptimized", location: "ebsOptimized", required: false, type: .boolean), 
-            AWSShapeProperty(label: "KernelId", location: "kernelId", required: false, type: .string), 
-            AWSShapeProperty(label: "SecurityGroupIds", location: "SecurityGroupId", required: false, type: .structure), 
-            AWSShapeProperty(label: "Monitoring", location: "monitoring", required: false, type: .structure), 
-            AWSShapeProperty(label: "InstanceType", location: "instanceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "SecurityGroups", location: "SecurityGroup", required: false, type: .structure), 
-            AWSShapeProperty(label: "KeyName", location: "keyName", required: false, type: .string), 
-            AWSShapeProperty(label: "AddressingType", location: "addressingType", required: false, type: .string), 
-            AWSShapeProperty(label: "IamInstanceProfile", location: "iamInstanceProfile", required: false, type: .structure), 
-            AWSShapeProperty(label: "ImageId", location: "imageId", required: false, type: .string), 
-            AWSShapeProperty(label: "NetworkInterfaces", location: "NetworkInterface", required: false, type: .structure), 
-            AWSShapeProperty(label: "Placement", location: "placement", required: false, type: .structure), 
-            AWSShapeProperty(label: "RamdiskId", location: "ramdiskId", required: false, type: .string)
+            AWSShapeProperty(label: "BlockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), required: false, type: .structure), 
+            AWSShapeProperty(label: "SubnetId", location: .body(locationName: "subnetId"), required: false, type: .string), 
+            AWSShapeProperty(label: "UserData", location: .body(locationName: "userData"), required: false, type: .string), 
+            AWSShapeProperty(label: "EbsOptimized", location: .body(locationName: "ebsOptimized"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "KernelId", location: .body(locationName: "kernelId"), required: false, type: .string), 
+            AWSShapeProperty(label: "SecurityGroupIds", location: .body(locationName: "SecurityGroupId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Monitoring", location: .body(locationName: "monitoring"), required: false, type: .structure), 
+            AWSShapeProperty(label: "InstanceType", location: .body(locationName: "instanceType"), required: false, type: .enum), 
+            AWSShapeProperty(label: "SecurityGroups", location: .body(locationName: "SecurityGroup"), required: false, type: .structure), 
+            AWSShapeProperty(label: "KeyName", location: .body(locationName: "keyName"), required: false, type: .string), 
+            AWSShapeProperty(label: "AddressingType", location: .body(locationName: "addressingType"), required: false, type: .string), 
+            AWSShapeProperty(label: "IamInstanceProfile", location: .body(locationName: "iamInstanceProfile"), required: false, type: .structure), 
+            AWSShapeProperty(label: "ImageId", location: .body(locationName: "imageId"), required: false, type: .string), 
+            AWSShapeProperty(label: "NetworkInterfaces", location: .body(locationName: "NetworkInterface"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Placement", location: .body(locationName: "placement"), required: false, type: .structure), 
+            AWSShapeProperty(label: "RamdiskId", location: .body(locationName: "ramdiskId"), required: false, type: .string)
         ]
         /// One or more block device mapping entries. Although you can specify encrypted EBS volumes in this block device mapping for your Spot Instances, these volumes are not encrypted.
         public let blockDeviceMappings: BlockDeviceMappingList?
@@ -1011,8 +1011,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcId", location: "vpcId", required: true, type: .string), 
-            AWSShapeProperty(label: "AmazonProvidedIpv6CidrBlock", location: "amazonProvidedIpv6CidrBlock", required: false, type: .boolean)
+            AWSShapeProperty(label: "VpcId", location: .body(locationName: "vpcId"), required: true, type: .string), 
+            AWSShapeProperty(label: "AmazonProvidedIpv6CidrBlock", location: .body(locationName: "amazonProvidedIpv6CidrBlock"), required: false, type: .boolean)
         ]
         /// The ID of the VPC.
         public let vpcId: String
@@ -1035,12 +1035,12 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserBucket", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Format", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "SnapshotId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Url", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "DeviceName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "UserBucket", required: false, type: .structure), 
+            AWSShapeProperty(label: "Format", required: false, type: .string), 
+            AWSShapeProperty(label: "SnapshotId", required: false, type: .string), 
+            AWSShapeProperty(label: "Url", required: false, type: .string), 
+            AWSShapeProperty(label: "DeviceName", required: false, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
         /// The S3 bucket for the disk image.
         public let userBucket: UserBucket?
@@ -1078,10 +1078,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReservedInstancesOfferingId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "InstanceCount", location: nil, required: true, type: .integer), 
-            AWSShapeProperty(label: "LimitPrice", location: "limitPrice", required: false, type: .structure)
+            AWSShapeProperty(label: "ReservedInstancesOfferingId", required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "InstanceCount", required: true, type: .integer), 
+            AWSShapeProperty(label: "LimitPrice", location: .body(locationName: "limitPrice"), required: false, type: .structure)
         ]
         /// The ID of the Reserved Instance offering to purchase.
         public let reservedInstancesOfferingId: String
@@ -1113,24 +1113,24 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RecurringCharges", location: "recurringCharges", required: false, type: .structure), 
-            AWSShapeProperty(label: "Tags", location: "tagSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "UsagePrice", location: "usagePrice", required: false, type: .float), 
-            AWSShapeProperty(label: "State", location: "state", required: false, type: .enum), 
-            AWSShapeProperty(label: "InstanceTenancy", location: "instanceTenancy", required: false, type: .enum), 
-            AWSShapeProperty(label: "InstanceType", location: "instanceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "OfferingType", location: "offeringType", required: false, type: .enum), 
-            AWSShapeProperty(label: "ProductDescription", location: "productDescription", required: false, type: .enum), 
-            AWSShapeProperty(label: "OfferingClass", location: "offeringClass", required: false, type: .enum), 
-            AWSShapeProperty(label: "AvailabilityZone", location: "availabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "Start", location: "start", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "End", location: "end", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ReservedInstancesId", location: "reservedInstancesId", required: false, type: .string), 
-            AWSShapeProperty(label: "CurrencyCode", location: "currencyCode", required: false, type: .enum), 
-            AWSShapeProperty(label: "InstanceCount", location: "instanceCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "Duration", location: "duration", required: false, type: .long), 
-            AWSShapeProperty(label: "Scope", location: "scope", required: false, type: .enum), 
-            AWSShapeProperty(label: "FixedPrice", location: "fixedPrice", required: false, type: .float)
+            AWSShapeProperty(label: "RecurringCharges", location: .body(locationName: "recurringCharges"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "UsagePrice", location: .body(locationName: "usagePrice"), required: false, type: .float), 
+            AWSShapeProperty(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeProperty(label: "InstanceTenancy", location: .body(locationName: "instanceTenancy"), required: false, type: .enum), 
+            AWSShapeProperty(label: "InstanceType", location: .body(locationName: "instanceType"), required: false, type: .enum), 
+            AWSShapeProperty(label: "OfferingType", location: .body(locationName: "offeringType"), required: false, type: .enum), 
+            AWSShapeProperty(label: "ProductDescription", location: .body(locationName: "productDescription"), required: false, type: .enum), 
+            AWSShapeProperty(label: "OfferingClass", location: .body(locationName: "offeringClass"), required: false, type: .enum), 
+            AWSShapeProperty(label: "AvailabilityZone", location: .body(locationName: "availabilityZone"), required: false, type: .string), 
+            AWSShapeProperty(label: "Start", location: .body(locationName: "start"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "End", location: .body(locationName: "end"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "ReservedInstancesId", location: .body(locationName: "reservedInstancesId"), required: false, type: .string), 
+            AWSShapeProperty(label: "CurrencyCode", location: .body(locationName: "currencyCode"), required: false, type: .enum), 
+            AWSShapeProperty(label: "InstanceCount", location: .body(locationName: "instanceCount"), required: false, type: .integer), 
+            AWSShapeProperty(label: "Duration", location: .body(locationName: "duration"), required: false, type: .long), 
+            AWSShapeProperty(label: "Scope", location: .body(locationName: "scope"), required: false, type: .enum), 
+            AWSShapeProperty(label: "FixedPrice", location: .body(locationName: "fixedPrice"), required: false, type: .float)
         ]
         /// The recurring charge tag assigned to the resource.
         public let recurringCharges: RecurringChargesList?
@@ -1216,7 +1216,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Ipv6Address", location: "ipv6Address", required: false, type: .string)
+            AWSShapeProperty(label: "Ipv6Address", location: .body(locationName: "ipv6Address"), required: false, type: .string)
         ]
         /// The IPv6 address.
         public let ipv6Address: String?
@@ -1234,9 +1234,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CustomerGatewayIds", location: "CustomerGatewayId", required: false, type: .structure), 
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "CustomerGatewayIds", location: .body(locationName: "CustomerGatewayId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// One or more customer gateway IDs. Default: Describes all your customer gateways.
         public let customerGatewayIds: CustomerGatewayIdStringList?
@@ -1262,26 +1262,26 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetId", location: "subnetId", required: false, type: .string), 
-            AWSShapeProperty(label: "NetworkInterfaceId", location: "networkInterfaceId", required: false, type: .string), 
-            AWSShapeProperty(label: "MacAddress", location: "macAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "SourceDestCheck", location: "sourceDestCheck", required: false, type: .boolean), 
-            AWSShapeProperty(label: "PrivateDnsName", location: "privateDnsName", required: false, type: .string), 
-            AWSShapeProperty(label: "Attachment", location: "attachment", required: false, type: .structure), 
-            AWSShapeProperty(label: "InterfaceType", location: "interfaceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "TagSet", location: "tagSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "PrivateIpAddress", location: "privateIpAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "RequesterId", location: "requesterId", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", location: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "OwnerId", location: "ownerId", required: false, type: .string), 
-            AWSShapeProperty(label: "PrivateIpAddresses", location: "privateIpAddressesSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "VpcId", location: "vpcId", required: false, type: .string), 
-            AWSShapeProperty(label: "AvailabilityZone", location: "availabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", location: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "RequesterManaged", location: "requesterManaged", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Ipv6Addresses", location: "ipv6AddressesSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "Groups", location: "groupSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "Association", location: "association", required: false, type: .structure)
+            AWSShapeProperty(label: "SubnetId", location: .body(locationName: "subnetId"), required: false, type: .string), 
+            AWSShapeProperty(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "MacAddress", location: .body(locationName: "macAddress"), required: false, type: .string), 
+            AWSShapeProperty(label: "SourceDestCheck", location: .body(locationName: "sourceDestCheck"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "PrivateDnsName", location: .body(locationName: "privateDnsName"), required: false, type: .string), 
+            AWSShapeProperty(label: "Attachment", location: .body(locationName: "attachment"), required: false, type: .structure), 
+            AWSShapeProperty(label: "InterfaceType", location: .body(locationName: "interfaceType"), required: false, type: .enum), 
+            AWSShapeProperty(label: "TagSet", location: .body(locationName: "tagSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress"), required: false, type: .string), 
+            AWSShapeProperty(label: "RequesterId", location: .body(locationName: "requesterId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeProperty(label: "OwnerId", location: .body(locationName: "ownerId"), required: false, type: .string), 
+            AWSShapeProperty(label: "PrivateIpAddresses", location: .body(locationName: "privateIpAddressesSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "VpcId", location: .body(locationName: "vpcId"), required: false, type: .string), 
+            AWSShapeProperty(label: "AvailabilityZone", location: .body(locationName: "availabilityZone"), required: false, type: .string), 
+            AWSShapeProperty(label: "Status", location: .body(locationName: "status"), required: false, type: .enum), 
+            AWSShapeProperty(label: "RequesterManaged", location: .body(locationName: "requesterManaged"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Ipv6Addresses", location: .body(locationName: "ipv6AddressesSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Groups", location: .body(locationName: "groupSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Association", location: .body(locationName: "association"), required: false, type: .structure)
         ]
         /// The ID of the subnet.
         public let subnetId: String?
@@ -1375,7 +1375,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [VolumeModification]?
 
@@ -1404,17 +1404,17 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MapPublicIpOnLaunch", location: "mapPublicIpOnLaunch", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SubnetId", location: "subnetId", required: false, type: .string), 
-            AWSShapeProperty(label: "DefaultForAz", location: "defaultForAz", required: false, type: .boolean), 
-            AWSShapeProperty(label: "VpcId", location: "vpcId", required: false, type: .string), 
-            AWSShapeProperty(label: "State", location: "state", required: false, type: .enum), 
-            AWSShapeProperty(label: "Tags", location: "tagSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "AssignIpv6AddressOnCreation", location: "assignIpv6AddressOnCreation", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Ipv6CidrBlockAssociationSet", location: "ipv6CidrBlockAssociationSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "AvailableIpAddressCount", location: "availableIpAddressCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "AvailabilityZone", location: "availabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "CidrBlock", location: "cidrBlock", required: false, type: .string)
+            AWSShapeProperty(label: "MapPublicIpOnLaunch", location: .body(locationName: "mapPublicIpOnLaunch"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "SubnetId", location: .body(locationName: "subnetId"), required: false, type: .string), 
+            AWSShapeProperty(label: "DefaultForAz", location: .body(locationName: "defaultForAz"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "VpcId", location: .body(locationName: "vpcId"), required: false, type: .string), 
+            AWSShapeProperty(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeProperty(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "AssignIpv6AddressOnCreation", location: .body(locationName: "assignIpv6AddressOnCreation"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Ipv6CidrBlockAssociationSet", location: .body(locationName: "ipv6CidrBlockAssociationSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "AvailableIpAddressCount", location: .body(locationName: "availableIpAddressCount"), required: false, type: .integer), 
+            AWSShapeProperty(label: "AvailabilityZone", location: .body(locationName: "availabilityZone"), required: false, type: .string), 
+            AWSShapeProperty(label: "CidrBlock", location: .body(locationName: "cidrBlock"), required: false, type: .string)
         ]
         /// Indicates whether instances launched in this subnet receive a public IPv4 address.
         public let mapPublicIpOnLaunch: Bool?
@@ -1472,7 +1472,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CancelledSpotInstanceRequests", location: "spotInstanceRequestSet", required: false, type: .structure)
+            AWSShapeProperty(label: "CancelledSpotInstanceRequests", location: .body(locationName: "spotInstanceRequestSet"), required: false, type: .structure)
         ]
         /// One or more Spot instance requests.
         public let cancelledSpotInstanceRequests: CancelledSpotInstanceRequestList?
@@ -1490,7 +1490,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [DhcpConfiguration]?
 
@@ -1511,8 +1511,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeId", location: "volumeId", required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "VolumeId", location: .body(locationName: "volumeId"), required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// The ID of the volume.
         public let volumeId: String
@@ -1535,7 +1535,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeId", location: "VolumeId", required: false, type: .list)
+            AWSShapeProperty(label: "VolumeId", required: false, type: .list)
         ]
         public let volumeId: [String]?
 
@@ -1552,8 +1552,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetId", location: "subnetId", required: false, type: .string), 
-            AWSShapeProperty(label: "Ipv6CidrBlockAssociation", location: "ipv6CidrBlockAssociation", required: false, type: .structure)
+            AWSShapeProperty(label: "SubnetId", location: .body(locationName: "subnetId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Ipv6CidrBlockAssociation", location: .body(locationName: "ipv6CidrBlockAssociation"), required: false, type: .structure)
         ]
         /// The ID of the subnet.
         public let subnetId: String?
@@ -1575,9 +1575,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EventSubType", location: "eventSubType", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", location: "instanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "EventDescription", location: "eventDescription", required: false, type: .string)
+            AWSShapeProperty(label: "EventSubType", location: .body(locationName: "eventSubType"), required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "EventDescription", location: .body(locationName: "eventDescription"), required: false, type: .string)
         ]
         /// The event. The following are the error events.    iamFleetRoleInvalid - The Spot fleet did not have the required permissions either to launch or terminate an instance.    launchSpecTemporarilyBlacklisted - The configuration is not valid and several attempts to launch instances have failed. For more information, see the description of the event.    spotFleetRequestConfigurationInvalid - The configuration is not valid. For more information, see the description of the event.    spotInstanceCountLimitExceeded - You've reached the limit on the number of Spot instances that you can launch.   The following are the fleetRequestChange events.    active - The Spot fleet has been validated and Amazon EC2 is attempting to maintain the target number of running Spot instances.    cancelled - The Spot fleet is canceled and has no running Spot instances. The Spot fleet will be deleted two days after its instances were terminated.    cancelled_running - The Spot fleet is canceled and will not launch additional Spot instances, but its existing Spot instances continue to run until they are interrupted or terminated.    cancelled_terminating - The Spot fleet is canceled and its Spot instances are terminating.    expired - The Spot fleet request has expired. A subsequent event indicates that the instances were terminated, if the request was created with TerminateInstancesWithExpiration set.    modify_in_progress - A request to modify the Spot fleet request was accepted and is in progress.    modify_successful - The Spot fleet request was modified.    price_update - The bid price for a launch configuration was adjusted because it was too high. This change is permanent.    submitted - The Spot fleet request is being evaluated and Amazon EC2 is preparing to launch the target number of Spot instances.   The following are the instanceChange events.    launched - A bid was fulfilled and a new instance was launched.    terminated - An instance was terminated by the user.  
         public let eventSubType: String?
@@ -1603,7 +1603,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [ProductCode]?
 
@@ -1624,7 +1624,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExecutableBy", location: "ExecutableBy", required: false, type: .list)
+            AWSShapeProperty(label: "ExecutableBy", required: false, type: .list)
         ]
         public let executableBy: [String]?
 
@@ -1641,9 +1641,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetIds", location: "SubnetId", required: false, type: .structure), 
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "SubnetIds", location: .body(locationName: "SubnetId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// One or more subnet IDs. Default: Describes all your subnets.
         public let subnetIds: SubnetIdStringList?
@@ -1669,8 +1669,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", location: "tagSet", required: false, type: .structure)
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .structure)
         ]
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return..
         public let nextToken: String?
@@ -1692,7 +1692,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExchangeId", location: "exchangeId", required: false, type: .string)
+            AWSShapeProperty(label: "ExchangeId", location: .body(locationName: "exchangeId"), required: false, type: .string)
         ]
         /// The ID of the successful exchange.
         public let exchangeId: String?
@@ -1710,10 +1710,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Filter", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "NatGatewayIds", location: "NatGatewayId", required: false, type: .structure), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "Filter", required: false, type: .structure), 
+            AWSShapeProperty(label: "NatGatewayIds", location: .body(locationName: "NatGatewayId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// One or more filters.    nat-gateway-id - The ID of the NAT gateway.    state - The state of the NAT gateway (pending | failed | available | deleting | deleted).    subnet-id - The ID of the subnet in which the NAT gateway resides.    vpc-id - The ID of the VPC in which the NAT gateway resides.  
         public let filter: FilterList?
@@ -1769,10 +1769,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PrivateIpAddress", location: "privateIpAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "PrivateDnsName", location: "privateDnsName", required: false, type: .string), 
-            AWSShapeProperty(label: "Primary", location: "primary", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Association", location: "association", required: false, type: .structure)
+            AWSShapeProperty(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress"), required: false, type: .string), 
+            AWSShapeProperty(label: "PrivateDnsName", location: .body(locationName: "privateDnsName"), required: false, type: .string), 
+            AWSShapeProperty(label: "Primary", location: .body(locationName: "primary"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Association", location: .body(locationName: "association"), required: false, type: .structure)
         ]
         /// The private IPv4 address.
         public let privateIpAddress: String?
@@ -1802,7 +1802,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NetworkAcls", location: "networkAclSet", required: false, type: .structure)
+            AWSShapeProperty(label: "NetworkAcls", location: .body(locationName: "networkAclSet"), required: false, type: .structure)
         ]
         /// Information about one or more network ACLs.
         public let networkAcls: NetworkAclList?
@@ -1820,16 +1820,16 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", location: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "PriceSchedules", location: "priceSchedules", required: false, type: .structure), 
-            AWSShapeProperty(label: "ReservedInstancesListingId", location: "reservedInstancesListingId", required: false, type: .string), 
-            AWSShapeProperty(label: "ClientToken", location: "clientToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", location: "tagSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "UpdateDate", location: "updateDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ReservedInstancesId", location: "reservedInstancesId", required: false, type: .string), 
-            AWSShapeProperty(label: "CreateDate", location: "createDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "StatusMessage", location: "statusMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceCounts", location: "instanceCounts", required: false, type: .structure)
+            AWSShapeProperty(label: "Status", location: .body(locationName: "status"), required: false, type: .enum), 
+            AWSShapeProperty(label: "PriceSchedules", location: .body(locationName: "priceSchedules"), required: false, type: .structure), 
+            AWSShapeProperty(label: "ReservedInstancesListingId", location: .body(locationName: "reservedInstancesListingId"), required: false, type: .string), 
+            AWSShapeProperty(label: "ClientToken", location: .body(locationName: "clientToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "UpdateDate", location: .body(locationName: "updateDate"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "ReservedInstancesId", location: .body(locationName: "reservedInstancesId"), required: false, type: .string), 
+            AWSShapeProperty(label: "CreateDate", location: .body(locationName: "createDate"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "StatusMessage", location: .body(locationName: "statusMessage"), required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceCounts", location: .body(locationName: "instanceCounts"), required: false, type: .structure)
         ]
         /// The status of the Reserved Instance listing.
         public let status: ListingStatus?
@@ -1883,7 +1883,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReservedInstanceId", location: "ReservedInstanceId", required: false, type: .list)
+            AWSShapeProperty(label: "ReservedInstanceId", required: false, type: .list)
         ]
         public let reservedInstanceId: [String]?
 
@@ -1900,8 +1900,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NetworkAclId", location: "networkAclId", required: true, type: .string)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "NetworkAclId", location: .body(locationName: "networkAclId"), required: true, type: .string)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -1924,7 +1924,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [ConversionTask]?
 
@@ -1945,11 +1945,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AutoPlacement", location: "autoPlacement", required: false, type: .enum), 
-            AWSShapeProperty(label: "ClientToken", location: "clientToken", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceType", location: "instanceType", required: true, type: .string), 
-            AWSShapeProperty(label: "AvailabilityZone", location: "availabilityZone", required: true, type: .string), 
-            AWSShapeProperty(label: "Quantity", location: "quantity", required: true, type: .integer)
+            AWSShapeProperty(label: "AutoPlacement", location: .body(locationName: "autoPlacement"), required: false, type: .enum), 
+            AWSShapeProperty(label: "ClientToken", location: .body(locationName: "clientToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceType", location: .body(locationName: "instanceType"), required: true, type: .string), 
+            AWSShapeProperty(label: "AvailabilityZone", location: .body(locationName: "availabilityZone"), required: true, type: .string), 
+            AWSShapeProperty(label: "Quantity", location: .body(locationName: "quantity"), required: true, type: .integer)
         ]
         /// This is enabled by default. This property allows instances to be automatically placed onto available Dedicated Hosts, when you are launching instances without specifying a host ID. Default: Enabled
         public let autoPlacement: AutoPlacement?
@@ -1986,9 +1986,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -2014,8 +2014,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Ipv6Addresses", location: "ipv6Addresses", required: true, type: .structure), 
-            AWSShapeProperty(label: "NetworkInterfaceId", location: "networkInterfaceId", required: true, type: .string)
+            AWSShapeProperty(label: "Ipv6Addresses", location: .body(locationName: "ipv6Addresses"), required: true, type: .structure), 
+            AWSShapeProperty(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"), required: true, type: .string)
         ]
         /// The IPv6 addresses to unassign from the network interface.
         public let ipv6Addresses: Ipv6AddressList
@@ -2039,7 +2039,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BundleTask", location: "bundleInstanceTask", required: false, type: .structure)
+            AWSShapeProperty(label: "BundleTask", location: .body(locationName: "bundleInstanceTask"), required: false, type: .structure)
         ]
         /// Information about the bundle task.
         public let bundleTask: BundleTask?
@@ -2057,8 +2057,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "GroupName", location: "groupName", required: true, type: .string)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "GroupName", location: .body(locationName: "groupName"), required: true, type: .string)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -2081,7 +2081,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PrefixListId", location: "prefixListId", required: false, type: .string)
+            AWSShapeProperty(label: "PrefixListId", location: .body(locationName: "prefixListId"), required: false, type: .string)
         ]
         /// The ID of the prefix.
         public let prefixListId: String?
@@ -2099,9 +2099,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AllowEgressFromLocalVpcToRemoteClassicLink", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "AllowDnsResolutionFromRemoteVpc", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "AllowEgressFromLocalClassicLinkToRemoteVpc", location: nil, required: false, type: .boolean)
+            AWSShapeProperty(label: "AllowEgressFromLocalVpcToRemoteClassicLink", required: false, type: .boolean), 
+            AWSShapeProperty(label: "AllowDnsResolutionFromRemoteVpc", required: false, type: .boolean), 
+            AWSShapeProperty(label: "AllowEgressFromLocalClassicLinkToRemoteVpc", required: false, type: .boolean)
         ]
         /// If true, enables outbound communication from instances in a local VPC to an EC2-Classic instance that's linked to a peer VPC via ClassicLink.
         public let allowEgressFromLocalVpcToRemoteClassicLink: Bool?
@@ -2127,7 +2127,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttributeValue", location: "attributeValue", required: false, type: .string)
+            AWSShapeProperty(label: "AttributeValue", location: .body(locationName: "attributeValue"), required: false, type: .string)
         ]
         /// The value of the attribute.
         public let attributeValue: String?
@@ -2145,9 +2145,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PurchaseRequests", location: "PurchaseRequest", required: true, type: .structure), 
-            AWSShapeProperty(label: "ClientToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: nil, required: false, type: .boolean)
+            AWSShapeProperty(label: "PurchaseRequests", location: .body(locationName: "PurchaseRequest"), required: true, type: .structure), 
+            AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
+            AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
         /// One or more purchase requests.
         public let purchaseRequests: PurchaseRequestSet
@@ -2174,12 +2174,12 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxDuration", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "MinDuration", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "Filter", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "OfferingId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "MaxDuration", required: false, type: .integer), 
+            AWSShapeProperty(label: "MinDuration", required: false, type: .integer), 
+            AWSShapeProperty(label: "Filter", required: false, type: .structure), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "OfferingId", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// This is the maximum duration of the reservation you'd like to purchase, specified in seconds. Reservations are available in one-year and three-year terms. The number of seconds specified must be the number of seconds in a year (365x24x60x60) times one of the supported durations (1 or 3). For example, specify 94608000 for three years.
         public let maxDuration: Int32?
@@ -2217,7 +2217,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StoppingInstances", location: "instancesSet", required: false, type: .structure)
+            AWSShapeProperty(label: "StoppingInstances", location: .body(locationName: "instancesSet"), required: false, type: .structure)
         ]
         /// Information about one or more stopped instances.
         public let stoppingInstances: InstanceStateChangeList?
@@ -2235,7 +2235,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [Int32]?
 
@@ -2252,14 +2252,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FirstSlotStartTimeRange", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "MinSlotDurationInHours", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "MaxSlotDurationInHours", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "DryRun", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Recurrence", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "FirstSlotStartTimeRange", required: true, type: .structure), 
+            AWSShapeProperty(label: "MinSlotDurationInHours", required: false, type: .integer), 
+            AWSShapeProperty(label: "MaxSlotDurationInHours", required: false, type: .integer), 
+            AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Recurrence", required: true, type: .structure), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// The time period for the first schedule to start.
         public let firstSlotStartTimeRange: SlotDateTimeRangeRequest
@@ -2307,8 +2307,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReservedInstancesId", location: "reservedInstancesId", required: false, type: .string), 
-            AWSShapeProperty(label: "TargetConfiguration", location: "targetConfiguration", required: false, type: .structure)
+            AWSShapeProperty(label: "ReservedInstancesId", location: .body(locationName: "reservedInstancesId"), required: false, type: .string), 
+            AWSShapeProperty(label: "TargetConfiguration", location: .body(locationName: "targetConfiguration"), required: false, type: .structure)
         ]
         /// The ID for the Reserved Instances that were created as part of the modification request. This field is only available when the modification is fulfilled.
         public let reservedInstancesId: String?
@@ -2330,7 +2330,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Return", location: "return", required: false, type: .boolean)
+            AWSShapeProperty(label: "Return", location: .body(locationName: "return"), required: false, type: .boolean)
         ]
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -2348,11 +2348,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Image", location: "image", required: true, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Volume", location: "volume", required: true, type: .structure), 
-            AWSShapeProperty(label: "AvailabilityZone", location: "availabilityZone", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", location: "description", required: false, type: .string)
+            AWSShapeProperty(label: "Image", location: .body(locationName: "image"), required: true, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Volume", location: .body(locationName: "volume"), required: true, type: .structure), 
+            AWSShapeProperty(label: "AvailabilityZone", location: .body(locationName: "availabilityZone"), required: true, type: .string), 
+            AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
         /// The disk image.
         public let image: DiskImageDetail
@@ -2389,7 +2389,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NetworkInterface", location: "NetworkInterface", required: false, type: .list)
+            AWSShapeProperty(label: "NetworkInterface", required: false, type: .list)
         ]
         public let networkInterface: [ScheduledInstancesNetworkInterface]?
 
@@ -2425,10 +2425,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PublicIps", location: "PublicIp", required: false, type: .structure), 
-            AWSShapeProperty(label: "AllocationIds", location: "AllocationId", required: false, type: .structure), 
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "PublicIps", location: .body(locationName: "PublicIp"), required: false, type: .structure), 
+            AWSShapeProperty(label: "AllocationIds", location: .body(locationName: "AllocationId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// [EC2-Classic] One or more Elastic IP addresses. Default: Describes all your Elastic IP addresses.
         public let publicIps: PublicIpStringList?
@@ -2458,7 +2458,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Ipv6CidrBlock", location: "ipv6CidrBlock", required: false, type: .string)
+            AWSShapeProperty(label: "Ipv6CidrBlock", location: .body(locationName: "ipv6CidrBlock"), required: false, type: .string)
         ]
         /// The IPv6 CIDR block.
         public let ipv6CidrBlock: String?
@@ -2476,7 +2476,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [VolumeStatusAction]?
 
@@ -2497,14 +2497,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IpPermissionsEgress", location: "ipPermissionsEgress", required: false, type: .structure), 
-            AWSShapeProperty(label: "GroupName", location: "groupName", required: false, type: .string), 
-            AWSShapeProperty(label: "VpcId", location: "vpcId", required: false, type: .string), 
-            AWSShapeProperty(label: "IpPermissions", location: "ipPermissions", required: false, type: .structure), 
-            AWSShapeProperty(label: "Tags", location: "tagSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "OwnerId", location: "ownerId", required: false, type: .string), 
-            AWSShapeProperty(label: "GroupId", location: "groupId", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", location: "groupDescription", required: false, type: .string)
+            AWSShapeProperty(label: "IpPermissionsEgress", location: .body(locationName: "ipPermissionsEgress"), required: false, type: .structure), 
+            AWSShapeProperty(label: "GroupName", location: .body(locationName: "groupName"), required: false, type: .string), 
+            AWSShapeProperty(label: "VpcId", location: .body(locationName: "vpcId"), required: false, type: .string), 
+            AWSShapeProperty(label: "IpPermissions", location: .body(locationName: "ipPermissions"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "OwnerId", location: .body(locationName: "ownerId"), required: false, type: .string), 
+            AWSShapeProperty(label: "GroupId", location: .body(locationName: "groupId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Description", location: .body(locationName: "groupDescription"), required: false, type: .string)
         ]
         /// [EC2-VPC] One or more outbound rules associated with the security group.
         public let ipPermissionsEgress: IpPermissionList?
@@ -2550,7 +2550,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountAttributes", location: "accountAttributeSet", required: false, type: .structure)
+            AWSShapeProperty(label: "AccountAttributes", location: .body(locationName: "accountAttributeSet"), required: false, type: .structure)
         ]
         /// Information about one or more account attributes.
         public let accountAttributes: AccountAttributeList?
@@ -2568,16 +2568,16 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NatGatewayId", location: "natGatewayId", required: false, type: .string), 
-            AWSShapeProperty(label: "NetworkInterfaceId", location: "networkInterfaceId", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", location: "instanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "DestinationIpv6CidrBlock", location: "destinationIpv6CidrBlock", required: false, type: .string), 
-            AWSShapeProperty(label: "VpcPeeringConnectionId", location: "vpcPeeringConnectionId", required: false, type: .string), 
-            AWSShapeProperty(label: "RouteTableId", location: "routeTableId", required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "EgressOnlyInternetGatewayId", location: "egressOnlyInternetGatewayId", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayId", location: "gatewayId", required: false, type: .string), 
-            AWSShapeProperty(label: "DestinationCidrBlock", location: "destinationCidrBlock", required: false, type: .string)
+            AWSShapeProperty(label: "NatGatewayId", location: .body(locationName: "natGatewayId"), required: false, type: .string), 
+            AWSShapeProperty(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "DestinationIpv6CidrBlock", location: .body(locationName: "destinationIpv6CidrBlock"), required: false, type: .string), 
+            AWSShapeProperty(label: "VpcPeeringConnectionId", location: .body(locationName: "vpcPeeringConnectionId"), required: false, type: .string), 
+            AWSShapeProperty(label: "RouteTableId", location: .body(locationName: "routeTableId"), required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "EgressOnlyInternetGatewayId", location: .body(locationName: "egressOnlyInternetGatewayId"), required: false, type: .string), 
+            AWSShapeProperty(label: "GatewayId", location: .body(locationName: "gatewayId"), required: false, type: .string), 
+            AWSShapeProperty(label: "DestinationCidrBlock", location: .body(locationName: "destinationCidrBlock"), required: false, type: .string)
         ]
         /// [IPv4 traffic only] The ID of a NAT gateway.
         public let natGatewayId: String?
@@ -2632,16 +2632,16 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NatGatewayId", location: "natGatewayId", required: false, type: .string), 
-            AWSShapeProperty(label: "NetworkInterfaceId", location: "networkInterfaceId", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", location: "instanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "DestinationIpv6CidrBlock", location: "destinationIpv6CidrBlock", required: false, type: .string), 
-            AWSShapeProperty(label: "VpcPeeringConnectionId", location: "vpcPeeringConnectionId", required: false, type: .string), 
-            AWSShapeProperty(label: "RouteTableId", location: "routeTableId", required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "EgressOnlyInternetGatewayId", location: "egressOnlyInternetGatewayId", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayId", location: "gatewayId", required: false, type: .string), 
-            AWSShapeProperty(label: "DestinationCidrBlock", location: "destinationCidrBlock", required: false, type: .string)
+            AWSShapeProperty(label: "NatGatewayId", location: .body(locationName: "natGatewayId"), required: false, type: .string), 
+            AWSShapeProperty(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "DestinationIpv6CidrBlock", location: .body(locationName: "destinationIpv6CidrBlock"), required: false, type: .string), 
+            AWSShapeProperty(label: "VpcPeeringConnectionId", location: .body(locationName: "vpcPeeringConnectionId"), required: false, type: .string), 
+            AWSShapeProperty(label: "RouteTableId", location: .body(locationName: "routeTableId"), required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "EgressOnlyInternetGatewayId", location: .body(locationName: "egressOnlyInternetGatewayId"), required: false, type: .string), 
+            AWSShapeProperty(label: "GatewayId", location: .body(locationName: "gatewayId"), required: false, type: .string), 
+            AWSShapeProperty(label: "DestinationCidrBlock", location: .body(locationName: "destinationCidrBlock"), required: false, type: .string)
         ]
         /// [IPv4 traffic only] The ID of a NAT gateway.
         public let natGatewayId: String?
@@ -2696,7 +2696,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ImageId", location: "ImageId", required: false, type: .list)
+            AWSShapeProperty(label: "ImageId", required: false, type: .list)
         ]
         public let imageId: [String]?
 
@@ -2713,8 +2713,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpnConnectionId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DestinationCidrBlock", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "VpnConnectionId", required: true, type: .string), 
+            AWSShapeProperty(label: "DestinationCidrBlock", required: true, type: .string)
         ]
         /// The ID of the VPN connection.
         public let vpnConnectionId: String
@@ -2738,8 +2738,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyName", location: "keyName", required: false, type: .string), 
-            AWSShapeProperty(label: "KeyFingerprint", location: "keyFingerprint", required: false, type: .string)
+            AWSShapeProperty(label: "KeyName", location: .body(locationName: "keyName"), required: false, type: .string), 
+            AWSShapeProperty(label: "KeyFingerprint", location: .body(locationName: "keyFingerprint"), required: false, type: .string)
         ]
         /// The name of the key pair.
         public let keyName: String?
@@ -2761,12 +2761,12 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttachTime", location: "attachTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "DeleteOnTermination", location: "deleteOnTermination", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Device", location: "device", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", location: "instanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeId", location: "volumeId", required: false, type: .string), 
-            AWSShapeProperty(label: "State", location: "status", required: false, type: .enum)
+            AWSShapeProperty(label: "AttachTime", location: .body(locationName: "attachTime"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "DeleteOnTermination", location: .body(locationName: "deleteOnTermination"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Device", location: .body(locationName: "device"), required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "VolumeId", location: .body(locationName: "volumeId"), required: false, type: .string), 
+            AWSShapeProperty(label: "State", location: .body(locationName: "status"), required: false, type: .enum)
         ]
         /// The time stamp when the attachment initiated.
         public let attachTime: Date?
@@ -2804,9 +2804,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Description", location: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "SnapshotTaskDetail", location: "snapshotTaskDetail", required: false, type: .structure), 
-            AWSShapeProperty(label: "ImportTaskId", location: "importTaskId", required: false, type: .string)
+            AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeProperty(label: "SnapshotTaskDetail", location: .body(locationName: "snapshotTaskDetail"), required: false, type: .structure), 
+            AWSShapeProperty(label: "ImportTaskId", location: .body(locationName: "importTaskId"), required: false, type: .string)
         ]
         /// A description of the import snapshot task.
         public let description: String?
@@ -2832,9 +2832,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "ClientToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "AllocationId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "SubnetId", required: true, type: .string), 
+            AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
+            AWSShapeProperty(label: "AllocationId", required: true, type: .string)
         ]
         /// The subnet in which to create the NAT gateway.
         public let subnetId: String
@@ -2862,7 +2862,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [LaunchPermission]?
 
@@ -2883,7 +2883,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcAttachment", location: "attachment", required: false, type: .structure)
+            AWSShapeProperty(label: "VpcAttachment", location: .body(locationName: "attachment"), required: false, type: .structure)
         ]
         /// Information about the attachment.
         public let vpcAttachment: VpcAttachment?
@@ -2901,17 +2901,17 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BlockDurationMinutes", location: "blockDurationMinutes", required: false, type: .integer), 
-            AWSShapeProperty(label: "AvailabilityZoneGroup", location: "availabilityZoneGroup", required: false, type: .string), 
-            AWSShapeProperty(label: "ClientToken", location: "clientToken", required: false, type: .string), 
-            AWSShapeProperty(label: "LaunchSpecification", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "ValidFrom", location: "validFrom", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "SpotPrice", location: "spotPrice", required: true, type: .string), 
-            AWSShapeProperty(label: "ValidUntil", location: "validUntil", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Type", location: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "InstanceCount", location: "instanceCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "LaunchGroup", location: "launchGroup", required: false, type: .string)
+            AWSShapeProperty(label: "BlockDurationMinutes", location: .body(locationName: "blockDurationMinutes"), required: false, type: .integer), 
+            AWSShapeProperty(label: "AvailabilityZoneGroup", location: .body(locationName: "availabilityZoneGroup"), required: false, type: .string), 
+            AWSShapeProperty(label: "ClientToken", location: .body(locationName: "clientToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "LaunchSpecification", required: false, type: .structure), 
+            AWSShapeProperty(label: "ValidFrom", location: .body(locationName: "validFrom"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "SpotPrice", location: .body(locationName: "spotPrice"), required: true, type: .string), 
+            AWSShapeProperty(label: "ValidUntil", location: .body(locationName: "validUntil"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Type", location: .body(locationName: "type"), required: false, type: .enum), 
+            AWSShapeProperty(label: "InstanceCount", location: .body(locationName: "instanceCount"), required: false, type: .integer), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "LaunchGroup", location: .body(locationName: "launchGroup"), required: false, type: .string)
         ]
         /// The required duration for the Spot instances (also known as Spot blocks), in minutes. This value must be a multiple of 60 (60, 120, 180, 240, 300, or 360). The duration period starts as soon as your Spot instance receives its instance ID. At the end of the duration period, Amazon EC2 marks the Spot instance for termination and provides a Spot instance termination notice, which gives the instance a two-minute warning before it terminates. Note that you can't specify an Availability Zone group or a launch group if you specify a duration.
         public let blockDurationMinutes: Int32?
@@ -2969,11 +2969,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ExecutableUsers", location: "ExecutableBy", required: false, type: .structure), 
-            AWSShapeProperty(label: "ImageIds", location: "ImageId", required: false, type: .structure), 
-            AWSShapeProperty(label: "Owners", location: "Owner", required: false, type: .structure)
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "ExecutableUsers", location: .body(locationName: "ExecutableBy"), required: false, type: .structure), 
+            AWSShapeProperty(label: "ImageIds", location: .body(locationName: "ImageId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Owners", location: .body(locationName: "Owner"), required: false, type: .structure)
         ]
         /// One or more filters.    architecture - The image architecture (i386 | x86_64).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name for the EBS volume (for example, /dev/sdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the EBS volume.    block-device-mapping.volume-size - The volume size of the EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the EBS volume (gp2 | io1 | st1 | sc1 | standard).    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    hypervisor - The hypervisor type (ovm | xen).    image-id - The ID of the image.    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - String value from an Amazon-maintained list (amazon | aws-marketplace | microsoft) of snapshot owners. Not to be confused with the user-configured AWS account alias, which is set from the IAM console.    owner-id - The AWS account ID of the image owner.    platform - The platform. To only list Windows-based AMIs, use windows.    product-code - The product code.    product-code.type - The type of the product code (devpay | marketplace).    ramdisk-id - The RAM disk ID.    root-device-name - The name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    virtualization-type - The virtualization type (paravirtual | hvm).  
         public let filters: FilterList?
@@ -3007,13 +3007,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UpfrontPrice", location: "upfrontPrice", required: false, type: .string), 
-            AWSShapeProperty(label: "PaymentOption", location: "paymentOption", required: false, type: .enum), 
-            AWSShapeProperty(label: "OfferingId", location: "offeringId", required: false, type: .string), 
-            AWSShapeProperty(label: "HourlyPrice", location: "hourlyPrice", required: false, type: .string), 
-            AWSShapeProperty(label: "CurrencyCode", location: "currencyCode", required: false, type: .enum), 
-            AWSShapeProperty(label: "Duration", location: "duration", required: false, type: .integer), 
-            AWSShapeProperty(label: "InstanceFamily", location: "instanceFamily", required: false, type: .string)
+            AWSShapeProperty(label: "UpfrontPrice", location: .body(locationName: "upfrontPrice"), required: false, type: .string), 
+            AWSShapeProperty(label: "PaymentOption", location: .body(locationName: "paymentOption"), required: false, type: .enum), 
+            AWSShapeProperty(label: "OfferingId", location: .body(locationName: "offeringId"), required: false, type: .string), 
+            AWSShapeProperty(label: "HourlyPrice", location: .body(locationName: "hourlyPrice"), required: false, type: .string), 
+            AWSShapeProperty(label: "CurrencyCode", location: .body(locationName: "currencyCode"), required: false, type: .enum), 
+            AWSShapeProperty(label: "Duration", location: .body(locationName: "duration"), required: false, type: .integer), 
+            AWSShapeProperty(label: "InstanceFamily", location: .body(locationName: "instanceFamily"), required: false, type: .string)
         ]
         /// The upfront price of the offering. Does not apply to No Upfront offerings.
         public let upfrontPrice: String?
@@ -3055,18 +3055,18 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeviceIndex", location: "deviceIndex", required: false, type: .integer), 
-            AWSShapeProperty(label: "SubnetId", location: "subnetId", required: false, type: .string), 
-            AWSShapeProperty(label: "NetworkInterfaceId", location: "networkInterfaceId", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", location: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "PrivateIpAddress", location: "privateIpAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "SecondaryPrivateIpAddressCount", location: "secondaryPrivateIpAddressCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "PrivateIpAddresses", location: "privateIpAddressesSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "Ipv6AddressCount", location: "ipv6AddressCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "Ipv6Addresses", location: "ipv6AddressesSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "DeleteOnTermination", location: "deleteOnTermination", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AssociatePublicIpAddress", location: "associatePublicIpAddress", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Groups", location: "SecurityGroupId", required: false, type: .structure)
+            AWSShapeProperty(label: "DeviceIndex", location: .body(locationName: "deviceIndex"), required: false, type: .integer), 
+            AWSShapeProperty(label: "SubnetId", location: .body(locationName: "subnetId"), required: false, type: .string), 
+            AWSShapeProperty(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeProperty(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress"), required: false, type: .string), 
+            AWSShapeProperty(label: "SecondaryPrivateIpAddressCount", location: .body(locationName: "secondaryPrivateIpAddressCount"), required: false, type: .integer), 
+            AWSShapeProperty(label: "PrivateIpAddresses", location: .body(locationName: "privateIpAddressesSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Ipv6AddressCount", location: .body(locationName: "ipv6AddressCount"), required: false, type: .integer), 
+            AWSShapeProperty(label: "Ipv6Addresses", location: .body(locationName: "ipv6AddressesSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DeleteOnTermination", location: .body(locationName: "deleteOnTermination"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "AssociatePublicIpAddress", location: .body(locationName: "associatePublicIpAddress"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Groups", location: .body(locationName: "SecurityGroupId"), required: false, type: .structure)
         ]
         /// The index of the device on the instance for the network interface attachment. If you are specifying a network interface in a RunInstances request, you must provide the device index.
         public let deviceIndex: Int32?
@@ -3128,8 +3128,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RouteTableId", location: "routeTableId", required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "RouteTableId", location: .body(locationName: "routeTableId"), required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// The ID of the route table.
         public let routeTableId: String
@@ -3152,10 +3152,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NetworkInterfaceId", location: "networkInterfaceId", required: false, type: .string), 
-            AWSShapeProperty(label: "PublicIp", location: "publicIp", required: false, type: .string), 
-            AWSShapeProperty(label: "PrivateIp", location: "privateIp", required: false, type: .string), 
-            AWSShapeProperty(label: "AllocationId", location: "allocationId", required: false, type: .string)
+            AWSShapeProperty(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "PublicIp", location: .body(locationName: "publicIp"), required: false, type: .string), 
+            AWSShapeProperty(label: "PrivateIp", location: .body(locationName: "privateIp"), required: false, type: .string), 
+            AWSShapeProperty(label: "AllocationId", location: .body(locationName: "allocationId"), required: false, type: .string)
         ]
         /// The ID of the network interface associated with the NAT gateway.
         public let networkInterfaceId: String?
@@ -3185,11 +3185,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Description", location: "description", required: false, type: .structure), 
-            AWSShapeProperty(label: "NetworkInterfaceId", location: "networkInterfaceId", required: false, type: .string), 
-            AWSShapeProperty(label: "Attachment", location: "attachment", required: false, type: .structure), 
-            AWSShapeProperty(label: "Groups", location: "groupSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "SourceDestCheck", location: "sourceDestCheck", required: false, type: .structure)
+            AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .structure), 
+            AWSShapeProperty(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Attachment", location: .body(locationName: "attachment"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Groups", location: .body(locationName: "groupSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "SourceDestCheck", location: .body(locationName: "sourceDestCheck"), required: false, type: .structure)
         ]
         /// The description of the network interface.
         public let description: AttributeValue?
@@ -3223,7 +3223,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Return", location: "return", required: false, type: .boolean)
+            AWSShapeProperty(label: "Return", location: .body(locationName: "return"), required: false, type: .boolean)
         ]
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -3241,12 +3241,12 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClientToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "RoleName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "ClientData", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "DiskContainer", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
+            AWSShapeProperty(label: "RoleName", required: false, type: .string), 
+            AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeProperty(label: "ClientData", required: false, type: .structure), 
+            AWSShapeProperty(label: "DiskContainer", required: false, type: .structure), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
         /// Token to enable idempotency for VM import requests.
         public let clientToken: String?
@@ -3284,10 +3284,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceTenancy", location: "instanceTenancy", required: false, type: .enum), 
-            AWSShapeProperty(label: "AmazonProvidedIpv6CidrBlock", location: "amazonProvidedIpv6CidrBlock", required: false, type: .boolean), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "CidrBlock", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "InstanceTenancy", location: .body(locationName: "instanceTenancy"), required: false, type: .enum), 
+            AWSShapeProperty(label: "AmazonProvidedIpv6CidrBlock", location: .body(locationName: "amazonProvidedIpv6CidrBlock"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "CidrBlock", required: true, type: .string)
         ]
         /// The tenancy options for instances launched into the VPC. For default, instances are launched with shared tenancy by default. You can launch instances with any tenancy into a shared tenancy VPC. For dedicated, instances are launched as dedicated tenancy instances by default. You can only launch instances with a tenancy of dedicated or host into a dedicated tenancy VPC.   Important: The host value cannot be used with this parameter. Use the default or dedicated values only. Default: default 
         public let instanceTenancy: Tenancy?
@@ -3318,7 +3318,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DhcpOptionsId", location: "DhcpOptionsId", required: false, type: .list)
+            AWSShapeProperty(label: "DhcpOptionsId", required: false, type: .list)
         ]
         public let dhcpOptionsId: [String]?
 
@@ -3335,8 +3335,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcId", location: "vpcId", required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "VpcId", location: .body(locationName: "vpcId"), required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// The ID of the VPC.
         public let vpcId: String
@@ -3359,7 +3359,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Vpcs", location: "vpcSet", required: false, type: .structure)
+            AWSShapeProperty(label: "Vpcs", location: .body(locationName: "vpcSet"), required: false, type: .structure)
         ]
         /// Information about one or more VPCs.
         public let vpcs: VpcList?
@@ -3377,11 +3377,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DiskImages", location: "diskImage", required: false, type: .list), 
-            AWSShapeProperty(label: "Platform", location: "platform", required: true, type: .enum), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "LaunchSpecification", location: "launchSpecification", required: false, type: .structure), 
-            AWSShapeProperty(label: "Description", location: "description", required: false, type: .string)
+            AWSShapeProperty(label: "DiskImages", location: .body(locationName: "diskImage"), required: false, type: .list), 
+            AWSShapeProperty(label: "Platform", location: .body(locationName: "platform"), required: true, type: .enum), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "LaunchSpecification", location: .body(locationName: "launchSpecification"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
         /// The disk image.
         public let diskImages: [DiskImage]?
@@ -3420,12 +3420,12 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClientToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ServiceName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "VpcId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "PolicyDocument", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "RouteTableIds", location: "RouteTableId", required: false, type: .structure)
+            AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
+            AWSShapeProperty(label: "ServiceName", required: true, type: .string), 
+            AWSShapeProperty(label: "VpcId", required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeProperty(label: "PolicyDocument", required: false, type: .string), 
+            AWSShapeProperty(label: "RouteTableIds", location: .body(locationName: "RouteTableId"), required: false, type: .structure)
         ]
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
         public let clientToken: String?
@@ -3465,8 +3465,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MoveStatus", location: "moveStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "PublicIp", location: "publicIp", required: false, type: .string)
+            AWSShapeProperty(label: "MoveStatus", location: .body(locationName: "moveStatus"), required: false, type: .enum), 
+            AWSShapeProperty(label: "PublicIp", location: .body(locationName: "publicIp"), required: false, type: .string)
         ]
         /// The status of the Elastic IP address that's being moved to the EC2-VPC platform, or restored to the EC2-Classic platform.
         public let moveStatus: MoveStatus?
@@ -3494,7 +3494,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [AvailabilityZone]?
 
@@ -3515,7 +3515,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcId", location: "VpcId", required: false, type: .list)
+            AWSShapeProperty(label: "VpcId", required: false, type: .list)
         ]
         public let vpcId: [String]?
 
@@ -3532,8 +3532,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ImageId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "ImageId", required: true, type: .string)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -3556,7 +3556,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [SpotPrice]?
 
@@ -3577,8 +3577,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "SnapshotId", required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// The ID of the EBS snapshot.
         public let snapshotId: String
@@ -3601,21 +3601,21 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxDuration", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "InstanceTenancy", location: "instanceTenancy", required: false, type: .enum), 
-            AWSShapeProperty(label: "ReservedInstancesOfferingIds", location: "ReservedInstancesOfferingId", required: false, type: .list), 
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "InstanceType", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "AvailabilityZone", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ProductDescription", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "MaxResults", location: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "OfferingType", location: "offeringType", required: false, type: .enum), 
-            AWSShapeProperty(label: "OfferingClass", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "IncludeMarketplace", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "MinDuration", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "MaxInstanceCount", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string)
+            AWSShapeProperty(label: "MaxDuration", required: false, type: .long), 
+            AWSShapeProperty(label: "InstanceTenancy", location: .body(locationName: "instanceTenancy"), required: false, type: .enum), 
+            AWSShapeProperty(label: "ReservedInstancesOfferingIds", location: .body(locationName: "ReservedInstancesOfferingId"), required: false, type: .list), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "InstanceType", required: false, type: .enum), 
+            AWSShapeProperty(label: "AvailabilityZone", required: false, type: .string), 
+            AWSShapeProperty(label: "ProductDescription", required: false, type: .enum), 
+            AWSShapeProperty(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeProperty(label: "OfferingType", location: .body(locationName: "offeringType"), required: false, type: .enum), 
+            AWSShapeProperty(label: "OfferingClass", required: false, type: .enum), 
+            AWSShapeProperty(label: "IncludeMarketplace", required: false, type: .boolean), 
+            AWSShapeProperty(label: "MinDuration", required: false, type: .long), 
+            AWSShapeProperty(label: "MaxInstanceCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
         /// The maximum duration (in seconds) to filter when searching for offerings. Default: 94608000 (3 years)
         public let maxDuration: Int64?
@@ -3689,8 +3689,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SpotInstanceRequestId", location: "spotInstanceRequestId", required: false, type: .string), 
-            AWSShapeProperty(label: "State", location: "state", required: false, type: .enum)
+            AWSShapeProperty(label: "SpotInstanceRequestId", location: .body(locationName: "spotInstanceRequestId"), required: false, type: .string), 
+            AWSShapeProperty(label: "State", location: .body(locationName: "state"), required: false, type: .enum)
         ]
         /// The ID of the Spot instance request.
         public let spotInstanceRequestId: String?
@@ -3712,7 +3712,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [VpcPeeringConnection]?
 
@@ -3733,7 +3733,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [MovingAddressStatus]?
 
@@ -3754,16 +3754,16 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ProductCodes", location: "ProductCode", required: false, type: .structure), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "UserIds", location: "UserId", required: false, type: .structure), 
-            AWSShapeProperty(label: "ImageId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "UserGroups", location: "UserGroup", required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Attribute", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Value", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "LaunchPermission", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "OperationType", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "ProductCodes", location: .body(locationName: "ProductCode"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Description", required: false, type: .structure), 
+            AWSShapeProperty(label: "UserIds", location: .body(locationName: "UserId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "ImageId", required: true, type: .string), 
+            AWSShapeProperty(label: "UserGroups", location: .body(locationName: "UserGroup"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Attribute", required: false, type: .string), 
+            AWSShapeProperty(label: "Value", required: false, type: .string), 
+            AWSShapeProperty(label: "LaunchPermission", required: false, type: .structure), 
+            AWSShapeProperty(label: "OperationType", required: false, type: .enum)
         ]
         /// One or more product codes. After you add a product code to an AMI, it can't be removed. This is only valid when modifying the productCodes attribute.
         public let productCodes: ProductCodeStringList?
@@ -3818,9 +3818,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Ipv6CidrBlockState", location: "ipv6CidrBlockState", required: false, type: .structure), 
-            AWSShapeProperty(label: "Ipv6CidrBlock", location: "ipv6CidrBlock", required: false, type: .string), 
-            AWSShapeProperty(label: "AssociationId", location: "associationId", required: false, type: .string)
+            AWSShapeProperty(label: "Ipv6CidrBlockState", location: .body(locationName: "ipv6CidrBlockState"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Ipv6CidrBlock", location: .body(locationName: "ipv6CidrBlock"), required: false, type: .string), 
+            AWSShapeProperty(label: "AssociationId", location: .body(locationName: "associationId"), required: false, type: .string)
         ]
         /// Information about the state of the CIDR block.
         public let ipv6CidrBlockState: SubnetCidrBlockState?
@@ -3846,7 +3846,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [NetworkAcl]?
 
@@ -3867,7 +3867,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [VolumeStatusDetails]?
 
@@ -3888,7 +3888,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DhcpOptions", location: "dhcpOptions", required: false, type: .structure)
+            AWSShapeProperty(label: "DhcpOptions", location: .body(locationName: "dhcpOptions"), required: false, type: .structure)
         ]
         /// A set of DHCP options.
         public let dhcpOptions: DhcpOptions?
@@ -3906,9 +3906,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PublicDnsName", location: "publicDnsName", required: false, type: .string), 
-            AWSShapeProperty(label: "IpOwnerId", location: "ipOwnerId", required: false, type: .string), 
-            AWSShapeProperty(label: "PublicIp", location: "publicIp", required: false, type: .string)
+            AWSShapeProperty(label: "PublicDnsName", location: .body(locationName: "publicDnsName"), required: false, type: .string), 
+            AWSShapeProperty(label: "IpOwnerId", location: .body(locationName: "ipOwnerId"), required: false, type: .string), 
+            AWSShapeProperty(label: "PublicIp", location: .body(locationName: "publicIp"), required: false, type: .string)
         ]
         /// The public DNS name.
         public let publicDnsName: String?
@@ -3934,7 +3934,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [Address]?
 
@@ -3955,10 +3955,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttachTime", location: "attachTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "DeleteOnTermination", location: "deleteOnTermination", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Status", location: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "VolumeId", location: "volumeId", required: false, type: .string)
+            AWSShapeProperty(label: "AttachTime", location: .body(locationName: "attachTime"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "DeleteOnTermination", location: .body(locationName: "deleteOnTermination"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Status", location: .body(locationName: "status"), required: false, type: .enum), 
+            AWSShapeProperty(label: "VolumeId", location: .body(locationName: "volumeId"), required: false, type: .string)
         ]
         /// The time stamp when the attachment initiated.
         public let attachTime: Date?
@@ -3988,9 +3988,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "CancelReason", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ImportTaskId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeProperty(label: "CancelReason", required: false, type: .string), 
+            AWSShapeProperty(label: "ImportTaskId", required: false, type: .string)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -4016,8 +4016,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReservedInstanceId", location: "reservedInstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "ReservationValue", location: "reservationValue", required: false, type: .structure)
+            AWSShapeProperty(label: "ReservedInstanceId", location: .body(locationName: "reservedInstanceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "ReservationValue", location: .body(locationName: "reservationValue"), required: false, type: .structure)
         ]
         /// The ID of the Convertible Reserved Instance that you are exchanging.
         public let reservedInstanceId: String?
@@ -4039,9 +4039,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FlowLogIds", location: "flowLogIdSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "Unsuccessful", location: "unsuccessful", required: false, type: .structure), 
-            AWSShapeProperty(label: "ClientToken", location: "clientToken", required: false, type: .string)
+            AWSShapeProperty(label: "FlowLogIds", location: .body(locationName: "flowLogIdSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Unsuccessful", location: .body(locationName: "unsuccessful"), required: false, type: .structure), 
+            AWSShapeProperty(label: "ClientToken", location: .body(locationName: "clientToken"), required: false, type: .string)
         ]
         /// The IDs of the flow logs.
         public let flowLogIds: ValueStringList?
@@ -4067,9 +4067,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "InstanceIds", location: "InstanceId", required: true, type: .structure), 
-            AWSShapeProperty(label: "Force", location: "force", required: false, type: .boolean)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "InstanceIds", location: .body(locationName: "InstanceId"), required: true, type: .structure), 
+            AWSShapeProperty(label: "Force", location: .body(locationName: "force"), required: false, type: .boolean)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -4096,10 +4096,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ZoneName", location: "zoneName", required: false, type: .string), 
-            AWSShapeProperty(label: "State", location: "zoneState", required: false, type: .enum), 
-            AWSShapeProperty(label: "Messages", location: "messageSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "RegionName", location: "regionName", required: false, type: .string)
+            AWSShapeProperty(label: "ZoneName", location: .body(locationName: "zoneName"), required: false, type: .string), 
+            AWSShapeProperty(label: "State", location: .body(locationName: "zoneState"), required: false, type: .enum), 
+            AWSShapeProperty(label: "Messages", location: .body(locationName: "messageSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "RegionName", location: .body(locationName: "regionName"), required: false, type: .string)
         ]
         /// The name of the Availability Zone.
         public let zoneName: String?
@@ -4129,8 +4129,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", location: "name", required: false, type: .enum), 
-            AWSShapeProperty(label: "Status", location: "status", required: false, type: .string)
+            AWSShapeProperty(label: "Name", location: .body(locationName: "name"), required: false, type: .enum), 
+            AWSShapeProperty(label: "Status", location: .body(locationName: "status"), required: false, type: .string)
         ]
         /// The name of the volume status.
         public let name: VolumeStatusName?
@@ -4152,7 +4152,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IamInstanceProfileAssociation", location: "iamInstanceProfileAssociation", required: false, type: .structure)
+            AWSShapeProperty(label: "IamInstanceProfileAssociation", location: .body(locationName: "iamInstanceProfileAssociation"), required: false, type: .structure)
         ]
         /// Information about the IAM instance profile association.
         public let iamInstanceProfileAssociation: IamInstanceProfileAssociation?
@@ -4178,9 +4178,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "ReservedInstancesModificationIds", location: "ReservedInstancesModificationId", required: false, type: .structure)
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "ReservedInstancesModificationIds", location: .body(locationName: "ReservedInstancesModificationId"), required: false, type: .structure)
         ]
         /// The token to retrieve the next page of results.
         public let nextToken: String?
@@ -4206,8 +4206,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Code", location: "code", required: false, type: .string), 
-            AWSShapeProperty(label: "Message", location: "message", required: false, type: .string)
+            AWSShapeProperty(label: "Code", location: .body(locationName: "code"), required: false, type: .string), 
+            AWSShapeProperty(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
         ]
         /// The reason code for the Spot instance state change.
         public let code: String?
@@ -4229,7 +4229,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Images", location: "imagesSet", required: false, type: .structure)
+            AWSShapeProperty(label: "Images", location: .body(locationName: "imagesSet"), required: false, type: .structure)
         ]
         /// Information about one or more images.
         public let images: ImageList?
@@ -4247,7 +4247,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SecurityGroupId", location: "SecurityGroupId", required: false, type: .list)
+            AWSShapeProperty(label: "SecurityGroupId", required: false, type: .list)
         ]
         public let securityGroupId: [String]?
 
@@ -4264,8 +4264,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AvailabilityZone", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "GroupName", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "AvailabilityZone", required: false, type: .string), 
+            AWSShapeProperty(label: "GroupName", required: false, type: .string)
         ]
         /// The Availability Zone.
         public let availabilityZone: String?
@@ -4287,9 +4287,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CurrentSpotFleetRequestState", location: "currentSpotFleetRequestState", required: true, type: .enum), 
-            AWSShapeProperty(label: "PreviousSpotFleetRequestState", location: "previousSpotFleetRequestState", required: true, type: .enum), 
-            AWSShapeProperty(label: "SpotFleetRequestId", location: "spotFleetRequestId", required: true, type: .string)
+            AWSShapeProperty(label: "CurrentSpotFleetRequestState", location: .body(locationName: "currentSpotFleetRequestState"), required: true, type: .enum), 
+            AWSShapeProperty(label: "PreviousSpotFleetRequestState", location: .body(locationName: "previousSpotFleetRequestState"), required: true, type: .enum), 
+            AWSShapeProperty(label: "SpotFleetRequestId", location: .body(locationName: "spotFleetRequestId"), required: true, type: .string)
         ]
         /// The current state of the Spot fleet request.
         public let currentSpotFleetRequestState: BatchState
@@ -4318,16 +4318,16 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SourceSecurityGroupOwnerId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "GroupName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "IpPermissions", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "CidrIp", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "SourceSecurityGroupName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ToPort", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "FromPort", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "IpProtocol", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "GroupId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "SourceSecurityGroupOwnerId", required: false, type: .string), 
+            AWSShapeProperty(label: "GroupName", required: false, type: .string), 
+            AWSShapeProperty(label: "IpPermissions", required: false, type: .structure), 
+            AWSShapeProperty(label: "CidrIp", required: false, type: .string), 
+            AWSShapeProperty(label: "SourceSecurityGroupName", required: false, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "ToPort", required: false, type: .integer), 
+            AWSShapeProperty(label: "FromPort", required: false, type: .integer), 
+            AWSShapeProperty(label: "IpProtocol", required: false, type: .string), 
+            AWSShapeProperty(label: "GroupId", required: false, type: .string)
         ]
         /// [EC2-Classic] The AWS account number for the source security group, if the source security group is in a different account. You can't specify this parameter in combination with the following parameters: the CIDR IP address range, the IP protocol, the start of the port range, and the end of the port range. Creates rules that grant full ICMP, UDP, and TCP access. To create a rule with a specific IP protocol and port range, use a set of IP permissions instead.
         public let sourceSecurityGroupOwnerId: String?
@@ -4381,7 +4381,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyName", location: "KeyName", required: false, type: .list)
+            AWSShapeProperty(label: "KeyName", required: false, type: .list)
         ]
         public let keyName: [String]?
 
@@ -4398,8 +4398,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "From", location: "from", required: false, type: .integer), 
-            AWSShapeProperty(label: "To", location: "to", required: false, type: .integer)
+            AWSShapeProperty(label: "From", location: .body(locationName: "from"), required: false, type: .integer), 
+            AWSShapeProperty(label: "To", location: .body(locationName: "to"), required: false, type: .integer)
         ]
         /// The first port in the range.
         public let from: Int32?
@@ -4421,8 +4421,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", location: "name", required: false, type: .enum), 
-            AWSShapeProperty(label: "Code", location: "code", required: false, type: .integer)
+            AWSShapeProperty(label: "Name", location: .body(locationName: "name"), required: false, type: .enum), 
+            AWSShapeProperty(label: "Code", location: .body(locationName: "code"), required: false, type: .integer)
         ]
         /// The current state of the instance.
         public let name: InstanceStateName?
@@ -4451,7 +4451,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [VgwTelemetry]?
 
@@ -4472,10 +4472,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PrivateIpAddress", location: "privateIpAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "PrivateDnsName", location: "privateDnsName", required: false, type: .string), 
-            AWSShapeProperty(label: "Primary", location: "primary", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Association", location: "association", required: false, type: .structure)
+            AWSShapeProperty(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress"), required: false, type: .string), 
+            AWSShapeProperty(label: "PrivateDnsName", location: .body(locationName: "privateDnsName"), required: false, type: .string), 
+            AWSShapeProperty(label: "Primary", location: .body(locationName: "primary"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Association", location: .body(locationName: "association"), required: false, type: .structure)
         ]
         /// The private IPv4 address of the network interface.
         public let privateIpAddress: String?
@@ -4505,10 +4505,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Sockets", location: "sockets", required: false, type: .integer), 
-            AWSShapeProperty(label: "InstanceType", location: "instanceType", required: false, type: .string), 
-            AWSShapeProperty(label: "TotalVCpus", location: "totalVCpus", required: false, type: .integer), 
-            AWSShapeProperty(label: "Cores", location: "cores", required: false, type: .integer)
+            AWSShapeProperty(label: "Sockets", location: .body(locationName: "sockets"), required: false, type: .integer), 
+            AWSShapeProperty(label: "InstanceType", location: .body(locationName: "instanceType"), required: false, type: .string), 
+            AWSShapeProperty(label: "TotalVCpus", location: .body(locationName: "totalVCpus"), required: false, type: .integer), 
+            AWSShapeProperty(label: "Cores", location: .body(locationName: "cores"), required: false, type: .integer)
         ]
         /// The number of sockets on the Dedicated Host.
         public let sockets: Int32?
@@ -4538,8 +4538,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NetworkInterfaceId", location: "networkInterfaceId", required: true, type: .string), 
-            AWSShapeProperty(label: "PrivateIpAddresses", location: "privateIpAddress", required: true, type: .structure)
+            AWSShapeProperty(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"), required: true, type: .string), 
+            AWSShapeProperty(label: "PrivateIpAddresses", location: .body(locationName: "privateIpAddress"), required: true, type: .structure)
         ]
         /// The ID of the network interface.
         public let networkInterfaceId: String
@@ -4563,9 +4563,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReferencingVpcId", location: "referencingVpcId", required: true, type: .string), 
-            AWSShapeProperty(label: "GroupId", location: "groupId", required: true, type: .string), 
-            AWSShapeProperty(label: "VpcPeeringConnectionId", location: "vpcPeeringConnectionId", required: false, type: .string)
+            AWSShapeProperty(label: "ReferencingVpcId", location: .body(locationName: "referencingVpcId"), required: true, type: .string), 
+            AWSShapeProperty(label: "GroupId", location: .body(locationName: "groupId"), required: true, type: .string), 
+            AWSShapeProperty(label: "VpcPeeringConnectionId", location: .body(locationName: "vpcPeeringConnectionId"), required: false, type: .string)
         ]
         /// The ID of the VPC with the referencing security group.
         public let referencingVpcId: String
@@ -4593,7 +4593,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [Region]?
 
@@ -4614,10 +4614,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Active", location: "active", required: false, type: .boolean), 
-            AWSShapeProperty(label: "CurrencyCode", location: "currencyCode", required: false, type: .enum), 
-            AWSShapeProperty(label: "Term", location: "term", required: false, type: .long), 
-            AWSShapeProperty(label: "Price", location: "price", required: false, type: .double)
+            AWSShapeProperty(label: "Active", location: .body(locationName: "active"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "CurrencyCode", location: .body(locationName: "currencyCode"), required: false, type: .enum), 
+            AWSShapeProperty(label: "Term", location: .body(locationName: "term"), required: false, type: .long), 
+            AWSShapeProperty(label: "Price", location: .body(locationName: "price"), required: false, type: .double)
         ]
         /// The current price schedule, as determined by the term remaining for the Reserved Instance in the listing. A specific price schedule is always in effect, but only one price schedule can be active at any time. Take, for example, a Reserved Instance listing that has five months remaining in its term. When you specify price schedules for five months and two months, this means that schedule 1, covering the first three months of the remaining term, will be active during months 5, 4, and 3. Then schedule 2, covering the last two months of the term, will be active for months 2 and 1.
         public let active: Bool?
@@ -4647,11 +4647,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PrefixListIds", location: "PrefixListId", required: false, type: .structure), 
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "PrefixListIds", location: .body(locationName: "PrefixListId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// One or more prefix list IDs.
         public let prefixListIds: ValueStringList?
@@ -4685,9 +4685,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Image", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Volume", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Image", required: false, type: .structure), 
+            AWSShapeProperty(label: "Volume", required: false, type: .structure), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
         /// Information about the disk image.
         public let image: DiskImageDetail?
@@ -4713,9 +4713,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RouteTableIds", location: "RouteTableId", required: false, type: .structure), 
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "RouteTableIds", location: .body(locationName: "RouteTableId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// One or more route table IDs. Default: Describes all your route tables.
         public let routeTableIds: ValueStringList?
@@ -4741,7 +4741,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InternetGateways", location: "internetGatewaySet", required: false, type: .structure)
+            AWSShapeProperty(label: "InternetGateways", location: .body(locationName: "internetGatewaySet"), required: false, type: .structure)
         ]
         /// Information about one or more Internet gateways.
         public let internetGateways: InternetGatewayList?
@@ -4759,11 +4759,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttachTime", location: "attachTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "DeleteOnTermination", location: "deleteOnTermination", required: false, type: .boolean), 
-            AWSShapeProperty(label: "DeviceIndex", location: "deviceIndex", required: false, type: .integer), 
-            AWSShapeProperty(label: "AttachmentId", location: "attachmentId", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", location: "status", required: false, type: .enum)
+            AWSShapeProperty(label: "AttachTime", location: .body(locationName: "attachTime"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "DeleteOnTermination", location: .body(locationName: "deleteOnTermination"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "DeviceIndex", location: .body(locationName: "deviceIndex"), required: false, type: .integer), 
+            AWSShapeProperty(label: "AttachmentId", location: .body(locationName: "attachmentId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Status", location: .body(locationName: "status"), required: false, type: .enum)
         ]
         /// The time stamp when the attachment initiated.
         public let attachTime: Date?
@@ -4797,7 +4797,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [String]?
 
@@ -4814,7 +4814,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AssociationId", location: "associationId", required: true, type: .string)
+            AWSShapeProperty(label: "AssociationId", location: .body(locationName: "associationId"), required: true, type: .string)
         ]
         /// The association ID for the CIDR block.
         public let associationId: String
@@ -4833,9 +4833,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "VpcPeeringConnectionIds", location: "VpcPeeringConnectionId", required: false, type: .structure)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "VpcPeeringConnectionIds", location: .body(locationName: "VpcPeeringConnectionId"), required: false, type: .structure)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -4861,9 +4861,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcId", location: "vpcId", required: true, type: .string), 
-            AWSShapeProperty(label: "InstanceId", location: "instanceId", required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "VpcId", location: .body(locationName: "vpcId"), required: true, type: .string), 
+            AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// The ID of the VPC to which the instance is linked.
         public let vpcId: String
@@ -4891,9 +4891,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HourlyPrice", location: "hourlyPrice", required: false, type: .string), 
-            AWSShapeProperty(label: "RemainingTotalValue", location: "remainingTotalValue", required: false, type: .string), 
-            AWSShapeProperty(label: "RemainingUpfrontValue", location: "remainingUpfrontValue", required: false, type: .string)
+            AWSShapeProperty(label: "HourlyPrice", location: .body(locationName: "hourlyPrice"), required: false, type: .string), 
+            AWSShapeProperty(label: "RemainingTotalValue", location: .body(locationName: "remainingTotalValue"), required: false, type: .string), 
+            AWSShapeProperty(label: "RemainingUpfrontValue", location: .body(locationName: "remainingUpfrontValue"), required: false, type: .string)
         ]
         /// The hourly rate of the reservation.
         public let hourlyPrice: String?
@@ -4919,7 +4919,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Return", location: "return", required: false, type: .boolean)
+            AWSShapeProperty(label: "Return", location: .body(locationName: "return"), required: false, type: .boolean)
         ]
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -4937,7 +4937,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [UnsuccessfulItem]?
 
@@ -4958,7 +4958,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [PrivateIpAddressSpecification]?
 
@@ -4979,11 +4979,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", location: "bucket", required: false, type: .string), 
-            AWSShapeProperty(label: "AWSAccessKeyId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "UploadPolicySignature", location: "uploadPolicySignature", required: false, type: .string), 
-            AWSShapeProperty(label: "Prefix", location: "prefix", required: false, type: .string), 
-            AWSShapeProperty(label: "UploadPolicy", location: "uploadPolicy", required: false, type: .blob)
+            AWSShapeProperty(label: "Bucket", location: .body(locationName: "bucket"), required: false, type: .string), 
+            AWSShapeProperty(label: "AWSAccessKeyId", required: false, type: .string), 
+            AWSShapeProperty(label: "UploadPolicySignature", location: .body(locationName: "uploadPolicySignature"), required: false, type: .string), 
+            AWSShapeProperty(label: "Prefix", location: .body(locationName: "prefix"), required: false, type: .string), 
+            AWSShapeProperty(label: "UploadPolicy", location: .body(locationName: "uploadPolicy"), required: false, type: .blob)
         ]
         /// The bucket in which to store the AMI. You can specify a bucket that you already own or a new bucket that Amazon EC2 creates on your behalf. If you specify a bucket that belongs to someone else, Amazon EC2 returns an error.
         public let bucket: String?
@@ -5017,7 +5017,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [VolumeAttachment]?
 
@@ -5038,8 +5038,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Reservations", location: "reservationSet", required: false, type: .structure)
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "Reservations", location: .body(locationName: "reservationSet"), required: false, type: .structure)
         ]
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -5061,9 +5061,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReservedInstancesId", location: "reservedInstancesId", required: false, type: .string), 
-            AWSShapeProperty(label: "ReservedInstancesListingId", location: "reservedInstancesListingId", required: false, type: .string), 
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure)
+            AWSShapeProperty(label: "ReservedInstancesId", location: .body(locationName: "reservedInstancesId"), required: false, type: .string), 
+            AWSShapeProperty(label: "ReservedInstancesListingId", location: .body(locationName: "reservedInstancesListingId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure)
         ]
         /// One or more Reserved Instance IDs.
         public let reservedInstancesId: String?
@@ -5089,7 +5089,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SecurityGroupId", location: "SecurityGroupId", required: false, type: .list)
+            AWSShapeProperty(label: "SecurityGroupId", required: false, type: .list)
         ]
         public let securityGroupId: [String]?
 
@@ -5114,7 +5114,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [AccountAttribute]?
 
@@ -5135,8 +5135,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BundleId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "BundleId", required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// The ID of the bundle task.
         public let bundleId: String
@@ -5159,7 +5159,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [ImageDiskContainer]?
 
@@ -5180,8 +5180,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CustomerGatewayId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "CustomerGatewayId", required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// The ID of the customer gateway.
         public let customerGatewayId: String
@@ -5204,8 +5204,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Hosts", location: "hostSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string)
+            AWSShapeProperty(label: "Hosts", location: .body(locationName: "hostSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
         /// Information about the Dedicated Hosts.
         public let hosts: HostList?
@@ -5233,7 +5233,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [NatGatewayAddress]?
 
@@ -5254,11 +5254,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Purchase", location: "purchase", required: false, type: .list), 
-            AWSShapeProperty(label: "TotalUpfrontPrice", location: "totalUpfrontPrice", required: false, type: .string), 
-            AWSShapeProperty(label: "CurrencyCode", location: "currencyCode", required: false, type: .enum), 
-            AWSShapeProperty(label: "ClientToken", location: "clientToken", required: false, type: .string), 
-            AWSShapeProperty(label: "TotalHourlyPrice", location: "totalHourlyPrice", required: false, type: .string)
+            AWSShapeProperty(label: "Purchase", location: .body(locationName: "purchase"), required: false, type: .list), 
+            AWSShapeProperty(label: "TotalUpfrontPrice", location: .body(locationName: "totalUpfrontPrice"), required: false, type: .string), 
+            AWSShapeProperty(label: "CurrencyCode", location: .body(locationName: "currencyCode"), required: false, type: .enum), 
+            AWSShapeProperty(label: "ClientToken", location: .body(locationName: "clientToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "TotalHourlyPrice", location: .body(locationName: "totalHourlyPrice"), required: false, type: .string)
         ]
         /// Describes the details of the purchase.
         public let purchase: [Purchase]?
@@ -5296,7 +5296,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReturnCode", location: "returnCode", required: false, type: .boolean)
+            AWSShapeProperty(label: "ReturnCode", location: .body(locationName: "returnCode"), required: false, type: .boolean)
         ]
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let returnCode: Bool?
@@ -5314,8 +5314,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "VolumeId", required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// The ID of the volume.
         public let volumeId: String
@@ -5338,7 +5338,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [String]?
 
@@ -5355,7 +5355,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [String]?
 
@@ -5372,8 +5372,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OfferingId", location: "offeringId", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceCount", location: "instanceCount", required: false, type: .integer)
+            AWSShapeProperty(label: "OfferingId", location: .body(locationName: "offeringId"), required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceCount", location: .body(locationName: "instanceCount"), required: false, type: .integer)
         ]
         /// The ID of the Convertible Reserved Instance offering.
         public let offeringId: String?
@@ -5395,7 +5395,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Filter", location: "Filter", required: false, type: .list)
+            AWSShapeProperty(label: "Filter", required: false, type: .list)
         ]
         public let filter: [Filter]?
 
@@ -5416,7 +5416,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CustomerGateway", location: "customerGateway", required: false, type: .structure)
+            AWSShapeProperty(label: "CustomerGateway", location: .body(locationName: "customerGateway"), required: false, type: .structure)
         ]
         /// Information about the customer gateway.
         public let customerGateway: CustomerGateway?
@@ -5434,7 +5434,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BundleTasks", location: "bundleInstanceTasksSet", required: false, type: .structure)
+            AWSShapeProperty(label: "BundleTasks", location: .body(locationName: "bundleInstanceTasksSet"), required: false, type: .structure)
         ]
         /// Information about one or more bundle tasks.
         public let bundleTasks: BundleTaskList?
@@ -5452,15 +5452,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OutputReservedInstancesWillExpireAt", location: "outputReservedInstancesWillExpireAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "TargetConfigurationValueRollup", location: "targetConfigurationValueRollup", required: false, type: .structure), 
-            AWSShapeProperty(label: "IsValidExchange", location: "isValidExchange", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ReservedInstanceValueRollup", location: "reservedInstanceValueRollup", required: false, type: .structure), 
-            AWSShapeProperty(label: "ReservedInstanceValueSet", location: "reservedInstanceValueSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "PaymentDue", location: "paymentDue", required: false, type: .string), 
-            AWSShapeProperty(label: "CurrencyCode", location: "currencyCode", required: false, type: .string), 
-            AWSShapeProperty(label: "TargetConfigurationValueSet", location: "targetConfigurationValueSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "ValidationFailureReason", location: "validationFailureReason", required: false, type: .string)
+            AWSShapeProperty(label: "OutputReservedInstancesWillExpireAt", location: .body(locationName: "outputReservedInstancesWillExpireAt"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "TargetConfigurationValueRollup", location: .body(locationName: "targetConfigurationValueRollup"), required: false, type: .structure), 
+            AWSShapeProperty(label: "IsValidExchange", location: .body(locationName: "isValidExchange"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "ReservedInstanceValueRollup", location: .body(locationName: "reservedInstanceValueRollup"), required: false, type: .structure), 
+            AWSShapeProperty(label: "ReservedInstanceValueSet", location: .body(locationName: "reservedInstanceValueSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "PaymentDue", location: .body(locationName: "paymentDue"), required: false, type: .string), 
+            AWSShapeProperty(label: "CurrencyCode", location: .body(locationName: "currencyCode"), required: false, type: .string), 
+            AWSShapeProperty(label: "TargetConfigurationValueSet", location: .body(locationName: "targetConfigurationValueSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "ValidationFailureReason", location: .body(locationName: "validationFailureReason"), required: false, type: .string)
         ]
         /// The new end date of the reservation term.
         public let outputReservedInstancesWillExpireAt: Date?
@@ -5510,8 +5510,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceId", location: "instanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "TargetEnvironment", location: "targetEnvironment", required: false, type: .enum)
+            AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "TargetEnvironment", location: .body(locationName: "targetEnvironment"), required: false, type: .enum)
         ]
         /// The ID of the resource being exported.
         public let instanceId: String?
@@ -5533,12 +5533,12 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IsDefault", location: "default", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Entries", location: "entrySet", required: false, type: .structure), 
-            AWSShapeProperty(label: "NetworkAclId", location: "networkAclId", required: false, type: .string), 
-            AWSShapeProperty(label: "VpcId", location: "vpcId", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", location: "tagSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "Associations", location: "associationSet", required: false, type: .structure)
+            AWSShapeProperty(label: "IsDefault", location: .body(locationName: "default"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Entries", location: .body(locationName: "entrySet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "NetworkAclId", location: .body(locationName: "networkAclId"), required: false, type: .string), 
+            AWSShapeProperty(label: "VpcId", location: .body(locationName: "vpcId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Associations", location: .body(locationName: "associationSet"), required: false, type: .structure)
         ]
         /// Indicates whether this is the default network ACL for the VPC.
         public let isDefault: Bool?
@@ -5582,16 +5582,16 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SourceSecurityGroupOwnerId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "GroupName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "IpPermissions", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "CidrIp", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "SourceSecurityGroupName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ToPort", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "FromPort", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "IpProtocol", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "GroupId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "SourceSecurityGroupOwnerId", required: false, type: .string), 
+            AWSShapeProperty(label: "GroupName", required: false, type: .string), 
+            AWSShapeProperty(label: "IpPermissions", required: false, type: .structure), 
+            AWSShapeProperty(label: "CidrIp", required: false, type: .string), 
+            AWSShapeProperty(label: "SourceSecurityGroupName", required: false, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "ToPort", required: false, type: .integer), 
+            AWSShapeProperty(label: "FromPort", required: false, type: .integer), 
+            AWSShapeProperty(label: "IpProtocol", required: false, type: .string), 
+            AWSShapeProperty(label: "GroupId", required: false, type: .string)
         ]
         /// [EC2-Classic] The AWS account ID of the source security group, if the source security group is in a different account. You can't specify this parameter in combination with the following parameters: the CIDR IP address range, the IP protocol, the start of the port range, and the end of the port range. To revoke a specific rule for an IP protocol and port range, use a set of IP permissions instead.
         public let sourceSecurityGroupOwnerId: String?
@@ -5645,7 +5645,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyPairs", location: "keySet", required: false, type: .structure)
+            AWSShapeProperty(label: "KeyPairs", location: .body(locationName: "keySet"), required: false, type: .structure)
         ]
         /// Information about one or more key pairs.
         public let keyPairs: KeyPairList?
@@ -5663,8 +5663,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Primary", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "PrivateIpAddress", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Primary", required: false, type: .boolean), 
+            AWSShapeProperty(label: "PrivateIpAddress", required: false, type: .string)
         ]
         /// Indicates whether this is a primary IPv4 address. Otherwise, this is a secondary IPv4 address.
         public let primary: Bool?
@@ -5686,7 +5686,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReservedInstancesListings", location: "reservedInstancesListingsSet", required: false, type: .structure)
+            AWSShapeProperty(label: "ReservedInstancesListings", location: .body(locationName: "reservedInstancesListingsSet"), required: false, type: .structure)
         ]
         /// The Reserved Instance listing.
         public let reservedInstancesListings: ReservedInstancesListingList?
@@ -5704,7 +5704,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [Reservation]?
 
@@ -5725,9 +5725,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReservedInstanceIds", location: "ReservedInstanceId", required: true, type: .structure), 
-            AWSShapeProperty(label: "TargetConfigurations", location: "TargetConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: nil, required: false, type: .boolean)
+            AWSShapeProperty(label: "ReservedInstanceIds", location: .body(locationName: "ReservedInstanceId"), required: true, type: .structure), 
+            AWSShapeProperty(label: "TargetConfigurations", location: .body(locationName: "TargetConfiguration"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
         /// The IDs of the Convertible Reserved Instances to exchange for other Convertible Reserved Instances of the same or higher value.
         public let reservedInstanceIds: ReservedInstanceIdSet
@@ -5762,9 +5762,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Storage", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
+            AWSShapeProperty(label: "Storage", required: true, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// The ID of the instance to bundle. Type: String Default: None Required: Yes
         public let instanceId: String
@@ -5792,8 +5792,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumesModifications", location: "volumeModificationSet", required: false, type: .structure)
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "VolumesModifications", location: .body(locationName: "volumeModificationSet"), required: false, type: .structure)
         ]
         /// Token for pagination, null if there are no more results 
         public let nextToken: String?
@@ -5815,9 +5815,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "VpcIds", location: "VpcId", required: false, type: .structure)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "VpcIds", location: .body(locationName: "VpcId"), required: false, type: .structure)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -5843,7 +5843,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [DhcpOptions]?
 
@@ -5864,7 +5864,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [VpcClassicLink]?
 
@@ -5885,7 +5885,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [SpotInstanceRequest]?
 
@@ -5906,9 +5906,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "VolumeId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Attribute", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "VolumeId", required: true, type: .string), 
+            AWSShapeProperty(label: "Attribute", required: false, type: .enum)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -5935,8 +5935,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// The ID of the Windows instance.
         public let instanceId: String
@@ -5967,13 +5967,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", location: "startTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Status", location: "status", required: true, type: .enum), 
-            AWSShapeProperty(label: "EndTime", location: "endTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Instances", location: "instanceId", required: true, type: .structure), 
-            AWSShapeProperty(label: "ReasonCodes", location: "reasonCode", required: true, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Description", location: "description", required: false, type: .string)
+            AWSShapeProperty(label: "StartTime", location: .body(locationName: "startTime"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Status", location: .body(locationName: "status"), required: true, type: .enum), 
+            AWSShapeProperty(label: "EndTime", location: .body(locationName: "endTime"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Instances", location: .body(locationName: "instanceId"), required: true, type: .structure), 
+            AWSShapeProperty(label: "ReasonCodes", location: .body(locationName: "reasonCode"), required: true, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
         /// The time at which the reported instance health state began.
         public let startTime: Date?
@@ -6018,7 +6018,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HostIds", location: "hostIdSet", required: false, type: .structure)
+            AWSShapeProperty(label: "HostIds", location: .body(locationName: "hostIdSet"), required: false, type: .structure)
         ]
         /// The ID of the allocated Dedicated Host. This is used when you want to launch an instance onto a specific host.
         public let hostIds: ResponseHostIdList?
@@ -6036,7 +6036,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [InternetGatewayAttachment]?
 
@@ -6057,8 +6057,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", location: "value", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", location: "key", required: false, type: .string)
+            AWSShapeProperty(label: "Value", location: .body(locationName: "value"), required: false, type: .string), 
+            AWSShapeProperty(label: "Key", location: .body(locationName: "key"), required: false, type: .string)
         ]
         /// The value of the tag. Constraints: Tag values are case-sensitive and accept a maximum of 255 Unicode characters.
         public let value: String?
@@ -6080,9 +6080,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RegionNames", location: "RegionName", required: false, type: .structure), 
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "RegionNames", location: .body(locationName: "RegionName"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// The names of one or more regions.
         public let regionNames: RegionNameStringList?
@@ -6108,10 +6108,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Key", location: "key", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceId", location: "resourceId", required: false, type: .string), 
-            AWSShapeProperty(label: "Value", location: "value", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceType", location: "resourceType", required: false, type: .enum)
+            AWSShapeProperty(label: "Key", location: .body(locationName: "key"), required: false, type: .string), 
+            AWSShapeProperty(label: "ResourceId", location: .body(locationName: "resourceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Value", location: .body(locationName: "value"), required: false, type: .string), 
+            AWSShapeProperty(label: "ResourceType", location: .body(locationName: "resourceType"), required: false, type: .enum)
         ]
         /// The tag key.
         public let key: String?
@@ -6141,7 +6141,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RegionName", location: "RegionName", required: false, type: .list)
+            AWSShapeProperty(label: "RegionName", required: false, type: .list)
         ]
         public let regionName: [String]?
 
@@ -6158,11 +6158,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Provisioned", location: "provisioned", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", location: "status", required: false, type: .string), 
-            AWSShapeProperty(label: "RequestTime", location: "requestTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ProvisionTime", location: "provisionTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Requested", location: "requested", required: false, type: .string)
+            AWSShapeProperty(label: "Provisioned", location: .body(locationName: "provisioned"), required: false, type: .string), 
+            AWSShapeProperty(label: "Status", location: .body(locationName: "status"), required: false, type: .string), 
+            AWSShapeProperty(label: "RequestTime", location: .body(locationName: "requestTime"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "ProvisionTime", location: .body(locationName: "provisionTime"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Requested", location: .body(locationName: "requested"), required: false, type: .string)
         ]
         /// Reserved. If you need to sustain traffic greater than the documented limits, contact us through the Support Center.
         public let provisioned: String?
@@ -6196,9 +6196,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Attribute", location: nil, required: true, type: .enum)
+            AWSShapeProperty(label: "SnapshotId", required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Attribute", required: true, type: .enum)
         ]
         /// The ID of the EBS snapshot.
         public let snapshotId: String
@@ -6226,7 +6226,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -6244,9 +6244,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CreateVolumePermissions", location: "createVolumePermission", required: false, type: .structure), 
-            AWSShapeProperty(label: "ProductCodes", location: "productCodes", required: false, type: .structure), 
-            AWSShapeProperty(label: "SnapshotId", location: "snapshotId", required: false, type: .string)
+            AWSShapeProperty(label: "CreateVolumePermissions", location: .body(locationName: "createVolumePermission"), required: false, type: .structure), 
+            AWSShapeProperty(label: "ProductCodes", location: .body(locationName: "productCodes"), required: false, type: .structure), 
+            AWSShapeProperty(label: "SnapshotId", location: .body(locationName: "snapshotId"), required: false, type: .string)
         ]
         /// A list of permissions for creating volumes from the snapshot.
         public let createVolumePermissions: CreateVolumePermissionList?
@@ -6272,8 +6272,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Frequency", location: "frequency", required: false, type: .enum), 
-            AWSShapeProperty(label: "Amount", location: "amount", required: false, type: .double)
+            AWSShapeProperty(label: "Frequency", location: .body(locationName: "frequency"), required: false, type: .enum), 
+            AWSShapeProperty(label: "Amount", location: .body(locationName: "amount"), required: false, type: .double)
         ]
         /// The frequency of the recurring charge.
         public let frequency: RecurringChargeFrequency?
@@ -6295,8 +6295,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "VpcPeeringConnectionId", location: "vpcPeeringConnectionId", required: true, type: .string)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "VpcPeeringConnectionId", location: .body(locationName: "vpcPeeringConnectionId"), required: true, type: .string)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -6319,9 +6319,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ZoneNames", location: "ZoneName", required: false, type: .structure), 
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "ZoneNames", location: .body(locationName: "ZoneName"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -6347,7 +6347,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AssociationId", location: "associationId", required: false, type: .string)
+            AWSShapeProperty(label: "AssociationId", location: .body(locationName: "associationId"), required: false, type: .string)
         ]
         /// The route table association ID (needed to disassociate the route table).
         public let associationId: String?
@@ -6365,7 +6365,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [String]?
 
@@ -6382,8 +6382,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", location: "type", required: false, type: .integer), 
-            AWSShapeProperty(label: "Code", location: "code", required: false, type: .integer)
+            AWSShapeProperty(label: "Type", location: .body(locationName: "type"), required: false, type: .integer), 
+            AWSShapeProperty(label: "Code", location: .body(locationName: "code"), required: false, type: .integer)
         ]
         /// The ICMP type. A value of -1 means all types.
         public let `type`: Int32?
@@ -6405,7 +6405,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FlowLogIds", location: "FlowLogId", required: true, type: .structure)
+            AWSShapeProperty(label: "FlowLogIds", location: .body(locationName: "FlowLogId"), required: true, type: .structure)
         ]
         /// One or more flow log IDs.
         public let flowLogIds: ValueStringList
@@ -6424,9 +6424,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpnConnectionIds", location: "VpnConnectionId", required: false, type: .structure), 
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "VpnConnectionIds", location: .body(locationName: "VpnConnectionId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// One or more VPN connection IDs. Default: Describes your VPN connections.
         public let vpnConnectionIds: VpnConnectionIdStringList?
@@ -6452,8 +6452,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CurrencyCode", location: "currencyCode", required: false, type: .enum), 
-            AWSShapeProperty(label: "Amount", location: "amount", required: false, type: .double)
+            AWSShapeProperty(label: "CurrencyCode", location: .body(locationName: "currencyCode"), required: false, type: .enum), 
+            AWSShapeProperty(label: "Amount", location: .body(locationName: "amount"), required: false, type: .double)
         ]
         /// The currency in which the limitPrice amount is specified. At this time, the only supported currency is USD.
         public let currencyCode: CurrencyCodeValues?
@@ -6475,8 +6475,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Key", location: "key", required: false, type: .string), 
-            AWSShapeProperty(label: "Values", location: "Value", required: false, type: .structure)
+            AWSShapeProperty(label: "Key", location: .body(locationName: "key"), required: false, type: .string), 
+            AWSShapeProperty(label: "Values", location: .body(locationName: "Value"), required: false, type: .structure)
         ]
         public let key: String?
         public let values: ValueStringList?
@@ -6496,7 +6496,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [KeyPairInfo]?
 
@@ -6517,14 +6517,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CidrBlock", location: "cidrBlock", required: false, type: .string), 
-            AWSShapeProperty(label: "IcmpTypeCode", location: "icmpTypeCode", required: false, type: .structure), 
-            AWSShapeProperty(label: "RuleNumber", location: "ruleNumber", required: false, type: .integer), 
-            AWSShapeProperty(label: "Protocol", location: "protocol", required: false, type: .string), 
-            AWSShapeProperty(label: "RuleAction", location: "ruleAction", required: false, type: .enum), 
-            AWSShapeProperty(label: "Egress", location: "egress", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Ipv6CidrBlock", location: "ipv6CidrBlock", required: false, type: .string), 
-            AWSShapeProperty(label: "PortRange", location: "portRange", required: false, type: .structure)
+            AWSShapeProperty(label: "CidrBlock", location: .body(locationName: "cidrBlock"), required: false, type: .string), 
+            AWSShapeProperty(label: "IcmpTypeCode", location: .body(locationName: "icmpTypeCode"), required: false, type: .structure), 
+            AWSShapeProperty(label: "RuleNumber", location: .body(locationName: "ruleNumber"), required: false, type: .integer), 
+            AWSShapeProperty(label: "Protocol", location: .body(locationName: "protocol"), required: false, type: .string), 
+            AWSShapeProperty(label: "RuleAction", location: .body(locationName: "ruleAction"), required: false, type: .enum), 
+            AWSShapeProperty(label: "Egress", location: .body(locationName: "egress"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Ipv6CidrBlock", location: .body(locationName: "ipv6CidrBlock"), required: false, type: .string), 
+            AWSShapeProperty(label: "PortRange", location: .body(locationName: "portRange"), required: false, type: .structure)
         ]
         /// The IPv4 network range to allow or deny, in CIDR notation.
         public let cidrBlock: String?
@@ -6570,14 +6570,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IsDefault", location: "isDefault", required: false, type: .boolean), 
-            AWSShapeProperty(label: "VpcId", location: "vpcId", required: false, type: .string), 
-            AWSShapeProperty(label: "State", location: "state", required: false, type: .enum), 
-            AWSShapeProperty(label: "Tags", location: "tagSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "DhcpOptionsId", location: "dhcpOptionsId", required: false, type: .string), 
-            AWSShapeProperty(label: "Ipv6CidrBlockAssociationSet", location: "ipv6CidrBlockAssociationSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "InstanceTenancy", location: "instanceTenancy", required: false, type: .enum), 
-            AWSShapeProperty(label: "CidrBlock", location: "cidrBlock", required: false, type: .string)
+            AWSShapeProperty(label: "IsDefault", location: .body(locationName: "isDefault"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "VpcId", location: .body(locationName: "vpcId"), required: false, type: .string), 
+            AWSShapeProperty(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeProperty(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DhcpOptionsId", location: .body(locationName: "dhcpOptionsId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Ipv6CidrBlockAssociationSet", location: .body(locationName: "ipv6CidrBlockAssociationSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "InstanceTenancy", location: .body(locationName: "instanceTenancy"), required: false, type: .enum), 
+            AWSShapeProperty(label: "CidrBlock", location: .body(locationName: "cidrBlock"), required: false, type: .string)
         ]
         /// Indicates whether the VPC is the default VPC.
         public let isDefault: Bool?
@@ -6623,7 +6623,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Message", location: "message", required: false, type: .string)
+            AWSShapeProperty(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
         ]
         /// The message about the Availability Zone.
         public let message: String?
@@ -6641,10 +6641,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "VpcId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeProperty(label: "VpcId", required: true, type: .string), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -6675,8 +6675,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "PublicIp", location: "publicIp", required: true, type: .string)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "PublicIp", location: .body(locationName: "publicIp"), required: true, type: .string)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -6699,12 +6699,12 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Routes", location: "routeSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "PropagatingVgws", location: "propagatingVgwSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "RouteTableId", location: "routeTableId", required: false, type: .string), 
-            AWSShapeProperty(label: "VpcId", location: "vpcId", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", location: "tagSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "Associations", location: "associationSet", required: false, type: .structure)
+            AWSShapeProperty(label: "Routes", location: .body(locationName: "routeSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "PropagatingVgws", location: .body(locationName: "propagatingVgwSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "RouteTableId", location: .body(locationName: "routeTableId"), required: false, type: .string), 
+            AWSShapeProperty(label: "VpcId", location: .body(locationName: "vpcId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Associations", location: .body(locationName: "associationSet"), required: false, type: .structure)
         ]
         /// The routes in the route table.
         public let routes: RouteList?
@@ -6748,11 +6748,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NotBefore", location: "notBefore", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "EventType", location: "eventType", required: false, type: .string), 
-            AWSShapeProperty(label: "NotAfter", location: "notAfter", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "EventId", location: "eventId", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", location: "description", required: false, type: .string)
+            AWSShapeProperty(label: "NotBefore", location: .body(locationName: "notBefore"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "EventType", location: .body(locationName: "eventType"), required: false, type: .string), 
+            AWSShapeProperty(label: "NotAfter", location: .body(locationName: "notAfter"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "EventId", location: .body(locationName: "eventId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
         /// The earliest start time of the event.
         public let notBefore: Date?
@@ -6786,12 +6786,12 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AddRouteTableIds", location: "AddRouteTableId", required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "VpcEndpointId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "PolicyDocument", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ResetPolicy", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "RemoveRouteTableIds", location: "RemoveRouteTableId", required: false, type: .structure)
+            AWSShapeProperty(label: "AddRouteTableIds", location: .body(locationName: "AddRouteTableId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeProperty(label: "VpcEndpointId", required: true, type: .string), 
+            AWSShapeProperty(label: "PolicyDocument", required: false, type: .string), 
+            AWSShapeProperty(label: "ResetPolicy", required: false, type: .boolean), 
+            AWSShapeProperty(label: "RemoveRouteTableIds", location: .body(locationName: "RemoveRouteTableId"), required: false, type: .structure)
         ]
         /// One or more route tables IDs to associate with the endpoint.
         public let addRouteTableIds: ValueStringList?
@@ -6830,9 +6830,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcId", location: "vpcId", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", location: "tagSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "ClassicLinkEnabled", location: "classicLinkEnabled", required: false, type: .boolean)
+            AWSShapeProperty(label: "VpcId", location: .body(locationName: "vpcId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "ClassicLinkEnabled", location: .body(locationName: "classicLinkEnabled"), required: false, type: .boolean)
         ]
         /// The ID of the VPC.
         public let vpcId: String?
@@ -6939,7 +6939,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AssociationId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "AssociationId", required: true, type: .string)
         ]
         /// The ID of the IAM instance profile association.
         public let associationId: String
@@ -6958,8 +6958,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OfferingSet", location: "offeringSet", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string)
+            AWSShapeProperty(label: "OfferingSet", location: .body(locationName: "offeringSet"), required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
         /// Information about the offerings.
         public let offeringSet: [HostOffering]?
@@ -6985,7 +6985,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [NatGateway]?
 
@@ -7006,8 +7006,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "State", location: "state", required: false, type: .enum), 
-            AWSShapeProperty(label: "StatusMessage", location: "statusMessage", required: false, type: .string)
+            AWSShapeProperty(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeProperty(label: "StatusMessage", location: .body(locationName: "statusMessage"), required: false, type: .string)
         ]
         /// The state of the CIDR block.
         public let state: VpcCidrBlockStateCode?
@@ -7029,9 +7029,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetId", location: "subnetId", required: false, type: .string), 
-            AWSShapeProperty(label: "NetworkAclAssociationId", location: "networkAclAssociationId", required: false, type: .string), 
-            AWSShapeProperty(label: "NetworkAclId", location: "networkAclId", required: false, type: .string)
+            AWSShapeProperty(label: "SubnetId", location: .body(locationName: "subnetId"), required: false, type: .string), 
+            AWSShapeProperty(label: "NetworkAclAssociationId", location: .body(locationName: "networkAclAssociationId"), required: false, type: .string), 
+            AWSShapeProperty(label: "NetworkAclId", location: .body(locationName: "networkAclId"), required: false, type: .string)
         ]
         /// The ID of the subnet.
         public let subnetId: String?
@@ -7063,7 +7063,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NatGatewayId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "NatGatewayId", required: true, type: .string)
         ]
         /// The ID of the NAT gateway.
         public let natGatewayId: String
@@ -7082,7 +7082,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ScheduledInstanceSet", location: "scheduledInstanceSet", required: false, type: .structure)
+            AWSShapeProperty(label: "ScheduledInstanceSet", location: .body(locationName: "scheduledInstanceSet"), required: false, type: .structure)
         ]
         /// Information about the Scheduled Instances.
         public let scheduledInstanceSet: PurchasedScheduledInstanceSet?
@@ -7100,8 +7100,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeStatuses", location: "volumeStatusSet", required: false, type: .structure)
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "VolumeStatuses", location: .body(locationName: "volumeStatusSet"), required: false, type: .structure)
         ]
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -7123,8 +7123,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AvailableInstanceCapacity", location: "availableInstanceCapacity", required: false, type: .structure), 
-            AWSShapeProperty(label: "AvailableVCpus", location: "availableVCpus", required: false, type: .integer)
+            AWSShapeProperty(label: "AvailableInstanceCapacity", location: .body(locationName: "availableInstanceCapacity"), required: false, type: .structure), 
+            AWSShapeProperty(label: "AvailableVCpus", location: .body(locationName: "availableVCpus"), required: false, type: .integer)
         ]
         /// The total number of instances that the Dedicated Host supports.
         public let availableInstanceCapacity: AvailableInstanceCapacityList?
@@ -7146,11 +7146,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Timestamp", location: "timestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "InstanceType", location: "instanceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "AvailabilityZone", location: "availabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "SpotPrice", location: "spotPrice", required: false, type: .string), 
-            AWSShapeProperty(label: "ProductDescription", location: "productDescription", required: false, type: .enum)
+            AWSShapeProperty(label: "Timestamp", location: .body(locationName: "timestamp"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "InstanceType", location: .body(locationName: "instanceType"), required: false, type: .enum), 
+            AWSShapeProperty(label: "AvailabilityZone", location: .body(locationName: "availabilityZone"), required: false, type: .string), 
+            AWSShapeProperty(label: "SpotPrice", location: .body(locationName: "spotPrice"), required: false, type: .string), 
+            AWSShapeProperty(label: "ProductDescription", location: .body(locationName: "productDescription"), required: false, type: .enum)
         ]
         /// The date and time the request was created, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
         public let timestamp: Date?
@@ -7184,7 +7184,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [Snapshot]?
 
@@ -7205,11 +7205,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Platform", location: "platform", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceCount", location: "instanceCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "InstanceType", location: "instanceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "AvailabilityZone", location: "availabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "Scope", location: "scope", required: false, type: .enum)
+            AWSShapeProperty(label: "Platform", location: .body(locationName: "platform"), required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceCount", location: .body(locationName: "instanceCount"), required: false, type: .integer), 
+            AWSShapeProperty(label: "InstanceType", location: .body(locationName: "instanceType"), required: false, type: .enum), 
+            AWSShapeProperty(label: "AvailabilityZone", location: .body(locationName: "availabilityZone"), required: false, type: .string), 
+            AWSShapeProperty(label: "Scope", location: .body(locationName: "scope"), required: false, type: .enum)
         ]
         /// The network platform of the modified Reserved Instances, which is either EC2-Classic or EC2-VPC.
         public let platform: String?
@@ -7243,9 +7243,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Strategy", location: "strategy", required: true, type: .enum), 
-            AWSShapeProperty(label: "GroupName", location: "groupName", required: true, type: .string)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Strategy", location: .body(locationName: "strategy"), required: true, type: .enum), 
+            AWSShapeProperty(label: "GroupName", location: .body(locationName: "groupName"), required: true, type: .string)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -7273,8 +7273,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GroupId", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: nil, required: false, type: .boolean)
+            AWSShapeProperty(label: "GroupId", required: true, type: .structure), 
+            AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
         /// One or more security group IDs in your account.
         public let groupId: GroupIds
@@ -7297,7 +7297,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [InstanceCapacity]?
 
@@ -7318,7 +7318,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [ScheduledInstance]?
 
@@ -7347,11 +7347,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeIds", location: "VolumeId", required: false, type: .structure), 
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "VolumeIds", location: .body(locationName: "VolumeId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// One or more volume IDs for which in-progress modifications will be described.
         public let volumeIds: VolumeIdStringList?
@@ -7385,14 +7385,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BlockDeviceMappings", location: "blockDeviceMapping", required: false, type: .structure), 
-            AWSShapeProperty(label: "ProductCodes", location: "productCodes", required: false, type: .structure), 
-            AWSShapeProperty(label: "LaunchPermissions", location: "launchPermission", required: false, type: .structure), 
-            AWSShapeProperty(label: "SriovNetSupport", location: "sriovNetSupport", required: false, type: .structure), 
-            AWSShapeProperty(label: "KernelId", location: "kernel", required: false, type: .structure), 
-            AWSShapeProperty(label: "ImageId", location: "imageId", required: false, type: .string), 
-            AWSShapeProperty(label: "RamdiskId", location: "ramdisk", required: false, type: .structure), 
-            AWSShapeProperty(label: "Description", location: "description", required: false, type: .structure)
+            AWSShapeProperty(label: "BlockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), required: false, type: .structure), 
+            AWSShapeProperty(label: "ProductCodes", location: .body(locationName: "productCodes"), required: false, type: .structure), 
+            AWSShapeProperty(label: "LaunchPermissions", location: .body(locationName: "launchPermission"), required: false, type: .structure), 
+            AWSShapeProperty(label: "SriovNetSupport", location: .body(locationName: "sriovNetSupport"), required: false, type: .structure), 
+            AWSShapeProperty(label: "KernelId", location: .body(locationName: "kernel"), required: false, type: .structure), 
+            AWSShapeProperty(label: "ImageId", location: .body(locationName: "imageId"), required: false, type: .string), 
+            AWSShapeProperty(label: "RamdiskId", location: .body(locationName: "ramdisk"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .structure)
         ]
         /// One or more block device mapping entries.
         public let blockDeviceMappings: BlockDeviceMappingList?
@@ -7438,10 +7438,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetEnvironment", location: "targetEnvironment", required: false, type: .enum), 
-            AWSShapeProperty(label: "ExportToS3Task", location: "exportToS3", required: false, type: .structure), 
-            AWSShapeProperty(label: "InstanceId", location: "instanceId", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", location: "description", required: false, type: .string)
+            AWSShapeProperty(label: "TargetEnvironment", location: .body(locationName: "targetEnvironment"), required: false, type: .enum), 
+            AWSShapeProperty(label: "ExportToS3Task", location: .body(locationName: "exportToS3"), required: false, type: .structure), 
+            AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: true, type: .string), 
+            AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
         /// The target virtualization environment.
         public let targetEnvironment: ExportEnvironment?
@@ -7472,12 +7472,12 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TrafficType", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "ClientToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceIds", location: "ResourceId", required: true, type: .structure), 
-            AWSShapeProperty(label: "DeliverLogsPermissionArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "ResourceType", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "LogGroupName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "TrafficType", required: true, type: .enum), 
+            AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
+            AWSShapeProperty(label: "ResourceIds", location: .body(locationName: "ResourceId"), required: true, type: .structure), 
+            AWSShapeProperty(label: "DeliverLogsPermissionArn", required: true, type: .string), 
+            AWSShapeProperty(label: "ResourceType", required: true, type: .enum), 
+            AWSShapeProperty(label: "LogGroupName", required: true, type: .string)
         ]
         /// The type of traffic to log.
         public let trafficType: TrafficType
@@ -7520,7 +7520,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Ipv6Address", location: "Ipv6Address", required: false, type: .list)
+            AWSShapeProperty(label: "Ipv6Address", required: false, type: .list)
         ]
         public let ipv6Address: [ScheduledInstancesIpv6Address]?
 
@@ -7541,7 +7541,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [AccountAttributeValue]?
 
@@ -7562,7 +7562,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetConfigurationRequest", location: "TargetConfigurationRequest", required: false, type: .list)
+            AWSShapeProperty(label: "TargetConfigurationRequest", required: false, type: .list)
         ]
         public let targetConfigurationRequest: [TargetConfigurationRequest]?
 
@@ -7583,17 +7583,17 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LicenseType", location: "licenseType", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", location: "status", required: false, type: .string), 
-            AWSShapeProperty(label: "Platform", location: "platform", required: false, type: .string), 
-            AWSShapeProperty(label: "Progress", location: "progress", required: false, type: .string), 
-            AWSShapeProperty(label: "Hypervisor", location: "hypervisor", required: false, type: .string), 
-            AWSShapeProperty(label: "Architecture", location: "architecture", required: false, type: .string), 
-            AWSShapeProperty(label: "ImageId", location: "imageId", required: false, type: .string), 
-            AWSShapeProperty(label: "ImportTaskId", location: "importTaskId", required: false, type: .string), 
-            AWSShapeProperty(label: "StatusMessage", location: "statusMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "SnapshotDetails", location: "snapshotDetailSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "Description", location: "description", required: false, type: .string)
+            AWSShapeProperty(label: "LicenseType", location: .body(locationName: "licenseType"), required: false, type: .string), 
+            AWSShapeProperty(label: "Status", location: .body(locationName: "status"), required: false, type: .string), 
+            AWSShapeProperty(label: "Platform", location: .body(locationName: "platform"), required: false, type: .string), 
+            AWSShapeProperty(label: "Progress", location: .body(locationName: "progress"), required: false, type: .string), 
+            AWSShapeProperty(label: "Hypervisor", location: .body(locationName: "hypervisor"), required: false, type: .string), 
+            AWSShapeProperty(label: "Architecture", location: .body(locationName: "architecture"), required: false, type: .string), 
+            AWSShapeProperty(label: "ImageId", location: .body(locationName: "imageId"), required: false, type: .string), 
+            AWSShapeProperty(label: "ImportTaskId", location: .body(locationName: "importTaskId"), required: false, type: .string), 
+            AWSShapeProperty(label: "StatusMessage", location: .body(locationName: "statusMessage"), required: false, type: .string), 
+            AWSShapeProperty(label: "SnapshotDetails", location: .body(locationName: "snapshotDetailSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
         /// The license type of the virtual machine.
         public let licenseType: String?
@@ -7651,8 +7651,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Volumes", location: "volumeSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string)
+            AWSShapeProperty(label: "Volumes", location: .body(locationName: "volumeSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
         /// Information about the volumes.
         public let volumes: VolumeList?
@@ -7674,7 +7674,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [String]?
 
@@ -7691,10 +7691,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Affinity", location: "affinity", required: false, type: .enum), 
-            AWSShapeProperty(label: "HostId", location: "hostId", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", location: "instanceId", required: true, type: .string), 
-            AWSShapeProperty(label: "Tenancy", location: "tenancy", required: false, type: .enum)
+            AWSShapeProperty(label: "Affinity", location: .body(locationName: "affinity"), required: false, type: .enum), 
+            AWSShapeProperty(label: "HostId", location: .body(locationName: "hostId"), required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: true, type: .string), 
+            AWSShapeProperty(label: "Tenancy", location: .body(locationName: "tenancy"), required: false, type: .enum)
         ]
         /// The new affinity setting for the instance.
         public let affinity: Affinity?
@@ -7725,20 +7725,20 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BlockDeviceMappings", location: "BlockDeviceMapping", required: false, type: .structure), 
-            AWSShapeProperty(label: "SubnetId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "UserData", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "EbsOptimized", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "KernelId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "SecurityGroupIds", location: "SecurityGroupId", required: false, type: .structure), 
-            AWSShapeProperty(label: "Monitoring", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "InstanceType", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "KeyName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "IamInstanceProfile", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "ImageId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "NetworkInterfaces", location: "NetworkInterface", required: false, type: .structure), 
-            AWSShapeProperty(label: "Placement", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "RamdiskId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "BlockDeviceMappings", location: .body(locationName: "BlockDeviceMapping"), required: false, type: .structure), 
+            AWSShapeProperty(label: "SubnetId", required: false, type: .string), 
+            AWSShapeProperty(label: "UserData", required: false, type: .string), 
+            AWSShapeProperty(label: "EbsOptimized", required: false, type: .boolean), 
+            AWSShapeProperty(label: "KernelId", required: false, type: .string), 
+            AWSShapeProperty(label: "SecurityGroupIds", location: .body(locationName: "SecurityGroupId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Monitoring", required: false, type: .structure), 
+            AWSShapeProperty(label: "InstanceType", required: false, type: .string), 
+            AWSShapeProperty(label: "KeyName", required: false, type: .string), 
+            AWSShapeProperty(label: "IamInstanceProfile", required: false, type: .structure), 
+            AWSShapeProperty(label: "ImageId", required: true, type: .string), 
+            AWSShapeProperty(label: "NetworkInterfaces", location: .body(locationName: "NetworkInterface"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Placement", required: false, type: .structure), 
+            AWSShapeProperty(label: "RamdiskId", required: false, type: .string)
         ]
         /// One or more block device mapping entries.
         public let blockDeviceMappings: ScheduledInstancesBlockDeviceMappingSet?
@@ -7809,8 +7809,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcId", location: "vpcId", required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "VpcId", location: .body(locationName: "vpcId"), required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// The ID of the VPC.
         public let vpcId: String
@@ -7833,8 +7833,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", location: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "AllocationId", location: "allocationId", required: false, type: .string)
+            AWSShapeProperty(label: "Status", location: .body(locationName: "status"), required: false, type: .enum), 
+            AWSShapeProperty(label: "AllocationId", location: .body(locationName: "allocationId"), required: false, type: .string)
         ]
         /// The status of the move of the IP address.
         public let status: Status?
@@ -7856,8 +7856,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpnConnectionId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "VpnConnectionId", required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// The ID of the VPN connection.
         public let vpnConnectionId: String
@@ -7880,8 +7880,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserId", location: "userId", required: false, type: .string), 
-            AWSShapeProperty(label: "Group", location: "group", required: false, type: .enum)
+            AWSShapeProperty(label: "UserId", location: .body(locationName: "userId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Group", location: .body(locationName: "group"), required: false, type: .enum)
         ]
         /// The specific AWS account ID that is to be added or removed from a volume's list of create volume permissions.
         public let userId: String?
@@ -7903,7 +7903,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReservedInstancesModificationId", location: "ReservedInstancesModificationId", required: false, type: .list)
+            AWSShapeProperty(label: "ReservedInstancesModificationId", required: false, type: .list)
         ]
         public let reservedInstancesModificationId: [String]?
 
@@ -7920,7 +7920,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [BlockDeviceMapping]?
 
@@ -7941,12 +7941,12 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CustomerGatewayId", location: "customerGatewayId", required: false, type: .string), 
-            AWSShapeProperty(label: "BgpAsn", location: "bgpAsn", required: false, type: .string), 
-            AWSShapeProperty(label: "Type", location: "type", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", location: "tagSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "State", location: "state", required: false, type: .string), 
-            AWSShapeProperty(label: "IpAddress", location: "ipAddress", required: false, type: .string)
+            AWSShapeProperty(label: "CustomerGatewayId", location: .body(locationName: "customerGatewayId"), required: false, type: .string), 
+            AWSShapeProperty(label: "BgpAsn", location: .body(locationName: "bgpAsn"), required: false, type: .string), 
+            AWSShapeProperty(label: "Type", location: .body(locationName: "type"), required: false, type: .string), 
+            AWSShapeProperty(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "State", location: .body(locationName: "state"), required: false, type: .string), 
+            AWSShapeProperty(label: "IpAddress", location: .body(locationName: "ipAddress"), required: false, type: .string)
         ]
         /// The ID of the customer gateway.
         public let customerGatewayId: String?
@@ -7984,8 +7984,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttributeNames", location: "attributeName", required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "AttributeNames", location: .body(locationName: "attributeName"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// One or more account attribute names.
         public let attributeNames: AccountAttributeNameStringList?
@@ -8007,7 +8007,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [HistoryRecord]?
 
@@ -8028,7 +8028,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [ReservedInstancesModificationResult]?
 
@@ -8049,7 +8049,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpnGatewayId", location: "VpnGatewayId", required: false, type: .list)
+            AWSShapeProperty(label: "VpnGatewayId", required: false, type: .list)
         ]
         public let vpnGatewayId: [String]?
 
@@ -8066,9 +8066,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "AvailabilityZone", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "Type", required: true, type: .enum), 
+            AWSShapeProperty(label: "AvailabilityZone", required: false, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// The type of VPN connection this virtual private gateway supports.
         public let `type`: GatewayType
@@ -8095,7 +8095,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -8113,18 +8113,18 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EgressOnlyInternetGatewayId", location: "egressOnlyInternetGatewayId", required: false, type: .string), 
-            AWSShapeProperty(label: "NetworkInterfaceId", location: "networkInterfaceId", required: false, type: .string), 
-            AWSShapeProperty(label: "NatGatewayId", location: "natGatewayId", required: false, type: .string), 
-            AWSShapeProperty(label: "Origin", location: "origin", required: false, type: .enum), 
-            AWSShapeProperty(label: "State", location: "state", required: false, type: .enum), 
-            AWSShapeProperty(label: "DestinationIpv6CidrBlock", location: "destinationIpv6CidrBlock", required: false, type: .string), 
-            AWSShapeProperty(label: "DestinationPrefixListId", location: "destinationPrefixListId", required: false, type: .string), 
-            AWSShapeProperty(label: "VpcPeeringConnectionId", location: "vpcPeeringConnectionId", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", location: "instanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceOwnerId", location: "instanceOwnerId", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayId", location: "gatewayId", required: false, type: .string), 
-            AWSShapeProperty(label: "DestinationCidrBlock", location: "destinationCidrBlock", required: false, type: .string)
+            AWSShapeProperty(label: "EgressOnlyInternetGatewayId", location: .body(locationName: "egressOnlyInternetGatewayId"), required: false, type: .string), 
+            AWSShapeProperty(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "NatGatewayId", location: .body(locationName: "natGatewayId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Origin", location: .body(locationName: "origin"), required: false, type: .enum), 
+            AWSShapeProperty(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeProperty(label: "DestinationIpv6CidrBlock", location: .body(locationName: "destinationIpv6CidrBlock"), required: false, type: .string), 
+            AWSShapeProperty(label: "DestinationPrefixListId", location: .body(locationName: "destinationPrefixListId"), required: false, type: .string), 
+            AWSShapeProperty(label: "VpcPeeringConnectionId", location: .body(locationName: "vpcPeeringConnectionId"), required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceOwnerId", location: .body(locationName: "instanceOwnerId"), required: false, type: .string), 
+            AWSShapeProperty(label: "GatewayId", location: .body(locationName: "gatewayId"), required: false, type: .string), 
+            AWSShapeProperty(label: "DestinationCidrBlock", location: .body(locationName: "destinationCidrBlock"), required: false, type: .string)
         ]
         /// The ID of the egress-only Internet gateway.
         public let egressOnlyInternetGatewayId: String?
@@ -8186,8 +8186,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SuccessfulFleetRequests", location: "successfulFleetRequestSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "UnsuccessfulFleetRequests", location: "unsuccessfulFleetRequestSet", required: false, type: .structure)
+            AWSShapeProperty(label: "SuccessfulFleetRequests", location: .body(locationName: "successfulFleetRequestSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "UnsuccessfulFleetRequests", location: .body(locationName: "unsuccessfulFleetRequestSet"), required: false, type: .structure)
         ]
         /// Information about the Spot fleet requests that are successfully canceled.
         public let successfulFleetRequests: CancelSpotFleetRequestsSuccessSet?
@@ -8209,7 +8209,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [VpnGateway]?
 
@@ -8230,9 +8230,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "GroupId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "GroupName", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "GroupId", required: false, type: .string), 
+            AWSShapeProperty(label: "GroupName", required: false, type: .string)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -8258,7 +8258,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Vpc", location: "vpc", required: false, type: .structure)
+            AWSShapeProperty(label: "Vpc", location: .body(locationName: "vpc"), required: false, type: .structure)
         ]
         /// Information about the VPC.
         public let vpc: Vpc?
@@ -8276,11 +8276,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "InstanceIds", location: "InstanceId", required: false, type: .structure), 
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: "maxResults", required: false, type: .integer)
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "InstanceIds", location: .body(locationName: "InstanceId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer)
         ]
         /// One or more filters.    affinity - The affinity setting for an instance running on a Dedicated Host (default | host).    architecture - The instance architecture (i386 | x86_64).    association.public-ip - The address of the Elastic IP address (IPv4) bound to the network interface.    association.ip-owner-id - The owner of the Elastic IP address (IPv4) associated with the network interface.    association.allocation-id - The allocation ID returned when you allocated the Elastic IP address (IPv4) for your network interface.    association.association-id - The association ID returned when the network interface was associated with an IPv4 address.    availability-zone - The Availability Zone of the instance.    block-device-mapping.attach-time - The attach time for an EBS volume mapped to the instance, for example, 2010-09-15T17:15:20.000Z.    block-device-mapping.delete-on-termination - A Boolean that indicates whether the EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name for the EBS volume (for example, /dev/sdh or xvdh).    block-device-mapping.status - The status for the EBS volume (attaching | attached | detaching | detached).    block-device-mapping.volume-id - The volume ID of the EBS volume.    client-token - The idempotency token you provided when you launched the instance.    dns-name - The public DNS name of the instance.    group-id - The ID of the security group for the instance. EC2-Classic only.    group-name - The name of the security group for the instance. EC2-Classic only.    host-id - The ID of the Dedicated Host on which the instance is running, if applicable.    hypervisor - The hypervisor type of the instance (ovm | xen).    iam-instance-profile.arn - The instance profile associated with the instance. Specified as an ARN.    image-id - The ID of the image used to launch the instance.    instance-id - The ID of the instance.    instance-lifecycle - Indicates whether this is a Spot Instance or a Scheduled Instance (spot | scheduled).    instance-state-code - The state of the instance, as a 16-bit unsigned integer. The high byte is an opaque internal value and should be ignored. The low byte is set based on the state represented. The valid values are: 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-type - The type of instance (for example, t2.micro).    instance.group-id - The ID of the security group for the instance.     instance.group-name - The name of the security group for the instance.     ip-address - The public IPv4 address of the instance.    kernel-id - The kernel ID.    key-name - The name of the key pair used when the instance was launched.    launch-index - When launching multiple instances, this is the index for the instance in the launch group (for example, 0, 1, 2, and so on).     launch-time - The time when the instance was launched.    monitoring-state - Indicates whether detailed monitoring is enabled (disabled | enabled).    network-interface.addresses.private-ip-address - The private IPv4 address associated with the network interface.    network-interface.addresses.primary - Specifies whether the IPv4 address of the network interface is the primary private IPv4 address.    network-interface.addresses.association.public-ip - The ID of the association of an Elastic IP address (IPv4) with a network interface.    network-interface.addresses.association.ip-owner-id - The owner ID of the private IPv4 address associated with the network interface.    network-interface.attachment.attachment-id - The ID of the interface attachment.    network-interface.attachment.instance-id - The ID of the instance to which the network interface is attached.    network-interface.attachment.instance-owner-id - The owner ID of the instance to which the network interface is attached.    network-interface.attachment.device-index - The device index to which the network interface is attached.    network-interface.attachment.status - The status of the attachment (attaching | attached | detaching | detached).    network-interface.attachment.attach-time - The time that the network interface was attached to an instance.    network-interface.attachment.delete-on-termination - Specifies whether the attachment is deleted when an instance is terminated.    network-interface.availability-zone - The Availability Zone for the network interface.    network-interface.description - The description of the network interface.    network-interface.group-id - The ID of a security group associated with the network interface.    network-interface.group-name - The name of a security group associated with the network interface.    network-interface.ipv6-addresses.ipv6-address - The IPv6 address associated with the network interface.    network-interface.mac-address - The MAC address of the network interface.    network-interface.network-interface-id - The ID of the network interface.    network-interface.owner-id - The ID of the owner of the network interface.    network-interface.private-dns-name - The private DNS name of the network interface.    network-interface.requester-id - The requester ID for the network interface.    network-interface.requester-managed - Indicates whether the network interface is being managed by AWS.    network-interface.status - The status of the network interface (available) | in-use).    network-interface.source-dest-check - Whether the network interface performs source/destination checking. A value of true means checking is enabled, and false means checking is disabled. The value must be false for the network interface to perform network address translation (NAT) in your VPC.    network-interface.subnet-id - The ID of the subnet for the network interface.    network-interface.vpc-id - The ID of the VPC for the network interface.    owner-id - The AWS account ID of the instance owner.    placement-group-name - The name of the placement group for the instance.    platform - The platform. Use windows if you have Windows instances; otherwise, leave blank.    private-dns-name - The private IPv4 DNS name of the instance.    private-ip-address - The private IPv4 address of the instance.    product-code - The product code associated with the AMI used to launch the instance.    product-code.type - The type of product code (devpay | marketplace).    ramdisk-id - The RAM disk ID.    reason - The reason for the current state of the instance (for example, shows "User Initiated [date]" when you stop or terminate the instance). Similar to the state-reason-code filter.    requester-id - The ID of the entity that launched the instance on your behalf (for example, AWS Management Console, Auto Scaling, and so on).    reservation-id - The ID of the instance's reservation. A reservation ID is created any time you launch an instance. A reservation ID has a one-to-one relationship with an instance launch request, but can be associated with more than one instance if you launch multiple instances using the same launch request. For example, if you launch one instance, you'll get one reservation ID. If you launch ten instances using the same launch request, you'll also get one reservation ID.    root-device-name - The name of the root device for the instance (for example, /dev/sda1 or /dev/xvda).    root-device-type - The type of root device that the instance uses (ebs | instance-store).    source-dest-check - Indicates whether the instance performs source/destination checking. A value of true means that checking is enabled, and false means checking is disabled. The value must be false for the instance to perform network address translation (NAT) in your VPC.     spot-instance-request-id - The ID of the Spot instance request.    state-reason-code - The reason code for the state change.    state-reason-message - A message that describes the state change.    subnet-id - The ID of the subnet for the instance.    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    tenancy - The tenancy of an instance (dedicated | default | host).    virtualization-type - The virtualization type of the instance (paravirtual | hvm).    vpc-id - The ID of the VPC that the instance is running in.  
         public let filters: FilterList?
@@ -8314,7 +8314,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserGroup", location: "UserGroup", required: false, type: .list)
+            AWSShapeProperty(label: "UserGroup", required: false, type: .list)
         ]
         public let userGroup: [String]?
 
@@ -8331,8 +8331,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ScheduledInstanceSet", location: "scheduledInstanceSet", required: false, type: .structure)
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "ScheduledInstanceSet", location: .body(locationName: "scheduledInstanceSet"), required: false, type: .structure)
         ]
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -8354,10 +8354,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NetworkAclId", location: "networkAclId", required: true, type: .string), 
-            AWSShapeProperty(label: "RuleNumber", location: "ruleNumber", required: true, type: .integer), 
-            AWSShapeProperty(label: "Egress", location: "egress", required: true, type: .boolean), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "NetworkAclId", location: .body(locationName: "networkAclId"), required: true, type: .string), 
+            AWSShapeProperty(label: "RuleNumber", location: .body(locationName: "ruleNumber"), required: true, type: .integer), 
+            AWSShapeProperty(label: "Egress", location: .body(locationName: "egress"), required: true, type: .boolean), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// The ID of the network ACL.
         public let networkAclId: String
@@ -8390,7 +8390,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [NewDhcpConfiguration]?
 
@@ -8411,9 +8411,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Attribute", location: nil, required: true, type: .enum)
+            AWSShapeProperty(label: "SnapshotId", required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Attribute", required: true, type: .enum)
         ]
         /// The ID of the snapshot.
         public let snapshotId: String
@@ -8441,12 +8441,12 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcAttachments", location: "attachments", required: false, type: .structure), 
-            AWSShapeProperty(label: "VpnGatewayId", location: "vpnGatewayId", required: false, type: .string), 
-            AWSShapeProperty(label: "Type", location: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "AvailabilityZone", location: "availabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", location: "tagSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "State", location: "state", required: false, type: .enum)
+            AWSShapeProperty(label: "VpcAttachments", location: .body(locationName: "attachments"), required: false, type: .structure), 
+            AWSShapeProperty(label: "VpnGatewayId", location: .body(locationName: "vpnGatewayId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Type", location: .body(locationName: "type"), required: false, type: .enum), 
+            AWSShapeProperty(label: "AvailabilityZone", location: .body(locationName: "availabilityZone"), required: false, type: .string), 
+            AWSShapeProperty(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "State", location: .body(locationName: "state"), required: false, type: .enum)
         ]
         /// Any VPCs attached to the virtual private gateway.
         public let vpcAttachments: VpcAttachmentList?
@@ -8484,9 +8484,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "TerminateInstances", location: "terminateInstances", required: true, type: .boolean), 
-            AWSShapeProperty(label: "SpotFleetRequestIds", location: "spotFleetRequestId", required: true, type: .structure)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "TerminateInstances", location: .body(locationName: "terminateInstances"), required: true, type: .boolean), 
+            AWSShapeProperty(label: "SpotFleetRequestIds", location: .body(locationName: "spotFleetRequestId"), required: true, type: .structure)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -8514,7 +8514,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [InstanceIpv6Address]?
 
@@ -8535,7 +8535,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [ScheduledInstance]?
 
@@ -8556,11 +8556,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeIds", location: "VolumeId", required: false, type: .structure), 
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "VolumeIds", location: .body(locationName: "VolumeId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// One or more volume IDs. Default: Describes all your volumes.
         public let volumeIds: VolumeIdStringList?
@@ -8594,7 +8594,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [InstanceStatus]?
 
@@ -8615,10 +8615,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GroupIds", location: "GroupId", required: false, type: .structure), 
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "GroupNames", location: "GroupName", required: false, type: .structure)
+            AWSShapeProperty(label: "GroupIds", location: .body(locationName: "GroupId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "GroupNames", location: .body(locationName: "GroupName"), required: false, type: .structure)
         ]
         /// One or more security group IDs. Required for security groups in a nondefault VPC. Default: Describes all your security groups.
         public let groupIds: GroupIdStringList?
@@ -8648,20 +8648,20 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StateMessage", location: "statusMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "State", location: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "VolumeId", location: "volumeId", required: false, type: .string), 
-            AWSShapeProperty(label: "Encrypted", location: "encrypted", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Tags", location: "tagSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "OwnerId", location: "ownerId", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", location: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "StartTime", location: "startTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "DataEncryptionKeyId", location: "dataEncryptionKeyId", required: false, type: .string), 
-            AWSShapeProperty(label: "Progress", location: "progress", required: false, type: .string), 
-            AWSShapeProperty(label: "SnapshotId", location: "snapshotId", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeSize", location: "volumeSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "OwnerAlias", location: "ownerAlias", required: false, type: .string), 
-            AWSShapeProperty(label: "KmsKeyId", location: "kmsKeyId", required: false, type: .string)
+            AWSShapeProperty(label: "StateMessage", location: .body(locationName: "statusMessage"), required: false, type: .string), 
+            AWSShapeProperty(label: "State", location: .body(locationName: "status"), required: false, type: .enum), 
+            AWSShapeProperty(label: "VolumeId", location: .body(locationName: "volumeId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Encrypted", location: .body(locationName: "encrypted"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "OwnerId", location: .body(locationName: "ownerId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeProperty(label: "StartTime", location: .body(locationName: "startTime"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "DataEncryptionKeyId", location: .body(locationName: "dataEncryptionKeyId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Progress", location: .body(locationName: "progress"), required: false, type: .string), 
+            AWSShapeProperty(label: "SnapshotId", location: .body(locationName: "snapshotId"), required: false, type: .string), 
+            AWSShapeProperty(label: "VolumeSize", location: .body(locationName: "volumeSize"), required: false, type: .integer), 
+            AWSShapeProperty(label: "OwnerAlias", location: .body(locationName: "ownerAlias"), required: false, type: .string), 
+            AWSShapeProperty(label: "KmsKeyId", location: .body(locationName: "kmsKeyId"), required: false, type: .string)
         ]
         /// Encrypted Amazon EBS snapshots are copied asynchronously. If a snapshot copy operation fails (for example, if the proper AWS Key Management Service (AWS KMS) permissions are not obtained) this field displays error state details to help you diagnose why the error occurred. This parameter is only returned by the DescribeSnapshots API operation.
         public let stateMessage: String?
@@ -8731,9 +8731,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "VpcIds", location: "VpcId", required: false, type: .structure)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "VpcIds", location: .body(locationName: "VpcId"), required: false, type: .structure)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -8759,7 +8759,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PurchaseRequest", location: "PurchaseRequest", required: false, type: .list)
+            AWSShapeProperty(label: "PurchaseRequest", required: false, type: .list)
         ]
         public let purchaseRequest: [PurchaseRequest]?
 
@@ -8780,7 +8780,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Statuses", location: "statusSet", required: false, type: .structure)
+            AWSShapeProperty(label: "Statuses", location: .body(locationName: "statusSet"), required: false, type: .structure)
         ]
         /// Information about the ID format for the resource.
         public let statuses: IdFormatList?
@@ -8798,19 +8798,19 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BillingProducts", location: "BillingProduct", required: false, type: .structure), 
-            AWSShapeProperty(label: "BlockDeviceMappings", location: "BlockDeviceMapping", required: false, type: .structure), 
-            AWSShapeProperty(label: "SriovNetSupport", location: "sriovNetSupport", required: false, type: .string), 
-            AWSShapeProperty(label: "RootDeviceName", location: "rootDeviceName", required: false, type: .string), 
-            AWSShapeProperty(label: "ImageLocation", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "KernelId", location: "kernelId", required: false, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Description", location: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", location: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "Architecture", location: "architecture", required: false, type: .enum), 
-            AWSShapeProperty(label: "EnaSupport", location: "enaSupport", required: false, type: .boolean), 
-            AWSShapeProperty(label: "VirtualizationType", location: "virtualizationType", required: false, type: .string), 
-            AWSShapeProperty(label: "RamdiskId", location: "ramdiskId", required: false, type: .string)
+            AWSShapeProperty(label: "BillingProducts", location: .body(locationName: "BillingProduct"), required: false, type: .structure), 
+            AWSShapeProperty(label: "BlockDeviceMappings", location: .body(locationName: "BlockDeviceMapping"), required: false, type: .structure), 
+            AWSShapeProperty(label: "SriovNetSupport", location: .body(locationName: "sriovNetSupport"), required: false, type: .string), 
+            AWSShapeProperty(label: "RootDeviceName", location: .body(locationName: "rootDeviceName"), required: false, type: .string), 
+            AWSShapeProperty(label: "ImageLocation", required: false, type: .string), 
+            AWSShapeProperty(label: "KernelId", location: .body(locationName: "kernelId"), required: false, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeProperty(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
+            AWSShapeProperty(label: "Architecture", location: .body(locationName: "architecture"), required: false, type: .enum), 
+            AWSShapeProperty(label: "EnaSupport", location: .body(locationName: "enaSupport"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "VirtualizationType", location: .body(locationName: "virtualizationType"), required: false, type: .string), 
+            AWSShapeProperty(label: "RamdiskId", location: .body(locationName: "ramdiskId"), required: false, type: .string)
         ]
         /// The billing product codes.
         public let billingProducts: BillingProductList?
@@ -8877,11 +8877,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PublicIps", location: "publicIp", required: false, type: .structure), 
-            AWSShapeProperty(label: "Filters", location: "filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: "maxResults", required: false, type: .integer)
+            AWSShapeProperty(label: "PublicIps", location: .body(locationName: "publicIp"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer)
         ]
         /// One or more Elastic IP addresses.
         public let publicIps: ValueStringList?
@@ -8915,7 +8915,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [String]?
 
@@ -8932,7 +8932,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceMonitorings", location: "instancesSet", required: false, type: .structure)
+            AWSShapeProperty(label: "InstanceMonitorings", location: .body(locationName: "instancesSet"), required: false, type: .structure)
         ]
         /// The monitoring information.
         public let instanceMonitorings: InstanceMonitoringList?
@@ -8950,8 +8950,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AssignedIpv6Addresses", location: "assignedIpv6Addresses", required: false, type: .structure), 
-            AWSShapeProperty(label: "NetworkInterfaceId", location: "networkInterfaceId", required: false, type: .string)
+            AWSShapeProperty(label: "AssignedIpv6Addresses", location: .body(locationName: "assignedIpv6Addresses"), required: false, type: .structure), 
+            AWSShapeProperty(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"), required: false, type: .string)
         ]
         /// The IPv6 addresses assigned to the network interface.
         public let assignedIpv6Addresses: Ipv6AddressList?
@@ -8973,10 +8973,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AllowReassignment", location: "allowReassignment", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NetworkInterfaceId", location: "networkInterfaceId", required: true, type: .string), 
-            AWSShapeProperty(label: "SecondaryPrivateIpAddressCount", location: "secondaryPrivateIpAddressCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "PrivateIpAddresses", location: "privateIpAddress", required: false, type: .structure)
+            AWSShapeProperty(label: "AllowReassignment", location: .body(locationName: "allowReassignment"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"), required: true, type: .string), 
+            AWSShapeProperty(label: "SecondaryPrivateIpAddressCount", location: .body(locationName: "secondaryPrivateIpAddressCount"), required: false, type: .integer), 
+            AWSShapeProperty(label: "PrivateIpAddresses", location: .body(locationName: "privateIpAddress"), required: false, type: .structure)
         ]
         /// Indicates whether to allow an IP address that is already assigned to another network interface or instance to be reassigned to the specified network interface.
         public let allowReassignment: Bool?
@@ -9014,31 +9014,31 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DisableApiTermination", location: "disableApiTermination", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ClientToken", location: "clientToken", required: false, type: .string), 
-            AWSShapeProperty(label: "EbsOptimized", location: "ebsOptimized", required: false, type: .boolean), 
-            AWSShapeProperty(label: "KernelId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Ipv6AddressCount", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "InstanceType", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "PrivateIpAddress", location: "privateIpAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "KeyName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "IamInstanceProfile", location: "iamInstanceProfile", required: false, type: .structure), 
-            AWSShapeProperty(label: "InstanceInitiatedShutdownBehavior", location: "instanceInitiatedShutdownBehavior", required: false, type: .enum), 
-            AWSShapeProperty(label: "Ipv6Addresses", location: "Ipv6Address", required: false, type: .structure), 
-            AWSShapeProperty(label: "MinCount", location: nil, required: true, type: .integer), 
-            AWSShapeProperty(label: "RamdiskId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "BlockDeviceMappings", location: "BlockDeviceMapping", required: false, type: .structure), 
-            AWSShapeProperty(label: "SubnetId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "UserData", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "SecurityGroupIds", location: "SecurityGroupId", required: false, type: .structure), 
-            AWSShapeProperty(label: "Monitoring", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SecurityGroups", location: "SecurityGroup", required: false, type: .structure), 
-            AWSShapeProperty(label: "MaxCount", location: nil, required: true, type: .integer), 
-            AWSShapeProperty(label: "AdditionalInfo", location: "additionalInfo", required: false, type: .string), 
-            AWSShapeProperty(label: "Placement", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "NetworkInterfaces", location: "networkInterface", required: false, type: .structure), 
-            AWSShapeProperty(label: "ImageId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "DisableApiTermination", location: .body(locationName: "disableApiTermination"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "ClientToken", location: .body(locationName: "clientToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "EbsOptimized", location: .body(locationName: "ebsOptimized"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "KernelId", required: false, type: .string), 
+            AWSShapeProperty(label: "Ipv6AddressCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "InstanceType", required: false, type: .enum), 
+            AWSShapeProperty(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress"), required: false, type: .string), 
+            AWSShapeProperty(label: "KeyName", required: false, type: .string), 
+            AWSShapeProperty(label: "IamInstanceProfile", location: .body(locationName: "iamInstanceProfile"), required: false, type: .structure), 
+            AWSShapeProperty(label: "InstanceInitiatedShutdownBehavior", location: .body(locationName: "instanceInitiatedShutdownBehavior"), required: false, type: .enum), 
+            AWSShapeProperty(label: "Ipv6Addresses", location: .body(locationName: "Ipv6Address"), required: false, type: .structure), 
+            AWSShapeProperty(label: "MinCount", required: true, type: .integer), 
+            AWSShapeProperty(label: "RamdiskId", required: false, type: .string), 
+            AWSShapeProperty(label: "BlockDeviceMappings", location: .body(locationName: "BlockDeviceMapping"), required: false, type: .structure), 
+            AWSShapeProperty(label: "SubnetId", required: false, type: .string), 
+            AWSShapeProperty(label: "UserData", required: false, type: .string), 
+            AWSShapeProperty(label: "SecurityGroupIds", location: .body(locationName: "SecurityGroupId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Monitoring", required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "SecurityGroups", location: .body(locationName: "SecurityGroup"), required: false, type: .structure), 
+            AWSShapeProperty(label: "MaxCount", required: true, type: .integer), 
+            AWSShapeProperty(label: "AdditionalInfo", location: .body(locationName: "additionalInfo"), required: false, type: .string), 
+            AWSShapeProperty(label: "Placement", required: false, type: .structure), 
+            AWSShapeProperty(label: "NetworkInterfaces", location: .body(locationName: "networkInterface"), required: false, type: .structure), 
+            AWSShapeProperty(label: "ImageId", required: true, type: .string)
         ]
         /// If you set this parameter to true, you can't terminate the instance using the Amazon EC2 console, CLI, or API; otherwise, you can. To change this attribute to false after launch, use ModifyInstanceAttribute. Alternatively, if you set InstanceInitiatedShutdownBehavior to terminate, you can terminate the instance by running the shutdown command from the instance. Default: false 
         public let disableApiTermination: Bool?
@@ -9155,24 +9155,24 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LaunchedAvailabilityZone", location: "launchedAvailabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "SpotInstanceRequestId", location: "spotInstanceRequestId", required: false, type: .string), 
-            AWSShapeProperty(label: "State", location: "state", required: false, type: .enum), 
-            AWSShapeProperty(label: "SpotPrice", location: "spotPrice", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", location: "tagSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "ValidUntil", location: "validUntil", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Fault", location: "fault", required: false, type: .structure), 
-            AWSShapeProperty(label: "ProductDescription", location: "productDescription", required: false, type: .enum), 
-            AWSShapeProperty(label: "AvailabilityZoneGroup", location: "availabilityZoneGroup", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", location: "status", required: false, type: .structure), 
-            AWSShapeProperty(label: "ValidFrom", location: "validFrom", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "InstanceId", location: "instanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "ActualBlockHourlyPrice", location: "actualBlockHourlyPrice", required: false, type: .string), 
-            AWSShapeProperty(label: "BlockDurationMinutes", location: "blockDurationMinutes", required: false, type: .integer), 
-            AWSShapeProperty(label: "LaunchSpecification", location: "launchSpecification", required: false, type: .structure), 
-            AWSShapeProperty(label: "Type", location: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "LaunchGroup", location: "launchGroup", required: false, type: .string), 
-            AWSShapeProperty(label: "CreateTime", location: "createTime", required: false, type: .timestamp)
+            AWSShapeProperty(label: "LaunchedAvailabilityZone", location: .body(locationName: "launchedAvailabilityZone"), required: false, type: .string), 
+            AWSShapeProperty(label: "SpotInstanceRequestId", location: .body(locationName: "spotInstanceRequestId"), required: false, type: .string), 
+            AWSShapeProperty(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeProperty(label: "SpotPrice", location: .body(locationName: "spotPrice"), required: false, type: .string), 
+            AWSShapeProperty(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "ValidUntil", location: .body(locationName: "validUntil"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Fault", location: .body(locationName: "fault"), required: false, type: .structure), 
+            AWSShapeProperty(label: "ProductDescription", location: .body(locationName: "productDescription"), required: false, type: .enum), 
+            AWSShapeProperty(label: "AvailabilityZoneGroup", location: .body(locationName: "availabilityZoneGroup"), required: false, type: .string), 
+            AWSShapeProperty(label: "Status", location: .body(locationName: "status"), required: false, type: .structure), 
+            AWSShapeProperty(label: "ValidFrom", location: .body(locationName: "validFrom"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "ActualBlockHourlyPrice", location: .body(locationName: "actualBlockHourlyPrice"), required: false, type: .string), 
+            AWSShapeProperty(label: "BlockDurationMinutes", location: .body(locationName: "blockDurationMinutes"), required: false, type: .integer), 
+            AWSShapeProperty(label: "LaunchSpecification", location: .body(locationName: "launchSpecification"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Type", location: .body(locationName: "type"), required: false, type: .enum), 
+            AWSShapeProperty(label: "LaunchGroup", location: .body(locationName: "launchGroup"), required: false, type: .string), 
+            AWSShapeProperty(label: "CreateTime", location: .body(locationName: "createTime"), required: false, type: .timestamp)
         ]
         /// The Availability Zone in which the bid is launched.
         public let launchedAvailabilityZone: String?
@@ -9258,8 +9258,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceIds", location: "InstanceId", required: true, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "InstanceIds", location: .body(locationName: "InstanceId"), required: true, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// One or more instance IDs.
         public let instanceIds: InstanceIdStringList
@@ -9282,8 +9282,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Code", location: "code", required: false, type: .enum), 
-            AWSShapeProperty(label: "Message", location: "message", required: false, type: .string)
+            AWSShapeProperty(label: "Code", location: .body(locationName: "code"), required: false, type: .enum), 
+            AWSShapeProperty(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
         ]
         /// The status of the VPC peering connection.
         public let code: VpcPeeringConnectionStateReasonCode?
@@ -9321,21 +9321,21 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Platform", location: "platform", required: false, type: .string), 
-            AWSShapeProperty(label: "PreviousSlotEndTime", location: "previousSlotEndTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "TotalScheduledInstanceHours", location: "totalScheduledInstanceHours", required: false, type: .integer), 
-            AWSShapeProperty(label: "CreateDate", location: "createDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "HourlyPrice", location: "hourlyPrice", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceType", location: "instanceType", required: false, type: .string), 
-            AWSShapeProperty(label: "SlotDurationInHours", location: "slotDurationInHours", required: false, type: .integer), 
-            AWSShapeProperty(label: "ScheduledInstanceId", location: "scheduledInstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "AvailabilityZone", location: "availabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "TermStartDate", location: "termStartDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "TermEndDate", location: "termEndDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "NextSlotStartTime", location: "nextSlotStartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "InstanceCount", location: "instanceCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "NetworkPlatform", location: "networkPlatform", required: false, type: .string), 
-            AWSShapeProperty(label: "Recurrence", location: "recurrence", required: false, type: .structure)
+            AWSShapeProperty(label: "Platform", location: .body(locationName: "platform"), required: false, type: .string), 
+            AWSShapeProperty(label: "PreviousSlotEndTime", location: .body(locationName: "previousSlotEndTime"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "TotalScheduledInstanceHours", location: .body(locationName: "totalScheduledInstanceHours"), required: false, type: .integer), 
+            AWSShapeProperty(label: "CreateDate", location: .body(locationName: "createDate"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "HourlyPrice", location: .body(locationName: "hourlyPrice"), required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceType", location: .body(locationName: "instanceType"), required: false, type: .string), 
+            AWSShapeProperty(label: "SlotDurationInHours", location: .body(locationName: "slotDurationInHours"), required: false, type: .integer), 
+            AWSShapeProperty(label: "ScheduledInstanceId", location: .body(locationName: "scheduledInstanceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "AvailabilityZone", location: .body(locationName: "availabilityZone"), required: false, type: .string), 
+            AWSShapeProperty(label: "TermStartDate", location: .body(locationName: "termStartDate"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "TermEndDate", location: .body(locationName: "termEndDate"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "NextSlotStartTime", location: .body(locationName: "nextSlotStartTime"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "InstanceCount", location: .body(locationName: "instanceCount"), required: false, type: .integer), 
+            AWSShapeProperty(label: "NetworkPlatform", location: .body(locationName: "networkPlatform"), required: false, type: .string), 
+            AWSShapeProperty(label: "Recurrence", location: .body(locationName: "recurrence"), required: false, type: .structure)
         ]
         /// The platform (Linux/UNIX or Windows).
         public let platform: String?
@@ -9409,9 +9409,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "SpotFleetRequestId", location: "spotFleetRequestId", required: true, type: .string), 
-            AWSShapeProperty(label: "ActiveInstances", location: "activeInstanceSet", required: true, type: .structure)
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "SpotFleetRequestId", location: .body(locationName: "spotFleetRequestId"), required: true, type: .string), 
+            AWSShapeProperty(label: "ActiveInstances", location: .body(locationName: "activeInstanceSet"), required: true, type: .structure)
         ]
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -9439,8 +9439,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ProductCodeType", location: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "ProductCodeId", location: "productCode", required: false, type: .string)
+            AWSShapeProperty(label: "ProductCodeType", location: .body(locationName: "type"), required: false, type: .enum), 
+            AWSShapeProperty(label: "ProductCodeId", location: .body(locationName: "productCode"), required: false, type: .string)
         ]
         /// The type of product code.
         public let productCodeType: ProductCodeValues?
@@ -9462,10 +9462,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Code", location: "code", required: false, type: .enum), 
-            AWSShapeProperty(label: "NotBefore", location: "notBefore", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "NotAfter", location: "notAfter", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Description", location: "description", required: false, type: .string)
+            AWSShapeProperty(label: "Code", location: .body(locationName: "code"), required: false, type: .enum), 
+            AWSShapeProperty(label: "NotBefore", location: .body(locationName: "notBefore"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "NotAfter", location: .body(locationName: "notAfter"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
         /// The event code.
         public let code: EventCode?
@@ -9495,9 +9495,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ProductCodes", location: "productCodes", required: false, type: .structure), 
-            AWSShapeProperty(label: "VolumeId", location: "volumeId", required: false, type: .string), 
-            AWSShapeProperty(label: "AutoEnableIO", location: "autoEnableIO", required: false, type: .structure)
+            AWSShapeProperty(label: "ProductCodes", location: .body(locationName: "productCodes"), required: false, type: .structure), 
+            AWSShapeProperty(label: "VolumeId", location: .body(locationName: "volumeId"), required: false, type: .string), 
+            AWSShapeProperty(label: "AutoEnableIO", location: .body(locationName: "autoEnableIO"), required: false, type: .structure)
         ]
         /// A list of product codes.
         public let productCodes: ProductCodeList?
@@ -9523,8 +9523,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NetworkInterfaceId", location: "networkInterfaceId", required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"), required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// The ID of the network interface.
         public let networkInterfaceId: String
@@ -9547,11 +9547,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", location: "bucket", required: false, type: .string), 
-            AWSShapeProperty(label: "OwnerId", location: "ownerId", required: false, type: .string), 
-            AWSShapeProperty(label: "State", location: "state", required: false, type: .enum), 
-            AWSShapeProperty(label: "Fault", location: "fault", required: false, type: .structure), 
-            AWSShapeProperty(label: "Prefix", location: "prefix", required: false, type: .string)
+            AWSShapeProperty(label: "Bucket", location: .body(locationName: "bucket"), required: false, type: .string), 
+            AWSShapeProperty(label: "OwnerId", location: .body(locationName: "ownerId"), required: false, type: .string), 
+            AWSShapeProperty(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeProperty(label: "Fault", location: .body(locationName: "fault"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Prefix", location: .body(locationName: "prefix"), required: false, type: .string)
         ]
         /// The Amazon S3 bucket where the Spot instance data feed is located.
         public let bucket: String?
@@ -9585,16 +9585,16 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DiskContainers", location: "DiskContainer", required: false, type: .structure), 
-            AWSShapeProperty(label: "Platform", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ClientToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "LicenseType", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Hypervisor", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Architecture", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "RoleName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ClientData", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "DiskContainers", location: .body(locationName: "DiskContainer"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Platform", required: false, type: .string), 
+            AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
+            AWSShapeProperty(label: "LicenseType", required: false, type: .string), 
+            AWSShapeProperty(label: "Hypervisor", required: false, type: .string), 
+            AWSShapeProperty(label: "Architecture", required: false, type: .string), 
+            AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeProperty(label: "RoleName", required: false, type: .string), 
+            AWSShapeProperty(label: "ClientData", required: false, type: .structure), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
         /// Information about the disk containers.
         public let diskContainers: ImageDiskContainerList?
@@ -9648,7 +9648,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Owner", location: "Owner", required: false, type: .list)
+            AWSShapeProperty(label: "Owner", required: false, type: .list)
         ]
         public let owner: [String]?
 
@@ -9665,13 +9665,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", location: "status", required: true, type: .string), 
-            AWSShapeProperty(label: "BytesConverted", location: "bytesConverted", required: true, type: .long), 
-            AWSShapeProperty(label: "Volume", location: "volume", required: true, type: .structure), 
-            AWSShapeProperty(label: "Image", location: "image", required: true, type: .structure), 
-            AWSShapeProperty(label: "StatusMessage", location: "statusMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "AvailabilityZone", location: "availabilityZone", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", location: "description", required: false, type: .string)
+            AWSShapeProperty(label: "Status", location: .body(locationName: "status"), required: true, type: .string), 
+            AWSShapeProperty(label: "BytesConverted", location: .body(locationName: "bytesConverted"), required: true, type: .long), 
+            AWSShapeProperty(label: "Volume", location: .body(locationName: "volume"), required: true, type: .structure), 
+            AWSShapeProperty(label: "Image", location: .body(locationName: "image"), required: true, type: .structure), 
+            AWSShapeProperty(label: "StatusMessage", location: .body(locationName: "statusMessage"), required: false, type: .string), 
+            AWSShapeProperty(label: "AvailabilityZone", location: .body(locationName: "availabilityZone"), required: true, type: .string), 
+            AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
         /// The status of the import of this particular disk image.
         public let status: String
@@ -9718,7 +9718,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [RecurringCharge]?
 
@@ -9739,8 +9739,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", location: "resourceId", required: false, type: .string), 
-            AWSShapeProperty(label: "Error", location: "error", required: true, type: .structure)
+            AWSShapeProperty(label: "ResourceId", location: .body(locationName: "resourceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Error", location: .body(locationName: "error"), required: true, type: .structure)
         ]
         /// The ID of the resource.
         public let resourceId: String?
@@ -9763,8 +9763,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "IamInstanceProfileAssociations", location: "iamInstanceProfileAssociationSet", required: false, type: .structure)
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "IamInstanceProfileAssociations", location: .body(locationName: "iamInstanceProfileAssociationSet"), required: false, type: .structure)
         ]
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -9786,7 +9786,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Return", location: "return", required: false, type: .boolean)
+            AWSShapeProperty(label: "Return", location: .body(locationName: "return"), required: false, type: .boolean)
         ]
         /// Is true if the request succeeds, and an error otherwise.
         public let `return`: Bool?
@@ -9804,7 +9804,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OccurenceDay", location: "OccurenceDay", required: false, type: .list)
+            AWSShapeProperty(label: "OccurenceDay", required: false, type: .list)
         ]
         public let occurenceDay: [Int32]?
 
@@ -9830,18 +9830,18 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeType", location: "volumeType", required: false, type: .enum), 
-            AWSShapeProperty(label: "State", location: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "VolumeId", location: "volumeId", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", location: "tagSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "SnapshotId", location: "snapshotId", required: false, type: .string), 
-            AWSShapeProperty(label: "Size", location: "size", required: false, type: .integer), 
-            AWSShapeProperty(label: "Encrypted", location: "encrypted", required: false, type: .boolean), 
-            AWSShapeProperty(label: "CreateTime", location: "createTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Iops", location: "iops", required: false, type: .integer), 
-            AWSShapeProperty(label: "AvailabilityZone", location: "availabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "Attachments", location: "attachmentSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "KmsKeyId", location: "kmsKeyId", required: false, type: .string)
+            AWSShapeProperty(label: "VolumeType", location: .body(locationName: "volumeType"), required: false, type: .enum), 
+            AWSShapeProperty(label: "State", location: .body(locationName: "status"), required: false, type: .enum), 
+            AWSShapeProperty(label: "VolumeId", location: .body(locationName: "volumeId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "SnapshotId", location: .body(locationName: "snapshotId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Size", location: .body(locationName: "size"), required: false, type: .integer), 
+            AWSShapeProperty(label: "Encrypted", location: .body(locationName: "encrypted"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "CreateTime", location: .body(locationName: "createTime"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Iops", location: .body(locationName: "iops"), required: false, type: .integer), 
+            AWSShapeProperty(label: "AvailabilityZone", location: .body(locationName: "availabilityZone"), required: false, type: .string), 
+            AWSShapeProperty(label: "Attachments", location: .body(locationName: "attachmentSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "KmsKeyId", location: .body(locationName: "kmsKeyId"), required: false, type: .string)
         ]
         /// The volume type. This can be gp2 for General Purpose SSD, io1 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1 for Cold HDD, or standard for Magnetic volumes.
         public let volumeType: VolumeType?
@@ -9903,11 +9903,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CurrencyCode", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "ClientToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "LimitPrice", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "OfferingId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "HostIdSet", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "CurrencyCode", required: false, type: .enum), 
+            AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
+            AWSShapeProperty(label: "LimitPrice", required: false, type: .string), 
+            AWSShapeProperty(label: "OfferingId", required: true, type: .string), 
+            AWSShapeProperty(label: "HostIdSet", required: true, type: .structure)
         ]
         /// The currency in which the totalUpfrontPrice, LimitPrice, and totalHourlyPrice amounts are specified. At this time, the only supported currency is USD.
         public let currencyCode: CurrencyCodeValues?
@@ -9943,8 +9943,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "State", location: "state", required: false, type: .enum), 
-            AWSShapeProperty(label: "StatusMessage", location: "statusMessage", required: false, type: .string)
+            AWSShapeProperty(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeProperty(label: "StatusMessage", location: .body(locationName: "statusMessage"), required: false, type: .string)
         ]
         /// The state of a CIDR block.
         public let state: SubnetCidrBlockStateCode?
@@ -9966,21 +9966,21 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BlockDeviceMappings", location: "blockDeviceMapping", required: false, type: .structure), 
-            AWSShapeProperty(label: "DisableApiTermination", location: "disableApiTermination", required: false, type: .structure), 
-            AWSShapeProperty(label: "UserData", location: "userData", required: false, type: .structure), 
-            AWSShapeProperty(label: "SriovNetSupport", location: "sriovNetSupport", required: false, type: .structure), 
-            AWSShapeProperty(label: "RootDeviceName", location: "rootDeviceName", required: false, type: .structure), 
-            AWSShapeProperty(label: "EbsOptimized", location: "ebsOptimized", required: false, type: .structure), 
-            AWSShapeProperty(label: "SourceDestCheck", location: "sourceDestCheck", required: false, type: .structure), 
-            AWSShapeProperty(label: "KernelId", location: "kernel", required: false, type: .structure), 
-            AWSShapeProperty(label: "InstanceType", location: "instanceType", required: false, type: .structure), 
-            AWSShapeProperty(label: "ProductCodes", location: "productCodes", required: false, type: .structure), 
-            AWSShapeProperty(label: "InstanceId", location: "instanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "EnaSupport", location: "enaSupport", required: false, type: .structure), 
-            AWSShapeProperty(label: "InstanceInitiatedShutdownBehavior", location: "instanceInitiatedShutdownBehavior", required: false, type: .structure), 
-            AWSShapeProperty(label: "RamdiskId", location: "ramdisk", required: false, type: .structure), 
-            AWSShapeProperty(label: "Groups", location: "groupSet", required: false, type: .structure)
+            AWSShapeProperty(label: "BlockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DisableApiTermination", location: .body(locationName: "disableApiTermination"), required: false, type: .structure), 
+            AWSShapeProperty(label: "UserData", location: .body(locationName: "userData"), required: false, type: .structure), 
+            AWSShapeProperty(label: "SriovNetSupport", location: .body(locationName: "sriovNetSupport"), required: false, type: .structure), 
+            AWSShapeProperty(label: "RootDeviceName", location: .body(locationName: "rootDeviceName"), required: false, type: .structure), 
+            AWSShapeProperty(label: "EbsOptimized", location: .body(locationName: "ebsOptimized"), required: false, type: .structure), 
+            AWSShapeProperty(label: "SourceDestCheck", location: .body(locationName: "sourceDestCheck"), required: false, type: .structure), 
+            AWSShapeProperty(label: "KernelId", location: .body(locationName: "kernel"), required: false, type: .structure), 
+            AWSShapeProperty(label: "InstanceType", location: .body(locationName: "instanceType"), required: false, type: .structure), 
+            AWSShapeProperty(label: "ProductCodes", location: .body(locationName: "productCodes"), required: false, type: .structure), 
+            AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "EnaSupport", location: .body(locationName: "enaSupport"), required: false, type: .structure), 
+            AWSShapeProperty(label: "InstanceInitiatedShutdownBehavior", location: .body(locationName: "instanceInitiatedShutdownBehavior"), required: false, type: .structure), 
+            AWSShapeProperty(label: "RamdiskId", location: .body(locationName: "ramdisk"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Groups", location: .body(locationName: "groupSet"), required: false, type: .structure)
         ]
         /// The block device mapping of the instance.
         public let blockDeviceMappings: InstanceBlockDeviceMappingList?
@@ -10054,7 +10054,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConversionTasks", location: "conversionTasks", required: false, type: .structure)
+            AWSShapeProperty(label: "ConversionTasks", location: .body(locationName: "conversionTasks"), required: false, type: .structure)
         ]
         /// Information about the conversion tasks.
         public let conversionTasks: DescribeConversionTaskList?
@@ -10072,13 +10072,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserIds", location: "UserId", required: false, type: .structure), 
-            AWSShapeProperty(label: "SnapshotId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "CreateVolumePermission", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Attribute", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "OperationType", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "GroupNames", location: "UserGroup", required: false, type: .structure)
+            AWSShapeProperty(label: "UserIds", location: .body(locationName: "UserId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "SnapshotId", required: true, type: .string), 
+            AWSShapeProperty(label: "CreateVolumePermission", required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Attribute", required: false, type: .enum), 
+            AWSShapeProperty(label: "OperationType", required: false, type: .enum), 
+            AWSShapeProperty(label: "GroupNames", location: .body(locationName: "UserGroup"), required: false, type: .structure)
         ]
         /// The account ID to modify for the snapshot.
         public let userIds: UserIdStringList?
@@ -10121,7 +10121,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [CancelledSpotInstanceRequest]?
 
@@ -10142,7 +10142,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Return", location: "return", required: false, type: .boolean)
+            AWSShapeProperty(label: "Return", location: .body(locationName: "return"), required: false, type: .boolean)
         ]
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -10160,9 +10160,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetCapacity", location: "targetCapacity", required: false, type: .integer), 
-            AWSShapeProperty(label: "SpotFleetRequestId", location: "spotFleetRequestId", required: true, type: .string), 
-            AWSShapeProperty(label: "ExcessCapacityTerminationPolicy", location: "excessCapacityTerminationPolicy", required: false, type: .enum)
+            AWSShapeProperty(label: "TargetCapacity", location: .body(locationName: "targetCapacity"), required: false, type: .integer), 
+            AWSShapeProperty(label: "SpotFleetRequestId", location: .body(locationName: "spotFleetRequestId"), required: true, type: .string), 
+            AWSShapeProperty(label: "ExcessCapacityTerminationPolicy", location: .body(locationName: "excessCapacityTerminationPolicy"), required: false, type: .enum)
         ]
         /// The size of the fleet.
         public let targetCapacity: Int32?
@@ -10189,7 +10189,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [BundleTask]?
 
@@ -10210,19 +10210,19 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UpfrontPrice", location: "upfrontPrice", required: false, type: .string), 
-            AWSShapeProperty(label: "State", location: "state", required: false, type: .enum), 
-            AWSShapeProperty(label: "PaymentOption", location: "paymentOption", required: false, type: .enum), 
-            AWSShapeProperty(label: "OfferingId", location: "offeringId", required: false, type: .string), 
-            AWSShapeProperty(label: "Count", location: "count", required: false, type: .integer), 
-            AWSShapeProperty(label: "HostReservationId", location: "hostReservationId", required: false, type: .string), 
-            AWSShapeProperty(label: "HourlyPrice", location: "hourlyPrice", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceFamily", location: "instanceFamily", required: false, type: .string), 
-            AWSShapeProperty(label: "Start", location: "start", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "End", location: "end", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "HostIdSet", location: "hostIdSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "CurrencyCode", location: "currencyCode", required: false, type: .enum), 
-            AWSShapeProperty(label: "Duration", location: "duration", required: false, type: .integer)
+            AWSShapeProperty(label: "UpfrontPrice", location: .body(locationName: "upfrontPrice"), required: false, type: .string), 
+            AWSShapeProperty(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeProperty(label: "PaymentOption", location: .body(locationName: "paymentOption"), required: false, type: .enum), 
+            AWSShapeProperty(label: "OfferingId", location: .body(locationName: "offeringId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Count", location: .body(locationName: "count"), required: false, type: .integer), 
+            AWSShapeProperty(label: "HostReservationId", location: .body(locationName: "hostReservationId"), required: false, type: .string), 
+            AWSShapeProperty(label: "HourlyPrice", location: .body(locationName: "hourlyPrice"), required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceFamily", location: .body(locationName: "instanceFamily"), required: false, type: .string), 
+            AWSShapeProperty(label: "Start", location: .body(locationName: "start"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "End", location: .body(locationName: "end"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "HostIdSet", location: .body(locationName: "hostIdSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "CurrencyCode", location: .body(locationName: "currencyCode"), required: false, type: .enum), 
+            AWSShapeProperty(label: "Duration", location: .body(locationName: "duration"), required: false, type: .integer)
         ]
         /// The upfront price of the reservation.
         public let upfrontPrice: String?
@@ -10288,7 +10288,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReservedInstancesListings", location: "reservedInstancesListingsSet", required: false, type: .structure)
+            AWSShapeProperty(label: "ReservedInstancesListings", location: .body(locationName: "reservedInstancesListingsSet"), required: false, type: .structure)
         ]
         /// Information about the Standard Reserved Instance listing.
         public let reservedInstancesListings: ReservedInstancesListingList?
@@ -10306,10 +10306,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Filter", location: "filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "HostIds", location: "hostId", required: false, type: .structure), 
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: "maxResults", required: false, type: .integer)
+            AWSShapeProperty(label: "Filter", location: .body(locationName: "filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "HostIds", location: .body(locationName: "hostId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer)
         ]
         /// One or more filters.    instance-type - The instance type size that the Dedicated Host is configured to support.    auto-placement - Whether auto-placement is enabled or disabled (on | off).    host-reservation-id - The ID of the reservation assigned to this host.    client-token - The idempotency token you provided when you launched the instance    state- The allocation state of the Dedicated Host (available | under-assessment | permanent-failure | released | released-permanent-failure).    availability-zone - The Availability Zone of the host.  
         public let filter: FilterList?
@@ -10339,8 +10339,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Domain", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "Domain", required: false, type: .enum), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// Set to vpc to allocate the address for use with instances in a VPC. Default: The address is for use with instances in EC2-Classic.
         public let domain: DomainType?
@@ -10362,9 +10362,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "BundleIds", location: "BundleId", required: false, type: .structure)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "BundleIds", location: .body(locationName: "BundleId"), required: false, type: .structure)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -10390,7 +10390,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [CustomerGateway]?
 
@@ -10411,7 +10411,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceIdSet", location: "instanceIdSet", required: false, type: .structure)
+            AWSShapeProperty(label: "InstanceIdSet", location: .body(locationName: "instanceIdSet"), required: false, type: .structure)
         ]
         /// The IDs of the newly launched instances.
         public let instanceIdSet: InstanceIdSet?
@@ -10429,8 +10429,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServiceNames", location: "serviceNameSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string)
+            AWSShapeProperty(label: "ServiceNames", location: .body(locationName: "serviceNameSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
         /// A list of supported AWS services.
         public let serviceNames: ValueStringList?
@@ -10452,8 +10452,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcId", location: "vpcId", required: false, type: .string), 
-            AWSShapeProperty(label: "Ipv6CidrBlockAssociation", location: "ipv6CidrBlockAssociation", required: false, type: .structure)
+            AWSShapeProperty(label: "VpcId", location: .body(locationName: "vpcId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Ipv6CidrBlockAssociation", location: .body(locationName: "ipv6CidrBlockAssociation"), required: false, type: .structure)
         ]
         /// The ID of the VPC.
         public let vpcId: String?
@@ -10475,7 +10475,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [ExportTask]?
 
@@ -10504,7 +10504,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Data", location: "data", required: false, type: .string)
+            AWSShapeProperty(label: "Data", location: .body(locationName: "data"), required: false, type: .string)
         ]
         /// The user data. If you are using an AWS SDK or command line tool, Base64-encoding is performed for you, and you can load the text from a file. Otherwise, you must provide Base64-encoded text.
         public let data: String?
@@ -10522,13 +10522,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PrivateIpAddress", location: "privateIpAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "NetworkInterfaceId", location: "networkInterfaceId", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "AllocationId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "PublicIp", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "AllowReassociation", location: "allowReassociation", required: false, type: .boolean)
+            AWSShapeProperty(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress"), required: false, type: .string), 
+            AWSShapeProperty(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
+            AWSShapeProperty(label: "AllocationId", required: false, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "PublicIp", required: false, type: .string), 
+            AWSShapeProperty(label: "AllowReassociation", location: .body(locationName: "allowReassociation"), required: false, type: .boolean)
         ]
         /// [EC2-VPC] The primary or secondary private IP address to associate with the Elastic IP address. If no private IP address is specified, the Elastic IP address is associated with the primary private IP address.
         public let privateIpAddress: String?
@@ -10576,7 +10576,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AssociationId", location: "associationId", required: true, type: .string)
+            AWSShapeProperty(label: "AssociationId", location: .body(locationName: "associationId"), required: true, type: .string)
         ]
         /// The association ID for the CIDR block.
         public let associationId: String
@@ -10595,8 +10595,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EgressOnlyInternetGatewayId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: nil, required: false, type: .boolean)
+            AWSShapeProperty(label: "EgressOnlyInternetGatewayId", required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
         /// The ID of the egress-only Internet gateway.
         public let egressOnlyInternetGatewayId: String
@@ -10625,15 +10625,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SourceSecurityGroupOwnerId", location: "sourceSecurityGroupOwnerId", required: false, type: .string), 
-            AWSShapeProperty(label: "IpPermissions", location: "ipPermissions", required: false, type: .structure), 
-            AWSShapeProperty(label: "CidrIp", location: "cidrIp", required: false, type: .string), 
-            AWSShapeProperty(label: "SourceSecurityGroupName", location: "sourceSecurityGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "FromPort", location: "fromPort", required: false, type: .integer), 
-            AWSShapeProperty(label: "IpProtocol", location: "ipProtocol", required: false, type: .string), 
-            AWSShapeProperty(label: "ToPort", location: "toPort", required: false, type: .integer), 
-            AWSShapeProperty(label: "GroupId", location: "groupId", required: true, type: .string)
+            AWSShapeProperty(label: "SourceSecurityGroupOwnerId", location: .body(locationName: "sourceSecurityGroupOwnerId"), required: false, type: .string), 
+            AWSShapeProperty(label: "IpPermissions", location: .body(locationName: "ipPermissions"), required: false, type: .structure), 
+            AWSShapeProperty(label: "CidrIp", location: .body(locationName: "cidrIp"), required: false, type: .string), 
+            AWSShapeProperty(label: "SourceSecurityGroupName", location: .body(locationName: "sourceSecurityGroupName"), required: false, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "FromPort", location: .body(locationName: "fromPort"), required: false, type: .integer), 
+            AWSShapeProperty(label: "IpProtocol", location: .body(locationName: "ipProtocol"), required: false, type: .string), 
+            AWSShapeProperty(label: "ToPort", location: .body(locationName: "toPort"), required: false, type: .integer), 
+            AWSShapeProperty(label: "GroupId", location: .body(locationName: "groupId"), required: true, type: .string)
         ]
         /// The AWS account number for a destination security group. To authorize outbound access to a destination security group, we recommend that you use a set of IP permissions instead.
         public let sourceSecurityGroupOwnerId: String?
@@ -10684,7 +10684,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [Vpc]?
 
@@ -10705,15 +10705,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LogGroupName", location: "logGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "FlowLogStatus", location: "flowLogStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "FlowLogId", location: "flowLogId", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationTime", location: "creationTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "TrafficType", location: "trafficType", required: false, type: .enum), 
-            AWSShapeProperty(label: "DeliverLogsPermissionArn", location: "deliverLogsPermissionArn", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceId", location: "resourceId", required: false, type: .string), 
-            AWSShapeProperty(label: "DeliverLogsStatus", location: "deliverLogsStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "DeliverLogsErrorMessage", location: "deliverLogsErrorMessage", required: false, type: .string)
+            AWSShapeProperty(label: "LogGroupName", location: .body(locationName: "logGroupName"), required: false, type: .string), 
+            AWSShapeProperty(label: "FlowLogStatus", location: .body(locationName: "flowLogStatus"), required: false, type: .string), 
+            AWSShapeProperty(label: "FlowLogId", location: .body(locationName: "flowLogId"), required: false, type: .string), 
+            AWSShapeProperty(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "TrafficType", location: .body(locationName: "trafficType"), required: false, type: .enum), 
+            AWSShapeProperty(label: "DeliverLogsPermissionArn", location: .body(locationName: "deliverLogsPermissionArn"), required: false, type: .string), 
+            AWSShapeProperty(label: "ResourceId", location: .body(locationName: "resourceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "DeliverLogsStatus", location: .body(locationName: "deliverLogsStatus"), required: false, type: .string), 
+            AWSShapeProperty(label: "DeliverLogsErrorMessage", location: .body(locationName: "deliverLogsErrorMessage"), required: false, type: .string)
         ]
         /// The name of the flow log group.
         public let logGroupName: String?
@@ -10763,8 +10763,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClientToken", location: "clientToken", required: false, type: .string), 
-            AWSShapeProperty(label: "VpcEndpoint", location: "vpcEndpoint", required: false, type: .structure)
+            AWSShapeProperty(label: "ClientToken", location: .body(locationName: "clientToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "VpcEndpoint", location: .body(locationName: "vpcEndpoint"), required: false, type: .structure)
         ]
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -10786,7 +10786,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttachmentId", location: "attachmentId", required: false, type: .string)
+            AWSShapeProperty(label: "AttachmentId", location: .body(locationName: "attachmentId"), required: false, type: .string)
         ]
         /// The ID of the network interface attachment.
         public let attachmentId: String?
@@ -10804,8 +10804,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "VpcEndpoints", location: "vpcEndpointSet", required: false, type: .structure)
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "VpcEndpoints", location: .body(locationName: "vpcEndpointSet"), required: false, type: .structure)
         ]
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
@@ -10827,8 +10827,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "KeyName", required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// A unique name for the key pair. Constraints: Up to 255 ASCII characters
         public let keyName: String
@@ -10851,12 +10851,12 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StaleIpPermissions", location: "staleIpPermissions", required: false, type: .structure), 
-            AWSShapeProperty(label: "StaleIpPermissionsEgress", location: "staleIpPermissionsEgress", required: false, type: .structure), 
-            AWSShapeProperty(label: "GroupName", location: "groupName", required: false, type: .string), 
-            AWSShapeProperty(label: "VpcId", location: "vpcId", required: false, type: .string), 
-            AWSShapeProperty(label: "GroupId", location: "groupId", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", location: "description", required: false, type: .string)
+            AWSShapeProperty(label: "StaleIpPermissions", location: .body(locationName: "staleIpPermissions"), required: false, type: .structure), 
+            AWSShapeProperty(label: "StaleIpPermissionsEgress", location: .body(locationName: "staleIpPermissionsEgress"), required: false, type: .structure), 
+            AWSShapeProperty(label: "GroupName", location: .body(locationName: "groupName"), required: false, type: .string), 
+            AWSShapeProperty(label: "VpcId", location: .body(locationName: "vpcId"), required: false, type: .string), 
+            AWSShapeProperty(label: "GroupId", location: .body(locationName: "groupId"), required: true, type: .string), 
+            AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
         /// Information about the stale inbound rules in the security group.
         public let staleIpPermissions: StaleIpPermissionSet?
@@ -10895,8 +10895,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OwnerId", location: "ownerId", required: false, type: .string), 
-            AWSShapeProperty(label: "Return", location: "return", required: false, type: .boolean)
+            AWSShapeProperty(label: "OwnerId", location: .body(locationName: "ownerId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Return", location: .body(locationName: "return"), required: false, type: .boolean)
         ]
         /// The AWS account ID of the instance owner. This is only present if the product code is attached to the instance.
         public let ownerId: String?
@@ -10925,7 +10925,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [UserIdGroupPair]?
 
@@ -10946,9 +10946,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyName", location: "keyName", required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "PublicKeyMaterial", location: "publicKeyMaterial", required: true, type: .blob)
+            AWSShapeProperty(label: "KeyName", location: .body(locationName: "keyName"), required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "PublicKeyMaterial", location: .body(locationName: "publicKeyMaterial"), required: true, type: .blob)
         ]
         /// A unique name for the key pair.
         public let keyName: String
@@ -10976,7 +10976,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceId", location: "InstanceId", required: false, type: .list)
+            AWSShapeProperty(label: "InstanceId", required: false, type: .list)
         ]
         public let instanceId: [String]?
 
@@ -10993,7 +10993,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcId", location: "VpcId", required: false, type: .list)
+            AWSShapeProperty(label: "VpcId", required: false, type: .list)
         ]
         public let vpcId: [String]?
 
@@ -11010,7 +11010,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Enabled", location: "enabled", required: true, type: .boolean)
+            AWSShapeProperty(label: "Enabled", location: .body(locationName: "enabled"), required: true, type: .boolean)
         ]
         /// Indicates whether detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
         public let enabled: Bool
@@ -11029,9 +11029,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Timestamp", location: "timestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "PasswordData", location: "passwordData", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", location: "instanceId", required: false, type: .string)
+            AWSShapeProperty(label: "Timestamp", location: .body(locationName: "timestamp"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "PasswordData", location: .body(locationName: "passwordData"), required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: false, type: .string)
         ]
         /// The time the data was last updated.
         public let timestamp: Date?
@@ -11057,7 +11057,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [AvailabilityZoneMessage]?
 
@@ -11083,9 +11083,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Deadline", location: "deadline", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Resource", location: "resource", required: false, type: .string), 
-            AWSShapeProperty(label: "UseLongIds", location: "useLongIds", required: false, type: .boolean)
+            AWSShapeProperty(label: "Deadline", location: .body(locationName: "deadline"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Resource", location: .body(locationName: "resource"), required: false, type: .string), 
+            AWSShapeProperty(label: "UseLongIds", location: .body(locationName: "useLongIds"), required: false, type: .boolean)
         ]
         /// The date in UTC at which you are permanently switched over to using longer IDs. If a deadline is not yet available for this resource type, this field is not returned.
         public let deadline: Date?
@@ -11111,11 +11111,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "InstanceIds", location: "InstanceId", required: false, type: .structure), 
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: "maxResults", required: false, type: .integer)
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "InstanceIds", location: .body(locationName: "InstanceId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer)
         ]
         /// One or more filters.    group-id - The ID of a VPC security group that's associated with the instance.    instance-id - The ID of the instance.    tag:key=value - The key/value combination of a tag assigned to the resource.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    vpc-id - The ID of the VPC that the instance is linked to.  
         public let filters: FilterList?
@@ -11149,11 +11149,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClientToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "LaunchSpecification", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "InstanceCount", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "ScheduledInstanceId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
+            AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeProperty(label: "LaunchSpecification", required: true, type: .structure), 
+            AWSShapeProperty(label: "InstanceCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "ScheduledInstanceId", required: true, type: .string)
         ]
         /// Unique, case-sensitive identifier that ensures the idempotency of the request. For more information, see Ensuring Idempotency.
         public let clientToken: String?
@@ -11189,10 +11189,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NoDevice", location: "noDevice", required: false, type: .string), 
-            AWSShapeProperty(label: "VirtualName", location: "virtualName", required: false, type: .string), 
-            AWSShapeProperty(label: "DeviceName", location: "deviceName", required: false, type: .string), 
-            AWSShapeProperty(label: "Ebs", location: "ebs", required: false, type: .structure)
+            AWSShapeProperty(label: "NoDevice", location: .body(locationName: "noDevice"), required: false, type: .string), 
+            AWSShapeProperty(label: "VirtualName", location: .body(locationName: "virtualName"), required: false, type: .string), 
+            AWSShapeProperty(label: "DeviceName", location: .body(locationName: "deviceName"), required: false, type: .string), 
+            AWSShapeProperty(label: "Ebs", location: .body(locationName: "ebs"), required: false, type: .structure)
         ]
         /// Suppresses the specified device included in the block device mapping of the AMI.
         public let noDevice: String?
@@ -11232,8 +11232,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IamInstanceProfile", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "AssociationId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "IamInstanceProfile", required: true, type: .structure), 
+            AWSShapeProperty(label: "AssociationId", required: true, type: .string)
         ]
         /// The IAM instance profile.
         public let iamInstanceProfile: IamInstanceProfileSpecification
@@ -11257,7 +11257,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AllocationId", location: "AllocationId", required: false, type: .list)
+            AWSShapeProperty(label: "AllocationId", required: false, type: .list)
         ]
         public let allocationId: [String]?
 
@@ -11274,7 +11274,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Ipv6Address", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Ipv6Address", required: false, type: .string)
         ]
         /// The IPv6 address.
         public let ipv6Address: String?
@@ -11304,12 +11304,12 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", location: "startTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "EventType", location: "eventType", required: false, type: .enum), 
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "SpotFleetRequestId", location: "spotFleetRequestId", required: true, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: "maxResults", required: false, type: .integer)
+            AWSShapeProperty(label: "StartTime", location: .body(locationName: "startTime"), required: true, type: .timestamp), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "EventType", location: .body(locationName: "eventType"), required: false, type: .enum), 
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "SpotFleetRequestId", location: .body(locationName: "spotFleetRequestId"), required: true, type: .string), 
+            AWSShapeProperty(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer)
         ]
         /// The starting date and time for the events, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
         public let startTime: Date
@@ -11349,19 +11349,19 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Platform", location: "platform", required: false, type: .string), 
-            AWSShapeProperty(label: "TotalScheduledInstanceHours", location: "totalScheduledInstanceHours", required: false, type: .integer), 
-            AWSShapeProperty(label: "MinTermDurationInDays", location: "minTermDurationInDays", required: false, type: .integer), 
-            AWSShapeProperty(label: "MaxTermDurationInDays", location: "maxTermDurationInDays", required: false, type: .integer), 
-            AWSShapeProperty(label: "HourlyPrice", location: "hourlyPrice", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceType", location: "instanceType", required: false, type: .string), 
-            AWSShapeProperty(label: "SlotDurationInHours", location: "slotDurationInHours", required: false, type: .integer), 
-            AWSShapeProperty(label: "AvailabilityZone", location: "availabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "AvailableInstanceCount", location: "availableInstanceCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "FirstSlotStartTime", location: "firstSlotStartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "NetworkPlatform", location: "networkPlatform", required: false, type: .string), 
-            AWSShapeProperty(label: "PurchaseToken", location: "purchaseToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Recurrence", location: "recurrence", required: false, type: .structure)
+            AWSShapeProperty(label: "Platform", location: .body(locationName: "platform"), required: false, type: .string), 
+            AWSShapeProperty(label: "TotalScheduledInstanceHours", location: .body(locationName: "totalScheduledInstanceHours"), required: false, type: .integer), 
+            AWSShapeProperty(label: "MinTermDurationInDays", location: .body(locationName: "minTermDurationInDays"), required: false, type: .integer), 
+            AWSShapeProperty(label: "MaxTermDurationInDays", location: .body(locationName: "maxTermDurationInDays"), required: false, type: .integer), 
+            AWSShapeProperty(label: "HourlyPrice", location: .body(locationName: "hourlyPrice"), required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceType", location: .body(locationName: "instanceType"), required: false, type: .string), 
+            AWSShapeProperty(label: "SlotDurationInHours", location: .body(locationName: "slotDurationInHours"), required: false, type: .integer), 
+            AWSShapeProperty(label: "AvailabilityZone", location: .body(locationName: "availabilityZone"), required: false, type: .string), 
+            AWSShapeProperty(label: "AvailableInstanceCount", location: .body(locationName: "availableInstanceCount"), required: false, type: .integer), 
+            AWSShapeProperty(label: "FirstSlotStartTime", location: .body(locationName: "firstSlotStartTime"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "NetworkPlatform", location: .body(locationName: "networkPlatform"), required: false, type: .string), 
+            AWSShapeProperty(label: "PurchaseToken", location: .body(locationName: "purchaseToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "Recurrence", location: .body(locationName: "recurrence"), required: false, type: .structure)
         ]
         /// The platform (Linux/UNIX or Windows).
         public let platform: String?
@@ -11427,7 +11427,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [PricingDetail]?
 
@@ -11448,7 +11448,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Size", location: "size", required: true, type: .long)
+            AWSShapeProperty(label: "Size", location: .body(locationName: "size"), required: true, type: .long)
         ]
         /// The size of the volume, in GiB.
         public let size: Int64
@@ -11467,7 +11467,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HostIds", location: "hostId", required: true, type: .structure)
+            AWSShapeProperty(label: "HostIds", location: .body(locationName: "hostId"), required: true, type: .structure)
         ]
         /// The IDs of the Dedicated Hosts you want to release.
         public let hostIds: RequestHostIdList
@@ -11495,9 +11495,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", location: "name", required: false, type: .enum), 
-            AWSShapeProperty(label: "Status", location: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "ImpairedSince", location: "impairedSince", required: false, type: .timestamp)
+            AWSShapeProperty(label: "Name", location: .body(locationName: "name"), required: false, type: .enum), 
+            AWSShapeProperty(label: "Status", location: .body(locationName: "status"), required: false, type: .enum), 
+            AWSShapeProperty(label: "ImpairedSince", location: .body(locationName: "impairedSince"), required: false, type: .timestamp)
         ]
         /// The type of instance status.
         public let name: StatusName?
@@ -11523,9 +11523,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "InstanceIds", location: "InstanceId", required: true, type: .structure), 
-            AWSShapeProperty(label: "AdditionalInfo", location: "additionalInfo", required: false, type: .string)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "InstanceIds", location: .body(locationName: "InstanceId"), required: true, type: .structure), 
+            AWSShapeProperty(label: "AdditionalInfo", location: .body(locationName: "additionalInfo"), required: false, type: .string)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -11552,7 +11552,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [FlowLog]?
 
@@ -11573,8 +11573,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EarliestTime", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "LatestTime", location: nil, required: false, type: .timestamp)
+            AWSShapeProperty(label: "EarliestTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "LatestTime", required: false, type: .timestamp)
         ]
         /// The earliest date and time, in UTC, for the Scheduled Instance to start.
         public let earliestTime: Date?
@@ -11596,7 +11596,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Return", location: "return", required: false, type: .boolean)
+            AWSShapeProperty(label: "Return", location: .body(locationName: "return"), required: false, type: .boolean)
         ]
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -11614,7 +11614,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [VolumeStatusEvent]?
 
@@ -11641,7 +11641,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReservedInstancesListings", location: "reservedInstancesListingsSet", required: false, type: .structure)
+            AWSShapeProperty(label: "ReservedInstancesListings", location: .body(locationName: "reservedInstancesListingsSet"), required: false, type: .structure)
         ]
         /// Information about the Reserved Instance listing.
         public let reservedInstancesListings: ReservedInstancesListingList?
@@ -11659,10 +11659,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Purchase", location: "purchase", required: false, type: .list), 
-            AWSShapeProperty(label: "TotalUpfrontPrice", location: "totalUpfrontPrice", required: false, type: .string), 
-            AWSShapeProperty(label: "CurrencyCode", location: "currencyCode", required: false, type: .enum), 
-            AWSShapeProperty(label: "TotalHourlyPrice", location: "totalHourlyPrice", required: false, type: .string)
+            AWSShapeProperty(label: "Purchase", location: .body(locationName: "purchase"), required: false, type: .list), 
+            AWSShapeProperty(label: "TotalUpfrontPrice", location: .body(locationName: "totalUpfrontPrice"), required: false, type: .string), 
+            AWSShapeProperty(label: "CurrencyCode", location: .body(locationName: "currencyCode"), required: false, type: .enum), 
+            AWSShapeProperty(label: "TotalHourlyPrice", location: .body(locationName: "totalHourlyPrice"), required: false, type: .string)
         ]
         /// The purchase information of the Dedicated Host Reservation and the Dedicated Hosts associated with it.
         public let purchase: [Purchase]?
@@ -11696,12 +11696,12 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceExportDetails", location: "instanceExport", required: false, type: .structure), 
-            AWSShapeProperty(label: "ExportTaskId", location: "exportTaskId", required: false, type: .string), 
-            AWSShapeProperty(label: "ExportToS3Task", location: "exportToS3", required: false, type: .structure), 
-            AWSShapeProperty(label: "State", location: "state", required: false, type: .enum), 
-            AWSShapeProperty(label: "StatusMessage", location: "statusMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", location: "description", required: false, type: .string)
+            AWSShapeProperty(label: "InstanceExportDetails", location: .body(locationName: "instanceExport"), required: false, type: .structure), 
+            AWSShapeProperty(label: "ExportTaskId", location: .body(locationName: "exportTaskId"), required: false, type: .string), 
+            AWSShapeProperty(label: "ExportToS3Task", location: .body(locationName: "exportToS3"), required: false, type: .structure), 
+            AWSShapeProperty(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeProperty(label: "StatusMessage", location: .body(locationName: "statusMessage"), required: false, type: .string), 
+            AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
         /// Information about the instance to export.
         public let instanceExportDetails: InstanceExportDetails?
@@ -11739,9 +11739,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", location: "bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Prefix", location: "prefix", required: false, type: .string)
+            AWSShapeProperty(label: "Bucket", location: .body(locationName: "bucket"), required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Prefix", location: .body(locationName: "prefix"), required: false, type: .string)
         ]
         /// The Amazon S3 bucket in which to store the Spot instance data feed.
         public let bucket: String
@@ -11768,7 +11768,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [EgressOnlyInternetGateway]?
 
@@ -11789,12 +11789,12 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SlotStartTimeRange", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ScheduledInstanceIds", location: "ScheduledInstanceId", required: false, type: .structure)
+            AWSShapeProperty(label: "SlotStartTimeRange", required: false, type: .structure), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "ScheduledInstanceIds", location: .body(locationName: "ScheduledInstanceId"), required: false, type: .structure)
         ]
         /// The time period for the first schedule to start.
         public let slotStartTimeRange: SlotStartTimeRangeRequest?
@@ -11832,8 +11832,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "SubnetId", required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// The ID of the subnet.
         public let subnetId: String
@@ -11856,8 +11856,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeleteOnTermination", location: "deleteOnTermination", required: false, type: .boolean), 
-            AWSShapeProperty(label: "VolumeId", location: "volumeId", required: false, type: .string)
+            AWSShapeProperty(label: "DeleteOnTermination", location: .body(locationName: "deleteOnTermination"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "VolumeId", location: .body(locationName: "volumeId"), required: false, type: .string)
         ]
         /// Indicates whether the volume is deleted on instance termination.
         public let deleteOnTermination: Bool?
@@ -11879,13 +11879,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeviceIndex", location: "deviceIndex", required: false, type: .integer), 
-            AWSShapeProperty(label: "Status", location: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "InstanceId", location: "instanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "AttachTime", location: "attachTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "DeleteOnTermination", location: "deleteOnTermination", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AttachmentId", location: "attachmentId", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceOwnerId", location: "instanceOwnerId", required: false, type: .string)
+            AWSShapeProperty(label: "DeviceIndex", location: .body(locationName: "deviceIndex"), required: false, type: .integer), 
+            AWSShapeProperty(label: "Status", location: .body(locationName: "status"), required: false, type: .enum), 
+            AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "AttachTime", location: .body(locationName: "attachTime"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "DeleteOnTermination", location: .body(locationName: "deleteOnTermination"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "AttachmentId", location: .body(locationName: "attachmentId"), required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceOwnerId", location: .body(locationName: "instanceOwnerId"), required: false, type: .string)
         ]
         /// The device index of the network interface attachment on the instance.
         public let deviceIndex: Int32?
@@ -11927,8 +11927,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "PrefixLists", location: "prefixListSet", required: false, type: .structure)
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "PrefixLists", location: .body(locationName: "prefixListSet"), required: false, type: .structure)
         ]
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
@@ -11950,9 +11950,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "RouteTableId", location: "routeTableId", required: true, type: .string), 
-            AWSShapeProperty(label: "AssociationId", location: "associationId", required: true, type: .string)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "RouteTableId", location: .body(locationName: "routeTableId"), required: true, type: .string), 
+            AWSShapeProperty(label: "AssociationId", location: .body(locationName: "associationId"), required: true, type: .string)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -11980,7 +11980,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "attributeName", location: "attributeName", required: false, type: .list)
+            AWSShapeProperty(label: "attributeName", required: false, type: .list)
         ]
         public let attributeName: [AccountAttributeName]?
 
@@ -12016,7 +12016,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BlockDeviceMapping", location: "BlockDeviceMapping", required: false, type: .list)
+            AWSShapeProperty(label: "BlockDeviceMapping", required: false, type: .list)
         ]
         public let blockDeviceMapping: [ScheduledInstancesBlockDeviceMapping]?
 
@@ -12037,7 +12037,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [SecurityGroupReference]?
 
@@ -12058,8 +12058,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Details", location: "details", required: false, type: .structure), 
-            AWSShapeProperty(label: "Status", location: "status", required: false, type: .enum)
+            AWSShapeProperty(label: "Details", location: .body(locationName: "details"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Status", location: .body(locationName: "status"), required: false, type: .enum)
         ]
         /// The system instance health or application instance health.
         public let details: InstanceStatusDetailsList?
@@ -12081,8 +12081,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Code", location: "code", required: true, type: .string), 
-            AWSShapeProperty(label: "Message", location: "message", required: true, type: .string)
+            AWSShapeProperty(label: "Code", location: .body(locationName: "code"), required: true, type: .string), 
+            AWSShapeProperty(label: "Message", location: .body(locationName: "message"), required: true, type: .string)
         ]
         /// The error code.
         public let code: String
@@ -12106,7 +12106,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotId", location: "SnapshotId", required: false, type: .list)
+            AWSShapeProperty(label: "SnapshotId", required: false, type: .list)
         ]
         public let snapshotId: [String]?
 
@@ -12123,8 +12123,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", location: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "PublicIp", location: "publicIp", required: false, type: .string)
+            AWSShapeProperty(label: "Status", location: .body(locationName: "status"), required: false, type: .enum), 
+            AWSShapeProperty(label: "PublicIp", location: .body(locationName: "publicIp"), required: false, type: .string)
         ]
         /// The move status for the IP address.
         public let status: Status?
@@ -12146,7 +12146,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ImageId", location: "imageId", required: false, type: .string)
+            AWSShapeProperty(label: "ImageId", location: .body(locationName: "imageId"), required: false, type: .string)
         ]
         /// The ID of the new AMI.
         public let imageId: String?
@@ -12164,7 +12164,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SecurityGroupReferenceSet", location: "securityGroupReferenceSet", required: false, type: .structure)
+            AWSShapeProperty(label: "SecurityGroupReferenceSet", location: .body(locationName: "securityGroupReferenceSet"), required: false, type: .structure)
         ]
         /// Information about the VPCs with the referencing security groups.
         public let securityGroupReferenceSet: SecurityGroupReferences?
@@ -12182,7 +12182,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [InstanceStateChange]?
 
@@ -12203,8 +12203,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserId", location: "userId", required: false, type: .string), 
-            AWSShapeProperty(label: "Group", location: "group", required: false, type: .enum)
+            AWSShapeProperty(label: "UserId", location: .body(locationName: "userId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Group", location: .body(locationName: "group"), required: false, type: .enum)
         ]
         /// The AWS account ID.
         public let userId: String?
@@ -12231,17 +12231,17 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LicenseType", location: "licenseType", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", location: "status", required: false, type: .string), 
-            AWSShapeProperty(label: "Platform", location: "platform", required: false, type: .string), 
-            AWSShapeProperty(label: "Progress", location: "progress", required: false, type: .string), 
-            AWSShapeProperty(label: "Hypervisor", location: "hypervisor", required: false, type: .string), 
-            AWSShapeProperty(label: "Architecture", location: "architecture", required: false, type: .string), 
-            AWSShapeProperty(label: "ImageId", location: "imageId", required: false, type: .string), 
-            AWSShapeProperty(label: "ImportTaskId", location: "importTaskId", required: false, type: .string), 
-            AWSShapeProperty(label: "StatusMessage", location: "statusMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "SnapshotDetails", location: "snapshotDetailSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "Description", location: "description", required: false, type: .string)
+            AWSShapeProperty(label: "LicenseType", location: .body(locationName: "licenseType"), required: false, type: .string), 
+            AWSShapeProperty(label: "Status", location: .body(locationName: "status"), required: false, type: .string), 
+            AWSShapeProperty(label: "Platform", location: .body(locationName: "platform"), required: false, type: .string), 
+            AWSShapeProperty(label: "Progress", location: .body(locationName: "progress"), required: false, type: .string), 
+            AWSShapeProperty(label: "Hypervisor", location: .body(locationName: "hypervisor"), required: false, type: .string), 
+            AWSShapeProperty(label: "Architecture", location: .body(locationName: "architecture"), required: false, type: .string), 
+            AWSShapeProperty(label: "ImageId", location: .body(locationName: "imageId"), required: false, type: .string), 
+            AWSShapeProperty(label: "ImportTaskId", location: .body(locationName: "importTaskId"), required: false, type: .string), 
+            AWSShapeProperty(label: "StatusMessage", location: .body(locationName: "statusMessage"), required: false, type: .string), 
+            AWSShapeProperty(label: "SnapshotDetails", location: .body(locationName: "snapshotDetailSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
         /// The license type of the virtual machine.
         public let licenseType: String?
@@ -12299,7 +12299,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcPeeringConnections", location: "vpcPeeringConnectionSet", required: false, type: .structure)
+            AWSShapeProperty(label: "VpcPeeringConnections", location: .body(locationName: "vpcPeeringConnectionSet"), required: false, type: .structure)
         ]
         /// Information about the VPC peering connections.
         public let vpcPeeringConnections: VpcPeeringConnectionList?
@@ -12317,9 +12317,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Format", location: "format", required: true, type: .enum), 
-            AWSShapeProperty(label: "ImportManifestUrl", location: "importManifestUrl", required: true, type: .string), 
-            AWSShapeProperty(label: "Bytes", location: "bytes", required: true, type: .long)
+            AWSShapeProperty(label: "Format", location: .body(locationName: "format"), required: true, type: .enum), 
+            AWSShapeProperty(label: "ImportManifestUrl", location: .body(locationName: "importManifestUrl"), required: true, type: .string), 
+            AWSShapeProperty(label: "Bytes", location: .body(locationName: "bytes"), required: true, type: .long)
         ]
         /// The disk image format.
         public let format: DiskImageFormat
@@ -12348,9 +12348,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PrefixListId", location: "prefixListId", required: false, type: .string), 
-            AWSShapeProperty(label: "Cidrs", location: "cidrSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "PrefixListName", location: "prefixListName", required: false, type: .string)
+            AWSShapeProperty(label: "PrefixListId", location: .body(locationName: "prefixListId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Cidrs", location: .body(locationName: "cidrSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "PrefixListName", location: .body(locationName: "prefixListName"), required: false, type: .string)
         ]
         /// The ID of the prefix.
         public let prefixListId: String?
@@ -12376,8 +12376,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Resource", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "UseLongIds", location: nil, required: true, type: .boolean)
+            AWSShapeProperty(label: "Resource", required: true, type: .string), 
+            AWSShapeProperty(label: "UseLongIds", required: true, type: .boolean)
         ]
         /// The type of resource: instance | reservation | snapshot | volume 
         public let resource: String
@@ -12401,10 +12401,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: "maxResults", required: false, type: .integer)
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer)
         ]
         /// One or more filters.    key - The tag key.    resource-id - The resource ID.    resource-type - The resource type (customer-gateway | dhcp-options | image | instance | internet-gateway | network-acl | network-interface | reserved-instances | route-table | security-group | snapshot | spot-instances-request | subnet | volume | vpc | vpn-connection | vpn-gateway).    value - The tag value.  
         public let filters: FilterList?
@@ -12434,14 +12434,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", location: "startTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "BundleTaskError", location: "error", required: false, type: .structure), 
-            AWSShapeProperty(label: "Progress", location: "progress", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", location: "instanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "State", location: "state", required: false, type: .enum), 
-            AWSShapeProperty(label: "UpdateTime", location: "updateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Storage", location: "storage", required: false, type: .structure), 
-            AWSShapeProperty(label: "BundleId", location: "bundleId", required: false, type: .string)
+            AWSShapeProperty(label: "StartTime", location: .body(locationName: "startTime"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "BundleTaskError", location: .body(locationName: "error"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Progress", location: .body(locationName: "progress"), required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeProperty(label: "UpdateTime", location: .body(locationName: "updateTime"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Storage", location: .body(locationName: "storage"), required: false, type: .structure), 
+            AWSShapeProperty(label: "BundleId", location: .body(locationName: "bundleId"), required: false, type: .string)
         ]
         /// The time this task started.
         public let startTime: Date?
@@ -12497,9 +12497,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AttachmentId", location: "attachmentId", required: true, type: .string), 
-            AWSShapeProperty(label: "Force", location: "force", required: false, type: .boolean)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "AttachmentId", location: .body(locationName: "attachmentId"), required: true, type: .string), 
+            AWSShapeProperty(label: "Force", location: .body(locationName: "force"), required: false, type: .boolean)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -12526,7 +12526,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Regions", location: "regionInfo", required: false, type: .structure)
+            AWSShapeProperty(label: "Regions", location: .body(locationName: "regionInfo"), required: false, type: .structure)
         ]
         /// Information about one or more regions.
         public let regions: RegionList?
@@ -12544,8 +12544,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// The ID of the instance.
         public let instanceId: String
@@ -12568,7 +12568,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [CreateVolumePermission]?
 
@@ -12589,7 +12589,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ZoneName", location: "ZoneName", required: false, type: .list)
+            AWSShapeProperty(label: "ZoneName", required: false, type: .list)
         ]
         public let zoneName: [String]?
 
@@ -12606,7 +12606,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [PlacementGroup]?
 
@@ -12627,11 +12627,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Options", location: "options", required: false, type: .structure), 
-            AWSShapeProperty(label: "CustomerGatewayId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Type", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "VpnGatewayId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Options", location: .body(locationName: "options"), required: false, type: .structure), 
+            AWSShapeProperty(label: "CustomerGatewayId", required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Type", required: true, type: .string), 
+            AWSShapeProperty(label: "VpnGatewayId", required: true, type: .string)
         ]
         /// Indicates whether the VPN connection requires static routes. If you are creating a VPN connection for a device that does not support BGP, you must specify true. Default: false 
         public let options: VpnConnectionOptionsSpecification?
@@ -12668,8 +12668,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "SpotPriceHistory", location: "spotPriceHistorySet", required: false, type: .structure)
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "SpotPriceHistory", location: .body(locationName: "spotPriceHistorySet"), required: false, type: .structure)
         ]
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -12691,7 +12691,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GroupId", location: "groupId", required: false, type: .string)
+            AWSShapeProperty(label: "GroupId", location: .body(locationName: "groupId"), required: false, type: .string)
         ]
         /// The ID of the security group.
         public let groupId: String?
@@ -12709,7 +12709,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [InstanceNetworkInterfaceSpecification]?
 
@@ -12730,7 +12730,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [CancelSpotFleetRequestsSuccessItem]?
 
@@ -12757,8 +12757,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClientToken", location: "clientToken", required: false, type: .string), 
-            AWSShapeProperty(label: "NatGateway", location: "natGateway", required: false, type: .structure)
+            AWSShapeProperty(label: "ClientToken", location: .body(locationName: "clientToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "NatGateway", location: .body(locationName: "natGateway"), required: false, type: .structure)
         ]
         /// Unique, case-sensitive identifier to ensure the idempotency of the request. Only returned if a client token was provided in the request.
         public let clientToken: String?
@@ -12780,7 +12780,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [InstanceStatusDetails]?
 
@@ -12801,7 +12801,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [SecurityGroup]?
 
@@ -12831,9 +12831,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AvailabilityZone", location: "availabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "Tenancy", location: "tenancy", required: false, type: .enum), 
-            AWSShapeProperty(label: "GroupName", location: "groupName", required: false, type: .string)
+            AWSShapeProperty(label: "AvailabilityZone", location: .body(locationName: "availabilityZone"), required: false, type: .string), 
+            AWSShapeProperty(label: "Tenancy", location: .body(locationName: "tenancy"), required: false, type: .enum), 
+            AWSShapeProperty(label: "GroupName", location: .body(locationName: "groupName"), required: false, type: .string)
         ]
         /// The Availability Zone. [Spot fleet only] To specify multiple Availability Zones, separate them using commas; for example, "us-west-2a, us-west-2b".
         public let availabilityZone: String?
@@ -12859,44 +12859,44 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClientToken", location: "clientToken", required: false, type: .string), 
-            AWSShapeProperty(label: "RootDeviceName", location: "rootDeviceName", required: false, type: .string), 
-            AWSShapeProperty(label: "EbsOptimized", location: "ebsOptimized", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SourceDestCheck", location: "sourceDestCheck", required: false, type: .boolean), 
-            AWSShapeProperty(label: "KernelId", location: "kernelId", required: false, type: .string), 
-            AWSShapeProperty(label: "PrivateDnsName", location: "privateDnsName", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceType", location: "instanceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "PrivateIpAddress", location: "privateIpAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "ProductCodes", location: "productCodes", required: false, type: .structure), 
-            AWSShapeProperty(label: "KeyName", location: "keyName", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", location: "instanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "IamInstanceProfile", location: "iamInstanceProfile", required: false, type: .structure), 
-            AWSShapeProperty(label: "PublicDnsName", location: "dnsName", required: false, type: .string), 
-            AWSShapeProperty(label: "VpcId", location: "vpcId", required: false, type: .string), 
-            AWSShapeProperty(label: "RootDeviceType", location: "rootDeviceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "RamdiskId", location: "ramdiskId", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceLifecycle", location: "instanceLifecycle", required: false, type: .enum), 
-            AWSShapeProperty(label: "BlockDeviceMappings", location: "blockDeviceMapping", required: false, type: .structure), 
-            AWSShapeProperty(label: "SubnetId", location: "subnetId", required: false, type: .string), 
-            AWSShapeProperty(label: "SriovNetSupport", location: "sriovNetSupport", required: false, type: .string), 
-            AWSShapeProperty(label: "Platform", location: "platform", required: false, type: .enum), 
-            AWSShapeProperty(label: "SpotInstanceRequestId", location: "spotInstanceRequestId", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", location: "tagSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "LaunchTime", location: "launchTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "State", location: "instanceState", required: false, type: .structure), 
-            AWSShapeProperty(label: "PublicIpAddress", location: "ipAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "Monitoring", location: "monitoring", required: false, type: .structure), 
-            AWSShapeProperty(label: "StateTransitionReason", location: "reason", required: false, type: .string), 
-            AWSShapeProperty(label: "StateReason", location: "stateReason", required: false, type: .structure), 
-            AWSShapeProperty(label: "SecurityGroups", location: "groupSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "Hypervisor", location: "hypervisor", required: false, type: .enum), 
-            AWSShapeProperty(label: "Architecture", location: "architecture", required: false, type: .enum), 
-            AWSShapeProperty(label: "ImageId", location: "imageId", required: false, type: .string), 
-            AWSShapeProperty(label: "EnaSupport", location: "enaSupport", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NetworkInterfaces", location: "networkInterfaceSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "AmiLaunchIndex", location: "amiLaunchIndex", required: false, type: .integer), 
-            AWSShapeProperty(label: "Placement", location: "placement", required: false, type: .structure), 
-            AWSShapeProperty(label: "VirtualizationType", location: "virtualizationType", required: false, type: .enum)
+            AWSShapeProperty(label: "ClientToken", location: .body(locationName: "clientToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "RootDeviceName", location: .body(locationName: "rootDeviceName"), required: false, type: .string), 
+            AWSShapeProperty(label: "EbsOptimized", location: .body(locationName: "ebsOptimized"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "SourceDestCheck", location: .body(locationName: "sourceDestCheck"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "KernelId", location: .body(locationName: "kernelId"), required: false, type: .string), 
+            AWSShapeProperty(label: "PrivateDnsName", location: .body(locationName: "privateDnsName"), required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceType", location: .body(locationName: "instanceType"), required: false, type: .enum), 
+            AWSShapeProperty(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress"), required: false, type: .string), 
+            AWSShapeProperty(label: "ProductCodes", location: .body(locationName: "productCodes"), required: false, type: .structure), 
+            AWSShapeProperty(label: "KeyName", location: .body(locationName: "keyName"), required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "IamInstanceProfile", location: .body(locationName: "iamInstanceProfile"), required: false, type: .structure), 
+            AWSShapeProperty(label: "PublicDnsName", location: .body(locationName: "dnsName"), required: false, type: .string), 
+            AWSShapeProperty(label: "VpcId", location: .body(locationName: "vpcId"), required: false, type: .string), 
+            AWSShapeProperty(label: "RootDeviceType", location: .body(locationName: "rootDeviceType"), required: false, type: .enum), 
+            AWSShapeProperty(label: "RamdiskId", location: .body(locationName: "ramdiskId"), required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceLifecycle", location: .body(locationName: "instanceLifecycle"), required: false, type: .enum), 
+            AWSShapeProperty(label: "BlockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), required: false, type: .structure), 
+            AWSShapeProperty(label: "SubnetId", location: .body(locationName: "subnetId"), required: false, type: .string), 
+            AWSShapeProperty(label: "SriovNetSupport", location: .body(locationName: "sriovNetSupport"), required: false, type: .string), 
+            AWSShapeProperty(label: "Platform", location: .body(locationName: "platform"), required: false, type: .enum), 
+            AWSShapeProperty(label: "SpotInstanceRequestId", location: .body(locationName: "spotInstanceRequestId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "LaunchTime", location: .body(locationName: "launchTime"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "State", location: .body(locationName: "instanceState"), required: false, type: .structure), 
+            AWSShapeProperty(label: "PublicIpAddress", location: .body(locationName: "ipAddress"), required: false, type: .string), 
+            AWSShapeProperty(label: "Monitoring", location: .body(locationName: "monitoring"), required: false, type: .structure), 
+            AWSShapeProperty(label: "StateTransitionReason", location: .body(locationName: "reason"), required: false, type: .string), 
+            AWSShapeProperty(label: "StateReason", location: .body(locationName: "stateReason"), required: false, type: .structure), 
+            AWSShapeProperty(label: "SecurityGroups", location: .body(locationName: "groupSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Hypervisor", location: .body(locationName: "hypervisor"), required: false, type: .enum), 
+            AWSShapeProperty(label: "Architecture", location: .body(locationName: "architecture"), required: false, type: .enum), 
+            AWSShapeProperty(label: "ImageId", location: .body(locationName: "imageId"), required: false, type: .string), 
+            AWSShapeProperty(label: "EnaSupport", location: .body(locationName: "enaSupport"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "NetworkInterfaces", location: .body(locationName: "networkInterfaceSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "AmiLaunchIndex", location: .body(locationName: "amiLaunchIndex"), required: false, type: .integer), 
+            AWSShapeProperty(label: "Placement", location: .body(locationName: "placement"), required: false, type: .structure), 
+            AWSShapeProperty(label: "VirtualizationType", location: .body(locationName: "virtualizationType"), required: false, type: .enum)
         ]
         /// The idempotency token you provided when you launched the instance, if applicable.
         public let clientToken: String?
@@ -13068,10 +13068,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Device", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "InstanceId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "VolumeId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Device", required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
+            AWSShapeProperty(label: "VolumeId", required: true, type: .string)
         ]
         /// The device name to expose to the instance (for example, /dev/sdh or xvdh).
         public let device: String
@@ -13104,7 +13104,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Return", location: "return", required: false, type: .boolean)
+            AWSShapeProperty(label: "Return", location: .body(locationName: "return"), required: false, type: .boolean)
         ]
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -13128,8 +13128,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "VpcPeeringConnectionId", location: "vpcPeeringConnectionId", required: false, type: .string)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "VpcPeeringConnectionId", location: .body(locationName: "vpcPeeringConnectionId"), required: false, type: .string)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -13151,10 +13151,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Filter", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "FlowLogIds", location: "FlowLogId", required: false, type: .structure), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "Filter", required: false, type: .structure), 
+            AWSShapeProperty(label: "FlowLogIds", location: .body(locationName: "FlowLogId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// One or more filters.    deliver-log-status - The status of the logs delivery (SUCCESS | FAILED).    flow-log-id - The ID of the flow log.    log-group-name - The name of the log group.    resource-id - The ID of the VPC, subnet, or network interface.    traffic-type - The type of traffic (ACCEPT | REJECT | ALL)  
         public let filter: FilterList?
@@ -13184,8 +13184,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceType", location: "instanceType", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", location: "instanceId", required: false, type: .string)
+            AWSShapeProperty(label: "InstanceType", location: .body(locationName: "instanceType"), required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: false, type: .string)
         ]
         /// The instance type size (for example, m3.medium) of the running instance.
         public let instanceType: String?
@@ -13216,7 +13216,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SpotDatafeedSubscription", location: "spotDatafeedSubscription", required: false, type: .structure)
+            AWSShapeProperty(label: "SpotDatafeedSubscription", location: .body(locationName: "spotDatafeedSubscription"), required: false, type: .structure)
         ]
         /// The Spot instance data feed subscription.
         public let spotDatafeedSubscription: SpotDatafeedSubscription?
@@ -13234,7 +13234,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Enabled", location: "enabled", required: false, type: .boolean)
+            AWSShapeProperty(label: "Enabled", location: .body(locationName: "enabled"), required: false, type: .boolean)
         ]
         /// Enables monitoring for the instance. Default: false 
         public let enabled: Bool?
@@ -13252,7 +13252,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "S3", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "S3", required: false, type: .structure)
         ]
         /// An Amazon S3 storage location.
         public let s3: S3Storage?
@@ -13270,7 +13270,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BlockDeviceMapping", location: "BlockDeviceMapping", required: false, type: .list)
+            AWSShapeProperty(label: "BlockDeviceMapping", required: false, type: .list)
         ]
         public let blockDeviceMapping: [BlockDeviceMapping]?
 
@@ -13297,17 +13297,17 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PrivateIpAddress", location: "privateIpAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "SubnetId", location: "subnetId", required: false, type: .string), 
-            AWSShapeProperty(label: "UserData", location: "userData", required: false, type: .structure), 
-            AWSShapeProperty(label: "GroupIds", location: "GroupId", required: false, type: .structure), 
-            AWSShapeProperty(label: "Architecture", location: "architecture", required: false, type: .enum), 
-            AWSShapeProperty(label: "AdditionalInfo", location: "additionalInfo", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceInitiatedShutdownBehavior", location: "instanceInitiatedShutdownBehavior", required: false, type: .enum), 
-            AWSShapeProperty(label: "Placement", location: "placement", required: false, type: .structure), 
-            AWSShapeProperty(label: "Monitoring", location: "monitoring", required: false, type: .boolean), 
-            AWSShapeProperty(label: "InstanceType", location: "instanceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "GroupNames", location: "GroupName", required: false, type: .structure)
+            AWSShapeProperty(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress"), required: false, type: .string), 
+            AWSShapeProperty(label: "SubnetId", location: .body(locationName: "subnetId"), required: false, type: .string), 
+            AWSShapeProperty(label: "UserData", location: .body(locationName: "userData"), required: false, type: .structure), 
+            AWSShapeProperty(label: "GroupIds", location: .body(locationName: "GroupId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Architecture", location: .body(locationName: "architecture"), required: false, type: .enum), 
+            AWSShapeProperty(label: "AdditionalInfo", location: .body(locationName: "additionalInfo"), required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceInitiatedShutdownBehavior", location: .body(locationName: "instanceInitiatedShutdownBehavior"), required: false, type: .enum), 
+            AWSShapeProperty(label: "Placement", location: .body(locationName: "placement"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Monitoring", location: .body(locationName: "monitoring"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "InstanceType", location: .body(locationName: "instanceType"), required: false, type: .enum), 
+            AWSShapeProperty(label: "GroupNames", location: .body(locationName: "GroupName"), required: false, type: .structure)
         ]
         /// [EC2-VPC] An available IP address from the IP address range of the subnet.
         public let privateIpAddress: String?
@@ -13365,7 +13365,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [GroupIdentifier]?
 
@@ -13386,7 +13386,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [ReservedInstances]?
 
@@ -13407,7 +13407,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [IpPermission]?
 
@@ -13428,7 +13428,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [Ipv6Range]?
 
@@ -13449,9 +13449,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Message", location: "message", required: false, type: .string), 
-            AWSShapeProperty(label: "Code", location: "code", required: false, type: .string), 
-            AWSShapeProperty(label: "UpdateTime", location: "updateTime", required: false, type: .timestamp)
+            AWSShapeProperty(label: "Message", location: .body(locationName: "message"), required: false, type: .string), 
+            AWSShapeProperty(label: "Code", location: .body(locationName: "code"), required: false, type: .string), 
+            AWSShapeProperty(label: "UpdateTime", location: .body(locationName: "updateTime"), required: false, type: .timestamp)
         ]
         /// The description for the status code.
         public let message: String?
@@ -13477,7 +13477,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [InstanceStatusEvent]?
 
@@ -13498,7 +13498,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SecurityGroup", location: "SecurityGroup", required: false, type: .list)
+            AWSShapeProperty(label: "SecurityGroup", required: false, type: .list)
         ]
         public let securityGroup: [String]?
 
@@ -13515,7 +13515,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Ipv6Address", location: "ipv6Address", required: false, type: .string)
+            AWSShapeProperty(label: "Ipv6Address", location: .body(locationName: "ipv6Address"), required: false, type: .string)
         ]
         /// The IPv6 address.
         public let ipv6Address: String?
@@ -13533,7 +13533,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [ImportSnapshotTask]?
 
@@ -13562,12 +13562,12 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PrefixListIds", location: "prefixListIds", required: false, type: .structure), 
-            AWSShapeProperty(label: "UserIdGroupPairs", location: "groups", required: false, type: .structure), 
-            AWSShapeProperty(label: "IpRanges", location: "ipRanges", required: false, type: .structure), 
-            AWSShapeProperty(label: "FromPort", location: "fromPort", required: false, type: .integer), 
-            AWSShapeProperty(label: "ToPort", location: "toPort", required: false, type: .integer), 
-            AWSShapeProperty(label: "IpProtocol", location: "ipProtocol", required: false, type: .string)
+            AWSShapeProperty(label: "PrefixListIds", location: .body(locationName: "prefixListIds"), required: false, type: .structure), 
+            AWSShapeProperty(label: "UserIdGroupPairs", location: .body(locationName: "groups"), required: false, type: .structure), 
+            AWSShapeProperty(label: "IpRanges", location: .body(locationName: "ipRanges"), required: false, type: .structure), 
+            AWSShapeProperty(label: "FromPort", location: .body(locationName: "fromPort"), required: false, type: .integer), 
+            AWSShapeProperty(label: "ToPort", location: .body(locationName: "toPort"), required: false, type: .integer), 
+            AWSShapeProperty(label: "IpProtocol", location: .body(locationName: "ipProtocol"), required: false, type: .string)
         ]
         /// One or more prefix list IDs for an AWS service. Not applicable for stale security group rules.
         public let prefixListIds: PrefixListIdSet?
@@ -13605,8 +13605,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Arn", location: "arn", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", location: "id", required: false, type: .string)
+            AWSShapeProperty(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeProperty(label: "Id", location: .body(locationName: "id"), required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the instance profile.
         public let arn: String?
@@ -13628,7 +13628,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SecurityGroups", location: "securityGroupInfo", required: false, type: .structure)
+            AWSShapeProperty(label: "SecurityGroups", location: .body(locationName: "securityGroupInfo"), required: false, type: .structure)
         ]
         /// Information about one or more security groups.
         public let securityGroups: SecurityGroupList?
@@ -13646,14 +13646,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UpfrontPrice", location: "upfrontPrice", required: false, type: .string), 
-            AWSShapeProperty(label: "HostIdSet", location: "hostIdSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "PaymentOption", location: "paymentOption", required: false, type: .enum), 
-            AWSShapeProperty(label: "HourlyPrice", location: "hourlyPrice", required: false, type: .string), 
-            AWSShapeProperty(label: "CurrencyCode", location: "currencyCode", required: false, type: .enum), 
-            AWSShapeProperty(label: "HostReservationId", location: "hostReservationId", required: false, type: .string), 
-            AWSShapeProperty(label: "Duration", location: "duration", required: false, type: .integer), 
-            AWSShapeProperty(label: "InstanceFamily", location: "instanceFamily", required: false, type: .string)
+            AWSShapeProperty(label: "UpfrontPrice", location: .body(locationName: "upfrontPrice"), required: false, type: .string), 
+            AWSShapeProperty(label: "HostIdSet", location: .body(locationName: "hostIdSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "PaymentOption", location: .body(locationName: "paymentOption"), required: false, type: .enum), 
+            AWSShapeProperty(label: "HourlyPrice", location: .body(locationName: "hourlyPrice"), required: false, type: .string), 
+            AWSShapeProperty(label: "CurrencyCode", location: .body(locationName: "currencyCode"), required: false, type: .enum), 
+            AWSShapeProperty(label: "HostReservationId", location: .body(locationName: "hostReservationId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Duration", location: .body(locationName: "duration"), required: false, type: .integer), 
+            AWSShapeProperty(label: "InstanceFamily", location: .body(locationName: "instanceFamily"), required: false, type: .string)
         ]
         /// The upfront price of the reservation.
         public let upfrontPrice: String?
@@ -13699,8 +13699,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SpotFleetRequestConfig", location: "spotFleetRequestConfig", required: true, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "SpotFleetRequestConfig", location: .body(locationName: "spotFleetRequestConfig"), required: true, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// The configuration for the Spot fleet request.
         public let spotFleetRequestConfig: SpotFleetRequestConfigData
@@ -13729,21 +13729,21 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RecurringCharges", location: "recurringCharges", required: false, type: .structure), 
-            AWSShapeProperty(label: "UsagePrice", location: "usagePrice", required: false, type: .float), 
-            AWSShapeProperty(label: "InstanceTenancy", location: "instanceTenancy", required: false, type: .enum), 
-            AWSShapeProperty(label: "PricingDetails", location: "pricingDetailsSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "InstanceType", location: "instanceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "OfferingType", location: "offeringType", required: false, type: .enum), 
-            AWSShapeProperty(label: "ProductDescription", location: "productDescription", required: false, type: .enum), 
-            AWSShapeProperty(label: "Marketplace", location: "marketplace", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AvailabilityZone", location: "availabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "OfferingClass", location: "offeringClass", required: false, type: .enum), 
-            AWSShapeProperty(label: "CurrencyCode", location: "currencyCode", required: false, type: .enum), 
-            AWSShapeProperty(label: "ReservedInstancesOfferingId", location: "reservedInstancesOfferingId", required: false, type: .string), 
-            AWSShapeProperty(label: "Duration", location: "duration", required: false, type: .long), 
-            AWSShapeProperty(label: "Scope", location: "scope", required: false, type: .enum), 
-            AWSShapeProperty(label: "FixedPrice", location: "fixedPrice", required: false, type: .float)
+            AWSShapeProperty(label: "RecurringCharges", location: .body(locationName: "recurringCharges"), required: false, type: .structure), 
+            AWSShapeProperty(label: "UsagePrice", location: .body(locationName: "usagePrice"), required: false, type: .float), 
+            AWSShapeProperty(label: "InstanceTenancy", location: .body(locationName: "instanceTenancy"), required: false, type: .enum), 
+            AWSShapeProperty(label: "PricingDetails", location: .body(locationName: "pricingDetailsSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "InstanceType", location: .body(locationName: "instanceType"), required: false, type: .enum), 
+            AWSShapeProperty(label: "OfferingType", location: .body(locationName: "offeringType"), required: false, type: .enum), 
+            AWSShapeProperty(label: "ProductDescription", location: .body(locationName: "productDescription"), required: false, type: .enum), 
+            AWSShapeProperty(label: "Marketplace", location: .body(locationName: "marketplace"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "AvailabilityZone", location: .body(locationName: "availabilityZone"), required: false, type: .string), 
+            AWSShapeProperty(label: "OfferingClass", location: .body(locationName: "offeringClass"), required: false, type: .enum), 
+            AWSShapeProperty(label: "CurrencyCode", location: .body(locationName: "currencyCode"), required: false, type: .enum), 
+            AWSShapeProperty(label: "ReservedInstancesOfferingId", location: .body(locationName: "reservedInstancesOfferingId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Duration", location: .body(locationName: "duration"), required: false, type: .long), 
+            AWSShapeProperty(label: "Scope", location: .body(locationName: "scope"), required: false, type: .enum), 
+            AWSShapeProperty(label: "FixedPrice", location: .body(locationName: "fixedPrice"), required: false, type: .float)
         ]
         /// The recurring charge tag assigned to the resource.
         public let recurringCharges: RecurringChargesList?
@@ -13817,8 +13817,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "State", location: "state", required: false, type: .enum), 
-            AWSShapeProperty(label: "InstanceCount", location: "instanceCount", required: false, type: .integer)
+            AWSShapeProperty(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeProperty(label: "InstanceCount", location: .body(locationName: "instanceCount"), required: false, type: .integer)
         ]
         /// The states of the listed Reserved Instances.
         public let state: ListingState?
@@ -13840,9 +13840,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NetworkInterfaceIds", location: "NetworkInterfaceId", required: false, type: .structure), 
-            AWSShapeProperty(label: "Filters", location: "filter", required: false, type: .structure)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "NetworkInterfaceIds", location: .body(locationName: "NetworkInterfaceId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "filter"), required: false, type: .structure)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -13873,7 +13873,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NetworkAcl", location: "networkAcl", required: false, type: .structure)
+            AWSShapeProperty(label: "NetworkAcl", location: .body(locationName: "networkAcl"), required: false, type: .structure)
         ]
         /// Information about the network ACL.
         public let networkAcl: NetworkAcl?
@@ -13891,8 +13891,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Ebs", location: "ebs", required: false, type: .structure), 
-            AWSShapeProperty(label: "DeviceName", location: "deviceName", required: false, type: .string)
+            AWSShapeProperty(label: "Ebs", location: .body(locationName: "ebs"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DeviceName", location: .body(locationName: "deviceName"), required: false, type: .string)
         ]
         /// Parameters used to automatically set up EBS volumes when the instance is launched.
         public let ebs: EbsInstanceBlockDevice?
@@ -13914,10 +13914,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Code", location: "code", required: false, type: .string), 
-            AWSShapeProperty(label: "EventType", location: "eventType", required: false, type: .string), 
-            AWSShapeProperty(label: "EventId", location: "eventId", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", location: "description", required: false, type: .string)
+            AWSShapeProperty(label: "Code", location: .body(locationName: "code"), required: false, type: .string), 
+            AWSShapeProperty(label: "EventType", location: .body(locationName: "eventType"), required: false, type: .string), 
+            AWSShapeProperty(label: "EventId", location: .body(locationName: "eventId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
         /// The code identifying the operation, for example, enable-volume-io.
         public let code: String?
@@ -13947,7 +13947,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [InstanceMonitoring]?
 
@@ -13968,7 +13968,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [NetworkInterface]?
 
@@ -13989,10 +13989,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PriceSchedules", location: "priceSchedules", required: true, type: .structure), 
-            AWSShapeProperty(label: "InstanceCount", location: "instanceCount", required: true, type: .integer), 
-            AWSShapeProperty(label: "ReservedInstancesId", location: "reservedInstancesId", required: true, type: .string), 
-            AWSShapeProperty(label: "ClientToken", location: "clientToken", required: true, type: .string)
+            AWSShapeProperty(label: "PriceSchedules", location: .body(locationName: "priceSchedules"), required: true, type: .structure), 
+            AWSShapeProperty(label: "InstanceCount", location: .body(locationName: "instanceCount"), required: true, type: .integer), 
+            AWSShapeProperty(label: "ReservedInstancesId", location: .body(locationName: "reservedInstancesId"), required: true, type: .string), 
+            AWSShapeProperty(label: "ClientToken", location: .body(locationName: "clientToken"), required: true, type: .string)
         ]
         /// A list specifying the price of the Standard Reserved Instance for each month remaining in the Reserved Instance term.
         public let priceSchedules: PriceScheduleSpecificationList
@@ -14026,7 +14026,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [String]?
 
@@ -14043,7 +14043,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RouteTables", location: "routeTableSet", required: false, type: .structure)
+            AWSShapeProperty(label: "RouteTables", location: .body(locationName: "routeTableSet"), required: false, type: .structure)
         ]
         /// Information about one or more route tables.
         public let routeTables: RouteTableList?
@@ -14061,7 +14061,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IamInstanceProfileAssociation", location: "iamInstanceProfileAssociation", required: false, type: .structure)
+            AWSShapeProperty(label: "IamInstanceProfileAssociation", location: .body(locationName: "iamInstanceProfileAssociation"), required: false, type: .structure)
         ]
         /// Information about the IAM instance profile association.
         public let iamInstanceProfileAssociation: IamInstanceProfileAssociation?
@@ -14085,9 +14085,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DhcpOptionsId", location: "dhcpOptionsId", required: false, type: .string), 
-            AWSShapeProperty(label: "DhcpConfigurations", location: "dhcpConfigurationSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "Tags", location: "tagSet", required: false, type: .structure)
+            AWSShapeProperty(label: "DhcpOptionsId", location: .body(locationName: "dhcpOptionsId"), required: false, type: .string), 
+            AWSShapeProperty(label: "DhcpConfigurations", location: .body(locationName: "dhcpConfigurationSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .structure)
         ]
         /// The ID of the set of DHCP options.
         public let dhcpOptionsId: String?
@@ -14113,8 +14113,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Instances", location: "instancesSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string)
+            AWSShapeProperty(label: "Instances", location: .body(locationName: "instancesSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
         /// Information about one or more linked EC2-Classic instances.
         public let instances: ClassicLinkInstanceList?
@@ -14136,7 +14136,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserId", location: "UserId", required: false, type: .list)
+            AWSShapeProperty(label: "UserId", required: false, type: .list)
         ]
         public let userId: [String]?
 
@@ -14171,14 +14171,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KmsKeyId", location: "kmsKeyId", required: false, type: .string), 
-            AWSShapeProperty(label: "ClientToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "SourceRegion", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Encrypted", location: "encrypted", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SourceImageId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "KmsKeyId", location: .body(locationName: "kmsKeyId"), required: false, type: .string), 
+            AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
+            AWSShapeProperty(label: "SourceRegion", required: true, type: .string), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "Encrypted", location: .body(locationName: "encrypted"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "SourceImageId", required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
         /// The full ARN of the AWS Key Management Service (AWS KMS) CMK to use when encrypting the snapshots of an image during a copy operation. This parameter is only required if you want to use a non-default CMK; if this parameter is not specified, the default CMK for EBS is used. The ARN contains the arn:aws:kms namespace, followed by the region of the CMK, the AWS account ID of the CMK owner, the key namespace, and then the CMK ID. For example, arn:aws:kms:us-east-1:012345678910:key/abcd1234-a123-456a-a12b-a123b4cd56ef. The specified CMK must exist in the region that the snapshot is being copied to. If a KmsKeyId is specified, the Encrypted flag must also be set.
         public let kmsKeyId: String?
@@ -14227,9 +14227,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NetworkAclIds", location: "NetworkAclId", required: false, type: .structure), 
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "NetworkAclIds", location: .body(locationName: "NetworkAclId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -14269,7 +14269,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [VpcAttachment]?
 
@@ -14290,7 +14290,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TerminatingInstances", location: "instancesSet", required: false, type: .structure)
+            AWSShapeProperty(label: "TerminatingInstances", location: .body(locationName: "instancesSet"), required: false, type: .structure)
         ]
         /// Information about one or more terminated instances.
         public let terminatingInstances: InstanceStateChangeList?
@@ -14308,14 +14308,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeType", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Encrypted", location: "encrypted", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Size", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "SnapshotId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Iops", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "AvailabilityZone", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "KmsKeyId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "VolumeType", required: false, type: .enum), 
+            AWSShapeProperty(label: "Encrypted", location: .body(locationName: "encrypted"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Size", required: false, type: .integer), 
+            AWSShapeProperty(label: "SnapshotId", required: false, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Iops", required: false, type: .integer), 
+            AWSShapeProperty(label: "AvailabilityZone", required: true, type: .string), 
+            AWSShapeProperty(label: "KmsKeyId", required: false, type: .string)
         ]
         /// The volume type. This can be gp2 for General Purpose SSD, io1 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1 for Cold HDD, or standard for Magnetic volumes. Default: standard 
         public let volumeType: VolumeType?
@@ -14368,11 +14368,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Filters", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "ImportTaskIds", location: "ImportTaskId", required: false, type: .structure), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "Filters", required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeProperty(label: "ImportTaskIds", location: .body(locationName: "ImportTaskId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// One or more filters.
         public let filters: FilterList?
@@ -14406,8 +14406,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetId", location: "subnetId", required: false, type: .string), 
-            AWSShapeProperty(label: "Ipv6CidrBlockAssociation", location: "ipv6CidrBlockAssociation", required: false, type: .structure)
+            AWSShapeProperty(label: "SubnetId", location: .body(locationName: "subnetId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Ipv6CidrBlockAssociation", location: .body(locationName: "ipv6CidrBlockAssociation"), required: false, type: .structure)
         ]
         /// The ID of the subnet.
         public let subnetId: String?
@@ -14429,7 +14429,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [ReservedInstanceReservationValue]?
 
@@ -14450,9 +14450,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AllocationId", location: "allocationId", required: false, type: .string), 
-            AWSShapeProperty(label: "Domain", location: "domain", required: false, type: .enum), 
-            AWSShapeProperty(label: "PublicIp", location: "publicIp", required: false, type: .string)
+            AWSShapeProperty(label: "AllocationId", location: .body(locationName: "allocationId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Domain", location: .body(locationName: "domain"), required: false, type: .enum), 
+            AWSShapeProperty(label: "PublicIp", location: .body(locationName: "publicIp"), required: false, type: .string)
         ]
         /// [EC2-VPC] The ID that AWS assigns to represent the allocation of the Elastic IP address for use with instances in a VPC.
         public let allocationId: String?
@@ -14478,18 +14478,18 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", location: "startTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "OriginalIops", location: "originalIops", required: false, type: .integer), 
-            AWSShapeProperty(label: "ModificationState", location: "modificationState", required: false, type: .enum), 
-            AWSShapeProperty(label: "OriginalSize", location: "originalSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "Progress", location: "progress", required: false, type: .long), 
-            AWSShapeProperty(label: "VolumeId", location: "volumeId", required: false, type: .string), 
-            AWSShapeProperty(label: "EndTime", location: "endTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "TargetVolumeType", location: "targetVolumeType", required: false, type: .enum), 
-            AWSShapeProperty(label: "TargetIops", location: "targetIops", required: false, type: .integer), 
-            AWSShapeProperty(label: "OriginalVolumeType", location: "originalVolumeType", required: false, type: .enum), 
-            AWSShapeProperty(label: "TargetSize", location: "targetSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "StatusMessage", location: "statusMessage", required: false, type: .string)
+            AWSShapeProperty(label: "StartTime", location: .body(locationName: "startTime"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "OriginalIops", location: .body(locationName: "originalIops"), required: false, type: .integer), 
+            AWSShapeProperty(label: "ModificationState", location: .body(locationName: "modificationState"), required: false, type: .enum), 
+            AWSShapeProperty(label: "OriginalSize", location: .body(locationName: "originalSize"), required: false, type: .integer), 
+            AWSShapeProperty(label: "Progress", location: .body(locationName: "progress"), required: false, type: .long), 
+            AWSShapeProperty(label: "VolumeId", location: .body(locationName: "volumeId"), required: false, type: .string), 
+            AWSShapeProperty(label: "EndTime", location: .body(locationName: "endTime"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "TargetVolumeType", location: .body(locationName: "targetVolumeType"), required: false, type: .enum), 
+            AWSShapeProperty(label: "TargetIops", location: .body(locationName: "targetIops"), required: false, type: .integer), 
+            AWSShapeProperty(label: "OriginalVolumeType", location: .body(locationName: "originalVolumeType"), required: false, type: .enum), 
+            AWSShapeProperty(label: "TargetSize", location: .body(locationName: "targetSize"), required: false, type: .integer), 
+            AWSShapeProperty(label: "StatusMessage", location: .body(locationName: "statusMessage"), required: false, type: .string)
         ]
         /// Modification start time 
         public let startTime: Date?
@@ -14551,8 +14551,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "S3Bucket", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "S3Key", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "S3Bucket", required: false, type: .string), 
+            AWSShapeProperty(label: "S3Key", required: false, type: .string)
         ]
         /// The name of the S3 bucket where the disk image is located.
         public let s3Bucket: String?
@@ -14574,9 +14574,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DhcpOptionsId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "VpcId", required: true, type: .string), 
+            AWSShapeProperty(label: "DhcpOptionsId", required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// The ID of the VPC.
         public let vpcId: String
@@ -14604,9 +14604,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "VolumeId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "VolumeId", required: true, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -14633,7 +14633,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [String]?
 
@@ -14650,7 +14650,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Resource", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Resource", required: false, type: .string)
         ]
         /// The type of resource: instance | reservation | snapshot | volume 
         public let resource: String?
@@ -14668,7 +14668,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [HostInstance]?
 
@@ -14689,10 +14689,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HostReservationIdSet", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Filter", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "HostReservationIdSet", required: false, type: .structure), 
+            AWSShapeProperty(label: "Filter", required: false, type: .structure), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// One or more host reservation IDs.
         public let hostReservationIdSet: HostReservationIdSet?
@@ -14722,8 +14722,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HostIdSet", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "OfferingId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "HostIdSet", required: true, type: .structure), 
+            AWSShapeProperty(label: "OfferingId", required: true, type: .string)
         ]
         /// The ID/s of the Dedicated Host/s that the reservation will be associated with.
         public let hostIdSet: RequestHostIdSet
@@ -14747,10 +14747,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceType", location: "instanceType", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceHealth", location: "instanceHealth", required: false, type: .enum), 
-            AWSShapeProperty(label: "InstanceId", location: "instanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "SpotInstanceRequestId", location: "spotInstanceRequestId", required: false, type: .string)
+            AWSShapeProperty(label: "InstanceType", location: .body(locationName: "instanceType"), required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceHealth", location: .body(locationName: "instanceHealth"), required: false, type: .enum), 
+            AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "SpotInstanceRequestId", location: .body(locationName: "spotInstanceRequestId"), required: false, type: .string)
         ]
         /// The instance type.
         public let instanceType: String?
@@ -14780,8 +14780,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MovingAddressStatuses", location: "movingAddressStatusSet", required: false, type: .structure)
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "MovingAddressStatuses", location: .body(locationName: "movingAddressStatusSet"), required: false, type: .structure)
         ]
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -14803,10 +14803,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "S3Key", location: "s3Key", required: false, type: .string), 
-            AWSShapeProperty(label: "ContainerFormat", location: "containerFormat", required: false, type: .enum), 
-            AWSShapeProperty(label: "S3Bucket", location: "s3Bucket", required: false, type: .string), 
-            AWSShapeProperty(label: "DiskImageFormat", location: "diskImageFormat", required: false, type: .enum)
+            AWSShapeProperty(label: "S3Key", location: .body(locationName: "s3Key"), required: false, type: .string), 
+            AWSShapeProperty(label: "ContainerFormat", location: .body(locationName: "containerFormat"), required: false, type: .enum), 
+            AWSShapeProperty(label: "S3Bucket", location: .body(locationName: "s3Bucket"), required: false, type: .string), 
+            AWSShapeProperty(label: "DiskImageFormat", location: .body(locationName: "diskImageFormat"), required: false, type: .enum)
         ]
         /// The encryption key for your S3 bucket.
         public let s3Key: String?
@@ -14842,7 +14842,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [String]?
 
@@ -14859,8 +14859,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcId", location: "vpcId", required: false, type: .string), 
-            AWSShapeProperty(label: "State", location: "state", required: false, type: .enum)
+            AWSShapeProperty(label: "VpcId", location: .body(locationName: "vpcId"), required: false, type: .string), 
+            AWSShapeProperty(label: "State", location: .body(locationName: "state"), required: false, type: .enum)
         ]
         /// The ID of the VPC.
         public let vpcId: String?
@@ -14882,7 +14882,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CidrIpv6", location: "cidrIpv6", required: false, type: .string)
+            AWSShapeProperty(label: "CidrIpv6", location: .body(locationName: "cidrIpv6"), required: false, type: .string)
         ]
         /// The IPv6 CIDR range. You can either specify a CIDR range or a source security group, not both. To specify a single IPv6 address, use the /128 prefix.
         public let cidrIpv6: String?
@@ -14900,7 +14900,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Return", location: "return", required: false, type: .boolean)
+            AWSShapeProperty(label: "Return", location: .body(locationName: "return"), required: false, type: .boolean)
         ]
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -14918,9 +14918,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Tags", location: "Tag", required: true, type: .structure), 
-            AWSShapeProperty(label: "Resources", location: "ResourceId", required: true, type: .list)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Tags", location: .body(locationName: "Tag"), required: true, type: .structure), 
+            AWSShapeProperty(label: "Resources", location: .body(locationName: "ResourceId"), required: true, type: .list)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -14948,7 +14948,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [PrefixList]?
 
@@ -14969,13 +14969,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RestorableByUserIds", location: "RestorableBy", required: false, type: .list), 
-            AWSShapeProperty(label: "SnapshotIds", location: "SnapshotId", required: false, type: .structure), 
-            AWSShapeProperty(label: "OwnerIds", location: "Owner", required: false, type: .structure), 
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "RestorableByUserIds", location: .body(locationName: "RestorableBy"), required: false, type: .list), 
+            AWSShapeProperty(label: "SnapshotIds", location: .body(locationName: "SnapshotId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "OwnerIds", location: .body(locationName: "Owner"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// One or more AWS accounts IDs that can create volumes from the snapshot.
         public let restorableByUserIds: [String]?
@@ -15017,7 +15017,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReservedInstancesListingId", location: "reservedInstancesListingId", required: true, type: .string)
+            AWSShapeProperty(label: "ReservedInstancesListingId", location: .body(locationName: "reservedInstancesListingId"), required: true, type: .string)
         ]
         /// The ID of the Reserved Instance listing.
         public let reservedInstancesListingId: String
@@ -15036,7 +15036,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Enabled", location: nil, required: false, type: .boolean)
+            AWSShapeProperty(label: "Enabled", required: false, type: .boolean)
         ]
         /// Indicates whether monitoring is enabled.
         public let enabled: Bool?
@@ -15054,15 +15054,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Description", location: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "SubnetId", location: "subnetId", required: true, type: .string), 
-            AWSShapeProperty(label: "PrivateIpAddress", location: "privateIpAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "SecondaryPrivateIpAddressCount", location: "secondaryPrivateIpAddressCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "Ipv6AddressCount", location: "ipv6AddressCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "Ipv6Addresses", location: "ipv6Addresses", required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Groups", location: "SecurityGroupId", required: false, type: .structure), 
-            AWSShapeProperty(label: "PrivateIpAddresses", location: "privateIpAddresses", required: false, type: .structure)
+            AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeProperty(label: "SubnetId", location: .body(locationName: "subnetId"), required: true, type: .string), 
+            AWSShapeProperty(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress"), required: false, type: .string), 
+            AWSShapeProperty(label: "SecondaryPrivateIpAddressCount", location: .body(locationName: "secondaryPrivateIpAddressCount"), required: false, type: .integer), 
+            AWSShapeProperty(label: "Ipv6AddressCount", location: .body(locationName: "ipv6AddressCount"), required: false, type: .integer), 
+            AWSShapeProperty(label: "Ipv6Addresses", location: .body(locationName: "ipv6Addresses"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Groups", location: .body(locationName: "SecurityGroupId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "PrivateIpAddresses", location: .body(locationName: "privateIpAddresses"), required: false, type: .structure)
         ]
         /// A description for the network interface.
         public let description: String?
@@ -15113,9 +15113,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReservedInstancesIds", location: "ReservedInstancesId", required: true, type: .structure), 
-            AWSShapeProperty(label: "TargetConfigurations", location: "ReservedInstancesConfigurationSetItemType", required: true, type: .structure), 
-            AWSShapeProperty(label: "ClientToken", location: "clientToken", required: false, type: .string)
+            AWSShapeProperty(label: "ReservedInstancesIds", location: .body(locationName: "ReservedInstancesId"), required: true, type: .structure), 
+            AWSShapeProperty(label: "TargetConfigurations", location: .body(locationName: "ReservedInstancesConfigurationSetItemType"), required: true, type: .structure), 
+            AWSShapeProperty(label: "ClientToken", location: .body(locationName: "clientToken"), required: false, type: .string)
         ]
         /// The IDs of the Reserved Instances to modify.
         public let reservedInstancesIds: ReservedInstancesIdStringList
@@ -15143,8 +15143,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SpotFleetRequestId", location: "spotFleetRequestId", required: true, type: .string), 
-            AWSShapeProperty(label: "Error", location: "error", required: true, type: .structure)
+            AWSShapeProperty(label: "SpotFleetRequestId", location: .body(locationName: "spotFleetRequestId"), required: true, type: .string), 
+            AWSShapeProperty(label: "Error", location: .body(locationName: "error"), required: true, type: .structure)
         ]
         /// The ID of the Spot fleet request.
         public let spotFleetRequestId: String
@@ -15168,7 +15168,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExportTask", location: "exportTask", required: false, type: .structure)
+            AWSShapeProperty(label: "ExportTask", location: .body(locationName: "exportTask"), required: false, type: .structure)
         ]
         /// Information about the instance export task.
         public let exportTask: ExportTask?
@@ -15186,11 +15186,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeIds", location: "VolumeId", required: false, type: .structure), 
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: "maxResults", required: false, type: .integer)
+            AWSShapeProperty(label: "VolumeIds", location: .body(locationName: "VolumeId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer)
         ]
         /// One or more volume IDs.
         public let volumeIds: VolumeIdStringList?
@@ -15224,8 +15224,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "VpnGatewayId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "VpnGatewayId", required: true, type: .string)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -15248,7 +15248,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReservedInstances", location: "reservedInstancesSet", required: false, type: .structure)
+            AWSShapeProperty(label: "ReservedInstances", location: .body(locationName: "reservedInstancesSet"), required: false, type: .structure)
         ]
         /// A list of Reserved Instances.
         public let reservedInstances: ReservedInstancesList?
@@ -15272,7 +15272,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [InstanceNetworkInterface]?
 
@@ -15293,7 +15293,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "VpcId", required: false, type: .string)
         ]
         /// The ID of the VPC.
         public let vpcId: String?
@@ -15311,9 +15311,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NetworkInterfaceId", location: "networkInterfaceId", required: true, type: .string), 
-            AWSShapeProperty(label: "Attribute", location: "attribute", required: false, type: .enum)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"), required: true, type: .string), 
+            AWSShapeProperty(label: "Attribute", location: .body(locationName: "attribute"), required: false, type: .enum)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -15340,8 +15340,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EarliestTime", location: nil, required: true, type: .timestamp), 
-            AWSShapeProperty(label: "LatestTime", location: nil, required: true, type: .timestamp)
+            AWSShapeProperty(label: "EarliestTime", required: true, type: .timestamp), 
+            AWSShapeProperty(label: "LatestTime", required: true, type: .timestamp)
         ]
         /// The earliest date and time, in UTC, for the Scheduled Instance to start.
         public let earliestTime: Date
@@ -15365,8 +15365,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "VpcId", required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// The ID of the VPC.
         public let vpcId: String
@@ -15389,10 +15389,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NoDevice", location: "noDevice", required: false, type: .string), 
-            AWSShapeProperty(label: "VirtualName", location: "virtualName", required: false, type: .string), 
-            AWSShapeProperty(label: "DeviceName", location: "deviceName", required: false, type: .string), 
-            AWSShapeProperty(label: "Ebs", location: "ebs", required: false, type: .structure)
+            AWSShapeProperty(label: "NoDevice", location: .body(locationName: "noDevice"), required: false, type: .string), 
+            AWSShapeProperty(label: "VirtualName", location: .body(locationName: "virtualName"), required: false, type: .string), 
+            AWSShapeProperty(label: "DeviceName", location: .body(locationName: "deviceName"), required: false, type: .string), 
+            AWSShapeProperty(label: "Ebs", location: .body(locationName: "ebs"), required: false, type: .structure)
         ]
         /// suppress the specified device included in the block device mapping.
         public let noDevice: String?
@@ -15422,8 +15422,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Monitoring", location: "monitoring", required: false, type: .structure), 
-            AWSShapeProperty(label: "InstanceId", location: "instanceId", required: false, type: .string)
+            AWSShapeProperty(label: "Monitoring", location: .body(locationName: "monitoring"), required: false, type: .structure), 
+            AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: false, type: .string)
         ]
         /// The monitoring for the instance.
         public let monitoring: Monitoring?
@@ -15445,7 +15445,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [PriceSchedule]?
 
@@ -15466,11 +15466,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcEndpointIds", location: "VpcEndpointId", required: false, type: .structure), 
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "VpcEndpointIds", location: .body(locationName: "VpcEndpointId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// One or more endpoint IDs.
         public let vpcEndpointIds: ValueStringList?
@@ -15511,8 +15511,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "FlowLogs", location: "flowLogSet", required: false, type: .structure)
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "FlowLogs", location: .body(locationName: "flowLogSet"), required: false, type: .structure)
         ]
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -15534,7 +15534,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Return", location: "return", required: false, type: .boolean)
+            AWSShapeProperty(label: "Return", location: .body(locationName: "return"), required: false, type: .boolean)
         ]
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -15552,7 +15552,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpnConnection", location: "vpnConnection", required: false, type: .structure)
+            AWSShapeProperty(label: "VpnConnection", location: .body(locationName: "vpnConnection"), required: false, type: .structure)
         ]
         /// Information about the VPN connection.
         public let vpnConnection: VpnConnection?
@@ -15570,7 +15570,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayId", location: "gatewayId", required: false, type: .string)
+            AWSShapeProperty(label: "GatewayId", location: .body(locationName: "gatewayId"), required: false, type: .string)
         ]
         /// The ID of the virtual private gateway (VGW).
         public let gatewayId: String?
@@ -15588,7 +15588,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartingInstances", location: "instancesSet", required: false, type: .structure)
+            AWSShapeProperty(label: "StartingInstances", location: .body(locationName: "instancesSet"), required: false, type: .structure)
         ]
         /// Information about one or more started instances.
         public let startingInstances: InstanceStateChangeList?
@@ -15606,15 +15606,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SourceSecurityGroupOwnerId", location: "sourceSecurityGroupOwnerId", required: false, type: .string), 
-            AWSShapeProperty(label: "IpPermissions", location: "ipPermissions", required: false, type: .structure), 
-            AWSShapeProperty(label: "CidrIp", location: "cidrIp", required: false, type: .string), 
-            AWSShapeProperty(label: "SourceSecurityGroupName", location: "sourceSecurityGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "FromPort", location: "fromPort", required: false, type: .integer), 
-            AWSShapeProperty(label: "IpProtocol", location: "ipProtocol", required: false, type: .string), 
-            AWSShapeProperty(label: "ToPort", location: "toPort", required: false, type: .integer), 
-            AWSShapeProperty(label: "GroupId", location: "groupId", required: true, type: .string)
+            AWSShapeProperty(label: "SourceSecurityGroupOwnerId", location: .body(locationName: "sourceSecurityGroupOwnerId"), required: false, type: .string), 
+            AWSShapeProperty(label: "IpPermissions", location: .body(locationName: "ipPermissions"), required: false, type: .structure), 
+            AWSShapeProperty(label: "CidrIp", location: .body(locationName: "cidrIp"), required: false, type: .string), 
+            AWSShapeProperty(label: "SourceSecurityGroupName", location: .body(locationName: "sourceSecurityGroupName"), required: false, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "FromPort", location: .body(locationName: "fromPort"), required: false, type: .integer), 
+            AWSShapeProperty(label: "IpProtocol", location: .body(locationName: "ipProtocol"), required: false, type: .string), 
+            AWSShapeProperty(label: "ToPort", location: .body(locationName: "toPort"), required: false, type: .integer), 
+            AWSShapeProperty(label: "GroupId", location: .body(locationName: "groupId"), required: true, type: .string)
         ]
         /// The AWS account number for a destination security group. To revoke outbound access to a destination security group, we recommend that you use a set of IP permissions instead.
         public let sourceSecurityGroupOwnerId: String?
@@ -15670,7 +15670,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PublicIp", location: "PublicIp", required: false, type: .list)
+            AWSShapeProperty(label: "PublicIp", required: false, type: .list)
         ]
         public let publicIp: [String]?
 
@@ -15687,8 +15687,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ImportImageTasks", location: "importImageTaskSet", required: false, type: .structure)
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "ImportImageTasks", location: .body(locationName: "importImageTaskSet"), required: false, type: .structure)
         ]
         /// The token to use to get the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -15738,9 +15738,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PreviousState", location: "previousState", required: false, type: .structure), 
-            AWSShapeProperty(label: "InstanceId", location: "instanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "CurrentState", location: "currentState", required: false, type: .structure)
+            AWSShapeProperty(label: "PreviousState", location: .body(locationName: "previousState"), required: false, type: .structure), 
+            AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "CurrentState", location: .body(locationName: "currentState"), required: false, type: .structure)
         ]
         /// The previous state of the instance.
         public let previousState: InstanceState?
@@ -15766,7 +15766,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [ClassicLinkInstance]?
 
@@ -15787,8 +15787,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GroupId", location: "groupId", required: false, type: .string), 
-            AWSShapeProperty(label: "GroupName", location: "groupName", required: false, type: .string)
+            AWSShapeProperty(label: "GroupId", location: .body(locationName: "groupId"), required: false, type: .string), 
+            AWSShapeProperty(label: "GroupName", location: .body(locationName: "groupName"), required: false, type: .string)
         ]
         /// The ID of the security group.
         public let groupId: String?
@@ -15810,11 +15810,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "VpcId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "AvailabilityZone", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Ipv6CidrBlock", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "CidrBlock", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "VpcId", required: true, type: .string), 
+            AWSShapeProperty(label: "AvailabilityZone", required: false, type: .string), 
+            AWSShapeProperty(label: "Ipv6CidrBlock", required: false, type: .string), 
+            AWSShapeProperty(label: "CidrBlock", required: true, type: .string)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -15850,7 +15850,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReservedInstancesId", location: "reservedInstancesId", required: false, type: .string)
+            AWSShapeProperty(label: "ReservedInstancesId", location: .body(locationName: "reservedInstancesId"), required: false, type: .string)
         ]
         /// The ID of the Reserved Instance.
         public let reservedInstancesId: String?
@@ -15868,7 +15868,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [StaleIpPermission]?
 
@@ -15889,9 +15889,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NetworkInterfaceId", location: "networkInterfaceId", required: true, type: .string), 
-            AWSShapeProperty(label: "SourceDestCheck", location: "sourceDestCheck", required: false, type: .string)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"), required: true, type: .string), 
+            AWSShapeProperty(label: "SourceDestCheck", location: .body(locationName: "sourceDestCheck"), required: false, type: .string)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -15924,9 +15924,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InternetGatewayIds", location: "internetGatewayId", required: false, type: .structure), 
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "InternetGatewayIds", location: .body(locationName: "internetGatewayId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// One or more Internet gateway IDs. Default: Describes all your Internet gateways.
         public let internetGatewayIds: ValueStringList?
@@ -15952,8 +15952,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PrincipalArn", location: "principalArn", required: true, type: .string), 
-            AWSShapeProperty(label: "Resource", location: "resource", required: false, type: .string)
+            AWSShapeProperty(label: "PrincipalArn", location: .body(locationName: "principalArn"), required: true, type: .string), 
+            AWSShapeProperty(label: "Resource", location: .body(locationName: "resource"), required: false, type: .string)
         ]
         /// The ARN of the principal, which can be an IAM role, IAM user, or the root user.
         public let principalArn: String
@@ -15976,7 +15976,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [String]?
 
@@ -16006,7 +16006,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CustomerGatewayId", location: "CustomerGatewayId", required: false, type: .list)
+            AWSShapeProperty(label: "CustomerGatewayId", required: false, type: .list)
         ]
         public let customerGatewayId: [String]?
 
@@ -16031,30 +16031,30 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BlockDeviceMappings", location: "blockDeviceMapping", required: false, type: .structure), 
-            AWSShapeProperty(label: "Platform", location: "platform", required: false, type: .enum), 
-            AWSShapeProperty(label: "RootDeviceName", location: "rootDeviceName", required: false, type: .string), 
-            AWSShapeProperty(label: "SriovNetSupport", location: "sriovNetSupport", required: false, type: .string), 
-            AWSShapeProperty(label: "ImageOwnerAlias", location: "imageOwnerAlias", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", location: "tagSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "State", location: "imageState", required: false, type: .enum), 
-            AWSShapeProperty(label: "KernelId", location: "kernelId", required: false, type: .string), 
-            AWSShapeProperty(label: "ImageLocation", location: "imageLocation", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationDate", location: "creationDate", required: false, type: .string), 
-            AWSShapeProperty(label: "StateReason", location: "stateReason", required: false, type: .structure), 
-            AWSShapeProperty(label: "OwnerId", location: "imageOwnerId", required: false, type: .string), 
-            AWSShapeProperty(label: "Public", location: "isPublic", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Description", location: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "ProductCodes", location: "productCodes", required: false, type: .structure), 
-            AWSShapeProperty(label: "Hypervisor", location: "hypervisor", required: false, type: .enum), 
-            AWSShapeProperty(label: "EnaSupport", location: "enaSupport", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Name", location: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "RootDeviceType", location: "rootDeviceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "Architecture", location: "architecture", required: false, type: .enum), 
-            AWSShapeProperty(label: "ImageId", location: "imageId", required: false, type: .string), 
-            AWSShapeProperty(label: "ImageType", location: "imageType", required: false, type: .enum), 
-            AWSShapeProperty(label: "RamdiskId", location: "ramdiskId", required: false, type: .string), 
-            AWSShapeProperty(label: "VirtualizationType", location: "virtualizationType", required: false, type: .enum)
+            AWSShapeProperty(label: "BlockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Platform", location: .body(locationName: "platform"), required: false, type: .enum), 
+            AWSShapeProperty(label: "RootDeviceName", location: .body(locationName: "rootDeviceName"), required: false, type: .string), 
+            AWSShapeProperty(label: "SriovNetSupport", location: .body(locationName: "sriovNetSupport"), required: false, type: .string), 
+            AWSShapeProperty(label: "ImageOwnerAlias", location: .body(locationName: "imageOwnerAlias"), required: false, type: .string), 
+            AWSShapeProperty(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "State", location: .body(locationName: "imageState"), required: false, type: .enum), 
+            AWSShapeProperty(label: "KernelId", location: .body(locationName: "kernelId"), required: false, type: .string), 
+            AWSShapeProperty(label: "ImageLocation", location: .body(locationName: "imageLocation"), required: false, type: .string), 
+            AWSShapeProperty(label: "CreationDate", location: .body(locationName: "creationDate"), required: false, type: .string), 
+            AWSShapeProperty(label: "StateReason", location: .body(locationName: "stateReason"), required: false, type: .structure), 
+            AWSShapeProperty(label: "OwnerId", location: .body(locationName: "imageOwnerId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Public", location: .body(locationName: "isPublic"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeProperty(label: "ProductCodes", location: .body(locationName: "productCodes"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Hypervisor", location: .body(locationName: "hypervisor"), required: false, type: .enum), 
+            AWSShapeProperty(label: "EnaSupport", location: .body(locationName: "enaSupport"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeProperty(label: "RootDeviceType", location: .body(locationName: "rootDeviceType"), required: false, type: .enum), 
+            AWSShapeProperty(label: "Architecture", location: .body(locationName: "architecture"), required: false, type: .enum), 
+            AWSShapeProperty(label: "ImageId", location: .body(locationName: "imageId"), required: false, type: .string), 
+            AWSShapeProperty(label: "ImageType", location: .body(locationName: "imageType"), required: false, type: .enum), 
+            AWSShapeProperty(label: "RamdiskId", location: .body(locationName: "ramdiskId"), required: false, type: .string), 
+            AWSShapeProperty(label: "VirtualizationType", location: .body(locationName: "virtualizationType"), required: false, type: .enum)
         ]
         /// Any block device mapping entries.
         public let blockDeviceMappings: BlockDeviceMappingList?
@@ -16164,7 +16164,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [InternetGateway]?
 
@@ -16185,7 +16185,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StaticRoutesOnly", location: "staticRoutesOnly", required: false, type: .boolean)
+            AWSShapeProperty(label: "StaticRoutesOnly", location: .body(locationName: "staticRoutesOnly"), required: false, type: .boolean)
         ]
         /// Indicates whether the VPN connection uses static routes only. Static routes must be used for devices that don't support BGP.
         public let staticRoutesOnly: Bool?
@@ -16203,11 +16203,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Filters", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "ImportTaskIds", location: "ImportTaskId", required: false, type: .structure), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "Filters", required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeProperty(label: "ImportTaskIds", location: .body(locationName: "ImportTaskId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// Filter tasks using the task-state filter and one of the following values: active, completed, deleting, deleted.
         public let filters: FilterList?
@@ -16241,16 +16241,16 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetId", location: "subnetId", required: false, type: .string), 
-            AWSShapeProperty(label: "NatGatewayId", location: "natGatewayId", required: false, type: .string), 
-            AWSShapeProperty(label: "DeleteTime", location: "deleteTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "VpcId", location: "vpcId", required: false, type: .string), 
-            AWSShapeProperty(label: "State", location: "state", required: false, type: .enum), 
-            AWSShapeProperty(label: "FailureCode", location: "failureCode", required: false, type: .string), 
-            AWSShapeProperty(label: "CreateTime", location: "createTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "FailureMessage", location: "failureMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "ProvisionedBandwidth", location: "provisionedBandwidth", required: false, type: .structure), 
-            AWSShapeProperty(label: "NatGatewayAddresses", location: "natGatewayAddressSet", required: false, type: .structure)
+            AWSShapeProperty(label: "SubnetId", location: .body(locationName: "subnetId"), required: false, type: .string), 
+            AWSShapeProperty(label: "NatGatewayId", location: .body(locationName: "natGatewayId"), required: false, type: .string), 
+            AWSShapeProperty(label: "DeleteTime", location: .body(locationName: "deleteTime"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "VpcId", location: .body(locationName: "vpcId"), required: false, type: .string), 
+            AWSShapeProperty(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeProperty(label: "FailureCode", location: .body(locationName: "failureCode"), required: false, type: .string), 
+            AWSShapeProperty(label: "CreateTime", location: .body(locationName: "createTime"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "FailureMessage", location: .body(locationName: "failureMessage"), required: false, type: .string), 
+            AWSShapeProperty(label: "ProvisionedBandwidth", location: .body(locationName: "provisionedBandwidth"), required: false, type: .structure), 
+            AWSShapeProperty(label: "NatGatewayAddresses", location: .body(locationName: "natGatewayAddressSet"), required: false, type: .structure)
         ]
         /// The ID of the subnet in which the NAT gateway is located.
         public let subnetId: String?
@@ -16304,7 +16304,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [VpnStaticRoute]?
 
@@ -16325,9 +16325,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceType", location: "instanceType", required: false, type: .string), 
-            AWSShapeProperty(label: "TotalCapacity", location: "totalCapacity", required: false, type: .integer), 
-            AWSShapeProperty(label: "AvailableCapacity", location: "availableCapacity", required: false, type: .integer)
+            AWSShapeProperty(label: "InstanceType", location: .body(locationName: "instanceType"), required: false, type: .string), 
+            AWSShapeProperty(label: "TotalCapacity", location: .body(locationName: "totalCapacity"), required: false, type: .integer), 
+            AWSShapeProperty(label: "AvailableCapacity", location: .body(locationName: "availableCapacity"), required: false, type: .integer)
         ]
         /// The instance type size supported by the Dedicated Host.
         public let instanceType: String?
@@ -16358,8 +16358,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NetworkInterfaceId", location: "networkInterfaceId", required: false, type: .string), 
-            AWSShapeProperty(label: "UnassignedIpv6Addresses", location: "unassignedIpv6Addresses", required: false, type: .structure)
+            AWSShapeProperty(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "UnassignedIpv6Addresses", location: .body(locationName: "unassignedIpv6Addresses"), required: false, type: .structure)
         ]
         /// The ID of the network interface.
         public let networkInterfaceId: String?
@@ -16381,8 +16381,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcId", location: "vpcId", required: false, type: .string), 
-            AWSShapeProperty(label: "ClassicLinkDnsSupported", location: "classicLinkDnsSupported", required: false, type: .boolean)
+            AWSShapeProperty(label: "VpcId", location: .body(locationName: "vpcId"), required: false, type: .string), 
+            AWSShapeProperty(label: "ClassicLinkDnsSupported", location: .body(locationName: "classicLinkDnsSupported"), required: false, type: .boolean)
         ]
         /// The ID of the VPC.
         public let vpcId: String?
@@ -16404,7 +16404,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [ClassicLinkDnsSupport]?
 
@@ -16425,9 +16425,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PreviousState", location: "previousState", required: false, type: .string), 
-            AWSShapeProperty(label: "State", location: "state", required: false, type: .string), 
-            AWSShapeProperty(label: "ImportTaskId", location: "importTaskId", required: false, type: .string)
+            AWSShapeProperty(label: "PreviousState", location: .body(locationName: "previousState"), required: false, type: .string), 
+            AWSShapeProperty(label: "State", location: .body(locationName: "state"), required: false, type: .string), 
+            AWSShapeProperty(label: "ImportTaskId", location: .body(locationName: "importTaskId"), required: false, type: .string)
         ]
         /// The current state of the task being canceled.
         public let previousState: String?
@@ -16453,7 +16453,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [SnapshotDetail]?
 
@@ -16474,9 +16474,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Price", location: "price", required: false, type: .double), 
-            AWSShapeProperty(label: "CurrencyCode", location: "currencyCode", required: false, type: .enum), 
-            AWSShapeProperty(label: "Term", location: "term", required: false, type: .long)
+            AWSShapeProperty(label: "Price", location: .body(locationName: "price"), required: false, type: .double), 
+            AWSShapeProperty(label: "CurrencyCode", location: .body(locationName: "currencyCode"), required: false, type: .enum), 
+            AWSShapeProperty(label: "Term", location: .body(locationName: "term"), required: false, type: .long)
         ]
         /// The fixed price for the term.
         public let price: Double?
@@ -16508,7 +16508,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ProductCode", location: "ProductCode", required: false, type: .list)
+            AWSShapeProperty(label: "ProductCode", required: false, type: .list)
         ]
         public let productCode: [String]?
 
@@ -16533,7 +16533,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Statuses", location: "statusSet", required: false, type: .structure)
+            AWSShapeProperty(label: "Statuses", location: .body(locationName: "statusSet"), required: false, type: .structure)
         ]
         /// Information about the ID format for the resources.
         public let statuses: IdFormatList?
@@ -16551,8 +16551,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpnConnectionId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DestinationCidrBlock", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "VpnConnectionId", required: true, type: .string), 
+            AWSShapeProperty(label: "DestinationCidrBlock", required: true, type: .string)
         ]
         /// The ID of the VPN connection.
         public let vpnConnectionId: String
@@ -16576,7 +16576,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [ReservedInstancesConfiguration]?
 
@@ -16603,7 +16603,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConversionTask", location: "conversionTask", required: false, type: .structure)
+            AWSShapeProperty(label: "ConversionTask", location: .body(locationName: "conversionTask"), required: false, type: .structure)
         ]
         /// Information about the conversion task.
         public let conversionTask: ConversionTask?
@@ -16621,16 +16621,16 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Options", location: "options", required: false, type: .structure), 
-            AWSShapeProperty(label: "CustomerGatewayId", location: "customerGatewayId", required: false, type: .string), 
-            AWSShapeProperty(label: "Routes", location: "routes", required: false, type: .structure), 
-            AWSShapeProperty(label: "VpnConnectionId", location: "vpnConnectionId", required: false, type: .string), 
-            AWSShapeProperty(label: "State", location: "state", required: false, type: .enum), 
-            AWSShapeProperty(label: "Tags", location: "tagSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "VgwTelemetry", location: "vgwTelemetry", required: false, type: .structure), 
-            AWSShapeProperty(label: "CustomerGatewayConfiguration", location: "customerGatewayConfiguration", required: false, type: .string), 
-            AWSShapeProperty(label: "Type", location: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "VpnGatewayId", location: "vpnGatewayId", required: false, type: .string)
+            AWSShapeProperty(label: "Options", location: .body(locationName: "options"), required: false, type: .structure), 
+            AWSShapeProperty(label: "CustomerGatewayId", location: .body(locationName: "customerGatewayId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Routes", location: .body(locationName: "routes"), required: false, type: .structure), 
+            AWSShapeProperty(label: "VpnConnectionId", location: .body(locationName: "vpnConnectionId"), required: false, type: .string), 
+            AWSShapeProperty(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeProperty(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "VgwTelemetry", location: .body(locationName: "vgwTelemetry"), required: false, type: .structure), 
+            AWSShapeProperty(label: "CustomerGatewayConfiguration", location: .body(locationName: "customerGatewayConfiguration"), required: false, type: .string), 
+            AWSShapeProperty(label: "Type", location: .body(locationName: "type"), required: false, type: .enum), 
+            AWSShapeProperty(label: "VpnGatewayId", location: .body(locationName: "vpnGatewayId"), required: false, type: .string)
         ]
         /// The VPN connection options.
         public let options: VpnConnectionOptions?
@@ -16689,14 +16689,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NetworkInterfaceOwnerId", location: "networkInterfaceOwnerId", required: false, type: .string), 
-            AWSShapeProperty(label: "NetworkInterfaceId", location: "networkInterfaceId", required: false, type: .string), 
-            AWSShapeProperty(label: "AssociationId", location: "associationId", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", location: "instanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "AllocationId", location: "allocationId", required: false, type: .string), 
-            AWSShapeProperty(label: "PublicIp", location: "publicIp", required: false, type: .string), 
-            AWSShapeProperty(label: "Domain", location: "domain", required: false, type: .enum), 
-            AWSShapeProperty(label: "PrivateIpAddress", location: "privateIpAddress", required: false, type: .string)
+            AWSShapeProperty(label: "NetworkInterfaceOwnerId", location: .body(locationName: "networkInterfaceOwnerId"), required: false, type: .string), 
+            AWSShapeProperty(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "AssociationId", location: .body(locationName: "associationId"), required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "AllocationId", location: .body(locationName: "allocationId"), required: false, type: .string), 
+            AWSShapeProperty(label: "PublicIp", location: .body(locationName: "publicIp"), required: false, type: .string), 
+            AWSShapeProperty(label: "Domain", location: .body(locationName: "domain"), required: false, type: .enum), 
+            AWSShapeProperty(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress"), required: false, type: .string)
         ]
         /// The ID of the AWS account that owns the network interface.
         public let networkInterfaceOwnerId: String?
@@ -16742,9 +16742,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpnGatewayIds", location: "VpnGatewayId", required: false, type: .structure), 
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "VpnGatewayIds", location: .body(locationName: "VpnGatewayId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// One or more virtual private gateway IDs. Default: Describes all your virtual private gateways.
         public let vpnGatewayIds: VpnGatewayIdStringList?
@@ -16778,8 +16778,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceIds", location: "InstanceId", required: true, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "InstanceIds", location: .body(locationName: "InstanceId"), required: true, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// One or more instance IDs. Constraints: Up to 1000 instance IDs. We recommend breaking up this request into smaller batches.
         public let instanceIds: InstanceIdStringList
@@ -16802,7 +16802,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [ReportInstanceReasonCodes]?
 
@@ -16819,7 +16819,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [ImportImageTask]?
 
@@ -16840,7 +16840,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [NetworkAclAssociation]?
 
@@ -16861,7 +16861,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReservedInstancesId", location: "reservedInstancesId", required: false, type: .string)
+            AWSShapeProperty(label: "ReservedInstancesId", location: .body(locationName: "reservedInstancesId"), required: false, type: .string)
         ]
         /// The IDs of the purchased Reserved Instances.
         public let reservedInstancesId: String?
@@ -16879,8 +16879,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcId", location: "vpcId", required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "VpcId", location: .body(locationName: "vpcId"), required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// The ID of the VPC.
         public let vpcId: String
@@ -16903,7 +16903,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpnConnections", location: "vpnConnectionSet", required: false, type: .structure)
+            AWSShapeProperty(label: "VpnConnections", location: .body(locationName: "vpnConnectionSet"), required: false, type: .structure)
         ]
         /// Information about one or more VPN connections.
         public let vpnConnections: VpnConnectionList?
@@ -16921,10 +16921,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Platform", location: "platform", required: false, type: .enum), 
-            AWSShapeProperty(label: "Volumes", location: "volumes", required: true, type: .structure), 
-            AWSShapeProperty(label: "InstanceId", location: "instanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", location: "description", required: false, type: .string)
+            AWSShapeProperty(label: "Platform", location: .body(locationName: "platform"), required: false, type: .enum), 
+            AWSShapeProperty(label: "Volumes", location: .body(locationName: "volumes"), required: true, type: .structure), 
+            AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
         /// The instance operating system.
         public let platform: PlatformValues?
@@ -16955,8 +16955,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Code", location: "code", required: false, type: .string), 
-            AWSShapeProperty(label: "Message", location: "message", required: false, type: .string)
+            AWSShapeProperty(label: "Code", location: .body(locationName: "code"), required: false, type: .string), 
+            AWSShapeProperty(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
         ]
         /// The error code.
         public let code: String?
@@ -16978,8 +16978,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttributeName", location: "attributeName", required: false, type: .string), 
-            AWSShapeProperty(label: "AttributeValues", location: "attributeValueSet", required: false, type: .structure)
+            AWSShapeProperty(label: "AttributeName", location: .body(locationName: "attributeName"), required: false, type: .string), 
+            AWSShapeProperty(label: "AttributeValues", location: .body(locationName: "attributeValueSet"), required: false, type: .structure)
         ]
         /// The name of the account attribute.
         public let attributeName: String?
@@ -17001,7 +17001,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [PropagatingVgw]?
 
@@ -17022,7 +17022,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReservedInstancesModificationId", location: "reservedInstancesModificationId", required: false, type: .string)
+            AWSShapeProperty(label: "ReservedInstancesModificationId", location: .body(locationName: "reservedInstancesModificationId"), required: false, type: .string)
         ]
         /// The ID for the modification.
         public let reservedInstancesModificationId: String?
@@ -17040,10 +17040,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BgpAsn", location: nil, required: true, type: .integer), 
-            AWSShapeProperty(label: "PublicIp", location: "IpAddress", required: true, type: .string), 
-            AWSShapeProperty(label: "Type", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "BgpAsn", required: true, type: .integer), 
+            AWSShapeProperty(label: "PublicIp", location: .body(locationName: "IpAddress"), required: true, type: .string), 
+            AWSShapeProperty(label: "Type", required: true, type: .enum), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// For devices that support BGP, the customer gateway's BGP ASN. Default: 65000
         public let bgpAsn: Int32
@@ -17076,8 +17076,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SpotInstanceRequestIds", location: "SpotInstanceRequestId", required: true, type: .structure)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "SpotInstanceRequestIds", location: .body(locationName: "SpotInstanceRequestId"), required: true, type: .structure)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -17107,8 +17107,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "EgressOnlyInternetGateways", location: "egressOnlyInternetGatewaySet", required: false, type: .structure)
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "EgressOnlyInternetGateways", location: .body(locationName: "egressOnlyInternetGatewaySet"), required: false, type: .structure)
         ]
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
@@ -17130,10 +17130,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GroupName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "VpcId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Description", location: "GroupDescription", required: true, type: .string)
+            AWSShapeProperty(label: "GroupName", required: true, type: .string), 
+            AWSShapeProperty(label: "VpcId", required: false, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Description", location: .body(locationName: "GroupDescription"), required: true, type: .string)
         ]
         /// The name of the security group. Constraints: Up to 255 characters in length Constraints for EC2-Classic: ASCII characters Constraints for EC2-VPC: a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&amp;;{}!$*
         public let groupName: String
@@ -17165,7 +17165,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [Subnet]?
 
@@ -17186,8 +17186,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "PublicIp", location: "publicIp", required: true, type: .string)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "PublicIp", location: .body(locationName: "publicIp"), required: true, type: .string)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -17210,11 +17210,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LastEvaluatedTime", location: "lastEvaluatedTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "StartTime", location: "startTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "HistoryRecords", location: "historyRecordSet", required: true, type: .structure), 
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "SpotFleetRequestId", location: "spotFleetRequestId", required: true, type: .string)
+            AWSShapeProperty(label: "LastEvaluatedTime", location: .body(locationName: "lastEvaluatedTime"), required: true, type: .timestamp), 
+            AWSShapeProperty(label: "StartTime", location: .body(locationName: "startTime"), required: true, type: .timestamp), 
+            AWSShapeProperty(label: "HistoryRecords", location: .body(locationName: "historyRecordSet"), required: true, type: .structure), 
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "SpotFleetRequestId", location: .body(locationName: "spotFleetRequestId"), required: true, type: .string)
         ]
         /// The last date and time for the events, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). All records up to this time were retrieved. If nextToken indicates that there are more results, this value is not present.
         public let lastEvaluatedTime: Date
@@ -17252,7 +17252,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InternetGateway", location: "internetGateway", required: false, type: .structure)
+            AWSShapeProperty(label: "InternetGateway", location: .body(locationName: "internetGateway"), required: false, type: .structure)
         ]
         /// Information about the Internet gateway.
         public let internetGateway: InternetGateway?
@@ -17270,9 +17270,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Attribute", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ImageId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Attribute", required: true, type: .enum), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "ImageId", required: true, type: .string)
         ]
         /// The AMI attribute.  Note: Depending on your account privileges, the blockDeviceMapping attribute may return a Client.AuthFailure error. If this happens, use DescribeImages to get information about the block device mapping for the AMI.
         public let attribute: ImageAttributeName
@@ -17300,7 +17300,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [Host]?
 
@@ -17321,16 +17321,16 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CidrBlock", location: "cidrBlock", required: false, type: .string), 
-            AWSShapeProperty(label: "IcmpTypeCode", location: "Icmp", required: false, type: .structure), 
-            AWSShapeProperty(label: "RuleNumber", location: "ruleNumber", required: true, type: .integer), 
-            AWSShapeProperty(label: "Protocol", location: "protocol", required: true, type: .string), 
-            AWSShapeProperty(label: "RuleAction", location: "ruleAction", required: true, type: .enum), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NetworkAclId", location: "networkAclId", required: true, type: .string), 
-            AWSShapeProperty(label: "Egress", location: "egress", required: true, type: .boolean), 
-            AWSShapeProperty(label: "Ipv6CidrBlock", location: "ipv6CidrBlock", required: false, type: .string), 
-            AWSShapeProperty(label: "PortRange", location: "portRange", required: false, type: .structure)
+            AWSShapeProperty(label: "CidrBlock", location: .body(locationName: "cidrBlock"), required: false, type: .string), 
+            AWSShapeProperty(label: "IcmpTypeCode", location: .body(locationName: "Icmp"), required: false, type: .structure), 
+            AWSShapeProperty(label: "RuleNumber", location: .body(locationName: "ruleNumber"), required: true, type: .integer), 
+            AWSShapeProperty(label: "Protocol", location: .body(locationName: "protocol"), required: true, type: .string), 
+            AWSShapeProperty(label: "RuleAction", location: .body(locationName: "ruleAction"), required: true, type: .enum), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "NetworkAclId", location: .body(locationName: "networkAclId"), required: true, type: .string), 
+            AWSShapeProperty(label: "Egress", location: .body(locationName: "egress"), required: true, type: .boolean), 
+            AWSShapeProperty(label: "Ipv6CidrBlock", location: .body(locationName: "ipv6CidrBlock"), required: false, type: .string), 
+            AWSShapeProperty(label: "PortRange", location: .body(locationName: "portRange"), required: false, type: .structure)
         ]
         /// The IPv4 network range to allow or deny, in CIDR notation (for example 172.16.0.0/24).
         public let cidrBlock: String?
@@ -17389,8 +17389,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "KeyName", required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// The name of the key pair.
         public let keyName: String
@@ -17413,7 +17413,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [IamInstanceProfileAssociation]?
 
@@ -17434,12 +17434,12 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotId", location: "snapshotId", required: false, type: .string), 
-            AWSShapeProperty(label: "DeleteOnTermination", location: "deleteOnTermination", required: false, type: .boolean), 
-            AWSShapeProperty(label: "VolumeType", location: "volumeType", required: false, type: .enum), 
-            AWSShapeProperty(label: "VolumeSize", location: "volumeSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "Iops", location: "iops", required: false, type: .integer), 
-            AWSShapeProperty(label: "Encrypted", location: "encrypted", required: false, type: .boolean)
+            AWSShapeProperty(label: "SnapshotId", location: .body(locationName: "snapshotId"), required: false, type: .string), 
+            AWSShapeProperty(label: "DeleteOnTermination", location: .body(locationName: "deleteOnTermination"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "VolumeType", location: .body(locationName: "volumeType"), required: false, type: .enum), 
+            AWSShapeProperty(label: "VolumeSize", location: .body(locationName: "volumeSize"), required: false, type: .integer), 
+            AWSShapeProperty(label: "Iops", location: .body(locationName: "iops"), required: false, type: .integer), 
+            AWSShapeProperty(label: "Encrypted", location: .body(locationName: "encrypted"), required: false, type: .boolean)
         ]
         /// The ID of the snapshot.
         public let snapshotId: String?
@@ -17477,7 +17477,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExportTasks", location: "exportTaskSet", required: false, type: .structure)
+            AWSShapeProperty(label: "ExportTasks", location: .body(locationName: "exportTaskSet"), required: false, type: .structure)
         ]
         /// Information about the export tasks.
         public let exportTasks: ExportTaskList?
@@ -17501,7 +17501,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcPeeringConnection", location: "vpcPeeringConnection", required: false, type: .structure)
+            AWSShapeProperty(label: "VpcPeeringConnection", location: .body(locationName: "vpcPeeringConnection"), required: false, type: .structure)
         ]
         /// Information about the VPC peering connection.
         public let vpcPeeringConnection: VpcPeeringConnection?
@@ -17519,7 +17519,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CidrIp", location: "cidrIp", required: false, type: .string)
+            AWSShapeProperty(label: "CidrIp", location: .body(locationName: "cidrIp"), required: false, type: .string)
         ]
         /// The IPv4 CIDR range. You can either specify a CIDR range or a source security group, not both. To specify a single IPv4 address, use the /32 prefix.
         public let cidrIp: String?
@@ -17537,8 +17537,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Key", location: "key", required: false, type: .string), 
-            AWSShapeProperty(label: "Values", location: "valueSet", required: false, type: .structure)
+            AWSShapeProperty(label: "Key", location: .body(locationName: "key"), required: false, type: .string), 
+            AWSShapeProperty(label: "Values", location: .body(locationName: "valueSet"), required: false, type: .structure)
         ]
         /// The name of a DHCP option.
         public let key: String?
@@ -17560,9 +17560,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ConversionTaskId", location: "conversionTaskId", required: true, type: .string), 
-            AWSShapeProperty(label: "ReasonMessage", location: "reasonMessage", required: false, type: .string)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "ConversionTaskId", location: .body(locationName: "conversionTaskId"), required: true, type: .string), 
+            AWSShapeProperty(label: "ReasonMessage", location: .body(locationName: "reasonMessage"), required: false, type: .string)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -17589,7 +17589,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "groupId", location: "groupId", required: false, type: .list)
+            AWSShapeProperty(label: "groupId", required: false, type: .list)
         ]
         public let groupId: [String]?
 
@@ -17606,7 +17606,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SpotInstanceRequestId", location: "SpotInstanceRequestId", required: false, type: .list)
+            AWSShapeProperty(label: "SpotInstanceRequestId", required: false, type: .list)
         ]
         public let spotInstanceRequestId: [String]?
 
@@ -17623,7 +17623,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Return", location: "return", required: false, type: .boolean)
+            AWSShapeProperty(label: "Return", location: .body(locationName: "return"), required: false, type: .boolean)
         ]
         /// Is true if the request succeeds, and an error otherwise.
         public let `return`: Bool?
@@ -17641,7 +17641,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [NetworkInterfaceIpv6Address]?
 
@@ -17668,7 +17668,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [UnsuccessfulItem]?
 
@@ -17689,9 +17689,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Attribute", location: nil, required: true, type: .enum)
+            AWSShapeProperty(label: "VpcId", required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Attribute", required: true, type: .enum)
         ]
         /// The ID of the VPC.
         public let vpcId: String
@@ -17719,15 +17719,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReservedInstancesIds", location: "reservedInstancesSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "Status", location: "status", required: false, type: .string), 
-            AWSShapeProperty(label: "EffectiveDate", location: "effectiveDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ClientToken", location: "clientToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ModificationResults", location: "modificationResultSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "UpdateDate", location: "updateDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ReservedInstancesModificationId", location: "reservedInstancesModificationId", required: false, type: .string), 
-            AWSShapeProperty(label: "CreateDate", location: "createDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "StatusMessage", location: "statusMessage", required: false, type: .string)
+            AWSShapeProperty(label: "ReservedInstancesIds", location: .body(locationName: "reservedInstancesSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Status", location: .body(locationName: "status"), required: false, type: .string), 
+            AWSShapeProperty(label: "EffectiveDate", location: .body(locationName: "effectiveDate"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "ClientToken", location: .body(locationName: "clientToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "ModificationResults", location: .body(locationName: "modificationResultSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "UpdateDate", location: .body(locationName: "updateDate"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "ReservedInstancesModificationId", location: .body(locationName: "reservedInstancesModificationId"), required: false, type: .string), 
+            AWSShapeProperty(label: "CreateDate", location: .body(locationName: "createDate"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "StatusMessage", location: .body(locationName: "statusMessage"), required: false, type: .string)
         ]
         /// The IDs of one or more Reserved Instances.
         public let reservedInstancesIds: ReservedIntancesIds?
@@ -17777,7 +17777,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AvailabilityZones", location: "availabilityZoneInfo", required: false, type: .structure)
+            AWSShapeProperty(label: "AvailabilityZones", location: .body(locationName: "availabilityZoneInfo"), required: false, type: .structure)
         ]
         /// Information about one or more Availability Zones.
         public let availabilityZones: AvailabilityZoneList?
@@ -17795,8 +17795,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "VpcPeeringConnectionId", location: "vpcPeeringConnectionId", required: true, type: .string)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "VpcPeeringConnectionId", location: .body(locationName: "vpcPeeringConnectionId"), required: true, type: .string)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -17819,7 +17819,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [NetworkInterfacePrivateIpAddress]?
 
@@ -17840,7 +17840,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IamInstanceProfileAssociation", location: "iamInstanceProfileAssociation", required: false, type: .structure)
+            AWSShapeProperty(label: "IamInstanceProfileAssociation", location: .body(locationName: "iamInstanceProfileAssociation"), required: false, type: .structure)
         ]
         /// Information about the IAM instance profile association.
         public let iamInstanceProfileAssociation: IamInstanceProfileAssociation?
@@ -17858,7 +17858,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ImageId", location: "imageId", required: false, type: .string)
+            AWSShapeProperty(label: "ImageId", location: .body(locationName: "imageId"), required: false, type: .string)
         ]
         /// The ID of the new AMI.
         public let imageId: String?
@@ -17876,11 +17876,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Image", location: "image", required: true, type: .structure), 
-            AWSShapeProperty(label: "BytesConverted", location: "bytesConverted", required: true, type: .long), 
-            AWSShapeProperty(label: "Volume", location: "volume", required: true, type: .structure), 
-            AWSShapeProperty(label: "AvailabilityZone", location: "availabilityZone", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", location: "description", required: false, type: .string)
+            AWSShapeProperty(label: "Image", location: .body(locationName: "image"), required: true, type: .structure), 
+            AWSShapeProperty(label: "BytesConverted", location: .body(locationName: "bytesConverted"), required: true, type: .long), 
+            AWSShapeProperty(label: "Volume", location: .body(locationName: "volume"), required: true, type: .structure), 
+            AWSShapeProperty(label: "AvailabilityZone", location: .body(locationName: "availabilityZone"), required: true, type: .string), 
+            AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
         /// The image.
         public let image: DiskImageDescription
@@ -17918,7 +17918,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [String]?
 
@@ -17935,11 +17935,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PublicIp", location: "publicIp", required: false, type: .string), 
-            AWSShapeProperty(label: "AssociationId", location: "associationId", required: false, type: .string), 
-            AWSShapeProperty(label: "IpOwnerId", location: "ipOwnerId", required: false, type: .string), 
-            AWSShapeProperty(label: "AllocationId", location: "allocationId", required: false, type: .string), 
-            AWSShapeProperty(label: "PublicDnsName", location: "publicDnsName", required: false, type: .string)
+            AWSShapeProperty(label: "PublicIp", location: .body(locationName: "publicIp"), required: false, type: .string), 
+            AWSShapeProperty(label: "AssociationId", location: .body(locationName: "associationId"), required: false, type: .string), 
+            AWSShapeProperty(label: "IpOwnerId", location: .body(locationName: "ipOwnerId"), required: false, type: .string), 
+            AWSShapeProperty(label: "AllocationId", location: .body(locationName: "allocationId"), required: false, type: .string), 
+            AWSShapeProperty(label: "PublicDnsName", location: .body(locationName: "publicDnsName"), required: false, type: .string)
         ]
         /// The address of the Elastic IP address bound to the network interface.
         public let publicIp: String?
@@ -17973,11 +17973,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OccurrenceDays", location: "OccurrenceDay", required: false, type: .structure), 
-            AWSShapeProperty(label: "Frequency", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "OccurrenceUnit", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "OccurrenceRelativeToEnd", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "Interval", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "OccurrenceDays", location: .body(locationName: "OccurrenceDay"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Frequency", required: false, type: .string), 
+            AWSShapeProperty(label: "OccurrenceUnit", required: false, type: .string), 
+            AWSShapeProperty(label: "OccurrenceRelativeToEnd", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Interval", required: false, type: .integer)
         ]
         /// The days. For a monthly schedule, this is one or more days of the month (1-31). For a weekly schedule, this is one or more days of the week (1-7, where 1 is Sunday). You can't specify this value with a daily schedule. If the occurrence is relative to the end of the month, you can specify only a single day.
         public let occurrenceDays: OccurrenceDayRequestSet?
@@ -18011,8 +18011,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Values", location: "Value", required: false, type: .structure)
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "Values", location: .body(locationName: "Value"), required: false, type: .structure)
         ]
         /// The name of the filter. Filter names are case-sensitive.
         public let name: String?
@@ -18034,8 +18034,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceIds", location: "InstanceId", required: true, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "InstanceIds", location: .body(locationName: "InstanceId"), required: true, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// One or more instance IDs.
         public let instanceIds: InstanceIdStringList
@@ -18058,21 +18058,21 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BlockDeviceMappings", location: "blockDeviceMapping", required: false, type: .structure), 
-            AWSShapeProperty(label: "SubnetId", location: "subnetId", required: false, type: .string), 
-            AWSShapeProperty(label: "UserData", location: "userData", required: false, type: .string), 
-            AWSShapeProperty(label: "EbsOptimized", location: "ebsOptimized", required: false, type: .boolean), 
-            AWSShapeProperty(label: "KernelId", location: "kernelId", required: false, type: .string), 
-            AWSShapeProperty(label: "Monitoring", location: "monitoring", required: false, type: .structure), 
-            AWSShapeProperty(label: "InstanceType", location: "instanceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "SecurityGroups", location: "groupSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "KeyName", location: "keyName", required: false, type: .string), 
-            AWSShapeProperty(label: "AddressingType", location: "addressingType", required: false, type: .string), 
-            AWSShapeProperty(label: "IamInstanceProfile", location: "iamInstanceProfile", required: false, type: .structure), 
-            AWSShapeProperty(label: "ImageId", location: "imageId", required: false, type: .string), 
-            AWSShapeProperty(label: "NetworkInterfaces", location: "networkInterfaceSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "Placement", location: "placement", required: false, type: .structure), 
-            AWSShapeProperty(label: "RamdiskId", location: "ramdiskId", required: false, type: .string)
+            AWSShapeProperty(label: "BlockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), required: false, type: .structure), 
+            AWSShapeProperty(label: "SubnetId", location: .body(locationName: "subnetId"), required: false, type: .string), 
+            AWSShapeProperty(label: "UserData", location: .body(locationName: "userData"), required: false, type: .string), 
+            AWSShapeProperty(label: "EbsOptimized", location: .body(locationName: "ebsOptimized"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "KernelId", location: .body(locationName: "kernelId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Monitoring", location: .body(locationName: "monitoring"), required: false, type: .structure), 
+            AWSShapeProperty(label: "InstanceType", location: .body(locationName: "instanceType"), required: false, type: .enum), 
+            AWSShapeProperty(label: "SecurityGroups", location: .body(locationName: "groupSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "KeyName", location: .body(locationName: "keyName"), required: false, type: .string), 
+            AWSShapeProperty(label: "AddressingType", location: .body(locationName: "addressingType"), required: false, type: .string), 
+            AWSShapeProperty(label: "IamInstanceProfile", location: .body(locationName: "iamInstanceProfile"), required: false, type: .structure), 
+            AWSShapeProperty(label: "ImageId", location: .body(locationName: "imageId"), required: false, type: .string), 
+            AWSShapeProperty(label: "NetworkInterfaces", location: .body(locationName: "networkInterfaceSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Placement", location: .body(locationName: "placement"), required: false, type: .structure), 
+            AWSShapeProperty(label: "RamdiskId", location: .body(locationName: "ramdiskId"), required: false, type: .string)
         ]
         /// One or more block device mapping entries. Although you can specify encrypted EBS volumes in this block device mapping for your Spot Instances, these volumes are not encrypted.
         public let blockDeviceMappings: BlockDeviceMappingList?
@@ -18145,7 +18145,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SpotInstanceRequests", location: "spotInstanceRequestSet", required: false, type: .structure)
+            AWSShapeProperty(label: "SpotInstanceRequests", location: .body(locationName: "spotInstanceRequestSet"), required: false, type: .structure)
         ]
         /// One or more Spot instance requests.
         public let spotInstanceRequests: SpotInstanceRequestList?
@@ -18163,16 +18163,16 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CidrBlock", location: "cidrBlock", required: false, type: .string), 
-            AWSShapeProperty(label: "IcmpTypeCode", location: "Icmp", required: false, type: .structure), 
-            AWSShapeProperty(label: "RuleNumber", location: "ruleNumber", required: true, type: .integer), 
-            AWSShapeProperty(label: "Protocol", location: "protocol", required: true, type: .string), 
-            AWSShapeProperty(label: "RuleAction", location: "ruleAction", required: true, type: .enum), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NetworkAclId", location: "networkAclId", required: true, type: .string), 
-            AWSShapeProperty(label: "Egress", location: "egress", required: true, type: .boolean), 
-            AWSShapeProperty(label: "Ipv6CidrBlock", location: "ipv6CidrBlock", required: false, type: .string), 
-            AWSShapeProperty(label: "PortRange", location: "portRange", required: false, type: .structure)
+            AWSShapeProperty(label: "CidrBlock", location: .body(locationName: "cidrBlock"), required: false, type: .string), 
+            AWSShapeProperty(label: "IcmpTypeCode", location: .body(locationName: "Icmp"), required: false, type: .structure), 
+            AWSShapeProperty(label: "RuleNumber", location: .body(locationName: "ruleNumber"), required: true, type: .integer), 
+            AWSShapeProperty(label: "Protocol", location: .body(locationName: "protocol"), required: true, type: .string), 
+            AWSShapeProperty(label: "RuleAction", location: .body(locationName: "ruleAction"), required: true, type: .enum), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "NetworkAclId", location: .body(locationName: "networkAclId"), required: true, type: .string), 
+            AWSShapeProperty(label: "Egress", location: .body(locationName: "egress"), required: true, type: .boolean), 
+            AWSShapeProperty(label: "Ipv6CidrBlock", location: .body(locationName: "ipv6CidrBlock"), required: false, type: .string), 
+            AWSShapeProperty(label: "PortRange", location: .body(locationName: "portRange"), required: false, type: .structure)
         ]
         /// The IPv4 network range to allow or deny, in CIDR notation (for example 172.16.0.0/24).
         public let cidrBlock: String?
@@ -18231,7 +18231,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BundleTask", location: "bundleInstanceTask", required: false, type: .structure)
+            AWSShapeProperty(label: "BundleTask", location: .body(locationName: "bundleInstanceTask"), required: false, type: .structure)
         ]
         /// Information about the bundle task.
         public let bundleTask: BundleTask?
@@ -18249,12 +18249,12 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RequesterVpcInfo", location: "requesterVpcInfo", required: false, type: .structure), 
-            AWSShapeProperty(label: "AccepterVpcInfo", location: "accepterVpcInfo", required: false, type: .structure), 
-            AWSShapeProperty(label: "Status", location: "status", required: false, type: .structure), 
-            AWSShapeProperty(label: "ExpirationTime", location: "expirationTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Tags", location: "tagSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "VpcPeeringConnectionId", location: "vpcPeeringConnectionId", required: false, type: .string)
+            AWSShapeProperty(label: "RequesterVpcInfo", location: .body(locationName: "requesterVpcInfo"), required: false, type: .structure), 
+            AWSShapeProperty(label: "AccepterVpcInfo", location: .body(locationName: "accepterVpcInfo"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Status", location: .body(locationName: "status"), required: false, type: .structure), 
+            AWSShapeProperty(label: "ExpirationTime", location: .body(locationName: "expirationTime"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "VpcPeeringConnectionId", location: .body(locationName: "vpcPeeringConnectionId"), required: false, type: .string)
         ]
         /// Information about the requester VPC.
         public let requesterVpcInfo: VpcPeeringConnectionVpcInfo?
@@ -18298,7 +18298,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [ScheduledInstanceAvailability]?
 
@@ -18319,7 +18319,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ImageId", location: "imageId", required: false, type: .string)
+            AWSShapeProperty(label: "ImageId", location: .body(locationName: "imageId"), required: false, type: .string)
         ]
         /// The ID of the newly registered AMI.
         public let imageId: String?
@@ -18337,7 +18337,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [PriceScheduleSpecification]?
 
@@ -18358,10 +18358,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Comment", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "UploadStart", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "UploadEnd", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "UploadSize", location: nil, required: false, type: .double)
+            AWSShapeProperty(label: "Comment", required: false, type: .string), 
+            AWSShapeProperty(label: "UploadStart", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "UploadEnd", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "UploadSize", required: false, type: .double)
         ]
         /// A user-defined comment about the disk upload.
         public let comment: String?
@@ -18391,7 +18391,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Return", location: "return", required: false, type: .boolean)
+            AWSShapeProperty(label: "Return", location: .body(locationName: "return"), required: false, type: .boolean)
         ]
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -18409,10 +18409,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Format", location: "format", required: true, type: .enum), 
-            AWSShapeProperty(label: "Checksum", location: "checksum", required: false, type: .string), 
-            AWSShapeProperty(label: "Size", location: "size", required: true, type: .long), 
-            AWSShapeProperty(label: "ImportManifestUrl", location: "importManifestUrl", required: true, type: .string)
+            AWSShapeProperty(label: "Format", location: .body(locationName: "format"), required: true, type: .enum), 
+            AWSShapeProperty(label: "Checksum", location: .body(locationName: "checksum"), required: false, type: .string), 
+            AWSShapeProperty(label: "Size", location: .body(locationName: "size"), required: true, type: .long), 
+            AWSShapeProperty(label: "ImportManifestUrl", location: .body(locationName: "importManifestUrl"), required: true, type: .string)
         ]
         /// The disk image format.
         public let format: DiskImageFormat
@@ -18454,7 +18454,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Subnet", location: "subnet", required: false, type: .structure)
+            AWSShapeProperty(label: "Subnet", location: .body(locationName: "subnet"), required: false, type: .structure)
         ]
         /// Information about the subnet.
         public let subnet: Subnet?
@@ -18472,7 +18472,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PrivateIpAddressConfigSet", location: "PrivateIpAddressConfigSet", required: false, type: .list)
+            AWSShapeProperty(label: "PrivateIpAddressConfigSet", required: false, type: .list)
         ]
         public let privateIpAddressConfigSet: [ScheduledInstancesPrivateIpAddressConfig]?
 
@@ -18493,7 +18493,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GroupName", location: "GroupName", required: false, type: .list)
+            AWSShapeProperty(label: "GroupName", required: false, type: .list)
         ]
         public let groupName: [String]?
 
@@ -18510,9 +18510,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Timestamp", location: "timestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "InstanceId", location: "instanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "Output", location: "output", required: false, type: .string)
+            AWSShapeProperty(label: "Timestamp", location: .body(locationName: "timestamp"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Output", location: .body(locationName: "output"), required: false, type: .string)
         ]
         /// The time the output was last updated.
         public let timestamp: Date?
@@ -18538,7 +18538,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [String]?
 
@@ -18555,8 +18555,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AssociationId", location: "associationId", required: true, type: .string)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "AssociationId", location: .body(locationName: "associationId"), required: true, type: .string)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -18579,9 +18579,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Ipv6AddressCount", location: "ipv6AddressCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "Ipv6Addresses", location: "ipv6Addresses", required: false, type: .structure), 
-            AWSShapeProperty(label: "NetworkInterfaceId", location: "networkInterfaceId", required: true, type: .string)
+            AWSShapeProperty(label: "Ipv6AddressCount", location: .body(locationName: "ipv6AddressCount"), required: false, type: .integer), 
+            AWSShapeProperty(label: "Ipv6Addresses", location: .body(locationName: "ipv6Addresses"), required: false, type: .structure), 
+            AWSShapeProperty(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"), required: true, type: .string)
         ]
         /// The number of IPv6 addresses to assign to the network interface. Amazon EC2 automatically selects the IPv6 addresses from the subnet range. You can't use this option if specifying specific IPv6 addresses.
         public let ipv6AddressCount: Int32?
@@ -18608,8 +18608,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ImportSnapshotTasks", location: "importSnapshotTaskSet", required: false, type: .structure)
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "ImportSnapshotTasks", location: .body(locationName: "importSnapshotTaskSet"), required: false, type: .structure)
         ]
         /// The token to use to get the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -18631,7 +18631,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpnConnectionId", location: "VpnConnectionId", required: false, type: .list)
+            AWSShapeProperty(label: "VpnConnectionId", required: false, type: .list)
         ]
         public let vpnConnectionId: [String]?
 
@@ -18648,8 +18648,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Details", location: "details", required: false, type: .structure), 
-            AWSShapeProperty(label: "Status", location: "status", required: false, type: .enum)
+            AWSShapeProperty(label: "Details", location: .body(locationName: "details"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Status", location: .body(locationName: "status"), required: false, type: .enum)
         ]
         /// The details of the volume status.
         public let details: VolumeStatusDetailsList?
@@ -18671,7 +18671,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "VpcId", required: false, type: .string)
         ]
         /// The ID of the VPC.
         public let vpcId: String?
@@ -18689,7 +18689,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [RouteTable]?
 
@@ -18710,7 +18710,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Subnets", location: "subnetSet", required: false, type: .structure)
+            AWSShapeProperty(label: "Subnets", location: .body(locationName: "subnetSet"), required: false, type: .structure)
         ]
         /// Information about one or more subnets.
         public let subnets: SubnetList?
@@ -18728,7 +18728,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Return", location: "return", required: false, type: .boolean)
+            AWSShapeProperty(label: "Return", location: .body(locationName: "return"), required: false, type: .boolean)
         ]
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public let `return`: Bool?
@@ -18746,7 +18746,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [StaleSecurityGroup]?
 
@@ -18767,8 +18767,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "S3Bucket", location: "s3Bucket", required: false, type: .string), 
-            AWSShapeProperty(label: "S3Key", location: "s3Key", required: false, type: .string)
+            AWSShapeProperty(label: "S3Bucket", location: .body(locationName: "s3Bucket"), required: false, type: .string), 
+            AWSShapeProperty(label: "S3Key", location: .body(locationName: "s3Key"), required: false, type: .string)
         ]
         /// The S3 bucket from which the disk image was created.
         public let s3Bucket: String?
@@ -18790,7 +18790,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SpotFleetRequestId", location: "spotFleetRequestId", required: true, type: .string)
+            AWSShapeProperty(label: "SpotFleetRequestId", location: .body(locationName: "spotFleetRequestId"), required: true, type: .string)
         ]
         /// The ID of the Spot fleet request.
         public let spotFleetRequestId: String
@@ -18809,7 +18809,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Unsuccessful", location: "unsuccessful", required: false, type: .structure)
+            AWSShapeProperty(label: "Unsuccessful", location: .body(locationName: "unsuccessful"), required: false, type: .structure)
         ]
         /// Information about the endpoints that were not successfully deleted.
         public let unsuccessful: UnsuccessfulItemSet?
@@ -18827,10 +18827,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "DryRun", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "EgressOnlyInternetGatewayIds", location: "EgressOnlyInternetGatewayId", required: false, type: .structure)
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "EgressOnlyInternetGatewayIds", location: .body(locationName: "EgressOnlyInternetGatewayId"), required: false, type: .structure)
         ]
         /// The maximum number of results to return for the request in a single page. The remaining results can be seen by sending another request with the returned NextToken value. This value can be between 5 and 1000; if MaxResults is given a value larger than 1000, only 1000 results are returned.
         public let maxResults: Int32?
@@ -18860,9 +18860,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcId", location: "vpcId", required: true, type: .string), 
-            AWSShapeProperty(label: "InternetGatewayId", location: "internetGatewayId", required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "VpcId", location: .body(locationName: "vpcId"), required: true, type: .string), 
+            AWSShapeProperty(label: "InternetGatewayId", location: .body(locationName: "internetGatewayId"), required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// The ID of the VPC.
         public let vpcId: String
@@ -18890,7 +18890,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotId", location: "snapshotId", required: false, type: .string)
+            AWSShapeProperty(label: "SnapshotId", location: .body(locationName: "snapshotId"), required: false, type: .string)
         ]
         /// The ID of the new snapshot.
         public let snapshotId: String?
@@ -18908,9 +18908,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Ipv6CidrBlockState", location: "ipv6CidrBlockState", required: false, type: .structure), 
-            AWSShapeProperty(label: "Ipv6CidrBlock", location: "ipv6CidrBlock", required: false, type: .string), 
-            AWSShapeProperty(label: "AssociationId", location: "associationId", required: false, type: .string)
+            AWSShapeProperty(label: "Ipv6CidrBlockState", location: .body(locationName: "ipv6CidrBlockState"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Ipv6CidrBlock", location: .body(locationName: "ipv6CidrBlock"), required: false, type: .string), 
+            AWSShapeProperty(label: "AssociationId", location: .body(locationName: "associationId"), required: false, type: .string)
         ]
         /// Information about the state of the CIDR block.
         public let ipv6CidrBlockState: VpcCidrBlockState?
@@ -18936,8 +18936,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "Arn", required: false, type: .string)
         ]
         /// The name.
         public let name: String?
@@ -18959,7 +18959,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [ImportInstanceVolumeDetailItem]?
 
@@ -18980,7 +18980,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcPeeringConnection", location: "vpcPeeringConnection", required: false, type: .structure)
+            AWSShapeProperty(label: "VpcPeeringConnection", location: .body(locationName: "vpcPeeringConnection"), required: false, type: .structure)
         ]
         /// Information about the VPC peering connection.
         public let vpcPeeringConnection: VpcPeeringConnection?
@@ -18998,9 +18998,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Description", location: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "SnapshotTaskDetail", location: "snapshotTaskDetail", required: false, type: .structure), 
-            AWSShapeProperty(label: "ImportTaskId", location: "importTaskId", required: false, type: .string)
+            AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeProperty(label: "SnapshotTaskDetail", location: .body(locationName: "snapshotTaskDetail"), required: false, type: .structure), 
+            AWSShapeProperty(label: "ImportTaskId", location: .body(locationName: "importTaskId"), required: false, type: .string)
         ]
         /// A description of the import snapshot task.
         public let description: String?
@@ -19026,10 +19026,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserBucket", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Format", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Url", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "UserBucket", required: false, type: .structure), 
+            AWSShapeProperty(label: "Format", required: false, type: .string), 
+            AWSShapeProperty(label: "Url", required: false, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
         /// The S3 bucket for the disk image.
         public let userBucket: UserBucket?
@@ -19059,7 +19059,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Unsuccessful", location: "unsuccessful", required: false, type: .structure)
+            AWSShapeProperty(label: "Unsuccessful", location: .body(locationName: "unsuccessful"), required: false, type: .structure)
         ]
         /// Information about the flow logs that could not be deleted successfully.
         public let unsuccessful: UnsuccessfulItemSet?
@@ -19077,7 +19077,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DhcpOptions", location: "dhcpOptionsSet", required: false, type: .structure)
+            AWSShapeProperty(label: "DhcpOptions", location: .body(locationName: "dhcpOptionsSet"), required: false, type: .structure)
         ]
         /// Information about one or more DHCP options sets.
         public let dhcpOptions: DhcpOptionsList?
@@ -19095,7 +19095,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [UserIdGroupPair]?
 
@@ -19116,10 +19116,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RouteTableId", location: "routeTableId", required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "DestinationCidrBlock", location: "destinationCidrBlock", required: false, type: .string), 
-            AWSShapeProperty(label: "DestinationIpv6CidrBlock", location: "destinationIpv6CidrBlock", required: false, type: .string)
+            AWSShapeProperty(label: "RouteTableId", location: .body(locationName: "routeTableId"), required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "DestinationCidrBlock", location: .body(locationName: "destinationCidrBlock"), required: false, type: .string), 
+            AWSShapeProperty(label: "DestinationIpv6CidrBlock", location: .body(locationName: "destinationIpv6CidrBlock"), required: false, type: .string)
         ]
         /// The ID of the route table.
         public let routeTableId: String
@@ -19150,11 +19150,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Timestamp", location: "timestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "AssociationId", location: "associationId", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", location: "instanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "State", location: "state", required: false, type: .enum), 
-            AWSShapeProperty(label: "IamInstanceProfile", location: "iamInstanceProfile", required: false, type: .structure)
+            AWSShapeProperty(label: "Timestamp", location: .body(locationName: "timestamp"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "AssociationId", location: .body(locationName: "associationId"), required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeProperty(label: "IamInstanceProfile", location: .body(locationName: "iamInstanceProfile"), required: false, type: .structure)
         ]
         /// The time the IAM instance profile was associated with the instance.
         public let timestamp: Date?
@@ -19188,9 +19188,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AllowEgressFromLocalVpcToRemoteClassicLink", location: "allowEgressFromLocalVpcToRemoteClassicLink", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AllowDnsResolutionFromRemoteVpc", location: "allowDnsResolutionFromRemoteVpc", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AllowEgressFromLocalClassicLinkToRemoteVpc", location: "allowEgressFromLocalClassicLinkToRemoteVpc", required: false, type: .boolean)
+            AWSShapeProperty(label: "AllowEgressFromLocalVpcToRemoteClassicLink", location: .body(locationName: "allowEgressFromLocalVpcToRemoteClassicLink"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "AllowDnsResolutionFromRemoteVpc", location: .body(locationName: "allowDnsResolutionFromRemoteVpc"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "AllowEgressFromLocalClassicLinkToRemoteVpc", location: .body(locationName: "allowEgressFromLocalClassicLinkToRemoteVpc"), required: false, type: .boolean)
         ]
         /// If true, enables outbound communication from instances in a local VPC to an EC2-Classic instance that's linked to a peer VPC via ClassicLink.
         public let allowEgressFromLocalVpcToRemoteClassicLink: Bool?
@@ -19216,9 +19216,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "VpnGatewayId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "VpcId", required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "VpnGatewayId", required: true, type: .string)
         ]
         /// The ID of the VPC.
         public let vpcId: String
@@ -19246,10 +19246,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetId", location: "subnetId", required: false, type: .string), 
-            AWSShapeProperty(label: "RouteTableId", location: "routeTableId", required: false, type: .string), 
-            AWSShapeProperty(label: "RouteTableAssociationId", location: "routeTableAssociationId", required: false, type: .string), 
-            AWSShapeProperty(label: "Main", location: "main", required: false, type: .boolean)
+            AWSShapeProperty(label: "SubnetId", location: .body(locationName: "subnetId"), required: false, type: .string), 
+            AWSShapeProperty(label: "RouteTableId", location: .body(locationName: "routeTableId"), required: false, type: .string), 
+            AWSShapeProperty(label: "RouteTableAssociationId", location: .body(locationName: "routeTableAssociationId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Main", location: .body(locationName: "main"), required: false, type: .boolean)
         ]
         /// The ID of the subnet. A subnet ID is not returned for an implicit association.
         public let subnetId: String?
@@ -19279,7 +19279,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [ReservedInstancesListing]?
 
@@ -19300,8 +19300,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceIds", location: "InstanceId", required: true, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "InstanceIds", location: .body(locationName: "InstanceId"), required: true, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// One or more instance IDs.
         public let instanceIds: InstanceIdStringList
@@ -19324,7 +19324,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExportTaskIds", location: "exportTaskId", required: false, type: .structure)
+            AWSShapeProperty(label: "ExportTaskIds", location: .body(locationName: "exportTaskId"), required: false, type: .structure)
         ]
         /// One or more export task IDs.
         public let exportTaskIds: ExportTaskIdStringList?
@@ -19342,8 +19342,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Price", location: "price", required: false, type: .double), 
-            AWSShapeProperty(label: "Count", location: "count", required: false, type: .integer)
+            AWSShapeProperty(label: "Price", location: .body(locationName: "price"), required: false, type: .double), 
+            AWSShapeProperty(label: "Count", location: .body(locationName: "count"), required: false, type: .integer)
         ]
         /// The price per instance.
         public let price: Double?
@@ -19365,7 +19365,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [String]?
 
@@ -19382,7 +19382,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [Volume]?
 
@@ -19403,8 +19403,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceId", location: "instanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "ImageData", location: "imageData", required: false, type: .string)
+            AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "ImageData", location: .body(locationName: "imageData"), required: false, type: .string)
         ]
         /// The ID of the instance.
         public let instanceId: String?
@@ -19426,11 +19426,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReservedInstancesIds", location: "ReservedInstancesId", required: false, type: .structure), 
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "OfferingType", location: "offeringType", required: false, type: .enum), 
-            AWSShapeProperty(label: "OfferingClass", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "ReservedInstancesIds", location: .body(locationName: "ReservedInstancesId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "OfferingType", location: .body(locationName: "offeringType"), required: false, type: .enum), 
+            AWSShapeProperty(label: "OfferingClass", required: false, type: .enum)
         ]
         /// One or more Reserved Instance IDs. Default: Describes all your Reserved Instances, or only those otherwise specified.
         public let reservedInstancesIds: ReservedInstancesIdStringList?
@@ -19464,11 +19464,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Affinity", location: "affinity", required: false, type: .string), 
-            AWSShapeProperty(label: "GroupName", location: "groupName", required: false, type: .string), 
-            AWSShapeProperty(label: "HostId", location: "hostId", required: false, type: .string), 
-            AWSShapeProperty(label: "AvailabilityZone", location: "availabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "Tenancy", location: "tenancy", required: false, type: .enum)
+            AWSShapeProperty(label: "Affinity", location: .body(locationName: "affinity"), required: false, type: .string), 
+            AWSShapeProperty(label: "GroupName", location: .body(locationName: "groupName"), required: false, type: .string), 
+            AWSShapeProperty(label: "HostId", location: .body(locationName: "hostId"), required: false, type: .string), 
+            AWSShapeProperty(label: "AvailabilityZone", location: .body(locationName: "availabilityZone"), required: false, type: .string), 
+            AWSShapeProperty(label: "Tenancy", location: .body(locationName: "tenancy"), required: false, type: .enum)
         ]
         /// The affinity setting for the instance on the Dedicated Host. This parameter is not supported for the ImportInstance command.
         public let affinity: String?
@@ -19502,7 +19502,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [VolumeStatusItem]?
 
@@ -19523,7 +19523,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [Route]?
 
@@ -19552,8 +19552,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StaleSecurityGroupSet", location: "staleSecurityGroupSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string)
+            AWSShapeProperty(label: "StaleSecurityGroupSet", location: .body(locationName: "staleSecurityGroupSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
         /// Information about the stale security groups.
         public let staleSecurityGroupSet: StaleSecurityGroupSet?
@@ -19575,18 +19575,18 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeviceIndex", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "SubnetId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "NetworkInterfaceId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "PrivateIpAddress", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "PrivateIpAddressConfigs", location: "PrivateIpAddressConfig", required: false, type: .structure), 
-            AWSShapeProperty(label: "SecondaryPrivateIpAddressCount", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Ipv6AddressCount", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "Ipv6Addresses", location: "Ipv6Address", required: false, type: .structure), 
-            AWSShapeProperty(label: "DeleteOnTermination", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "Groups", location: "Group", required: false, type: .structure), 
-            AWSShapeProperty(label: "AssociatePublicIpAddress", location: nil, required: false, type: .boolean)
+            AWSShapeProperty(label: "DeviceIndex", required: false, type: .integer), 
+            AWSShapeProperty(label: "SubnetId", required: false, type: .string), 
+            AWSShapeProperty(label: "NetworkInterfaceId", required: false, type: .string), 
+            AWSShapeProperty(label: "PrivateIpAddress", required: false, type: .string), 
+            AWSShapeProperty(label: "PrivateIpAddressConfigs", location: .body(locationName: "PrivateIpAddressConfig"), required: false, type: .structure), 
+            AWSShapeProperty(label: "SecondaryPrivateIpAddressCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "Description", required: false, type: .string), 
+            AWSShapeProperty(label: "Ipv6AddressCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "Ipv6Addresses", location: .body(locationName: "Ipv6Address"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DeleteOnTermination", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Groups", location: .body(locationName: "Group"), required: false, type: .structure), 
+            AWSShapeProperty(label: "AssociatePublicIpAddress", required: false, type: .boolean)
         ]
         /// The index of the device for the network interface attachment.
         public let deviceIndex: Int32?
@@ -19648,12 +19648,12 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserId", location: "userId", required: false, type: .string), 
-            AWSShapeProperty(label: "PeeringStatus", location: "peeringStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "VpcId", location: "vpcId", required: false, type: .string), 
-            AWSShapeProperty(label: "GroupName", location: "groupName", required: false, type: .string), 
-            AWSShapeProperty(label: "GroupId", location: "groupId", required: false, type: .string), 
-            AWSShapeProperty(label: "VpcPeeringConnectionId", location: "vpcPeeringConnectionId", required: false, type: .string)
+            AWSShapeProperty(label: "UserId", location: .body(locationName: "userId"), required: false, type: .string), 
+            AWSShapeProperty(label: "PeeringStatus", location: .body(locationName: "peeringStatus"), required: false, type: .string), 
+            AWSShapeProperty(label: "VpcId", location: .body(locationName: "vpcId"), required: false, type: .string), 
+            AWSShapeProperty(label: "GroupName", location: .body(locationName: "groupName"), required: false, type: .string), 
+            AWSShapeProperty(label: "GroupId", location: .body(locationName: "groupId"), required: false, type: .string), 
+            AWSShapeProperty(label: "VpcPeeringConnectionId", location: .body(locationName: "vpcPeeringConnectionId"), required: false, type: .string)
         ]
         /// The ID of an AWS account. For a referenced security group in another VPC, the account ID of the referenced security group is returned. [EC2-Classic] Required when adding or removing rules that reference a security group in another AWS account.
         public let userId: String?
@@ -19691,8 +19691,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ConversionTaskIds", location: "conversionTaskId", required: false, type: .structure)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "ConversionTaskIds", location: .body(locationName: "conversionTaskId"), required: false, type: .structure)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -19714,9 +19714,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MapPublicIpOnLaunch", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "SubnetId", location: "subnetId", required: true, type: .string), 
-            AWSShapeProperty(label: "AssignIpv6AddressOnCreation", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "MapPublicIpOnLaunch", required: false, type: .structure), 
+            AWSShapeProperty(label: "SubnetId", location: .body(locationName: "subnetId"), required: true, type: .string), 
+            AWSShapeProperty(label: "AssignIpv6AddressOnCreation", required: false, type: .structure)
         ]
         /// Specify true to indicate that network interfaces created in the specified subnet should be assigned a public IPv4 address. This includes a network interface that's created when launching an instance into the subnet (the instance therefore receives a public IPv4 address).
         public let mapPublicIpOnLaunch: AttributeBooleanValue?
@@ -19743,9 +19743,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "State", location: "state", required: false, type: .enum), 
-            AWSShapeProperty(label: "Strategy", location: "strategy", required: false, type: .enum), 
-            AWSShapeProperty(label: "GroupName", location: "groupName", required: false, type: .string)
+            AWSShapeProperty(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeProperty(label: "Strategy", location: .body(locationName: "strategy"), required: false, type: .enum), 
+            AWSShapeProperty(label: "GroupName", location: .body(locationName: "groupName"), required: false, type: .string)
         ]
         /// The state of the placement group.
         public let state: PlacementGroupState?
@@ -19771,7 +19771,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [InstanceBlockDeviceMappingSpecification]?
 
@@ -19792,7 +19792,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AssociationId", location: "associationId", required: false, type: .string)
+            AWSShapeProperty(label: "AssociationId", location: .body(locationName: "associationId"), required: false, type: .string)
         ]
         /// [EC2-VPC] The ID that represents the association of the Elastic IP address with an instance.
         public let associationId: String?
@@ -19810,11 +19810,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RequesterId", location: "requesterId", required: false, type: .string), 
-            AWSShapeProperty(label: "Instances", location: "instancesSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "ReservationId", location: "reservationId", required: false, type: .string), 
-            AWSShapeProperty(label: "OwnerId", location: "ownerId", required: false, type: .string), 
-            AWSShapeProperty(label: "Groups", location: "groupSet", required: false, type: .structure)
+            AWSShapeProperty(label: "RequesterId", location: .body(locationName: "requesterId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Instances", location: .body(locationName: "instancesSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "ReservationId", location: .body(locationName: "reservationId"), required: false, type: .string), 
+            AWSShapeProperty(label: "OwnerId", location: .body(locationName: "ownerId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Groups", location: .body(locationName: "groupSet"), required: false, type: .structure)
         ]
         /// The ID of the requester that launched the instances on your behalf (for example, AWS Management Console or Auto Scaling).
         public let requesterId: String?
@@ -19856,19 +19856,19 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetCapacity", location: "targetCapacity", required: true, type: .integer), 
-            AWSShapeProperty(label: "ClientToken", location: "clientToken", required: false, type: .string), 
-            AWSShapeProperty(label: "IamFleetRole", location: "iamFleetRole", required: true, type: .string), 
-            AWSShapeProperty(label: "SpotPrice", location: "spotPrice", required: true, type: .string), 
-            AWSShapeProperty(label: "ValidUntil", location: "validUntil", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "AllocationStrategy", location: "allocationStrategy", required: false, type: .enum), 
-            AWSShapeProperty(label: "ExcessCapacityTerminationPolicy", location: "excessCapacityTerminationPolicy", required: false, type: .enum), 
-            AWSShapeProperty(label: "LaunchSpecifications", location: "launchSpecifications", required: true, type: .structure), 
-            AWSShapeProperty(label: "ValidFrom", location: "validFrom", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "TerminateInstancesWithExpiration", location: "terminateInstancesWithExpiration", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ReplaceUnhealthyInstances", location: "replaceUnhealthyInstances", required: false, type: .boolean), 
-            AWSShapeProperty(label: "FulfilledCapacity", location: "fulfilledCapacity", required: false, type: .double), 
-            AWSShapeProperty(label: "Type", location: "type", required: false, type: .enum)
+            AWSShapeProperty(label: "TargetCapacity", location: .body(locationName: "targetCapacity"), required: true, type: .integer), 
+            AWSShapeProperty(label: "ClientToken", location: .body(locationName: "clientToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "IamFleetRole", location: .body(locationName: "iamFleetRole"), required: true, type: .string), 
+            AWSShapeProperty(label: "SpotPrice", location: .body(locationName: "spotPrice"), required: true, type: .string), 
+            AWSShapeProperty(label: "ValidUntil", location: .body(locationName: "validUntil"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "AllocationStrategy", location: .body(locationName: "allocationStrategy"), required: false, type: .enum), 
+            AWSShapeProperty(label: "ExcessCapacityTerminationPolicy", location: .body(locationName: "excessCapacityTerminationPolicy"), required: false, type: .enum), 
+            AWSShapeProperty(label: "LaunchSpecifications", location: .body(locationName: "launchSpecifications"), required: true, type: .structure), 
+            AWSShapeProperty(label: "ValidFrom", location: .body(locationName: "validFrom"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "TerminateInstancesWithExpiration", location: .body(locationName: "terminateInstancesWithExpiration"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "ReplaceUnhealthyInstances", location: .body(locationName: "replaceUnhealthyInstances"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "FulfilledCapacity", location: .body(locationName: "fulfilledCapacity"), required: false, type: .double), 
+            AWSShapeProperty(label: "Type", location: .body(locationName: "type"), required: false, type: .enum)
         ]
         /// The number of units to request. You can choose to set the target capacity in terms of instances or a performance characteristic that is important to your application workload, such as vCPUs, memory, or I/O.
         public let targetCapacity: Int32
@@ -19938,7 +19938,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [Image]?
 
@@ -19970,8 +19970,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InternetGatewayId", location: "internetGatewayId", required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "InternetGatewayId", location: .body(locationName: "internetGatewayId"), required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// The ID of the Internet gateway.
         public let internetGatewayId: String
@@ -19994,10 +19994,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NoDevice", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "VirtualName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "DeviceName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Ebs", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "NoDevice", required: false, type: .string), 
+            AWSShapeProperty(label: "VirtualName", required: false, type: .string), 
+            AWSShapeProperty(label: "DeviceName", required: false, type: .string), 
+            AWSShapeProperty(label: "Ebs", required: false, type: .structure)
         ]
         /// Suppresses the specified device included in the block device mapping of the AMI.
         public let noDevice: String?
@@ -20027,8 +20027,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Code", location: "code", required: false, type: .string), 
-            AWSShapeProperty(label: "Message", location: "message", required: false, type: .string)
+            AWSShapeProperty(label: "Code", location: .body(locationName: "code"), required: false, type: .string), 
+            AWSShapeProperty(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
         ]
         /// The reason code for the state change.
         public let code: String?
@@ -20050,9 +20050,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Tags", location: "tag", required: false, type: .structure), 
-            AWSShapeProperty(label: "Resources", location: "resourceId", required: true, type: .list)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Tags", location: .body(locationName: "tag"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Resources", location: .body(locationName: "resourceId"), required: true, type: .list)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -20079,7 +20079,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [InstancePrivateIpAddress]?
 
@@ -20113,7 +20113,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [IdFormat]?
 
@@ -20134,7 +20134,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [InstanceBlockDeviceMapping]?
 
@@ -20155,9 +20155,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "SpotInstanceRequestIds", location: "SpotInstanceRequestId", required: false, type: .structure)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "SpotInstanceRequestIds", location: .body(locationName: "SpotInstanceRequestId"), required: false, type: .structure)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -20183,10 +20183,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "VpcId", location: "vpcId", required: true, type: .string), 
-            AWSShapeProperty(label: "InstanceId", location: "instanceId", required: true, type: .string), 
-            AWSShapeProperty(label: "Groups", location: "SecurityGroupId", required: true, type: .structure)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "VpcId", location: .body(locationName: "vpcId"), required: true, type: .string), 
+            AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: true, type: .string), 
+            AWSShapeProperty(label: "Groups", location: .body(locationName: "SecurityGroupId"), required: true, type: .structure)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -20219,8 +20219,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Successful", location: "successful", required: false, type: .structure), 
-            AWSShapeProperty(label: "Unsuccessful", location: "unsuccessful", required: false, type: .structure)
+            AWSShapeProperty(label: "Successful", location: .body(locationName: "successful"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Unsuccessful", location: .body(locationName: "unsuccessful"), required: false, type: .structure)
         ]
         /// The IDs of the Dedicated Hosts that were successfully released.
         public let successful: ResponseHostIdList?
@@ -20242,7 +20242,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ScheduledInstanceId", location: "ScheduledInstanceId", required: false, type: .list)
+            AWSShapeProperty(label: "ScheduledInstanceId", required: false, type: .list)
         ]
         public let scheduledInstanceId: [String]?
 
@@ -20259,10 +20259,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "S3Prefix", location: "s3Prefix", required: false, type: .string), 
-            AWSShapeProperty(label: "ContainerFormat", location: "containerFormat", required: false, type: .enum), 
-            AWSShapeProperty(label: "DiskImageFormat", location: "diskImageFormat", required: false, type: .enum), 
-            AWSShapeProperty(label: "S3Bucket", location: "s3Bucket", required: false, type: .string)
+            AWSShapeProperty(label: "S3Prefix", location: .body(locationName: "s3Prefix"), required: false, type: .string), 
+            AWSShapeProperty(label: "ContainerFormat", location: .body(locationName: "containerFormat"), required: false, type: .enum), 
+            AWSShapeProperty(label: "DiskImageFormat", location: .body(locationName: "diskImageFormat"), required: false, type: .enum), 
+            AWSShapeProperty(label: "S3Bucket", location: .body(locationName: "s3Bucket"), required: false, type: .string)
         ]
         /// The image is written to a single object in the S3 bucket at the S3 key s3prefix + exportTaskId + '.' + diskImageFormat.
         public let s3Prefix: String?
@@ -20292,8 +20292,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Code", location: "code", required: true, type: .enum), 
-            AWSShapeProperty(label: "Message", location: "message", required: true, type: .string)
+            AWSShapeProperty(label: "Code", location: .body(locationName: "code"), required: true, type: .enum), 
+            AWSShapeProperty(label: "Message", location: .body(locationName: "message"), required: true, type: .string)
         ]
         /// The error code.
         public let code: CancelBatchErrorCode
@@ -20317,9 +20317,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "KeyNames", location: "KeyName", required: false, type: .structure)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "KeyNames", location: .body(locationName: "KeyName"), required: false, type: .structure)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -20345,8 +20345,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReservedInstancesOfferings", location: "reservedInstancesOfferingsSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string)
+            AWSShapeProperty(label: "ReservedInstancesOfferings", location: .body(locationName: "reservedInstancesOfferingsSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
         /// A list of Reserved Instances offerings.
         public let reservedInstancesOfferings: ReservedInstancesOfferingList?
@@ -20373,9 +20373,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DestinationCidrBlock", location: "destinationCidrBlock", required: false, type: .string), 
-            AWSShapeProperty(label: "State", location: "state", required: false, type: .enum), 
-            AWSShapeProperty(label: "Source", location: "source", required: false, type: .enum)
+            AWSShapeProperty(label: "DestinationCidrBlock", location: .body(locationName: "destinationCidrBlock"), required: false, type: .string), 
+            AWSShapeProperty(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeProperty(label: "Source", location: .body(locationName: "source"), required: false, type: .enum)
         ]
         /// The CIDR block associated with the local subnet of the customer data center.
         public let destinationCidrBlock: String?
@@ -20401,14 +20401,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "KmsKeyId", location: "kmsKeyId", required: false, type: .string), 
-            AWSShapeProperty(label: "SourceRegion", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Encrypted", location: "encrypted", required: false, type: .boolean), 
-            AWSShapeProperty(label: "DestinationRegion", location: "destinationRegion", required: false, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "PresignedUrl", location: "presignedUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "SourceSnapshotId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Description", required: false, type: .string), 
+            AWSShapeProperty(label: "KmsKeyId", location: .body(locationName: "kmsKeyId"), required: false, type: .string), 
+            AWSShapeProperty(label: "SourceRegion", required: true, type: .string), 
+            AWSShapeProperty(label: "Encrypted", location: .body(locationName: "encrypted"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "DestinationRegion", location: .body(locationName: "destinationRegion"), required: false, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "PresignedUrl", location: .body(locationName: "presignedUrl"), required: false, type: .string), 
+            AWSShapeProperty(label: "SourceSnapshotId", required: true, type: .string)
         ]
         /// A description for the EBS snapshot.
         public let description: String?
@@ -20461,7 +20461,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [IpRange]?
 
@@ -20482,7 +20482,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [VpnConnection]?
 
@@ -20503,7 +20503,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PlacementGroups", location: "placementGroupSet", required: false, type: .structure)
+            AWSShapeProperty(label: "PlacementGroups", location: .body(locationName: "placementGroupSet"), required: false, type: .structure)
         ]
         /// One or more placement groups.
         public let placementGroups: PlacementGroupList?
@@ -20521,11 +20521,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Device", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "InstanceId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Force", location: nil, required: false, type: .boolean)
+            AWSShapeProperty(label: "Device", required: false, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
+            AWSShapeProperty(label: "VolumeId", required: true, type: .string), 
+            AWSShapeProperty(label: "Force", required: false, type: .boolean)
         ]
         /// The device name.
         public let device: String?
@@ -20560,8 +20560,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EgressOnlyInternetGatewayId", location: "egressOnlyInternetGatewayId", required: false, type: .string), 
-            AWSShapeProperty(label: "Attachments", location: "attachmentSet", required: false, type: .structure)
+            AWSShapeProperty(label: "EgressOnlyInternetGatewayId", location: .body(locationName: "egressOnlyInternetGatewayId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Attachments", location: .body(locationName: "attachmentSet"), required: false, type: .structure)
         ]
         /// The ID of the egress-only Internet gateway.
         public let egressOnlyInternetGatewayId: String?
@@ -20583,8 +20583,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "RouteTableId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "GatewayId", required: true, type: .string), 
+            AWSShapeProperty(label: "RouteTableId", required: true, type: .string)
         ]
         /// The ID of the virtual private gateway.
         public let gatewayId: String
@@ -20608,7 +20608,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [SpotFleetLaunchSpecification]?
 
@@ -20629,9 +20629,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReservedInstanceIds", location: "ReservedInstanceId", required: true, type: .structure), 
-            AWSShapeProperty(label: "TargetConfigurations", location: "TargetConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: nil, required: false, type: .boolean)
+            AWSShapeProperty(label: "ReservedInstanceIds", location: .body(locationName: "ReservedInstanceId"), required: true, type: .structure), 
+            AWSShapeProperty(label: "TargetConfigurations", location: .body(locationName: "TargetConfiguration"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
         /// The IDs of the Convertible Reserved Instances to exchange.
         public let reservedInstanceIds: ReservedInstanceIdSet
@@ -20658,23 +20658,23 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BlockDeviceMappings", location: "blockDeviceMapping", required: false, type: .structure), 
-            AWSShapeProperty(label: "SubnetId", location: "subnetId", required: false, type: .string), 
-            AWSShapeProperty(label: "UserData", location: "userData", required: false, type: .string), 
-            AWSShapeProperty(label: "EbsOptimized", location: "ebsOptimized", required: false, type: .boolean), 
-            AWSShapeProperty(label: "KernelId", location: "kernelId", required: false, type: .string), 
-            AWSShapeProperty(label: "SpotPrice", location: "spotPrice", required: false, type: .string), 
-            AWSShapeProperty(label: "Monitoring", location: "monitoring", required: false, type: .structure), 
-            AWSShapeProperty(label: "InstanceType", location: "instanceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "WeightedCapacity", location: "weightedCapacity", required: false, type: .double), 
-            AWSShapeProperty(label: "SecurityGroups", location: "groupSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "KeyName", location: "keyName", required: false, type: .string), 
-            AWSShapeProperty(label: "AddressingType", location: "addressingType", required: false, type: .string), 
-            AWSShapeProperty(label: "IamInstanceProfile", location: "iamInstanceProfile", required: false, type: .structure), 
-            AWSShapeProperty(label: "ImageId", location: "imageId", required: false, type: .string), 
-            AWSShapeProperty(label: "NetworkInterfaces", location: "networkInterfaceSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "Placement", location: "placement", required: false, type: .structure), 
-            AWSShapeProperty(label: "RamdiskId", location: "ramdiskId", required: false, type: .string)
+            AWSShapeProperty(label: "BlockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), required: false, type: .structure), 
+            AWSShapeProperty(label: "SubnetId", location: .body(locationName: "subnetId"), required: false, type: .string), 
+            AWSShapeProperty(label: "UserData", location: .body(locationName: "userData"), required: false, type: .string), 
+            AWSShapeProperty(label: "EbsOptimized", location: .body(locationName: "ebsOptimized"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "KernelId", location: .body(locationName: "kernelId"), required: false, type: .string), 
+            AWSShapeProperty(label: "SpotPrice", location: .body(locationName: "spotPrice"), required: false, type: .string), 
+            AWSShapeProperty(label: "Monitoring", location: .body(locationName: "monitoring"), required: false, type: .structure), 
+            AWSShapeProperty(label: "InstanceType", location: .body(locationName: "instanceType"), required: false, type: .enum), 
+            AWSShapeProperty(label: "WeightedCapacity", location: .body(locationName: "weightedCapacity"), required: false, type: .double), 
+            AWSShapeProperty(label: "SecurityGroups", location: .body(locationName: "groupSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "KeyName", location: .body(locationName: "keyName"), required: false, type: .string), 
+            AWSShapeProperty(label: "AddressingType", location: .body(locationName: "addressingType"), required: false, type: .string), 
+            AWSShapeProperty(label: "IamInstanceProfile", location: .body(locationName: "iamInstanceProfile"), required: false, type: .structure), 
+            AWSShapeProperty(label: "ImageId", location: .body(locationName: "imageId"), required: false, type: .string), 
+            AWSShapeProperty(label: "NetworkInterfaces", location: .body(locationName: "networkInterfaceSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Placement", location: .body(locationName: "placement"), required: false, type: .structure), 
+            AWSShapeProperty(label: "RamdiskId", location: .body(locationName: "ramdiskId"), required: false, type: .string)
         ]
         /// One or more block device mapping entries.
         public let blockDeviceMappings: BlockDeviceMappingList?
@@ -20756,8 +20756,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Endpoint", location: "regionEndpoint", required: false, type: .string), 
-            AWSShapeProperty(label: "RegionName", location: "regionName", required: false, type: .string)
+            AWSShapeProperty(label: "Endpoint", location: .body(locationName: "regionEndpoint"), required: false, type: .string), 
+            AWSShapeProperty(label: "RegionName", location: .body(locationName: "regionName"), required: false, type: .string)
         ]
         /// The region service endpoint.
         public let endpoint: String?
@@ -20779,8 +20779,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PurchaseToken", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "InstanceCount", location: nil, required: true, type: .integer)
+            AWSShapeProperty(label: "PurchaseToken", required: true, type: .string), 
+            AWSShapeProperty(label: "InstanceCount", required: true, type: .integer)
         ]
         /// The purchase token.
         public let purchaseToken: String
@@ -20804,7 +20804,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ImportTaskId", location: "ImportTaskId", required: false, type: .list)
+            AWSShapeProperty(label: "ImportTaskId", required: false, type: .list)
         ]
         public let importTaskId: [String]?
 
@@ -20821,9 +20821,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcId", location: "vpcId", required: true, type: .string), 
-            AWSShapeProperty(label: "InternetGatewayId", location: "internetGatewayId", required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "VpcId", location: .body(locationName: "vpcId"), required: true, type: .string), 
+            AWSShapeProperty(label: "InternetGatewayId", location: .body(locationName: "internetGatewayId"), required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// The ID of the VPC.
         public let vpcId: String
@@ -20851,8 +20851,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Vpcs", location: "vpcs", required: false, type: .structure), 
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string)
+            AWSShapeProperty(label: "Vpcs", location: .body(locationName: "vpcs"), required: false, type: .structure), 
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
         /// Information about the ClassicLink DNS support status of the VPCs.
         public let vpcs: ClassicLinkDnsSupportList?
@@ -20874,7 +20874,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -20892,7 +20892,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StaticRoutesOnly", location: "staticRoutesOnly", required: false, type: .boolean)
+            AWSShapeProperty(label: "StaticRoutesOnly", location: .body(locationName: "staticRoutesOnly"), required: false, type: .boolean)
         ]
         /// Indicates whether the VPN connection uses static routes only. Static routes must be used for devices that don't support BGP.
         public let staticRoutesOnly: Bool?
@@ -20927,9 +20927,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EventType", location: "eventType", required: true, type: .enum), 
-            AWSShapeProperty(label: "Timestamp", location: "timestamp", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "EventInformation", location: "eventInformation", required: true, type: .structure)
+            AWSShapeProperty(label: "EventType", location: .body(locationName: "eventType"), required: true, type: .enum), 
+            AWSShapeProperty(label: "Timestamp", location: .body(locationName: "timestamp"), required: true, type: .timestamp), 
+            AWSShapeProperty(label: "EventInformation", location: .body(locationName: "eventInformation"), required: true, type: .structure)
         ]
         /// The event type.    error - Indicates an error with the Spot fleet request.    fleetRequestChange - Indicates a change in the status or configuration of the Spot fleet request.    instanceChange - Indicates that an instance was launched or terminated.  
         public let eventType: EventType
@@ -20958,8 +20958,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "SpotFleetRequestConfigs", location: "spotFleetRequestConfigSet", required: true, type: .structure)
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "SpotFleetRequestConfigs", location: .body(locationName: "spotFleetRequestConfigSet"), required: true, type: .structure)
         ]
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -20982,9 +20982,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AllowEgressFromLocalVpcToRemoteClassicLink", location: "allowEgressFromLocalVpcToRemoteClassicLink", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AllowDnsResolutionFromRemoteVpc", location: "allowDnsResolutionFromRemoteVpc", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AllowEgressFromLocalClassicLinkToRemoteVpc", location: "allowEgressFromLocalClassicLinkToRemoteVpc", required: false, type: .boolean)
+            AWSShapeProperty(label: "AllowEgressFromLocalVpcToRemoteClassicLink", location: .body(locationName: "allowEgressFromLocalVpcToRemoteClassicLink"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "AllowDnsResolutionFromRemoteVpc", location: .body(locationName: "allowDnsResolutionFromRemoteVpc"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "AllowEgressFromLocalClassicLinkToRemoteVpc", location: .body(locationName: "allowEgressFromLocalClassicLinkToRemoteVpc"), required: false, type: .boolean)
         ]
         /// Indicates whether a local VPC can communicate with a ClassicLink connection in the peer VPC over the VPC peering connection.
         public let allowEgressFromLocalVpcToRemoteClassicLink: Bool?
@@ -21010,7 +21010,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [VpcEndpoint]?
 
@@ -21031,12 +21031,12 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceState", location: "instanceState", required: false, type: .structure), 
-            AWSShapeProperty(label: "SystemStatus", location: "systemStatus", required: false, type: .structure), 
-            AWSShapeProperty(label: "Events", location: "eventsSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "InstanceStatus", location: "instanceStatus", required: false, type: .structure), 
-            AWSShapeProperty(label: "InstanceId", location: "instanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "AvailabilityZone", location: "availabilityZone", required: false, type: .string)
+            AWSShapeProperty(label: "InstanceState", location: .body(locationName: "instanceState"), required: false, type: .structure), 
+            AWSShapeProperty(label: "SystemStatus", location: .body(locationName: "systemStatus"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Events", location: .body(locationName: "eventsSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "InstanceStatus", location: .body(locationName: "instanceStatus"), required: false, type: .structure), 
+            AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "AvailabilityZone", location: .body(locationName: "availabilityZone"), required: false, type: .string)
         ]
         /// The intended state of the instance. DescribeInstanceStatus requires that an instance be in the running state.
         public let instanceState: InstanceState?
@@ -21074,7 +21074,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [ReservedInstancesOffering]?
 
@@ -21105,11 +21105,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PeeringOptions", location: "peeringOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "Ipv6CidrBlockSet", location: "ipv6CidrBlockSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "VpcId", location: "vpcId", required: false, type: .string), 
-            AWSShapeProperty(label: "OwnerId", location: "ownerId", required: false, type: .string), 
-            AWSShapeProperty(label: "CidrBlock", location: "cidrBlock", required: false, type: .string)
+            AWSShapeProperty(label: "PeeringOptions", location: .body(locationName: "peeringOptions"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Ipv6CidrBlockSet", location: .body(locationName: "ipv6CidrBlockSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "VpcId", location: .body(locationName: "vpcId"), required: false, type: .string), 
+            AWSShapeProperty(label: "OwnerId", location: .body(locationName: "ownerId"), required: false, type: .string), 
+            AWSShapeProperty(label: "CidrBlock", location: .body(locationName: "cidrBlock"), required: false, type: .string)
         ]
         /// Information about the VPC peering connection options for the accepter or requester VPC.
         public let peeringOptions: VpcPeeringConnectionOptionsDescription?
@@ -21143,15 +21143,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", location: "status", required: false, type: .string), 
-            AWSShapeProperty(label: "Progress", location: "progress", required: false, type: .string), 
-            AWSShapeProperty(label: "Url", location: "url", required: false, type: .string), 
-            AWSShapeProperty(label: "DiskImageSize", location: "diskImageSize", required: false, type: .double), 
-            AWSShapeProperty(label: "Format", location: "format", required: false, type: .string), 
-            AWSShapeProperty(label: "SnapshotId", location: "snapshotId", required: false, type: .string), 
-            AWSShapeProperty(label: "UserBucket", location: "userBucket", required: false, type: .structure), 
-            AWSShapeProperty(label: "StatusMessage", location: "statusMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", location: "description", required: false, type: .string)
+            AWSShapeProperty(label: "Status", location: .body(locationName: "status"), required: false, type: .string), 
+            AWSShapeProperty(label: "Progress", location: .body(locationName: "progress"), required: false, type: .string), 
+            AWSShapeProperty(label: "Url", location: .body(locationName: "url"), required: false, type: .string), 
+            AWSShapeProperty(label: "DiskImageSize", location: .body(locationName: "diskImageSize"), required: false, type: .double), 
+            AWSShapeProperty(label: "Format", location: .body(locationName: "format"), required: false, type: .string), 
+            AWSShapeProperty(label: "SnapshotId", location: .body(locationName: "snapshotId"), required: false, type: .string), 
+            AWSShapeProperty(label: "UserBucket", location: .body(locationName: "userBucket"), required: false, type: .structure), 
+            AWSShapeProperty(label: "StatusMessage", location: .body(locationName: "statusMessage"), required: false, type: .string), 
+            AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
         /// A brief status for the import snapshot task.
         public let status: String?
@@ -21201,7 +21201,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [SubnetIpv6CidrBlockAssociation]?
 
@@ -21222,7 +21222,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [TargetReservationValue]?
 
@@ -21243,7 +21243,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SpotDatafeedSubscription", location: "spotDatafeedSubscription", required: false, type: .structure)
+            AWSShapeProperty(label: "SpotDatafeedSubscription", location: .body(locationName: "spotDatafeedSubscription"), required: false, type: .structure)
         ]
         /// The Spot instance data feed subscription.
         public let spotDatafeedSubscription: SpotDatafeedSubscription?
@@ -21270,7 +21270,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SpotInstanceRequests", location: "spotInstanceRequestSet", required: false, type: .structure)
+            AWSShapeProperty(label: "SpotInstanceRequests", location: .body(locationName: "spotInstanceRequestSet"), required: false, type: .structure)
         ]
         /// One or more Spot instance requests.
         public let spotInstanceRequests: SpotInstanceRequestList?
@@ -21296,10 +21296,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccepterPeeringConnectionOptions", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "RequesterPeeringConnectionOptions", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "VpcPeeringConnectionId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "AccepterPeeringConnectionOptions", required: false, type: .structure), 
+            AWSShapeProperty(label: "RequesterPeeringConnectionOptions", required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeProperty(label: "VpcPeeringConnectionId", required: true, type: .string)
         ]
         /// The VPC peering connection options for the accepter VPC.
         public let accepterPeeringConnectionOptions: PeeringConnectionOptionsRequest?
@@ -21336,8 +21336,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", location: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", location: "arn", required: false, type: .string)
+            AWSShapeProperty(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeProperty(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string)
         ]
         /// The name of the instance profile.
         public let name: String?
@@ -21365,7 +21365,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [Tag]?
 
@@ -21386,9 +21386,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "ProductCode", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
+            AWSShapeProperty(label: "ProductCode", required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// The ID of the instance.
         public let instanceId: String
@@ -21416,8 +21416,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "RouteTableId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "GatewayId", required: true, type: .string), 
+            AWSShapeProperty(label: "RouteTableId", required: true, type: .string)
         ]
         /// The ID of the virtual private gateway.
         public let gatewayId: String
@@ -21441,15 +21441,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", location: "startTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "MaxResults", location: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "ProductDescriptions", location: "ProductDescription", required: false, type: .list), 
-            AWSShapeProperty(label: "EndTime", location: "endTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AvailabilityZone", location: "availabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceTypes", location: "InstanceType", required: false, type: .list)
+            AWSShapeProperty(label: "StartTime", location: .body(locationName: "startTime"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeProperty(label: "ProductDescriptions", location: .body(locationName: "ProductDescription"), required: false, type: .list), 
+            AWSShapeProperty(label: "EndTime", location: .body(locationName: "endTime"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "AvailabilityZone", location: .body(locationName: "availabilityZone"), required: false, type: .string), 
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceTypes", location: .body(locationName: "InstanceType"), required: false, type: .list)
         ]
         /// The date and time, up to the past 90 days, from which to start retrieving the price history data, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
         public let startTime: Date?
@@ -21499,7 +21499,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExportTaskId", location: "ExportTaskId", required: false, type: .list)
+            AWSShapeProperty(label: "ExportTaskId", required: false, type: .list)
         ]
         public let exportTaskId: [String]?
 
@@ -21516,13 +21516,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ImportInstance", location: "importInstance", required: false, type: .structure), 
-            AWSShapeProperty(label: "ExpirationTime", location: "expirationTime", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", location: "tagSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "State", location: "state", required: true, type: .enum), 
-            AWSShapeProperty(label: "ConversionTaskId", location: "conversionTaskId", required: true, type: .string), 
-            AWSShapeProperty(label: "StatusMessage", location: "statusMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "ImportVolume", location: "importVolume", required: false, type: .structure)
+            AWSShapeProperty(label: "ImportInstance", location: .body(locationName: "importInstance"), required: false, type: .structure), 
+            AWSShapeProperty(label: "ExpirationTime", location: .body(locationName: "expirationTime"), required: false, type: .string), 
+            AWSShapeProperty(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "State", location: .body(locationName: "state"), required: true, type: .enum), 
+            AWSShapeProperty(label: "ConversionTaskId", location: .body(locationName: "conversionTaskId"), required: true, type: .string), 
+            AWSShapeProperty(label: "StatusMessage", location: .body(locationName: "statusMessage"), required: false, type: .string), 
+            AWSShapeProperty(label: "ImportVolume", location: .body(locationName: "importVolume"), required: false, type: .structure)
         ]
         /// If the task is for importing an instance, this contains information about the import instance task.
         public let importInstance: ImportInstanceTaskDetails?
@@ -21566,7 +21566,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NewAssociationId", location: "newAssociationId", required: false, type: .string)
+            AWSShapeProperty(label: "NewAssociationId", location: .body(locationName: "newAssociationId"), required: false, type: .string)
         ]
         /// The ID of the new association.
         public let newAssociationId: String?
@@ -21584,7 +21584,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [String]?
 
@@ -21601,7 +21601,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeModification", location: "volumeModification", required: false, type: .structure)
+            AWSShapeProperty(label: "VolumeModification", location: .body(locationName: "volumeModification"), required: false, type: .structure)
         ]
         /// A VolumeModification object.
         public let volumeModification: VolumeModification?
@@ -21619,9 +21619,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyName", location: "keyName", required: false, type: .string), 
-            AWSShapeProperty(label: "KeyFingerprint", location: "keyFingerprint", required: false, type: .string), 
-            AWSShapeProperty(label: "KeyMaterial", location: "keyMaterial", required: false, type: .string)
+            AWSShapeProperty(label: "KeyName", location: .body(locationName: "keyName"), required: false, type: .string), 
+            AWSShapeProperty(label: "KeyFingerprint", location: .body(locationName: "keyFingerprint"), required: false, type: .string), 
+            AWSShapeProperty(label: "KeyMaterial", location: .body(locationName: "keyMaterial"), required: false, type: .string)
         ]
         /// The name of the key pair.
         public let keyName: String?
@@ -21647,7 +21647,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpnGateways", location: "vpnGatewaySet", required: false, type: .structure)
+            AWSShapeProperty(label: "VpnGateways", location: .body(locationName: "vpnGatewaySet"), required: false, type: .structure)
         ]
         /// Information about one or more virtual private gateways.
         public let vpnGateways: VpnGatewayList?
@@ -21665,10 +21665,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "SpotFleetRequestId", location: "spotFleetRequestId", required: true, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: "maxResults", required: false, type: .integer)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "SpotFleetRequestId", location: .body(locationName: "spotFleetRequestId"), required: true, type: .string), 
+            AWSShapeProperty(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -21699,8 +21699,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcEndpointIds", location: "VpcEndpointId", required: true, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: nil, required: false, type: .boolean)
+            AWSShapeProperty(label: "VpcEndpointIds", location: .body(locationName: "VpcEndpointId"), required: true, type: .structure), 
+            AWSShapeProperty(label: "DryRun", required: false, type: .boolean)
         ]
         /// One or more endpoint IDs.
         public let vpcEndpointIds: ValueStringList
@@ -21723,8 +21723,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ReservedInstancesModifications", location: "reservedInstancesModificationsSet", required: false, type: .structure)
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "ReservedInstancesModifications", location: .body(locationName: "reservedInstancesModificationsSet"), required: false, type: .structure)
         ]
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -21746,8 +21746,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Ipv6CidrBlock", location: "ipv6CidrBlock", required: true, type: .string), 
-            AWSShapeProperty(label: "SubnetId", location: "subnetId", required: true, type: .string)
+            AWSShapeProperty(label: "Ipv6CidrBlock", location: .body(locationName: "ipv6CidrBlock"), required: true, type: .string), 
+            AWSShapeProperty(label: "SubnetId", location: .body(locationName: "subnetId"), required: true, type: .string)
         ]
         /// The IPv6 CIDR block for your subnet. The subnet must have a /64 prefix length.
         public let ipv6CidrBlock: String
@@ -21771,9 +21771,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DhcpOptionsIds", location: "DhcpOptionsId", required: false, type: .structure), 
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "DhcpOptionsIds", location: .body(locationName: "DhcpOptionsId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// The IDs of one or more DHCP options sets. Default: Describes all your DHCP options sets.
         public let dhcpOptionsIds: DhcpOptionsIdStringList?
@@ -21799,8 +21799,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Remove", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Add", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Remove", required: false, type: .structure), 
+            AWSShapeProperty(label: "Add", required: false, type: .structure)
         ]
         /// The AWS account ID to remove from the list of launch permissions for the AMI.
         public let remove: LaunchPermissionList?
@@ -21831,8 +21831,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HostIds", location: "hostId", required: true, type: .structure), 
-            AWSShapeProperty(label: "AutoPlacement", location: "autoPlacement", required: true, type: .enum)
+            AWSShapeProperty(label: "HostIds", location: .body(locationName: "hostId"), required: true, type: .structure), 
+            AWSShapeProperty(label: "AutoPlacement", location: .body(locationName: "autoPlacement"), required: true, type: .enum)
         ]
         /// The host IDs of the Dedicated Hosts you want to modify.
         public let hostIds: RequestHostIdList
@@ -21864,9 +21864,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AllocationId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "PublicIp", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "AllocationId", required: false, type: .string), 
+            AWSShapeProperty(label: "PublicIp", required: false, type: .string)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -21892,13 +21892,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CreationTimestamp", location: "creationTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "VpcId", location: "vpcId", required: false, type: .string), 
-            AWSShapeProperty(label: "State", location: "state", required: false, type: .enum), 
-            AWSShapeProperty(label: "ServiceName", location: "serviceName", required: false, type: .string), 
-            AWSShapeProperty(label: "VpcEndpointId", location: "vpcEndpointId", required: false, type: .string), 
-            AWSShapeProperty(label: "PolicyDocument", location: "policyDocument", required: false, type: .string), 
-            AWSShapeProperty(label: "RouteTableIds", location: "routeTableIdSet", required: false, type: .structure)
+            AWSShapeProperty(label: "CreationTimestamp", location: .body(locationName: "creationTimestamp"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "VpcId", location: .body(locationName: "vpcId"), required: false, type: .string), 
+            AWSShapeProperty(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeProperty(label: "ServiceName", location: .body(locationName: "serviceName"), required: false, type: .string), 
+            AWSShapeProperty(label: "VpcEndpointId", location: .body(locationName: "vpcEndpointId"), required: false, type: .string), 
+            AWSShapeProperty(label: "PolicyDocument", location: .body(locationName: "policyDocument"), required: false, type: .string), 
+            AWSShapeProperty(label: "RouteTableIds", location: .body(locationName: "routeTableIdSet"), required: false, type: .structure)
         ]
         /// The date and time the VPC endpoint was created.
         public let creationTimestamp: Date?
@@ -21940,8 +21940,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "IamInstanceProfile", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
+            AWSShapeProperty(label: "IamInstanceProfile", required: true, type: .structure)
         ]
         /// The ID of the instance.
         public let instanceId: String
@@ -21975,8 +21975,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcId", location: "vpcId", required: false, type: .string), 
-            AWSShapeProperty(label: "Ipv6CidrBlockAssociation", location: "ipv6CidrBlockAssociation", required: false, type: .structure)
+            AWSShapeProperty(label: "VpcId", location: .body(locationName: "vpcId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Ipv6CidrBlockAssociation", location: .body(locationName: "ipv6CidrBlockAssociation"), required: false, type: .structure)
         ]
         /// The ID of the VPC.
         public let vpcId: String?
@@ -21998,7 +21998,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [Instance]?
 
@@ -22019,8 +22019,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DhcpOptionsId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "DhcpOptionsId", required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// The ID of the DHCP options set.
         public let dhcpOptionsId: String
@@ -22048,8 +22048,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HostReservationSet", location: "hostReservationSet", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string)
+            AWSShapeProperty(label: "HostReservationSet", location: .body(locationName: "hostReservationSet"), required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
         /// Details about the reservation's configuration.
         public let hostReservationSet: [HostReservation]?
@@ -22082,12 +22082,12 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Description", location: "description", required: false, type: .structure), 
-            AWSShapeProperty(label: "NetworkInterfaceId", location: "networkInterfaceId", required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Attachment", location: "attachment", required: false, type: .structure), 
-            AWSShapeProperty(label: "Groups", location: "SecurityGroupId", required: false, type: .structure), 
-            AWSShapeProperty(label: "SourceDestCheck", location: "sourceDestCheck", required: false, type: .structure)
+            AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .structure), 
+            AWSShapeProperty(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"), required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Attachment", location: .body(locationName: "attachment"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Groups", location: .body(locationName: "SecurityGroupId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "SourceDestCheck", location: .body(locationName: "sourceDestCheck"), required: false, type: .structure)
         ]
         /// A description for the network interface.
         public let description: AttributeValue?
@@ -22126,7 +22126,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReservedInstancesId", location: "ReservedInstancesId", required: false, type: .list)
+            AWSShapeProperty(label: "ReservedInstancesId", required: false, type: .list)
         ]
         public let reservedInstancesId: [String]?
 
@@ -22143,7 +22143,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", location: "value", required: false, type: .boolean)
+            AWSShapeProperty(label: "Value", location: .body(locationName: "value"), required: false, type: .boolean)
         ]
         /// The attribute value. The valid values are true or false.
         public let value: Bool?
@@ -22161,9 +22161,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "VpnGatewayId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "VpcId", required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "VpnGatewayId", required: true, type: .string)
         ]
         /// The ID of the VPC.
         public let vpcId: String
@@ -22191,7 +22191,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [ActiveInstance]?
 
@@ -22212,8 +22212,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClientToken", location: "clientToken", required: false, type: .string), 
-            AWSShapeProperty(label: "EgressOnlyInternetGateway", location: "egressOnlyInternetGateway", required: false, type: .structure)
+            AWSShapeProperty(label: "ClientToken", location: .body(locationName: "clientToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "EgressOnlyInternetGateway", location: .body(locationName: "egressOnlyInternetGateway"), required: false, type: .structure)
         ]
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -22242,8 +22242,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeleteOnTermination", location: "deleteOnTermination", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AttachmentId", location: "attachmentId", required: false, type: .string)
+            AWSShapeProperty(label: "DeleteOnTermination", location: .body(locationName: "deleteOnTermination"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "AttachmentId", location: .body(locationName: "attachmentId"), required: false, type: .string)
         ]
         /// Indicates whether the network interface is deleted when the instance is terminated.
         public let deleteOnTermination: Bool?
@@ -22265,7 +22265,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExportTaskId", location: "exportTaskId", required: true, type: .string)
+            AWSShapeProperty(label: "ExportTaskId", location: .body(locationName: "exportTaskId"), required: true, type: .string)
         ]
         /// The ID of the export task. This is the ID returned by CreateInstanceExportTask.
         public let exportTaskId: String
@@ -22284,9 +22284,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Attribute", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ImageId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Attribute", required: true, type: .enum), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "ImageId", required: true, type: .string)
         ]
         /// The attribute to reset (currently you can only reset the launch permission attribute).
         public let attribute: ResetImageAttributeName
@@ -22314,7 +22314,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [String]?
 
@@ -22331,9 +22331,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetId", location: "subnetId", required: true, type: .string), 
-            AWSShapeProperty(label: "RouteTableId", location: "routeTableId", required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "SubnetId", location: .body(locationName: "subnetId"), required: true, type: .string), 
+            AWSShapeProperty(label: "RouteTableId", location: .body(locationName: "routeTableId"), required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// The ID of the subnet.
         public let subnetId: String
@@ -22361,8 +22361,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Primary", location: "primary", required: false, type: .boolean), 
-            AWSShapeProperty(label: "PrivateIpAddress", location: "privateIpAddress", required: true, type: .string)
+            AWSShapeProperty(label: "Primary", location: .body(locationName: "primary"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress"), required: true, type: .string)
         ]
         /// Indicates whether the private IPv4 address is the primary private IPv4 address. Only one IPv4 address can be designated as primary.
         public let primary: Bool?
@@ -22385,10 +22385,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcId", location: "vpcId", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", location: "instanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "Groups", location: "groupSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "Tags", location: "tagSet", required: false, type: .structure)
+            AWSShapeProperty(label: "VpcId", location: .body(locationName: "vpcId"), required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Groups", location: .body(locationName: "groupSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .structure)
         ]
         /// The ID of the VPC.
         public let vpcId: String?
@@ -22418,9 +22418,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Filters", location: "Filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "GroupNames", location: "groupName", required: false, type: .list)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "GroupNames", location: .body(locationName: "groupName"), required: false, type: .list)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -22446,9 +22446,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AssociationId", location: "associationId", required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NetworkAclId", location: "networkAclId", required: true, type: .string)
+            AWSShapeProperty(label: "AssociationId", location: .body(locationName: "associationId"), required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "NetworkAclId", location: .body(locationName: "networkAclId"), required: true, type: .string)
         ]
         /// The ID of the current association between the original network ACL and the subnet.
         public let associationId: String
@@ -22476,12 +22476,12 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BlockDeviceMappings", location: "blockDeviceMapping", required: false, type: .structure), 
-            AWSShapeProperty(label: "Description", location: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NoReboot", location: "noReboot", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Name", location: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "InstanceId", location: "instanceId", required: true, type: .string)
+            AWSShapeProperty(label: "BlockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "NoReboot", location: .body(locationName: "noReboot"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
+            AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: true, type: .string)
         ]
         /// Information about one or more block device mappings.
         public let blockDeviceMappings: BlockDeviceMappingRequestList?
@@ -22521,7 +22521,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [VpcIpv6CidrBlockAssociation]?
 
@@ -22542,8 +22542,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccepterPeeringConnectionOptions", location: "accepterPeeringConnectionOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "RequesterPeeringConnectionOptions", location: "requesterPeeringConnectionOptions", required: false, type: .structure)
+            AWSShapeProperty(label: "AccepterPeeringConnectionOptions", location: .body(locationName: "accepterPeeringConnectionOptions"), required: false, type: .structure), 
+            AWSShapeProperty(label: "RequesterPeeringConnectionOptions", location: .body(locationName: "requesterPeeringConnectionOptions"), required: false, type: .structure)
         ]
         /// Information about the VPC peering connection options for the accepter VPC.
         public let accepterPeeringConnectionOptions: PeeringConnectionOptions?
@@ -22576,9 +22576,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcId", location: "vpcId", required: false, type: .string), 
-            AWSShapeProperty(label: "EnableDnsSupport", location: "enableDnsSupport", required: false, type: .structure), 
-            AWSShapeProperty(label: "EnableDnsHostnames", location: "enableDnsHostnames", required: false, type: .structure)
+            AWSShapeProperty(label: "VpcId", location: .body(locationName: "vpcId"), required: false, type: .string), 
+            AWSShapeProperty(label: "EnableDnsSupport", location: .body(locationName: "enableDnsSupport"), required: false, type: .structure), 
+            AWSShapeProperty(label: "EnableDnsHostnames", location: .body(locationName: "enableDnsHostnames"), required: false, type: .structure)
         ]
         /// The ID of the VPC.
         public let vpcId: String?
@@ -22604,7 +22604,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [TagDescription]?
 
@@ -22625,7 +22625,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetId", location: "SubnetId", required: false, type: .list)
+            AWSShapeProperty(label: "SubnetId", required: false, type: .list)
         ]
         public let subnetId: [String]?
 
@@ -22642,11 +22642,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeType", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "DryRun", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "Iops", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "VolumeId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Size", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "VolumeType", required: false, type: .enum), 
+            AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Iops", required: false, type: .integer), 
+            AWSShapeProperty(label: "VolumeId", required: true, type: .string), 
+            AWSShapeProperty(label: "Size", required: false, type: .integer)
         ]
         /// Target EBS volume type of the volume to be modified  The API does not support modifications for volume type standard. You also cannot change the type of a volume to standard.  Default: If no type is specified, the existing type is retained. 
         public let volumeType: VolumeType?
@@ -22680,7 +22680,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [AttributeValue]?
 
@@ -22701,7 +22701,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CustomerGateways", location: "customerGatewaySet", required: false, type: .structure)
+            AWSShapeProperty(label: "CustomerGateways", location: .body(locationName: "customerGatewaySet"), required: false, type: .structure)
         ]
         /// Information about one or more customer gateways.
         public let customerGateways: CustomerGatewayList?
@@ -22719,22 +22719,22 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BlockDeviceMappings", location: "blockDeviceMapping", required: false, type: .structure), 
-            AWSShapeProperty(label: "DisableApiTermination", location: "disableApiTermination", required: false, type: .structure), 
-            AWSShapeProperty(label: "UserData", location: "userData", required: false, type: .structure), 
-            AWSShapeProperty(label: "SriovNetSupport", location: "sriovNetSupport", required: false, type: .structure), 
-            AWSShapeProperty(label: "EbsOptimized", location: "ebsOptimized", required: false, type: .structure), 
-            AWSShapeProperty(label: "SourceDestCheck", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Attribute", location: "attribute", required: false, type: .enum), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "InstanceType", location: "instanceType", required: false, type: .structure), 
-            AWSShapeProperty(label: "Ramdisk", location: "ramdisk", required: false, type: .structure), 
-            AWSShapeProperty(label: "Value", location: "value", required: false, type: .string), 
-            AWSShapeProperty(label: "Kernel", location: "kernel", required: false, type: .structure), 
-            AWSShapeProperty(label: "InstanceId", location: "instanceId", required: true, type: .string), 
-            AWSShapeProperty(label: "EnaSupport", location: "enaSupport", required: false, type: .structure), 
-            AWSShapeProperty(label: "InstanceInitiatedShutdownBehavior", location: "instanceInitiatedShutdownBehavior", required: false, type: .structure), 
-            AWSShapeProperty(label: "Groups", location: "GroupId", required: false, type: .structure)
+            AWSShapeProperty(label: "BlockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DisableApiTermination", location: .body(locationName: "disableApiTermination"), required: false, type: .structure), 
+            AWSShapeProperty(label: "UserData", location: .body(locationName: "userData"), required: false, type: .structure), 
+            AWSShapeProperty(label: "SriovNetSupport", location: .body(locationName: "sriovNetSupport"), required: false, type: .structure), 
+            AWSShapeProperty(label: "EbsOptimized", location: .body(locationName: "ebsOptimized"), required: false, type: .structure), 
+            AWSShapeProperty(label: "SourceDestCheck", required: false, type: .structure), 
+            AWSShapeProperty(label: "Attribute", location: .body(locationName: "attribute"), required: false, type: .enum), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "InstanceType", location: .body(locationName: "instanceType"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Ramdisk", location: .body(locationName: "ramdisk"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Value", location: .body(locationName: "value"), required: false, type: .string), 
+            AWSShapeProperty(label: "Kernel", location: .body(locationName: "kernel"), required: false, type: .structure), 
+            AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: true, type: .string), 
+            AWSShapeProperty(label: "EnaSupport", location: .body(locationName: "enaSupport"), required: false, type: .structure), 
+            AWSShapeProperty(label: "InstanceInitiatedShutdownBehavior", location: .body(locationName: "instanceInitiatedShutdownBehavior"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Groups", location: .body(locationName: "GroupId"), required: false, type: .structure)
         ]
         /// Modifies the DeleteOnTermination attribute for volumes that are currently attached. The volume must be owned by the caller. If no value is specified for DeleteOnTermination, the default is true and the volume is deleted when the instance is terminated. To add instance store volumes to an Amazon EBS-backed instance, you must add them when you launch the instance. For more information, see Updating the Block Device Mapping when Launching an Instance in the Amazon Elastic Compute Cloud User Guide.
         public let blockDeviceMappings: InstanceBlockDeviceMappingSpecificationList?
@@ -22813,11 +22813,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Frequency", location: "frequency", required: false, type: .string), 
-            AWSShapeProperty(label: "OccurrenceUnit", location: "occurrenceUnit", required: false, type: .string), 
-            AWSShapeProperty(label: "OccurrenceRelativeToEnd", location: "occurrenceRelativeToEnd", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Interval", location: "interval", required: false, type: .integer), 
-            AWSShapeProperty(label: "OccurrenceDaySet", location: "occurrenceDaySet", required: false, type: .structure)
+            AWSShapeProperty(label: "Frequency", location: .body(locationName: "frequency"), required: false, type: .string), 
+            AWSShapeProperty(label: "OccurrenceUnit", location: .body(locationName: "occurrenceUnit"), required: false, type: .string), 
+            AWSShapeProperty(label: "OccurrenceRelativeToEnd", location: .body(locationName: "occurrenceRelativeToEnd"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Interval", location: .body(locationName: "interval"), required: false, type: .integer), 
+            AWSShapeProperty(label: "OccurrenceDaySet", location: .body(locationName: "occurrenceDaySet"), required: false, type: .structure)
         ]
         /// The frequency (Daily, Weekly, or Monthly).
         public let frequency: String?
@@ -22851,7 +22851,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpnGateway", location: "vpnGateway", required: false, type: .structure)
+            AWSShapeProperty(label: "VpnGateway", location: .body(locationName: "vpnGateway"), required: false, type: .structure)
         ]
         /// Information about the virtual private gateway.
         public let vpnGateway: VpnGateway?
@@ -22869,16 +22869,16 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", location: "status", required: false, type: .string), 
-            AWSShapeProperty(label: "Progress", location: "progress", required: false, type: .string), 
-            AWSShapeProperty(label: "Url", location: "url", required: false, type: .string), 
-            AWSShapeProperty(label: "DiskImageSize", location: "diskImageSize", required: false, type: .double), 
-            AWSShapeProperty(label: "Format", location: "format", required: false, type: .string), 
-            AWSShapeProperty(label: "SnapshotId", location: "snapshotId", required: false, type: .string), 
-            AWSShapeProperty(label: "UserBucket", location: "userBucket", required: false, type: .structure), 
-            AWSShapeProperty(label: "StatusMessage", location: "statusMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "DeviceName", location: "deviceName", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", location: "description", required: false, type: .string)
+            AWSShapeProperty(label: "Status", location: .body(locationName: "status"), required: false, type: .string), 
+            AWSShapeProperty(label: "Progress", location: .body(locationName: "progress"), required: false, type: .string), 
+            AWSShapeProperty(label: "Url", location: .body(locationName: "url"), required: false, type: .string), 
+            AWSShapeProperty(label: "DiskImageSize", location: .body(locationName: "diskImageSize"), required: false, type: .double), 
+            AWSShapeProperty(label: "Format", location: .body(locationName: "format"), required: false, type: .string), 
+            AWSShapeProperty(label: "SnapshotId", location: .body(locationName: "snapshotId"), required: false, type: .string), 
+            AWSShapeProperty(label: "UserBucket", location: .body(locationName: "userBucket"), required: false, type: .structure), 
+            AWSShapeProperty(label: "StatusMessage", location: .body(locationName: "statusMessage"), required: false, type: .string), 
+            AWSShapeProperty(label: "DeviceName", location: .body(locationName: "deviceName"), required: false, type: .string), 
+            AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
         /// A brief status of the snapshot creation.
         public let status: String?
@@ -22932,9 +22932,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcIds", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: "maxResults", required: false, type: .integer)
+            AWSShapeProperty(label: "VpcIds", required: false, type: .structure), 
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer)
         ]
         /// One or more VPC IDs.
         public let vpcIds: VpcClassicLinkIdList?
@@ -22960,7 +22960,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NatGatewayId", location: "natGatewayId", required: false, type: .string)
+            AWSShapeProperty(label: "NatGatewayId", location: .body(locationName: "natGatewayId"), required: false, type: .string)
         ]
         /// The ID of the NAT gateway.
         public let natGatewayId: String?
@@ -22978,10 +22978,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeviceIndex", location: "deviceIndex", required: true, type: .integer), 
-            AWSShapeProperty(label: "NetworkInterfaceId", location: "networkInterfaceId", required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "InstanceId", location: "instanceId", required: true, type: .string)
+            AWSShapeProperty(label: "DeviceIndex", location: .body(locationName: "deviceIndex"), required: true, type: .integer), 
+            AWSShapeProperty(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"), required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: true, type: .string)
         ]
         /// The index of the device for the network interface attachment.
         public let deviceIndex: Int32
@@ -23014,7 +23014,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PrivateIpAddress", location: "PrivateIpAddress", required: false, type: .list)
+            AWSShapeProperty(label: "PrivateIpAddress", required: false, type: .list)
         ]
         public let privateIpAddress: [String]?
 
@@ -23031,13 +23031,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserIdGroupPairs", location: "groups", required: false, type: .structure), 
-            AWSShapeProperty(label: "IpRanges", location: "ipRanges", required: false, type: .structure), 
-            AWSShapeProperty(label: "Ipv6Ranges", location: "ipv6Ranges", required: false, type: .structure), 
-            AWSShapeProperty(label: "PrefixListIds", location: "prefixListIds", required: false, type: .structure), 
-            AWSShapeProperty(label: "ToPort", location: "toPort", required: false, type: .integer), 
-            AWSShapeProperty(label: "IpProtocol", location: "ipProtocol", required: false, type: .string), 
-            AWSShapeProperty(label: "FromPort", location: "fromPort", required: false, type: .integer)
+            AWSShapeProperty(label: "UserIdGroupPairs", location: .body(locationName: "groups"), required: false, type: .structure), 
+            AWSShapeProperty(label: "IpRanges", location: .body(locationName: "ipRanges"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Ipv6Ranges", location: .body(locationName: "ipv6Ranges"), required: false, type: .structure), 
+            AWSShapeProperty(label: "PrefixListIds", location: .body(locationName: "prefixListIds"), required: false, type: .structure), 
+            AWSShapeProperty(label: "ToPort", location: .body(locationName: "toPort"), required: false, type: .integer), 
+            AWSShapeProperty(label: "IpProtocol", location: .body(locationName: "ipProtocol"), required: false, type: .string), 
+            AWSShapeProperty(label: "FromPort", location: .body(locationName: "fromPort"), required: false, type: .integer)
         ]
         /// One or more security group and AWS account ID pairs.
         public let userIdGroupPairs: UserIdGroupPairList?
@@ -23079,11 +23079,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", location: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "LastStatusChange", location: "lastStatusChange", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "OutsideIpAddress", location: "outsideIpAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "StatusMessage", location: "statusMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "AcceptedRouteCount", location: "acceptedRouteCount", required: false, type: .integer)
+            AWSShapeProperty(label: "Status", location: .body(locationName: "status"), required: false, type: .enum), 
+            AWSShapeProperty(label: "LastStatusChange", location: .body(locationName: "lastStatusChange"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "OutsideIpAddress", location: .body(locationName: "outsideIpAddress"), required: false, type: .string), 
+            AWSShapeProperty(label: "StatusMessage", location: .body(locationName: "statusMessage"), required: false, type: .string), 
+            AWSShapeProperty(label: "AcceptedRouteCount", location: .body(locationName: "acceptedRouteCount"), required: false, type: .integer)
         ]
         /// The status of the VPN tunnel.
         public let status: TelemetryStatus?
@@ -23117,7 +23117,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [PrefixListId]?
 
@@ -23138,7 +23138,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NewAssociationId", location: "newAssociationId", required: false, type: .string)
+            AWSShapeProperty(label: "NewAssociationId", location: .body(locationName: "newAssociationId"), required: false, type: .string)
         ]
         /// The ID of the new association.
         public let newAssociationId: String?
@@ -23156,7 +23156,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [NetworkAclEntry]?
 
@@ -23177,7 +23177,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", location: "item", required: false, type: .list)
+            AWSShapeProperty(label: "item", required: false, type: .list)
         ]
         public let item: [Ipv6CidrBlock]?
 
@@ -23198,8 +23198,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Size", location: "size", required: false, type: .long), 
-            AWSShapeProperty(label: "Id", location: "id", required: true, type: .string)
+            AWSShapeProperty(label: "Size", location: .body(locationName: "size"), required: false, type: .long), 
+            AWSShapeProperty(label: "Id", location: .body(locationName: "id"), required: true, type: .string)
         ]
         /// The size of the volume, in GiB.
         public let size: Int64?
@@ -23232,7 +23232,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", location: "value", required: false, type: .string)
+            AWSShapeProperty(label: "Value", location: .body(locationName: "value"), required: false, type: .string)
         ]
         /// The attribute value. Note that the value is case-sensitive.
         public let value: String?
@@ -23250,7 +23250,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BundleId", location: "BundleId", required: false, type: .list)
+            AWSShapeProperty(label: "BundleId", required: false, type: .list)
         ]
         public let bundleId: [String]?
 
@@ -23267,7 +23267,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConversionTask", location: "conversionTask", required: false, type: .structure)
+            AWSShapeProperty(label: "ConversionTask", location: .body(locationName: "conversionTask"), required: false, type: .structure)
         ]
         /// Information about the conversion task.
         public let conversionTask: ConversionTask?
@@ -23285,8 +23285,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DhcpConfigurations", location: "dhcpConfiguration", required: true, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean)
+            AWSShapeProperty(label: "DhcpConfigurations", location: .body(locationName: "dhcpConfiguration"), required: true, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// A DHCP configuration option.
         public let dhcpConfigurations: NewDhcpConfigurationList
@@ -23309,9 +23309,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PrincipalArn", location: "principalArn", required: true, type: .string), 
-            AWSShapeProperty(label: "Resource", location: "resource", required: true, type: .string), 
-            AWSShapeProperty(label: "UseLongIds", location: "useLongIds", required: true, type: .boolean)
+            AWSShapeProperty(label: "PrincipalArn", location: .body(locationName: "principalArn"), required: true, type: .string), 
+            AWSShapeProperty(label: "Resource", location: .body(locationName: "resource"), required: true, type: .string), 
+            AWSShapeProperty(label: "UseLongIds", location: .body(locationName: "useLongIds"), required: true, type: .boolean)
         ]
         /// The ARN of the principal, which can be an IAM user, IAM role, or the root user. Specify all to modify the ID format for all IAM users, IAM roles, and the root user of the account.
         public let principalArn: String
@@ -23340,11 +23340,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SpotFleetRequestState", location: "spotFleetRequestState", required: true, type: .enum), 
-            AWSShapeProperty(label: "CreateTime", location: "createTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "ActivityStatus", location: "activityStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "SpotFleetRequestConfig", location: "spotFleetRequestConfig", required: true, type: .structure), 
-            AWSShapeProperty(label: "SpotFleetRequestId", location: "spotFleetRequestId", required: true, type: .string)
+            AWSShapeProperty(label: "SpotFleetRequestState", location: .body(locationName: "spotFleetRequestState"), required: true, type: .enum), 
+            AWSShapeProperty(label: "CreateTime", location: .body(locationName: "createTime"), required: true, type: .timestamp), 
+            AWSShapeProperty(label: "ActivityStatus", location: .body(locationName: "activityStatus"), required: false, type: .enum), 
+            AWSShapeProperty(label: "SpotFleetRequestConfig", location: .body(locationName: "spotFleetRequestConfig"), required: true, type: .structure), 
+            AWSShapeProperty(label: "SpotFleetRequestId", location: .body(locationName: "spotFleetRequestId"), required: true, type: .string)
         ]
         /// The state of the Spot fleet request.
         public let spotFleetRequestState: BatchState
@@ -23382,8 +23382,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Successful", location: "successful", required: false, type: .structure), 
-            AWSShapeProperty(label: "Unsuccessful", location: "unsuccessful", required: false, type: .structure)
+            AWSShapeProperty(label: "Successful", location: .body(locationName: "successful"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Unsuccessful", location: .body(locationName: "unsuccessful"), required: false, type: .structure)
         ]
         /// The IDs of the Dedicated Hosts that were successfully modified.
         public let successful: ResponseHostIdList?
@@ -23405,9 +23405,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PublicIp", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AssociationId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "PublicIp", required: false, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "AssociationId", required: false, type: .string)
         ]
         /// [EC2-Classic] The Elastic IP address. Required for EC2-Classic.
         public let publicIp: String?
@@ -23433,12 +23433,12 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "DeleteOnTermination", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "VolumeType", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeSize", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "Iops", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "Encrypted", location: nil, required: false, type: .boolean)
+            AWSShapeProperty(label: "SnapshotId", required: false, type: .string), 
+            AWSShapeProperty(label: "DeleteOnTermination", required: false, type: .boolean), 
+            AWSShapeProperty(label: "VolumeType", required: false, type: .string), 
+            AWSShapeProperty(label: "VolumeSize", required: false, type: .integer), 
+            AWSShapeProperty(label: "Iops", required: false, type: .integer), 
+            AWSShapeProperty(label: "Encrypted", required: false, type: .boolean)
         ]
         /// The ID of the snapshot.
         public let snapshotId: String?
@@ -23476,7 +23476,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceMonitorings", location: "instancesSet", required: false, type: .structure)
+            AWSShapeProperty(label: "InstanceMonitorings", location: .body(locationName: "instancesSet"), required: false, type: .structure)
         ]
         /// The monitoring information.
         public let instanceMonitorings: InstanceMonitoringList?
@@ -23494,9 +23494,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tags", location: "tagSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "InternetGatewayId", location: "internetGatewayId", required: false, type: .string), 
-            AWSShapeProperty(label: "Attachments", location: "attachmentSet", required: false, type: .structure)
+            AWSShapeProperty(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "InternetGatewayId", location: .body(locationName: "internetGatewayId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Attachments", location: .body(locationName: "attachmentSet"), required: false, type: .structure)
         ]
         /// Any tags assigned to the Internet gateway.
         public let tags: TagList?
@@ -23522,8 +23522,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Remove", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Add", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Remove", required: false, type: .structure), 
+            AWSShapeProperty(label: "Add", required: false, type: .structure)
         ]
         /// Removes a specific AWS account ID or group from a volume's list of create volume permissions.
         public let remove: CreateVolumePermissionList?
@@ -23545,10 +23545,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: "dryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SpotFleetRequestIds", location: "spotFleetRequestId", required: false, type: .structure), 
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: "maxResults", required: false, type: .integer)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "SpotFleetRequestIds", location: .body(locationName: "spotFleetRequestId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -23578,7 +23578,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NetworkInterfaces", location: "networkInterfaceSet", required: false, type: .structure)
+            AWSShapeProperty(label: "NetworkInterfaces", location: .body(locationName: "networkInterfaceSet"), required: false, type: .structure)
         ]
         /// Information about one or more network interfaces.
         public let networkInterfaces: NetworkInterfaceList?
@@ -23596,7 +23596,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AssociationId", location: "AssociationId", required: false, type: .list)
+            AWSShapeProperty(label: "AssociationId", required: false, type: .list)
         ]
         public let associationId: [String]?
 
@@ -23613,8 +23613,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OfferingId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "InstanceCount", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "OfferingId", required: true, type: .string), 
+            AWSShapeProperty(label: "InstanceCount", required: false, type: .integer)
         ]
         /// The Convertible Reserved Instance offering ID.
         public let offeringId: String
@@ -23637,8 +23637,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceStatuses", location: "instanceStatusSet", required: false, type: .structure), 
-            AWSShapeProperty(label: "NextToken", location: "nextToken", required: false, type: .string)
+            AWSShapeProperty(label: "InstanceStatuses", location: .body(locationName: "instanceStatusSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
         /// One or more instance status descriptions.
         public let instanceStatuses: InstanceStatusList?

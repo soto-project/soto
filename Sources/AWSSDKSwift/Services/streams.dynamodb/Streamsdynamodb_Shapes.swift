@@ -41,9 +41,9 @@ extension Streamsdynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StreamArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "ExclusiveStartShardId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "StreamArn", required: true, type: .string), 
+            AWSShapeProperty(label: "ExclusiveStartShardId", required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer)
         ]
         /// The Amazon Resource Name (ARN) for the stream.
         public let streamArn: String
@@ -70,8 +70,8 @@ extension Streamsdynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttributeName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "KeyType", location: nil, required: true, type: .enum)
+            AWSShapeProperty(label: "AttributeName", required: true, type: .string), 
+            AWSShapeProperty(label: "KeyType", required: true, type: .enum)
         ]
         /// The name of a key attribute.
         public let attributeName: String
@@ -95,9 +95,9 @@ extension Streamsdynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ShardId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "SequenceNumberRange", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "ParentShardId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "ShardId", required: false, type: .string), 
+            AWSShapeProperty(label: "SequenceNumberRange", required: false, type: .structure), 
+            AWSShapeProperty(label: "ParentShardId", required: false, type: .string)
         ]
         /// The system-generated identifier for this shard.
         public let shardId: String?
@@ -123,7 +123,7 @@ extension Streamsdynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StreamDescription", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "StreamDescription", required: false, type: .structure)
         ]
         /// A complete description of the stream, including its creation date and time, the DynamoDB table associated with the stream, the shard IDs within the stream, and the beginning and ending sequence numbers of stream records within the shards.
         public let streamDescription: StreamDescription?
@@ -147,13 +147,13 @@ extension Streamsdynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "eventName", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "eventSource", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "userIdentity", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "eventID", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "dynamodb", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "awsRegion", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "eventVersion", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "eventName", required: false, type: .enum), 
+            AWSShapeProperty(label: "eventSource", required: false, type: .string), 
+            AWSShapeProperty(label: "userIdentity", required: false, type: .structure), 
+            AWSShapeProperty(label: "eventID", required: false, type: .string), 
+            AWSShapeProperty(label: "dynamodb", required: false, type: .structure), 
+            AWSShapeProperty(label: "awsRegion", required: false, type: .string), 
+            AWSShapeProperty(label: "eventVersion", required: false, type: .string)
         ]
         /// The type of data modification that was performed on the DynamoDB table:    INSERT - a new item was added to the table.    MODIFY - one or more of an existing item's attributes were modified.    REMOVE - the item was deleted from the table  
         public let eventName: OperationType?
@@ -195,10 +195,10 @@ extension Streamsdynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ShardIteratorType", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "SequenceNumber", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "StreamArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "ShardId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "ShardIteratorType", required: true, type: .enum), 
+            AWSShapeProperty(label: "SequenceNumber", required: false, type: .string), 
+            AWSShapeProperty(label: "StreamArn", required: true, type: .string), 
+            AWSShapeProperty(label: "ShardId", required: true, type: .string)
         ]
         /// Determines how the shard iterator is used to start reading stream records from the shard:    AT_SEQUENCE_NUMBER - Start reading exactly from the position denoted by a specific sequence number.    AFTER_SEQUENCE_NUMBER - Start reading right after the position denoted by a specific sequence number.    TRIM_HORIZON - Start reading at the last (untrimmed) stream record, which is the oldest record in the shard. In DynamoDB Streams, there is a 24 hour limit on data retention. Stream records whose age exceeds this limit are subject to removal (trimming) from the stream.    LATEST - Start reading just after the most recent stream record in the shard, so that you always read the most recent data in the shard.  
         public let shardIteratorType: ShardIteratorType
@@ -239,8 +239,8 @@ extension Streamsdynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EndingSequenceNumber", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "StartingSequenceNumber", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "EndingSequenceNumber", required: false, type: .string), 
+            AWSShapeProperty(label: "StartingSequenceNumber", required: false, type: .string)
         ]
         /// The last sequence number.
         public let endingSequenceNumber: String?
@@ -269,9 +269,9 @@ extension Streamsdynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StreamArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "StreamLabel", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "TableName", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "StreamArn", required: false, type: .string), 
+            AWSShapeProperty(label: "StreamLabel", required: false, type: .string), 
+            AWSShapeProperty(label: "TableName", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) for the stream.
         public let streamArn: String?
@@ -297,8 +297,8 @@ extension Streamsdynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "ShardIterator", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "ShardIterator", required: true, type: .string)
         ]
         /// The maximum number of records to return from the shard. The upper limit is 1000.
         public let limit: Int32?
@@ -321,7 +321,7 @@ extension Streamsdynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ShardIterator", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "ShardIterator", required: false, type: .string)
         ]
         /// The position in the shard from which to start reading stream records sequentially. A shard iterator specifies this position using the sequence number of a stream record in a shard.
         public let shardIterator: String?
@@ -339,8 +339,8 @@ extension Streamsdynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "PrincipalId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Type", required: false, type: .string), 
+            AWSShapeProperty(label: "PrincipalId", required: false, type: .string)
         ]
         /// The type of the identity. For Time To Live, the type is "Service".
         public let `type`: String?
@@ -362,16 +362,16 @@ extension Streamsdynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NS", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "N", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "BOOL", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "BS", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "L", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NULL", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "B", location: nil, required: false, type: .blob), 
-            AWSShapeProperty(label: "M", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "SS", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "S", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "NS", required: false, type: .list), 
+            AWSShapeProperty(label: "N", required: false, type: .string), 
+            AWSShapeProperty(label: "BOOL", required: false, type: .boolean), 
+            AWSShapeProperty(label: "BS", required: false, type: .list), 
+            AWSShapeProperty(label: "L", required: false, type: .list), 
+            AWSShapeProperty(label: "NULL", required: false, type: .boolean), 
+            AWSShapeProperty(label: "B", required: false, type: .blob), 
+            AWSShapeProperty(label: "M", required: false, type: .map), 
+            AWSShapeProperty(label: "SS", required: false, type: .list), 
+            AWSShapeProperty(label: "S", required: false, type: .string)
         ]
         /// A Number Set data type.
         public let nS: [String]?
@@ -438,8 +438,8 @@ extension Streamsdynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Streams", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "LastEvaluatedStreamArn", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Streams", required: false, type: .list), 
+            AWSShapeProperty(label: "LastEvaluatedStreamArn", required: false, type: .string)
         ]
         /// A list of stream descriptors associated with the current account and endpoint.
         public let streams: [Stream]?
@@ -465,9 +465,9 @@ extension Streamsdynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExclusiveStartStreamArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "TableName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "ExclusiveStartStreamArn", required: false, type: .string), 
+            AWSShapeProperty(label: "TableName", required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer)
         ]
         /// The ARN (Amazon Resource Name) of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedStreamArn in the previous operation. 
         public let exclusiveStartStreamArn: String?
@@ -493,8 +493,8 @@ extension Streamsdynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextShardIterator", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Records", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "NextShardIterator", required: false, type: .string), 
+            AWSShapeProperty(label: "Records", required: false, type: .list)
         ]
         /// The next position in the shard from which to start sequentially reading stream records. If set to null, the shard has been closed and the requested iterator will not return any more data.
         public let nextShardIterator: String?
@@ -520,13 +520,13 @@ extension Streamsdynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SequenceNumber", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Keys", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "NewImage", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "SizeBytes", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "StreamViewType", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "ApproximateCreationDateTime", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "OldImage", location: nil, required: false, type: .map)
+            AWSShapeProperty(label: "SequenceNumber", required: false, type: .string), 
+            AWSShapeProperty(label: "Keys", required: false, type: .map), 
+            AWSShapeProperty(label: "NewImage", required: false, type: .map), 
+            AWSShapeProperty(label: "SizeBytes", required: false, type: .long), 
+            AWSShapeProperty(label: "StreamViewType", required: false, type: .enum), 
+            AWSShapeProperty(label: "ApproximateCreationDateTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "OldImage", required: false, type: .map)
         ]
         /// The sequence number of the stream record.
         public let sequenceNumber: String?
@@ -595,15 +595,15 @@ extension Streamsdynamodb {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeySchema", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "StreamArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "CreationRequestDateTime", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Shards", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "StreamLabel", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "TableName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "StreamViewType", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "StreamStatus", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "LastEvaluatedShardId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "KeySchema", required: false, type: .list), 
+            AWSShapeProperty(label: "StreamArn", required: false, type: .string), 
+            AWSShapeProperty(label: "CreationRequestDateTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Shards", required: false, type: .list), 
+            AWSShapeProperty(label: "StreamLabel", required: false, type: .string), 
+            AWSShapeProperty(label: "TableName", required: false, type: .string), 
+            AWSShapeProperty(label: "StreamViewType", required: false, type: .enum), 
+            AWSShapeProperty(label: "StreamStatus", required: false, type: .enum), 
+            AWSShapeProperty(label: "LastEvaluatedShardId", required: false, type: .string)
         ]
         /// The key attribute(s) of the stream's DynamoDB table.
         public let keySchema: [KeySchemaElement]?

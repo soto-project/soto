@@ -33,10 +33,10 @@ extension Meteringmarketplace {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CustomerIdentifier", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Timestamp", location: nil, required: true, type: .timestamp), 
-            AWSShapeProperty(label: "Dimension", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Quantity", location: nil, required: true, type: .integer)
+            AWSShapeProperty(label: "CustomerIdentifier", required: true, type: .string), 
+            AWSShapeProperty(label: "Timestamp", required: true, type: .timestamp), 
+            AWSShapeProperty(label: "Dimension", required: true, type: .string), 
+            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
         ]
         /// The CustomerIdentifier is obtained through the ResolveCustomer operation and represents an individual buyer in your application.
         public let customerIdentifier: String
@@ -70,7 +70,7 @@ extension Meteringmarketplace {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RegistrationToken", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "RegistrationToken", required: true, type: .string)
         ]
         /// When a buyer visits your website during the registration process, the buyer submits a registration token through the browser. The registration token is resolved to obtain a CustomerIdentifier and product code.
         public let registrationToken: String
@@ -89,11 +89,11 @@ extension Meteringmarketplace {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Timestamp", location: nil, required: true, type: .timestamp), 
-            AWSShapeProperty(label: "DryRun", location: nil, required: true, type: .boolean), 
-            AWSShapeProperty(label: "UsageDimension", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "UsageQuantity", location: nil, required: true, type: .integer), 
-            AWSShapeProperty(label: "ProductCode", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Timestamp", required: true, type: .timestamp), 
+            AWSShapeProperty(label: "DryRun", required: true, type: .boolean), 
+            AWSShapeProperty(label: "UsageDimension", required: true, type: .string), 
+            AWSShapeProperty(label: "UsageQuantity", required: true, type: .integer), 
+            AWSShapeProperty(label: "ProductCode", required: true, type: .string)
         ]
         /// Timestamp of the hour, recorded in UTC. The seconds and milliseconds portions of the timestamp will be ignored.
         public let timestamp: Date
@@ -139,8 +139,8 @@ extension Meteringmarketplace {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UnprocessedRecords", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "Results", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "UnprocessedRecords", required: false, type: .list), 
+            AWSShapeProperty(label: "Results", required: false, type: .list)
         ]
         /// Contains all UsageRecords that were not processed by BatchMeterUsage. This is a list of UsageRecords. You can retry the failed request by making another BatchMeterUsage call with this list as input in the BatchMeterUsageRequest.
         public let unprocessedRecords: [UsageRecord]?
@@ -170,8 +170,8 @@ extension Meteringmarketplace {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CustomerIdentifier", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ProductCode", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "CustomerIdentifier", required: false, type: .string), 
+            AWSShapeProperty(label: "ProductCode", required: false, type: .string)
         ]
         /// The CustomerIdentifier is used to identify an individual customer in your application. Calls to BatchMeterUsage require CustomerIdentifiers for each UsageRecord.
         public let customerIdentifier: String?
@@ -193,7 +193,7 @@ extension Meteringmarketplace {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MeteringRecordId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "MeteringRecordId", required: false, type: .string)
         ]
         public let meteringRecordId: String?
 
@@ -210,8 +210,8 @@ extension Meteringmarketplace {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ProductCode", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "UsageRecords", location: nil, required: true, type: .list)
+            AWSShapeProperty(label: "ProductCode", required: true, type: .string), 
+            AWSShapeProperty(label: "UsageRecords", required: true, type: .list)
         ]
         /// Product code is used to uniquely identify a product in AWS Marketplace. The product code should be the same as the one used during the publishing of a new product.
         public let productCode: String
@@ -235,9 +235,9 @@ extension Meteringmarketplace {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MeteringRecordId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Status", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "UsageRecord", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "MeteringRecordId", required: false, type: .string), 
+            AWSShapeProperty(label: "Status", required: false, type: .enum), 
+            AWSShapeProperty(label: "UsageRecord", required: false, type: .structure)
         ]
         /// The MeteringRecordId is a unique identifier for this metering event.
         public let meteringRecordId: String?

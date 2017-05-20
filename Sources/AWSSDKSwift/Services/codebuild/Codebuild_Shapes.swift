@@ -33,8 +33,8 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "projects", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "projects", required: false, type: .list)
         ]
         /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call.
         public let nextToken: String?
@@ -68,7 +68,7 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "build", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "build", required: false, type: .structure)
         ]
         /// Information about the build.
         public let build: Build?
@@ -86,7 +86,7 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "id", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "id", required: true, type: .string)
         ]
         /// The ID of the build.
         public let id: String
@@ -105,8 +105,8 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "projects", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "projectsNotFound", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "projects", required: false, type: .list), 
+            AWSShapeProperty(label: "projectsNotFound", required: false, type: .list)
         ]
         /// Information about the requested build projects.
         public let projects: [Project]?
@@ -132,18 +132,18 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "lastModified", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "source", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "timeoutInMinutes", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "created", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "encryptionKey", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "description", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "artifacts", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "environment", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "tags", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "serviceRole", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "arn", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "lastModified", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "source", required: false, type: .structure), 
+            AWSShapeProperty(label: "timeoutInMinutes", required: false, type: .integer), 
+            AWSShapeProperty(label: "created", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "encryptionKey", required: false, type: .string), 
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "artifacts", required: false, type: .structure), 
+            AWSShapeProperty(label: "environment", required: false, type: .structure), 
+            AWSShapeProperty(label: "tags", required: false, type: .list), 
+            AWSShapeProperty(label: "serviceRole", required: false, type: .string), 
+            AWSShapeProperty(label: "arn", required: false, type: .string)
         ]
         /// The name of the build project.
         public let name: String?
@@ -209,9 +209,9 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "md5sum", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "location", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "sha256sum", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "md5sum", required: false, type: .string), 
+            AWSShapeProperty(label: "location", required: false, type: .string), 
+            AWSShapeProperty(label: "sha256sum", required: false, type: .string)
         ]
         /// The MD5 hash of the build artifact. You can use this hash along with a checksum tool to confirm both file integrity and authenticity.  This value is available only if the build project's packaging value is set to ZIP. 
         public let md5sum: String?
@@ -237,12 +237,12 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "durationInSeconds", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "endTime", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "startTime", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "contexts", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "phaseStatus", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "phaseType", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "durationInSeconds", required: false, type: .long), 
+            AWSShapeProperty(label: "endTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "startTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "contexts", required: false, type: .list), 
+            AWSShapeProperty(label: "phaseStatus", required: false, type: .enum), 
+            AWSShapeProperty(label: "phaseType", required: false, type: .enum)
         ]
         /// How long, in seconds, between the starting and ending times of the build's phase.
         public let durationInSeconds: Int64?
@@ -284,9 +284,9 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deepLink", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "groupName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "streamName", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "deepLink", required: false, type: .string), 
+            AWSShapeProperty(label: "groupName", required: false, type: .string), 
+            AWSShapeProperty(label: "streamName", required: false, type: .string)
         ]
         /// The URL to an individual build log in Amazon CloudWatch Logs.
         public let deepLink: String?
@@ -312,8 +312,8 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "type", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "resource", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "type", required: true, type: .enum), 
+            AWSShapeProperty(label: "resource", required: false, type: .string)
         ]
         /// The authorization type to use. The only valid value is OAUTH, which represents the OAuth authorization type.
         public let `type`: SourceAuthType
@@ -336,8 +336,8 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "languages", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "platform", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "languages", required: false, type: .list), 
+            AWSShapeProperty(label: "platform", required: false, type: .enum)
         ]
         /// The list of programming languages that are available for the specified platform.
         public let languages: [EnvironmentLanguage]?
@@ -376,22 +376,22 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "phases", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "source", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "timeoutInMinutes", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "sourceVersion", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "currentPhase", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "artifacts", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "buildStatus", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "arn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "initiator", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "environment", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "id", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "projectName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "buildComplete", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "endTime", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "logs", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "startTime", location: nil, required: false, type: .timestamp)
+            AWSShapeProperty(label: "phases", required: false, type: .list), 
+            AWSShapeProperty(label: "source", required: false, type: .structure), 
+            AWSShapeProperty(label: "timeoutInMinutes", required: false, type: .integer), 
+            AWSShapeProperty(label: "sourceVersion", required: false, type: .string), 
+            AWSShapeProperty(label: "currentPhase", required: false, type: .string), 
+            AWSShapeProperty(label: "artifacts", required: false, type: .structure), 
+            AWSShapeProperty(label: "buildStatus", required: false, type: .enum), 
+            AWSShapeProperty(label: "arn", required: false, type: .string), 
+            AWSShapeProperty(label: "initiator", required: false, type: .string), 
+            AWSShapeProperty(label: "environment", required: false, type: .structure), 
+            AWSShapeProperty(label: "id", required: false, type: .string), 
+            AWSShapeProperty(label: "projectName", required: false, type: .string), 
+            AWSShapeProperty(label: "buildComplete", required: false, type: .boolean), 
+            AWSShapeProperty(label: "endTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "logs", required: false, type: .structure), 
+            AWSShapeProperty(label: "startTime", required: false, type: .timestamp)
         ]
         /// Information about all previous build phases that are completed and information about any current build phase that is not yet complete.
         public let phases: [BuildPhase]?
@@ -473,7 +473,7 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "name", required: true, type: .string)
         ]
         /// The name of the build project.
         public let name: String
@@ -512,7 +512,7 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "project", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "project", required: false, type: .structure)
         ]
         /// Information about the build project that was changed.
         public let project: Project?
@@ -536,12 +536,12 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "location", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "path", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "namespaceType", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "packaging", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "type", location: nil, required: true, type: .enum)
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "location", required: false, type: .string), 
+            AWSShapeProperty(label: "path", required: false, type: .string), 
+            AWSShapeProperty(label: "namespaceType", required: false, type: .enum), 
+            AWSShapeProperty(label: "packaging", required: false, type: .enum), 
+            AWSShapeProperty(label: "type", required: true, type: .enum)
         ]
         /// Along with path and namespaceType, the pattern that AWS CodeBuild will use to name and store the output artifact, as follows:   If type is set to CODEPIPELINE, then AWS CodePipeline will ignore this value if specified. This is because AWS CodePipeline manages its build output names instead of AWS CodeBuild.   If type is set to NO_ARTIFACTS, then this value will be ignored if specified, because no build output will be produced.   If type is set to S3, this is the name of the output artifact object.   For example, if path is set to MyArtifacts, namespaceType is set to BUILD_ID, and name is set to MyArtifact.zip, then the output artifact would be stored in MyArtifacts/build-ID/MyArtifact.zip.
         public let name: String?
@@ -588,8 +588,8 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "builds", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "buildsNotFound", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "builds", required: false, type: .list), 
+            AWSShapeProperty(label: "buildsNotFound", required: false, type: .list)
         ]
         /// Information about the requested builds.
         public let builds: [Build]?
@@ -615,8 +615,8 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "language", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "images", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "language", required: false, type: .enum), 
+            AWSShapeProperty(label: "images", required: false, type: .list)
         ]
         /// The programming language for the Docker images.
         public let language: LanguageType?
@@ -642,7 +642,7 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "build", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "build", required: false, type: .structure)
         ]
         /// Information about the build to be run.
         public let build: Build?
@@ -660,8 +660,8 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "key", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "value", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "key", required: false, type: .string), 
+            AWSShapeProperty(label: "value", required: false, type: .string)
         ]
         /// The tag's key.
         public let key: String?
@@ -683,8 +683,8 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ids", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "ids", required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
         /// A list of build IDs, with each build ID representing a single build.
         public let ids: [String]?
@@ -711,8 +711,8 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ids", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "ids", required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
         /// A list of build IDs for the specified build project, with each build ID representing a single build.
         public let ids: [String]?
@@ -734,10 +734,10 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "computeType", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "environmentVariables", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "type", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "image", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "computeType", required: true, type: .enum), 
+            AWSShapeProperty(label: "environmentVariables", required: false, type: .list), 
+            AWSShapeProperty(label: "type", required: true, type: .enum), 
+            AWSShapeProperty(label: "image", required: true, type: .string)
         ]
         /// Information about the compute resources the build project will use. Available values include:    BUILD_GENERAL1_SMALL: Use up to 3 GB memory and 2 vCPUs for builds.    BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds.    BUILD_GENERAL1_LARGE: Use up to 15 GB memory and 8 vCPUs for builds.  
         public let computeType: ComputeType
@@ -774,8 +774,8 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "sortOrder", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "sortOrder", required: false, type: .enum)
         ]
         /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
         public let nextToken: String?
@@ -797,7 +797,7 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "names", location: nil, required: true, type: .list)
+            AWSShapeProperty(label: "names", required: true, type: .list)
         ]
         /// The names of the build projects.
         public let names: [String]
@@ -816,9 +816,9 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "projectName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "sortOrder", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "projectName", required: true, type: .string), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "sortOrder", required: false, type: .enum)
         ]
         /// The name of the build project.
         public let projectName: String
@@ -860,15 +860,15 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "environment", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "source", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "timeoutInMinutes", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "encryptionKey", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "description", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "artifacts", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "tags", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "serviceRole", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "name", required: true, type: .string), 
+            AWSShapeProperty(label: "environment", required: false, type: .structure), 
+            AWSShapeProperty(label: "source", required: false, type: .structure), 
+            AWSShapeProperty(label: "timeoutInMinutes", required: false, type: .integer), 
+            AWSShapeProperty(label: "encryptionKey", required: false, type: .string), 
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "artifacts", required: false, type: .structure), 
+            AWSShapeProperty(label: "tags", required: false, type: .list), 
+            AWSShapeProperty(label: "serviceRole", required: false, type: .string)
         ]
         /// The name of the build project.  You cannot change a build project's name. 
         public let name: String
@@ -923,12 +923,12 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "sourceVersion", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "environmentVariablesOverride", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "artifactsOverride", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "projectName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "timeoutInMinutesOverride", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "buildspecOverride", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "sourceVersion", required: false, type: .string), 
+            AWSShapeProperty(label: "environmentVariablesOverride", required: false, type: .list), 
+            AWSShapeProperty(label: "artifactsOverride", required: false, type: .structure), 
+            AWSShapeProperty(label: "projectName", required: true, type: .string), 
+            AWSShapeProperty(label: "timeoutInMinutesOverride", required: false, type: .integer), 
+            AWSShapeProperty(label: "buildspecOverride", required: false, type: .string)
         ]
         /// A version of the build input to be built, for this build only. If not specified, the latest version will be used. If specified, must be one of:   For AWS CodeCommit or GitHub: the commit ID to use.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object representing the build input ZIP file to use.  
         public let sourceVersion: String?
@@ -985,8 +985,8 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "description", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "name", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "name", required: false, type: .string)
         ]
         /// The description of the Docker image.
         public let description: String?
@@ -1018,8 +1018,8 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "value", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "name", required: true, type: .string), 
+            AWSShapeProperty(label: "value", required: true, type: .string)
         ]
         /// The name or key of the environment variable.
         public let name: String
@@ -1043,7 +1043,7 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ids", location: nil, required: true, type: .list)
+            AWSShapeProperty(label: "ids", required: true, type: .list)
         ]
         /// The IDs of the builds.
         public let ids: [String]
@@ -1062,8 +1062,8 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "message", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "statusCode", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "message", required: false, type: .string), 
+            AWSShapeProperty(label: "statusCode", required: false, type: .string)
         ]
         /// An explanation of the build phase's context. This explanation might include a command ID and an exit code.
         public let message: String?
@@ -1085,15 +1085,15 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "environment", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "source", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "timeoutInMinutes", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "encryptionKey", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "description", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "artifacts", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "tags", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "serviceRole", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "name", required: true, type: .string), 
+            AWSShapeProperty(label: "environment", required: true, type: .structure), 
+            AWSShapeProperty(label: "source", required: true, type: .structure), 
+            AWSShapeProperty(label: "timeoutInMinutes", required: false, type: .integer), 
+            AWSShapeProperty(label: "encryptionKey", required: false, type: .string), 
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "artifacts", required: true, type: .structure), 
+            AWSShapeProperty(label: "tags", required: false, type: .list), 
+            AWSShapeProperty(label: "serviceRole", required: false, type: .string)
         ]
         /// The name of the build project.
         public let name: String
@@ -1151,7 +1151,7 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "project", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "project", required: false, type: .structure)
         ]
         /// Information about the build project that was created.
         public let project: Project?
@@ -1182,10 +1182,10 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "buildspec", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "location", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "type", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "auth", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "buildspec", required: false, type: .string), 
+            AWSShapeProperty(label: "location", required: false, type: .string), 
+            AWSShapeProperty(label: "type", required: true, type: .enum), 
+            AWSShapeProperty(label: "auth", required: false, type: .structure)
         ]
         /// The build spec declaration to use for the builds in this build project. If this value is not specified, a build spec must be included along with the source code to be built.
         public let buildspec: String?
@@ -1216,9 +1216,9 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "sortBy", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "sortOrder", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "sortBy", required: false, type: .enum), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "sortOrder", required: false, type: .enum)
         ]
         /// The criterion to be used to list build project names. Valid values include:    CREATED_TIME: List the build project names based on when each build project was created.    LAST_MODIFIED_TIME: List the build project names based on when information about each build project was last changed.    NAME: List the build project names based on each build project's name.   Use sortOrder to specify in what order to list the build project names based on the preceding criteria.
         public let sortBy: ProjectSortByType?
@@ -1244,7 +1244,7 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "platforms", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "platforms", required: false, type: .list)
         ]
         /// Information about supported platforms for Docker images that are managed by AWS CodeBuild.
         public let platforms: [EnvironmentPlatform]?

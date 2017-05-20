@@ -57,7 +57,7 @@ extension DictionarySerializable {
             
             let key: String
             if let location = hint.location {
-                key = location
+                key = location.name
             } else {
                 key = hint.label
             }

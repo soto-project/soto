@@ -33,8 +33,8 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "repositories", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "repositories", required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
         /// Lists the repositories called by the list repositories operation.
         public let repositories: [RepositoryNameIdPair]?
@@ -60,9 +60,9 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "date", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "email", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "date", required: false, type: .string), 
+            AWSShapeProperty(label: "email", required: false, type: .string)
         ]
         /// The name of the user who made the specified commit.
         public let name: String?
@@ -88,8 +88,8 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "branchName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "commitId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "branchName", required: false, type: .string), 
+            AWSShapeProperty(label: "commitId", required: false, type: .string)
         ]
         /// The name of the branch.
         public let branchName: String?
@@ -111,7 +111,7 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "commit", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "commit", required: true, type: .structure)
         ]
         /// A commit data type object that contains information about the specified commit.
         public let commit: Commit
@@ -130,7 +130,7 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "repositoryId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "repositoryId", required: false, type: .string)
         ]
         /// The ID of the repository that was deleted.
         public let repositoryId: String?
@@ -148,16 +148,16 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "repositoryDescription", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "repositoryName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "creationDate", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "cloneUrlSsh", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "accountId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "cloneUrlHttp", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "repositoryId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "lastModifiedDate", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "defaultBranch", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "repositoryDescription", required: false, type: .string), 
+            AWSShapeProperty(label: "Arn", required: false, type: .string), 
+            AWSShapeProperty(label: "repositoryName", required: false, type: .string), 
+            AWSShapeProperty(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "cloneUrlSsh", required: false, type: .string), 
+            AWSShapeProperty(label: "accountId", required: false, type: .string), 
+            AWSShapeProperty(label: "cloneUrlHttp", required: false, type: .string), 
+            AWSShapeProperty(label: "repositoryId", required: false, type: .string), 
+            AWSShapeProperty(label: "lastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "defaultBranch", required: false, type: .string)
         ]
         /// A comment or description about the repository.
         public let repositoryDescription: String?
@@ -211,8 +211,8 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "branches", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "branches", required: false, type: .list)
         ]
         /// An enumeration token that returns the batch of the results.
         public let nextToken: String?
@@ -234,11 +234,11 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "destinationArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "branches", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "customData", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "events", location: nil, required: true, type: .list)
+            AWSShapeProperty(label: "destinationArn", required: true, type: .string), 
+            AWSShapeProperty(label: "name", required: true, type: .string), 
+            AWSShapeProperty(label: "branches", required: false, type: .list), 
+            AWSShapeProperty(label: "customData", required: false, type: .string), 
+            AWSShapeProperty(label: "events", required: true, type: .list)
         ]
         /// The ARN of the resource that is the target for a trigger. For example, the ARN of a topic in Amazon Simple Notification Service (SNS).
         public let destinationArn: String
@@ -275,9 +275,9 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "blobId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "mode", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "path", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "blobId", required: false, type: .string), 
+            AWSShapeProperty(label: "mode", required: false, type: .string), 
+            AWSShapeProperty(label: "path", required: false, type: .string)
         ]
         /// The full ID of the blob.
         public let blobId: String?
@@ -303,12 +303,12 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "parents", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "message", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "author", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "treeId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "additionalData", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "committer", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "parents", required: false, type: .list), 
+            AWSShapeProperty(label: "message", required: false, type: .string), 
+            AWSShapeProperty(label: "author", required: false, type: .structure), 
+            AWSShapeProperty(label: "treeId", required: false, type: .string), 
+            AWSShapeProperty(label: "additionalData", required: false, type: .string), 
+            AWSShapeProperty(label: "committer", required: false, type: .structure)
         ]
         /// The parent list for the specified commit.
         public let parents: [String]?
@@ -346,8 +346,8 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "defaultBranchName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "repositoryName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "defaultBranchName", required: true, type: .string), 
+            AWSShapeProperty(label: "repositoryName", required: true, type: .string)
         ]
         /// The name of the branch to set as the default.
         public let defaultBranchName: String
@@ -377,7 +377,7 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "repositoryMetadata", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "repositoryMetadata", required: false, type: .structure)
         ]
         /// Information about the repository.
         public let repositoryMetadata: RepositoryMetadata?
@@ -395,8 +395,8 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "successfulExecutions", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "failedExecutions", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "successfulExecutions", required: false, type: .list), 
+            AWSShapeProperty(label: "failedExecutions", required: false, type: .list)
         ]
         /// The list of triggers that were successfully tested. This list provides the names of the triggers that were successfully tested, separated by commas.
         public let successfulExecutions: [String]?
@@ -422,8 +422,8 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "triggers", location: nil, required: true, type: .list), 
-            AWSShapeProperty(label: "repositoryName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "triggers", required: true, type: .list), 
+            AWSShapeProperty(label: "repositoryName", required: true, type: .string)
         ]
         /// The list of triggers to test.
         public let triggers: [RepositoryTrigger]
@@ -454,8 +454,8 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "repositoryName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "repositoryDescription", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "repositoryName", required: true, type: .string), 
+            AWSShapeProperty(label: "repositoryDescription", required: false, type: .string)
         ]
         /// The name of the repository to set or change the comment or description for.
         public let repositoryName: String
@@ -478,7 +478,7 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "configurationId", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "configurationId", required: false, type: .string)
         ]
         /// The system-generated unique ID for the create or update operation.
         public let configurationId: String?
@@ -496,8 +496,8 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "branchName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "repositoryName", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "branchName", required: false, type: .string), 
+            AWSShapeProperty(label: "repositoryName", required: false, type: .string)
         ]
         /// The name of the branch for which you want to retrieve information.
         public let branchName: String?
@@ -519,7 +519,7 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "repositoryMetadata", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "repositoryMetadata", required: false, type: .structure)
         ]
         /// Information about the newly created repository.
         public let repositoryMetadata: RepositoryMetadata?
@@ -543,9 +543,9 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "changeType", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "afterBlob", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "beforeBlob", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "changeType", required: false, type: .enum), 
+            AWSShapeProperty(label: "afterBlob", required: false, type: .structure), 
+            AWSShapeProperty(label: "beforeBlob", required: false, type: .structure)
         ]
         /// Whether the change type of the difference is an addition (A), deletion (D), or modification (M).
         public let changeType: ChangeTypeEnum?
@@ -571,8 +571,8 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "repositoryId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "repositoryName", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "repositoryId", required: false, type: .string), 
+            AWSShapeProperty(label: "repositoryName", required: false, type: .string)
         ]
         /// The ID associated with the repository.
         public let repositoryId: String?
@@ -602,13 +602,13 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "afterCommitSpecifier", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "repositoryName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "beforeCommitSpecifier", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "beforePath", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "afterPath", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "afterCommitSpecifier", required: true, type: .string), 
+            AWSShapeProperty(label: "repositoryName", required: true, type: .string), 
+            AWSShapeProperty(label: "beforeCommitSpecifier", required: false, type: .string), 
+            AWSShapeProperty(label: "beforePath", required: false, type: .string), 
+            AWSShapeProperty(label: "afterPath", required: false, type: .string), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit.
         public let afterCommitSpecifier: String
@@ -652,9 +652,9 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "branchName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "commitId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "repositoryName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "branchName", required: true, type: .string), 
+            AWSShapeProperty(label: "commitId", required: true, type: .string), 
+            AWSShapeProperty(label: "repositoryName", required: true, type: .string)
         ]
         /// The name of the new branch to create.
         public let branchName: String
@@ -683,7 +683,7 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "repositoryName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "repositoryName", required: true, type: .string)
         ]
         /// The name of the repository to delete.
         public let repositoryName: String
@@ -702,8 +702,8 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "repositoryName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "repositoryName", required: true, type: .string)
         ]
         /// An enumeration token that allows the operation to batch the results.
         public let nextToken: String?
@@ -726,7 +726,7 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "branch", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "branch", required: false, type: .structure)
         ]
         /// The name of the branch.
         public let branch: BranchInfo?
@@ -744,8 +744,8 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "commitId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "repositoryName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "commitId", required: true, type: .string), 
+            AWSShapeProperty(label: "repositoryName", required: true, type: .string)
         ]
         /// The commit ID.
         public let commitId: String
@@ -769,7 +769,7 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "repositoryName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "repositoryName", required: true, type: .string)
         ]
         /// The name of the repository to get information about.
         public let repositoryName: String
@@ -788,8 +788,8 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "configurationId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "triggers", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "configurationId", required: false, type: .string), 
+            AWSShapeProperty(label: "triggers", required: false, type: .list)
         ]
         /// The system-generated unique ID for the trigger.
         public let configurationId: String?
@@ -815,7 +815,7 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "repositoryName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "repositoryName", required: true, type: .string)
         ]
         /// The name of the repository for which the trigger is configured.
         public let repositoryName: String
@@ -834,8 +834,8 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "oldName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "newName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "oldName", required: true, type: .string), 
+            AWSShapeProperty(label: "newName", required: true, type: .string)
         ]
         /// The existing name of the repository.
         public let oldName: String
@@ -859,8 +859,8 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "repositories", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "repositoriesNotFound", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "repositories", required: false, type: .list), 
+            AWSShapeProperty(label: "repositoriesNotFound", required: false, type: .list)
         ]
         /// A list of repositories returned by the batch get repositories operation.
         public let repositories: [RepositoryMetadata]?
@@ -886,8 +886,8 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "differences", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "differences", required: false, type: .list)
         ]
         /// An enumeration token that can be used in a request to return the next batch of the results.
         public let nextToken: String?
@@ -913,9 +913,9 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "sortBy", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "order", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "sortBy", required: false, type: .enum), 
+            AWSShapeProperty(label: "order", required: false, type: .enum), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
         /// The criteria used to sort the results of a list repositories operation.
         public let sortBy: SortByEnum?
@@ -941,7 +941,7 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "content", location: nil, required: true, type: .blob)
+            AWSShapeProperty(label: "content", required: true, type: .blob)
         ]
         /// The content of the blob, usually a file.
         public let content: Data
@@ -960,8 +960,8 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "failureMessage", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "trigger", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "failureMessage", required: false, type: .string), 
+            AWSShapeProperty(label: "trigger", required: false, type: .string)
         ]
         /// Additional message information about the trigger that did not run.
         public let failureMessage: String?
@@ -983,8 +983,8 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "blobId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "repositoryName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "blobId", required: true, type: .string), 
+            AWSShapeProperty(label: "repositoryName", required: true, type: .string)
         ]
         /// The ID of the blob, which is its SHA-1 pointer.
         public let blobId: String
@@ -1008,8 +1008,8 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "repositoryName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "repositoryDescription", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "repositoryName", required: true, type: .string), 
+            AWSShapeProperty(label: "repositoryDescription", required: false, type: .string)
         ]
         /// The name of the new repository to be created.  The repository name must be unique across the calling AWS account. In addition, repository names are limited to 100 alphanumeric, dash, and underscore characters, and cannot include certain characters. For a full description of the limits on repository names, see Limits in the AWS CodeCommit User Guide. The suffix ".git" is prohibited. 
         public let repositoryName: String
@@ -1032,8 +1032,8 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "triggers", location: nil, required: true, type: .list), 
-            AWSShapeProperty(label: "repositoryName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "triggers", required: true, type: .list), 
+            AWSShapeProperty(label: "repositoryName", required: true, type: .string)
         ]
         /// The JSON block of configuration information for each trigger.
         public let triggers: [RepositoryTrigger]
@@ -1057,7 +1057,7 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "repositoryNames", location: nil, required: true, type: .list)
+            AWSShapeProperty(label: "repositoryNames", required: true, type: .list)
         ]
         /// The names of the repositories to get information about.
         public let repositoryNames: [String]

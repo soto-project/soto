@@ -33,7 +33,7 @@ extension Opsworkscm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Attributes", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "Attributes", required: false, type: .list)
         ]
         ///  The attributes that are currently set for the account. 
         public let attributes: [AccountAttribute]?
@@ -55,8 +55,8 @@ extension Opsworkscm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServerEvents", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "ServerEvents", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// Contains the response to a DescribeEvents request. 
         public let serverEvents: [ServerEvent]?
@@ -82,7 +82,7 @@ extension Opsworkscm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NodeAssociationStatusToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "NodeAssociationStatusToken", required: false, type: .string)
         ]
         /// Contains a token which can be passed to the DescribeNodeAssociationStatus API call to get the status of the association request. 
         public let nodeAssociationStatusToken: String?
@@ -100,23 +100,23 @@ extension Opsworkscm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EngineModel", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "EngineAttributes", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "BackupId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ServiceRoleArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "SecurityGroupIds", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "InstanceType", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "BackupRetentionCount", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "SubnetIds", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "PreferredBackupWindow", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "EngineVersion", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceProfileArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "PreferredMaintenanceWindow", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ServerName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Engine", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "DisableAutomatedBackup", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "KeyPair", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "AssociatePublicIpAddress", location: nil, required: false, type: .boolean)
+            AWSShapeProperty(label: "EngineModel", required: false, type: .string), 
+            AWSShapeProperty(label: "EngineAttributes", required: false, type: .list), 
+            AWSShapeProperty(label: "BackupId", required: false, type: .string), 
+            AWSShapeProperty(label: "ServiceRoleArn", required: true, type: .string), 
+            AWSShapeProperty(label: "SecurityGroupIds", required: false, type: .list), 
+            AWSShapeProperty(label: "InstanceType", required: true, type: .string), 
+            AWSShapeProperty(label: "BackupRetentionCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "SubnetIds", required: false, type: .list), 
+            AWSShapeProperty(label: "PreferredBackupWindow", required: false, type: .string), 
+            AWSShapeProperty(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceProfileArn", required: true, type: .string), 
+            AWSShapeProperty(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeProperty(label: "ServerName", required: true, type: .string), 
+            AWSShapeProperty(label: "Engine", required: false, type: .string), 
+            AWSShapeProperty(label: "DisableAutomatedBackup", required: false, type: .boolean), 
+            AWSShapeProperty(label: "KeyPair", required: false, type: .string), 
+            AWSShapeProperty(label: "AssociatePublicIpAddress", required: false, type: .boolean)
         ]
         ///  The engine model, or option. Valid values include Single. 
         public let engineModel: String?
@@ -206,8 +206,8 @@ extension Opsworkscm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServerName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "ServerName", required: true, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
         /// The name of the server that you want to back up. 
         public let serverName: String
@@ -247,9 +247,9 @@ extension Opsworkscm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttributeName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "AttributeValue", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ServerName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "AttributeName", required: true, type: .string), 
+            AWSShapeProperty(label: "AttributeValue", required: false, type: .string), 
+            AWSShapeProperty(label: "ServerName", required: true, type: .string)
         ]
         /// The name of the engine attribute to update. 
         public let attributeName: String
@@ -277,9 +277,9 @@ extension Opsworkscm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NodeName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "EngineAttributes", location: nil, required: true, type: .list), 
-            AWSShapeProperty(label: "ServerName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "NodeName", required: true, type: .string), 
+            AWSShapeProperty(label: "EngineAttributes", required: true, type: .list), 
+            AWSShapeProperty(label: "ServerName", required: true, type: .string)
         ]
         /// The name of the Chef client node. 
         public let nodeName: String
@@ -315,9 +315,9 @@ extension Opsworkscm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Maximum", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Used", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "Maximum", required: false, type: .integer), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "Used", required: false, type: .integer)
         ]
         ///  The maximum allowed value. 
         public let maximum: Int32?
@@ -343,7 +343,7 @@ extension Opsworkscm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Server", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Server", required: false, type: .structure)
         ]
         /// Contains the response to a StartMaintenance request. 
         public let server: Server?
@@ -361,7 +361,7 @@ extension Opsworkscm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Backup", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Backup", required: false, type: .structure)
         ]
         /// Backup created by request.
         public let backup: Backup?
@@ -387,8 +387,8 @@ extension Opsworkscm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NodeAssociationStatusToken", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "ServerName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "NodeAssociationStatusToken", required: true, type: .string), 
+            AWSShapeProperty(label: "ServerName", required: true, type: .string)
         ]
         public let nodeAssociationStatusToken: String
         /// The name of the server from which to disassociate the node. 
@@ -411,7 +411,7 @@ extension Opsworkscm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServerName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "ServerName", required: true, type: .string)
         ]
         /// The name of the server on which to run maintenance. 
         public let serverName: String
@@ -436,7 +436,7 @@ extension Opsworkscm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Server", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Server", required: false, type: .structure)
         ]
         /// Contains the response to a UpdateServer request. 
         public let server: Server?
@@ -454,7 +454,7 @@ extension Opsworkscm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NodeAssociationStatusToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "NodeAssociationStatusToken", required: false, type: .string)
         ]
         /// Contains a token which can be passed to the DescribeNodeAssociationStatus API call to get the status of the disassociation request. 
         public let nodeAssociationStatusToken: String?
@@ -472,9 +472,9 @@ extension Opsworkscm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ServerName", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "ServerName", required: false, type: .string)
         ]
         /// To receive a paginated response, use this parameter to specify the maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results. 
         public let maxResults: Int32?
@@ -500,10 +500,10 @@ extension Opsworkscm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LogUrl", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Message", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ServerName", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "LogUrl", required: false, type: .string), 
+            AWSShapeProperty(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Message", required: false, type: .string), 
+            AWSShapeProperty(label: "ServerName", required: false, type: .string)
         ]
         /// The Amazon S3 URL of the event's log file.
         public let logUrl: String?
@@ -533,10 +533,10 @@ extension Opsworkscm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServerName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "BackupId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "ServerName", required: false, type: .string), 
+            AWSShapeProperty(label: "BackupId", required: false, type: .string), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// Returns backups for the server with the specified ServerName. 
         public let serverName: String?
@@ -580,30 +580,30 @@ extension Opsworkscm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EngineModel", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ServiceRoleArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "S3DataSize", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "BackupId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "SecurityGroupIds", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "ToolsVersion", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceType", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "PreferredBackupWindow", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Status", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "CreatedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "EngineVersion", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceProfileArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "PreferredMaintenanceWindow", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ServerName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "SubnetIds", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "BackupType", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Engine", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "S3DataUrl", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "S3LogUrl", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "UserArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "StatusDescription", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "BackupArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "KeyPair", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "EngineModel", required: false, type: .string), 
+            AWSShapeProperty(label: "ServiceRoleArn", required: false, type: .string), 
+            AWSShapeProperty(label: "S3DataSize", required: false, type: .integer), 
+            AWSShapeProperty(label: "BackupId", required: false, type: .string), 
+            AWSShapeProperty(label: "SecurityGroupIds", required: false, type: .list), 
+            AWSShapeProperty(label: "ToolsVersion", required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceType", required: false, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string), 
+            AWSShapeProperty(label: "PreferredBackupWindow", required: false, type: .string), 
+            AWSShapeProperty(label: "Status", required: false, type: .enum), 
+            AWSShapeProperty(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceProfileArn", required: false, type: .string), 
+            AWSShapeProperty(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeProperty(label: "ServerName", required: false, type: .string), 
+            AWSShapeProperty(label: "SubnetIds", required: false, type: .list), 
+            AWSShapeProperty(label: "BackupType", required: false, type: .enum), 
+            AWSShapeProperty(label: "Engine", required: false, type: .string), 
+            AWSShapeProperty(label: "S3DataUrl", required: false, type: .string), 
+            AWSShapeProperty(label: "S3LogUrl", required: false, type: .string), 
+            AWSShapeProperty(label: "UserArn", required: false, type: .string), 
+            AWSShapeProperty(label: "StatusDescription", required: false, type: .string), 
+            AWSShapeProperty(label: "BackupArn", required: false, type: .string), 
+            AWSShapeProperty(label: "KeyPair", required: false, type: .string)
         ]
         ///  The engine model that is obtained from the server when the backup is created. 
         public let engineModel: String?
@@ -713,7 +713,7 @@ extension Opsworkscm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServerName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "ServerName", required: true, type: .string)
         ]
         /// The ID of the server to delete.
         public let serverName: String
@@ -732,9 +732,9 @@ extension Opsworkscm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NodeName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "EngineAttributes", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "ServerName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "NodeName", required: true, type: .string), 
+            AWSShapeProperty(label: "EngineAttributes", required: false, type: .list), 
+            AWSShapeProperty(label: "ServerName", required: true, type: .string)
         ]
         /// The name of the Chef client node. 
         public let nodeName: String
@@ -766,29 +766,29 @@ extension Opsworkscm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServerArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "EngineModel", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "EngineAttributes", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "ServiceRoleArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "SecurityGroupIds", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "InstanceType", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "BackupRetentionCount", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "SubnetIds", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "PreferredBackupWindow", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "EngineVersion", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceProfileArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "StatusReason", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "PreferredMaintenanceWindow", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ServerName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Engine", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaintenanceStatus", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "CloudFormationStackArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Status", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "DisableAutomatedBackup", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "Endpoint", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "AssociatePublicIpAddress", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "KeyPair", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "ServerArn", required: false, type: .string), 
+            AWSShapeProperty(label: "EngineModel", required: false, type: .string), 
+            AWSShapeProperty(label: "EngineAttributes", required: false, type: .list), 
+            AWSShapeProperty(label: "ServiceRoleArn", required: false, type: .string), 
+            AWSShapeProperty(label: "SecurityGroupIds", required: false, type: .list), 
+            AWSShapeProperty(label: "InstanceType", required: false, type: .string), 
+            AWSShapeProperty(label: "BackupRetentionCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "SubnetIds", required: false, type: .list), 
+            AWSShapeProperty(label: "PreferredBackupWindow", required: false, type: .string), 
+            AWSShapeProperty(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceProfileArn", required: false, type: .string), 
+            AWSShapeProperty(label: "StatusReason", required: false, type: .string), 
+            AWSShapeProperty(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeProperty(label: "ServerName", required: false, type: .string), 
+            AWSShapeProperty(label: "Engine", required: false, type: .string), 
+            AWSShapeProperty(label: "MaintenanceStatus", required: false, type: .enum), 
+            AWSShapeProperty(label: "CloudFormationStackArn", required: false, type: .string), 
+            AWSShapeProperty(label: "Status", required: false, type: .enum), 
+            AWSShapeProperty(label: "DisableAutomatedBackup", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Endpoint", required: false, type: .string), 
+            AWSShapeProperty(label: "AssociatePublicIpAddress", required: false, type: .boolean), 
+            AWSShapeProperty(label: "KeyPair", required: false, type: .string)
         ]
         /// The ARN of the server. 
         public let serverArn: String?
@@ -898,9 +898,9 @@ extension Opsworkscm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ServerName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "ServerName", required: true, type: .string)
         ]
         /// To receive a paginated response, use this parameter to specify the maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results. 
         public let maxResults: Int32?
@@ -927,8 +927,8 @@ extension Opsworkscm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Servers", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Servers", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// Contains the response to a DescribeServers request. 
         public let servers: [Server]?
@@ -954,10 +954,10 @@ extension Opsworkscm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServerName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "InstanceType", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "BackupId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "KeyPair", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "ServerName", required: true, type: .string), 
+            AWSShapeProperty(label: "InstanceType", required: false, type: .string), 
+            AWSShapeProperty(label: "BackupId", required: true, type: .string), 
+            AWSShapeProperty(label: "KeyPair", required: false, type: .string)
         ]
         ///  The name of the server that you want to restore. 
         public let serverName: String
@@ -989,8 +989,8 @@ extension Opsworkscm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Backups", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Backups", required: false, type: .list)
         ]
         /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeBackups again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur. 
         public let nextToken: String?
@@ -1024,7 +1024,7 @@ extension Opsworkscm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NodeAssociationStatus", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "NodeAssociationStatus", required: false, type: .enum)
         ]
         /// The status of the association or disassociation request.   Possible values:     SUCCESS: The association or disassociation succeeded.     FAILED: The association or disassociation failed.     IN_PROGRESS: The association or disassociation is still in progress.   
         public let nodeAssociationStatus: NodeAssociationStatus?
@@ -1042,7 +1042,7 @@ extension Opsworkscm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BackupId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "BackupId", required: true, type: .string)
         ]
         /// The ID of the backup to delete. Run the DescribeBackups command to get a list of backup IDs. Backup IDs are in the format ServerName-yyyyMMddHHmmssSSS. 
         public let backupId: String
@@ -1061,8 +1061,8 @@ extension Opsworkscm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Value", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: false, type: .string)
         ]
         /// The value of the engine attribute. 
         public let value: String?
@@ -1084,11 +1084,11 @@ extension Opsworkscm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PreferredBackupWindow", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ServerName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DisableAutomatedBackup", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "BackupRetentionCount", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "PreferredMaintenanceWindow", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "PreferredBackupWindow", required: false, type: .string), 
+            AWSShapeProperty(label: "ServerName", required: true, type: .string), 
+            AWSShapeProperty(label: "DisableAutomatedBackup", required: false, type: .boolean), 
+            AWSShapeProperty(label: "BackupRetentionCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "PreferredMaintenanceWindow", required: false, type: .string)
         ]
         public let preferredBackupWindow: String?
         /// The name of the server to update. 
@@ -1137,7 +1137,7 @@ extension Opsworkscm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Server", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Server", required: false, type: .structure)
         ]
         /// The server that is created by the request. 
         public let server: Server?
@@ -1155,7 +1155,7 @@ extension Opsworkscm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Server", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Server", required: false, type: .structure)
         ]
         /// Contains the response to an UpdateServerEngineAttributes request. 
         public let server: Server?

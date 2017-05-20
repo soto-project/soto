@@ -44,8 +44,8 @@ extension Cur {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ReportDefinitions", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "ReportDefinitions", required: false, type: .list)
         ]
         public let nextToken: String?
         public let reportDefinitions: [ReportDefinition]?
@@ -75,7 +75,7 @@ extension Cur {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResponseMessage", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "ResponseMessage", required: false, type: .string)
         ]
         public let responseMessage: String?
 
@@ -100,15 +100,15 @@ extension Cur {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TimeUnit", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "Format", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "Compression", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "ReportName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "S3Region", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "AdditionalArtifacts", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "AdditionalSchemaElements", location: nil, required: true, type: .list), 
-            AWSShapeProperty(label: "S3Bucket", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "S3Prefix", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "TimeUnit", required: true, type: .enum), 
+            AWSShapeProperty(label: "Format", required: true, type: .enum), 
+            AWSShapeProperty(label: "Compression", required: true, type: .enum), 
+            AWSShapeProperty(label: "ReportName", required: true, type: .string), 
+            AWSShapeProperty(label: "S3Region", required: true, type: .enum), 
+            AWSShapeProperty(label: "AdditionalArtifacts", required: false, type: .list), 
+            AWSShapeProperty(label: "AdditionalSchemaElements", required: true, type: .list), 
+            AWSShapeProperty(label: "S3Bucket", required: true, type: .string), 
+            AWSShapeProperty(label: "S3Prefix", required: true, type: .string)
         ]
         public let timeUnit: TimeUnit
         public let format: ReportFormat
@@ -169,7 +169,7 @@ extension Cur {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReportDefinition", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "ReportDefinition", required: true, type: .structure)
         ]
         public let reportDefinition: ReportDefinition
 
@@ -198,8 +198,8 @@ extension Cur {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         public let nextToken: String?
         public let maxResults: Int32?
@@ -219,7 +219,7 @@ extension Cur {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReportName", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "ReportName", required: false, type: .string)
         ]
         public let reportName: String?
 

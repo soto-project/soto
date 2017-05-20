@@ -33,8 +33,8 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "roleArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "putItem", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "roleArn", required: false, type: .string), 
+            AWSShapeProperty(label: "putItem", required: false, type: .structure)
         ]
         /// The ARN of the IAM role that grants access to the DynamoDB table.
         public let roleArn: String?
@@ -56,10 +56,10 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyVersionId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "policyName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "policyArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "policyDocument", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "policyVersionId", required: false, type: .string), 
+            AWSShapeProperty(label: "policyName", required: false, type: .string), 
+            AWSShapeProperty(label: "policyArn", required: false, type: .string), 
+            AWSShapeProperty(label: "policyDocument", required: false, type: .string)
         ]
         /// The policy version ID.
         public let policyVersionId: String?
@@ -88,16 +88,10 @@ extension Iot {
     public struct TransferCertificateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["targetAwsAccount": "targetAwsAccount"]
-        }
-        public static var pathParams: [String: String] {
-            return ["certificateId": "certificateId"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificateId", location: "certificateId", required: true, type: .string), 
-            AWSShapeProperty(label: "transferMessage", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "targetAwsAccount", location: "targetAwsAccount", required: true, type: .string)
+            AWSShapeProperty(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string), 
+            AWSShapeProperty(label: "transferMessage", required: false, type: .string), 
+            AWSShapeProperty(label: "targetAwsAccount", location: .querystring(locationName: "targetAwsAccount"), required: true, type: .string)
         ]
         /// The ID of the certificate.
         public let certificateId: String
@@ -132,17 +126,11 @@ extension Iot {
     public struct ListCertificatesByCARequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["marker": "marker", "pageSize": "pageSize", "isAscendingOrder": "ascendingOrder"]
-        }
-        public static var pathParams: [String: String] {
-            return ["caCertificateId": "caCertificateId"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "caCertificateId", location: "caCertificateId", required: true, type: .string), 
-            AWSShapeProperty(label: "pageSize", location: "pageSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "marker", location: "marker", required: false, type: .string), 
-            AWSShapeProperty(label: "ascendingOrder", location: "isAscendingOrder", required: false, type: .boolean)
+            AWSShapeProperty(label: "caCertificateId", location: .uri(locationName: "caCertificateId"), required: true, type: .string), 
+            AWSShapeProperty(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
+            AWSShapeProperty(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeProperty(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean)
         ]
         /// The ID of the CA certificate. This operation will list all registered device certificate that were signed by this CA certificate. 
         public let caCertificateId: String
@@ -173,8 +161,8 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "policyName", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "policyArn", required: false, type: .string), 
+            AWSShapeProperty(label: "policyName", required: false, type: .string)
         ]
         /// The policy ARN.
         public let policyArn: String?
@@ -196,7 +184,7 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = "loggingOptionsPayload"
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "loggingOptionsPayload", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "loggingOptionsPayload", required: true, type: .structure)
         ]
         /// The logging options payload.
         public let loggingOptionsPayload: LoggingOptionsPayload
@@ -215,8 +203,8 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "thingTypes", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "thingTypes", required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
         /// The thing types.
         public let thingTypes: [ThingTypeDefinition]?
@@ -242,18 +230,18 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "kinesis", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "elasticsearch", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "sqs", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "cloudwatchMetric", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "republish", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "s3", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "cloudwatchAlarm", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "firehose", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "dynamoDBv2", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "dynamoDB", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "lambda", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "sns", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "kinesis", required: false, type: .structure), 
+            AWSShapeProperty(label: "elasticsearch", required: false, type: .structure), 
+            AWSShapeProperty(label: "sqs", required: false, type: .structure), 
+            AWSShapeProperty(label: "cloudwatchMetric", required: false, type: .structure), 
+            AWSShapeProperty(label: "republish", required: false, type: .structure), 
+            AWSShapeProperty(label: "s3", required: false, type: .structure), 
+            AWSShapeProperty(label: "cloudwatchAlarm", required: false, type: .structure), 
+            AWSShapeProperty(label: "firehose", required: false, type: .structure), 
+            AWSShapeProperty(label: "dynamoDBv2", required: false, type: .structure), 
+            AWSShapeProperty(label: "dynamoDB", required: false, type: .structure), 
+            AWSShapeProperty(label: "lambda", required: false, type: .structure), 
+            AWSShapeProperty(label: "sns", required: false, type: .structure)
         ]
         /// Write data to an Amazon Kinesis stream.
         public let kinesis: KinesisAction?
@@ -315,7 +303,7 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificateDescription", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "certificateDescription", required: false, type: .structure)
         ]
         /// The CA certificate description.
         public let certificateDescription: CACertificateDescription?
@@ -333,8 +321,8 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "roleArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "topic", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "roleArn", required: true, type: .string), 
+            AWSShapeProperty(label: "topic", required: true, type: .string)
         ]
         /// The ARN of the IAM role that grants access.
         public let roleArn: String
@@ -357,11 +345,8 @@ extension Iot {
     public struct GetTopicRuleRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["ruleName": "ruleName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ruleName", location: "ruleName", required: true, type: .string)
+            AWSShapeProperty(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string)
         ]
         /// The name of the rule.
         public let ruleName: String
@@ -380,8 +365,8 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "principals", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "nextMarker", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "principals", required: false, type: .list), 
+            AWSShapeProperty(label: "nextMarker", required: false, type: .string)
         ]
         /// The descriptions of the principals.
         public let principals: [String]?
@@ -403,8 +388,8 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificates", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "nextMarker", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "certificates", required: false, type: .list), 
+            AWSShapeProperty(label: "nextMarker", required: false, type: .string)
         ]
         /// The descriptions of the certificates.
         public let certificates: [Certificate]?
@@ -429,14 +414,11 @@ extension Iot {
     public struct RegisterCACertificateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["allowAutoRegistration": "allowAutoRegistration", "setAsActive": "setAsActive"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "allowAutoRegistration", location: "allowAutoRegistration", required: false, type: .boolean), 
-            AWSShapeProperty(label: "verificationCertificate", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "caCertificate", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "setAsActive", location: "setAsActive", required: false, type: .boolean)
+            AWSShapeProperty(label: "allowAutoRegistration", location: .querystring(locationName: "allowAutoRegistration"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "verificationCertificate", required: true, type: .string), 
+            AWSShapeProperty(label: "caCertificate", required: true, type: .string), 
+            AWSShapeProperty(label: "setAsActive", location: .querystring(locationName: "setAsActive"), required: false, type: .boolean)
         ]
         /// Allows this CA certificate to be used for auto registration of device certificates.
         public let allowAutoRegistration: Bool?
@@ -467,15 +449,9 @@ extension Iot {
     public struct DetachThingPrincipalRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var headerParams: [String: String] {
-            return ["x-amzn-principal": "principal"]
-        }
-        public static var pathParams: [String: String] {
-            return ["thingName": "thingName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "thingName", location: "thingName", required: true, type: .string), 
-            AWSShapeProperty(label: "principal", location: "x-amzn-principal", required: true, type: .string)
+            AWSShapeProperty(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string), 
+            AWSShapeProperty(label: "principal", location: .header(locationName: "x-amzn-principal"), required: true, type: .string)
         ]
         /// The name of the thing.
         public let thingName: String
@@ -499,8 +475,8 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "thingName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "thingArn", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "thingName", required: false, type: .string), 
+            AWSShapeProperty(label: "thingArn", required: false, type: .string)
         ]
         /// The name of the new thing.
         public let thingName: String?
@@ -528,8 +504,8 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "things", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "things", required: false, type: .list)
         ]
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -551,8 +527,8 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "roleArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "logLevel", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "roleArn", required: true, type: .string), 
+            AWSShapeProperty(label: "logLevel", required: false, type: .enum)
         ]
         /// The ARN of the IAM role that grants access.
         public let roleArn: String
@@ -574,15 +550,12 @@ extension Iot {
     public struct ListThingsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["attributeValue": "attributeValue", "thingTypeName": "thingTypeName", "nextToken": "nextToken", "maxResults": "maxResults", "attributeName": "attributeName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "attributeValue", location: "attributeValue", required: false, type: .string), 
-            AWSShapeProperty(label: "thingTypeName", location: "thingTypeName", required: false, type: .string), 
-            AWSShapeProperty(label: "nextToken", location: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", location: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "attributeName", location: "attributeName", required: false, type: .string)
+            AWSShapeProperty(label: "attributeValue", location: .querystring(locationName: "attributeValue"), required: false, type: .string), 
+            AWSShapeProperty(label: "thingTypeName", location: .querystring(locationName: "thingTypeName"), required: false, type: .string), 
+            AWSShapeProperty(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeProperty(label: "attributeName", location: .querystring(locationName: "attributeName"), required: false, type: .string)
         ]
         /// The attribute value used to search for things.
         public let attributeValue: String?
@@ -616,9 +589,9 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "thingTypeMetadata", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "thingTypeName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "thingTypeProperties", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "thingTypeMetadata", required: false, type: .structure), 
+            AWSShapeProperty(label: "thingTypeName", required: false, type: .string), 
+            AWSShapeProperty(label: "thingTypeProperties", required: false, type: .structure)
         ]
         public let thingTypeMetadata: ThingTypeMetadata?
         /// The name of the thing type.
@@ -643,10 +616,10 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "keyPair", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "certificatePem", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "certificateId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "certificateArn", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "keyPair", required: false, type: .structure), 
+            AWSShapeProperty(label: "certificatePem", required: false, type: .string), 
+            AWSShapeProperty(label: "certificateId", required: false, type: .string), 
+            AWSShapeProperty(label: "certificateArn", required: false, type: .string)
         ]
         /// The generated key pair.
         public let keyPair: KeyPair?
@@ -676,8 +649,8 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ruleArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "rule", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "ruleArn", required: false, type: .string), 
+            AWSShapeProperty(label: "rule", required: false, type: .structure)
         ]
         /// The rule ARN.
         public let ruleArn: String?
@@ -698,12 +671,9 @@ extension Iot {
     public struct CreateThingTypeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["thingTypeName": "thingTypeName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "thingTypeName", location: "thingTypeName", required: true, type: .string), 
-            AWSShapeProperty(label: "thingTypeProperties", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "thingTypeName", location: .uri(locationName: "thingTypeName"), required: true, type: .string), 
+            AWSShapeProperty(label: "thingTypeProperties", required: false, type: .structure)
         ]
         /// The name of the thing type.
         public let thingTypeName: String
@@ -725,11 +695,8 @@ extension Iot {
     public struct DescribeCACertificateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["caCertificateId": "certificateId"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificateId", location: "caCertificateId", required: true, type: .string)
+            AWSShapeProperty(label: "certificateId", location: .uri(locationName: "caCertificateId"), required: true, type: .string)
         ]
         /// The CA certificate identifier.
         public let certificateId: String
@@ -747,11 +714,8 @@ extension Iot {
     public struct DescribeCertificateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["certificateId": "certificateId"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificateId", location: "certificateId", required: true, type: .string)
+            AWSShapeProperty(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string)
         ]
         /// The ID of the certificate.
         public let certificateId: String
@@ -769,12 +733,9 @@ extension Iot {
     public struct CreateCertificateFromCsrRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["setAsActive": "setAsActive"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificateSigningRequest", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "setAsActive", location: "setAsActive", required: false, type: .boolean)
+            AWSShapeProperty(label: "certificateSigningRequest", required: true, type: .string), 
+            AWSShapeProperty(label: "setAsActive", location: .querystring(locationName: "setAsActive"), required: false, type: .boolean)
         ]
         /// The certificate signing request (CSR).
         public let certificateSigningRequest: String
@@ -797,7 +758,7 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificateDescription", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "certificateDescription", required: false, type: .structure)
         ]
         /// The description of the certificate.
         public let certificateDescription: CertificateDescription?
@@ -814,11 +775,8 @@ extension Iot {
     public struct CreateKeysAndCertificateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["setAsActive": "setAsActive"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "setAsActive", location: "setAsActive", required: false, type: .boolean)
+            AWSShapeProperty(label: "setAsActive", location: .querystring(locationName: "setAsActive"), required: false, type: .boolean)
         ]
         /// Specifies whether the certificate is active.
         public let setAsActive: Bool?
@@ -836,8 +794,8 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policies", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "nextMarker", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "policies", required: false, type: .list), 
+            AWSShapeProperty(label: "nextMarker", required: false, type: .string)
         ]
         /// The policies.
         public let policies: [Policy]?
@@ -862,15 +820,9 @@ extension Iot {
     public struct DetachPrincipalPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var headerParams: [String: String] {
-            return ["x-amzn-iot-principal": "principal"]
-        }
-        public static var pathParams: [String: String] {
-            return ["policyName": "policyName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyName", location: "policyName", required: true, type: .string), 
-            AWSShapeProperty(label: "principal", location: "x-amzn-iot-principal", required: true, type: .string)
+            AWSShapeProperty(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string), 
+            AWSShapeProperty(label: "principal", location: .header(locationName: "x-amzn-iot-principal"), required: true, type: .string)
         ]
         /// The name of the policy to detach.
         public let policyName: String
@@ -894,9 +846,9 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deprecated", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "deprecationDate", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "creationDate", location: nil, required: false, type: .timestamp)
+            AWSShapeProperty(label: "deprecated", required: false, type: .boolean), 
+            AWSShapeProperty(label: "deprecationDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "creationDate", required: false, type: .timestamp)
         ]
         /// Whether the thing type is deprecated. If true, no new things could be associated with this type.
         public let deprecated: Bool?
@@ -921,11 +873,8 @@ extension Iot {
     public struct EnableTopicRuleRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["ruleName": "ruleName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ruleName", location: "ruleName", required: true, type: .string)
+            AWSShapeProperty(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string)
         ]
         /// The name of the topic rule to enable.
         public let ruleName: String
@@ -943,16 +892,10 @@ extension Iot {
     public struct CreatePolicyVersionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["setAsDefault": "setAsDefault"]
-        }
-        public static var pathParams: [String: String] {
-            return ["policyName": "policyName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyName", location: "policyName", required: true, type: .string), 
-            AWSShapeProperty(label: "setAsDefault", location: "setAsDefault", required: false, type: .boolean), 
-            AWSShapeProperty(label: "policyDocument", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string), 
+            AWSShapeProperty(label: "setAsDefault", location: .querystring(locationName: "setAsDefault"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "policyDocument", required: true, type: .string)
         ]
         /// The policy name.
         public let policyName: String
@@ -980,9 +923,9 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "roleArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "streamName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "partitionKey", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "roleArn", required: true, type: .string), 
+            AWSShapeProperty(label: "streamName", required: true, type: .string), 
+            AWSShapeProperty(label: "partitionKey", required: false, type: .string)
         ]
         /// The ARN of the IAM role that grants access to the Amazon Kinesis stream.
         public let roleArn: String
@@ -1010,9 +953,9 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "useBase64", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "roleArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "queueUrl", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "useBase64", required: false, type: .boolean), 
+            AWSShapeProperty(label: "roleArn", required: true, type: .string), 
+            AWSShapeProperty(label: "queueUrl", required: true, type: .string)
         ]
         /// Specifies whether to use Base64 encoding.
         public let useBase64: Bool?
@@ -1047,11 +990,8 @@ extension Iot {
     public struct ListThingPrincipalsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["thingName": "thingName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "thingName", location: "thingName", required: true, type: .string)
+            AWSShapeProperty(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
         ]
         /// The name of the thing.
         public let thingName: String
@@ -1069,12 +1009,9 @@ extension Iot {
     public struct SetDefaultPolicyVersionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["policyVersionId": "policyVersionId", "policyName": "policyName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyVersionId", location: "policyVersionId", required: true, type: .string), 
-            AWSShapeProperty(label: "policyName", location: "policyName", required: true, type: .string)
+            AWSShapeProperty(label: "policyVersionId", location: .uri(locationName: "policyVersionId"), required: true, type: .string), 
+            AWSShapeProperty(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
         ]
         /// The policy version ID.
         public let policyVersionId: String
@@ -1097,16 +1034,10 @@ extension Iot {
     public struct UpdateCACertificateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["newStatus": "newStatus", "newAutoRegistrationStatus": "newAutoRegistrationStatus"]
-        }
-        public static var pathParams: [String: String] {
-            return ["caCertificateId": "certificateId"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificateId", location: "caCertificateId", required: true, type: .string), 
-            AWSShapeProperty(label: "newStatus", location: "newStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "newAutoRegistrationStatus", location: "newAutoRegistrationStatus", required: false, type: .enum)
+            AWSShapeProperty(label: "certificateId", location: .uri(locationName: "caCertificateId"), required: true, type: .string), 
+            AWSShapeProperty(label: "newStatus", location: .querystring(locationName: "newStatus"), required: false, type: .enum), 
+            AWSShapeProperty(label: "newAutoRegistrationStatus", location: .querystring(locationName: "newAutoRegistrationStatus"), required: false, type: .enum)
         ]
         /// The CA certificate identifier.
         public let certificateId: String
@@ -1133,8 +1064,8 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policies", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "nextMarker", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "policies", required: false, type: .list), 
+            AWSShapeProperty(label: "nextMarker", required: false, type: .string)
         ]
         /// The descriptions of the policies.
         public let policies: [Policy]?
@@ -1160,11 +1091,11 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "roleArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "endpoint", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "id", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "type", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "index", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "roleArn", required: true, type: .string), 
+            AWSShapeProperty(label: "endpoint", required: true, type: .string), 
+            AWSShapeProperty(label: "id", required: true, type: .string), 
+            AWSShapeProperty(label: "type", required: true, type: .string), 
+            AWSShapeProperty(label: "index", required: true, type: .string)
         ]
         /// The IAM role ARN that has access to Elasticsearch.
         public let roleArn: String
@@ -1203,8 +1134,8 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextMarker", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "outgoingCertificates", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "nextMarker", required: false, type: .string), 
+            AWSShapeProperty(label: "outgoingCertificates", required: false, type: .list)
         ]
         /// The marker for the next set of results.
         public let nextMarker: String?
@@ -1229,15 +1160,9 @@ extension Iot {
     public struct UpdateCertificateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["newStatus": "newStatus"]
-        }
-        public static var pathParams: [String: String] {
-            return ["certificateId": "certificateId"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificateId", location: "certificateId", required: true, type: .string), 
-            AWSShapeProperty(label: "newStatus", location: "newStatus", required: true, type: .enum)
+            AWSShapeProperty(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string), 
+            AWSShapeProperty(label: "newStatus", location: .querystring(locationName: "newStatus"), required: true, type: .enum)
         ]
         /// The ID of the certificate.
         public let certificateId: String
@@ -1267,11 +1192,11 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ruleDisabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "topicPattern", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ruleName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ruleArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "createdAt", location: nil, required: false, type: .timestamp)
+            AWSShapeProperty(label: "ruleDisabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "topicPattern", required: false, type: .string), 
+            AWSShapeProperty(label: "ruleName", required: false, type: .string), 
+            AWSShapeProperty(label: "ruleArn", required: false, type: .string), 
+            AWSShapeProperty(label: "createdAt", required: false, type: .timestamp)
         ]
         /// Specifies whether the rule is disabled.
         public let ruleDisabled: Bool?
@@ -1304,11 +1229,8 @@ extension Iot {
     public struct DeleteThingTypeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["thingTypeName": "thingTypeName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "thingTypeName", location: "thingTypeName", required: true, type: .string)
+            AWSShapeProperty(label: "thingTypeName", location: .uri(locationName: "thingTypeName"), required: true, type: .string)
         ]
         /// The name of the thing type.
         public let thingTypeName: String
@@ -1327,8 +1249,8 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificateId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "certificateArn", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "certificateId", required: false, type: .string), 
+            AWSShapeProperty(label: "certificateArn", required: false, type: .string)
         ]
         /// The certificate identifier.
         public let certificateId: String?
@@ -1350,7 +1272,7 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "tableName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "tableName", required: true, type: .string)
         ]
         /// The table where the message data will be written
         public let tableName: String
@@ -1369,8 +1291,8 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "merge", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "attributes", location: nil, required: false, type: .map)
+            AWSShapeProperty(label: "merge", required: false, type: .boolean), 
+            AWSShapeProperty(label: "attributes", required: false, type: .map)
         ]
         /// Specifies whether the list of attributes provided in the AttributePayload is merged with the attributes stored in the registry, instead of overwriting them. To remove an attribute, call UpdateThing with an empty attribute value.  The merge attribute is only valid when calling UpdateThing. 
         public let merge: Bool?
@@ -1395,12 +1317,9 @@ extension Iot {
     public struct CreatePolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["policyName": "policyName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyDocument", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "policyName", location: "policyName", required: true, type: .string)
+            AWSShapeProperty(label: "policyDocument", required: true, type: .string), 
+            AWSShapeProperty(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
         ]
         /// The JSON document that describes the policy. policyDocument must have a minimum length of 1, with a maximum length of 2048, excluding whitespace.
         public let policyDocument: String
@@ -1423,12 +1342,9 @@ extension Iot {
     public struct DeletePolicyVersionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["policyVersionId": "policyVersionId", "policyName": "policyName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyVersionId", location: "policyVersionId", required: true, type: .string), 
-            AWSShapeProperty(label: "policyName", location: "policyName", required: true, type: .string)
+            AWSShapeProperty(label: "policyVersionId", location: .uri(locationName: "policyVersionId"), required: true, type: .string), 
+            AWSShapeProperty(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
         ]
         /// The policy version ID.
         public let policyVersionId: String
@@ -1476,7 +1392,7 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "functionArn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "functionArn", required: true, type: .string)
         ]
         /// The ARN of the Lambda function.
         public let functionArn: String
@@ -1495,13 +1411,13 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ruleDisabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "ruleName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "createdAt", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "awsIotSqlVersion", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "description", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "actions", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "sql", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "ruleDisabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "ruleName", required: false, type: .string), 
+            AWSShapeProperty(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "awsIotSqlVersion", required: false, type: .string), 
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "actions", required: false, type: .list), 
+            AWSShapeProperty(label: "sql", required: false, type: .string)
         ]
         /// Specifies whether the rule is disabled.
         public let ruleDisabled: Bool?
@@ -1546,13 +1462,10 @@ extension Iot {
     public struct CreateThingRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["thingName": "thingName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "thingTypeName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "attributePayload", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "thingName", location: "thingName", required: true, type: .string)
+            AWSShapeProperty(label: "thingTypeName", required: false, type: .string), 
+            AWSShapeProperty(label: "attributePayload", required: false, type: .structure), 
+            AWSShapeProperty(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
         ]
         /// The name of the thing type associated with the new thing.
         public let thingTypeName: String?
@@ -1579,16 +1492,16 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "caCertificateId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "status", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "creationDate", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "certificateId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "certificatePem", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "previousOwnedBy", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "transferData", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "ownedBy", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "certificateArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "lastModifiedDate", location: nil, required: false, type: .timestamp)
+            AWSShapeProperty(label: "caCertificateId", required: false, type: .string), 
+            AWSShapeProperty(label: "status", required: false, type: .enum), 
+            AWSShapeProperty(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "certificateId", required: false, type: .string), 
+            AWSShapeProperty(label: "certificatePem", required: false, type: .string), 
+            AWSShapeProperty(label: "previousOwnedBy", required: false, type: .string), 
+            AWSShapeProperty(label: "transferData", required: false, type: .structure), 
+            AWSShapeProperty(label: "ownedBy", required: false, type: .string), 
+            AWSShapeProperty(label: "certificateArn", required: false, type: .string), 
+            AWSShapeProperty(label: "lastModifiedDate", required: false, type: .timestamp)
         ]
         /// The certificate ID of the CA certificate used to sign this certificate.
         public let caCertificateId: String?
@@ -1642,10 +1555,10 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "roleArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "stateReason", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "alarmName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "stateValue", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "roleArn", required: true, type: .string), 
+            AWSShapeProperty(label: "stateReason", required: true, type: .string), 
+            AWSShapeProperty(label: "alarmName", required: true, type: .string), 
+            AWSShapeProperty(label: "stateValue", required: true, type: .string)
         ]
         /// The IAM role that allows access to the CloudWatch alarm.
         public let roleArn: String
@@ -1678,11 +1591,8 @@ extension Iot {
     public struct DisableTopicRuleRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["ruleName": "ruleName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ruleName", location: "ruleName", required: true, type: .string)
+            AWSShapeProperty(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string)
         ]
         /// The name of the rule to disable.
         public let ruleName: String
@@ -1700,16 +1610,10 @@ extension Iot {
     public struct ListPrincipalThingsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var headerParams: [String: String] {
-            return ["x-amzn-principal": "principal"]
-        }
-        public static var queryParams: [String: String] {
-            return ["maxResults": "maxResults", "nextToken": "nextToken"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maxResults", location: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "nextToken", location: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "principal", location: "x-amzn-principal", required: true, type: .string)
+            AWSShapeProperty(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeProperty(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "principal", location: .header(locationName: "x-amzn-principal"), required: true, type: .string)
         ]
         /// The maximum number of results to return in this operation.
         public let maxResults: Int32?
@@ -1735,12 +1639,9 @@ extension Iot {
     public struct CreateTopicRuleRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = "topicRulePayload"
-        public static var pathParams: [String: String] {
-            return ["ruleName": "ruleName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ruleName", location: "ruleName", required: true, type: .string), 
-            AWSShapeProperty(label: "topicRulePayload", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string), 
+            AWSShapeProperty(label: "topicRulePayload", required: true, type: .structure)
         ]
         /// The name of the rule.
         public let ruleName: String
@@ -1763,11 +1664,8 @@ extension Iot {
     public struct DeleteCACertificateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["caCertificateId": "certificateId"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificateId", location: "caCertificateId", required: true, type: .string)
+            AWSShapeProperty(label: "certificateId", location: .uri(locationName: "caCertificateId"), required: true, type: .string)
         ]
         /// The ID of the certificate to delete.
         public let certificateId: String
@@ -1786,10 +1684,10 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "creationDate", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "certificateId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "certificateArn", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "status", required: false, type: .enum), 
+            AWSShapeProperty(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "certificateId", required: false, type: .string), 
+            AWSShapeProperty(label: "certificateArn", required: false, type: .string)
         ]
         /// The status of the CA certificate.  The status value REGISTER_INACTIVE is deprecated and should not be used.
         public let status: CACertificateStatus?
@@ -1818,11 +1716,8 @@ extension Iot {
     public struct ListPolicyVersionsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["policyName": "policyName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyName", location: "policyName", required: true, type: .string)
+            AWSShapeProperty(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
         ]
         /// The policy name.
         public let policyName: String
@@ -1840,17 +1735,11 @@ extension Iot {
     public struct ListPolicyPrincipalsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var headerParams: [String: String] {
-            return ["x-amzn-iot-policy": "policyName"]
-        }
-        public static var queryParams: [String: String] {
-            return ["marker": "marker", "pageSize": "pageSize", "isAscendingOrder": "ascendingOrder"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "marker", location: "marker", required: false, type: .string), 
-            AWSShapeProperty(label: "pageSize", location: "pageSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "policyName", location: "x-amzn-iot-policy", required: true, type: .string), 
-            AWSShapeProperty(label: "ascendingOrder", location: "isAscendingOrder", required: false, type: .boolean)
+            AWSShapeProperty(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeProperty(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
+            AWSShapeProperty(label: "policyName", location: .header(locationName: "x-amzn-iot-policy"), required: true, type: .string), 
+            AWSShapeProperty(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean)
         ]
         /// The marker for the next set of results.
         public let marker: String?
@@ -1881,9 +1770,9 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "createDate", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "versionId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "isDefaultVersion", location: nil, required: false, type: .boolean)
+            AWSShapeProperty(label: "createDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "versionId", required: false, type: .string), 
+            AWSShapeProperty(label: "isDefaultVersion", required: false, type: .boolean)
         ]
         /// The date and time the policy was created.
         public let createDate: Date?
@@ -1908,15 +1797,9 @@ extension Iot {
     public struct AttachThingPrincipalRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var headerParams: [String: String] {
-            return ["x-amzn-principal": "principal"]
-        }
-        public static var pathParams: [String: String] {
-            return ["thingName": "thingName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "thingName", location: "thingName", required: true, type: .string), 
-            AWSShapeProperty(label: "principal", location: "x-amzn-principal", required: true, type: .string)
+            AWSShapeProperty(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string), 
+            AWSShapeProperty(label: "principal", location: .header(locationName: "x-amzn-principal"), required: true, type: .string)
         ]
         /// The name of the thing.
         public let thingName: String
@@ -1948,7 +1831,7 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "registrationCode", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "registrationCode", required: false, type: .string)
         ]
         /// The CA certificate registration code.
         public let registrationCode: String?
@@ -1966,8 +1849,8 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificates", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "nextMarker", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "certificates", required: false, type: .list), 
+            AWSShapeProperty(label: "nextMarker", required: false, type: .string)
         ]
         /// The device certificates signed by the specified CA certificate.
         public let certificates: [Certificate]?
@@ -1992,13 +1875,10 @@ extension Iot {
     public struct ListPoliciesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["marker": "marker", "pageSize": "pageSize", "isAscendingOrder": "ascendingOrder"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "marker", location: "marker", required: false, type: .string), 
-            AWSShapeProperty(label: "pageSize", location: "pageSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "ascendingOrder", location: "isAscendingOrder", required: false, type: .boolean)
+            AWSShapeProperty(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeProperty(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
+            AWSShapeProperty(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean)
         ]
         /// The marker for the next set of results.
         public let marker: String?
@@ -2023,13 +1903,10 @@ extension Iot {
     public struct ListCACertificatesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["marker": "marker", "pageSize": "pageSize", "isAscendingOrder": "ascendingOrder"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "marker", location: "marker", required: false, type: .string), 
-            AWSShapeProperty(label: "pageSize", location: "pageSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "ascendingOrder", location: "isAscendingOrder", required: false, type: .boolean)
+            AWSShapeProperty(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeProperty(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
+            AWSShapeProperty(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean)
         ]
         /// The marker for the next set of results.
         public let marker: String?
@@ -2054,12 +1931,9 @@ extension Iot {
     public struct DeprecateThingTypeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["thingTypeName": "thingTypeName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "thingTypeName", location: "thingTypeName", required: true, type: .string), 
-            AWSShapeProperty(label: "undoDeprecate", location: nil, required: false, type: .boolean)
+            AWSShapeProperty(label: "thingTypeName", location: .uri(locationName: "thingTypeName"), required: true, type: .string), 
+            AWSShapeProperty(label: "undoDeprecate", required: false, type: .boolean)
         ]
         /// The name of the thing type to deprecate.
         public let thingTypeName: String
@@ -2082,11 +1956,11 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "awsIotSqlVersion", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ruleDisabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "description", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "actions", location: nil, required: true, type: .list), 
-            AWSShapeProperty(label: "sql", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "awsIotSqlVersion", required: false, type: .string), 
+            AWSShapeProperty(label: "ruleDisabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "actions", required: true, type: .list), 
+            AWSShapeProperty(label: "sql", required: true, type: .string)
         ]
         /// The version of the SQL rules engine to use when evaluating the rule.
         public let awsIotSqlVersion: String?
@@ -2122,9 +1996,9 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "messageFormat", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "roleArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "targetArn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "messageFormat", required: false, type: .enum), 
+            AWSShapeProperty(label: "roleArn", required: true, type: .string), 
+            AWSShapeProperty(label: "targetArn", required: true, type: .string)
         ]
         /// The message format of the message to publish. Optional. Accepted values are "JSON" and "RAW". The default value of the attribute is "RAW". SNS uses this setting to determine if the payload should be parsed and relevant platform-specific bits of the payload should be extracted. To read more about SNS message formats, see  refer to their official documentation.
         public let messageFormat: MessageFormat?
@@ -2152,8 +2026,8 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PublicKey", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "PrivateKey", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "PublicKey", required: false, type: .string), 
+            AWSShapeProperty(label: "PrivateKey", required: false, type: .string)
         ]
         /// The public key.
         public let publicKey: String?
@@ -2183,7 +2057,7 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyVersions", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "policyVersions", required: false, type: .list)
         ]
         /// The policy versions.
         public let policyVersions: [PolicyVersion]?
@@ -2205,11 +2079,11 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyDocument", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "policyVersionId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "policyName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "isDefaultVersion", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "policyArn", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "policyDocument", required: false, type: .string), 
+            AWSShapeProperty(label: "policyVersionId", required: false, type: .string), 
+            AWSShapeProperty(label: "policyName", required: false, type: .string), 
+            AWSShapeProperty(label: "isDefaultVersion", required: false, type: .boolean), 
+            AWSShapeProperty(label: "policyArn", required: false, type: .string)
         ]
         /// The JSON document that describes the policy.
         public let policyDocument: String?
@@ -2242,13 +2116,10 @@ extension Iot {
     public struct ListThingTypesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["thingTypeName": "thingTypeName", "nextToken": "nextToken", "maxResults": "maxResults"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "thingTypeName", location: "thingTypeName", required: false, type: .string), 
-            AWSShapeProperty(label: "nextToken", location: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", location: "maxResults", required: false, type: .integer)
+            AWSShapeProperty(label: "thingTypeName", location: .querystring(locationName: "thingTypeName"), required: false, type: .string), 
+            AWSShapeProperty(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
         ]
         /// The name of the thing type.
         public let thingTypeName: String?
@@ -2274,8 +2145,8 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "thingTypeName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "thingTypeArn", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "thingTypeName", required: false, type: .string), 
+            AWSShapeProperty(label: "thingTypeArn", required: false, type: .string)
         ]
         /// The name of the thing type.
         public let thingTypeName: String?
@@ -2296,11 +2167,8 @@ extension Iot {
     public struct DeleteTopicRuleRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["ruleName": "ruleName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ruleName", location: "ruleName", required: true, type: .string)
+            AWSShapeProperty(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string)
         ]
         /// The name of the rule.
         public let ruleName: String
@@ -2318,12 +2186,9 @@ extension Iot {
     public struct GetPolicyVersionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["policyVersionId": "policyVersionId", "policyName": "policyName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyVersionId", location: "policyVersionId", required: true, type: .string), 
-            AWSShapeProperty(label: "policyName", location: "policyName", required: true, type: .string)
+            AWSShapeProperty(label: "policyVersionId", location: .uri(locationName: "policyVersionId"), required: true, type: .string), 
+            AWSShapeProperty(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
         ]
         /// The policy version ID.
         public let policyVersionId: String
@@ -2347,8 +2212,8 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "rules", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "rules", required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
         /// The rules.
         public let rules: [TopicRuleListItem]?
@@ -2374,10 +2239,10 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "bucketName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "roleArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "cannedAcl", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "key", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "bucketName", required: true, type: .string), 
+            AWSShapeProperty(label: "roleArn", required: true, type: .string), 
+            AWSShapeProperty(label: "cannedAcl", required: false, type: .enum), 
+            AWSShapeProperty(label: "key", required: true, type: .string)
         ]
         /// The Amazon S3 bucket.
         public let bucketName: String
@@ -2410,12 +2275,12 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "transferMessage", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "creationDate", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "certificateId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "certificateArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "transferredTo", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "transferDate", location: nil, required: false, type: .timestamp)
+            AWSShapeProperty(label: "transferMessage", required: false, type: .string), 
+            AWSShapeProperty(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "certificateId", required: false, type: .string), 
+            AWSShapeProperty(label: "certificateArn", required: false, type: .string), 
+            AWSShapeProperty(label: "transferredTo", required: false, type: .string), 
+            AWSShapeProperty(label: "transferDate", required: false, type: .timestamp)
         ]
         /// The transfer message.
         public let transferMessage: String?
@@ -2453,9 +2318,9 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificateId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "certificateArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "certificatePem", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "certificateId", required: false, type: .string), 
+            AWSShapeProperty(label: "certificateArn", required: false, type: .string), 
+            AWSShapeProperty(label: "certificatePem", required: false, type: .string)
         ]
         /// The ID of the certificate. Certificate management operations only take a certificateId.
         public let certificateId: String?
@@ -2481,7 +2346,7 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "transferredCertificateArn", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "transferredCertificateArn", required: false, type: .string)
         ]
         /// The ARN of the certificate.
         public let transferredCertificateArn: String?
@@ -2499,9 +2364,9 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "roleArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "deliveryStreamName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "separator", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "roleArn", required: true, type: .string), 
+            AWSShapeProperty(label: "deliveryStreamName", required: true, type: .string), 
+            AWSShapeProperty(label: "separator", required: false, type: .string)
         ]
         /// The IAM role that grants access to the Amazon Kinesis Firehost stream.
         public let roleArn: String
@@ -2529,10 +2394,10 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "policyVersionId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "isDefaultVersion", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "policyDocument", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "policyArn", required: false, type: .string), 
+            AWSShapeProperty(label: "policyVersionId", required: false, type: .string), 
+            AWSShapeProperty(label: "isDefaultVersion", required: false, type: .boolean), 
+            AWSShapeProperty(label: "policyDocument", required: false, type: .string)
         ]
         /// The policy ARN.
         public let policyArn: String?
@@ -2561,15 +2426,9 @@ extension Iot {
     public struct AcceptCertificateTransferRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["setAsActive": "setAsActive"]
-        }
-        public static var pathParams: [String: String] {
-            return ["certificateId": "certificateId"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificateId", location: "certificateId", required: true, type: .string), 
-            AWSShapeProperty(label: "setAsActive", location: "setAsActive", required: false, type: .boolean)
+            AWSShapeProperty(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string), 
+            AWSShapeProperty(label: "setAsActive", location: .querystring(locationName: "setAsActive"), required: false, type: .boolean)
         ]
         /// The ID of the certificate.
         public let certificateId: String
@@ -2591,11 +2450,8 @@ extension Iot {
     public struct CancelCertificateTransferRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["certificateId": "certificateId"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificateId", location: "certificateId", required: true, type: .string)
+            AWSShapeProperty(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string)
         ]
         /// The ID of the certificate.
         public let certificateId: String
@@ -2613,11 +2469,8 @@ extension Iot {
     public struct DeleteCertificateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["certificateId": "certificateId"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificateId", location: "certificateId", required: true, type: .string)
+            AWSShapeProperty(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string)
         ]
         /// The ID of the certificate.
         public let certificateId: String
@@ -2644,7 +2497,7 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "endpointAddress", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "endpointAddress", required: false, type: .string)
         ]
         /// The endpoint. The format of the endpoint is as follows: identifier.iot.region.amazonaws.com.
         public let endpointAddress: String?
@@ -2661,12 +2514,9 @@ extension Iot {
     public struct RejectCertificateTransferRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["certificateId": "certificateId"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificateId", location: "certificateId", required: true, type: .string), 
-            AWSShapeProperty(label: "rejectReason", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string), 
+            AWSShapeProperty(label: "rejectReason", required: false, type: .string)
         ]
         /// The ID of the certificate.
         public let certificateId: String
@@ -2689,11 +2539,11 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "rejectDate", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "acceptDate", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "transferMessage", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "transferDate", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "rejectReason", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "rejectDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "acceptDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "transferMessage", required: false, type: .string), 
+            AWSShapeProperty(label: "transferDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "rejectReason", required: false, type: .string)
         ]
         /// The date the transfer was rejected.
         public let rejectDate: Date?
@@ -2726,11 +2576,8 @@ extension Iot {
     public struct GetPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["policyName": "policyName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyName", location: "policyName", required: true, type: .string)
+            AWSShapeProperty(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
         ]
         /// The name of the policy.
         public let policyName: String
@@ -2755,10 +2602,10 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "creationDate", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "certificateId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "certificateArn", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "status", required: false, type: .enum), 
+            AWSShapeProperty(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "certificateId", required: false, type: .string), 
+            AWSShapeProperty(label: "certificateArn", required: false, type: .string)
         ]
         /// The status of the certificate. The status value REGISTER_INACTIVE is deprecated and should not be used.
         public let status: CertificateStatus?
@@ -2787,14 +2634,11 @@ extension Iot {
     public struct RegisterCertificateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["setAsActive": "setAsActive"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "caCertificatePem", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "status", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "certificatePem", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "setAsActive", location: "setAsActive", required: false, type: .boolean)
+            AWSShapeProperty(label: "caCertificatePem", required: false, type: .string), 
+            AWSShapeProperty(label: "status", required: false, type: .enum), 
+            AWSShapeProperty(label: "certificatePem", required: true, type: .string), 
+            AWSShapeProperty(label: "setAsActive", location: .querystring(locationName: "setAsActive"), required: false, type: .boolean)
         ]
         /// The CA certificate used to sign the device certificate being registered.
         public let caCertificatePem: String?
@@ -2824,7 +2668,7 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "principals", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "principals", required: false, type: .list)
         ]
         /// The principals associated with the thing.
         public let principals: [String]?
@@ -2842,8 +2686,8 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "roleArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "logLevel", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "roleArn", required: false, type: .string), 
+            AWSShapeProperty(label: "logLevel", required: false, type: .enum)
         ]
         /// The ARN of the IAM role that grants access.
         public let roleArn: String?
@@ -2864,13 +2708,10 @@ extension Iot {
     public struct ListOutgoingCertificatesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["marker": "marker", "pageSize": "pageSize", "isAscendingOrder": "ascendingOrder"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "marker", location: "marker", required: false, type: .string), 
-            AWSShapeProperty(label: "pageSize", location: "pageSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "ascendingOrder", location: "isAscendingOrder", required: false, type: .boolean)
+            AWSShapeProperty(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeProperty(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
+            AWSShapeProperty(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean)
         ]
         /// The marker for the next set of results.
         public let marker: String?
@@ -2896,8 +2737,8 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificates", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "nextMarker", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "certificates", required: false, type: .list), 
+            AWSShapeProperty(label: "nextMarker", required: false, type: .string)
         ]
         /// The CA certificates registered in your AWS account.
         public let certificates: [CACertificate]?
@@ -2923,8 +2764,8 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "thingTypeDescription", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "searchableAttributes", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "thingTypeDescription", required: false, type: .string), 
+            AWSShapeProperty(label: "searchableAttributes", required: false, type: .list)
         ]
         /// The description of the thing type.
         public let thingTypeDescription: String?
@@ -2946,10 +2787,10 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "defaultVersionId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "policyArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "policyDocument", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "policyName", required: false, type: .string), 
+            AWSShapeProperty(label: "defaultVersionId", required: false, type: .string), 
+            AWSShapeProperty(label: "policyArn", required: false, type: .string), 
+            AWSShapeProperty(label: "policyDocument", required: false, type: .string)
         ]
         /// The policy name.
         public let policyName: String?
@@ -2979,8 +2820,8 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "things", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "things", required: false, type: .list)
         ]
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -3005,17 +2846,11 @@ extension Iot {
     public struct ListPrincipalPoliciesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var headerParams: [String: String] {
-            return ["x-amzn-iot-principal": "principal"]
-        }
-        public static var queryParams: [String: String] {
-            return ["marker": "marker", "pageSize": "pageSize", "isAscendingOrder": "ascendingOrder"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "marker", location: "marker", required: false, type: .string), 
-            AWSShapeProperty(label: "pageSize", location: "pageSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "ascendingOrder", location: "isAscendingOrder", required: false, type: .boolean), 
-            AWSShapeProperty(label: "principal", location: "x-amzn-iot-principal", required: true, type: .string)
+            AWSShapeProperty(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeProperty(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
+            AWSShapeProperty(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "principal", location: .header(locationName: "x-amzn-iot-principal"), required: true, type: .string)
         ]
         /// The marker for the next set of results.
         public let marker: String?
@@ -3055,10 +2890,10 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "thingName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "thingTypeName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "attributes", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "version", location: nil, required: false, type: .long)
+            AWSShapeProperty(label: "thingName", required: false, type: .string), 
+            AWSShapeProperty(label: "thingTypeName", required: false, type: .string), 
+            AWSShapeProperty(label: "attributes", required: false, type: .map), 
+            AWSShapeProperty(label: "version", required: false, type: .long)
         ]
         /// The name of the thing.
         public let thingName: String?
@@ -3091,11 +2926,8 @@ extension Iot {
     public struct DeletePolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["policyName": "policyName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyName", location: "policyName", required: true, type: .string)
+            AWSShapeProperty(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
         ]
         /// The name of the policy to delete.
         public let policyName: String
@@ -3113,11 +2945,8 @@ extension Iot {
     public struct DescribeThingRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["thingName": "thingName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "thingName", location: "thingName", required: true, type: .string)
+            AWSShapeProperty(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
         ]
         /// The name of the thing.
         public let thingName: String
@@ -3136,13 +2965,13 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "autoRegistrationStatus", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "creationDate", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "certificateId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "certificatePem", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ownedBy", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "certificateArn", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "status", required: false, type: .enum), 
+            AWSShapeProperty(label: "autoRegistrationStatus", required: false, type: .enum), 
+            AWSShapeProperty(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "certificateId", required: false, type: .string), 
+            AWSShapeProperty(label: "certificatePem", required: false, type: .string), 
+            AWSShapeProperty(label: "ownedBy", required: false, type: .string), 
+            AWSShapeProperty(label: "certificateArn", required: false, type: .string)
         ]
         /// The status of a CA certificate.
         public let status: CACertificateStatus?
@@ -3183,14 +3012,11 @@ extension Iot {
     public struct ListTopicRulesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["ruleDisabled": "ruleDisabled", "maxResults": "maxResults", "nextToken": "nextToken", "topic": "topic"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ruleDisabled", location: "ruleDisabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "maxResults", location: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "nextToken", location: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "topic", location: "topic", required: false, type: .string)
+            AWSShapeProperty(label: "ruleDisabled", location: .querystring(locationName: "ruleDisabled"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeProperty(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "topic", location: .querystring(locationName: "topic"), required: false, type: .string)
         ]
         /// Specifies whether the rule is disabled.
         public let ruleDisabled: Bool?
@@ -3230,11 +3056,11 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "defaultClientId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "thingName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "thingTypeName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "attributes", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "version", location: nil, required: false, type: .long)
+            AWSShapeProperty(label: "defaultClientId", required: false, type: .string), 
+            AWSShapeProperty(label: "thingName", required: false, type: .string), 
+            AWSShapeProperty(label: "thingTypeName", required: false, type: .string), 
+            AWSShapeProperty(label: "attributes", required: false, type: .map), 
+            AWSShapeProperty(label: "version", required: false, type: .long)
         ]
         /// The default client ID.
         public let defaultClientId: String?
@@ -3271,11 +3097,8 @@ extension Iot {
     public struct DescribeThingTypeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["thingTypeName": "thingTypeName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "thingTypeName", location: "thingTypeName", required: true, type: .string)
+            AWSShapeProperty(label: "thingTypeName", location: .uri(locationName: "thingTypeName"), required: true, type: .string)
         ]
         /// The name of the thing type.
         public let thingTypeName: String
@@ -3293,15 +3116,9 @@ extension Iot {
     public struct AttachPrincipalPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var headerParams: [String: String] {
-            return ["x-amzn-iot-principal": "principal"]
-        }
-        public static var pathParams: [String: String] {
-            return ["policyName": "policyName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyName", location: "policyName", required: true, type: .string), 
-            AWSShapeProperty(label: "principal", location: "x-amzn-iot-principal", required: true, type: .string)
+            AWSShapeProperty(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string), 
+            AWSShapeProperty(label: "principal", location: .header(locationName: "x-amzn-iot-principal"), required: true, type: .string)
         ]
         /// The policy name.
         public let policyName: String
@@ -3324,15 +3141,12 @@ extension Iot {
     public struct UpdateThingRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var pathParams: [String: String] {
-            return ["thingName": "thingName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "removeThingType", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "thingName", location: "thingName", required: true, type: .string), 
-            AWSShapeProperty(label: "thingTypeName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "expectedVersion", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "attributePayload", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "removeThingType", required: false, type: .boolean), 
+            AWSShapeProperty(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string), 
+            AWSShapeProperty(label: "thingTypeName", required: false, type: .string), 
+            AWSShapeProperty(label: "expectedVersion", required: false, type: .long), 
+            AWSShapeProperty(label: "attributePayload", required: false, type: .structure)
         ]
         /// Remove a thing type association. If true, the assocation is removed.
         public let removeThingType: Bool?
@@ -3380,13 +3194,10 @@ extension Iot {
     public struct ListCertificatesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["marker": "marker", "pageSize": "pageSize", "isAscendingOrder": "ascendingOrder"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "marker", location: "marker", required: false, type: .string), 
-            AWSShapeProperty(label: "pageSize", location: "pageSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "ascendingOrder", location: "isAscendingOrder", required: false, type: .boolean)
+            AWSShapeProperty(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeProperty(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
+            AWSShapeProperty(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean)
         ]
         /// The marker for the next set of results.
         public let marker: String?
@@ -3423,12 +3234,9 @@ extension Iot {
     public struct ReplaceTopicRuleRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = "topicRulePayload"
-        public static var pathParams: [String: String] {
-            return ["ruleName": "ruleName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ruleName", location: "ruleName", required: true, type: .string), 
-            AWSShapeProperty(label: "topicRulePayload", location: nil, required: true, type: .structure)
+            AWSShapeProperty(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string), 
+            AWSShapeProperty(label: "topicRulePayload", required: true, type: .structure)
         ]
         /// The name of the rule.
         public let ruleName: String
@@ -3452,12 +3260,12 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "metricValue", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "roleArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "metricTimestamp", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "metricNamespace", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "metricName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "metricUnit", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "metricValue", required: true, type: .string), 
+            AWSShapeProperty(label: "roleArn", required: true, type: .string), 
+            AWSShapeProperty(label: "metricTimestamp", required: false, type: .string), 
+            AWSShapeProperty(label: "metricNamespace", required: true, type: .string), 
+            AWSShapeProperty(label: "metricName", required: true, type: .string), 
+            AWSShapeProperty(label: "metricUnit", required: true, type: .string)
         ]
         /// The CloudWatch metric value.
         public let metricValue: String
@@ -3500,8 +3308,8 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificateId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "certificateArn", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "certificateId", required: false, type: .string), 
+            AWSShapeProperty(label: "certificateArn", required: false, type: .string)
         ]
         /// The CA certificate identifier.
         public let certificateId: String?
@@ -3523,9 +3331,9 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "thingTypeMetadata", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "thingTypeName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "thingTypeProperties", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "thingTypeMetadata", required: false, type: .structure), 
+            AWSShapeProperty(label: "thingTypeName", required: false, type: .string), 
+            AWSShapeProperty(label: "thingTypeProperties", required: false, type: .structure)
         ]
         public let thingTypeMetadata: ThingTypeMetadata?
         /// The name of the thing type.
@@ -3550,16 +3358,16 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "roleArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "rangeKeyType", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "rangeKeyValue", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "hashKeyValue", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "operation", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "payloadField", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "rangeKeyField", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "tableName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "hashKeyField", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "hashKeyType", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "roleArn", required: true, type: .string), 
+            AWSShapeProperty(label: "rangeKeyType", required: false, type: .enum), 
+            AWSShapeProperty(label: "rangeKeyValue", required: false, type: .string), 
+            AWSShapeProperty(label: "hashKeyValue", required: true, type: .string), 
+            AWSShapeProperty(label: "operation", required: false, type: .string), 
+            AWSShapeProperty(label: "payloadField", required: false, type: .string), 
+            AWSShapeProperty(label: "rangeKeyField", required: false, type: .string), 
+            AWSShapeProperty(label: "tableName", required: true, type: .string), 
+            AWSShapeProperty(label: "hashKeyField", required: true, type: .string), 
+            AWSShapeProperty(label: "hashKeyType", required: false, type: .enum)
         ]
         /// The ARN of the IAM role that grants access to the DynamoDB table.
         public let roleArn: String
@@ -3640,15 +3448,9 @@ extension Iot {
     public struct DeleteThingRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public static var queryParams: [String: String] {
-            return ["expectedVersion": "expectedVersion"]
-        }
-        public static var pathParams: [String: String] {
-            return ["thingName": "thingName"]
-        }
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "expectedVersion", location: "expectedVersion", required: false, type: .long), 
-            AWSShapeProperty(label: "thingName", location: "thingName", required: true, type: .string)
+            AWSShapeProperty(label: "expectedVersion", location: .querystring(locationName: "expectedVersion"), required: false, type: .long), 
+            AWSShapeProperty(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
         ]
         /// The expected version of the thing record in the registry. If the version of the record in the registry does not match the expected version specified in the request, the DeleteThing request is rejected with a VersionConflictException.
         public let expectedVersion: Int64?

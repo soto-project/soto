@@ -33,8 +33,8 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Sessions", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Sessions", required: false, type: .list)
         ]
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
@@ -60,8 +60,8 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "StackName", required: true, type: .string), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// The name of the stack whose associated fleets are listed.
         public let stackName: String
@@ -84,8 +84,8 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Stacks", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Stacks", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// The list of stack details.
         public let stacks: [Stack]?
@@ -119,7 +119,7 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DesiredInstances", location: nil, required: true, type: .integer)
+            AWSShapeProperty(label: "DesiredInstances", required: true, type: .integer)
         ]
         /// The desired number of streaming instances.
         public let desiredInstances: Int32
@@ -138,7 +138,7 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Names", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "Names", required: false, type: .list)
         ]
         /// A specific list of images to describe.
         public let names: [String]?
@@ -156,7 +156,7 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Images", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "Images", required: false, type: .list)
         ]
         /// The list of images.
         public let images: [Image]?
@@ -178,11 +178,11 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "StackName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "FleetName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "UserId", required: false, type: .string), 
+            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "StackName", required: true, type: .string), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "FleetName", required: true, type: .string)
         ]
         /// The user for whom to list sessions. Use null to describe all the sessions for the stack and fleet.
         public let userId: String?
@@ -218,11 +218,11 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "StackName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "State", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "FleetName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Id", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "UserId", required: true, type: .string), 
+            AWSShapeProperty(label: "StackName", required: true, type: .string), 
+            AWSShapeProperty(label: "State", required: true, type: .enum), 
+            AWSShapeProperty(label: "FleetName", required: true, type: .string), 
+            AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
         /// The identifier of the user for whom the session was created.
         public let userId: String
@@ -261,8 +261,8 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Names", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Names", required: false, type: .list)
         ]
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
@@ -292,8 +292,8 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Names", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Names", required: false, type: .list)
         ]
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
@@ -320,8 +320,8 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ErrorMessage", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ErrorCode", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeProperty(label: "ErrorCode", required: false, type: .enum)
         ]
         /// The error message generated when the fleet has errors.
         public let errorMessage: String?
@@ -343,8 +343,8 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Names", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Names", required: false, type: .list)
         ]
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
@@ -366,7 +366,7 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Fleet", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Fleet", required: false, type: .structure)
         ]
         /// A list of fleet details.
         public let fleet: Fleet?
@@ -408,15 +408,15 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ComputeCapacity", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "VpcConfig", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DisplayName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ImageName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DisconnectTimeoutInSeconds", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "MaxUserDurationInSeconds", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "InstanceType", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "ComputeCapacity", required: true, type: .structure), 
+            AWSShapeProperty(label: "VpcConfig", required: false, type: .structure), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "DisplayName", required: false, type: .string), 
+            AWSShapeProperty(label: "ImageName", required: true, type: .string), 
+            AWSShapeProperty(label: "DisconnectTimeoutInSeconds", required: false, type: .integer), 
+            AWSShapeProperty(label: "MaxUserDurationInSeconds", required: false, type: .integer), 
+            AWSShapeProperty(label: "InstanceType", required: true, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
         /// The parameters for the capacity allocated to the fleet.
         public let computeCapacity: ComputeCapacity
@@ -470,11 +470,11 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "CreatedTime", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "DisplayName", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Description", required: false, type: .string), 
+            AWSShapeProperty(label: "Arn", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "DisplayName", required: false, type: .string)
         ]
         /// A meaningful description for the stack.
         public let description: String?
@@ -509,7 +509,7 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Stack", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Stack", required: false, type: .structure)
         ]
         /// A list of stack details.
         public let stack: Stack?
@@ -527,16 +527,16 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeleteVpcConfig", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "ComputeCapacity", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "VpcConfig", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DisplayName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "ImageName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "DisconnectTimeoutInSeconds", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "MaxUserDurationInSeconds", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "InstanceType", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "DeleteVpcConfig", required: false, type: .boolean), 
+            AWSShapeProperty(label: "ComputeCapacity", required: false, type: .structure), 
+            AWSShapeProperty(label: "VpcConfig", required: false, type: .structure), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "DisplayName", required: false, type: .string), 
+            AWSShapeProperty(label: "ImageName", required: false, type: .string), 
+            AWSShapeProperty(label: "DisconnectTimeoutInSeconds", required: false, type: .integer), 
+            AWSShapeProperty(label: "MaxUserDurationInSeconds", required: false, type: .integer), 
+            AWSShapeProperty(label: "InstanceType", required: false, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
         /// Delete the VPC association for the specified fleet.
         public let deleteVpcConfig: Bool?
@@ -591,8 +591,8 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "FleetName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "StackName", required: true, type: .string), 
+            AWSShapeProperty(label: "FleetName", required: true, type: .string)
         ]
         /// The name of the stack with which the fleet is associated.
         public let stackName: String
@@ -616,13 +616,13 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Metadata", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "Name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "DisplayName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Enabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "LaunchPath", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "LaunchParameters", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "IconURL", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Metadata", required: false, type: .map), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "DisplayName", required: false, type: .string), 
+            AWSShapeProperty(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "LaunchPath", required: false, type: .string), 
+            AWSShapeProperty(label: "LaunchParameters", required: false, type: .string), 
+            AWSShapeProperty(label: "IconURL", required: false, type: .string)
         ]
         /// Additional attributes that describes the application.
         public let metadata: [String: String]?
@@ -668,19 +668,19 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Arn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "VpcConfig", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "State", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "ComputeCapacityStatus", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "DisplayName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "FleetErrors", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "ImageName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "InstanceType", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "CreatedTime", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DisconnectTimeoutInSeconds", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "MaxUserDurationInSeconds", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "Arn", required: true, type: .string), 
+            AWSShapeProperty(label: "VpcConfig", required: false, type: .structure), 
+            AWSShapeProperty(label: "State", required: true, type: .enum), 
+            AWSShapeProperty(label: "ComputeCapacityStatus", required: true, type: .structure), 
+            AWSShapeProperty(label: "DisplayName", required: false, type: .string), 
+            AWSShapeProperty(label: "FleetErrors", required: false, type: .list), 
+            AWSShapeProperty(label: "ImageName", required: true, type: .string), 
+            AWSShapeProperty(label: "InstanceType", required: true, type: .string), 
+            AWSShapeProperty(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Description", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "DisconnectTimeoutInSeconds", required: false, type: .integer), 
+            AWSShapeProperty(label: "MaxUserDurationInSeconds", required: false, type: .integer)
         ]
         /// The ARN for the fleet.
         public let arn: String
@@ -756,7 +756,7 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
         /// The name of the fleet to start.
         public let name: String
@@ -783,7 +783,7 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetIds", location: nil, required: true, type: .list)
+            AWSShapeProperty(label: "SubnetIds", required: true, type: .list)
         ]
         /// The list of subnets to which a network interface is established from the fleet instance.
         public let subnetIds: [String]
@@ -802,8 +802,8 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Names", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Names", required: false, type: .list)
         ]
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
@@ -825,8 +825,8 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Code", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "Message", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Code", required: false, type: .enum), 
+            AWSShapeProperty(label: "Message", required: false, type: .string)
         ]
         /// The state change reason code of the image.
         public let code: ImageStateChangeReasonCode?
@@ -854,8 +854,8 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "FleetName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "FleetName", required: true, type: .string)
         ]
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
@@ -878,9 +878,9 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DisplayName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "DisplayName", required: false, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
         /// The unique identifier for this stack.
         public let name: String
@@ -907,9 +907,9 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "DisplayName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "DisplayName", required: false, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
         /// The name of the stack to update.
         public let name: String
@@ -936,7 +936,7 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
         /// The name of the fleet to stop.
         public let name: String
@@ -961,7 +961,7 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SessionId", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "SessionId", required: true, type: .string)
         ]
         /// The unique identifier of the streaming session to be stopped.
         public let sessionId: String
@@ -980,7 +980,7 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Fleet", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Fleet", required: false, type: .structure)
         ]
         /// The details for the created fleet.
         public let fleet: Fleet?
@@ -998,12 +998,12 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Validity", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "UserId", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "ApplicationId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "SessionContext", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "StackName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "FleetName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Validity", required: false, type: .long), 
+            AWSShapeProperty(label: "UserId", required: true, type: .string), 
+            AWSShapeProperty(label: "ApplicationId", required: false, type: .string), 
+            AWSShapeProperty(label: "SessionContext", required: false, type: .string), 
+            AWSShapeProperty(label: "StackName", required: true, type: .string), 
+            AWSShapeProperty(label: "FleetName", required: true, type: .string)
         ]
         /// The validity duration of the URL in seconds. After this duration, the URL returned by this operation becomes invalid.
         public let validity: Int64?
@@ -1044,10 +1044,10 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Available", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "InUse", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "Desired", location: nil, required: true, type: .integer), 
-            AWSShapeProperty(label: "Running", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "Available", required: false, type: .integer), 
+            AWSShapeProperty(label: "InUse", required: false, type: .integer), 
+            AWSShapeProperty(label: "Desired", required: true, type: .integer), 
+            AWSShapeProperty(label: "Running", required: false, type: .integer)
         ]
         /// The number of currently available instances that can be used to stream sessions.
         public let available: Int32?
@@ -1078,8 +1078,8 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StreamingURL", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Expires", location: nil, required: false, type: .timestamp)
+            AWSShapeProperty(label: "StreamingURL", required: false, type: .string), 
+            AWSShapeProperty(label: "Expires", required: false, type: .timestamp)
         ]
         /// The URL to start the AppStream 2.0 streaming session.
         public let streamingURL: String?
@@ -1101,8 +1101,8 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackName", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "FleetName", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "StackName", required: true, type: .string), 
+            AWSShapeProperty(label: "FleetName", required: true, type: .string)
         ]
         /// The name of the stack to which the fleet is associated.
         public let stackName: String
@@ -1141,8 +1141,8 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Fleets", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Fleets", required: false, type: .list)
         ]
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
@@ -1168,17 +1168,17 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StateChangeReason", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "Arn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Platform", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "State", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "DisplayName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "BaseImageArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "Applications", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "Visibility", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "CreatedTime", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Description", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "StateChangeReason", required: false, type: .structure), 
+            AWSShapeProperty(label: "Arn", required: false, type: .string), 
+            AWSShapeProperty(label: "Platform", required: false, type: .enum), 
+            AWSShapeProperty(label: "State", required: false, type: .enum), 
+            AWSShapeProperty(label: "DisplayName", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "BaseImageArn", required: false, type: .string), 
+            AWSShapeProperty(label: "Applications", required: false, type: .list), 
+            AWSShapeProperty(label: "Visibility", required: false, type: .enum), 
+            AWSShapeProperty(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
         /// The reason why the last state change occurred.
         public let stateChangeReason: ImageStateChangeReason?
@@ -1241,7 +1241,7 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
         /// The name of the stack to delete.
         public let name: String
@@ -1275,7 +1275,7 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Stack", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "Stack", required: false, type: .structure)
         ]
         /// The details for the created stack.
         public let stack: Stack?
@@ -1301,7 +1301,7 @@ extension Appstream {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
         /// The name of the fleet to be deleted.
         public let name: String

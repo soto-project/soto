@@ -41,8 +41,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "arn", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "arn", required: false, type: .string)
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -64,18 +64,18 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "uplinkJitterMs", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "downlinkJitterMs", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "downlinkDelayMs", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "uplinkLossPercent", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "downlinkLossPercent", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "description", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "uplinkDelayMs", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "uplinkBandwidthBits", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "type", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "downlinkBandwidthBits", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "arn", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "uplinkJitterMs", required: false, type: .long), 
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "downlinkJitterMs", required: false, type: .long), 
+            AWSShapeProperty(label: "downlinkDelayMs", required: false, type: .long), 
+            AWSShapeProperty(label: "uplinkLossPercent", required: false, type: .integer), 
+            AWSShapeProperty(label: "downlinkLossPercent", required: false, type: .integer), 
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "uplinkDelayMs", required: false, type: .long), 
+            AWSShapeProperty(label: "uplinkBandwidthBits", required: false, type: .long), 
+            AWSShapeProperty(label: "type", required: false, type: .enum), 
+            AWSShapeProperty(label: "downlinkBandwidthBits", required: false, type: .long), 
+            AWSShapeProperty(label: "arn", required: false, type: .string)
         ]
         /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
         public let uplinkJitterMs: Int64?
@@ -137,7 +137,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "test", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "test", required: false, type: .structure)
         ]
         /// A test condition that is evaluated.
         public let test: Test?
@@ -155,9 +155,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "attribute", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "operator", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "value", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "attribute", required: false, type: .enum), 
+            AWSShapeProperty(label: "operator", required: false, type: .enum), 
+            AWSShapeProperty(label: "value", required: false, type: .string)
         ]
         /// The rule's stringified attribute. For example, specify the value as "\"abc\"". Allowed values include:   ARN: The ARN.   FORM_FACTOR: The form factor (for example, phone or tablet).   MANUFACTURER: The manufacturer.   PLATFORM: The platform (for example, Android or iOS).  
         public let attribute: DeviceAttribute?
@@ -183,8 +183,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "arn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "arn", required: true, type: .string)
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -207,7 +207,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "billingMethod", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "billingMethod", required: false, type: .enum)
         ]
         /// Returns the billing method for purposes of configuring a remote access session.
         public let billingMethod: BillingMethod?
@@ -225,7 +225,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "upload", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "upload", required: false, type: .structure)
         ]
         /// An app or a set of one or more tests to upload or that have been uploaded.
         public let upload: Upload?
@@ -243,8 +243,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "suites", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "suites", required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
         /// Information about the suites.
         public let suites: [Suite]?
@@ -270,8 +270,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "remoteAccessSessions", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "remoteAccessSessions", required: false, type: .list)
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -297,18 +297,18 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "uplinkJitterMs", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "downlinkJitterMs", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "downlinkDelayMs", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "uplinkLossPercent", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "downlinkLossPercent", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "description", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "uplinkDelayMs", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "uplinkBandwidthBits", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "type", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "downlinkBandwidthBits", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "arn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "uplinkJitterMs", required: false, type: .long), 
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "downlinkJitterMs", required: false, type: .long), 
+            AWSShapeProperty(label: "downlinkDelayMs", required: false, type: .long), 
+            AWSShapeProperty(label: "uplinkLossPercent", required: false, type: .integer), 
+            AWSShapeProperty(label: "downlinkLossPercent", required: false, type: .integer), 
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "uplinkDelayMs", required: false, type: .long), 
+            AWSShapeProperty(label: "uplinkBandwidthBits", required: false, type: .long), 
+            AWSShapeProperty(label: "type", required: false, type: .enum), 
+            AWSShapeProperty(label: "downlinkBandwidthBits", required: false, type: .long), 
+            AWSShapeProperty(label: "arn", required: true, type: .string)
         ]
         /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
         public let uplinkJitterMs: Int64?
@@ -371,7 +371,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "devicePool", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "devicePool", required: false, type: .structure)
         ]
         /// An object containing information about the requested device pool.
         public let devicePool: DevicePool?
@@ -397,11 +397,11 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "description", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "type", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "rules", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "arn", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "type", required: false, type: .enum), 
+            AWSShapeProperty(label: "rules", required: false, type: .list), 
+            AWSShapeProperty(label: "arn", required: false, type: .string)
         ]
         /// The device pool's description.
         public let description: String?
@@ -439,7 +439,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "project", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "project", required: false, type: .structure)
         ]
         /// The newly created project.
         public let project: Project?
@@ -457,7 +457,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "offeringTransaction", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "offeringTransaction", required: false, type: .structure)
         ]
         /// Represents the offering transaction for the purchase result.
         public let offeringTransaction: OfferingTransaction?
@@ -475,7 +475,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobTimeoutMinutes", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "jobTimeoutMinutes", required: false, type: .integer)
         ]
         /// The number of minutes a test run will execute before it times out.
         public let jobTimeoutMinutes: Int32?
@@ -493,8 +493,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "currencyCode", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "amount", location: nil, required: false, type: .double)
+            AWSShapeProperty(label: "currencyCode", required: false, type: .enum), 
+            AWSShapeProperty(label: "amount", required: false, type: .double)
         ]
         /// The currency code of a monetary amount. For example, USD means "U.S. dollars."
         public let currencyCode: CurrencyCode?
@@ -516,18 +516,18 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "uplinkJitterMs", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "downlinkJitterMs", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "downlinkDelayMs", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "uplinkLossPercent", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "downlinkLossPercent", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "description", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "uplinkDelayMs", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "uplinkBandwidthBits", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "type", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "downlinkBandwidthBits", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "projectArn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "uplinkJitterMs", required: false, type: .long), 
+            AWSShapeProperty(label: "name", required: true, type: .string), 
+            AWSShapeProperty(label: "downlinkJitterMs", required: false, type: .long), 
+            AWSShapeProperty(label: "downlinkDelayMs", required: false, type: .long), 
+            AWSShapeProperty(label: "uplinkLossPercent", required: false, type: .integer), 
+            AWSShapeProperty(label: "downlinkLossPercent", required: false, type: .integer), 
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "uplinkDelayMs", required: false, type: .long), 
+            AWSShapeProperty(label: "uplinkBandwidthBits", required: false, type: .long), 
+            AWSShapeProperty(label: "type", required: false, type: .enum), 
+            AWSShapeProperty(label: "downlinkBandwidthBits", required: false, type: .long), 
+            AWSShapeProperty(label: "projectArn", required: true, type: .string)
         ]
         /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
         public let uplinkJitterMs: Int64?
@@ -591,7 +591,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "arn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "arn", required: true, type: .string)
         ]
         /// The device pool's ARN.
         public let arn: String
@@ -610,18 +610,18 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "billingMethod", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "status", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "endpoint", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "created", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "started", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "stopped", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "deviceMinutes", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "message", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "device", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "result", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "arn", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "billingMethod", required: false, type: .enum), 
+            AWSShapeProperty(label: "status", required: false, type: .enum), 
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "endpoint", required: false, type: .string), 
+            AWSShapeProperty(label: "created", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "started", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "stopped", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "deviceMinutes", required: false, type: .structure), 
+            AWSShapeProperty(label: "message", required: false, type: .string), 
+            AWSShapeProperty(label: "device", required: false, type: .structure), 
+            AWSShapeProperty(label: "result", required: false, type: .enum), 
+            AWSShapeProperty(label: "arn", required: false, type: .string)
         ]
         /// The billing method of the remote access session. Possible values include METERED or UNMETERED. For more information about metered devices, see AWS Device Farm terminology."
         public let billingMethod: BillingMethod?
@@ -683,8 +683,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "frequency", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "cost", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "frequency", required: false, type: .enum), 
+            AWSShapeProperty(label: "cost", required: false, type: .structure)
         ]
         /// The frequency in which charges will recur.
         public let frequency: RecurringChargeFrequency?
@@ -706,17 +706,17 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "created", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "started", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "deviceMinutes", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "stopped", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "message", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "type", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "result", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "counters", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "arn", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "status", required: false, type: .enum), 
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "created", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "started", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "deviceMinutes", required: false, type: .structure), 
+            AWSShapeProperty(label: "stopped", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "message", required: false, type: .string), 
+            AWSShapeProperty(label: "type", required: false, type: .enum), 
+            AWSShapeProperty(label: "result", required: false, type: .enum), 
+            AWSShapeProperty(label: "counters", required: false, type: .structure), 
+            AWSShapeProperty(label: "arn", required: false, type: .string)
         ]
         /// The suite's status. Allowed values include:   PENDING: A pending status.   PENDING_CONCURRENCY: A pending concurrency status.   PENDING_DEVICE: A pending device status.   PROCESSING: A processing status.   SCHEDULING: A scheduling status.   PREPARING: A preparing status.   RUNNING: A running status.   COMPLETED: A completed status.   STOPPING: A stopping status.  
         public let status: ExecutionStatus?
@@ -774,7 +774,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "arn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "arn", required: true, type: .string)
         ]
         /// Represents the Amazon Resource Name (ARN) of the Device Farm upload you wish to delete.
         public let arn: String
@@ -793,8 +793,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "arn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "arn", required: true, type: .string)
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -830,8 +830,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "arn", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "arn", required: false, type: .string)
         ]
         /// The problem detail's name.
         public let name: String?
@@ -853,13 +853,13 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "extraDataPackageArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "location", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "networkProfileArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "auxiliaryApps", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "radios", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "locale", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "billingMethod", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "extraDataPackageArn", required: false, type: .string), 
+            AWSShapeProperty(label: "location", required: false, type: .structure), 
+            AWSShapeProperty(label: "networkProfileArn", required: false, type: .string), 
+            AWSShapeProperty(label: "auxiliaryApps", required: false, type: .list), 
+            AWSShapeProperty(label: "radios", required: false, type: .structure), 
+            AWSShapeProperty(label: "locale", required: false, type: .string), 
+            AWSShapeProperty(label: "billingMethod", required: false, type: .enum)
         ]
         /// The ARN of the extra data for the run. The extra data is a .zip file that AWS Device Farm will extract to external data for Android or the app's sandbox for iOS.
         public let extraDataPackageArn: String?
@@ -901,7 +901,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "job", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "job", required: false, type: .structure)
         ]
         /// An object containing information about the requested job.
         public let job: Job?
@@ -928,8 +928,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "offerings", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "offerings", required: false, type: .list)
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -955,7 +955,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "run", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "run", required: false, type: .structure)
         ]
         /// The run that was stopped.
         public let run: Run?
@@ -973,13 +973,13 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "projectArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "executionConfiguration", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "test", location: nil, required: true, type: .structure), 
-            AWSShapeProperty(label: "appArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "devicePoolArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "configuration", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "projectArn", required: true, type: .string), 
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "executionConfiguration", required: false, type: .structure), 
+            AWSShapeProperty(label: "test", required: true, type: .structure), 
+            AWSShapeProperty(label: "appArn", required: false, type: .string), 
+            AWSShapeProperty(label: "devicePoolArn", required: true, type: .string), 
+            AWSShapeProperty(label: "configuration", required: false, type: .structure)
         ]
         /// The ARN of the project for the run to be scheduled.
         public let projectArn: String
@@ -1053,11 +1053,11 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "type", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "extension", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "url", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "arn", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "type", required: false, type: .enum), 
+            AWSShapeProperty(label: "extension", required: false, type: .string), 
+            AWSShapeProperty(label: "url", required: false, type: .string), 
+            AWSShapeProperty(label: "arn", required: false, type: .string)
         ]
         /// The artifact's name.
         public let name: String?
@@ -1091,7 +1091,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "networkProfile", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "networkProfile", required: false, type: .structure)
         ]
         /// The network profile that is returned by the create network profile request.
         public let networkProfile: NetworkProfile?
@@ -1109,7 +1109,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "arn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "arn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the network profile you want to delete.
         public let arn: String
@@ -1128,10 +1128,10 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "created", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "defaultJobTimeoutMinutes", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "arn", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "created", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "defaultJobTimeoutMinutes", required: false, type: .integer), 
+            AWSShapeProperty(label: "arn", required: false, type: .string)
         ]
         /// The project's name.
         public let name: String?
@@ -1161,7 +1161,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "run", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "run", required: false, type: .structure)
         ]
         /// Information about the scheduled run.
         public let run: Run?
@@ -1179,7 +1179,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "arn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "arn", required: true, type: .string)
         ]
         /// The run's ARN.
         public let arn: String
@@ -1198,8 +1198,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "networkProfiles", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "networkProfiles", required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
         /// A list of the available network profiles.
         public let networkProfiles: [NetworkProfile]?
@@ -1225,8 +1225,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "arn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "arn", required: true, type: .string)
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -1249,8 +1249,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "defaultJobTimeoutMinutes", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "name", required: true, type: .string), 
+            AWSShapeProperty(label: "defaultJobTimeoutMinutes", required: false, type: .integer)
         ]
         /// The project's name.
         public let name: String
@@ -1273,7 +1273,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "remoteAccessSession", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "remoteAccessSession", required: false, type: .structure)
         ]
         /// A container that lists detailed information about the remote access session.
         public let remoteAccessSession: RemoteAccessSession?
@@ -1291,7 +1291,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "devicePool", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "devicePool", required: false, type: .structure)
         ]
         /// The device pool you just updated.
         public let devicePool: DevicePool?
@@ -1309,8 +1309,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "offeringId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "quantity", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "offeringId", required: false, type: .string), 
+            AWSShapeProperty(label: "quantity", required: false, type: .integer)
         ]
         /// The ID of the offering.
         public let offeringId: String?
@@ -1368,7 +1368,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "arn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "arn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the remote access session you wish to stop.
         public let arn: String
@@ -1394,7 +1394,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "upload", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "upload", required: false, type: .structure)
         ]
         /// The newly created upload.
         public let upload: Upload?
@@ -1412,8 +1412,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "problems", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "message", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "problems", required: false, type: .list), 
+            AWSShapeProperty(label: "message", required: false, type: .string)
         ]
         /// Information about the problems.
         public let problems: [Problem]?
@@ -1439,7 +1439,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "networkProfile", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "networkProfile", required: false, type: .structure)
         ]
         /// A list of the available network profiles.
         public let networkProfile: NetworkProfile?
@@ -1457,9 +1457,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "type", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "arn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "type", required: false, type: .enum), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "arn", required: true, type: .string)
         ]
         /// The type of network profile you wish to return information about. Valid values are listed below.
         public let `type`: NetworkProfileType?
@@ -1486,7 +1486,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "arn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "arn", required: true, type: .string)
         ]
         /// The job's ARN.
         public let arn: String
@@ -1505,8 +1505,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "runs", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "runs", required: false, type: .list)
         ]
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
@@ -1532,8 +1532,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "tests", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "tests", required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
         /// Information about the tests.
         public let tests: [Test]?
@@ -1567,10 +1567,10 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "transactionId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "cost", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "createdOn", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "offeringStatus", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "transactionId", required: false, type: .string), 
+            AWSShapeProperty(label: "cost", required: false, type: .structure), 
+            AWSShapeProperty(label: "createdOn", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "offeringStatus", required: false, type: .structure)
         ]
         /// The transaction ID of the offering transaction.
         public let transactionId: String?
@@ -1605,8 +1605,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "devices", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "devices", required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
         /// Information about the devices.
         public let devices: [Device]?
@@ -1632,8 +1632,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "uploads", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "uploads", required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
         /// Information about the uploads.
         public let uploads: [Upload]?
@@ -1659,11 +1659,11 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "description", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "recurringCharges", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "id", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "type", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "platform", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "recurringCharges", required: false, type: .list), 
+            AWSShapeProperty(label: "id", required: false, type: .string), 
+            AWSShapeProperty(label: "type", required: false, type: .enum), 
+            AWSShapeProperty(label: "platform", required: false, type: .enum)
         ]
         /// A string describing the offering.
         public let description: String?
@@ -1701,7 +1701,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "suite", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "suite", required: false, type: .structure)
         ]
         /// A collection of one or more tests.
         public let suite: Suite?
@@ -1719,7 +1719,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "arn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "arn", required: true, type: .string)
         ]
         /// The suite's ARN.
         public let arn: String
@@ -1738,7 +1738,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "arn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "arn", required: true, type: .string)
         ]
         /// The upload's ARN.
         public let arn: String
@@ -1757,17 +1757,17 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "created", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "started", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "deviceMinutes", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "stopped", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "message", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "type", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "result", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "counters", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "arn", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "status", required: false, type: .enum), 
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "created", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "started", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "deviceMinutes", required: false, type: .structure), 
+            AWSShapeProperty(label: "stopped", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "message", required: false, type: .string), 
+            AWSShapeProperty(label: "type", required: false, type: .enum), 
+            AWSShapeProperty(label: "result", required: false, type: .enum), 
+            AWSShapeProperty(label: "counters", required: false, type: .structure), 
+            AWSShapeProperty(label: "arn", required: false, type: .string)
         ]
         /// The test's status. Allowed values include:   PENDING: A pending status.   PENDING_CONCURRENCY: A pending concurrency status.   PENDING_DEVICE: A pending device status.   PROCESSING: A processing status.   SCHEDULING: A scheduling status.   PREPARING: A preparing status.   RUNNING: A running status.   COMPLETED: A completed status.   STOPPING: A stopping status.  
         public let status: ExecutionStatus?
@@ -1825,7 +1825,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "arn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "arn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the sesssion for which you want to delete remote access.
         public let arn: String
@@ -1844,9 +1844,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextPeriod", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "current", location: nil, required: false, type: .map)
+            AWSShapeProperty(label: "nextPeriod", required: false, type: .map), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "current", required: false, type: .map)
         ]
         /// When specified, gets the offering status for the next period.
         public let nextPeriod: [String: OfferingStatus]?
@@ -1908,7 +1908,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -1926,8 +1926,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "type", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "message", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "type", required: false, type: .enum), 
+            AWSShapeProperty(label: "message", required: false, type: .string)
         ]
         /// The type of incompatibility. Allowed values include:   ARN: The ARN.   FORM_FACTOR: The form factor (for example, phone or tablet).   MANUFACTURER: The manufacturer.   PLATFORM: The platform (for example, Android or iOS).  
         public let `type`: DeviceAttribute?
@@ -1949,10 +1949,10 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "contentType", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "type", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "projectArn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "name", required: true, type: .string), 
+            AWSShapeProperty(label: "contentType", required: false, type: .string), 
+            AWSShapeProperty(label: "type", required: true, type: .enum), 
+            AWSShapeProperty(label: "projectArn", required: true, type: .string)
         ]
         /// The upload's file name. The name should not contain the '/' character. If uploading an iOS app, the file name needs to end with the .ipa extension. If uploading an Android app, the file name needs to end with the .apk extension. For all others, the file name must end with the .zip file extension.
         public let name: String
@@ -1985,7 +1985,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "project", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "project", required: false, type: .structure)
         ]
         /// The project you wish to update.
         public let project: Project?
@@ -2003,10 +2003,10 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "filter", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "type", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "testPackageArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "parameters", location: nil, required: false, type: .map)
+            AWSShapeProperty(label: "filter", required: false, type: .string), 
+            AWSShapeProperty(label: "type", required: true, type: .enum), 
+            AWSShapeProperty(label: "testPackageArn", required: false, type: .string), 
+            AWSShapeProperty(label: "parameters", required: false, type: .map)
         ]
         /// The test's filter.
         public let filter: String?
@@ -2049,8 +2049,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "arn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "arn", required: true, type: .string)
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -2073,7 +2073,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "remoteAccessSession", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "remoteAccessSession", required: false, type: .structure)
         ]
         /// A container that describes the remote access session when the request to create a remote access session is sent.
         public let remoteAccessSession: RemoteAccessSession?
@@ -2091,7 +2091,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "arn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "arn", required: true, type: .string)
         ]
         /// The device type's ARN.
         public let arn: String
@@ -2110,10 +2110,10 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "wifi", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "bluetooth", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "nfc", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "gps", location: nil, required: false, type: .boolean)
+            AWSShapeProperty(label: "wifi", required: false, type: .boolean), 
+            AWSShapeProperty(label: "bluetooth", required: false, type: .boolean), 
+            AWSShapeProperty(label: "nfc", required: false, type: .boolean), 
+            AWSShapeProperty(label: "gps", required: false, type: .boolean)
         ]
         /// True if Wi-Fi is enabled at the beginning of the test; otherwise, false.
         public let wifi: Bool?
@@ -2149,7 +2149,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "run", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "run", required: false, type: .structure)
         ]
         /// The run you wish to get results from.
         public let run: Run?
@@ -2167,7 +2167,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "offeringTransaction", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "offeringTransaction", required: false, type: .structure)
         ]
         /// Represents the status of the offering transaction for the renewal.
         public let offeringTransaction: OfferingTransaction?
@@ -2191,7 +2191,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "arn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "arn", required: true, type: .string)
         ]
         /// Represents the Amazon Resource Name (ARN) of the Device Farm device pool you wish to delete.
         public let arn: String
@@ -2210,10 +2210,10 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "deviceArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "projectArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "configuration", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "deviceArn", required: true, type: .string), 
+            AWSShapeProperty(label: "projectArn", required: true, type: .string), 
+            AWSShapeProperty(label: "configuration", required: false, type: .structure)
         ]
         /// The name of the remote access session that you wish to create.
         public let name: String?
@@ -2245,8 +2245,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "jobs", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "jobs", required: false, type: .list)
         ]
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
@@ -2272,8 +2272,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "samples", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "samples", required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
         /// Information about the samples.
         public let samples: [Sample]?
@@ -2299,10 +2299,10 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "description", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "name", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "rules", location: nil, required: true, type: .list), 
-            AWSShapeProperty(label: "projectArn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "name", required: true, type: .string), 
+            AWSShapeProperty(label: "rules", required: true, type: .list), 
+            AWSShapeProperty(label: "projectArn", required: true, type: .string)
         ]
         /// The device pool's description.
         public let description: String?
@@ -2335,8 +2335,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "projects", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "projects", required: false, type: .list)
         ]
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
@@ -2362,10 +2362,10 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "quantity", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "type", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "effectiveOn", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "offering", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "quantity", required: false, type: .integer), 
+            AWSShapeProperty(label: "type", required: false, type: .enum), 
+            AWSShapeProperty(label: "effectiveOn", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "offering", required: false, type: .structure)
         ]
         /// The number of available devices in the offering.
         public let quantity: Int32?
@@ -2395,9 +2395,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "type", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "arn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "type", required: false, type: .enum), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "arn", required: true, type: .string)
         ]
         /// The device pools' type. Allowed values include:   CURATED: A device pool that is created and managed by AWS Device Farm.   PRIVATE: A device pool that is created and managed by the device pool developer.  
         public let `type`: DevicePoolType?
@@ -2424,8 +2424,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "arn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "arn", required: true, type: .string)
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -2448,22 +2448,22 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "platform", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "type", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "result", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "arn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "status", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "completedJobs", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "created", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "started", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "totalJobs", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "stopped", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "deviceMinutes", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "message", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "networkProfile", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "counters", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "billingMethod", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "platform", required: false, type: .enum), 
+            AWSShapeProperty(label: "type", required: false, type: .enum), 
+            AWSShapeProperty(label: "result", required: false, type: .enum), 
+            AWSShapeProperty(label: "arn", required: false, type: .string), 
+            AWSShapeProperty(label: "status", required: false, type: .enum), 
+            AWSShapeProperty(label: "completedJobs", required: false, type: .integer), 
+            AWSShapeProperty(label: "created", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "started", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "totalJobs", required: false, type: .integer), 
+            AWSShapeProperty(label: "stopped", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "deviceMinutes", required: false, type: .structure), 
+            AWSShapeProperty(label: "message", required: false, type: .string), 
+            AWSShapeProperty(label: "networkProfile", required: false, type: .structure), 
+            AWSShapeProperty(label: "counters", required: false, type: .structure), 
+            AWSShapeProperty(label: "billingMethod", required: false, type: .enum)
         ]
         /// The run's name.
         public let name: String?
@@ -2541,9 +2541,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "device", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "compatible", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "incompatibilityMessages", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "device", required: false, type: .structure), 
+            AWSShapeProperty(label: "compatible", required: false, type: .boolean), 
+            AWSShapeProperty(label: "incompatibilityMessages", required: false, type: .list)
         ]
         /// The device (phone or tablet) that you wish to return information about.
         public let device: Device?
@@ -2573,15 +2573,15 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "metadata", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "status", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "contentType", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "created", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "message", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "type", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "url", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "arn", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "metadata", required: false, type: .string), 
+            AWSShapeProperty(label: "status", required: false, type: .enum), 
+            AWSShapeProperty(label: "contentType", required: false, type: .string), 
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "created", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "message", required: false, type: .string), 
+            AWSShapeProperty(label: "type", required: false, type: .enum), 
+            AWSShapeProperty(label: "url", required: false, type: .string), 
+            AWSShapeProperty(label: "arn", required: false, type: .string)
         ]
         /// The upload's metadata. For example, for Android, this contains information that is parsed from the manifest and is displayed in the AWS Device Farm console after the associated app is uploaded.
         public let metadata: String?
@@ -2631,7 +2631,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -2665,8 +2665,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "devicePools", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "devicePools", required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
         /// Information about the device pools.
         public let devicePools: [DevicePool]?
@@ -2692,8 +2692,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "offeringTransactions", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "offeringTransactions", required: false, type: .list)
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -2725,8 +2725,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "arn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "arn", required: true, type: .string)
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -2749,9 +2749,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "frequency", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "architecture", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "clock", location: nil, required: false, type: .double)
+            AWSShapeProperty(label: "frequency", required: false, type: .string), 
+            AWSShapeProperty(label: "architecture", required: false, type: .string), 
+            AWSShapeProperty(label: "clock", required: false, type: .double)
         ]
         /// The CPU's frequency.
         public let frequency: String?
@@ -2777,7 +2777,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "appUpload", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "appUpload", required: false, type: .structure)
         ]
         /// An app to upload or that has been uploaded.
         public let appUpload: Upload?
@@ -2795,7 +2795,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "arn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "arn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the network profile you want to return information about.
         public let arn: String
@@ -2814,13 +2814,13 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "warned", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "errored", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "failed", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "skipped", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "passed", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "stopped", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "total", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "warned", required: false, type: .integer), 
+            AWSShapeProperty(label: "errored", required: false, type: .integer), 
+            AWSShapeProperty(label: "failed", required: false, type: .integer), 
+            AWSShapeProperty(label: "skipped", required: false, type: .integer), 
+            AWSShapeProperty(label: "passed", required: false, type: .integer), 
+            AWSShapeProperty(label: "stopped", required: false, type: .integer), 
+            AWSShapeProperty(label: "total", required: false, type: .integer)
         ]
         /// The number of warned entities.
         public let warned: Int32?
@@ -2870,9 +2870,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "total", location: nil, required: false, type: .double), 
-            AWSShapeProperty(label: "metered", location: nil, required: false, type: .double), 
-            AWSShapeProperty(label: "unmetered", location: nil, required: false, type: .double)
+            AWSShapeProperty(label: "total", required: false, type: .double), 
+            AWSShapeProperty(label: "metered", required: false, type: .double), 
+            AWSShapeProperty(label: "unmetered", required: false, type: .double)
         ]
         /// When specified, represents the total minutes used by the resource to run tests.
         public let total: Double?
@@ -2898,8 +2898,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "arn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "arn", required: true, type: .string)
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -2922,9 +2922,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "type", location: nil, required: true, type: .enum), 
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "arn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "type", required: true, type: .enum), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "arn", required: true, type: .string)
         ]
         /// The artifacts' type. Allowed values include:   FILE: The artifacts are files.   LOG: The artifacts are logs.   SCREENSHOT: The artifacts are screenshots.  
         public let `type`: ArtifactCategory
@@ -2952,7 +2952,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "arn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "arn", required: true, type: .string)
         ]
         /// The test's ARN.
         public let arn: String
@@ -2971,7 +2971,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "device", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "device", required: false, type: .structure)
         ]
         /// An object containing information about the requested device.
         public let device: Device?
@@ -2989,7 +2989,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "arn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "arn", required: true, type: .string)
         ]
         /// Represents the Amazon Resource Name (ARN) of the Device Farm project you wish to delete.
         public let arn: String
@@ -3021,7 +3021,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "arn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "arn", required: true, type: .string)
         ]
         /// Represents the Amazon Resource Name (ARN) of the Device Farm run you wish to stop.
         public let arn: String
@@ -3045,8 +3045,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "uniqueProblems", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "uniqueProblems", required: false, type: .map), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
         /// Information about the unique problems. Allowed values include:   PENDING: A pending condition.   PASSED: A passing condition.   WARNED: A warning condition.   FAILED: A failed condition.   SKIPPED: A skipped condition.   ERRORED: An error condition.   STOPPED: A stopped condition.  
         public let uniqueProblems: [ExecutionResult: [UniqueProblem]]?
@@ -3084,13 +3084,13 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "test", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "suite", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "job", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "message", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "device", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "run", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "result", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "test", required: false, type: .structure), 
+            AWSShapeProperty(label: "suite", required: false, type: .structure), 
+            AWSShapeProperty(label: "job", required: false, type: .structure), 
+            AWSShapeProperty(label: "message", required: false, type: .string), 
+            AWSShapeProperty(label: "device", required: false, type: .structure), 
+            AWSShapeProperty(label: "run", required: false, type: .structure), 
+            AWSShapeProperty(label: "result", required: false, type: .enum)
         ]
         /// Information about the associated test.
         public let test: ProblemDetail?
@@ -3132,9 +3132,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "type", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "url", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "arn", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "type", required: false, type: .enum), 
+            AWSShapeProperty(label: "url", required: false, type: .string), 
+            AWSShapeProperty(label: "arn", required: false, type: .string)
         ]
         /// The sample's type. Must be one of the following values:   CPU: A CPU sample type. This is expressed as the app processing CPU time (including child processes) as reported by process, as a percentage.   MEMORY: A memory usage sample type. This is expressed as the total proportional set size of an app process, in kilobytes.   NATIVE_AVG_DRAWTIME   NATIVE_FPS   NATIVE_FRAMES   NATIVE_MAX_DRAWTIME   NATIVE_MIN_DRAWTIME   OPENGL_AVG_DRAWTIME   OPENGL_FPS   OPENGL_FRAMES   OPENGL_MAX_DRAWTIME   OPENGL_MIN_DRAWTIME   RX   RX_RATE: The total number of bytes per second (TCP and UDP) that are sent, by app process.   THREADS: A threads sample type. This is expressed as the total number of threads per app process.   TX   TX_RATE: The total number of bytes per second (TCP and UDP) that are received, by app process.  
         public let `type`: SampleType?
@@ -3160,7 +3160,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "arn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "arn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) for the run you wish to delete.
         public let arn: String
@@ -3179,7 +3179,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "devicePool", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "devicePool", required: false, type: .structure)
         ]
         /// The newly created device pool.
         public let devicePool: DevicePool?
@@ -3197,10 +3197,10 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "description", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "rules", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "arn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "rules", required: false, type: .list), 
+            AWSShapeProperty(label: "arn", required: true, type: .string)
         ]
         /// A description of the device pool you wish to update.
         public let description: String?
@@ -3256,7 +3256,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -3274,11 +3274,11 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "awsAccountNumber", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "unmeteredDevices", location: nil, required: false, type: .map), 
-            AWSShapeProperty(label: "defaultJobTimeoutMinutes", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "maxJobTimeoutMinutes", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "unmeteredRemoteAccessDevices", location: nil, required: false, type: .map)
+            AWSShapeProperty(label: "awsAccountNumber", required: false, type: .string), 
+            AWSShapeProperty(label: "unmeteredDevices", required: false, type: .map), 
+            AWSShapeProperty(label: "defaultJobTimeoutMinutes", required: false, type: .integer), 
+            AWSShapeProperty(label: "maxJobTimeoutMinutes", required: false, type: .integer), 
+            AWSShapeProperty(label: "unmeteredRemoteAccessDevices", required: false, type: .map)
         ]
         /// The AWS account number specified in the AccountSettings container.
         public let awsAccountNumber: String?
@@ -3320,7 +3320,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "remoteAccessSession", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "remoteAccessSession", required: false, type: .structure)
         ]
         /// A container representing the metadata from the service about the remote access session you are stopping.
         public let remoteAccessSession: RemoteAccessSession?
@@ -3338,8 +3338,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "artifacts", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "artifacts", required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
         /// Information about the artifacts.
         public let artifacts: [Artifact]?
@@ -3365,7 +3365,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "networkProfile", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "networkProfile", required: false, type: .structure)
         ]
         /// The network profile.
         public let networkProfile: NetworkProfile?
@@ -3383,8 +3383,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "longitude", location: nil, required: true, type: .double), 
-            AWSShapeProperty(label: "latitude", location: nil, required: true, type: .double)
+            AWSShapeProperty(label: "longitude", required: true, type: .double), 
+            AWSShapeProperty(label: "latitude", required: true, type: .double)
         ]
         /// The longitude.
         public let longitude: Double
@@ -3408,7 +3408,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "accountSettings", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "accountSettings", required: false, type: .structure)
         ]
         /// The account settings.
         public let accountSettings: AccountSettings?
@@ -3426,9 +3426,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "appArn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "devicePoolArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "testType", location: nil, required: false, type: .enum)
+            AWSShapeProperty(label: "appArn", required: false, type: .string), 
+            AWSShapeProperty(label: "devicePoolArn", required: true, type: .string), 
+            AWSShapeProperty(label: "testType", required: false, type: .enum)
         ]
         /// The ARN of the app that is associated with the specified device pool.
         public let appArn: String?
@@ -3455,8 +3455,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "height", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "width", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "height", required: false, type: .integer), 
+            AWSShapeProperty(label: "width", required: false, type: .integer)
         ]
         /// The screen resolution's height, expressed in pixels.
         public let height: Int32?
@@ -3478,8 +3478,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "offeringId", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "quantity", location: nil, required: false, type: .integer)
+            AWSShapeProperty(label: "offeringId", required: false, type: .string), 
+            AWSShapeProperty(label: "quantity", required: false, type: .integer)
         ]
         /// The ID of a request to renew an offering.
         public let offeringId: String?
@@ -3501,23 +3501,23 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "cpu", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "platform", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "heapSize", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "model", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "radio", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "arn", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "memory", location: nil, required: false, type: .long), 
-            AWSShapeProperty(label: "resolution", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "os", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "image", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "remoteAccessEnabled", location: nil, required: false, type: .boolean), 
-            AWSShapeProperty(label: "formFactor", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "fleetType", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "fleetName", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "manufacturer", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "carrier", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "cpu", required: false, type: .structure), 
+            AWSShapeProperty(label: "platform", required: false, type: .enum), 
+            AWSShapeProperty(label: "heapSize", required: false, type: .long), 
+            AWSShapeProperty(label: "model", required: false, type: .string), 
+            AWSShapeProperty(label: "radio", required: false, type: .string), 
+            AWSShapeProperty(label: "arn", required: false, type: .string), 
+            AWSShapeProperty(label: "memory", required: false, type: .long), 
+            AWSShapeProperty(label: "resolution", required: false, type: .structure), 
+            AWSShapeProperty(label: "os", required: false, type: .string), 
+            AWSShapeProperty(label: "image", required: false, type: .string), 
+            AWSShapeProperty(label: "remoteAccessEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "formFactor", required: false, type: .enum), 
+            AWSShapeProperty(label: "fleetType", required: false, type: .string), 
+            AWSShapeProperty(label: "fleetName", required: false, type: .string), 
+            AWSShapeProperty(label: "manufacturer", required: false, type: .string), 
+            AWSShapeProperty(label: "carrier", required: false, type: .string)
         ]
         /// The device's display name.
         public let name: String?
@@ -3599,8 +3599,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "arn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "arn", required: true, type: .string)
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -3623,18 +3623,18 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "device", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "status", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "created", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "started", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "stopped", location: nil, required: false, type: .timestamp), 
-            AWSShapeProperty(label: "deviceMinutes", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "message", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "type", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "result", location: nil, required: false, type: .enum), 
-            AWSShapeProperty(label: "counters", location: nil, required: false, type: .structure), 
-            AWSShapeProperty(label: "arn", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "device", required: false, type: .structure), 
+            AWSShapeProperty(label: "status", required: false, type: .enum), 
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "created", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "started", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "stopped", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "deviceMinutes", required: false, type: .structure), 
+            AWSShapeProperty(label: "message", required: false, type: .string), 
+            AWSShapeProperty(label: "type", required: false, type: .enum), 
+            AWSShapeProperty(label: "result", required: false, type: .enum), 
+            AWSShapeProperty(label: "counters", required: false, type: .structure), 
+            AWSShapeProperty(label: "arn", required: false, type: .string)
         ]
         /// The device (phone or tablet).
         public let device: Device?
@@ -3696,7 +3696,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "arn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "arn", required: true, type: .string)
         ]
         /// The project's ARN.
         public let arn: String
@@ -3715,8 +3715,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "arn", location: nil, required: false, type: .string)
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "arn", required: false, type: .string)
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -3738,9 +3738,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: nil, required: false, type: .string), 
-            AWSShapeProperty(label: "defaultJobTimeoutMinutes", location: nil, required: false, type: .integer), 
-            AWSShapeProperty(label: "arn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "defaultJobTimeoutMinutes", required: false, type: .integer), 
+            AWSShapeProperty(label: "arn", required: true, type: .string)
         ]
         /// A string representing the new name of the project that you are updating.
         public let name: String?
@@ -3784,8 +3784,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "appArn", location: nil, required: true, type: .string), 
-            AWSShapeProperty(label: "remoteAccessSessionArn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "appArn", required: true, type: .string), 
+            AWSShapeProperty(label: "remoteAccessSessionArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the app about which you are requesting information.
         public let appArn: String
@@ -3809,8 +3809,8 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "incompatibleDevices", location: nil, required: false, type: .list), 
-            AWSShapeProperty(label: "compatibleDevices", location: nil, required: false, type: .list)
+            AWSShapeProperty(label: "incompatibleDevices", required: false, type: .list), 
+            AWSShapeProperty(label: "compatibleDevices", required: false, type: .list)
         ]
         /// Information about incompatible devices.
         public let incompatibleDevices: [DevicePoolCompatibilityResult]?
@@ -3840,7 +3840,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "arn", location: nil, required: true, type: .string)
+            AWSShapeProperty(label: "arn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the remote access session about which you want to get session information.
         public let arn: String
@@ -3859,7 +3859,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "project", location: nil, required: false, type: .structure)
+            AWSShapeProperty(label: "project", required: false, type: .structure)
         ]
         /// The project you wish to get information about.
         public let project: Project?
