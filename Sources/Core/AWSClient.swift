@@ -77,7 +77,23 @@ public struct AWSClient {
         self.serviceProtocol = serviceProtocol
         self.possibleErrorTypes = possibleErrorTypes ?? []
     }
-    
+}
+
+// invoker
+extension AWSClient {
+    fileprivate func invoke(request: Request) throws -> Response {
+        // TODO implement Keep-alive
+        let client = try HTTPClient(url: request.url)
+        try client.open()
+        let response = try client.request(request)
+        client.close()
+        
+        return response
+    }
+}
+
+// public facing apis
+extension AWSClient {
     public func send<Input: AWSShape>(operation operationName: String, path: String, httpMethod: String, input: Input) throws {
         let request = try createRequest(
             operation: operationName,
@@ -102,7 +118,7 @@ public struct AWSClient {
     
     public func send<Output: AWSShape, Input: AWSShape>(operation operationName: String, path: String, httpMethod: String, input: Input)
         throws -> Output {
-
+            
         let request = try createRequest(
             operation: operationName,
             path: path,
@@ -111,39 +127,44 @@ public struct AWSClient {
         )
         return try validate(operation: operationName, response: try self.request(request))
     }
+}
+
+// request creator
+extension AWSClient {
+    func createProrsumRequestWithSignedURL(_ request: AWSRequest) throws -> Request {
+        var prorsumRequest = try request.toProrsumRequest()
+        prorsumRequest.url = signer.signedURL(url: prorsumRequest.url)
+        prorsumRequest.headers["Host"] = prorsumRequest.url.hostWithPort!
+        return prorsumRequest
+    }
     
-    public func request(_ request: AWSRequest) throws -> Prorsum.Response {
-        
-        func createProrsumRequestWithSignedURL(_ request: AWSRequest) throws -> Request {
-            var prorsumRequest = try request.toProrsumRequest()
-            prorsumRequest.url = signer.signedURL(url: prorsumRequest.url)
-            prorsumRequest.headers["Host"] = prorsumRequest.url.hostWithPort!
-            return prorsumRequest
+    func createProrsumRequestWithSignedHeader(_ request: AWSRequest) throws -> Request {
+        return try prorsumRequestWithSignedHeader(request.toProrsumRequest())
+    }
+    
+    func prorsumRequestWithSignedHeader(_ prorsumRequest: Request) throws -> Request {
+        var prorsumRequest = prorsumRequest
+        // TODO avoid copying
+        var headers: [String: String] = [:]
+        for (key, value) in prorsumRequest.headers {
+            headers[key.description] = value
         }
         
-        func createProrsumRequestWithSignedHeader(_ request: AWSRequest) throws -> Request {
-            var prorsumRequest = try request.toProrsumRequest()
-            // TODO avoid copying
-            var headers: [String: String] = [:]
-            for (key, value) in prorsumRequest.headers {
-                headers[key.description] = value
-            }
-            
-            let signedHeaders = signer.signedHeaders(
-                url: prorsumRequest.url,
-                headers: headers,
-                method: prorsumRequest.method.rawValue,
-                bodyData: prorsumRequest.body.asData()
-            )
-            
-            for (key, value) in signedHeaders {
-                prorsumRequest.headers[key] = value
-            }
-            
-            return prorsumRequest
+        let signedHeaders = signer.signedHeaders(
+            url: prorsumRequest.url,
+            headers: headers,
+            method: prorsumRequest.method.rawValue,
+            bodyData: prorsumRequest.body.asData()
+        )
+        
+        for (key, value) in signedHeaders {
+            prorsumRequest.headers[key] = value
         }
         
-        
+        return prorsumRequest
+    }
+    
+    func request(_ request: AWSRequest) throws -> Prorsum.Response {
         let prorsumRequest: Request
         switch request.httpMethod {
         case "GET":
@@ -158,19 +179,116 @@ public struct AWSClient {
             prorsumRequest = try createProrsumRequestWithSignedHeader(request)
         }
         
-        // TODO implement Keep-alive
-        let client = try HTTPClient(url: prorsumRequest.url)
-        try client.open()
-        let response = try client.request(prorsumRequest)
-        client.close()
-
-        return response
+        return try invoke(request: prorsumRequest)
     }
     
-    private func validate<Output: AWSShape>(operation operationName: String, response: Prorsum.Response) throws -> Output {
+    fileprivate func createRequest(operation operationName: String, path: String, httpMethod: String, context: InputContext? = nil) throws -> AWSRequest {
+        var headers: [String: String] = [:]
+        var body: Body = .empty
+        var path = path
+        var queryParams = [URLQueryItem]()
+        
+        if let ctx = context {
+            let mirror = Mirror(reflecting: ctx.input)
+            
+            for (key, value) in ctx.Shape.headerParams {
+                if let attr = mirror.getAttribute(forKey: value.toSwiftVariableCase()) {
+                    headers[key] = "\(attr)"
+                }
+            }
+            
+            for (key, value) in ctx.Shape.queryParams {
+                if let attr = mirror.getAttribute(forKey: value.toSwiftVariableCase()) {
+                    queryParams.append(URLQueryItem(name: key, value: "\(attr)"))
+                }
+            }
+            
+            for (key, value) in ctx.Shape.pathParams {
+                if let attr = mirror.getAttribute(forKey: value.toSwiftVariableCase()) {
+                    path = path.replacingOccurrences(of: "{\(key)}", with: "\(attr)").replacingOccurrences(of: "{\(key)+}", with: "\(attr)")
+                }
+            }
+            
+            if !queryParams.isEmpty {
+                let separator = path.contains("?") ? "&" : "?"
+                path = path+separator+queryParams.asStringForURL
+            }
+            
+            switch serviceProtocol {
+            case .json, .restjson:
+                if let payload = ctx.Shape.payload, let payloadBody = mirror.getAttribute(forKey: payload.toSwiftVariableCase()) {
+                    body = Body(anyValue: payloadBody)
+                    headers.removeValue(forKey: payload.toSwiftVariableCase())
+                } else {
+                    body = .json(try ctx.input.serializeToDictionary())
+                }
+                
+            case .query:
+                var dict = try ctx.input.serializeToDictionary()
+                dict["Action"] = operationName
+                dict["Version"] = apiVersion
+                
+                var queryItems = [String]()
+                let keys = Array(dict.keys).sorted {$0.localizedCompare($1) == ComparisonResult.orderedAscending }
+                
+                for key in keys {
+                    if let value = dict[key] {
+                        queryItems.append("\(key)=\(value)")
+                    }
+                }
+                
+                let params = queryItems.joined(separator: "&").percentEncoded(allowing: Characters.uriAWSQueryAllowed)
+                
+                if path.contains("?") {
+                    path += "&" + params
+                } else {
+                    path += "?" + params
+                }
+                
+                body = .text(params)
+                
+            case .restxml:
+                if let payload = ctx.Shape.payload, let payloadBody = mirror.getAttribute(forKey: payload.toSwiftVariableCase()) {
+                    body = Body(anyValue: payloadBody)
+                    headers.removeValue(forKey: payload.toSwiftVariableCase())
+                } else {
+                    body = .xml(try ctx.input.serializeToXMLNode())
+                }
+                
+            case .other(let proto):
+                switch proto.lowercased() {
+                case "ec2":
+                    var params = try ctx.input.serializeToDictionary()
+                    params["Action"] = operationName
+                    params["Version"] = apiVersion
+                    body = .text(params.map({ "\($0.key)=\($0.value)" }).joined(separator: "&"))
+                default:
+                    break
+                }
+            }
+        }
+        
+        return AWSRequest(
+            region: self.signer.region,
+            url: URL(string:  "\(endpoint)\(path)")!,
+            service: signer.service,
+            amzTarget: amzTarget,
+            operation: operationName,
+            httpMethod: httpMethod,
+            httpHeaders: headers,
+            body: body,
+            middlewares: middlewares
+        )
+    }
+}
+
+// response validator
+extension AWSClient {
+    // TODO too long method
+    fileprivate func validate<Output: AWSShape>(operation operationName: String, response: Prorsum.Response) throws -> Output {
         var responseBody: Body = .empty
         let data = response.body.asData()
-
+        
         if !data.isEmpty {
             switch serviceProtocol {
             case .json, .restjson:
@@ -188,13 +306,40 @@ public struct AWSClient {
                         
                         switch hint.type {
                         case .list:
-                            dictionary[rel] = representations.map({ $0.properties })
+                            let properties : [[String: Any]] = try representations.map({
+                                var props = $0.properties
+                                var linkMap: [String: [Link]] = [:]
+                                
+                                for link in $0.links {
+                                    let key = link.rel.camelCased(separator: ":")
+                                    if linkMap[key] == nil {
+                                        linkMap[key] = []
+                                    }
+                                    linkMap[key]?.append(link)
+                                }
+                                
+                                for (key, links) in linkMap {
+                                    var dict: [String: Any] = [:]
+                                    for link in links {
+                                        guard let name = link.name else { continue }
+                                        guard let url = URL(string: endpoint+link.href) else { continue }
+                                        let res = try invoke(request: prorsumRequestWithSignedHeader(Request(method: .get, url: url)))
+                                        let representaion = try Representation().from(json: res.body.asData())
+                                        dict[name] = representaion.properties
+                                    }
+                                    props[key] = dict
+                                }
+                                
+                                return props
+                            })
+                            dictionary[rel] = properties
+                            
                         default:
                             dictionary[rel] = representations.map({ $0.properties }).first ?? [:]
                         }
                     }
                     responseBody = .json(dictionary)
-
+                    
                 } else {
                     if let dictionary = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
                         responseBody = .json(dictionary)
@@ -235,7 +380,7 @@ public struct AWSClient {
                 let errorDict = dict["Error"] as? [String: Any]
                 code = errorDict?["Code"] as? String
                 message = errorDict?["Message"] as? String
-            
+                
             case .restxml:
                 let errorDict = bodyDict["Error"] as? [String: Any]
                 code = errorDict?["Code"] as? String
@@ -244,11 +389,11 @@ public struct AWSClient {
             case .restjson:
                 code = response.headers["x-amzn-ErrorType"]
                 message = bodyDict.filter({ $0.key.lowercased() == "message" }).first?.value as? String
-            
+                
             case .json:
                 code = bodyDict["__type"] as? String
                 message = bodyDict.filter({ $0.key.lowercased() == "message" }).first?.value as? String
-            
+                
             default:
                 break
             }
@@ -315,104 +460,5 @@ public struct AWSClient {
         }
         
         return try Output(dictionary: outputDict)
-    }
-    
-    private func createRequest(operation operationName: String, path: String, httpMethod: String, context: InputContext? = nil) throws -> AWSRequest {
-        var headers: [String: String] = [:]
-        var body: Body = .empty
-        var path = path
-        var queryParams = [URLQueryItem]()
-        
-        if let ctx = context {
-            let mirror = Mirror(reflecting: ctx.input)
-            
-            for (key, value) in ctx.Shape.headerParams {
-                if let attr = mirror.getAttribute(forKey: value.toSwiftVariableCase()) {
-                    headers[key] = "\(attr)"
-                }
-            }
-            
-            for (key, value) in ctx.Shape.queryParams {
-                if let attr = mirror.getAttribute(forKey: value.toSwiftVariableCase()) {
-                    queryParams.append(URLQueryItem(name: key, value: "\(attr)"))
-                }
-            }
-            
-            for (key, value) in ctx.Shape.pathParams {
-                if let attr = mirror.getAttribute(forKey: value.toSwiftVariableCase()) {
-                    path = path.replacingOccurrences(of: "{\(key)}", with: "\(attr)").replacingOccurrences(of: "{\(key)+}", with: "\(attr)")
-                }
-            }
-            
-            if !queryParams.isEmpty {
-                let separator = path.contains("?") ? "&" : "?"
-                path = path+separator+queryParams.asStringForURL
-            }
-            
-            switch serviceProtocol {
-            case .json, .restjson:
-                if let payload = ctx.Shape.payload, let payloadBody = mirror.getAttribute(forKey: payload.toSwiftVariableCase()) {
-                    body = Body(anyValue: payloadBody)
-                    headers.removeValue(forKey: payload.toSwiftVariableCase())
-                } else {
-                    body = .json(try ctx.input.serializeToDictionary())
-                }
-                
-            case .query:
-                var dict = try ctx.input.serializeToDictionary()
-                dict["Action"] = operationName
-                dict["Version"] = apiVersion
-                
-                var queryItems = [String]()
-                let keys = Array(dict.keys).sorted {$0.localizedCompare($1) == ComparisonResult.orderedAscending }
-                
-                for key in keys {
-                    if let value = dict[key] {
-                        queryItems.append("\(key)=\(value)")
-                    }
-                }
-                    
-                let params = queryItems.joined(separator: "&").percentEncoded(allowing: Characters.uriAWSQueryAllowed)
-
-                if path.contains("?") {
-                    path += "&" + params
-                } else {
-                    path += "?" + params
-                }
-                
-                body = .text(params)
-                
-            case .restxml:
-                if let payload = ctx.Shape.payload, let payloadBody = mirror.getAttribute(forKey: payload.toSwiftVariableCase()) {
-                    body = Body(anyValue: payloadBody)
-                    headers.removeValue(forKey: payload.toSwiftVariableCase())
-                } else {
-                    body = .xml(try ctx.input.serializeToXMLNode())
-                }
-                
-            case .other(let proto):
-                switch proto.lowercased() {
-                case "ec2":
-                    var params = try ctx.input.serializeToDictionary()
-                    params["Action"] = operationName
-                    params["Version"] = apiVersion
-                    body = .text(params.map({ "\($0.key)=\($0.value)" }).joined(separator: "&"))
-                default:
-                    break
-                }
-            }
-        }
-        
-        return AWSRequest(
-            region: self.signer.region,
-            url: URL(string:  "\(endpoint)\(path)")!,
-            service: signer.service,
-            amzTarget: amzTarget,
-            operation: operationName,
-            httpMethod: httpMethod,
-            httpHeaders: headers,
-            body: body,
-            middlewares: middlewares
-        )
     }
 }

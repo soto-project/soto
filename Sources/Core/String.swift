@@ -72,8 +72,8 @@ extension String {
         return self.replacingOccurrences(of: "-", with: "_").replacingOccurrences(of: ".", with: "").camelCased().upperFirst()
     }
     
-    public func camelCased() -> String {
-        let items = self.components(separatedBy: "_")
+    public func camelCased(separator: String = "_") -> String {
+        let items = self.components(separatedBy: separator)
         var camelCase = ""
         items.enumerated().forEach {
             camelCase += 0 == $0 ? $1 : $1.capitalized
