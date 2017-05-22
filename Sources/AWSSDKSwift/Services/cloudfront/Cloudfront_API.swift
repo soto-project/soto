@@ -43,6 +43,8 @@ public struct Cloudfront {
             serviceProtocol: .restxml,
             apiVersion: "2016-11-25",
             endpoint: endpoint,
+            serviceEndpoints: ["aws-global": "cloudfront.amazonaws.com"],
+            partitionEndpoint: "aws-global",
             middlewares: [],
             possibleErrorTypes: [CloudfrontError.self]
         )

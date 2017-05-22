@@ -44,6 +44,8 @@ public struct Budgets {
             serviceProtocol: .json,
             apiVersion: "2016-10-20",
             endpoint: endpoint,
+            serviceEndpoints: ["aws-global": "budgets.amazonaws.com"],
+            partitionEndpoint: "aws-global",
             middlewares: [],
             possibleErrorTypes: [BudgetsError.self]
         )

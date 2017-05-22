@@ -44,6 +44,7 @@ public struct Streamsdynamodb {
             serviceProtocol: .json,
             apiVersion: "2012-08-10",
             endpoint: endpoint,
+            serviceEndpoints: ["local": "localhost:8000"],
             middlewares: [],
             possibleErrorTypes: [StreamsdynamodbError.self]
         )

@@ -43,6 +43,8 @@ public struct Sts {
             serviceProtocol: .query,
             apiVersion: "2011-06-15",
             endpoint: endpoint,
+            serviceEndpoints: ["ap-northeast-2": "sts.ap-northeast-2.amazonaws.com"],
+            partitionEndpoint: "aws-global",
             middlewares: [],
             possibleErrorTypes: [StsError.self]
         )

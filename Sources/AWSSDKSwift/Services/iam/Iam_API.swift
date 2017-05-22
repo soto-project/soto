@@ -43,6 +43,8 @@ public struct Iam {
             serviceProtocol: .query,
             apiVersion: "2010-05-08",
             endpoint: endpoint,
+            serviceEndpoints: ["aws-global": "iam.amazonaws.com"],
+            partitionEndpoint: "aws-global",
             middlewares: [],
             possibleErrorTypes: [IamError.self]
         )

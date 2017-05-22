@@ -44,6 +44,8 @@ public struct Waf {
             serviceProtocol: .json,
             apiVersion: "2015-08-24",
             endpoint: endpoint,
+            serviceEndpoints: ["aws-global": "waf.amazonaws.com"],
+            partitionEndpoint: "aws-global",
             middlewares: [],
             possibleErrorTypes: [WafError.self]
         )

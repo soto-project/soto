@@ -46,16 +46,32 @@ public struct AWSClient {
     
     private var cond = Cond()
     
+    let serviceEndpoints: [String: String]
+    
+    let partitionEndpoint: String?
+    
     public let middlewares: [AWSRequestMiddleware]
     
     public var possibleErrorTypes: [AWSErrorType.Type]
     
     public var endpoint: String {
-        let nameseparator = signer.service == "s3" ? "-" : "."
-        return self._endpoint ?? "https://\(signer.service)\(nameseparator)\(signer.region.rawValue).amazonaws.com"
+        if let givenEndpoint = self._endpoint {
+            return givenEndpoint
+        }
+        return "https://\(serviceHost)"
     }
     
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region?, amzTarget: String? = nil, service: String, serviceProtocol: ServiceProtocol, apiVersion: String, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = [], possibleErrorTypes: [AWSErrorType.Type]? = nil) {
+    public var serviceHost: String {
+        if let serviceEndpoint = serviceEndpoints[signer.region.rawValue] {
+            return serviceEndpoint
+        }
+        if let partitionEndpoint = partitionEndpoint, let globalEndpoint = serviceEndpoints[partitionEndpoint] {
+            return globalEndpoint
+        }
+        return "\(signer.service).\(signer.region.rawValue).amazonaws.com"
+    }
+    
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region?, amzTarget: String? = nil, service: String, serviceProtocol: ServiceProtocol, apiVersion: String, endpoint: String? = nil, serviceEndpoints: [String: String] = [:], partitionEndpoint: String? = nil, middlewares: [AWSRequestMiddleware] = [], possibleErrorTypes: [AWSErrorType.Type]? = nil) {
         let cred: CredentialProvider
         if let scred = SharedCredential.default {
             cred = scred
@@ -73,8 +89,10 @@ public struct AWSClient {
         self.apiVersion = apiVersion
         self._endpoint = endpoint
         self.amzTarget = amzTarget
-        self.middlewares = middlewares
         self.serviceProtocol = serviceProtocol
+        self.serviceEndpoints = serviceEndpoints
+        self.partitionEndpoint = partitionEndpoint
+        self.middlewares = middlewares
         self.possibleErrorTypes = possibleErrorTypes ?? []
     }
 }
@@ -284,7 +302,7 @@ extension AWSClient {
 
 // response validator
 extension AWSClient {
-    // TODO too long method
+    // TODO Rafactor me. too long method
     fileprivate func validate<Output: AWSShape>(operation operationName: String, response: Prorsum.Response) throws -> Output {
         var responseBody: Body = .empty
         let data = response.body.asData()

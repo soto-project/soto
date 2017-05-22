@@ -44,6 +44,8 @@ public struct Organizations {
             serviceProtocol: .json,
             apiVersion: "2016-11-28",
             endpoint: endpoint,
+            serviceEndpoints: ["aws-global": "organizations.us-east-1.amazonaws.com"],
+            partitionEndpoint: "aws-global",
             middlewares: [],
             possibleErrorTypes: [OrganizationsError.self]
         )

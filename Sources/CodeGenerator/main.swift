@@ -6,6 +6,7 @@ import Core
 
 let apis = try loadAPIJSONList()
 let docs = try loadDocJSONList()
+let endpoint = try loadEndpointJSON()
 
 let group = DispatchGroup()
 
@@ -21,7 +22,7 @@ for index in 0..<apis.count {
         do {
             log("Generating \(serviceName) codes ........")
             
-            let service = try AWSService(fromAPIJSON: api, docJSON: doc)
+            let service = try AWSService(fromAPIJSON: api, docJSON: doc, endpointJSON: endpoint)
             let basePath = "\(rootPath())/Sources/AWSSDKSwift/Services/\(api["serviceName"].stringValue)/"
             _ = mkdirp(basePath)
             

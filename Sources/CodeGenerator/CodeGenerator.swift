@@ -212,6 +212,16 @@ extension AWSService {
         code += "\(indt(3))serviceProtocol: .\(serviceProtocol),\n"
         code += "\(indt(3))apiVersion: \"\(version)\",\n"
         code += "\(indt(3))endpoint: endpoint,\n"
+        
+        let endpoints = serviceEndpoints
+        if endpoints.count > 0 {
+            code += "\(indt(3))serviceEndpoints: \(endpoints),\n"
+        }
+        
+        if let partitionEndpoint = partitionEndpoint {
+            code += "\(indt(3))partitionEndpoint: \"\(partitionEndpoint)\",\n"
+        }
+        
         code += "\(indt(3))middlewares: \(middlewares)"
         if !errorShapeNames.isEmpty {
             code += ",\n"
