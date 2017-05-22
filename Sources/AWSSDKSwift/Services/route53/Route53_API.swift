@@ -43,6 +43,8 @@ public struct Route53 {
             serviceProtocol: .restxml,
             apiVersion: "2013-04-01",
             endpoint: endpoint,
+            serviceEndpoints: ["aws-global": "route53.amazonaws.com"],
+            partitionEndpoint: "aws-global",
             middlewares: [],
             possibleErrorTypes: [Route53Error.self]
         )

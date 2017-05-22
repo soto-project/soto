@@ -43,6 +43,8 @@ public struct Importexport {
             serviceProtocol: .query,
             apiVersion: "2010-06-01",
             endpoint: endpoint,
+            serviceEndpoints: ["aws-global": "importexport.amazonaws.com"],
+            partitionEndpoint: "aws-global",
             middlewares: [],
             possibleErrorTypes: [ImportexportError.self]
         )

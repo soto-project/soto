@@ -28,6 +28,11 @@ func rootPath() -> String {
         .joined(separator: "/")
 }
 
+func loadEndpointJSON() throws -> JSON {
+    let data = try Data(contentsOf: URL(string: "file://\(rootPath())/models/endpoints/endpoint.json")!)
+    return JSON(data: data)
+}
+
 func loadDocJSONList() throws -> [JSON] {
     let directories = Glob.entries(pattern: "\(rootPath())/models/apis/**")
     

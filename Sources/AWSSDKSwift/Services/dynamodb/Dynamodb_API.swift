@@ -44,6 +44,7 @@ public struct Dynamodb {
             serviceProtocol: .json,
             apiVersion: "2012-08-10",
             endpoint: endpoint,
+            serviceEndpoints: ["local": "localhost:8000"],
             middlewares: [],
             possibleErrorTypes: [DynamodbError.self]
         )

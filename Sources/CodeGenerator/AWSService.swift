@@ -13,6 +13,7 @@ import Core
 struct AWSService {
     let apiJSON: JSON
     let docJSON: JSON
+    let endpointJSON: JSON
     var shapes = [Shape]()
     var operations: [Core.Operation] = []
     var errorShapeNames = [String]()
@@ -42,9 +43,28 @@ struct AWSService {
         return docJSON["service"].stringValue.tagStriped()
     }
     
-    init(fromAPIJSON apiJSON: JSON, docJSON: JSON) throws {
+    var endpoint: JSON {
+        return endpointJSON["partitions"].arrayValue[0]["services"][endpointPrefix]
+    }
+    
+    var serviceEndpoints: [String: String] {
+        var endpointMap: [String: String] = [:]
+        endpoint["endpoints"].dictionaryValue.forEach {
+            if let hostname = $0.value["hostname"].string {
+                endpointMap[$0.key] = hostname
+            }
+        }
+        return endpointMap
+    }
+    
+    var partitionEndpoint: String? {
+        return endpoint.dictionaryValue["partitionEndpoint"]?.string
+    }
+    
+    init(fromAPIJSON apiJSON: JSON, docJSON: JSON, endpointJSON: JSON) throws {
         self.apiJSON = apiJSON
         self.docJSON = docJSON
+        self.endpointJSON = endpointJSON
         self.shapes = try parseShapes()
         (self.operations, self.errorShapeNames) = try parseOperation(shapes: shapes)
         self.shapeDoc = parseDoc()
