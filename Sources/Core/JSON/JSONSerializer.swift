@@ -78,8 +78,8 @@ private func serialize(dictionary: [String: Any]) throws -> String {
     return s
 }
 
-struct JSONSerializer {
-    public func serialize(_ dictionary: [String: Any]) throws -> Data {
+public struct JSONSerializer {
+    public static func serialize(_ dictionary: [String: Any]) throws -> Data {
         let jsonString = try "{" + Core.serialize(dictionary: dictionary) + "}"
         return jsonString.data(using: .utf8) ?? Data()
     }

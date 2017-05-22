@@ -52,7 +52,7 @@ class SerializableTests: XCTestCase {
     
     func testSerializeToDictionaryAndJSON() {
         let dict = try! A().serializeToDictionary()
-        let data = try! JSONSerializer().serialize(dict)
+        let data = try! JSONSerializer.serialize(dict)
         let jsonObect = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
         XCTAssertEqual(dict.count, jsonObect.count)
     }

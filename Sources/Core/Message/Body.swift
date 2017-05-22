@@ -86,7 +86,7 @@ extension Body {
             if jsonDictionary.isEmpty {
                 return nil
             } else {
-                return try JSONSerializer().serialize(jsonDictionary)
+                return try JSONSerializer.serialize(jsonDictionary)
             }
             
         case .xml(let node):
