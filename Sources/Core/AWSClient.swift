@@ -65,13 +65,14 @@ public struct AWSClient {
         if let serviceEndpoint = serviceEndpoints[signer.region.rawValue] {
             return serviceEndpoint
         }
+        
         if let partitionEndpoint = partitionEndpoint, let globalEndpoint = serviceEndpoints[partitionEndpoint] {
             return globalEndpoint
         }
         return "\(signer.service).\(signer.region.rawValue).amazonaws.com"
     }
     
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region?, amzTarget: String? = nil, service: String, serviceProtocol: ServiceProtocol, apiVersion: String, endpoint: String? = nil, serviceEndpoints: [String: String] = [:], partitionEndpoint: String? = nil, middlewares: [AWSRequestMiddleware] = [], possibleErrorTypes: [AWSErrorType.Type]? = nil) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region givenRegion: Core.Region?, amzTarget: String? = nil, service: String, serviceProtocol: ServiceProtocol, apiVersion: String, endpoint: String? = nil, serviceEndpoints: [String: String] = [:], partitionEndpoint: String? = nil, middlewares: [AWSRequestMiddleware] = [], possibleErrorTypes: [AWSErrorType.Type]? = nil) {
         let cred: CredentialProvider
         if let scred = SharedCredential.default {
             cred = scred
@@ -83,6 +84,16 @@ public struct AWSClient {
             } else {
                 cred = Credential(accessKeyId: "", secretAccessKey: "")
             }
+        }
+        
+        let region: Region
+        if let _region = givenRegion {
+            region = _region
+        }
+        else if let partitionEndpoint = partitionEndpoint {
+            region = Region(rawValue: partitionEndpoint) ?? .useast1
+        } else {
+            region = .useast1
         }
         
         self.signer = Signers.V4(credentials: cred, region: region ?? .useast1, service: service)
