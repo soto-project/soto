@@ -1140,9 +1140,9 @@ extension Elasticloadbalancingv2 {
         /// The type of load balancer.
         public let `type`: LoadBalancerTypeEnum?
         /// The date and time the load balancer was created.
-        public let createdTime: Date?
+        public let createdTime: String?
 
-        public init(availabilityZones: [AvailabilityZone]? = nil, securityGroups: [String]? = nil, loadBalancerArn: String? = nil, vpcId: String? = nil, state: LoadBalancerState? = nil, ipAddressType: IpAddressType? = nil, canonicalHostedZoneId: String? = nil, dNSName: String? = nil, loadBalancerName: String? = nil, scheme: LoadBalancerSchemeEnum? = nil, type: LoadBalancerTypeEnum? = nil, createdTime: Date? = nil) {
+        public init(availabilityZones: [AvailabilityZone]? = nil, securityGroups: [String]? = nil, loadBalancerArn: String? = nil, vpcId: String? = nil, state: LoadBalancerState? = nil, ipAddressType: IpAddressType? = nil, canonicalHostedZoneId: String? = nil, dNSName: String? = nil, loadBalancerName: String? = nil, scheme: LoadBalancerSchemeEnum? = nil, type: LoadBalancerTypeEnum? = nil, createdTime: String? = nil) {
             self.availabilityZones = availabilityZones
             self.securityGroups = securityGroups
             self.loadBalancerArn = loadBalancerArn
@@ -1173,7 +1173,7 @@ extension Elasticloadbalancingv2 {
             self.loadBalancerName = dictionary["LoadBalancerName"] as? String
             if let scheme = dictionary["Scheme"] as? String { self.scheme = LoadBalancerSchemeEnum(rawValue: scheme) } else { self.scheme = nil }
             if let `type` = dictionary["Type"] as? String { self.`type` = LoadBalancerTypeEnum(rawValue: `type`) } else { self.`type` = nil }
-            self.createdTime = dictionary["CreatedTime"] as? Date
+            self.createdTime = dictionary["CreatedTime"] as? String
         }
     }
 

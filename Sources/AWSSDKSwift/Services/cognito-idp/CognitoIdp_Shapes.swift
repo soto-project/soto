@@ -1155,9 +1155,9 @@ extension CognitoIdp {
         /// The ID of the client associated with the user pool.
         public let clientId: String?
         /// The creation date from the user pool request of the client type.
-        public let creationDate: Date?
+        public let creationDate: String?
         /// The last modified date from the user pool request of the client type.
-        public let lastModifiedDate: Date?
+        public let lastModifiedDate: String?
         /// The explicit authentication flows.
         public let explicitAuthFlows: [ExplicitAuthFlowsType]?
         /// The client secret from the user pool request of the client type.
@@ -1165,7 +1165,7 @@ extension CognitoIdp {
         /// The user pool ID for the user pool client.
         public let userPoolId: String?
 
-        public init(clientName: String? = nil, refreshTokenValidity: Int32? = nil, writeAttributes: [String]? = nil, readAttributes: [String]? = nil, clientId: String? = nil, creationDate: Date? = nil, lastModifiedDate: Date? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, clientSecret: String? = nil, userPoolId: String? = nil) {
+        public init(clientName: String? = nil, refreshTokenValidity: Int32? = nil, writeAttributes: [String]? = nil, readAttributes: [String]? = nil, clientId: String? = nil, creationDate: String? = nil, lastModifiedDate: String? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, clientSecret: String? = nil, userPoolId: String? = nil) {
             self.clientName = clientName
             self.refreshTokenValidity = refreshTokenValidity
             self.writeAttributes = writeAttributes
@@ -1184,8 +1184,8 @@ extension CognitoIdp {
             self.writeAttributes = dictionary["WriteAttributes"] as? [String]
             self.readAttributes = dictionary["ReadAttributes"] as? [String]
             self.clientId = dictionary["ClientId"] as? String
-            self.creationDate = dictionary["CreationDate"] as? Date
-            self.lastModifiedDate = dictionary["LastModifiedDate"] as? Date
+            self.creationDate = dictionary["CreationDate"] as? String
+            self.lastModifiedDate = dictionary["LastModifiedDate"] as? String
             if let explicitAuthFlows = dictionary["ExplicitAuthFlows"] as? [String] { self.explicitAuthFlows = explicitAuthFlows.flatMap({ ExplicitAuthFlowsType(rawValue: $0)}) } else { self.explicitAuthFlows = nil }
             self.clientSecret = dictionary["ClientSecret"] as? String
             self.userPoolId = dictionary["UserPoolId"] as? String
@@ -1371,9 +1371,9 @@ extension CognitoIdp {
         /// The name of the group.
         public let groupName: String?
         /// The date the group was last modified.
-        public let lastModifiedDate: Date?
+        public let lastModifiedDate: String?
         /// The date the group was created.
-        public let creationDate: Date?
+        public let creationDate: String?
         /// A nonnegative integer value that specifies the precedence of this group relative to the other groups that a user can belong to in the user pool. If a user belongs to two or more groups, it is the group with the highest precedence whose role ARN will be used in the cognito:roles and cognito:preferred_role claims in the user's tokens. Groups with higher Precedence values take precedence over groups with lower Precedence values or with null Precedence values. Two groups can have the same Precedence value. If this happens, neither group takes precedence over the other. If two groups with the same Precedence have the same role ARN, that role is used in the cognito:preferred_role claim in tokens for users in each group. If the two groups have different role ARNs, the cognito:preferred_role claim is not set in users' tokens. The default Precedence value is null.
         public let precedence: Int32?
         /// The role ARN for the group.
@@ -1381,7 +1381,7 @@ extension CognitoIdp {
         /// A string containing the description of the group.
         public let description: String?
 
-        public init(userPoolId: String? = nil, groupName: String? = nil, lastModifiedDate: Date? = nil, creationDate: Date? = nil, precedence: Int32? = nil, roleArn: String? = nil, description: String? = nil) {
+        public init(userPoolId: String? = nil, groupName: String? = nil, lastModifiedDate: String? = nil, creationDate: String? = nil, precedence: Int32? = nil, roleArn: String? = nil, description: String? = nil) {
             self.userPoolId = userPoolId
             self.groupName = groupName
             self.lastModifiedDate = lastModifiedDate
@@ -1394,8 +1394,8 @@ extension CognitoIdp {
         public init(dictionary: [String: Any]) throws {
             self.userPoolId = dictionary["UserPoolId"] as? String
             self.groupName = dictionary["GroupName"] as? String
-            self.lastModifiedDate = dictionary["LastModifiedDate"] as? Date
-            self.creationDate = dictionary["CreationDate"] as? Date
+            self.lastModifiedDate = dictionary["LastModifiedDate"] as? String
+            self.creationDate = dictionary["CreationDate"] as? String
             self.precedence = dictionary["Precedence"] as? Int32
             self.roleArn = dictionary["RoleArn"] as? String
             self.description = dictionary["Description"] as? String
@@ -1746,9 +1746,9 @@ extension CognitoIdp {
             AWSShapeProperty(label: "Id", required: false, type: .string)
         ]
         /// The last modified date in a user pool description.
-        public let lastModifiedDate: Date?
+        public let lastModifiedDate: String?
         /// The creation date in a user pool description.
-        public let creationDate: Date?
+        public let creationDate: String?
         /// The user pool status in a user pool description.
         public let status: StatusType?
         /// The AWS Lambda configuration information in a user pool description.
@@ -1758,7 +1758,7 @@ extension CognitoIdp {
         /// The ID in a user pool description.
         public let id: String?
 
-        public init(lastModifiedDate: Date? = nil, creationDate: Date? = nil, status: StatusType? = nil, lambdaConfig: LambdaConfigType? = nil, name: String? = nil, id: String? = nil) {
+        public init(lastModifiedDate: String? = nil, creationDate: String? = nil, status: StatusType? = nil, lambdaConfig: LambdaConfigType? = nil, name: String? = nil, id: String? = nil) {
             self.lastModifiedDate = lastModifiedDate
             self.creationDate = creationDate
             self.status = status
@@ -1768,8 +1768,8 @@ extension CognitoIdp {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.lastModifiedDate = dictionary["LastModifiedDate"] as? Date
-            self.creationDate = dictionary["CreationDate"] as? Date
+            self.lastModifiedDate = dictionary["LastModifiedDate"] as? String
+            self.creationDate = dictionary["CreationDate"] as? String
             if let status = dictionary["Status"] as? String { self.status = StatusType(rawValue: status) } else { self.status = nil }
             if let lambdaConfig = dictionary["LambdaConfig"] as? [String: Any] { self.lambdaConfig = try CognitoIdp.LambdaConfigType(dictionary: lambdaConfig) } else { self.lambdaConfig = nil }
             self.name = dictionary["Name"] as? String
@@ -1846,15 +1846,15 @@ extension CognitoIdp {
         /// The user name of the user about whom you are receiving information.
         public let username: String
         /// The date the user was created.
-        public let userCreateDate: Date?
+        public let userCreateDate: String?
         /// Specifies the options for MFA (e.g., email or phone number).
         public let mFAOptions: [MFAOptionType]?
         /// The date the user was last modified.
-        public let userLastModifiedDate: Date?
+        public let userLastModifiedDate: String?
         /// An array of name-value pairs representing user attributes.
         public let userAttributes: [AttributeType]?
 
-        public init(userStatus: UserStatusType? = nil, enabled: Bool? = nil, username: String, userCreateDate: Date? = nil, mFAOptions: [MFAOptionType]? = nil, userLastModifiedDate: Date? = nil, userAttributes: [AttributeType]? = nil) {
+        public init(userStatus: UserStatusType? = nil, enabled: Bool? = nil, username: String, userCreateDate: String? = nil, mFAOptions: [MFAOptionType]? = nil, userLastModifiedDate: String? = nil, userAttributes: [AttributeType]? = nil) {
             self.userStatus = userStatus
             self.enabled = enabled
             self.username = username
@@ -1869,13 +1869,13 @@ extension CognitoIdp {
             self.enabled = dictionary["Enabled"] as? Bool
             guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
             self.username = username
-            self.userCreateDate = dictionary["UserCreateDate"] as? Date
+            self.userCreateDate = dictionary["UserCreateDate"] as? String
             if let mFAOptions = dictionary["MFAOptions"] as? [[String: Any]] {
                 self.mFAOptions = try mFAOptions.map({ try MFAOptionType(dictionary: $0) })
             } else { 
                 self.mFAOptions = nil
             }
-            self.userLastModifiedDate = dictionary["UserLastModifiedDate"] as? Date
+            self.userLastModifiedDate = dictionary["UserLastModifiedDate"] as? String
             if let userAttributes = dictionary["UserAttributes"] as? [[String: Any]] {
                 self.userAttributes = try userAttributes.map({ try AttributeType(dictionary: $0) })
             } else { 
@@ -2270,15 +2270,15 @@ extension CognitoIdp {
         /// The device key.
         public let deviceKey: String?
         /// The last modified date of the device.
-        public let deviceLastModifiedDate: Date?
+        public let deviceLastModifiedDate: String?
         /// The device attributes.
         public let deviceAttributes: [AttributeType]?
         /// The creation date of the device.
-        public let deviceCreateDate: Date?
+        public let deviceCreateDate: String?
         /// The date in which the device was last authenticated.
-        public let deviceLastAuthenticatedDate: Date?
+        public let deviceLastAuthenticatedDate: String?
 
-        public init(deviceKey: String? = nil, deviceLastModifiedDate: Date? = nil, deviceAttributes: [AttributeType]? = nil, deviceCreateDate: Date? = nil, deviceLastAuthenticatedDate: Date? = nil) {
+        public init(deviceKey: String? = nil, deviceLastModifiedDate: String? = nil, deviceAttributes: [AttributeType]? = nil, deviceCreateDate: String? = nil, deviceLastAuthenticatedDate: String? = nil) {
             self.deviceKey = deviceKey
             self.deviceLastModifiedDate = deviceLastModifiedDate
             self.deviceAttributes = deviceAttributes
@@ -2288,14 +2288,14 @@ extension CognitoIdp {
 
         public init(dictionary: [String: Any]) throws {
             self.deviceKey = dictionary["DeviceKey"] as? String
-            self.deviceLastModifiedDate = dictionary["DeviceLastModifiedDate"] as? Date
+            self.deviceLastModifiedDate = dictionary["DeviceLastModifiedDate"] as? String
             if let deviceAttributes = dictionary["DeviceAttributes"] as? [[String: Any]] {
                 self.deviceAttributes = try deviceAttributes.map({ try AttributeType(dictionary: $0) })
             } else { 
                 self.deviceAttributes = nil
             }
-            self.deviceCreateDate = dictionary["DeviceCreateDate"] as? Date
-            self.deviceLastAuthenticatedDate = dictionary["DeviceLastAuthenticatedDate"] as? Date
+            self.deviceCreateDate = dictionary["DeviceCreateDate"] as? String
+            self.deviceLastAuthenticatedDate = dictionary["DeviceLastAuthenticatedDate"] as? String
         }
     }
 
@@ -2554,7 +2554,7 @@ extension CognitoIdp {
         /// Can be one of the following values:    OFF - MFA tokens are not required and cannot be specified during user registration.    ON - MFA tokens are required for all user registrations. You can only specify required when you are initially creating a user pool.    OPTIONAL - Users have the option when registering to create an MFA token.  
         public let mfaConfiguration: UserPoolMfaType?
         /// The creation date of a user pool.
-        public let creationDate: Date?
+        public let creationDate: String?
         /// The ID of the user pool.
         public let id: String?
         /// The status of a user pool.
@@ -2572,13 +2572,13 @@ extension CognitoIdp {
         /// The contents of the email verification message.
         public let emailVerificationMessage: String?
         /// The last modified date of a user pool.
-        public let lastModifiedDate: Date?
+        public let lastModifiedDate: String?
         /// Specifies the attributes that are auto-verified in a user pool.
         public let autoVerifiedAttributes: [VerifiedAttributeType]?
         /// The device configuration.
         public let deviceConfiguration: DeviceConfigurationType?
 
-        public init(emailConfigurationFailure: String? = nil, userPoolTags: [String: String]? = nil, emailVerificationSubject: String? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, estimatedNumberOfUsers: Int32? = nil, aliasAttributes: [AliasAttributeType]? = nil, schemaAttributes: [SchemaAttributeType]? = nil, smsConfigurationFailure: String? = nil, lambdaConfig: LambdaConfigType? = nil, policies: UserPoolPolicyType? = nil, mfaConfiguration: UserPoolMfaType? = nil, creationDate: Date? = nil, id: String? = nil, status: StatusType? = nil, smsConfiguration: SmsConfigurationType? = nil, smsVerificationMessage: String? = nil, smsAuthenticationMessage: String? = nil, name: String? = nil, emailConfiguration: EmailConfigurationType? = nil, emailVerificationMessage: String? = nil, lastModifiedDate: Date? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, deviceConfiguration: DeviceConfigurationType? = nil) {
+        public init(emailConfigurationFailure: String? = nil, userPoolTags: [String: String]? = nil, emailVerificationSubject: String? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, estimatedNumberOfUsers: Int32? = nil, aliasAttributes: [AliasAttributeType]? = nil, schemaAttributes: [SchemaAttributeType]? = nil, smsConfigurationFailure: String? = nil, lambdaConfig: LambdaConfigType? = nil, policies: UserPoolPolicyType? = nil, mfaConfiguration: UserPoolMfaType? = nil, creationDate: String? = nil, id: String? = nil, status: StatusType? = nil, smsConfiguration: SmsConfigurationType? = nil, smsVerificationMessage: String? = nil, smsAuthenticationMessage: String? = nil, name: String? = nil, emailConfiguration: EmailConfigurationType? = nil, emailVerificationMessage: String? = nil, lastModifiedDate: String? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, deviceConfiguration: DeviceConfigurationType? = nil) {
             self.emailConfigurationFailure = emailConfigurationFailure
             self.userPoolTags = userPoolTags
             self.emailVerificationSubject = emailVerificationSubject
@@ -2624,7 +2624,7 @@ extension CognitoIdp {
             if let lambdaConfig = dictionary["LambdaConfig"] as? [String: Any] { self.lambdaConfig = try CognitoIdp.LambdaConfigType(dictionary: lambdaConfig) } else { self.lambdaConfig = nil }
             if let policies = dictionary["Policies"] as? [String: Any] { self.policies = try CognitoIdp.UserPoolPolicyType(dictionary: policies) } else { self.policies = nil }
             if let mfaConfiguration = dictionary["MfaConfiguration"] as? String { self.mfaConfiguration = UserPoolMfaType(rawValue: mfaConfiguration) } else { self.mfaConfiguration = nil }
-            self.creationDate = dictionary["CreationDate"] as? Date
+            self.creationDate = dictionary["CreationDate"] as? String
             self.id = dictionary["Id"] as? String
             if let status = dictionary["Status"] as? String { self.status = StatusType(rawValue: status) } else { self.status = nil }
             if let smsConfiguration = dictionary["SmsConfiguration"] as? [String: Any] { self.smsConfiguration = try CognitoIdp.SmsConfigurationType(dictionary: smsConfiguration) } else { self.smsConfiguration = nil }
@@ -2633,7 +2633,7 @@ extension CognitoIdp {
             self.name = dictionary["Name"] as? String
             if let emailConfiguration = dictionary["EmailConfiguration"] as? [String: Any] { self.emailConfiguration = try CognitoIdp.EmailConfigurationType(dictionary: emailConfiguration) } else { self.emailConfiguration = nil }
             self.emailVerificationMessage = dictionary["EmailVerificationMessage"] as? String
-            self.lastModifiedDate = dictionary["LastModifiedDate"] as? Date
+            self.lastModifiedDate = dictionary["LastModifiedDate"] as? String
             if let autoVerifiedAttributes = dictionary["AutoVerifiedAttributes"] as? [String] { self.autoVerifiedAttributes = autoVerifiedAttributes.flatMap({ VerifiedAttributeType(rawValue: $0)}) } else { self.autoVerifiedAttributes = nil }
             if let deviceConfiguration = dictionary["DeviceConfiguration"] as? [String: Any] { self.deviceConfiguration = try CognitoIdp.DeviceConfigurationType(dictionary: deviceConfiguration) } else { self.deviceConfiguration = nil }
         }
@@ -3539,7 +3539,7 @@ extension CognitoIdp {
             AWSShapeProperty(label: "ImportedUsers", required: false, type: .long)
         ]
         /// The date when the user imoprt job was completed.
-        public let completionDate: Date?
+        public let completionDate: String?
         /// The message returned when the user import job is completed.
         public let completionMessage: String?
         /// The number of users that could not be imported.
@@ -3547,7 +3547,7 @@ extension CognitoIdp {
         /// The number of users that were skipped.
         public let skippedUsers: Int64?
         /// The date when the user import job was created.
-        public let creationDate: Date?
+        public let creationDate: String?
         /// The job ID for the user import job.
         public let jobId: String?
         /// The user pool ID for the user pool that the users are being imported into.
@@ -3557,7 +3557,7 @@ extension CognitoIdp {
         /// The pre-signed URL to be used to upload the .csv file.
         public let preSignedUrl: String?
         /// The date when the user import job was started.
-        public let startDate: Date?
+        public let startDate: String?
         /// The role ARN for the Amazon CloudWatch Logging role for the user import job. For more information, see "Creating the CloudWatch Logs IAM Role" in the Amazon Cognito Developer Guide.
         public let cloudWatchLogsRoleArn: String?
         /// The job name for the user import job.
@@ -3565,7 +3565,7 @@ extension CognitoIdp {
         /// The number of users that were successfully imported.
         public let importedUsers: Int64?
 
-        public init(completionDate: Date? = nil, completionMessage: String? = nil, failedUsers: Int64? = nil, skippedUsers: Int64? = nil, creationDate: Date? = nil, jobId: String? = nil, userPoolId: String? = nil, status: UserImportJobStatusType? = nil, preSignedUrl: String? = nil, startDate: Date? = nil, cloudWatchLogsRoleArn: String? = nil, jobName: String? = nil, importedUsers: Int64? = nil) {
+        public init(completionDate: String? = nil, completionMessage: String? = nil, failedUsers: Int64? = nil, skippedUsers: Int64? = nil, creationDate: String? = nil, jobId: String? = nil, userPoolId: String? = nil, status: UserImportJobStatusType? = nil, preSignedUrl: String? = nil, startDate: String? = nil, cloudWatchLogsRoleArn: String? = nil, jobName: String? = nil, importedUsers: Int64? = nil) {
             self.completionDate = completionDate
             self.completionMessage = completionMessage
             self.failedUsers = failedUsers
@@ -3582,16 +3582,16 @@ extension CognitoIdp {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.completionDate = dictionary["CompletionDate"] as? Date
+            self.completionDate = dictionary["CompletionDate"] as? String
             self.completionMessage = dictionary["CompletionMessage"] as? String
             self.failedUsers = dictionary["FailedUsers"] as? Int64
             self.skippedUsers = dictionary["SkippedUsers"] as? Int64
-            self.creationDate = dictionary["CreationDate"] as? Date
+            self.creationDate = dictionary["CreationDate"] as? String
             self.jobId = dictionary["JobId"] as? String
             self.userPoolId = dictionary["UserPoolId"] as? String
             if let status = dictionary["Status"] as? String { self.status = UserImportJobStatusType(rawValue: status) } else { self.status = nil }
             self.preSignedUrl = dictionary["PreSignedUrl"] as? String
-            self.startDate = dictionary["StartDate"] as? Date
+            self.startDate = dictionary["StartDate"] as? String
             self.cloudWatchLogsRoleArn = dictionary["CloudWatchLogsRoleArn"] as? String
             self.jobName = dictionary["JobName"] as? String
             self.importedUsers = dictionary["ImportedUsers"] as? Int64
@@ -3823,15 +3823,15 @@ extension CognitoIdp {
         /// The user name of the user you wish to describe.
         public let username: String?
         /// The creation date of the user.
-        public let userCreateDate: Date?
+        public let userCreateDate: String?
         /// A container with information about the user type attributes.
         public let attributes: [AttributeType]?
         /// The last modified date of the user.
-        public let userLastModifiedDate: Date?
+        public let userLastModifiedDate: String?
         /// The MFA options for the user.
         public let mFAOptions: [MFAOptionType]?
 
-        public init(userStatus: UserStatusType? = nil, enabled: Bool? = nil, username: String? = nil, userCreateDate: Date? = nil, attributes: [AttributeType]? = nil, userLastModifiedDate: Date? = nil, mFAOptions: [MFAOptionType]? = nil) {
+        public init(userStatus: UserStatusType? = nil, enabled: Bool? = nil, username: String? = nil, userCreateDate: String? = nil, attributes: [AttributeType]? = nil, userLastModifiedDate: String? = nil, mFAOptions: [MFAOptionType]? = nil) {
             self.userStatus = userStatus
             self.enabled = enabled
             self.username = username
@@ -3845,13 +3845,13 @@ extension CognitoIdp {
             if let userStatus = dictionary["UserStatus"] as? String { self.userStatus = UserStatusType(rawValue: userStatus) } else { self.userStatus = nil }
             self.enabled = dictionary["Enabled"] as? Bool
             self.username = dictionary["Username"] as? String
-            self.userCreateDate = dictionary["UserCreateDate"] as? Date
+            self.userCreateDate = dictionary["UserCreateDate"] as? String
             if let attributes = dictionary["Attributes"] as? [[String: Any]] {
                 self.attributes = try attributes.map({ try AttributeType(dictionary: $0) })
             } else { 
                 self.attributes = nil
             }
-            self.userLastModifiedDate = dictionary["UserLastModifiedDate"] as? Date
+            self.userLastModifiedDate = dictionary["UserLastModifiedDate"] as? String
             if let mFAOptions = dictionary["MFAOptions"] as? [[String: Any]] {
                 self.mFAOptions = try mFAOptions.map({ try MFAOptionType(dictionary: $0) })
             } else { 

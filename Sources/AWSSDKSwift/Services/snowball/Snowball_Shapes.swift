@@ -880,7 +880,7 @@ extension Snowball {
         /// The KmsKeyARN Amazon Resource Name (ARN) associated with this cluster. This ARN was created using the CreateKey API action in AWS Key Management Service (AWS KMS).
         public let kmsKeyARN: String?
         /// The creation date for this cluster.
-        public let creationDate: Date?
+        public let creationDate: String?
         /// The type of AWS Snowball appliance to use for this cluster. Currently, the only supported appliance type for cluster jobs is EDGE.
         public let snowballType: SnowballType?
         /// The Amazon Simple Notification Service (Amazon SNS) notification settings for this cluster.
@@ -892,7 +892,7 @@ extension Snowball {
         /// The optional description of the cluster.
         public let description: String?
 
-        public init(clusterState: ClusterState? = nil, shippingOption: ShippingOption? = nil, addressId: String? = nil, roleARN: String? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, creationDate: Date? = nil, snowballType: SnowballType? = nil, notification: Notification? = nil, clusterId: String? = nil, resources: JobResource? = nil, description: String? = nil) {
+        public init(clusterState: ClusterState? = nil, shippingOption: ShippingOption? = nil, addressId: String? = nil, roleARN: String? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, creationDate: String? = nil, snowballType: SnowballType? = nil, notification: Notification? = nil, clusterId: String? = nil, resources: JobResource? = nil, description: String? = nil) {
             self.clusterState = clusterState
             self.shippingOption = shippingOption
             self.addressId = addressId
@@ -914,7 +914,7 @@ extension Snowball {
             self.roleARN = dictionary["RoleARN"] as? String
             if let jobType = dictionary["JobType"] as? String { self.jobType = JobType(rawValue: jobType) } else { self.jobType = nil }
             self.kmsKeyARN = dictionary["KmsKeyARN"] as? String
-            self.creationDate = dictionary["CreationDate"] as? Date
+            self.creationDate = dictionary["CreationDate"] as? String
             if let snowballType = dictionary["SnowballType"] as? String { self.snowballType = SnowballType(rawValue: snowballType) } else { self.snowballType = nil }
             if let notification = dictionary["Notification"] as? [String: Any] { self.notification = try Snowball.Notification(dictionary: notification) } else { self.notification = nil }
             self.clusterId = dictionary["ClusterId"] as? String
@@ -1122,7 +1122,7 @@ extension Snowball {
         /// The current state of this job.
         public let jobState: JobState?
         /// The creation date for this job.
-        public let creationDate: Date?
+        public let creationDate: String?
         /// The type of appliance used with this job.
         public let snowballType: SnowballType?
         /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
@@ -1130,7 +1130,7 @@ extension Snowball {
         /// The optional description of this specific job, for example Important Photos 2016-08-11.
         public let description: String?
 
-        public init(isMaster: Bool? = nil, jobType: JobType? = nil, jobState: JobState? = nil, creationDate: Date? = nil, snowballType: SnowballType? = nil, jobId: String? = nil, description: String? = nil) {
+        public init(isMaster: Bool? = nil, jobType: JobType? = nil, jobState: JobState? = nil, creationDate: String? = nil, snowballType: SnowballType? = nil, jobId: String? = nil, description: String? = nil) {
             self.isMaster = isMaster
             self.jobType = jobType
             self.jobState = jobState
@@ -1144,7 +1144,7 @@ extension Snowball {
             self.isMaster = dictionary["IsMaster"] as? Bool
             if let jobType = dictionary["JobType"] as? String { self.jobType = JobType(rawValue: jobType) } else { self.jobType = nil }
             if let jobState = dictionary["JobState"] as? String { self.jobState = JobState(rawValue: jobState) } else { self.jobState = nil }
-            self.creationDate = dictionary["CreationDate"] as? Date
+            self.creationDate = dictionary["CreationDate"] as? String
             if let snowballType = dictionary["SnowballType"] as? String { self.snowballType = SnowballType(rawValue: snowballType) } else { self.snowballType = nil }
             self.jobId = dictionary["JobId"] as? String
             self.description = dictionary["Description"] as? String
@@ -1227,13 +1227,13 @@ extension Snowball {
         /// The current state of this cluster. For information about the state of a specific node, see JobListEntry$JobState.
         public let clusterState: ClusterState?
         /// The creation date for this cluster.
-        public let creationDate: Date?
+        public let creationDate: String?
         /// The 39-character ID for the cluster that you want to list, for example CID123e4567-e89b-12d3-a456-426655440000.
         public let clusterId: String?
         /// Defines an optional description of the cluster, for example Environmental Data Cluster-01.
         public let description: String?
 
-        public init(clusterState: ClusterState? = nil, creationDate: Date? = nil, clusterId: String? = nil, description: String? = nil) {
+        public init(clusterState: ClusterState? = nil, creationDate: String? = nil, clusterId: String? = nil, description: String? = nil) {
             self.clusterState = clusterState
             self.creationDate = creationDate
             self.clusterId = clusterId
@@ -1242,7 +1242,7 @@ extension Snowball {
 
         public init(dictionary: [String: Any]) throws {
             if let clusterState = dictionary["ClusterState"] as? String { self.clusterState = ClusterState(rawValue: clusterState) } else { self.clusterState = nil }
-            self.creationDate = dictionary["CreationDate"] as? Date
+            self.creationDate = dictionary["CreationDate"] as? String
             self.clusterId = dictionary["ClusterId"] as? String
             self.description = dictionary["Description"] as? String
         }
@@ -1280,7 +1280,7 @@ extension Snowball {
         /// The Amazon Resource Name (ARN) for the AWS Key Management Service (AWS KMS) key associated with this job. This ARN was created using the CreateKey API action in AWS KMS.
         public let kmsKeyARN: String?
         /// The creation date for this job.
-        public let creationDate: Date?
+        public let creationDate: String?
         /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
         public let jobId: String?
         /// The description of the job, provided at job creation.
@@ -1302,7 +1302,7 @@ extension Snowball {
         /// An array of S3Resource objects. Each S3Resource object represents an Amazon S3 bucket that your transferred data will be exported from or imported into.
         public let resources: JobResource?
 
-        public init(dataTransferProgress: DataTransfer? = nil, snowballCapacityPreference: SnowballCapacity? = nil, roleARN: String? = nil, jobState: JobState? = nil, kmsKeyARN: String? = nil, creationDate: Date? = nil, jobId: String? = nil, description: String? = nil, shippingDetails: ShippingDetails? = nil, addressId: String? = nil, notification: Notification? = nil, jobType: JobType? = nil, snowballType: SnowballType? = nil, jobLogInfo: JobLogs? = nil, clusterId: String? = nil, resources: JobResource? = nil) {
+        public init(dataTransferProgress: DataTransfer? = nil, snowballCapacityPreference: SnowballCapacity? = nil, roleARN: String? = nil, jobState: JobState? = nil, kmsKeyARN: String? = nil, creationDate: String? = nil, jobId: String? = nil, description: String? = nil, shippingDetails: ShippingDetails? = nil, addressId: String? = nil, notification: Notification? = nil, jobType: JobType? = nil, snowballType: SnowballType? = nil, jobLogInfo: JobLogs? = nil, clusterId: String? = nil, resources: JobResource? = nil) {
             self.dataTransferProgress = dataTransferProgress
             self.snowballCapacityPreference = snowballCapacityPreference
             self.roleARN = roleARN
@@ -1327,7 +1327,7 @@ extension Snowball {
             self.roleARN = dictionary["RoleARN"] as? String
             if let jobState = dictionary["JobState"] as? String { self.jobState = JobState(rawValue: jobState) } else { self.jobState = nil }
             self.kmsKeyARN = dictionary["KmsKeyARN"] as? String
-            self.creationDate = dictionary["CreationDate"] as? Date
+            self.creationDate = dictionary["CreationDate"] as? String
             self.jobId = dictionary["JobId"] as? String
             self.description = dictionary["Description"] as? String
             if let shippingDetails = dictionary["ShippingDetails"] as? [String: Any] { self.shippingDetails = try Snowball.ShippingDetails(dictionary: shippingDetails) } else { self.shippingDetails = nil }

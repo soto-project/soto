@@ -363,20 +363,20 @@ extension Email {
             AWSShapeProperty(label: "ReportingMta", required: true, type: .string)
         ]
         /// When the message was received by the reporting mail transfer agent (MTA), in RFC 822 date-time format.
-        public let arrivalDate: Date?
+        public let arrivalDate: String?
         /// Additional X-headers to include in the DSN.
         public let extensionFields: [ExtensionField]?
         /// The reporting MTA that attempted to deliver the message, formatted as specified in RFC 3464 (mta-name-type; mta-name). The default value is dns; inbound-smtp.[region].amazonaws.com.
         public let reportingMta: String
 
-        public init(arrivalDate: Date? = nil, extensionFields: [ExtensionField]? = nil, reportingMta: String) {
+        public init(arrivalDate: String? = nil, extensionFields: [ExtensionField]? = nil, reportingMta: String) {
             self.arrivalDate = arrivalDate
             self.extensionFields = extensionFields
             self.reportingMta = reportingMta
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.arrivalDate = dictionary["ArrivalDate"] as? Date
+            self.arrivalDate = dictionary["ArrivalDate"] as? String
             if let extensionFields = dictionary["ExtensionFields"] as? [[String: Any]] {
                 self.extensionFields = try extensionFields.map({ try ExtensionField(dictionary: $0) })
             } else { 
@@ -2124,16 +2124,16 @@ extension Email {
         /// The name of the receipt rule set. The name must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.  
         public let name: String?
         /// The date and time the receipt rule set was created.
-        public let createdTimestamp: Date?
+        public let createdTimestamp: String?
 
-        public init(name: String? = nil, createdTimestamp: Date? = nil) {
+        public init(name: String? = nil, createdTimestamp: String? = nil) {
             self.name = name
             self.createdTimestamp = createdTimestamp
         }
 
         public init(dictionary: [String: Any]) throws {
             self.name = dictionary["Name"] as? String
-            self.createdTimestamp = dictionary["CreatedTimestamp"] as? Date
+            self.createdTimestamp = dictionary["CreatedTimestamp"] as? String
         }
     }
 
@@ -2760,11 +2760,11 @@ extension Email {
         /// An extended explanation of what went wrong; this is usually an SMTP response. See RFC 3463 for the correct formatting of this parameter.
         public let diagnosticCode: String?
         /// The time the final delivery attempt was made, in RFC 822 date-time format.
-        public let lastAttemptDate: Date?
+        public let lastAttemptDate: String?
         /// The MTA to which the remote MTA attempted to deliver the message, formatted as specified in RFC 3464 (mta-name-type; mta-name). This parameter typically applies only to propagating synchronous bounces.
         public let remoteMta: String?
 
-        public init(status: String, extensionFields: [ExtensionField]? = nil, finalRecipient: String? = nil, action: DsnAction, diagnosticCode: String? = nil, lastAttemptDate: Date? = nil, remoteMta: String? = nil) {
+        public init(status: String, extensionFields: [ExtensionField]? = nil, finalRecipient: String? = nil, action: DsnAction, diagnosticCode: String? = nil, lastAttemptDate: String? = nil, remoteMta: String? = nil) {
             self.status = status
             self.extensionFields = extensionFields
             self.finalRecipient = finalRecipient
@@ -2786,7 +2786,7 @@ extension Email {
             guard let rawAction = dictionary["Action"] as? String, let action = DsnAction(rawValue: rawAction) else { throw InitializableError.missingRequiredParam("Action") }
             self.action = action
             self.diagnosticCode = dictionary["DiagnosticCode"] as? String
-            self.lastAttemptDate = dictionary["LastAttemptDate"] as? Date
+            self.lastAttemptDate = dictionary["LastAttemptDate"] as? String
             self.remoteMta = dictionary["RemoteMta"] as? String
         }
     }
@@ -2837,7 +2837,7 @@ extension Email {
         /// Number of emails that have been sent.
         public let deliveryAttempts: Int64?
         /// Time of the data point.
-        public let timestamp: Date?
+        public let timestamp: String?
         /// Number of emails rejected by Amazon SES.
         public let rejects: Int64?
         /// Number of emails that have bounced.
@@ -2845,7 +2845,7 @@ extension Email {
         /// Number of unwanted emails that were rejected by recipients.
         public let complaints: Int64?
 
-        public init(deliveryAttempts: Int64? = nil, timestamp: Date? = nil, rejects: Int64? = nil, bounces: Int64? = nil, complaints: Int64? = nil) {
+        public init(deliveryAttempts: Int64? = nil, timestamp: String? = nil, rejects: Int64? = nil, bounces: Int64? = nil, complaints: Int64? = nil) {
             self.deliveryAttempts = deliveryAttempts
             self.timestamp = timestamp
             self.rejects = rejects
@@ -2855,7 +2855,7 @@ extension Email {
 
         public init(dictionary: [String: Any]) throws {
             self.deliveryAttempts = dictionary["DeliveryAttempts"] as? Int64
-            self.timestamp = dictionary["Timestamp"] as? Date
+            self.timestamp = dictionary["Timestamp"] as? String
             self.rejects = dictionary["Rejects"] as? Int64
             self.bounces = dictionary["Bounces"] as? Int64
             self.complaints = dictionary["Complaints"] as? Int64

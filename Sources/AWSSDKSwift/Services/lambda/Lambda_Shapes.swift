@@ -66,7 +66,7 @@ extension Lambda {
             AWSShapeProperty(label: "StateTransitionReason", required: false, type: .string)
         ]
         /// The UTC time string indicating the last time the event mapping was updated.
-        public let lastModified: Date?
+        public let lastModified: String?
         /// The AWS Lambda assigned opaque identifier for the mapping.
         public let uUID: String?
         /// The largest number of records that AWS Lambda will retrieve from your event source at the time of invoking your function. Your function receives an event with all the retrieved records.
@@ -82,7 +82,7 @@ extension Lambda {
         /// The reason the event source mapping is in its current state. It is either user-requested or an AWS Lambda-initiated state transition.
         public let stateTransitionReason: String?
 
-        public init(lastModified: Date? = nil, uUID: String? = nil, batchSize: Int32? = nil, eventSourceArn: String? = nil, functionArn: String? = nil, state: String? = nil, lastProcessingResult: String? = nil, stateTransitionReason: String? = nil) {
+        public init(lastModified: String? = nil, uUID: String? = nil, batchSize: Int32? = nil, eventSourceArn: String? = nil, functionArn: String? = nil, state: String? = nil, lastProcessingResult: String? = nil, stateTransitionReason: String? = nil) {
             self.lastModified = lastModified
             self.uUID = uUID
             self.batchSize = batchSize
@@ -94,7 +94,7 @@ extension Lambda {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.lastModified = dictionary["LastModified"] as? Date
+            self.lastModified = dictionary["LastModified"] as? String
             self.uUID = dictionary["UUID"] as? String
             self.batchSize = dictionary["BatchSize"] as? Int32
             self.eventSourceArn = dictionary["EventSourceArn"] as? String
@@ -309,7 +309,7 @@ extension Lambda {
         /// The largest number of records that AWS Lambda will retrieve from your event source at the time of invoking your function. Your function receives an event with all the retrieved records. The default is 100 records.
         public let batchSize: Int32?
         /// The timestamp of the data record from which to start reading. Used with shard iterator type AT_TIMESTAMP. If a record with this exact timestamp does not exist, the iterator returned is for the next (later) record. If the timestamp is older than the current trim horizon, the iterator returned is for the oldest untrimmed data record (TRIM_HORIZON). Valid only for Kinesis streams. 
-        public let startingPositionTimestamp: Date?
+        public let startingPositionTimestamp: String?
         /// The Amazon Resource Name (ARN) of the Amazon Kinesis or the Amazon DynamoDB stream that is the event source. Any record added to this stream could cause AWS Lambda to invoke your Lambda function, it depends on the BatchSize. AWS Lambda POSTs the Amazon Kinesis event, containing records, to your Lambda function as JSON.
         public let eventSourceArn: String
         /// The position in the stream where AWS Lambda should start reading. Valid only for Kinesis streams. For more information, see ShardIteratorType in the Amazon Kinesis API Reference. 
@@ -317,7 +317,7 @@ extension Lambda {
         /// Indicates whether AWS Lambda should begin polling the event source. By default, Enabled is true. 
         public let enabled: Bool?
 
-        public init(functionName: String, batchSize: Int32? = nil, startingPositionTimestamp: Date? = nil, eventSourceArn: String, startingPosition: EventSourcePosition, enabled: Bool? = nil) {
+        public init(functionName: String, batchSize: Int32? = nil, startingPositionTimestamp: String? = nil, eventSourceArn: String, startingPosition: EventSourcePosition, enabled: Bool? = nil) {
             self.functionName = functionName
             self.batchSize = batchSize
             self.startingPositionTimestamp = startingPositionTimestamp
@@ -330,7 +330,7 @@ extension Lambda {
             guard let functionName = dictionary["FunctionName"] as? String else { throw InitializableError.missingRequiredParam("FunctionName") }
             self.functionName = functionName
             self.batchSize = dictionary["BatchSize"] as? Int32
-            self.startingPositionTimestamp = dictionary["StartingPositionTimestamp"] as? Date
+            self.startingPositionTimestamp = dictionary["StartingPositionTimestamp"] as? String
             guard let eventSourceArn = dictionary["EventSourceArn"] as? String else { throw InitializableError.missingRequiredParam("EventSourceArn") }
             self.eventSourceArn = eventSourceArn
             guard let rawStartingPosition = dictionary["StartingPosition"] as? String, let startingPosition = EventSourcePosition(rawValue: rawStartingPosition) else { throw InitializableError.missingRequiredParam("StartingPosition") }

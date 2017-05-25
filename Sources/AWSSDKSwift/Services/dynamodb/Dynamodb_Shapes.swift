@@ -1079,7 +1079,7 @@ extension Dynamodb {
         /// An array of AttributeDefinition objects. Each of these objects describes one attribute in the table and index key schema. Each AttributeDefinition object in this array is composed of:    AttributeName - The name of the attribute.    AttributeType - The data type for the attribute.  
         public let attributeDefinitions: [AttributeDefinition]?
         /// The date and time when the table was created, in UNIX epoch time format.
-        public let creationDateTime: Date?
+        public let creationDateTime: String?
         /// Represents one or more local secondary indexes on the table. Each index is scoped to a given partition key value. Tables with one or more local secondary indexes are subject to an item collection size limit, where the amount of data within a given item collection cannot exceed 10 GB. Each element is composed of:    IndexName - The name of the local secondary index.    KeySchema - Specifies the complete index key schema. The attribute names in the key schema must be between 1 and 255 characters (inclusive). The key schema must begin with the same partition key as the table.    Projection - Specifies attributes that are copied (projected) from the table into the index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. Each attribute specification is composed of:    ProjectionType - One of the following:    KEYS_ONLY - Only the index and primary keys are projected into the index.    INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes are in NonKeyAttributes.    ALL - All of the table attributes are projected into the index.      NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 20. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.      IndexSizeBytes - Represents the total size of the index, in bytes. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.    ItemCount - Represents the number of items in the index. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.   If the table is in the DELETING state, no information about indexes will be returned.
         public let localSecondaryIndexes: [LocalSecondaryIndexDescription]?
         /// The global secondary indexes, if any, on the table. Each index is scoped to a given partition key value. Each element is composed of:    Backfilling - If true, then the index is currently in the backfilling phase. Backfilling occurs only when a new global secondary index is added to the table; it is the process by which DynamoDB populates the new index with data from the table. (This attribute does not appear for indexes that were created during a CreateTable operation.)    IndexName - The name of the global secondary index.    IndexSizeBytes - The total size of the global secondary index, in bytes. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.     IndexStatus - The current status of the global secondary index:    CREATING - The index is being created.    UPDATING - The index is being updated.    DELETING - The index is being deleted.    ACTIVE - The index is ready for use.      ItemCount - The number of items in the global secondary index. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.     KeySchema - Specifies the complete index key schema. The attribute names in the key schema must be between 1 and 255 characters (inclusive). The key schema must begin with the same partition key as the table.    Projection - Specifies attributes that are copied (projected) from the table into the index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. Each attribute specification is composed of:    ProjectionType - One of the following:    KEYS_ONLY - Only the index and primary keys are projected into the index.    INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes are in NonKeyAttributes.    ALL - All of the table attributes are projected into the index.      NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 20. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.      ProvisionedThroughput - The provisioned throughput settings for the global secondary index, consisting of read and write capacity units, along with data about increases and decreases.    If the table is in the DELETING state, no information about indexes will be returned.
@@ -1093,7 +1093,7 @@ extension Dynamodb {
         /// A timestamp, in ISO 8601 format, for this stream. Note that LatestStreamLabel is not a unique identifier for the stream, because it is possible that a stream from another table might have the same timestamp. However, the combination of the following three elements is guaranteed to be unique:   the AWS customer ID.   the table name.   the StreamLabel.  
         public let latestStreamLabel: String?
 
-        public init(latestStreamArn: String? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, keySchema: [KeySchemaElement]? = nil, tableArn: String? = nil, itemCount: Int64? = nil, streamSpecification: StreamSpecification? = nil, attributeDefinitions: [AttributeDefinition]? = nil, creationDateTime: Date? = nil, localSecondaryIndexes: [LocalSecondaryIndexDescription]? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexDescription]? = nil, tableSizeBytes: Int64? = nil, tableName: String? = nil, tableStatus: TableStatus? = nil, latestStreamLabel: String? = nil) {
+        public init(latestStreamArn: String? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, keySchema: [KeySchemaElement]? = nil, tableArn: String? = nil, itemCount: Int64? = nil, streamSpecification: StreamSpecification? = nil, attributeDefinitions: [AttributeDefinition]? = nil, creationDateTime: String? = nil, localSecondaryIndexes: [LocalSecondaryIndexDescription]? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexDescription]? = nil, tableSizeBytes: Int64? = nil, tableName: String? = nil, tableStatus: TableStatus? = nil, latestStreamLabel: String? = nil) {
             self.latestStreamArn = latestStreamArn
             self.provisionedThroughput = provisionedThroughput
             self.keySchema = keySchema
@@ -1126,7 +1126,7 @@ extension Dynamodb {
             } else { 
                 self.attributeDefinitions = nil
             }
-            self.creationDateTime = dictionary["CreationDateTime"] as? Date
+            self.creationDateTime = dictionary["CreationDateTime"] as? String
             if let localSecondaryIndexes = dictionary["LocalSecondaryIndexes"] as? [[String: Any]] {
                 self.localSecondaryIndexes = try localSecondaryIndexes.map({ try LocalSecondaryIndexDescription(dictionary: $0) })
             } else { 
@@ -1690,15 +1690,15 @@ extension Dynamodb {
         /// The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException.
         public let writeCapacityUnits: Int64?
         /// The date and time of the last provisioned throughput increase for this table.
-        public let lastIncreaseDateTime: Date?
+        public let lastIncreaseDateTime: String?
         /// The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException. Eventually consistent reads require less effort than strongly consistent reads, so a setting of 50 ReadCapacityUnits per second provides 100 eventually consistent ReadCapacityUnits per second.
         public let readCapacityUnits: Int64?
         /// The date and time of the last provisioned throughput decrease for this table.
-        public let lastDecreaseDateTime: Date?
+        public let lastDecreaseDateTime: String?
         /// The number of provisioned throughput decreases for this table during this UTC calendar day. For current maximums on provisioned throughput decreases, see Limits in the Amazon DynamoDB Developer Guide.
         public let numberOfDecreasesToday: Int64?
 
-        public init(writeCapacityUnits: Int64? = nil, lastIncreaseDateTime: Date? = nil, readCapacityUnits: Int64? = nil, lastDecreaseDateTime: Date? = nil, numberOfDecreasesToday: Int64? = nil) {
+        public init(writeCapacityUnits: Int64? = nil, lastIncreaseDateTime: String? = nil, readCapacityUnits: Int64? = nil, lastDecreaseDateTime: String? = nil, numberOfDecreasesToday: Int64? = nil) {
             self.writeCapacityUnits = writeCapacityUnits
             self.lastIncreaseDateTime = lastIncreaseDateTime
             self.readCapacityUnits = readCapacityUnits
@@ -1708,9 +1708,9 @@ extension Dynamodb {
 
         public init(dictionary: [String: Any]) throws {
             self.writeCapacityUnits = dictionary["WriteCapacityUnits"] as? Int64
-            self.lastIncreaseDateTime = dictionary["LastIncreaseDateTime"] as? Date
+            self.lastIncreaseDateTime = dictionary["LastIncreaseDateTime"] as? String
             self.readCapacityUnits = dictionary["ReadCapacityUnits"] as? Int64
-            self.lastDecreaseDateTime = dictionary["LastDecreaseDateTime"] as? Date
+            self.lastDecreaseDateTime = dictionary["LastDecreaseDateTime"] as? String
             self.numberOfDecreasesToday = dictionary["NumberOfDecreasesToday"] as? Int64
         }
     }

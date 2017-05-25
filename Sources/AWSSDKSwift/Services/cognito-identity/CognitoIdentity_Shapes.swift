@@ -164,9 +164,9 @@ extension CognitoIdentity {
         /// The Session Token portion of the credentials
         public let sessionToken: String?
         /// The date at which these credentials will expire.
-        public let expiration: Date?
+        public let expiration: String?
 
-        public init(secretKey: String? = nil, accessKeyId: String? = nil, sessionToken: String? = nil, expiration: Date? = nil) {
+        public init(secretKey: String? = nil, accessKeyId: String? = nil, sessionToken: String? = nil, expiration: String? = nil) {
             self.secretKey = secretKey
             self.accessKeyId = accessKeyId
             self.sessionToken = sessionToken
@@ -177,7 +177,7 @@ extension CognitoIdentity {
             self.secretKey = dictionary["SecretKey"] as? String
             self.accessKeyId = dictionary["AccessKeyId"] as? String
             self.sessionToken = dictionary["SessionToken"] as? String
-            self.expiration = dictionary["Expiration"] as? Date
+            self.expiration = dictionary["Expiration"] as? String
         }
     }
 
@@ -816,15 +816,15 @@ extension CognitoIdentity {
             AWSShapeProperty(label: "Logins", required: false, type: .list)
         ]
         /// Date on which the identity was last modified.
-        public let lastModifiedDate: Date?
+        public let lastModifiedDate: String?
         /// Date on which the identity was created.
-        public let creationDate: Date?
+        public let creationDate: String?
         /// A unique identifier in the format REGION:GUID.
         public let identityId: String?
         /// A set of optional name-value pairs that map provider names to provider tokens.
         public let logins: [String]?
 
-        public init(lastModifiedDate: Date? = nil, creationDate: Date? = nil, identityId: String? = nil, logins: [String]? = nil) {
+        public init(lastModifiedDate: String? = nil, creationDate: String? = nil, identityId: String? = nil, logins: [String]? = nil) {
             self.lastModifiedDate = lastModifiedDate
             self.creationDate = creationDate
             self.identityId = identityId
@@ -832,8 +832,8 @@ extension CognitoIdentity {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.lastModifiedDate = dictionary["LastModifiedDate"] as? Date
-            self.creationDate = dictionary["CreationDate"] as? Date
+            self.lastModifiedDate = dictionary["LastModifiedDate"] as? String
+            self.creationDate = dictionary["CreationDate"] as? String
             self.identityId = dictionary["IdentityId"] as? String
             self.logins = dictionary["Logins"] as? [String]
         }

@@ -469,7 +469,7 @@ extension Workdocs {
         /// The ID of the document.
         public let id: String?
         /// The time stamp when the content of the document was modified.
-        public let contentModifiedTimestamp: Date?
+        public let contentModifiedTimestamp: String?
         /// The name of the document.
         public let name: String?
         /// The content type of the document.
@@ -477,11 +477,11 @@ extension Workdocs {
         /// The ID of the parent folder.
         public let parentFolderId: String
         /// The time stamp when the content of the document was originally created.
-        public let contentCreatedTimestamp: Date?
+        public let contentCreatedTimestamp: String?
         /// The size of the document, in bytes.
         public let documentSizeInBytes: Int64?
 
-        public init(id: String? = nil, contentModifiedTimestamp: Date? = nil, name: String? = nil, contentType: String? = nil, parentFolderId: String, contentCreatedTimestamp: Date? = nil, documentSizeInBytes: Int64? = nil) {
+        public init(id: String? = nil, contentModifiedTimestamp: String? = nil, name: String? = nil, contentType: String? = nil, parentFolderId: String, contentCreatedTimestamp: String? = nil, documentSizeInBytes: Int64? = nil) {
             self.id = id
             self.contentModifiedTimestamp = contentModifiedTimestamp
             self.name = name
@@ -493,12 +493,12 @@ extension Workdocs {
 
         public init(dictionary: [String: Any]) throws {
             self.id = dictionary["Id"] as? String
-            self.contentModifiedTimestamp = dictionary["ContentModifiedTimestamp"] as? Date
+            self.contentModifiedTimestamp = dictionary["ContentModifiedTimestamp"] as? String
             self.name = dictionary["Name"] as? String
             self.contentType = dictionary["ContentType"] as? String
             guard let parentFolderId = dictionary["ParentFolderId"] as? String else { throw InitializableError.missingRequiredParam("ParentFolderId") }
             self.parentFolderId = parentFolderId
-            self.contentCreatedTimestamp = dictionary["ContentCreatedTimestamp"] as? Date
+            self.contentCreatedTimestamp = dictionary["ContentCreatedTimestamp"] as? String
             self.documentSizeInBytes = dictionary["DocumentSizeInBytes"] as? Int64
         }
     }
@@ -553,15 +553,15 @@ extension Workdocs {
         /// The ID of the creator.
         public let creatorId: String?
         /// The time when the folder was updated.
-        public let modifiedTimestamp: Date?
+        public let modifiedTimestamp: String?
         /// The ID of the parent folder.
         public let parentFolderId: String?
         /// The time when the folder was created.
-        public let createdTimestamp: Date?
+        public let createdTimestamp: String?
         /// The ID of the folder.
         public let id: String?
 
-        public init(signature: String? = nil, resourceState: ResourceStateType? = nil, name: String? = nil, creatorId: String? = nil, modifiedTimestamp: Date? = nil, parentFolderId: String? = nil, createdTimestamp: Date? = nil, id: String? = nil) {
+        public init(signature: String? = nil, resourceState: ResourceStateType? = nil, name: String? = nil, creatorId: String? = nil, modifiedTimestamp: String? = nil, parentFolderId: String? = nil, createdTimestamp: String? = nil, id: String? = nil) {
             self.signature = signature
             self.resourceState = resourceState
             self.name = name
@@ -577,9 +577,9 @@ extension Workdocs {
             if let resourceState = dictionary["ResourceState"] as? String { self.resourceState = ResourceStateType(rawValue: resourceState) } else { self.resourceState = nil }
             self.name = dictionary["Name"] as? String
             self.creatorId = dictionary["CreatorId"] as? String
-            self.modifiedTimestamp = dictionary["ModifiedTimestamp"] as? Date
+            self.modifiedTimestamp = dictionary["ModifiedTimestamp"] as? String
             self.parentFolderId = dictionary["ParentFolderId"] as? String
-            self.createdTimestamp = dictionary["CreatedTimestamp"] as? Date
+            self.createdTimestamp = dictionary["CreatedTimestamp"] as? String
             self.id = dictionary["Id"] as? String
         }
     }
@@ -603,15 +603,15 @@ extension Workdocs {
             AWSShapeProperty(label: "ContentCreatedTimestamp", required: false, type: .timestamp)
         ]
         /// The time stamp when the content of the document was modified.
-        public let contentModifiedTimestamp: Date?
+        public let contentModifiedTimestamp: String?
         /// The signature of the document.
         public let signature: String?
         /// The time stamp when the document was last uploaded.
-        public let modifiedTimestamp: Date?
+        public let modifiedTimestamp: String?
         /// The source of the document.
         public let source: [DocumentSourceType: String]?
         /// The time stamp when the document was first uploaded.
-        public let createdTimestamp: Date?
+        public let createdTimestamp: String?
         /// The ID of the version.
         public let id: String?
         /// The status of the document.
@@ -627,9 +627,9 @@ extension Workdocs {
         /// The thumbnail of the document.
         public let thumbnail: [DocumentThumbnailType: String]?
         /// The time stamp when the content of the document was originally created.
-        public let contentCreatedTimestamp: Date?
+        public let contentCreatedTimestamp: String?
 
-        public init(contentModifiedTimestamp: Date? = nil, signature: String? = nil, modifiedTimestamp: Date? = nil, source: [DocumentSourceType: String]? = nil, createdTimestamp: Date? = nil, id: String? = nil, status: DocumentStatusType? = nil, name: String? = nil, size: Int64? = nil, contentType: String? = nil, creatorId: String? = nil, thumbnail: [DocumentThumbnailType: String]? = nil, contentCreatedTimestamp: Date? = nil) {
+        public init(contentModifiedTimestamp: String? = nil, signature: String? = nil, modifiedTimestamp: String? = nil, source: [DocumentSourceType: String]? = nil, createdTimestamp: String? = nil, id: String? = nil, status: DocumentStatusType? = nil, name: String? = nil, size: Int64? = nil, contentType: String? = nil, creatorId: String? = nil, thumbnail: [DocumentThumbnailType: String]? = nil, contentCreatedTimestamp: String? = nil) {
             self.contentModifiedTimestamp = contentModifiedTimestamp
             self.signature = signature
             self.modifiedTimestamp = modifiedTimestamp
@@ -646,15 +646,15 @@ extension Workdocs {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.contentModifiedTimestamp = dictionary["ContentModifiedTimestamp"] as? Date
+            self.contentModifiedTimestamp = dictionary["ContentModifiedTimestamp"] as? String
             self.signature = dictionary["Signature"] as? String
-            self.modifiedTimestamp = dictionary["ModifiedTimestamp"] as? Date
+            self.modifiedTimestamp = dictionary["ModifiedTimestamp"] as? String
             if let source = dictionary["Source"] as? [DocumentSourceType: String] {
                 self.source = source
             } else { 
                 self.source = nil
             }
-            self.createdTimestamp = dictionary["CreatedTimestamp"] as? Date
+            self.createdTimestamp = dictionary["CreatedTimestamp"] as? String
             self.id = dictionary["Id"] as? String
             if let status = dictionary["Status"] as? String { self.status = DocumentStatusType(rawValue: status) } else { self.status = nil }
             self.name = dictionary["Name"] as? String
@@ -666,7 +666,7 @@ extension Workdocs {
             } else { 
                 self.thumbnail = nil
             }
-            self.contentCreatedTimestamp = dictionary["ContentCreatedTimestamp"] as? Date
+            self.contentCreatedTimestamp = dictionary["ContentCreatedTimestamp"] as? String
         }
     }
 
@@ -1174,17 +1174,17 @@ extension Workdocs {
         /// The ID of the creator.
         public let creatorId: String?
         /// The time when the document was updated.
-        public let modifiedTimestamp: Date?
+        public let modifiedTimestamp: String?
         /// The ID of the parent folder.
         public let parentFolderId: String?
         /// The latest version of the document.
         public let latestVersionMetadata: DocumentVersionMetadata?
         /// The time when the document was created.
-        public let createdTimestamp: Date?
+        public let createdTimestamp: String?
         /// The ID of the document.
         public let id: String?
 
-        public init(resourceState: ResourceStateType? = nil, creatorId: String? = nil, modifiedTimestamp: Date? = nil, parentFolderId: String? = nil, latestVersionMetadata: DocumentVersionMetadata? = nil, createdTimestamp: Date? = nil, id: String? = nil) {
+        public init(resourceState: ResourceStateType? = nil, creatorId: String? = nil, modifiedTimestamp: String? = nil, parentFolderId: String? = nil, latestVersionMetadata: DocumentVersionMetadata? = nil, createdTimestamp: String? = nil, id: String? = nil) {
             self.resourceState = resourceState
             self.creatorId = creatorId
             self.modifiedTimestamp = modifiedTimestamp
@@ -1197,10 +1197,10 @@ extension Workdocs {
         public init(dictionary: [String: Any]) throws {
             if let resourceState = dictionary["ResourceState"] as? String { self.resourceState = ResourceStateType(rawValue: resourceState) } else { self.resourceState = nil }
             self.creatorId = dictionary["CreatorId"] as? String
-            self.modifiedTimestamp = dictionary["ModifiedTimestamp"] as? Date
+            self.modifiedTimestamp = dictionary["ModifiedTimestamp"] as? String
             self.parentFolderId = dictionary["ParentFolderId"] as? String
             if let latestVersionMetadata = dictionary["LatestVersionMetadata"] as? [String: Any] { self.latestVersionMetadata = try Workdocs.DocumentVersionMetadata(dictionary: latestVersionMetadata) } else { self.latestVersionMetadata = nil }
-            self.createdTimestamp = dictionary["CreatedTimestamp"] as? Date
+            self.createdTimestamp = dictionary["CreatedTimestamp"] as? String
             self.id = dictionary["Id"] as? String
         }
     }
@@ -1510,11 +1510,11 @@ extension Workdocs {
         /// The login name of the user.
         public let username: String?
         /// The time when the user was modified.
-        public let modifiedTimestamp: Date?
+        public let modifiedTimestamp: String?
         /// The ID of the organization.
         public let organizationId: String?
         /// The time when the user was created.
-        public let createdTimestamp: Date?
+        public let createdTimestamp: String?
         /// The ID of the user.
         public let id: String?
         /// The time zone ID of the user.
@@ -1534,7 +1534,7 @@ extension Workdocs {
         /// The type of user.
         public let `type`: UserType?
 
-        public init(emailAddress: String? = nil, recycleBinFolderId: String? = nil, username: String? = nil, modifiedTimestamp: Date? = nil, organizationId: String? = nil, createdTimestamp: Date? = nil, id: String? = nil, timeZoneId: String? = nil, locale: LocaleType? = nil, status: UserStatusType? = nil, givenName: String? = nil, storage: UserStorageMetadata? = nil, surname: String? = nil, rootFolderId: String? = nil, type: UserType? = nil) {
+        public init(emailAddress: String? = nil, recycleBinFolderId: String? = nil, username: String? = nil, modifiedTimestamp: String? = nil, organizationId: String? = nil, createdTimestamp: String? = nil, id: String? = nil, timeZoneId: String? = nil, locale: LocaleType? = nil, status: UserStatusType? = nil, givenName: String? = nil, storage: UserStorageMetadata? = nil, surname: String? = nil, rootFolderId: String? = nil, type: UserType? = nil) {
             self.emailAddress = emailAddress
             self.recycleBinFolderId = recycleBinFolderId
             self.username = username
@@ -1556,9 +1556,9 @@ extension Workdocs {
             self.emailAddress = dictionary["EmailAddress"] as? String
             self.recycleBinFolderId = dictionary["RecycleBinFolderId"] as? String
             self.username = dictionary["Username"] as? String
-            self.modifiedTimestamp = dictionary["ModifiedTimestamp"] as? Date
+            self.modifiedTimestamp = dictionary["ModifiedTimestamp"] as? String
             self.organizationId = dictionary["OrganizationId"] as? String
-            self.createdTimestamp = dictionary["CreatedTimestamp"] as? Date
+            self.createdTimestamp = dictionary["CreatedTimestamp"] as? String
             self.id = dictionary["Id"] as? String
             self.timeZoneId = dictionary["TimeZoneId"] as? String
             if let locale = dictionary["Locale"] as? String { self.locale = LocaleType(rawValue: locale) } else { self.locale = nil }

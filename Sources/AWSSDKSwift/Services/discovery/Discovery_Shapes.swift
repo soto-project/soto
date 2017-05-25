@@ -383,7 +383,7 @@ extension Discovery {
             AWSShapeProperty(label: "configurationId", required: false, type: .string)
         ]
         /// The time the configuration tag was created in Coordinated Universal Time (UTC).
-        public let timeOfCreation: Date?
+        public let timeOfCreation: String?
         /// A type of IT asset that you want to tag.
         public let configurationType: ConfigurationItemType?
         /// A value to filter on. For example key = serverType and value = web server.
@@ -393,7 +393,7 @@ extension Discovery {
         /// The configuration ID for the item you want to tag. You can specify a list of keys and values.
         public let configurationId: String?
 
-        public init(timeOfCreation: Date? = nil, configurationType: ConfigurationItemType? = nil, value: String? = nil, key: String? = nil, configurationId: String? = nil) {
+        public init(timeOfCreation: String? = nil, configurationType: ConfigurationItemType? = nil, value: String? = nil, key: String? = nil, configurationId: String? = nil) {
             self.timeOfCreation = timeOfCreation
             self.configurationType = configurationType
             self.value = value
@@ -402,7 +402,7 @@ extension Discovery {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.timeOfCreation = dictionary["timeOfCreation"] as? Date
+            self.timeOfCreation = dictionary["timeOfCreation"] as? String
             if let configurationType = dictionary["configurationType"] as? String { self.configurationType = ConfigurationItemType(rawValue: configurationType) } else { self.configurationType = nil }
             self.value = dictionary["value"] as? String
             self.key = dictionary["key"] as? String
@@ -922,9 +922,9 @@ extension Discovery {
         /// Helpful status messages for API callers. For example: Too many exports in the last 6 hours. Export in progress. Export was successful.
         public let statusMessage: String
         /// The time the configuration data export was initiated.
-        public let exportRequestTime: Date
+        public let exportRequestTime: String
 
-        public init(exportId: String, exportStatus: ExportStatus, configurationsDownloadUrl: String? = nil, statusMessage: String, exportRequestTime: Date) {
+        public init(exportId: String, exportStatus: ExportStatus, configurationsDownloadUrl: String? = nil, statusMessage: String, exportRequestTime: String) {
             self.exportId = exportId
             self.exportStatus = exportStatus
             self.configurationsDownloadUrl = configurationsDownloadUrl
@@ -940,7 +940,7 @@ extension Discovery {
             self.configurationsDownloadUrl = dictionary["configurationsDownloadUrl"] as? String
             guard let statusMessage = dictionary["statusMessage"] as? String else { throw InitializableError.missingRequiredParam("statusMessage") }
             self.statusMessage = statusMessage
-            guard let exportRequestTime = dictionary["exportRequestTime"] as? Date else { throw InitializableError.missingRequiredParam("exportRequestTime") }
+            guard let exportRequestTime = dictionary["exportRequestTime"] as? String else { throw InitializableError.missingRequiredParam("exportRequestTime") }
             self.exportRequestTime = exportRequestTime
         }
     }

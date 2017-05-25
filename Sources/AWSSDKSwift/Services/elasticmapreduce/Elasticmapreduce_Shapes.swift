@@ -365,9 +365,9 @@ extension Elasticmapreduce {
         /// The name of the security configuration.
         public let name: String
         /// The date and time the security configuration was created.
-        public let creationDateTime: Date
+        public let creationDateTime: String
 
-        public init(name: String, creationDateTime: Date) {
+        public init(name: String, creationDateTime: String) {
             self.name = name
             self.creationDateTime = creationDateTime
         }
@@ -375,7 +375,7 @@ extension Elasticmapreduce {
         public init(dictionary: [String: Any]) throws {
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
-            guard let creationDateTime = dictionary["CreationDateTime"] as? Date else { throw InitializableError.missingRequiredParam("CreationDateTime") }
+            guard let creationDateTime = dictionary["CreationDateTime"] as? String else { throw InitializableError.missingRequiredParam("CreationDateTime") }
             self.creationDateTime = creationDateTime
         }
     }
@@ -429,11 +429,11 @@ extension Elasticmapreduce {
         /// The pagination token that indicates the next set of results to retrieve.
         public let marker: String?
         /// The creation date and time end value filter for listing clusters.
-        public let createdBefore: Date?
+        public let createdBefore: String?
         /// The creation date and time beginning value filter for listing clusters.
-        public let createdAfter: Date?
+        public let createdAfter: String?
 
-        public init(clusterStates: [ClusterState]? = nil, marker: String? = nil, createdBefore: Date? = nil, createdAfter: Date? = nil) {
+        public init(clusterStates: [ClusterState]? = nil, marker: String? = nil, createdBefore: String? = nil, createdAfter: String? = nil) {
             self.clusterStates = clusterStates
             self.marker = marker
             self.createdBefore = createdBefore
@@ -443,8 +443,8 @@ extension Elasticmapreduce {
         public init(dictionary: [String: Any]) throws {
             if let clusterStates = dictionary["ClusterStates"] as? [String] { self.clusterStates = clusterStates.flatMap({ ClusterState(rawValue: $0)}) } else { self.clusterStates = nil }
             self.marker = dictionary["Marker"] as? String
-            self.createdBefore = dictionary["CreatedBefore"] as? Date
-            self.createdAfter = dictionary["CreatedAfter"] as? Date
+            self.createdBefore = dictionary["CreatedBefore"] as? String
+            self.createdAfter = dictionary["CreatedAfter"] as? String
         }
     }
 
@@ -662,9 +662,9 @@ extension Elasticmapreduce {
         /// The name of the security configuration.
         public let name: String?
         /// The date and time the security configuration was created
-        public let creationDateTime: Date?
+        public let creationDateTime: String?
 
-        public init(securityConfiguration: String? = nil, name: String? = nil, creationDateTime: Date? = nil) {
+        public init(securityConfiguration: String? = nil, name: String? = nil, creationDateTime: String? = nil) {
             self.securityConfiguration = securityConfiguration
             self.name = name
             self.creationDateTime = creationDateTime
@@ -673,7 +673,7 @@ extension Elasticmapreduce {
         public init(dictionary: [String: Any]) throws {
             self.securityConfiguration = dictionary["SecurityConfiguration"] as? String
             self.name = dictionary["Name"] as? String
-            self.creationDateTime = dictionary["CreationDateTime"] as? Date
+            self.creationDateTime = dictionary["CreationDateTime"] as? String
         }
     }
 
@@ -758,22 +758,22 @@ extension Elasticmapreduce {
             AWSShapeProperty(label: "EndDateTime", required: false, type: .timestamp)
         ]
         /// The date and time when the cluster was ready to execute steps.
-        public let readyDateTime: Date?
+        public let readyDateTime: String?
         /// The creation date and time of the cluster.
-        public let creationDateTime: Date?
+        public let creationDateTime: String?
         /// The date and time when the cluster was terminated.
-        public let endDateTime: Date?
+        public let endDateTime: String?
 
-        public init(readyDateTime: Date? = nil, creationDateTime: Date? = nil, endDateTime: Date? = nil) {
+        public init(readyDateTime: String? = nil, creationDateTime: String? = nil, endDateTime: String? = nil) {
             self.readyDateTime = readyDateTime
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.readyDateTime = dictionary["ReadyDateTime"] as? Date
-            self.creationDateTime = dictionary["CreationDateTime"] as? Date
-            self.endDateTime = dictionary["EndDateTime"] as? Date
+            self.readyDateTime = dictionary["ReadyDateTime"] as? String
+            self.creationDateTime = dictionary["CreationDateTime"] as? String
+            self.endDateTime = dictionary["EndDateTime"] as? String
         }
     }
 
@@ -1604,22 +1604,22 @@ extension Elasticmapreduce {
             AWSShapeProperty(label: "EndDateTime", required: false, type: .timestamp)
         ]
         /// The date and time when the cluster step execution started.
-        public let startDateTime: Date?
+        public let startDateTime: String?
         /// The date and time when the cluster step was created.
-        public let creationDateTime: Date?
+        public let creationDateTime: String?
         /// The date and time when the cluster step execution completed or failed.
-        public let endDateTime: Date?
+        public let endDateTime: String?
 
-        public init(startDateTime: Date? = nil, creationDateTime: Date? = nil, endDateTime: Date? = nil) {
+        public init(startDateTime: String? = nil, creationDateTime: String? = nil, endDateTime: String? = nil) {
             self.startDateTime = startDateTime
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.startDateTime = dictionary["StartDateTime"] as? Date
-            self.creationDateTime = dictionary["CreationDateTime"] as? Date
-            self.endDateTime = dictionary["EndDateTime"] as? Date
+            self.startDateTime = dictionary["StartDateTime"] as? String
+            self.creationDateTime = dictionary["CreationDateTime"] as? String
+            self.endDateTime = dictionary["EndDateTime"] as? String
         }
     }
 
@@ -1990,22 +1990,22 @@ extension Elasticmapreduce {
             AWSShapeProperty(label: "EndDateTime", required: false, type: .timestamp)
         ]
         /// The date and time when the instance group became ready to perform tasks.
-        public let readyDateTime: Date?
+        public let readyDateTime: String?
         /// The creation date and time of the instance group.
-        public let creationDateTime: Date?
+        public let creationDateTime: String?
         /// The date and time when the instance group terminated.
-        public let endDateTime: Date?
+        public let endDateTime: String?
 
-        public init(readyDateTime: Date? = nil, creationDateTime: Date? = nil, endDateTime: Date? = nil) {
+        public init(readyDateTime: String? = nil, creationDateTime: String? = nil, endDateTime: String? = nil) {
             self.readyDateTime = readyDateTime
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.readyDateTime = dictionary["ReadyDateTime"] as? Date
-            self.creationDateTime = dictionary["CreationDateTime"] as? Date
-            self.endDateTime = dictionary["EndDateTime"] as? Date
+            self.readyDateTime = dictionary["ReadyDateTime"] as? String
+            self.creationDateTime = dictionary["CreationDateTime"] as? String
+            self.endDateTime = dictionary["EndDateTime"] as? String
         }
     }
 
@@ -2079,11 +2079,11 @@ extension Elasticmapreduce {
         /// Return only job flows whose job flow ID is contained in this list.
         public let jobFlowIds: [String]?
         /// Return only job flows created before this date and time.
-        public let createdBefore: Date?
+        public let createdBefore: String?
         /// Return only job flows created after this date and time.
-        public let createdAfter: Date?
+        public let createdAfter: String?
 
-        public init(jobFlowStates: [JobFlowExecutionState]? = nil, jobFlowIds: [String]? = nil, createdBefore: Date? = nil, createdAfter: Date? = nil) {
+        public init(jobFlowStates: [JobFlowExecutionState]? = nil, jobFlowIds: [String]? = nil, createdBefore: String? = nil, createdAfter: String? = nil) {
             self.jobFlowStates = jobFlowStates
             self.jobFlowIds = jobFlowIds
             self.createdBefore = createdBefore
@@ -2093,8 +2093,8 @@ extension Elasticmapreduce {
         public init(dictionary: [String: Any]) throws {
             if let jobFlowStates = dictionary["JobFlowStates"] as? [String] { self.jobFlowStates = jobFlowStates.flatMap({ JobFlowExecutionState(rawValue: $0)}) } else { self.jobFlowStates = nil }
             self.jobFlowIds = dictionary["JobFlowIds"] as? [String]
-            self.createdBefore = dictionary["CreatedBefore"] as? Date
-            self.createdAfter = dictionary["CreatedAfter"] as? Date
+            self.createdBefore = dictionary["CreatedBefore"] as? String
+            self.createdAfter = dictionary["CreatedAfter"] as? String
         }
     }
 
@@ -2391,16 +2391,16 @@ extension Elasticmapreduce {
         /// The name of the security configuration.
         public let name: String?
         /// The date and time the security configuration was created.
-        public let creationDateTime: Date?
+        public let creationDateTime: String?
 
-        public init(name: String? = nil, creationDateTime: Date? = nil) {
+        public init(name: String? = nil, creationDateTime: String? = nil) {
             self.name = name
             self.creationDateTime = creationDateTime
         }
 
         public init(dictionary: [String: Any]) throws {
             self.name = dictionary["Name"] as? String
-            self.creationDateTime = dictionary["CreationDateTime"] as? Date
+            self.creationDateTime = dictionary["CreationDateTime"] as? String
         }
     }
 
@@ -2792,22 +2792,22 @@ extension Elasticmapreduce {
             AWSShapeProperty(label: "EndDateTime", required: false, type: .timestamp)
         ]
         /// The time and date the instance fleet was ready to run jobs.
-        public let readyDateTime: Date?
+        public let readyDateTime: String?
         /// The time and date the instance fleet was created.
-        public let creationDateTime: Date?
+        public let creationDateTime: String?
         /// The time and date the instance fleet terminated.
-        public let endDateTime: Date?
+        public let endDateTime: String?
 
-        public init(readyDateTime: Date? = nil, creationDateTime: Date? = nil, endDateTime: Date? = nil) {
+        public init(readyDateTime: String? = nil, creationDateTime: String? = nil, endDateTime: String? = nil) {
             self.readyDateTime = readyDateTime
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.readyDateTime = dictionary["ReadyDateTime"] as? Date
-            self.creationDateTime = dictionary["CreationDateTime"] as? Date
-            self.endDateTime = dictionary["EndDateTime"] as? Date
+            self.readyDateTime = dictionary["ReadyDateTime"] as? String
+            self.creationDateTime = dictionary["CreationDateTime"] as? String
+            self.endDateTime = dictionary["EndDateTime"] as? String
         }
     }
 
@@ -2958,17 +2958,17 @@ extension Elasticmapreduce {
             AWSShapeProperty(label: "State", required: true, type: .enum)
         ]
         /// The start date and time of the step.
-        public let startDateTime: Date?
+        public let startDateTime: String?
         /// A description of the step's current state.
         public let lastStateChangeReason: String?
         /// The creation date and time of the step.
-        public let creationDateTime: Date
+        public let creationDateTime: String
         /// The completion date and time of the step.
-        public let endDateTime: Date?
+        public let endDateTime: String?
         /// The state of the step.
         public let state: StepExecutionState
 
-        public init(startDateTime: Date? = nil, lastStateChangeReason: String? = nil, creationDateTime: Date, endDateTime: Date? = nil, state: StepExecutionState) {
+        public init(startDateTime: String? = nil, lastStateChangeReason: String? = nil, creationDateTime: String, endDateTime: String? = nil, state: StepExecutionState) {
             self.startDateTime = startDateTime
             self.lastStateChangeReason = lastStateChangeReason
             self.creationDateTime = creationDateTime
@@ -2977,11 +2977,11 @@ extension Elasticmapreduce {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.startDateTime = dictionary["StartDateTime"] as? Date
+            self.startDateTime = dictionary["StartDateTime"] as? String
             self.lastStateChangeReason = dictionary["LastStateChangeReason"] as? String
-            guard let creationDateTime = dictionary["CreationDateTime"] as? Date else { throw InitializableError.missingRequiredParam("CreationDateTime") }
+            guard let creationDateTime = dictionary["CreationDateTime"] as? String else { throw InitializableError.missingRequiredParam("CreationDateTime") }
             self.creationDateTime = creationDateTime
-            self.endDateTime = dictionary["EndDateTime"] as? Date
+            self.endDateTime = dictionary["EndDateTime"] as? String
             guard let rawState = dictionary["State"] as? String, let state = StepExecutionState(rawValue: rawState) else { throw InitializableError.missingRequiredParam("State") }
             self.state = state
         }
@@ -3860,7 +3860,7 @@ extension Elasticmapreduce {
         /// Actual count of running instances.
         public let instanceRunningCount: Int32
         /// The date/time the instance group was terminated.
-        public let endDateTime: Date?
+        public let endDateTime: String?
         /// State of instance group. The following values are deprecated: STARTING, TERMINATED, and FAILED.
         public let state: InstanceGroupState
         /// Details regarding the state of the instance group.
@@ -3868,9 +3868,9 @@ extension Elasticmapreduce {
         /// EC2 instance type.
         public let instanceType: String
         /// The date/time the instance group was available to the cluster.
-        public let readyDateTime: Date?
+        public let readyDateTime: String?
         /// The date/time the instance group was created.
-        public let creationDateTime: Date
+        public let creationDateTime: String
         /// Target number of instances to run in the instance group.
         public let instanceRequestCount: Int32
         /// Friendly name for the instance group.
@@ -3880,9 +3880,9 @@ extension Elasticmapreduce {
         /// Market type of the EC2 instances used to create a cluster node.
         public let market: MarketType
         /// The date/time the instance group was started.
-        public let startDateTime: Date?
+        public let startDateTime: String?
 
-        public init(instanceGroupId: String? = nil, bidPrice: String? = nil, instanceRunningCount: Int32, endDateTime: Date? = nil, state: InstanceGroupState, lastStateChangeReason: String? = nil, instanceType: String, readyDateTime: Date? = nil, creationDateTime: Date, instanceRequestCount: Int32, name: String? = nil, instanceRole: InstanceRoleType, market: MarketType, startDateTime: Date? = nil) {
+        public init(instanceGroupId: String? = nil, bidPrice: String? = nil, instanceRunningCount: Int32, endDateTime: String? = nil, state: InstanceGroupState, lastStateChangeReason: String? = nil, instanceType: String, readyDateTime: String? = nil, creationDateTime: String, instanceRequestCount: Int32, name: String? = nil, instanceRole: InstanceRoleType, market: MarketType, startDateTime: String? = nil) {
             self.instanceGroupId = instanceGroupId
             self.bidPrice = bidPrice
             self.instanceRunningCount = instanceRunningCount
@@ -3904,14 +3904,14 @@ extension Elasticmapreduce {
             self.bidPrice = dictionary["BidPrice"] as? String
             guard let instanceRunningCount = dictionary["InstanceRunningCount"] as? Int32 else { throw InitializableError.missingRequiredParam("InstanceRunningCount") }
             self.instanceRunningCount = instanceRunningCount
-            self.endDateTime = dictionary["EndDateTime"] as? Date
+            self.endDateTime = dictionary["EndDateTime"] as? String
             guard let rawState = dictionary["State"] as? String, let state = InstanceGroupState(rawValue: rawState) else { throw InitializableError.missingRequiredParam("State") }
             self.state = state
             self.lastStateChangeReason = dictionary["LastStateChangeReason"] as? String
             guard let instanceType = dictionary["InstanceType"] as? String else { throw InitializableError.missingRequiredParam("InstanceType") }
             self.instanceType = instanceType
-            self.readyDateTime = dictionary["ReadyDateTime"] as? Date
-            guard let creationDateTime = dictionary["CreationDateTime"] as? Date else { throw InitializableError.missingRequiredParam("CreationDateTime") }
+            self.readyDateTime = dictionary["ReadyDateTime"] as? String
+            guard let creationDateTime = dictionary["CreationDateTime"] as? String else { throw InitializableError.missingRequiredParam("CreationDateTime") }
             self.creationDateTime = creationDateTime
             guard let instanceRequestCount = dictionary["InstanceRequestCount"] as? Int32 else { throw InitializableError.missingRequiredParam("InstanceRequestCount") }
             self.instanceRequestCount = instanceRequestCount
@@ -3920,7 +3920,7 @@ extension Elasticmapreduce {
             self.instanceRole = instanceRole
             guard let rawMarket = dictionary["Market"] as? String, let market = MarketType(rawValue: rawMarket) else { throw InitializableError.missingRequiredParam("Market") }
             self.market = market
-            self.startDateTime = dictionary["StartDateTime"] as? Date
+            self.startDateTime = dictionary["StartDateTime"] as? String
         }
     }
 
@@ -4024,22 +4024,22 @@ extension Elasticmapreduce {
             AWSShapeProperty(label: "EndDateTime", required: false, type: .timestamp)
         ]
         /// The date and time when the instance was ready to perform tasks.
-        public let readyDateTime: Date?
+        public let readyDateTime: String?
         /// The creation date and time of the instance.
-        public let creationDateTime: Date?
+        public let creationDateTime: String?
         /// The date and time when the instance was terminated.
-        public let endDateTime: Date?
+        public let endDateTime: String?
 
-        public init(readyDateTime: Date? = nil, creationDateTime: Date? = nil, endDateTime: Date? = nil) {
+        public init(readyDateTime: String? = nil, creationDateTime: String? = nil, endDateTime: String? = nil) {
             self.readyDateTime = readyDateTime
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.readyDateTime = dictionary["ReadyDateTime"] as? Date
-            self.creationDateTime = dictionary["CreationDateTime"] as? Date
-            self.endDateTime = dictionary["EndDateTime"] as? Date
+            self.readyDateTime = dictionary["ReadyDateTime"] as? String
+            self.creationDateTime = dictionary["CreationDateTime"] as? String
+            self.endDateTime = dictionary["EndDateTime"] as? String
         }
     }
 
@@ -4195,19 +4195,19 @@ extension Elasticmapreduce {
             AWSShapeProperty(label: "State", required: true, type: .enum)
         ]
         /// The date and time when the job flow was ready to start running bootstrap actions.
-        public let readyDateTime: Date?
+        public let readyDateTime: String?
         /// The start date and time of the job flow.
-        public let startDateTime: Date?
+        public let startDateTime: String?
         /// Description of the job flow last changed state.
         public let lastStateChangeReason: String?
         /// The creation date and time of the job flow.
-        public let creationDateTime: Date
+        public let creationDateTime: String
         /// The completion date and time of the job flow.
-        public let endDateTime: Date?
+        public let endDateTime: String?
         /// The state of the job flow.
         public let state: JobFlowExecutionState
 
-        public init(readyDateTime: Date? = nil, startDateTime: Date? = nil, lastStateChangeReason: String? = nil, creationDateTime: Date, endDateTime: Date? = nil, state: JobFlowExecutionState) {
+        public init(readyDateTime: String? = nil, startDateTime: String? = nil, lastStateChangeReason: String? = nil, creationDateTime: String, endDateTime: String? = nil, state: JobFlowExecutionState) {
             self.readyDateTime = readyDateTime
             self.startDateTime = startDateTime
             self.lastStateChangeReason = lastStateChangeReason
@@ -4217,12 +4217,12 @@ extension Elasticmapreduce {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.readyDateTime = dictionary["ReadyDateTime"] as? Date
-            self.startDateTime = dictionary["StartDateTime"] as? Date
+            self.readyDateTime = dictionary["ReadyDateTime"] as? String
+            self.startDateTime = dictionary["StartDateTime"] as? String
             self.lastStateChangeReason = dictionary["LastStateChangeReason"] as? String
-            guard let creationDateTime = dictionary["CreationDateTime"] as? Date else { throw InitializableError.missingRequiredParam("CreationDateTime") }
+            guard let creationDateTime = dictionary["CreationDateTime"] as? String else { throw InitializableError.missingRequiredParam("CreationDateTime") }
             self.creationDateTime = creationDateTime
-            self.endDateTime = dictionary["EndDateTime"] as? Date
+            self.endDateTime = dictionary["EndDateTime"] as? String
             guard let rawState = dictionary["State"] as? String, let state = JobFlowExecutionState(rawValue: rawState) else { throw InitializableError.missingRequiredParam("State") }
             self.state = state
         }

@@ -61,9 +61,9 @@ extension Sms {
         public let connectorId: String?
         public let vmManagerName: String?
         public let macAddress: String?
-        public let associatedOn: Date?
+        public let associatedOn: String?
 
-        public init(capabilityList: ConnectorCapabilityList? = nil, status: ConnectorStatus? = nil, ipAddress: String? = nil, vmManagerId: String? = nil, version: String? = nil, vmManagerType: VmManagerType? = nil, connectorId: String? = nil, vmManagerName: String? = nil, macAddress: String? = nil, associatedOn: Date? = nil) {
+        public init(capabilityList: ConnectorCapabilityList? = nil, status: ConnectorStatus? = nil, ipAddress: String? = nil, vmManagerId: String? = nil, version: String? = nil, vmManagerType: VmManagerType? = nil, connectorId: String? = nil, vmManagerName: String? = nil, macAddress: String? = nil, associatedOn: String? = nil) {
             self.capabilityList = capabilityList
             self.status = status
             self.ipAddress = ipAddress
@@ -86,7 +86,7 @@ extension Sms {
             self.connectorId = dictionary["connectorId"] as? String
             self.vmManagerName = dictionary["vmManagerName"] as? String
             self.macAddress = dictionary["macAddress"] as? String
-            self.associatedOn = dictionary["associatedOn"] as? Date
+            self.associatedOn = dictionary["associatedOn"] as? String
         }
     }
 
@@ -167,9 +167,9 @@ extension Sms {
         public let serverList: ServerList?
         public let serverCatalogStatus: ServerCatalogStatus?
         public let nextToken: String?
-        public let lastModifiedOn: Date?
+        public let lastModifiedOn: String?
 
-        public init(serverList: ServerList? = nil, serverCatalogStatus: ServerCatalogStatus? = nil, nextToken: String? = nil, lastModifiedOn: Date? = nil) {
+        public init(serverList: ServerList? = nil, serverCatalogStatus: ServerCatalogStatus? = nil, nextToken: String? = nil, lastModifiedOn: String? = nil) {
             self.serverList = serverList
             self.serverCatalogStatus = serverCatalogStatus
             self.nextToken = nextToken
@@ -180,7 +180,7 @@ extension Sms {
             if let serverList = dictionary["serverList"] as? [String: Any] { self.serverList = try Sms.ServerList(dictionary: serverList) } else { self.serverList = nil }
             if let serverCatalogStatus = dictionary["serverCatalogStatus"] as? String { self.serverCatalogStatus = ServerCatalogStatus(rawValue: serverCatalogStatus) } else { self.serverCatalogStatus = nil }
             self.nextToken = dictionary["nextToken"] as? String
-            self.lastModifiedOn = dictionary["lastModifiedOn"] as? Date
+            self.lastModifiedOn = dictionary["lastModifiedOn"] as? String
         }
     }
 
@@ -255,13 +255,13 @@ extension Sms {
             AWSShapeProperty(label: "licenseType", required: false, type: .enum)
         ]
         public let roleName: String?
-        public let nextReplicationRunStartTime: Date?
+        public let nextReplicationRunStartTime: String?
         public let description: String?
         public let frequency: Int32?
         public let replicationJobId: String
         public let licenseType: LicenseType?
 
-        public init(roleName: String? = nil, nextReplicationRunStartTime: Date? = nil, description: String? = nil, frequency: Int32? = nil, replicationJobId: String, licenseType: LicenseType? = nil) {
+        public init(roleName: String? = nil, nextReplicationRunStartTime: String? = nil, description: String? = nil, frequency: Int32? = nil, replicationJobId: String, licenseType: LicenseType? = nil) {
             self.roleName = roleName
             self.nextReplicationRunStartTime = nextReplicationRunStartTime
             self.description = description
@@ -272,7 +272,7 @@ extension Sms {
 
         public init(dictionary: [String: Any]) throws {
             self.roleName = dictionary["roleName"] as? String
-            self.nextReplicationRunStartTime = dictionary["nextReplicationRunStartTime"] as? Date
+            self.nextReplicationRunStartTime = dictionary["nextReplicationRunStartTime"] as? String
             self.description = dictionary["description"] as? String
             self.frequency = dictionary["frequency"] as? Int32
             guard let replicationJobId = dictionary["replicationJobId"] as? String else { throw InitializableError.missingRequiredParam("replicationJobId") }
@@ -313,14 +313,14 @@ extension Sms {
         ]
         public let state: ReplicationRunState?
         public let replicationRunId: String?
-        public let completedTime: Date?
-        public let scheduledStartTime: Date?
+        public let completedTime: String?
+        public let scheduledStartTime: String?
         public let description: String?
         public let amiId: String?
         public let `type`: ReplicationRunType?
         public let statusMessage: String?
 
-        public init(state: ReplicationRunState? = nil, replicationRunId: String? = nil, completedTime: Date? = nil, scheduledStartTime: Date? = nil, description: String? = nil, amiId: String? = nil, type: ReplicationRunType? = nil, statusMessage: String? = nil) {
+        public init(state: ReplicationRunState? = nil, replicationRunId: String? = nil, completedTime: String? = nil, scheduledStartTime: String? = nil, description: String? = nil, amiId: String? = nil, type: ReplicationRunType? = nil, statusMessage: String? = nil) {
             self.state = state
             self.replicationRunId = replicationRunId
             self.completedTime = completedTime
@@ -334,8 +334,8 @@ extension Sms {
         public init(dictionary: [String: Any]) throws {
             if let state = dictionary["state"] as? String { self.state = ReplicationRunState(rawValue: state) } else { self.state = nil }
             self.replicationRunId = dictionary["replicationRunId"] as? String
-            self.completedTime = dictionary["completedTime"] as? Date
-            self.scheduledStartTime = dictionary["scheduledStartTime"] as? Date
+            self.completedTime = dictionary["completedTime"] as? String
+            self.scheduledStartTime = dictionary["scheduledStartTime"] as? String
             self.description = dictionary["description"] as? String
             self.amiId = dictionary["amiId"] as? String
             if let `type` = dictionary["type"] as? String { self.`type` = ReplicationRunType(rawValue: `type`) } else { self.`type` = nil }
@@ -372,7 +372,7 @@ extension Sms {
         ]
         public let state: ReplicationJobState?
         public let replicationRunList: ReplicationRunList?
-        public let nextReplicationRunStartTime: Date?
+        public let nextReplicationRunStartTime: String?
         public let vmServer: VmServer?
         public let licenseType: LicenseType?
         public let description: String?
@@ -382,10 +382,10 @@ extension Sms {
         public let statusMessage: String?
         public let replicationJobId: String?
         public let roleName: String?
-        public let seedReplicationTime: Date?
+        public let seedReplicationTime: String?
         public let serverType: ServerType?
 
-        public init(state: ReplicationJobState? = nil, replicationRunList: ReplicationRunList? = nil, nextReplicationRunStartTime: Date? = nil, vmServer: VmServer? = nil, licenseType: LicenseType? = nil, description: String? = nil, serverId: String? = nil, latestAmiId: String? = nil, frequency: Int32? = nil, statusMessage: String? = nil, replicationJobId: String? = nil, roleName: String? = nil, seedReplicationTime: Date? = nil, serverType: ServerType? = nil) {
+        public init(state: ReplicationJobState? = nil, replicationRunList: ReplicationRunList? = nil, nextReplicationRunStartTime: String? = nil, vmServer: VmServer? = nil, licenseType: LicenseType? = nil, description: String? = nil, serverId: String? = nil, latestAmiId: String? = nil, frequency: Int32? = nil, statusMessage: String? = nil, replicationJobId: String? = nil, roleName: String? = nil, seedReplicationTime: String? = nil, serverType: ServerType? = nil) {
             self.state = state
             self.replicationRunList = replicationRunList
             self.nextReplicationRunStartTime = nextReplicationRunStartTime
@@ -405,7 +405,7 @@ extension Sms {
         public init(dictionary: [String: Any]) throws {
             if let state = dictionary["state"] as? String { self.state = ReplicationJobState(rawValue: state) } else { self.state = nil }
             if let replicationRunList = dictionary["replicationRunList"] as? [String: Any] { self.replicationRunList = try Sms.ReplicationRunList(dictionary: replicationRunList) } else { self.replicationRunList = nil }
-            self.nextReplicationRunStartTime = dictionary["nextReplicationRunStartTime"] as? Date
+            self.nextReplicationRunStartTime = dictionary["nextReplicationRunStartTime"] as? String
             if let vmServer = dictionary["vmServer"] as? [String: Any] { self.vmServer = try Sms.VmServer(dictionary: vmServer) } else { self.vmServer = nil }
             if let licenseType = dictionary["licenseType"] as? String { self.licenseType = LicenseType(rawValue: licenseType) } else { self.licenseType = nil }
             self.description = dictionary["description"] as? String
@@ -415,7 +415,7 @@ extension Sms {
             self.statusMessage = dictionary["statusMessage"] as? String
             self.replicationJobId = dictionary["replicationJobId"] as? String
             self.roleName = dictionary["roleName"] as? String
-            self.seedReplicationTime = dictionary["seedReplicationTime"] as? Date
+            self.seedReplicationTime = dictionary["seedReplicationTime"] as? String
             if let serverType = dictionary["serverType"] as? String { self.serverType = ServerType(rawValue: serverType) } else { self.serverType = nil }
         }
     }
@@ -527,14 +527,14 @@ extension Sms {
             AWSShapeProperty(label: "frequency", required: true, type: .integer), 
             AWSShapeProperty(label: "licenseType", required: false, type: .enum)
         ]
-        public let seedReplicationTime: Date
+        public let seedReplicationTime: String
         public let roleName: String?
         public let serverId: String
         public let description: String?
         public let frequency: Int32
         public let licenseType: LicenseType?
 
-        public init(seedReplicationTime: Date, roleName: String? = nil, serverId: String, description: String? = nil, frequency: Int32, licenseType: LicenseType? = nil) {
+        public init(seedReplicationTime: String, roleName: String? = nil, serverId: String, description: String? = nil, frequency: Int32, licenseType: LicenseType? = nil) {
             self.seedReplicationTime = seedReplicationTime
             self.roleName = roleName
             self.serverId = serverId
@@ -544,7 +544,7 @@ extension Sms {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let seedReplicationTime = dictionary["seedReplicationTime"] as? Date else { throw InitializableError.missingRequiredParam("seedReplicationTime") }
+            guard let seedReplicationTime = dictionary["seedReplicationTime"] as? String else { throw InitializableError.missingRequiredParam("seedReplicationTime") }
             self.seedReplicationTime = seedReplicationTime
             self.roleName = dictionary["roleName"] as? String
             guard let serverId = dictionary["serverId"] as? String else { throw InitializableError.missingRequiredParam("serverId") }

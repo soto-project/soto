@@ -121,7 +121,7 @@ extension ApplicationAutoscaling {
         /// The Amazon Resource Name (ARN) of the scaling policy.
         public let policyARN: String
         /// The Unix timestamp for when the scaling policy was created.
-        public let creationTime: Date
+        public let creationTime: String
         /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.  
         public let scalableDimension: ScalableDimension
         /// The CloudWatch alarms associated with the scaling policy.
@@ -131,7 +131,7 @@ extension ApplicationAutoscaling {
         /// The name of the scaling policy.
         public let policyName: String
 
-        public init(stepScalingPolicyConfiguration: StepScalingPolicyConfiguration? = nil, policyType: PolicyType, serviceNamespace: ServiceNamespace, policyARN: String, creationTime: Date, scalableDimension: ScalableDimension, alarms: [Alarm]? = nil, resourceId: String, policyName: String) {
+        public init(stepScalingPolicyConfiguration: StepScalingPolicyConfiguration? = nil, policyType: PolicyType, serviceNamespace: ServiceNamespace, policyARN: String, creationTime: String, scalableDimension: ScalableDimension, alarms: [Alarm]? = nil, resourceId: String, policyName: String) {
             self.stepScalingPolicyConfiguration = stepScalingPolicyConfiguration
             self.policyType = policyType
             self.serviceNamespace = serviceNamespace
@@ -151,7 +151,7 @@ extension ApplicationAutoscaling {
             self.serviceNamespace = serviceNamespace
             guard let policyARN = dictionary["PolicyARN"] as? String else { throw InitializableError.missingRequiredParam("PolicyARN") }
             self.policyARN = policyARN
-            guard let creationTime = dictionary["CreationTime"] as? Date else { throw InitializableError.missingRequiredParam("CreationTime") }
+            guard let creationTime = dictionary["CreationTime"] as? String else { throw InitializableError.missingRequiredParam("CreationTime") }
             self.creationTime = creationTime
             guard let rawScalableDimension = dictionary["ScalableDimension"] as? String, let scalableDimension = ScalableDimension(rawValue: rawScalableDimension) else { throw InitializableError.missingRequiredParam("ScalableDimension") }
             self.scalableDimension = scalableDimension
@@ -282,7 +282,7 @@ extension ApplicationAutoscaling {
         /// The ARN of an IAM role that allows Application Auto Scaling to modify the scalable target on your behalf.
         public let roleARN: String
         /// The Unix timestamp for when the scalable target was created.
-        public let creationTime: Date
+        public let creationTime: String
         /// The scalable dimension associated with the scalable target. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.  
         public let scalableDimension: ScalableDimension
         /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.  
@@ -292,7 +292,7 @@ extension ApplicationAutoscaling {
         /// The minimum value to scale to in response to a scale in event.
         public let minCapacity: Int32
 
-        public init(serviceNamespace: ServiceNamespace, roleARN: String, creationTime: Date, scalableDimension: ScalableDimension, resourceId: String, maxCapacity: Int32, minCapacity: Int32) {
+        public init(serviceNamespace: ServiceNamespace, roleARN: String, creationTime: String, scalableDimension: ScalableDimension, resourceId: String, maxCapacity: Int32, minCapacity: Int32) {
             self.serviceNamespace = serviceNamespace
             self.roleARN = roleARN
             self.creationTime = creationTime
@@ -307,7 +307,7 @@ extension ApplicationAutoscaling {
             self.serviceNamespace = serviceNamespace
             guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
             self.roleARN = roleARN
-            guard let creationTime = dictionary["CreationTime"] as? Date else { throw InitializableError.missingRequiredParam("CreationTime") }
+            guard let creationTime = dictionary["CreationTime"] as? String else { throw InitializableError.missingRequiredParam("CreationTime") }
             self.creationTime = creationTime
             guard let rawScalableDimension = dictionary["ScalableDimension"] as? String, let scalableDimension = ScalableDimension(rawValue: rawScalableDimension) else { throw InitializableError.missingRequiredParam("ScalableDimension") }
             self.scalableDimension = scalableDimension
@@ -716,13 +716,13 @@ extension ApplicationAutoscaling {
             AWSShapeProperty(label: "Description", required: true, type: .string)
         ]
         /// The Unix timestamp for when the scaling activity began.
-        public let startTime: Date
+        public let startTime: String
         /// The details about the scaling activity.
         public let details: String?
         /// The namespace of the AWS service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
         /// The Unix timestamp for when the scaling activity ended.
-        public let endTime: Date?
+        public let endTime: String?
         /// Indicates the status of the scaling activity.
         public let statusCode: ScalingActivityStatusCode
         /// A simple description of what caused the scaling activity to happen.
@@ -738,7 +738,7 @@ extension ApplicationAutoscaling {
         /// A simple description of what action the scaling activity intends to accomplish.
         public let description: String
 
-        public init(startTime: Date, details: String? = nil, serviceNamespace: ServiceNamespace, endTime: Date? = nil, statusCode: ScalingActivityStatusCode, cause: String, scalableDimension: ScalableDimension, activityId: String, statusMessage: String? = nil, resourceId: String, description: String) {
+        public init(startTime: String, details: String? = nil, serviceNamespace: ServiceNamespace, endTime: String? = nil, statusCode: ScalingActivityStatusCode, cause: String, scalableDimension: ScalableDimension, activityId: String, statusMessage: String? = nil, resourceId: String, description: String) {
             self.startTime = startTime
             self.details = details
             self.serviceNamespace = serviceNamespace
@@ -753,12 +753,12 @@ extension ApplicationAutoscaling {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let startTime = dictionary["StartTime"] as? Date else { throw InitializableError.missingRequiredParam("StartTime") }
+            guard let startTime = dictionary["StartTime"] as? String else { throw InitializableError.missingRequiredParam("StartTime") }
             self.startTime = startTime
             self.details = dictionary["Details"] as? String
             guard let rawServiceNamespace = dictionary["ServiceNamespace"] as? String, let serviceNamespace = ServiceNamespace(rawValue: rawServiceNamespace) else { throw InitializableError.missingRequiredParam("ServiceNamespace") }
             self.serviceNamespace = serviceNamespace
-            self.endTime = dictionary["EndTime"] as? Date
+            self.endTime = dictionary["EndTime"] as? String
             guard let rawStatusCode = dictionary["StatusCode"] as? String, let statusCode = ScalingActivityStatusCode(rawValue: rawStatusCode) else { throw InitializableError.missingRequiredParam("StatusCode") }
             self.statusCode = statusCode
             guard let cause = dictionary["Cause"] as? String else { throw InitializableError.missingRequiredParam("Cause") }

@@ -209,19 +209,19 @@ extension Organizations {
         /// If the account was created successfully, the unique identifier (ID) of the new account. The regex pattern for an account ID string requires exactly 12 digits.
         public let accountId: String?
         /// The date and time that the request was made for the account creation.
-        public let requestedTimestamp: Date?
+        public let requestedTimestamp: String?
         /// The status of the request.
         public let state: CreateAccountState?
         /// The account name given to the account when it was created.
         public let accountName: String?
         /// The date and time that the account was created and the request completed.
-        public let completedTimestamp: Date?
+        public let completedTimestamp: String?
         /// If the request failed, a description of the reason for the failure.
         public let failureReason: CreateAccountFailureReason?
         /// The unique identifier (ID) that references this request. You get this value from the response of the initial CreateAccount request to create the account. The regex pattern for an create account request ID string requires "car-" followed by from 8 to 32 lower-case letters or digits.
         public let id: String?
 
-        public init(accountId: String? = nil, requestedTimestamp: Date? = nil, state: CreateAccountState? = nil, accountName: String? = nil, completedTimestamp: Date? = nil, failureReason: CreateAccountFailureReason? = nil, id: String? = nil) {
+        public init(accountId: String? = nil, requestedTimestamp: String? = nil, state: CreateAccountState? = nil, accountName: String? = nil, completedTimestamp: String? = nil, failureReason: CreateAccountFailureReason? = nil, id: String? = nil) {
             self.accountId = accountId
             self.requestedTimestamp = requestedTimestamp
             self.state = state
@@ -233,10 +233,10 @@ extension Organizations {
 
         public init(dictionary: [String: Any]) throws {
             self.accountId = dictionary["AccountId"] as? String
-            self.requestedTimestamp = dictionary["RequestedTimestamp"] as? Date
+            self.requestedTimestamp = dictionary["RequestedTimestamp"] as? String
             if let state = dictionary["State"] as? String { self.state = CreateAccountState(rawValue: state) } else { self.state = nil }
             self.accountName = dictionary["AccountName"] as? String
-            self.completedTimestamp = dictionary["CompletedTimestamp"] as? Date
+            self.completedTimestamp = dictionary["CompletedTimestamp"] as? String
             if let failureReason = dictionary["FailureReason"] as? String { self.failureReason = CreateAccountFailureReason(rawValue: failureReason) } else { self.failureReason = nil }
             self.id = dictionary["Id"] as? String
         }
@@ -1064,7 +1064,7 @@ extension Organizations {
             AWSShapeProperty(label: "Id", required: false, type: .string)
         ]
         /// The date the account became a part of the organization.
-        public let joinedTimestamp: Date?
+        public let joinedTimestamp: String?
         /// The status of the account in the organization.
         public let status: AccountStatus?
         /// The Amazon Resource Name (ARN) of the account. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
@@ -1076,7 +1076,7 @@ extension Organizations {
         /// The unique identifier (ID) of the account. The regex pattern for an account ID string requires exactly 12 digits.
         public let id: String?
 
-        public init(joinedTimestamp: Date? = nil, status: AccountStatus? = nil, arn: String? = nil, name: String? = nil, joinedMethod: AccountJoinedMethod? = nil, id: String? = nil) {
+        public init(joinedTimestamp: String? = nil, status: AccountStatus? = nil, arn: String? = nil, name: String? = nil, joinedMethod: AccountJoinedMethod? = nil, id: String? = nil) {
             self.joinedTimestamp = joinedTimestamp
             self.status = status
             self.arn = arn
@@ -1086,7 +1086,7 @@ extension Organizations {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.joinedTimestamp = dictionary["JoinedTimestamp"] as? Date
+            self.joinedTimestamp = dictionary["JoinedTimestamp"] as? String
             if let status = dictionary["Status"] as? String { self.status = AccountStatus(rawValue: status) } else { self.status = nil }
             self.arn = dictionary["Arn"] as? String
             self.name = dictionary["Name"] as? String
@@ -1802,7 +1802,7 @@ extension Organizations {
             AWSShapeProperty(label: "Id", required: false, type: .string)
         ]
         /// The date and time that the handshake request was made.
-        public let requestedTimestamp: Date?
+        public let requestedTimestamp: String?
         /// The Amazon Resource Name (ARN) of a handshake. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let arn: String?
         /// The type of handshake, indicating what action occurs when the recipient accepts the handshake.
@@ -1810,7 +1810,7 @@ extension Organizations {
         /// The current state of the handshake. Use the state to trace the flow of the handshake through the process from its creation to its acceptance. The meaning of each of the valid values is as follows:    REQUESTED: This handshake was sent to multiple recipients (applicable to only some handshake types) and not all recipients have responded yet. The request stays in this state until all recipients respond.    OPEN: This handshake was sent to multiple recipients (applicable to only some policy types) and all recipients have responded, allowing the originator to complete the handshake action.    CANCELED: This handshake is no longer active because it was canceled by the originating account.    ACCEPTED: This handshake is complete because it has been accepted by the recipient.    DECLINED: This handshake is no longer active because it was declined by the recipient account.    EXPIRED: This handshake is no longer active because the originator did not receive a response of any kind from the recipient before the expiration time (15 days).  
         public let state: HandshakeState?
         /// The date and time that the handshake expires. If the recipient of the handshake request fails to respond before the specified date and time, the handshake becomes inactive and is no longer valid.
-        public let expirationTimestamp: Date?
+        public let expirationTimestamp: String?
         /// Additional information that is needed to process the handshake.
         public let resources: [HandshakeResource]?
         /// Information about the two accounts that are participating in the handshake.
@@ -1818,7 +1818,7 @@ extension Organizations {
         /// The unique identifier (ID) of a handshake. The originating account creates the ID when it initiates the handshake. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
         public let id: String?
 
-        public init(requestedTimestamp: Date? = nil, arn: String? = nil, action: ActionType? = nil, state: HandshakeState? = nil, expirationTimestamp: Date? = nil, resources: [HandshakeResource]? = nil, parties: [HandshakeParty]? = nil, id: String? = nil) {
+        public init(requestedTimestamp: String? = nil, arn: String? = nil, action: ActionType? = nil, state: HandshakeState? = nil, expirationTimestamp: String? = nil, resources: [HandshakeResource]? = nil, parties: [HandshakeParty]? = nil, id: String? = nil) {
             self.requestedTimestamp = requestedTimestamp
             self.arn = arn
             self.action = action
@@ -1830,11 +1830,11 @@ extension Organizations {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.requestedTimestamp = dictionary["RequestedTimestamp"] as? Date
+            self.requestedTimestamp = dictionary["RequestedTimestamp"] as? String
             self.arn = dictionary["Arn"] as? String
             if let action = dictionary["Action"] as? String { self.action = ActionType(rawValue: action) } else { self.action = nil }
             if let state = dictionary["State"] as? String { self.state = HandshakeState(rawValue: state) } else { self.state = nil }
-            self.expirationTimestamp = dictionary["ExpirationTimestamp"] as? Date
+            self.expirationTimestamp = dictionary["ExpirationTimestamp"] as? String
             if let resources = dictionary["Resources"] as? [[String: Any]] {
                 self.resources = try resources.map({ try HandshakeResource(dictionary: $0) })
             } else { 

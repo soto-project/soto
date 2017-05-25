@@ -186,9 +186,9 @@ extension Ecs {
         /// The ID of the deployment.
         public let id: String?
         /// The Unix timestamp for when the service was created.
-        public let createdAt: Date?
+        public let createdAt: String?
         /// The Unix timestamp for when the service was last updated.
-        public let updatedAt: Date?
+        public let updatedAt: String?
         /// The number of tasks in the deployment that are in the PENDING status.
         public let pendingCount: Int32?
         /// The most recent task definition that was specified for the service to use.
@@ -196,7 +196,7 @@ extension Ecs {
         /// The number of tasks in the deployment that are in the RUNNING status.
         public let runningCount: Int32?
 
-        public init(desiredCount: Int32? = nil, status: String? = nil, id: String? = nil, createdAt: Date? = nil, updatedAt: Date? = nil, pendingCount: Int32? = nil, taskDefinition: String? = nil, runningCount: Int32? = nil) {
+        public init(desiredCount: Int32? = nil, status: String? = nil, id: String? = nil, createdAt: String? = nil, updatedAt: String? = nil, pendingCount: Int32? = nil, taskDefinition: String? = nil, runningCount: Int32? = nil) {
             self.desiredCount = desiredCount
             self.status = status
             self.id = id
@@ -211,8 +211,8 @@ extension Ecs {
             self.desiredCount = dictionary["desiredCount"] as? Int32
             self.status = dictionary["status"] as? String
             self.id = dictionary["id"] as? String
-            self.createdAt = dictionary["createdAt"] as? Date
-            self.updatedAt = dictionary["updatedAt"] as? Date
+            self.createdAt = dictionary["createdAt"] as? String
+            self.updatedAt = dictionary["updatedAt"] as? String
             self.pendingCount = dictionary["pendingCount"] as? Int32
             self.taskDefinition = dictionary["taskDefinition"] as? String
             self.runningCount = dictionary["runningCount"] as? Int32
@@ -1345,7 +1345,7 @@ extension Ecs {
         /// The placement strategy that determines how tasks for the service are placed.
         public let placementStrategy: [PlacementStrategy]?
         /// The Unix timestamp for when the service was created.
-        public let createdAt: Date?
+        public let createdAt: String?
         /// The name of your service. Up to 255 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed. Service names must be unique within a cluster, but you can have similarly named services in multiple clusters within a region or across multiple regions.
         public let serviceName: String?
         /// The number of tasks in the cluster that are in the PENDING state.
@@ -1371,7 +1371,7 @@ extension Ecs {
         /// The number of tasks in the cluster that are in the RUNNING state.
         public let runningCount: Int32?
 
-        public init(roleArn: String? = nil, clusterArn: String? = nil, placementStrategy: [PlacementStrategy]? = nil, createdAt: Date? = nil, serviceName: String? = nil, pendingCount: Int32? = nil, deployments: [Deployment]? = nil, loadBalancers: [LoadBalancer]? = nil, events: [ServiceEvent]? = nil, serviceArn: String? = nil, desiredCount: Int32? = nil, status: String? = nil, placementConstraints: [PlacementConstraint]? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, taskDefinition: String? = nil, runningCount: Int32? = nil) {
+        public init(roleArn: String? = nil, clusterArn: String? = nil, placementStrategy: [PlacementStrategy]? = nil, createdAt: String? = nil, serviceName: String? = nil, pendingCount: Int32? = nil, deployments: [Deployment]? = nil, loadBalancers: [LoadBalancer]? = nil, events: [ServiceEvent]? = nil, serviceArn: String? = nil, desiredCount: Int32? = nil, status: String? = nil, placementConstraints: [PlacementConstraint]? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, taskDefinition: String? = nil, runningCount: Int32? = nil) {
             self.roleArn = roleArn
             self.clusterArn = clusterArn
             self.placementStrategy = placementStrategy
@@ -1398,7 +1398,7 @@ extension Ecs {
             } else { 
                 self.placementStrategy = nil
             }
-            self.createdAt = dictionary["createdAt"] as? Date
+            self.createdAt = dictionary["createdAt"] as? String
             self.serviceName = dictionary["serviceName"] as? String
             self.pendingCount = dictionary["pendingCount"] as? Int32
             if let deployments = dictionary["deployments"] as? [[String: Any]] {
@@ -2124,11 +2124,11 @@ extension Ecs {
         /// The ID string of the event.
         public let id: String?
         /// The Unix timestamp for when the event was triggered.
-        public let createdAt: Date?
+        public let createdAt: String?
         /// The event message.
         public let message: String?
 
-        public init(id: String? = nil, createdAt: Date? = nil, message: String? = nil) {
+        public init(id: String? = nil, createdAt: String? = nil, message: String? = nil) {
             self.id = id
             self.createdAt = createdAt
             self.message = message
@@ -2136,7 +2136,7 @@ extension Ecs {
 
         public init(dictionary: [String: Any]) throws {
             self.id = dictionary["id"] as? String
-            self.createdAt = dictionary["createdAt"] as? Date
+            self.createdAt = dictionary["createdAt"] as? String
             self.message = dictionary["message"] as? String
         }
     }
@@ -2804,9 +2804,9 @@ extension Ecs {
         /// One or more container overrides.
         public let overrides: TaskOverride?
         /// The Unix timestamp for when the task was created (the task entered the PENDING state).
-        public let createdAt: Date?
+        public let createdAt: String?
         /// The Unix timestamp for when the task was started (the task transitioned from the PENDING state to the RUNNING state).
-        public let startedAt: Date?
+        public let startedAt: String?
         /// The desired status of the task.
         public let desiredStatus: String?
         /// The Amazon Resource Name (ARN) of the task definition that creates the task.
@@ -2818,7 +2818,7 @@ extension Ecs {
         /// The Amazon Resource Name (ARN) of the container instances that host the task.
         public let containerInstanceArn: String?
         /// The Unix timestamp for when the task was stopped (the task transitioned from the RUNNING state to the STOPPED state).
-        public let stoppedAt: Date?
+        public let stoppedAt: String?
         /// The version counter for the task. Every time a task experiences a change that triggers a CloudWatch event, the version counter is incremented. If you are replicating your Amazon ECS task state with CloudWatch events, you can compare the version of a task reported by the Amazon ECS APIs with the version reported in CloudWatch events for the task (inside the detail object) to verify that the version in your event stream is current.
         public let version: Int64?
         /// The Amazon Resource Name (ARN) of the task.
@@ -2830,7 +2830,7 @@ extension Ecs {
         /// The last known status of the task.
         public let lastStatus: String?
 
-        public init(clusterArn: String? = nil, overrides: TaskOverride? = nil, createdAt: Date? = nil, startedAt: Date? = nil, desiredStatus: String? = nil, taskDefinitionArn: String? = nil, containers: [Container]? = nil, stoppedReason: String? = nil, containerInstanceArn: String? = nil, stoppedAt: Date? = nil, version: Int64? = nil, taskArn: String? = nil, startedBy: String? = nil, group: String? = nil, lastStatus: String? = nil) {
+        public init(clusterArn: String? = nil, overrides: TaskOverride? = nil, createdAt: String? = nil, startedAt: String? = nil, desiredStatus: String? = nil, taskDefinitionArn: String? = nil, containers: [Container]? = nil, stoppedReason: String? = nil, containerInstanceArn: String? = nil, stoppedAt: String? = nil, version: Int64? = nil, taskArn: String? = nil, startedBy: String? = nil, group: String? = nil, lastStatus: String? = nil) {
             self.clusterArn = clusterArn
             self.overrides = overrides
             self.createdAt = createdAt
@@ -2851,8 +2851,8 @@ extension Ecs {
         public init(dictionary: [String: Any]) throws {
             self.clusterArn = dictionary["clusterArn"] as? String
             if let overrides = dictionary["overrides"] as? [String: Any] { self.overrides = try Ecs.TaskOverride(dictionary: overrides) } else { self.overrides = nil }
-            self.createdAt = dictionary["createdAt"] as? Date
-            self.startedAt = dictionary["startedAt"] as? Date
+            self.createdAt = dictionary["createdAt"] as? String
+            self.startedAt = dictionary["startedAt"] as? String
             self.desiredStatus = dictionary["desiredStatus"] as? String
             self.taskDefinitionArn = dictionary["taskDefinitionArn"] as? String
             if let containers = dictionary["containers"] as? [[String: Any]] {
@@ -2862,7 +2862,7 @@ extension Ecs {
             }
             self.stoppedReason = dictionary["stoppedReason"] as? String
             self.containerInstanceArn = dictionary["containerInstanceArn"] as? String
-            self.stoppedAt = dictionary["stoppedAt"] as? Date
+            self.stoppedAt = dictionary["stoppedAt"] as? String
             self.version = dictionary["version"] as? Int64
             self.taskArn = dictionary["taskArn"] as? String
             self.startedBy = dictionary["startedBy"] as? String

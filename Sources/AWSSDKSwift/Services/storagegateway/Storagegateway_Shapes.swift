@@ -552,12 +552,12 @@ extension Storagegateway {
         /// The Amazon Resource Name (ARN) of the virtual tape.
         public let tapeARN: String?
         /// The time when the point-in-time view of the virtual tape was replicated for later recovery. The string format of the tape recovery point time is in the ISO8601 extended YYYY-MM-DD'T'HH:MM:SS'Z' format.
-        public let tapeRecoveryPointTime: Date?
+        public let tapeRecoveryPointTime: String?
         public let tapeStatus: String?
         /// The size, in bytes, of the virtual tapes to recover.
         public let tapeSizeInBytes: Int64?
 
-        public init(tapeARN: String? = nil, tapeRecoveryPointTime: Date? = nil, tapeStatus: String? = nil, tapeSizeInBytes: Int64? = nil) {
+        public init(tapeARN: String? = nil, tapeRecoveryPointTime: String? = nil, tapeStatus: String? = nil, tapeSizeInBytes: Int64? = nil) {
             self.tapeARN = tapeARN
             self.tapeRecoveryPointTime = tapeRecoveryPointTime
             self.tapeStatus = tapeStatus
@@ -566,7 +566,7 @@ extension Storagegateway {
 
         public init(dictionary: [String: Any]) throws {
             self.tapeARN = dictionary["TapeARN"] as? String
-            self.tapeRecoveryPointTime = dictionary["TapeRecoveryPointTime"] as? Date
+            self.tapeRecoveryPointTime = dictionary["TapeRecoveryPointTime"] as? String
             self.tapeStatus = dictionary["TapeStatus"] as? String
             self.tapeSizeInBytes = dictionary["TapeSizeInBytes"] as? Int64
         }
@@ -1315,8 +1315,8 @@ extension Storagegateway {
         /// The Amazon Resource Name (ARN) of an archived virtual tape.
         public let tapeARN: String?
         /// The time that the archiving of the virtual tape was completed. The string format of the completion time is in the ISO8601 extended YYYY-MM-DD'T'HH:MM:SS'Z' format.
-        public let completionTime: Date?
-        public let tapeCreatedDate: Date?
+        public let completionTime: String?
+        public let tapeCreatedDate: String?
         /// The barcode that identifies the archived virtual tape.
         public let tapeBarcode: String?
         /// The Amazon Resource Name (ARN) of the gateway-VTL that the virtual tape is being retrieved to. The virtual tape is retrieved from the virtual tape shelf (VTS).
@@ -1326,7 +1326,7 @@ extension Storagegateway {
         /// The size, in bytes, of the archived virtual tape.
         public let tapeSizeInBytes: Int64?
 
-        public init(tapeARN: String? = nil, completionTime: Date? = nil, tapeCreatedDate: Date? = nil, tapeBarcode: String? = nil, retrievedTo: String? = nil, tapeStatus: String? = nil, tapeSizeInBytes: Int64? = nil) {
+        public init(tapeARN: String? = nil, completionTime: String? = nil, tapeCreatedDate: String? = nil, tapeBarcode: String? = nil, retrievedTo: String? = nil, tapeStatus: String? = nil, tapeSizeInBytes: Int64? = nil) {
             self.tapeARN = tapeARN
             self.completionTime = completionTime
             self.tapeCreatedDate = tapeCreatedDate
@@ -1338,8 +1338,8 @@ extension Storagegateway {
 
         public init(dictionary: [String: Any]) throws {
             self.tapeARN = dictionary["TapeARN"] as? String
-            self.completionTime = dictionary["CompletionTime"] as? Date
-            self.tapeCreatedDate = dictionary["TapeCreatedDate"] as? Date
+            self.completionTime = dictionary["CompletionTime"] as? String
+            self.tapeCreatedDate = dictionary["TapeCreatedDate"] as? String
             self.tapeBarcode = dictionary["TapeBarcode"] as? String
             self.retrievedTo = dictionary["RetrievedTo"] as? String
             self.tapeStatus = dictionary["TapeStatus"] as? String
@@ -2199,7 +2199,7 @@ extension Storagegateway {
         public let volumeSizeInBytes: Int64?
         /// Indicates if when the stored volume was created, existing data on the underlying local disk was preserved.  Valid Values: true, false
         public let preservedExistingData: Bool?
-        public let createdDate: Date?
+        public let createdDate: String?
         /// The Amazon Resource Name (ARN) of the storage volume.
         public let volumeARN: String?
         /// Represents the percentage complete if the volume is restoring or bootstrapping that represents the percent of data transferred. This field does not appear in the response if the stored volume is not restoring or bootstrapping.
@@ -2207,7 +2207,7 @@ extension Storagegateway {
         /// The ID of the local disk that was specified in the CreateStorediSCSIVolume operation.
         public let volumeDiskId: String?
 
-        public init(volumeiSCSIAttributes: VolumeiSCSIAttributes? = nil, sourceSnapshotId: String? = nil, volumeType: String? = nil, volumeStatus: String? = nil, volumeId: String? = nil, volumeSizeInBytes: Int64? = nil, preservedExistingData: Bool? = nil, createdDate: Date? = nil, volumeARN: String? = nil, volumeProgress: Double? = nil, volumeDiskId: String? = nil) {
+        public init(volumeiSCSIAttributes: VolumeiSCSIAttributes? = nil, sourceSnapshotId: String? = nil, volumeType: String? = nil, volumeStatus: String? = nil, volumeId: String? = nil, volumeSizeInBytes: Int64? = nil, preservedExistingData: Bool? = nil, createdDate: String? = nil, volumeARN: String? = nil, volumeProgress: Double? = nil, volumeDiskId: String? = nil) {
             self.volumeiSCSIAttributes = volumeiSCSIAttributes
             self.sourceSnapshotId = sourceSnapshotId
             self.volumeType = volumeType
@@ -2229,7 +2229,7 @@ extension Storagegateway {
             self.volumeId = dictionary["VolumeId"] as? String
             self.volumeSizeInBytes = dictionary["VolumeSizeInBytes"] as? Int64
             self.preservedExistingData = dictionary["PreservedExistingData"] as? Bool
-            self.createdDate = dictionary["CreatedDate"] as? Date
+            self.createdDate = dictionary["CreatedDate"] as? String
             self.volumeARN = dictionary["VolumeARN"] as? String
             self.volumeProgress = dictionary["VolumeProgress"] as? Double
             self.volumeDiskId = dictionary["VolumeDiskId"] as? String
@@ -2309,9 +2309,9 @@ extension Storagegateway {
         public let volumeProgress: Double?
         /// An VolumeiSCSIAttributes object that represents a collection of iSCSI attributes for one stored volume.
         public let volumeiSCSIAttributes: VolumeiSCSIAttributes?
-        public let createdDate: Date?
+        public let createdDate: String?
 
-        public init(sourceSnapshotId: String? = nil, volumeType: String? = nil, volumeStatus: String? = nil, volumeId: String? = nil, volumeSizeInBytes: Int64? = nil, volumeARN: String? = nil, volumeProgress: Double? = nil, volumeiSCSIAttributes: VolumeiSCSIAttributes? = nil, createdDate: Date? = nil) {
+        public init(sourceSnapshotId: String? = nil, volumeType: String? = nil, volumeStatus: String? = nil, volumeId: String? = nil, volumeSizeInBytes: Int64? = nil, volumeARN: String? = nil, volumeProgress: Double? = nil, volumeiSCSIAttributes: VolumeiSCSIAttributes? = nil, createdDate: String? = nil) {
             self.sourceSnapshotId = sourceSnapshotId
             self.volumeType = volumeType
             self.volumeStatus = volumeStatus
@@ -2332,7 +2332,7 @@ extension Storagegateway {
             self.volumeARN = dictionary["VolumeARN"] as? String
             self.volumeProgress = dictionary["VolumeProgress"] as? Double
             if let volumeiSCSIAttributes = dictionary["VolumeiSCSIAttributes"] as? [String: Any] { self.volumeiSCSIAttributes = try Storagegateway.VolumeiSCSIAttributes(dictionary: volumeiSCSIAttributes) } else { self.volumeiSCSIAttributes = nil }
-            self.createdDate = dictionary["CreatedDate"] as? Date
+            self.createdDate = dictionary["CreatedDate"] as? String
         }
     }
 
@@ -2427,7 +2427,7 @@ extension Storagegateway {
         public let vTLDevice: String?
         /// For archiving virtual tapes, indicates how much data remains to be uploaded before archiving is complete. Range: 0 (not started) to 100 (complete).
         public let progress: Double?
-        public let tapeCreatedDate: Date?
+        public let tapeCreatedDate: String?
         /// The barcode that identifies a specific virtual tape.
         public let tapeBarcode: String?
         /// The current state of the virtual tape.
@@ -2435,7 +2435,7 @@ extension Storagegateway {
         /// The size, in bytes, of the virtual tape.
         public let tapeSizeInBytes: Int64?
 
-        public init(tapeARN: String? = nil, vTLDevice: String? = nil, progress: Double? = nil, tapeCreatedDate: Date? = nil, tapeBarcode: String? = nil, tapeStatus: String? = nil, tapeSizeInBytes: Int64? = nil) {
+        public init(tapeARN: String? = nil, vTLDevice: String? = nil, progress: Double? = nil, tapeCreatedDate: String? = nil, tapeBarcode: String? = nil, tapeStatus: String? = nil, tapeSizeInBytes: Int64? = nil) {
             self.tapeARN = tapeARN
             self.vTLDevice = vTLDevice
             self.progress = progress
@@ -2449,7 +2449,7 @@ extension Storagegateway {
             self.tapeARN = dictionary["TapeARN"] as? String
             self.vTLDevice = dictionary["VTLDevice"] as? String
             self.progress = dictionary["Progress"] as? Double
-            self.tapeCreatedDate = dictionary["TapeCreatedDate"] as? Date
+            self.tapeCreatedDate = dictionary["TapeCreatedDate"] as? String
             self.tapeBarcode = dictionary["TapeBarcode"] as? String
             self.tapeStatus = dictionary["TapeStatus"] as? String
             self.tapeSizeInBytes = dictionary["TapeSizeInBytes"] as? Int64

@@ -318,11 +318,11 @@ extension Importexport {
             AWSShapeProperty(label: "IsCanceled", required: false, type: .boolean)
         ]
         public let jobType: JobType?
-        public let creationDate: Date?
+        public let creationDate: String?
         public let jobId: String?
         public let isCanceled: Bool?
 
-        public init(jobType: JobType? = nil, creationDate: Date? = nil, jobId: String? = nil, isCanceled: Bool? = nil) {
+        public init(jobType: JobType? = nil, creationDate: String? = nil, jobId: String? = nil, isCanceled: Bool? = nil) {
             self.jobType = jobType
             self.creationDate = creationDate
             self.jobId = jobId
@@ -331,7 +331,7 @@ extension Importexport {
 
         public init(dictionary: [String: Any]) throws {
             if let jobType = dictionary["JobType"] as? String { self.jobType = JobType(rawValue: jobType) } else { self.jobType = nil }
-            self.creationDate = dictionary["CreationDate"] as? Date
+            self.creationDate = dictionary["CreationDate"] as? String
             self.jobId = dictionary["JobId"] as? String
             self.isCanceled = dictionary["IsCanceled"] as? Bool
         }
@@ -362,7 +362,7 @@ extension Importexport {
         public let artifactList: [Artifact]?
         public let signature: String?
         public let progressMessage: String?
-        public let creationDate: Date?
+        public let creationDate: String?
         public let currentManifest: String?
         public let trackingNumber: String?
         public let progressCode: String?
@@ -375,7 +375,7 @@ extension Importexport {
         public let logBucket: String?
         public let locationCode: String?
 
-        public init(carrier: String? = nil, artifactList: [Artifact]? = nil, signature: String? = nil, progressMessage: String? = nil, creationDate: Date? = nil, currentManifest: String? = nil, trackingNumber: String? = nil, progressCode: String? = nil, jobId: String? = nil, logKey: String? = nil, signatureFileContents: String? = nil, locationMessage: String? = nil, jobType: JobType? = nil, errorCount: Int32? = nil, logBucket: String? = nil, locationCode: String? = nil) {
+        public init(carrier: String? = nil, artifactList: [Artifact]? = nil, signature: String? = nil, progressMessage: String? = nil, creationDate: String? = nil, currentManifest: String? = nil, trackingNumber: String? = nil, progressCode: String? = nil, jobId: String? = nil, logKey: String? = nil, signatureFileContents: String? = nil, locationMessage: String? = nil, jobType: JobType? = nil, errorCount: Int32? = nil, logBucket: String? = nil, locationCode: String? = nil) {
             self.carrier = carrier
             self.artifactList = artifactList
             self.signature = signature
@@ -403,7 +403,7 @@ extension Importexport {
             }
             self.signature = dictionary["Signature"] as? String
             self.progressMessage = dictionary["ProgressMessage"] as? String
-            self.creationDate = dictionary["CreationDate"] as? Date
+            self.creationDate = dictionary["CreationDate"] as? String
             self.currentManifest = dictionary["CurrentManifest"] as? String
             self.trackingNumber = dictionary["TrackingNumber"] as? String
             self.progressCode = dictionary["ProgressCode"] as? String

@@ -345,7 +345,7 @@ extension Clouddirectory {
             AWSShapeProperty(label: "State", required: false, type: .enum)
         ]
         /// The date and time when the directory was created.
-        public let creationDateTime: Date?
+        public let creationDateTime: String?
         /// ARN associated with the directory. For more information, see arns.
         public let directoryArn: String?
         /// The name of the directory.
@@ -353,7 +353,7 @@ extension Clouddirectory {
         /// The state of the directory. Can be either Enabled, Disabled, or Deleted.
         public let state: DirectoryState?
 
-        public init(creationDateTime: Date? = nil, directoryArn: String? = nil, name: String? = nil, state: DirectoryState? = nil) {
+        public init(creationDateTime: String? = nil, directoryArn: String? = nil, name: String? = nil, state: DirectoryState? = nil) {
             self.creationDateTime = creationDateTime
             self.directoryArn = directoryArn
             self.name = name
@@ -361,7 +361,7 @@ extension Clouddirectory {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.creationDateTime = dictionary["CreationDateTime"] as? Date
+            self.creationDateTime = dictionary["CreationDateTime"] as? String
             self.directoryArn = dictionary["DirectoryArn"] as? String
             self.name = dictionary["Name"] as? String
             if let state = dictionary["State"] as? String { self.state = DirectoryState(rawValue: state) } else { self.state = nil }
@@ -2357,11 +2357,11 @@ extension Clouddirectory {
         /// A Boolean data value.
         public let booleanValue: Bool?
         /// A date and time value.
-        public let datetimeValue: Date?
+        public let datetimeValue: String?
         /// A number data value.
         public let numberValue: String?
 
-        public init(stringValue: String? = nil, binaryValue: Data? = nil, booleanValue: Bool? = nil, datetimeValue: Date? = nil, numberValue: String? = nil) {
+        public init(stringValue: String? = nil, binaryValue: Data? = nil, booleanValue: Bool? = nil, datetimeValue: String? = nil, numberValue: String? = nil) {
             self.stringValue = stringValue
             self.binaryValue = binaryValue
             self.booleanValue = booleanValue
@@ -2373,7 +2373,7 @@ extension Clouddirectory {
             self.stringValue = dictionary["StringValue"] as? String
             self.binaryValue = dictionary["BinaryValue"] as? Data
             self.booleanValue = dictionary["BooleanValue"] as? Bool
-            self.datetimeValue = dictionary["DatetimeValue"] as? Date
+            self.datetimeValue = dictionary["DatetimeValue"] as? String
             self.numberValue = dictionary["NumberValue"] as? String
         }
     }

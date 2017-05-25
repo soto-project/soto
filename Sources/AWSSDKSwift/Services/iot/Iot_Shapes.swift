@@ -853,11 +853,11 @@ extension Iot {
         /// Whether the thing type is deprecated. If true, no new things could be associated with this type.
         public let deprecated: Bool?
         /// The date and time when the thing type was deprecated.
-        public let deprecationDate: Date?
+        public let deprecationDate: String?
         /// The date and time when the thing type was created.
-        public let creationDate: Date?
+        public let creationDate: String?
 
-        public init(deprecated: Bool? = nil, deprecationDate: Date? = nil, creationDate: Date? = nil) {
+        public init(deprecated: Bool? = nil, deprecationDate: String? = nil, creationDate: String? = nil) {
             self.deprecated = deprecated
             self.deprecationDate = deprecationDate
             self.creationDate = creationDate
@@ -865,8 +865,8 @@ extension Iot {
 
         public init(dictionary: [String: Any]) throws {
             self.deprecated = dictionary["deprecated"] as? Bool
-            self.deprecationDate = dictionary["deprecationDate"] as? Date
-            self.creationDate = dictionary["creationDate"] as? Date
+            self.deprecationDate = dictionary["deprecationDate"] as? String
+            self.creationDate = dictionary["creationDate"] as? String
         }
     }
 
@@ -1207,9 +1207,9 @@ extension Iot {
         /// The rule ARN.
         public let ruleArn: String?
         /// The date and time the rule was created.
-        public let createdAt: Date?
+        public let createdAt: String?
 
-        public init(ruleDisabled: Bool? = nil, topicPattern: String? = nil, ruleName: String? = nil, ruleArn: String? = nil, createdAt: Date? = nil) {
+        public init(ruleDisabled: Bool? = nil, topicPattern: String? = nil, ruleName: String? = nil, ruleArn: String? = nil, createdAt: String? = nil) {
             self.ruleDisabled = ruleDisabled
             self.topicPattern = topicPattern
             self.ruleName = ruleName
@@ -1222,7 +1222,7 @@ extension Iot {
             self.topicPattern = dictionary["topicPattern"] as? String
             self.ruleName = dictionary["ruleName"] as? String
             self.ruleArn = dictionary["ruleArn"] as? String
-            self.createdAt = dictionary["createdAt"] as? Date
+            self.createdAt = dictionary["createdAt"] as? String
         }
     }
 
@@ -1424,7 +1424,7 @@ extension Iot {
         /// The name of the rule.
         public let ruleName: String?
         /// The date and time the rule was created.
-        public let createdAt: Date?
+        public let createdAt: String?
         /// The version of the SQL rules engine to use when evaluating the rule.
         public let awsIotSqlVersion: String?
         /// The description of the rule.
@@ -1434,7 +1434,7 @@ extension Iot {
         /// The SQL statement used to query the topic. When using a SQL query with multiple lines, be sure to escape the newline characters.
         public let sql: String?
 
-        public init(ruleDisabled: Bool? = nil, ruleName: String? = nil, createdAt: Date? = nil, awsIotSqlVersion: String? = nil, description: String? = nil, actions: [Action]? = nil, sql: String? = nil) {
+        public init(ruleDisabled: Bool? = nil, ruleName: String? = nil, createdAt: String? = nil, awsIotSqlVersion: String? = nil, description: String? = nil, actions: [Action]? = nil, sql: String? = nil) {
             self.ruleDisabled = ruleDisabled
             self.ruleName = ruleName
             self.createdAt = createdAt
@@ -1447,7 +1447,7 @@ extension Iot {
         public init(dictionary: [String: Any]) throws {
             self.ruleDisabled = dictionary["ruleDisabled"] as? Bool
             self.ruleName = dictionary["ruleName"] as? String
-            self.createdAt = dictionary["createdAt"] as? Date
+            self.createdAt = dictionary["createdAt"] as? String
             self.awsIotSqlVersion = dictionary["awsIotSqlVersion"] as? String
             self.description = dictionary["description"] as? String
             if let actions = dictionary["actions"] as? [[String: Any]] {
@@ -1508,7 +1508,7 @@ extension Iot {
         /// The status of the certificate.
         public let status: CertificateStatus?
         /// The date and time the certificate was created.
-        public let creationDate: Date?
+        public let creationDate: String?
         /// The ID of the certificate.
         public let certificateId: String?
         /// The certificate data, in PEM format.
@@ -1522,9 +1522,9 @@ extension Iot {
         /// The ARN of the certificate.
         public let certificateArn: String?
         /// The date and time the certificate was last modified.
-        public let lastModifiedDate: Date?
+        public let lastModifiedDate: String?
 
-        public init(caCertificateId: String? = nil, status: CertificateStatus? = nil, creationDate: Date? = nil, certificateId: String? = nil, certificatePem: String? = nil, previousOwnedBy: String? = nil, transferData: TransferData? = nil, ownedBy: String? = nil, certificateArn: String? = nil, lastModifiedDate: Date? = nil) {
+        public init(caCertificateId: String? = nil, status: CertificateStatus? = nil, creationDate: String? = nil, certificateId: String? = nil, certificatePem: String? = nil, previousOwnedBy: String? = nil, transferData: TransferData? = nil, ownedBy: String? = nil, certificateArn: String? = nil, lastModifiedDate: String? = nil) {
             self.caCertificateId = caCertificateId
             self.status = status
             self.creationDate = creationDate
@@ -1540,14 +1540,14 @@ extension Iot {
         public init(dictionary: [String: Any]) throws {
             self.caCertificateId = dictionary["caCertificateId"] as? String
             if let status = dictionary["status"] as? String { self.status = CertificateStatus(rawValue: status) } else { self.status = nil }
-            self.creationDate = dictionary["creationDate"] as? Date
+            self.creationDate = dictionary["creationDate"] as? String
             self.certificateId = dictionary["certificateId"] as? String
             self.certificatePem = dictionary["certificatePem"] as? String
             self.previousOwnedBy = dictionary["previousOwnedBy"] as? String
             if let transferData = dictionary["transferData"] as? [String: Any] { self.transferData = try Iot.TransferData(dictionary: transferData) } else { self.transferData = nil }
             self.ownedBy = dictionary["ownedBy"] as? String
             self.certificateArn = dictionary["certificateArn"] as? String
-            self.lastModifiedDate = dictionary["lastModifiedDate"] as? Date
+            self.lastModifiedDate = dictionary["lastModifiedDate"] as? String
         }
     }
 
@@ -1692,13 +1692,13 @@ extension Iot {
         /// The status of the CA certificate.  The status value REGISTER_INACTIVE is deprecated and should not be used.
         public let status: CACertificateStatus?
         /// The date the CA certificate was created.
-        public let creationDate: Date?
+        public let creationDate: String?
         /// The ID of the CA certificate.
         public let certificateId: String?
         /// The ARN of the CA certificate.
         public let certificateArn: String?
 
-        public init(status: CACertificateStatus? = nil, creationDate: Date? = nil, certificateId: String? = nil, certificateArn: String? = nil) {
+        public init(status: CACertificateStatus? = nil, creationDate: String? = nil, certificateId: String? = nil, certificateArn: String? = nil) {
             self.status = status
             self.creationDate = creationDate
             self.certificateId = certificateId
@@ -1707,7 +1707,7 @@ extension Iot {
 
         public init(dictionary: [String: Any]) throws {
             if let status = dictionary["status"] as? String { self.status = CACertificateStatus(rawValue: status) } else { self.status = nil }
-            self.creationDate = dictionary["creationDate"] as? Date
+            self.creationDate = dictionary["creationDate"] as? String
             self.certificateId = dictionary["certificateId"] as? String
             self.certificateArn = dictionary["certificateArn"] as? String
         }
@@ -1775,20 +1775,20 @@ extension Iot {
             AWSShapeProperty(label: "isDefaultVersion", required: false, type: .boolean)
         ]
         /// The date and time the policy was created.
-        public let createDate: Date?
+        public let createDate: String?
         /// The policy version ID.
         public let versionId: String?
         /// Specifies whether the policy version is the default.
         public let isDefaultVersion: Bool?
 
-        public init(createDate: Date? = nil, versionId: String? = nil, isDefaultVersion: Bool? = nil) {
+        public init(createDate: String? = nil, versionId: String? = nil, isDefaultVersion: Bool? = nil) {
             self.createDate = createDate
             self.versionId = versionId
             self.isDefaultVersion = isDefaultVersion
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.createDate = dictionary["createDate"] as? Date
+            self.createDate = dictionary["createDate"] as? String
             self.versionId = dictionary["versionId"] as? String
             self.isDefaultVersion = dictionary["isDefaultVersion"] as? Bool
         }
@@ -2285,7 +2285,7 @@ extension Iot {
         /// The transfer message.
         public let transferMessage: String?
         /// The certificate creation date.
-        public let creationDate: Date?
+        public let creationDate: String?
         /// The certificate ID.
         public let certificateId: String?
         /// The certificate ARN.
@@ -2293,9 +2293,9 @@ extension Iot {
         /// The AWS account to which the transfer was made.
         public let transferredTo: String?
         /// The date the transfer was initiated.
-        public let transferDate: Date?
+        public let transferDate: String?
 
-        public init(transferMessage: String? = nil, creationDate: Date? = nil, certificateId: String? = nil, certificateArn: String? = nil, transferredTo: String? = nil, transferDate: Date? = nil) {
+        public init(transferMessage: String? = nil, creationDate: String? = nil, certificateId: String? = nil, certificateArn: String? = nil, transferredTo: String? = nil, transferDate: String? = nil) {
             self.transferMessage = transferMessage
             self.creationDate = creationDate
             self.certificateId = certificateId
@@ -2306,11 +2306,11 @@ extension Iot {
 
         public init(dictionary: [String: Any]) throws {
             self.transferMessage = dictionary["transferMessage"] as? String
-            self.creationDate = dictionary["creationDate"] as? Date
+            self.creationDate = dictionary["creationDate"] as? String
             self.certificateId = dictionary["certificateId"] as? String
             self.certificateArn = dictionary["certificateArn"] as? String
             self.transferredTo = dictionary["transferredTo"] as? String
-            self.transferDate = dictionary["transferDate"] as? Date
+            self.transferDate = dictionary["transferDate"] as? String
         }
     }
 
@@ -2546,17 +2546,17 @@ extension Iot {
             AWSShapeProperty(label: "rejectReason", required: false, type: .string)
         ]
         /// The date the transfer was rejected.
-        public let rejectDate: Date?
+        public let rejectDate: String?
         /// The date the transfer was accepted.
-        public let acceptDate: Date?
+        public let acceptDate: String?
         /// The transfer message.
         public let transferMessage: String?
         /// The date the transfer took place.
-        public let transferDate: Date?
+        public let transferDate: String?
         /// The reason why the transfer was rejected.
         public let rejectReason: String?
 
-        public init(rejectDate: Date? = nil, acceptDate: Date? = nil, transferMessage: String? = nil, transferDate: Date? = nil, rejectReason: String? = nil) {
+        public init(rejectDate: String? = nil, acceptDate: String? = nil, transferMessage: String? = nil, transferDate: String? = nil, rejectReason: String? = nil) {
             self.rejectDate = rejectDate
             self.acceptDate = acceptDate
             self.transferMessage = transferMessage
@@ -2565,10 +2565,10 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.rejectDate = dictionary["rejectDate"] as? Date
-            self.acceptDate = dictionary["acceptDate"] as? Date
+            self.rejectDate = dictionary["rejectDate"] as? String
+            self.acceptDate = dictionary["acceptDate"] as? String
             self.transferMessage = dictionary["transferMessage"] as? String
-            self.transferDate = dictionary["transferDate"] as? Date
+            self.transferDate = dictionary["transferDate"] as? String
             self.rejectReason = dictionary["rejectReason"] as? String
         }
     }
@@ -2610,13 +2610,13 @@ extension Iot {
         /// The status of the certificate. The status value REGISTER_INACTIVE is deprecated and should not be used.
         public let status: CertificateStatus?
         /// The date and time the certificate was created.
-        public let creationDate: Date?
+        public let creationDate: String?
         /// The ID of the certificate.
         public let certificateId: String?
         /// The ARN of the certificate.
         public let certificateArn: String?
 
-        public init(status: CertificateStatus? = nil, creationDate: Date? = nil, certificateId: String? = nil, certificateArn: String? = nil) {
+        public init(status: CertificateStatus? = nil, creationDate: String? = nil, certificateId: String? = nil, certificateArn: String? = nil) {
             self.status = status
             self.creationDate = creationDate
             self.certificateId = certificateId
@@ -2625,7 +2625,7 @@ extension Iot {
 
         public init(dictionary: [String: Any]) throws {
             if let status = dictionary["status"] as? String { self.status = CertificateStatus(rawValue: status) } else { self.status = nil }
-            self.creationDate = dictionary["creationDate"] as? Date
+            self.creationDate = dictionary["creationDate"] as? String
             self.certificateId = dictionary["certificateId"] as? String
             self.certificateArn = dictionary["certificateArn"] as? String
         }
@@ -2978,7 +2978,7 @@ extension Iot {
         /// Whether the CA certificate configured for auto registration of device certificates. Valid values are "ENABLE" and "DISABLE"
         public let autoRegistrationStatus: AutoRegistrationStatus?
         /// The date the CA certificate was created.
-        public let creationDate: Date?
+        public let creationDate: String?
         /// The CA certificate ID.
         public let certificateId: String?
         /// The CA certificate data, in PEM format.
@@ -2988,7 +2988,7 @@ extension Iot {
         /// The CA certificate ARN.
         public let certificateArn: String?
 
-        public init(status: CACertificateStatus? = nil, autoRegistrationStatus: AutoRegistrationStatus? = nil, creationDate: Date? = nil, certificateId: String? = nil, certificatePem: String? = nil, ownedBy: String? = nil, certificateArn: String? = nil) {
+        public init(status: CACertificateStatus? = nil, autoRegistrationStatus: AutoRegistrationStatus? = nil, creationDate: String? = nil, certificateId: String? = nil, certificatePem: String? = nil, ownedBy: String? = nil, certificateArn: String? = nil) {
             self.status = status
             self.autoRegistrationStatus = autoRegistrationStatus
             self.creationDate = creationDate
@@ -3001,7 +3001,7 @@ extension Iot {
         public init(dictionary: [String: Any]) throws {
             if let status = dictionary["status"] as? String { self.status = CACertificateStatus(rawValue: status) } else { self.status = nil }
             if let autoRegistrationStatus = dictionary["autoRegistrationStatus"] as? String { self.autoRegistrationStatus = AutoRegistrationStatus(rawValue: autoRegistrationStatus) } else { self.autoRegistrationStatus = nil }
-            self.creationDate = dictionary["creationDate"] as? Date
+            self.creationDate = dictionary["creationDate"] as? String
             self.certificateId = dictionary["certificateId"] as? String
             self.certificatePem = dictionary["certificatePem"] as? String
             self.ownedBy = dictionary["ownedBy"] as? String

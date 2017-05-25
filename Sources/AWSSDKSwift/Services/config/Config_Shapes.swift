@@ -45,9 +45,9 @@ extension Config {
         /// Status of the last attempted delivery.  Note Providing an SNS topic on a DeliveryChannel for AWS Config is optional. If the SNS delivery is turned off, the last status will be Not_Applicable.
         public let lastStatus: DeliveryStatus?
         /// The time from the last status change.
-        public let lastStatusChangeTime: Date?
+        public let lastStatusChangeTime: String?
 
-        public init(lastErrorMessage: String? = nil, lastErrorCode: String? = nil, lastStatus: DeliveryStatus? = nil, lastStatusChangeTime: Date? = nil) {
+        public init(lastErrorMessage: String? = nil, lastErrorCode: String? = nil, lastStatus: DeliveryStatus? = nil, lastStatusChangeTime: String? = nil) {
             self.lastErrorMessage = lastErrorMessage
             self.lastErrorCode = lastErrorCode
             self.lastStatus = lastStatus
@@ -58,7 +58,7 @@ extension Config {
             self.lastErrorMessage = dictionary["lastErrorMessage"] as? String
             self.lastErrorCode = dictionary["lastErrorCode"] as? String
             if let lastStatus = dictionary["lastStatus"] as? String { self.lastStatus = DeliveryStatus(rawValue: lastStatus) } else { self.lastStatus = nil }
-            self.lastStatusChangeTime = dictionary["lastStatusChangeTime"] as? Date
+            self.lastStatusChangeTime = dictionary["lastStatusChangeTime"] as? String
         }
     }
 
@@ -183,17 +183,17 @@ extension Config {
         /// The error message from the last attempted delivery.
         public let lastErrorMessage: String?
         /// The time of the last attempted delivery.
-        public let lastAttemptTime: Date?
+        public let lastAttemptTime: String?
         /// The time of the last successful delivery.
-        public let lastSuccessfulTime: Date?
+        public let lastSuccessfulTime: String?
         /// The error code from the last attempted delivery.
         public let lastErrorCode: String?
         /// Status of the last attempted delivery.
         public let lastStatus: DeliveryStatus?
         /// The time that the next delivery occurs.
-        public let nextDeliveryTime: Date?
+        public let nextDeliveryTime: String?
 
-        public init(lastErrorMessage: String? = nil, lastAttemptTime: Date? = nil, lastSuccessfulTime: Date? = nil, lastErrorCode: String? = nil, lastStatus: DeliveryStatus? = nil, nextDeliveryTime: Date? = nil) {
+        public init(lastErrorMessage: String? = nil, lastAttemptTime: String? = nil, lastSuccessfulTime: String? = nil, lastErrorCode: String? = nil, lastStatus: DeliveryStatus? = nil, nextDeliveryTime: String? = nil) {
             self.lastErrorMessage = lastErrorMessage
             self.lastAttemptTime = lastAttemptTime
             self.lastSuccessfulTime = lastSuccessfulTime
@@ -204,11 +204,11 @@ extension Config {
 
         public init(dictionary: [String: Any]) throws {
             self.lastErrorMessage = dictionary["lastErrorMessage"] as? String
-            self.lastAttemptTime = dictionary["lastAttemptTime"] as? Date
-            self.lastSuccessfulTime = dictionary["lastSuccessfulTime"] as? Date
+            self.lastAttemptTime = dictionary["lastAttemptTime"] as? String
+            self.lastSuccessfulTime = dictionary["lastSuccessfulTime"] as? String
             self.lastErrorCode = dictionary["lastErrorCode"] as? String
             if let lastStatus = dictionary["lastStatus"] as? String { self.lastStatus = DeliveryStatus(rawValue: lastStatus) } else { self.lastStatus = nil }
-            self.nextDeliveryTime = dictionary["nextDeliveryTime"] as? Date
+            self.nextDeliveryTime = dictionary["nextDeliveryTime"] as? String
         }
     }
 
@@ -304,9 +304,9 @@ extension Config {
         /// The custom name of the resource (if available).
         public let resourceName: String?
         /// The time that the resource was deleted.
-        public let resourceDeletionTime: Date?
+        public let resourceDeletionTime: String?
 
-        public init(resourceType: ResourceType? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceDeletionTime: Date? = nil) {
+        public init(resourceType: ResourceType? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceDeletionTime: String? = nil) {
             self.resourceType = resourceType
             self.resourceId = resourceId
             self.resourceName = resourceName
@@ -317,7 +317,7 @@ extension Config {
             if let resourceType = dictionary["resourceType"] as? String { self.resourceType = ResourceType(rawValue: resourceType) } else { self.resourceType = nil }
             self.resourceId = dictionary["resourceId"] as? String
             self.resourceName = dictionary["resourceName"] as? String
-            self.resourceDeletionTime = dictionary["resourceDeletionTime"] as? Date
+            self.resourceDeletionTime = dictionary["resourceDeletionTime"] as? String
         }
     }
 
@@ -718,13 +718,13 @@ extension Config {
         /// The configuration item status.
         public let configurationItemStatus: ConfigurationItemStatus?
         /// The time when the configuration recording was initiated.
-        public let configurationItemCaptureTime: Date?
+        public let configurationItemCaptureTime: String?
         /// The version number of the resource configuration.
         public let version: String?
         /// The 12 digit AWS account ID associated with the resource.
         public let accountId: String?
         /// The time stamp when the resource was created.
-        public let resourceCreationTime: Date?
+        public let resourceCreationTime: String?
         /// Configuration attributes that AWS Config returns for certain resource types to supplement the information returned for the configuration parameter.
         public let supplementaryConfiguration: [String: String]?
         /// The region where the resource resides.
@@ -732,7 +732,7 @@ extension Config {
         /// Unique MD5 hash that represents the configuration item's state. You can use MD5 hash to compare the states of two or more configuration items that are associated with the same resource.
         public let configurationItemMD5Hash: String?
 
-        public init(configurationStateId: String? = nil, resourceType: ResourceType? = nil, resourceName: String? = nil, relatedEvents: [String]? = nil, tags: [String: String]? = nil, resourceId: String? = nil, configuration: String? = nil, relationships: [Relationship]? = nil, availabilityZone: String? = nil, arn: String? = nil, configurationItemStatus: ConfigurationItemStatus? = nil, configurationItemCaptureTime: Date? = nil, version: String? = nil, accountId: String? = nil, resourceCreationTime: Date? = nil, supplementaryConfiguration: [String: String]? = nil, awsRegion: String? = nil, configurationItemMD5Hash: String? = nil) {
+        public init(configurationStateId: String? = nil, resourceType: ResourceType? = nil, resourceName: String? = nil, relatedEvents: [String]? = nil, tags: [String: String]? = nil, resourceId: String? = nil, configuration: String? = nil, relationships: [Relationship]? = nil, availabilityZone: String? = nil, arn: String? = nil, configurationItemStatus: ConfigurationItemStatus? = nil, configurationItemCaptureTime: String? = nil, version: String? = nil, accountId: String? = nil, resourceCreationTime: String? = nil, supplementaryConfiguration: [String: String]? = nil, awsRegion: String? = nil, configurationItemMD5Hash: String? = nil) {
             self.configurationStateId = configurationStateId
             self.resourceType = resourceType
             self.resourceName = resourceName
@@ -773,10 +773,10 @@ extension Config {
             self.availabilityZone = dictionary["availabilityZone"] as? String
             self.arn = dictionary["arn"] as? String
             if let configurationItemStatus = dictionary["configurationItemStatus"] as? String { self.configurationItemStatus = ConfigurationItemStatus(rawValue: configurationItemStatus) } else { self.configurationItemStatus = nil }
-            self.configurationItemCaptureTime = dictionary["configurationItemCaptureTime"] as? Date
+            self.configurationItemCaptureTime = dictionary["configurationItemCaptureTime"] as? String
             self.version = dictionary["version"] as? String
             self.accountId = dictionary["accountId"] as? String
-            self.resourceCreationTime = dictionary["resourceCreationTime"] as? Date
+            self.resourceCreationTime = dictionary["resourceCreationTime"] as? String
             if let supplementaryConfiguration = dictionary["supplementaryConfiguration"] as? [String: String] {
                 self.supplementaryConfiguration = supplementaryConfiguration
             } else { 
@@ -814,17 +814,17 @@ extension Config {
             AWSShapeProperty(label: "EvaluationResultQualifier", required: false, type: .structure)
         ]
         /// The time of the event that triggered the evaluation of your AWS resources. The time can indicate when AWS Config delivered a configuration item change notification, or it can indicate when AWS Config delivered the configuration snapshot, depending on which event triggered the evaluation.
-        public let orderingTimestamp: Date?
+        public let orderingTimestamp: String?
         /// Identifies an AWS Config rule used to evaluate an AWS resource, and provides the type and ID of the evaluated resource.
         public let evaluationResultQualifier: EvaluationResultQualifier?
 
-        public init(orderingTimestamp: Date? = nil, evaluationResultQualifier: EvaluationResultQualifier? = nil) {
+        public init(orderingTimestamp: String? = nil, evaluationResultQualifier: EvaluationResultQualifier? = nil) {
             self.orderingTimestamp = orderingTimestamp
             self.evaluationResultQualifier = evaluationResultQualifier
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.orderingTimestamp = dictionary["OrderingTimestamp"] as? Date
+            self.orderingTimestamp = dictionary["OrderingTimestamp"] as? String
             if let evaluationResultQualifier = dictionary["EvaluationResultQualifier"] as? [String: Any] { self.evaluationResultQualifier = try Config.EvaluationResultQualifier(dictionary: evaluationResultQualifier) } else { self.evaluationResultQualifier = nil }
         }
     }
@@ -950,11 +950,11 @@ extension Config {
         /// The ID of the AWS resource that was evaluated.
         public let complianceResourceId: String
         /// The time of the event in AWS Config that triggered the evaluation. For event-based evaluations, the time indicates when AWS Config created the configuration item that triggered the evaluation. For periodic evaluations, the time indicates when AWS Config triggered the evaluation at the frequency that you specified (for example, every 24 hours).
-        public let orderingTimestamp: Date
+        public let orderingTimestamp: String
         /// Supplementary information about how the evaluation determined the compliance.
         public let annotation: String?
 
-        public init(complianceType: ComplianceType, complianceResourceType: String, complianceResourceId: String, orderingTimestamp: Date, annotation: String? = nil) {
+        public init(complianceType: ComplianceType, complianceResourceType: String, complianceResourceId: String, orderingTimestamp: String, annotation: String? = nil) {
             self.complianceType = complianceType
             self.complianceResourceType = complianceResourceType
             self.complianceResourceId = complianceResourceId
@@ -969,7 +969,7 @@ extension Config {
             self.complianceResourceType = complianceResourceType
             guard let complianceResourceId = dictionary["ComplianceResourceId"] as? String else { throw InitializableError.missingRequiredParam("ComplianceResourceId") }
             self.complianceResourceId = complianceResourceId
-            guard let orderingTimestamp = dictionary["OrderingTimestamp"] as? Date else { throw InitializableError.missingRequiredParam("OrderingTimestamp") }
+            guard let orderingTimestamp = dictionary["OrderingTimestamp"] as? String else { throw InitializableError.missingRequiredParam("OrderingTimestamp") }
             self.orderingTimestamp = orderingTimestamp
             self.annotation = dictionary["Annotation"] as? String
         }
@@ -1112,20 +1112,20 @@ extension Config {
             AWSShapeProperty(label: "CompliantResourceCount", required: false, type: .structure)
         ]
         /// The time that AWS Config created the compliance summary.
-        public let complianceSummaryTimestamp: Date?
+        public let complianceSummaryTimestamp: String?
         /// The number of AWS Config rules or AWS resources that are noncompliant, up to a maximum of 25 for rules and 100 for resources.
         public let nonCompliantResourceCount: ComplianceContributorCount?
         /// The number of AWS Config rules or AWS resources that are compliant, up to a maximum of 25 for rules and 100 for resources.
         public let compliantResourceCount: ComplianceContributorCount?
 
-        public init(complianceSummaryTimestamp: Date? = nil, nonCompliantResourceCount: ComplianceContributorCount? = nil, compliantResourceCount: ComplianceContributorCount? = nil) {
+        public init(complianceSummaryTimestamp: String? = nil, nonCompliantResourceCount: ComplianceContributorCount? = nil, compliantResourceCount: ComplianceContributorCount? = nil) {
             self.complianceSummaryTimestamp = complianceSummaryTimestamp
             self.nonCompliantResourceCount = nonCompliantResourceCount
             self.compliantResourceCount = compliantResourceCount
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.complianceSummaryTimestamp = dictionary["ComplianceSummaryTimestamp"] as? Date
+            self.complianceSummaryTimestamp = dictionary["ComplianceSummaryTimestamp"] as? String
             if let nonCompliantResourceCount = dictionary["NonCompliantResourceCount"] as? [String: Any] { self.nonCompliantResourceCount = try Config.ComplianceContributorCount(dictionary: nonCompliantResourceCount) } else { self.nonCompliantResourceCount = nil }
             if let compliantResourceCount = dictionary["CompliantResourceCount"] as? [String: Any] { self.compliantResourceCount = try Config.ComplianceContributorCount(dictionary: compliantResourceCount) } else { self.compliantResourceCount = nil }
         }
@@ -1188,19 +1188,19 @@ extension Config {
             AWSShapeProperty(label: "LastFailedInvocationTime", required: false, type: .timestamp)
         ]
         /// The time that AWS Config last failed to evaluate your AWS resources against the rule.
-        public let lastFailedEvaluationTime: Date?
+        public let lastFailedEvaluationTime: String?
         /// Indicates whether AWS Config has evaluated your resources against the rule at least once.    true - AWS Config has evaluated your AWS resources against the rule at least once.    false - AWS Config has not once finished evaluating your AWS resources against the rule.  
         public let firstEvaluationStarted: Bool?
         /// The time that AWS Config last successfully evaluated your AWS resources against the rule.
-        public let lastSuccessfulEvaluationTime: Date?
+        public let lastSuccessfulEvaluationTime: String?
         /// The name of the AWS Config rule.
         public let configRuleName: String?
         /// The time that you first activated the AWS Config rule.
-        public let firstActivatedTime: Date?
+        public let firstActivatedTime: String?
         /// The ID of the AWS Config rule.
         public let configRuleId: String?
         /// The time that AWS Config last successfully invoked the AWS Config rule to evaluate your AWS resources.
-        public let lastSuccessfulInvocationTime: Date?
+        public let lastSuccessfulInvocationTime: String?
         /// The Amazon Resource Name (ARN) of the AWS Config rule.
         public let configRuleArn: String?
         /// The error code that AWS Config returned when the rule last failed.
@@ -1208,9 +1208,9 @@ extension Config {
         /// The error message that AWS Config returned when the rule last failed.
         public let lastErrorMessage: String?
         /// The time that AWS Config last failed to invoke the AWS Config rule to evaluate your AWS resources.
-        public let lastFailedInvocationTime: Date?
+        public let lastFailedInvocationTime: String?
 
-        public init(lastFailedEvaluationTime: Date? = nil, firstEvaluationStarted: Bool? = nil, lastSuccessfulEvaluationTime: Date? = nil, configRuleName: String? = nil, firstActivatedTime: Date? = nil, configRuleId: String? = nil, lastSuccessfulInvocationTime: Date? = nil, configRuleArn: String? = nil, lastErrorCode: String? = nil, lastErrorMessage: String? = nil, lastFailedInvocationTime: Date? = nil) {
+        public init(lastFailedEvaluationTime: String? = nil, firstEvaluationStarted: Bool? = nil, lastSuccessfulEvaluationTime: String? = nil, configRuleName: String? = nil, firstActivatedTime: String? = nil, configRuleId: String? = nil, lastSuccessfulInvocationTime: String? = nil, configRuleArn: String? = nil, lastErrorCode: String? = nil, lastErrorMessage: String? = nil, lastFailedInvocationTime: String? = nil) {
             self.lastFailedEvaluationTime = lastFailedEvaluationTime
             self.firstEvaluationStarted = firstEvaluationStarted
             self.lastSuccessfulEvaluationTime = lastSuccessfulEvaluationTime
@@ -1225,17 +1225,17 @@ extension Config {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.lastFailedEvaluationTime = dictionary["LastFailedEvaluationTime"] as? Date
+            self.lastFailedEvaluationTime = dictionary["LastFailedEvaluationTime"] as? String
             self.firstEvaluationStarted = dictionary["FirstEvaluationStarted"] as? Bool
-            self.lastSuccessfulEvaluationTime = dictionary["LastSuccessfulEvaluationTime"] as? Date
+            self.lastSuccessfulEvaluationTime = dictionary["LastSuccessfulEvaluationTime"] as? String
             self.configRuleName = dictionary["ConfigRuleName"] as? String
-            self.firstActivatedTime = dictionary["FirstActivatedTime"] as? Date
+            self.firstActivatedTime = dictionary["FirstActivatedTime"] as? String
             self.configRuleId = dictionary["ConfigRuleId"] as? String
-            self.lastSuccessfulInvocationTime = dictionary["LastSuccessfulInvocationTime"] as? Date
+            self.lastSuccessfulInvocationTime = dictionary["LastSuccessfulInvocationTime"] as? String
             self.configRuleArn = dictionary["ConfigRuleArn"] as? String
             self.lastErrorCode = dictionary["LastErrorCode"] as? String
             self.lastErrorMessage = dictionary["LastErrorMessage"] as? String
-            self.lastFailedInvocationTime = dictionary["LastFailedInvocationTime"] as? Date
+            self.lastFailedInvocationTime = dictionary["LastFailedInvocationTime"] as? String
         }
     }
 
@@ -1567,7 +1567,7 @@ extension Config {
             AWSShapeProperty(label: "resourceId", required: true, type: .string)
         ]
         /// The time stamp that indicates a later time. If not specified, current time is taken.
-        public let laterTime: Date?
+        public let laterTime: String?
         /// The maximum number of configuration items returned on each page. The default is 10. You cannot specify a limit greater than 100. If you specify 0, AWS Config uses the default.
         public let limit: Int32?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
@@ -1577,11 +1577,11 @@ extension Config {
         /// The chronological order for configuration items listed. By default the results are listed in reverse chronological order.
         public let chronologicalOrder: ChronologicalOrder?
         /// The time stamp that indicates an earlier time. If not specified, the action returns paginated results that contain configuration items that start from when the first configuration item was recorded.
-        public let earlierTime: Date?
+        public let earlierTime: String?
         /// The ID of the resource (for example., sg-xxxxxx).
         public let resourceId: String
 
-        public init(laterTime: Date? = nil, limit: Int32? = nil, nextToken: String? = nil, resourceType: ResourceType, chronologicalOrder: ChronologicalOrder? = nil, earlierTime: Date? = nil, resourceId: String) {
+        public init(laterTime: String? = nil, limit: Int32? = nil, nextToken: String? = nil, resourceType: ResourceType, chronologicalOrder: ChronologicalOrder? = nil, earlierTime: String? = nil, resourceId: String) {
             self.laterTime = laterTime
             self.limit = limit
             self.nextToken = nextToken
@@ -1592,13 +1592,13 @@ extension Config {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.laterTime = dictionary["laterTime"] as? Date
+            self.laterTime = dictionary["laterTime"] as? String
             self.limit = dictionary["limit"] as? Int32
             self.nextToken = dictionary["nextToken"] as? String
             guard let rawresourceType = dictionary["resourceType"] as? String, let resourceType = ResourceType(rawValue: rawresourceType) else { throw InitializableError.missingRequiredParam("resourceType") }
             self.resourceType = resourceType
             if let chronologicalOrder = dictionary["chronologicalOrder"] as? String { self.chronologicalOrder = ChronologicalOrder(rawValue: chronologicalOrder) } else { self.chronologicalOrder = nil }
-            self.earlierTime = dictionary["earlierTime"] as? Date
+            self.earlierTime = dictionary["earlierTime"] as? String
             guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
             self.resourceId = resourceId
         }
@@ -1796,9 +1796,9 @@ extension Config {
         /// Uniquely identifies the evaluation result.
         public let evaluationResultIdentifier: EvaluationResultIdentifier?
         /// The time when the AWS Config rule evaluated the AWS resource.
-        public let configRuleInvokedTime: Date?
+        public let configRuleInvokedTime: String?
         /// The time when AWS Config recorded the evaluation result.
-        public let resultRecordedTime: Date?
+        public let resultRecordedTime: String?
         /// Indicates whether the AWS resource complies with the AWS Config rule that evaluated it. For the EvaluationResult data type, AWS Config supports only the COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE values. AWS Config does not support the INSUFFICIENT_DATA value for the EvaluationResult data type.
         public let complianceType: ComplianceType?
         /// An encrypted token that associates an evaluation with an AWS Config rule. The token identifies the rule, the AWS resource being evaluated, and the event that triggered the evaluation.
@@ -1806,7 +1806,7 @@ extension Config {
         /// Supplementary information about how the evaluation determined the compliance.
         public let annotation: String?
 
-        public init(evaluationResultIdentifier: EvaluationResultIdentifier? = nil, configRuleInvokedTime: Date? = nil, resultRecordedTime: Date? = nil, complianceType: ComplianceType? = nil, resultToken: String? = nil, annotation: String? = nil) {
+        public init(evaluationResultIdentifier: EvaluationResultIdentifier? = nil, configRuleInvokedTime: String? = nil, resultRecordedTime: String? = nil, complianceType: ComplianceType? = nil, resultToken: String? = nil, annotation: String? = nil) {
             self.evaluationResultIdentifier = evaluationResultIdentifier
             self.configRuleInvokedTime = configRuleInvokedTime
             self.resultRecordedTime = resultRecordedTime
@@ -1817,8 +1817,8 @@ extension Config {
 
         public init(dictionary: [String: Any]) throws {
             if let evaluationResultIdentifier = dictionary["EvaluationResultIdentifier"] as? [String: Any] { self.evaluationResultIdentifier = try Config.EvaluationResultIdentifier(dictionary: evaluationResultIdentifier) } else { self.evaluationResultIdentifier = nil }
-            self.configRuleInvokedTime = dictionary["ConfigRuleInvokedTime"] as? Date
-            self.resultRecordedTime = dictionary["ResultRecordedTime"] as? Date
+            self.configRuleInvokedTime = dictionary["ConfigRuleInvokedTime"] as? String
+            self.resultRecordedTime = dictionary["ResultRecordedTime"] as? String
             if let complianceType = dictionary["ComplianceType"] as? String { self.complianceType = ComplianceType(rawValue: complianceType) } else { self.complianceType = nil }
             self.resultToken = dictionary["ResultToken"] as? String
             self.annotation = dictionary["Annotation"] as? String
@@ -2011,9 +2011,9 @@ extension Config {
         /// The name of the configuration recorder.
         public let name: String?
         /// The time when the status was last changed.
-        public let lastStatusChangeTime: Date?
+        public let lastStatusChangeTime: String?
         /// The time the recorder was last stopped.
-        public let lastStopTime: Date?
+        public let lastStopTime: String?
         /// Specifies whether the recorder is currently recording or not.
         public let recording: Bool?
         /// The error code indicating that the recording failed.
@@ -2021,11 +2021,11 @@ extension Config {
         /// The last (previous) status of the recorder.
         public let lastStatus: RecorderStatus?
         /// The time the recorder was last started.
-        public let lastStartTime: Date?
+        public let lastStartTime: String?
         /// The message indicating that the recording failed due to an error.
         public let lastErrorMessage: String?
 
-        public init(name: String? = nil, lastStatusChangeTime: Date? = nil, lastStopTime: Date? = nil, recording: Bool? = nil, lastErrorCode: String? = nil, lastStatus: RecorderStatus? = nil, lastStartTime: Date? = nil, lastErrorMessage: String? = nil) {
+        public init(name: String? = nil, lastStatusChangeTime: String? = nil, lastStopTime: String? = nil, recording: Bool? = nil, lastErrorCode: String? = nil, lastStatus: RecorderStatus? = nil, lastStartTime: String? = nil, lastErrorMessage: String? = nil) {
             self.name = name
             self.lastStatusChangeTime = lastStatusChangeTime
             self.lastStopTime = lastStopTime
@@ -2038,12 +2038,12 @@ extension Config {
 
         public init(dictionary: [String: Any]) throws {
             self.name = dictionary["name"] as? String
-            self.lastStatusChangeTime = dictionary["lastStatusChangeTime"] as? Date
-            self.lastStopTime = dictionary["lastStopTime"] as? Date
+            self.lastStatusChangeTime = dictionary["lastStatusChangeTime"] as? String
+            self.lastStopTime = dictionary["lastStopTime"] as? String
             self.recording = dictionary["recording"] as? Bool
             self.lastErrorCode = dictionary["lastErrorCode"] as? String
             if let lastStatus = dictionary["lastStatus"] as? String { self.lastStatus = RecorderStatus(rawValue: lastStatus) } else { self.lastStatus = nil }
-            self.lastStartTime = dictionary["lastStartTime"] as? Date
+            self.lastStartTime = dictionary["lastStartTime"] as? String
             self.lastErrorMessage = dictionary["lastErrorMessage"] as? String
         }
     }

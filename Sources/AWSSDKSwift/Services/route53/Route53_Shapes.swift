@@ -1720,16 +1720,16 @@ extension Route53 {
         /// A description of the status of the health check endpoint as reported by one of the Amazon Route 53 health checkers.
         public let status: String?
         /// The time at which the health checker performed the health check in ISO 8601 format and Coordinated Universal Time (UTC). For example, the value 2014-10-27T17:48:16.751Z represents October 27, 2014 at 17:48:16.751 UTC.
-        public let checkedTime: Date?
+        public let checkedTime: String?
 
-        public init(status: String? = nil, checkedTime: Date? = nil) {
+        public init(status: String? = nil, checkedTime: String? = nil) {
             self.status = status
             self.checkedTime = checkedTime
         }
 
         public init(dictionary: [String: Any]) throws {
             self.status = dictionary["Status"] as? String
-            self.checkedTime = dictionary["CheckedTime"] as? Date
+            self.checkedTime = dictionary["CheckedTime"] as? String
         }
     }
 
@@ -2232,11 +2232,11 @@ extension Route53 {
         /// The current state of the request. PENDING indicates that this request has not yet been applied to all Amazon Route 53 DNS servers.
         public let status: ChangeStatus
         /// The date and time the change request was submitted, in Coordinated Universal Time (UTC) format: YYYY-MM-DDThh:mm:ssZ. For more information, see the Wikipedia entry ISO 8601.
-        public let submittedAt: Date
+        public let submittedAt: String
         /// The ID of the request.
         public let id: String
 
-        public init(comment: String? = nil, status: ChangeStatus, submittedAt: Date, id: String) {
+        public init(comment: String? = nil, status: ChangeStatus, submittedAt: String, id: String) {
             self.comment = comment
             self.status = status
             self.submittedAt = submittedAt
@@ -2247,7 +2247,7 @@ extension Route53 {
             self.comment = dictionary["Comment"] as? String
             guard let rawStatus = dictionary["Status"] as? String, let status = ChangeStatus(rawValue: rawStatus) else { throw InitializableError.missingRequiredParam("Status") }
             self.status = status
-            guard let submittedAt = dictionary["SubmittedAt"] as? Date else { throw InitializableError.missingRequiredParam("SubmittedAt") }
+            guard let submittedAt = dictionary["SubmittedAt"] as? String else { throw InitializableError.missingRequiredParam("SubmittedAt") }
             self.submittedAt = submittedAt
             guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
             self.id = id

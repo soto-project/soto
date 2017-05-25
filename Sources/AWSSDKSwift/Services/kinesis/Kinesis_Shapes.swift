@@ -350,7 +350,7 @@ extension Kinesis {
             AWSShapeProperty(label: "Data", required: true, type: .blob)
         ]
         /// The approximate time that the record was inserted into the stream.
-        public let approximateArrivalTimestamp: Date?
+        public let approximateArrivalTimestamp: String?
         /// The unique identifier of the record in the stream.
         public let sequenceNumber: String
         /// Identifies which shard in the stream the data record is assigned to.
@@ -358,7 +358,7 @@ extension Kinesis {
         /// The data blob. The data in the blob is both opaque and immutable to the Amazon Kinesis service, which does not inspect, interpret, or change the data in the blob in any way. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MB).
         public let data: Data
 
-        public init(approximateArrivalTimestamp: Date? = nil, sequenceNumber: String, partitionKey: String, data: Data) {
+        public init(approximateArrivalTimestamp: String? = nil, sequenceNumber: String, partitionKey: String, data: Data) {
             self.approximateArrivalTimestamp = approximateArrivalTimestamp
             self.sequenceNumber = sequenceNumber
             self.partitionKey = partitionKey
@@ -366,7 +366,7 @@ extension Kinesis {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.approximateArrivalTimestamp = dictionary["ApproximateArrivalTimestamp"] as? Date
+            self.approximateArrivalTimestamp = dictionary["ApproximateArrivalTimestamp"] as? String
             guard let sequenceNumber = dictionary["SequenceNumber"] as? String else { throw InitializableError.missingRequiredParam("SequenceNumber") }
             self.sequenceNumber = sequenceNumber
             guard let partitionKey = dictionary["PartitionKey"] as? String else { throw InitializableError.missingRequiredParam("PartitionKey") }
@@ -525,7 +525,7 @@ extension Kinesis {
         /// The sequence number of the data record in the shard from which to start reading. Used with shard iterator type AT_SEQUENCE_NUMBER and AFTER_SEQUENCE_NUMBER.
         public let startingSequenceNumber: String?
         /// The timestamp of the data record from which to start reading. Used with shard iterator type AT_TIMESTAMP. A timestamp is the Unix epoch date with precision in milliseconds. For example, 2016-04-04T19:58:46.480-00:00 or 1459799926.480. If a record with this exact timestamp does not exist, the iterator returned is for the next (later) record. If the timestamp is older than the current trim horizon, the iterator returned is for the oldest untrimmed data record (TRIM_HORIZON).
-        public let timestamp: Date?
+        public let timestamp: String?
         /// Determines how the shard iterator is used to start reading data records from the shard. The following are the valid Amazon Kinesis shard iterator types:  AT_SEQUENCE_NUMBER - Start reading from the position denoted by a specific sequence number, provided in the value StartingSequenceNumber.  AFTER_SEQUENCE_NUMBER - Start reading right after the position denoted by a specific sequence number, provided in the value StartingSequenceNumber.  AT_TIMESTAMP - Start reading from the position denoted by a specific timestamp, provided in the value Timestamp.  TRIM_HORIZON - Start reading at the last untrimmed record in the shard in the system, which is the oldest data record in the shard.  LATEST - Start reading just after the most recent record in the shard, so that you always read the most recent data in the shard.  
         public let shardIteratorType: ShardIteratorType
         /// The name of the Amazon Kinesis stream.
@@ -533,7 +533,7 @@ extension Kinesis {
         /// The shard ID of the Amazon Kinesis shard to get the iterator for.
         public let shardId: String
 
-        public init(startingSequenceNumber: String? = nil, timestamp: Date? = nil, shardIteratorType: ShardIteratorType, streamName: String, shardId: String) {
+        public init(startingSequenceNumber: String? = nil, timestamp: String? = nil, shardIteratorType: ShardIteratorType, streamName: String, shardId: String) {
             self.startingSequenceNumber = startingSequenceNumber
             self.timestamp = timestamp
             self.shardIteratorType = shardIteratorType
@@ -543,7 +543,7 @@ extension Kinesis {
 
         public init(dictionary: [String: Any]) throws {
             self.startingSequenceNumber = dictionary["StartingSequenceNumber"] as? String
-            self.timestamp = dictionary["Timestamp"] as? Date
+            self.timestamp = dictionary["Timestamp"] as? String
             guard let rawShardIteratorType = dictionary["ShardIteratorType"] as? String, let shardIteratorType = ShardIteratorType(rawValue: rawShardIteratorType) else { throw InitializableError.missingRequiredParam("ShardIteratorType") }
             self.shardIteratorType = shardIteratorType
             guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
@@ -1063,13 +1063,13 @@ extension Kinesis {
         /// The shards that comprise the stream.
         public let shards: [Shard]
         /// The approximate time that the stream was created.
-        public let streamCreationTimestamp: Date
+        public let streamCreationTimestamp: String
         /// The name of the stream being described.
         public let streamName: String
         /// The current status of the stream being described. The stream status is one of the following states:    CREATING - The stream is being created. Amazon Kinesis immediately returns and sets StreamStatus to CREATING.    DELETING - The stream is being deleted. The specified stream is in the DELETING state until Amazon Kinesis completes the deletion.    ACTIVE - The stream exists and is ready for read and write operations or deletion. You should perform read and write operations only on an ACTIVE stream.    UPDATING - Shards in the stream are being merged or split. Read and write operations continue to work while the stream is in the UPDATING state.  
         public let streamStatus: StreamStatus
 
-        public init(streamARN: String, retentionPeriodHours: Int32, enhancedMonitoring: [EnhancedMetrics], hasMoreShards: Bool, shards: [Shard], streamCreationTimestamp: Date, streamName: String, streamStatus: StreamStatus) {
+        public init(streamARN: String, retentionPeriodHours: Int32, enhancedMonitoring: [EnhancedMetrics], hasMoreShards: Bool, shards: [Shard], streamCreationTimestamp: String, streamName: String, streamStatus: StreamStatus) {
             self.streamARN = streamARN
             self.retentionPeriodHours = retentionPeriodHours
             self.enhancedMonitoring = enhancedMonitoring
@@ -1091,7 +1091,7 @@ extension Kinesis {
             self.hasMoreShards = hasMoreShards
             guard let shards = dictionary["Shards"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Shards") }
             self.shards = try shards.map({ try Shard(dictionary: $0) })
-            guard let streamCreationTimestamp = dictionary["StreamCreationTimestamp"] as? Date else { throw InitializableError.missingRequiredParam("StreamCreationTimestamp") }
+            guard let streamCreationTimestamp = dictionary["StreamCreationTimestamp"] as? String else { throw InitializableError.missingRequiredParam("StreamCreationTimestamp") }
             self.streamCreationTimestamp = streamCreationTimestamp
             guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
             self.streamName = streamName

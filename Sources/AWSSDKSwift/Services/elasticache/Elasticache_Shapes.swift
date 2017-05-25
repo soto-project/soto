@@ -424,7 +424,7 @@ extension Elasticache {
             AWSShapeProperty(label: "ProductDescription", required: false, type: .string)
         ]
         /// The time the reservation started.
-        public let startTime: Date?
+        public let startTime: String?
         /// The number of cache nodes that have been reserved.
         public let cacheNodeCount: Int32?
         /// The recurring price charged to run this reserved cache node.
@@ -448,7 +448,7 @@ extension Elasticache {
         /// The description of the reserved cache node.
         public let productDescription: String?
 
-        public init(startTime: Date? = nil, cacheNodeCount: Int32? = nil, recurringCharges: RecurringChargeList? = nil, fixedPrice: Double? = nil, usagePrice: Double? = nil, state: String? = nil, cacheNodeType: String? = nil, reservedCacheNodeId: String? = nil, duration: Int32? = nil, reservedCacheNodesOfferingId: String? = nil, offeringType: String? = nil, productDescription: String? = nil) {
+        public init(startTime: String? = nil, cacheNodeCount: Int32? = nil, recurringCharges: RecurringChargeList? = nil, fixedPrice: Double? = nil, usagePrice: Double? = nil, state: String? = nil, cacheNodeType: String? = nil, reservedCacheNodeId: String? = nil, duration: Int32? = nil, reservedCacheNodesOfferingId: String? = nil, offeringType: String? = nil, productDescription: String? = nil) {
             self.startTime = startTime
             self.cacheNodeCount = cacheNodeCount
             self.recurringCharges = recurringCharges
@@ -464,7 +464,7 @@ extension Elasticache {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["StartTime"] as? Date
+            self.startTime = dictionary["StartTime"] as? String
             self.cacheNodeCount = dictionary["CacheNodeCount"] as? Int32
             if let recurringCharges = dictionary["RecurringCharges"] as? [String: Any] { self.recurringCharges = try Elasticache.RecurringChargeList(dictionary: recurringCharges) } else { self.recurringCharges = nil }
             self.fixedPrice = dictionary["FixedPrice"] as? Double
@@ -823,7 +823,7 @@ extension Elasticache {
             AWSShapeProperty(label: "Duration", required: false, type: .integer)
         ]
         /// The beginning of the time interval to retrieve events for, specified in ISO 8601 format.
-        public let startTime: Date?
+        public let startTime: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
         public let maxRecords: Int32?
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -831,13 +831,13 @@ extension Elasticache {
         /// The event source to retrieve events for. If no value is specified, all events are returned.
         public let sourceType: SourceType?
         /// The end of the time interval for which to retrieve events, specified in ISO 8601 format.
-        public let endTime: Date?
+        public let endTime: String?
         /// The identifier of the event source for which events are returned. If not specified, all sources are included in the response.
         public let sourceIdentifier: String?
         /// The number of minutes' worth of events to retrieve.
         public let duration: Int32?
 
-        public init(startTime: Date? = nil, maxRecords: Int32? = nil, marker: String? = nil, sourceType: SourceType? = nil, endTime: Date? = nil, sourceIdentifier: String? = nil, duration: Int32? = nil) {
+        public init(startTime: String? = nil, maxRecords: Int32? = nil, marker: String? = nil, sourceType: SourceType? = nil, endTime: String? = nil, sourceIdentifier: String? = nil, duration: Int32? = nil) {
             self.startTime = startTime
             self.maxRecords = maxRecords
             self.marker = marker
@@ -848,11 +848,11 @@ extension Elasticache {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["StartTime"] as? Date
+            self.startTime = dictionary["StartTime"] as? String
             self.maxRecords = dictionary["MaxRecords"] as? Int32
             self.marker = dictionary["Marker"] as? String
             if let sourceType = dictionary["SourceType"] as? String { self.sourceType = SourceType(rawValue: sourceType) } else { self.sourceType = nil }
-            self.endTime = dictionary["EndTime"] as? Date
+            self.endTime = dictionary["EndTime"] as? String
             self.sourceIdentifier = dictionary["SourceIdentifier"] as? String
             self.duration = dictionary["Duration"] as? Int32
         }
@@ -881,11 +881,11 @@ extension Elasticache {
         /// The status of the parameter group applied to this cache node.
         public let parameterGroupStatus: String?
         /// The date and time when the cache node was created.
-        public let cacheNodeCreateTime: Date?
+        public let cacheNodeCreateTime: String?
         /// The hostname for connecting to this cache node.
         public let endpoint: Endpoint?
 
-        public init(sourceCacheNodeId: String? = nil, customerAvailabilityZone: String? = nil, cacheNodeId: String? = nil, cacheNodeStatus: String? = nil, parameterGroupStatus: String? = nil, cacheNodeCreateTime: Date? = nil, endpoint: Endpoint? = nil) {
+        public init(sourceCacheNodeId: String? = nil, customerAvailabilityZone: String? = nil, cacheNodeId: String? = nil, cacheNodeStatus: String? = nil, parameterGroupStatus: String? = nil, cacheNodeCreateTime: String? = nil, endpoint: Endpoint? = nil) {
             self.sourceCacheNodeId = sourceCacheNodeId
             self.customerAvailabilityZone = customerAvailabilityZone
             self.cacheNodeId = cacheNodeId
@@ -901,7 +901,7 @@ extension Elasticache {
             self.cacheNodeId = dictionary["CacheNodeId"] as? String
             self.cacheNodeStatus = dictionary["CacheNodeStatus"] as? String
             self.parameterGroupStatus = dictionary["ParameterGroupStatus"] as? String
-            self.cacheNodeCreateTime = dictionary["CacheNodeCreateTime"] as? Date
+            self.cacheNodeCreateTime = dictionary["CacheNodeCreateTime"] as? String
             if let endpoint = dictionary["Endpoint"] as? [String: Any] { self.endpoint = try Elasticache.Endpoint(dictionary: endpoint) } else { self.endpoint = nil }
         }
     }
@@ -1443,9 +1443,9 @@ extension Elasticache {
         /// Specifies the origin of this event - a cache cluster, a parameter group, a security group, etc.
         public let sourceType: SourceType?
         /// The date and time when the event occurred.
-        public let date: Date?
+        public let date: String?
 
-        public init(sourceIdentifier: String? = nil, message: String? = nil, sourceType: SourceType? = nil, date: Date? = nil) {
+        public init(sourceIdentifier: String? = nil, message: String? = nil, sourceType: SourceType? = nil, date: String? = nil) {
             self.sourceIdentifier = sourceIdentifier
             self.message = message
             self.sourceType = sourceType
@@ -1456,7 +1456,7 @@ extension Elasticache {
             self.sourceIdentifier = dictionary["SourceIdentifier"] as? String
             self.message = dictionary["Message"] as? String
             if let sourceType = dictionary["SourceType"] as? String { self.sourceType = SourceType(rawValue: sourceType) } else { self.sourceType = nil }
-            self.date = dictionary["Date"] as? Date
+            self.date = dictionary["Date"] as? String
         }
     }
 
@@ -1554,7 +1554,7 @@ extension Elasticache {
         /// The name of the cache subnet group associated with the cache cluster.
         public let cacheSubnetGroupName: String?
         /// The date and time when the cache cluster was created.
-        public let cacheClusterCreateTime: Date?
+        public let cacheClusterCreateTime: String?
         /// The number of cache nodes in the cache cluster. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 20.
         public let numCacheNodes: Int32?
         /// The current state of this cache cluster, one of the following values: available, creating, deleted, deleting, incompatible-network, modifying, rebooting cache cluster nodes, restore-failed, or snapshotting.
@@ -1589,7 +1589,7 @@ extension Elasticache {
         /// The name of the cache engine (memcached or redis) to be used for this cache cluster.
         public let engine: String?
 
-        public init(pendingModifiedValues: PendingModifiedValues? = nil, snapshotRetentionLimit: Int32? = nil, cacheSubnetGroupName: String? = nil, cacheClusterCreateTime: Date? = nil, numCacheNodes: Int32? = nil, cacheClusterStatus: String? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodes: CacheNodeList? = nil, snapshotWindow: String? = nil, notificationConfiguration: NotificationConfiguration? = nil, engineVersion: String? = nil, preferredMaintenanceWindow: String? = nil, configurationEndpoint: Endpoint? = nil, preferredAvailabilityZone: String? = nil, securityGroups: [SecurityGroupMembership]? = nil, replicationGroupId: String? = nil, cacheParameterGroup: CacheParameterGroupStatus? = nil, cacheSecurityGroups: CacheSecurityGroupMembershipList? = nil, clientDownloadLandingPage: String? = nil, cacheClusterId: String? = nil, cacheNodeType: String? = nil, engine: String? = nil) {
+        public init(pendingModifiedValues: PendingModifiedValues? = nil, snapshotRetentionLimit: Int32? = nil, cacheSubnetGroupName: String? = nil, cacheClusterCreateTime: String? = nil, numCacheNodes: Int32? = nil, cacheClusterStatus: String? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodes: CacheNodeList? = nil, snapshotWindow: String? = nil, notificationConfiguration: NotificationConfiguration? = nil, engineVersion: String? = nil, preferredMaintenanceWindow: String? = nil, configurationEndpoint: Endpoint? = nil, preferredAvailabilityZone: String? = nil, securityGroups: [SecurityGroupMembership]? = nil, replicationGroupId: String? = nil, cacheParameterGroup: CacheParameterGroupStatus? = nil, cacheSecurityGroups: CacheSecurityGroupMembershipList? = nil, clientDownloadLandingPage: String? = nil, cacheClusterId: String? = nil, cacheNodeType: String? = nil, engine: String? = nil) {
             self.pendingModifiedValues = pendingModifiedValues
             self.snapshotRetentionLimit = snapshotRetentionLimit
             self.cacheSubnetGroupName = cacheSubnetGroupName
@@ -1618,7 +1618,7 @@ extension Elasticache {
             if let pendingModifiedValues = dictionary["PendingModifiedValues"] as? [String: Any] { self.pendingModifiedValues = try Elasticache.PendingModifiedValues(dictionary: pendingModifiedValues) } else { self.pendingModifiedValues = nil }
             self.snapshotRetentionLimit = dictionary["SnapshotRetentionLimit"] as? Int32
             self.cacheSubnetGroupName = dictionary["CacheSubnetGroupName"] as? String
-            self.cacheClusterCreateTime = dictionary["CacheClusterCreateTime"] as? Date
+            self.cacheClusterCreateTime = dictionary["CacheClusterCreateTime"] as? String
             self.numCacheNodes = dictionary["NumCacheNodes"] as? Int32
             self.cacheClusterStatus = dictionary["CacheClusterStatus"] as? String
             self.autoMinorVersionUpgrade = dictionary["AutoMinorVersionUpgrade"] as? Bool
@@ -2299,7 +2299,7 @@ extension Elasticache {
         /// The user-supplied identifier of the source cache cluster.
         public let cacheClusterId: String?
         /// The date and time when the source cache cluster was created.
-        public let cacheClusterCreateTime: Date?
+        public let cacheClusterCreateTime: String?
         /// The number of cache nodes in the source cache cluster. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 20.
         public let numCacheNodes: Int32?
         /// Indicates the status of Multi-AZ for the source replication group.  ElastiCache Multi-AZ replication groups are not supported on:   Redis versions earlier than 2.8.6.   Redis (cluster mode disabled):T1 and T2 cache node types. Redis (cluster mode enabled): T1 node types.   
@@ -2343,7 +2343,7 @@ extension Elasticache {
         /// For an automatic snapshot, the number of days for which ElastiCache retains the snapshot before deleting it. For manual snapshots, this field reflects the SnapshotRetentionLimit for the source cache cluster when the snapshot was created. This field is otherwise ignored: Manual snapshots do not expire, and can only be deleted using the DeleteSnapshot operation.   Important If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off.
         public let snapshotRetentionLimit: Int32?
 
-        public init(port: Int32? = nil, cacheClusterId: String? = nil, cacheClusterCreateTime: Date? = nil, numCacheNodes: Int32? = nil, automaticFailover: AutomaticFailoverStatus? = nil, topicArn: String? = nil, snapshotStatus: String? = nil, snapshotSource: String? = nil, snapshotName: String? = nil, autoMinorVersionUpgrade: Bool? = nil, snapshotWindow: String? = nil, engineVersion: String? = nil, vpcId: String? = nil, cacheParameterGroupName: String? = nil, replicationGroupId: String? = nil, numNodeGroups: Int32? = nil, replicationGroupDescription: String? = nil, preferredAvailabilityZone: String? = nil, cacheNodeType: String? = nil, nodeSnapshots: NodeSnapshotList? = nil, engine: String? = nil, cacheSubnetGroupName: String? = nil, preferredMaintenanceWindow: String? = nil, snapshotRetentionLimit: Int32? = nil) {
+        public init(port: Int32? = nil, cacheClusterId: String? = nil, cacheClusterCreateTime: String? = nil, numCacheNodes: Int32? = nil, automaticFailover: AutomaticFailoverStatus? = nil, topicArn: String? = nil, snapshotStatus: String? = nil, snapshotSource: String? = nil, snapshotName: String? = nil, autoMinorVersionUpgrade: Bool? = nil, snapshotWindow: String? = nil, engineVersion: String? = nil, vpcId: String? = nil, cacheParameterGroupName: String? = nil, replicationGroupId: String? = nil, numNodeGroups: Int32? = nil, replicationGroupDescription: String? = nil, preferredAvailabilityZone: String? = nil, cacheNodeType: String? = nil, nodeSnapshots: NodeSnapshotList? = nil, engine: String? = nil, cacheSubnetGroupName: String? = nil, preferredMaintenanceWindow: String? = nil, snapshotRetentionLimit: Int32? = nil) {
             self.port = port
             self.cacheClusterId = cacheClusterId
             self.cacheClusterCreateTime = cacheClusterCreateTime
@@ -2373,7 +2373,7 @@ extension Elasticache {
         public init(dictionary: [String: Any]) throws {
             self.port = dictionary["Port"] as? Int32
             self.cacheClusterId = dictionary["CacheClusterId"] as? String
-            self.cacheClusterCreateTime = dictionary["CacheClusterCreateTime"] as? Date
+            self.cacheClusterCreateTime = dictionary["CacheClusterCreateTime"] as? String
             self.numCacheNodes = dictionary["NumCacheNodes"] as? Int32
             if let automaticFailover = dictionary["AutomaticFailover"] as? String { self.automaticFailover = AutomaticFailoverStatus(rawValue: automaticFailover) } else { self.automaticFailover = nil }
             self.topicArn = dictionary["TopicArn"] as? String
@@ -2852,15 +2852,15 @@ extension Elasticache {
         /// A unique identifier for the source node group (shard).
         public let nodeGroupId: String?
         /// The date and time when the source node's metadata and cache data set was obtained for the snapshot.
-        public let snapshotCreateTime: Date?
+        public let snapshotCreateTime: String?
         /// The date and time when the cache node was created in the source cache cluster.
-        public let cacheNodeCreateTime: Date?
+        public let cacheNodeCreateTime: String?
         /// A unique identifier for the source cache cluster.
         public let cacheClusterId: String?
         /// The size of the cache on the source cache node.
         public let cacheSize: String?
 
-        public init(nodeGroupConfiguration: NodeGroupConfiguration? = nil, cacheNodeId: String? = nil, nodeGroupId: String? = nil, snapshotCreateTime: Date? = nil, cacheNodeCreateTime: Date? = nil, cacheClusterId: String? = nil, cacheSize: String? = nil) {
+        public init(nodeGroupConfiguration: NodeGroupConfiguration? = nil, cacheNodeId: String? = nil, nodeGroupId: String? = nil, snapshotCreateTime: String? = nil, cacheNodeCreateTime: String? = nil, cacheClusterId: String? = nil, cacheSize: String? = nil) {
             self.nodeGroupConfiguration = nodeGroupConfiguration
             self.cacheNodeId = cacheNodeId
             self.nodeGroupId = nodeGroupId
@@ -2874,8 +2874,8 @@ extension Elasticache {
             if let nodeGroupConfiguration = dictionary["NodeGroupConfiguration"] as? [String: Any] { self.nodeGroupConfiguration = try Elasticache.NodeGroupConfiguration(dictionary: nodeGroupConfiguration) } else { self.nodeGroupConfiguration = nil }
             self.cacheNodeId = dictionary["CacheNodeId"] as? String
             self.nodeGroupId = dictionary["NodeGroupId"] as? String
-            self.snapshotCreateTime = dictionary["SnapshotCreateTime"] as? Date
-            self.cacheNodeCreateTime = dictionary["CacheNodeCreateTime"] as? Date
+            self.snapshotCreateTime = dictionary["SnapshotCreateTime"] as? String
+            self.cacheNodeCreateTime = dictionary["CacheNodeCreateTime"] as? String
             self.cacheClusterId = dictionary["CacheClusterId"] as? String
             self.cacheSize = dictionary["CacheSize"] as? String
         }

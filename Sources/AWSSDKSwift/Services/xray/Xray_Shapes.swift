@@ -244,9 +244,9 @@ extension Xray {
         /// If the requested time frame contained more than one page of results, you can use this token to retrieve the next page. The first page contains the most most recent results, closest to the end of the time frame.
         public let nextToken: String?
         /// The start time of this page of results.
-        public let approximateTime: Date?
+        public let approximateTime: String?
 
-        public init(tracesProcessedCount: Int64? = nil, traceSummaries: [TraceSummary]? = nil, nextToken: String? = nil, approximateTime: Date? = nil) {
+        public init(tracesProcessedCount: Int64? = nil, traceSummaries: [TraceSummary]? = nil, nextToken: String? = nil, approximateTime: String? = nil) {
             self.tracesProcessedCount = tracesProcessedCount
             self.traceSummaries = traceSummaries
             self.nextToken = nextToken
@@ -261,7 +261,7 @@ extension Xray {
                 self.traceSummaries = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
-            self.approximateTime = dictionary["ApproximateTime"] as? Date
+            self.approximateTime = dictionary["ApproximateTime"] as? String
         }
     }
 
@@ -277,11 +277,11 @@ extension Xray {
             AWSShapeProperty(label: "ResponseTimeHistogram", required: false, type: .list)
         ]
         /// The start time of the first segment on the edge.
-        public let startTime: Date?
+        public let startTime: String?
         /// Response statistics for segments on the edge.
         public let summaryStatistics: EdgeStatistics?
         /// The end time of the last segment on the edge.
-        public let endTime: Date?
+        public let endTime: String?
         /// Identifier of the edge. Unique within a service map.
         public let referenceId: Int32?
         /// Aliases for the edge.
@@ -289,7 +289,7 @@ extension Xray {
         /// Histogram describing the prominence of response times on the edge.
         public let responseTimeHistogram: [HistogramEntry]?
 
-        public init(startTime: Date? = nil, summaryStatistics: EdgeStatistics? = nil, endTime: Date? = nil, referenceId: Int32? = nil, aliases: [Alias]? = nil, responseTimeHistogram: [HistogramEntry]? = nil) {
+        public init(startTime: String? = nil, summaryStatistics: EdgeStatistics? = nil, endTime: String? = nil, referenceId: Int32? = nil, aliases: [Alias]? = nil, responseTimeHistogram: [HistogramEntry]? = nil) {
             self.startTime = startTime
             self.summaryStatistics = summaryStatistics
             self.endTime = endTime
@@ -299,9 +299,9 @@ extension Xray {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["StartTime"] as? Date
+            self.startTime = dictionary["StartTime"] as? String
             if let summaryStatistics = dictionary["SummaryStatistics"] as? [String: Any] { self.summaryStatistics = try Xray.EdgeStatistics(dictionary: summaryStatistics) } else { self.summaryStatistics = nil }
-            self.endTime = dictionary["EndTime"] as? Date
+            self.endTime = dictionary["EndTime"] as? String
             self.referenceId = dictionary["ReferenceId"] as? Int32
             if let aliases = dictionary["Aliases"] as? [[String: Any]] {
                 self.aliases = try aliases.map({ try Alias(dictionary: $0) })
@@ -353,23 +353,23 @@ extension Xray {
             AWSShapeProperty(label: "StartTime", required: true, type: .timestamp)
         ]
         /// The end of the time frame for which to generate a graph.
-        public let endTime: Date
+        public let endTime: String
         /// Pagination token. Not used.
         public let nextToken: String?
         /// The start of the time frame for which to generate a graph.
-        public let startTime: Date
+        public let startTime: String
 
-        public init(endTime: Date, nextToken: String? = nil, startTime: Date) {
+        public init(endTime: String, nextToken: String? = nil, startTime: String) {
             self.endTime = endTime
             self.nextToken = nextToken
             self.startTime = startTime
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let endTime = dictionary["EndTime"] as? Date else { throw InitializableError.missingRequiredParam("EndTime") }
+            guard let endTime = dictionary["EndTime"] as? String else { throw InitializableError.missingRequiredParam("EndTime") }
             self.endTime = endTime
             self.nextToken = dictionary["NextToken"] as? String
-            guard let startTime = dictionary["StartTime"] as? Date else { throw InitializableError.missingRequiredParam("StartTime") }
+            guard let startTime = dictionary["StartTime"] as? String else { throw InitializableError.missingRequiredParam("StartTime") }
             self.startTime = startTime
         }
     }
@@ -434,15 +434,15 @@ extension Xray {
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// The start of the time frame for which the graph was generated.
-        public let startTime: Date?
+        public let startTime: String?
         /// The end of the time frame for which the graph was generated.
-        public let endTime: Date?
+        public let endTime: String?
         /// The services that have processed a traced request during the specified time frame.
         public let services: [Service]?
         /// Pagination token. Not used.
         public let nextToken: String?
 
-        public init(startTime: Date? = nil, endTime: Date? = nil, services: [Service]? = nil, nextToken: String? = nil) {
+        public init(startTime: String? = nil, endTime: String? = nil, services: [Service]? = nil, nextToken: String? = nil) {
             self.startTime = startTime
             self.endTime = endTime
             self.services = services
@@ -450,8 +450,8 @@ extension Xray {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["StartTime"] as? Date
-            self.endTime = dictionary["EndTime"] as? Date
+            self.startTime = dictionary["StartTime"] as? String
+            self.endTime = dictionary["EndTime"] as? String
             if let services = dictionary["Services"] as? [[String: Any]] {
                 self.services = try services.map({ try Service(dictionary: $0) })
             } else { 
@@ -700,9 +700,9 @@ extension Xray {
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// The start of the time frame for which to retrieve traces.
-        public let startTime: Date
+        public let startTime: String
         /// The end of the time frame for which to retrieve traces.
-        public let endTime: Date
+        public let endTime: String
         /// Specify a filter expression to retrieve trace summaries for services or requests that meet certain requirements.
         public let filterExpression: String?
         /// Set to true to get summaries for only a subset of available traces.
@@ -710,7 +710,7 @@ extension Xray {
         /// Specify the pagination token returned by a previous request to retrieve the next page of results.
         public let nextToken: String?
 
-        public init(startTime: Date, endTime: Date, filterExpression: String? = nil, sampling: Bool? = nil, nextToken: String? = nil) {
+        public init(startTime: String, endTime: String, filterExpression: String? = nil, sampling: Bool? = nil, nextToken: String? = nil) {
             self.startTime = startTime
             self.endTime = endTime
             self.filterExpression = filterExpression
@@ -719,9 +719,9 @@ extension Xray {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let startTime = dictionary["StartTime"] as? Date else { throw InitializableError.missingRequiredParam("StartTime") }
+            guard let startTime = dictionary["StartTime"] as? String else { throw InitializableError.missingRequiredParam("StartTime") }
             self.startTime = startTime
-            guard let endTime = dictionary["EndTime"] as? Date else { throw InitializableError.missingRequiredParam("EndTime") }
+            guard let endTime = dictionary["EndTime"] as? String else { throw InitializableError.missingRequiredParam("EndTime") }
             self.endTime = endTime
             self.filterExpression = dictionary["FilterExpression"] as? String
             self.sampling = dictionary["Sampling"] as? Bool
@@ -785,7 +785,7 @@ extension Xray {
             AWSShapeProperty(label: "Type", required: false, type: .string)
         ]
         /// The start time of the first segment that the service generated.
-        public let startTime: Date?
+        public let startTime: String?
         /// Aggregated statistics for the service.
         public let summaryStatistics: ServiceStatistics?
         /// Histogram mapping the spread of trace durations
@@ -799,7 +799,7 @@ extension Xray {
         /// The service's state.
         public let state: String?
         /// The end time of the last segment that the service generated.
-        public let endTime: Date?
+        public let endTime: String?
         /// Identifier for the service. Unique within the service map.
         public let referenceId: Int32?
         /// A list of names for the service, including the canonical name.
@@ -809,7 +809,7 @@ extension Xray {
         /// The type of service.   AWS Resource - The type of an AWS resource. For example, AWS::EC2::Instance for a application running on Amazon EC2 or AWS::DynamoDB::Table for an Amazon DynamoDB table that the application used.   AWS Service - The type of an AWS service. For example, AWS::DynamoDB for downstream calls to Amazon DynamoDB that didn't target a specific table.    client - Represents the clients that sent requests to a root service.    remote - A downstream service of indeterminate type.  
         public let `type`: String?
 
-        public init(startTime: Date? = nil, summaryStatistics: ServiceStatistics? = nil, durationHistogram: [HistogramEntry]? = nil, accountId: String? = nil, root: Bool? = nil, name: String? = nil, state: String? = nil, endTime: Date? = nil, referenceId: Int32? = nil, names: [String]? = nil, edges: [Edge]? = nil, type: String? = nil) {
+        public init(startTime: String? = nil, summaryStatistics: ServiceStatistics? = nil, durationHistogram: [HistogramEntry]? = nil, accountId: String? = nil, root: Bool? = nil, name: String? = nil, state: String? = nil, endTime: String? = nil, referenceId: Int32? = nil, names: [String]? = nil, edges: [Edge]? = nil, type: String? = nil) {
             self.startTime = startTime
             self.summaryStatistics = summaryStatistics
             self.durationHistogram = durationHistogram
@@ -825,7 +825,7 @@ extension Xray {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["StartTime"] as? Date
+            self.startTime = dictionary["StartTime"] as? String
             if let summaryStatistics = dictionary["SummaryStatistics"] as? [String: Any] { self.summaryStatistics = try Xray.ServiceStatistics(dictionary: summaryStatistics) } else { self.summaryStatistics = nil }
             if let durationHistogram = dictionary["DurationHistogram"] as? [[String: Any]] {
                 self.durationHistogram = try durationHistogram.map({ try HistogramEntry(dictionary: $0) })
@@ -836,7 +836,7 @@ extension Xray {
             self.root = dictionary["Root"] as? Bool
             self.name = dictionary["Name"] as? String
             self.state = dictionary["State"] as? String
-            self.endTime = dictionary["EndTime"] as? Date
+            self.endTime = dictionary["EndTime"] as? String
             self.referenceId = dictionary["ReferenceId"] as? Int32
             self.names = dictionary["Names"] as? [String]
             if let edges = dictionary["Edges"] as? [[String: Any]] {
@@ -926,13 +926,13 @@ extension Xray {
             AWSShapeProperty(label: "BackendConnectionErrors", required: false, type: .structure)
         ]
         public let segmentsRejectedCount: Int32?
-        public let timestamp: Date?
+        public let timestamp: String?
         public let segmentsReceivedCount: Int32?
         public let segmentsSentCount: Int32?
         public let segmentsSpilloverCount: Int32?
         public let backendConnectionErrors: BackendConnectionErrors?
 
-        public init(segmentsRejectedCount: Int32? = nil, timestamp: Date? = nil, segmentsReceivedCount: Int32? = nil, segmentsSentCount: Int32? = nil, segmentsSpilloverCount: Int32? = nil, backendConnectionErrors: BackendConnectionErrors? = nil) {
+        public init(segmentsRejectedCount: Int32? = nil, timestamp: String? = nil, segmentsReceivedCount: Int32? = nil, segmentsSentCount: Int32? = nil, segmentsSpilloverCount: Int32? = nil, backendConnectionErrors: BackendConnectionErrors? = nil) {
             self.segmentsRejectedCount = segmentsRejectedCount
             self.timestamp = timestamp
             self.segmentsReceivedCount = segmentsReceivedCount
@@ -943,7 +943,7 @@ extension Xray {
 
         public init(dictionary: [String: Any]) throws {
             self.segmentsRejectedCount = dictionary["SegmentsRejectedCount"] as? Int32
-            self.timestamp = dictionary["Timestamp"] as? Date
+            self.timestamp = dictionary["Timestamp"] as? String
             self.segmentsReceivedCount = dictionary["SegmentsReceivedCount"] as? Int32
             self.segmentsSentCount = dictionary["SegmentsSentCount"] as? Int32
             self.segmentsSpilloverCount = dictionary["SegmentsSpilloverCount"] as? Int32

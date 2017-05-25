@@ -451,7 +451,7 @@ extension Ds {
         /// The short name of the directory.
         public let shortName: String?
         /// Specifies when the directory was created.
-        public let launchTime: Date?
+        public let launchTime: String?
         /// The directory identifier.
         public let directoryId: String?
         /// The current stage of the directory.
@@ -459,7 +459,7 @@ extension Ds {
         /// The textual description for the directory.
         public let description: String?
         /// The date and time that the stage was last updated.
-        public let stageLastUpdatedDateTime: Date?
+        public let stageLastUpdatedDateTime: String?
         /// A DirectoryVpcSettingsDescription object that contains additional information about a directory. This member is only present if the directory is a Simple AD or Managed AD directory.
         public let vpcSettings: DirectoryVpcSettingsDescription?
         /// Indicates if single-sign on is enabled for the directory. For more information, see EnableSso and DisableSso.
@@ -485,7 +485,7 @@ extension Ds {
         /// The IP addresses of the DNS servers for the directory. For a Simple AD or Microsoft AD directory, these are the IP addresses of the Simple AD or Microsoft AD directory servers. For an AD Connector directory, these are the IP addresses of the DNS servers or domain controllers in the on-premises directory to which the AD Connector is connected.
         public let dnsIpAddrs: [String]?
 
-        public init(shortName: String? = nil, launchTime: Date? = nil, directoryId: String? = nil, stage: DirectoryStage? = nil, description: String? = nil, stageLastUpdatedDateTime: Date? = nil, vpcSettings: DirectoryVpcSettingsDescription? = nil, ssoEnabled: Bool? = nil, radiusSettings: RadiusSettings? = nil, stageReason: String? = nil, name: String? = nil, accessUrl: String? = nil, size: DirectorySize? = nil, alias: String? = nil, radiusStatus: RadiusStatus? = nil, type: DirectoryType? = nil, connectSettings: DirectoryConnectSettingsDescription? = nil, dnsIpAddrs: [String]? = nil) {
+        public init(shortName: String? = nil, launchTime: String? = nil, directoryId: String? = nil, stage: DirectoryStage? = nil, description: String? = nil, stageLastUpdatedDateTime: String? = nil, vpcSettings: DirectoryVpcSettingsDescription? = nil, ssoEnabled: Bool? = nil, radiusSettings: RadiusSettings? = nil, stageReason: String? = nil, name: String? = nil, accessUrl: String? = nil, size: DirectorySize? = nil, alias: String? = nil, radiusStatus: RadiusStatus? = nil, type: DirectoryType? = nil, connectSettings: DirectoryConnectSettingsDescription? = nil, dnsIpAddrs: [String]? = nil) {
             self.shortName = shortName
             self.launchTime = launchTime
             self.directoryId = directoryId
@@ -508,11 +508,11 @@ extension Ds {
 
         public init(dictionary: [String: Any]) throws {
             self.shortName = dictionary["ShortName"] as? String
-            self.launchTime = dictionary["LaunchTime"] as? Date
+            self.launchTime = dictionary["LaunchTime"] as? String
             self.directoryId = dictionary["DirectoryId"] as? String
             if let stage = dictionary["Stage"] as? String { self.stage = DirectoryStage(rawValue: stage) } else { self.stage = nil }
             self.description = dictionary["Description"] as? String
-            self.stageLastUpdatedDateTime = dictionary["StageLastUpdatedDateTime"] as? Date
+            self.stageLastUpdatedDateTime = dictionary["StageLastUpdatedDateTime"] as? String
             if let vpcSettings = dictionary["VpcSettings"] as? [String: Any] { self.vpcSettings = try Ds.DirectoryVpcSettingsDescription(dictionary: vpcSettings) } else { self.vpcSettings = nil }
             self.ssoEnabled = dictionary["SsoEnabled"] as? Bool
             if let radiusSettings = dictionary["RadiusSettings"] as? [String: Any] { self.radiusSettings = try Ds.RadiusSettings(dictionary: radiusSettings) } else { self.radiusSettings = nil }
@@ -577,7 +577,7 @@ extension Ds {
         /// The Fully Qualified Domain Name (FQDN) of the external domain involved in the trust relationship.
         public let remoteDomainName: String?
         /// The date and time that the trust relationship was last updated.
-        public let lastUpdatedDateTime: Date?
+        public let lastUpdatedDateTime: String?
         /// The trust relationship type.
         public let trustType: TrustType?
         /// The reason for the TrustState.
@@ -587,15 +587,15 @@ extension Ds {
         /// The trust relationship state.
         public let trustState: TrustState?
         /// The date and time that the trust relationship was created.
-        public let createdDateTime: Date?
+        public let createdDateTime: String?
         /// The unique ID of the trust relationship.
         public let trustId: String?
         /// The date and time that the TrustState was last updated.
-        public let stateLastUpdatedDateTime: Date?
+        public let stateLastUpdatedDateTime: String?
         /// The trust relationship direction.
         public let trustDirection: TrustDirection?
 
-        public init(remoteDomainName: String? = nil, lastUpdatedDateTime: Date? = nil, trustType: TrustType? = nil, trustStateReason: String? = nil, directoryId: String? = nil, trustState: TrustState? = nil, createdDateTime: Date? = nil, trustId: String? = nil, stateLastUpdatedDateTime: Date? = nil, trustDirection: TrustDirection? = nil) {
+        public init(remoteDomainName: String? = nil, lastUpdatedDateTime: String? = nil, trustType: TrustType? = nil, trustStateReason: String? = nil, directoryId: String? = nil, trustState: TrustState? = nil, createdDateTime: String? = nil, trustId: String? = nil, stateLastUpdatedDateTime: String? = nil, trustDirection: TrustDirection? = nil) {
             self.remoteDomainName = remoteDomainName
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.trustType = trustType
@@ -610,14 +610,14 @@ extension Ds {
 
         public init(dictionary: [String: Any]) throws {
             self.remoteDomainName = dictionary["RemoteDomainName"] as? String
-            self.lastUpdatedDateTime = dictionary["LastUpdatedDateTime"] as? Date
+            self.lastUpdatedDateTime = dictionary["LastUpdatedDateTime"] as? String
             if let trustType = dictionary["TrustType"] as? String { self.trustType = TrustType(rawValue: trustType) } else { self.trustType = nil }
             self.trustStateReason = dictionary["TrustStateReason"] as? String
             self.directoryId = dictionary["DirectoryId"] as? String
             if let trustState = dictionary["TrustState"] as? String { self.trustState = TrustState(rawValue: trustState) } else { self.trustState = nil }
-            self.createdDateTime = dictionary["CreatedDateTime"] as? Date
+            self.createdDateTime = dictionary["CreatedDateTime"] as? String
             self.trustId = dictionary["TrustId"] as? String
-            self.stateLastUpdatedDateTime = dictionary["StateLastUpdatedDateTime"] as? Date
+            self.stateLastUpdatedDateTime = dictionary["StateLastUpdatedDateTime"] as? String
             if let trustDirection = dictionary["TrustDirection"] as? String { self.trustDirection = TrustDirection(rawValue: trustDirection) } else { self.trustDirection = nil }
         }
     }
@@ -681,13 +681,13 @@ extension Ds {
         /// The name of an AWS SNS topic the receives status messages from the directory.
         public let topicName: String?
         /// The date and time of when you associated your directory with the SNS topic.
-        public let createdDateTime: Date?
+        public let createdDateTime: String?
         /// The topic registration status.
         public let status: TopicStatus?
         /// The Directory ID of an AWS Directory Service directory that will publish status messages to an SNS topic.
         public let directoryId: String?
 
-        public init(topicArn: String? = nil, topicName: String? = nil, createdDateTime: Date? = nil, status: TopicStatus? = nil, directoryId: String? = nil) {
+        public init(topicArn: String? = nil, topicName: String? = nil, createdDateTime: String? = nil, status: TopicStatus? = nil, directoryId: String? = nil) {
             self.topicArn = topicArn
             self.topicName = topicName
             self.createdDateTime = createdDateTime
@@ -698,7 +698,7 @@ extension Ds {
         public init(dictionary: [String: Any]) throws {
             self.topicArn = dictionary["TopicArn"] as? String
             self.topicName = dictionary["TopicName"] as? String
-            self.createdDateTime = dictionary["CreatedDateTime"] as? Date
+            self.createdDateTime = dictionary["CreatedDateTime"] as? String
             if let status = dictionary["Status"] as? String { self.status = TopicStatus(rawValue: status) } else { self.status = nil }
             self.directoryId = dictionary["DirectoryId"] as? String
         }
@@ -1268,17 +1268,17 @@ extension Ds {
         /// The reason for the SchemaExtensionStatus.
         public let schemaExtensionStatusReason: String?
         /// The date and time that the schema extension was completed.
-        public let endDateTime: Date?
+        public let endDateTime: String?
         /// The identifier of the directory to which the schema extension is applied.
         public let directoryId: String?
         /// The date and time that the schema extension started being applied to the directory.
-        public let startDateTime: Date?
+        public let startDateTime: String?
         /// The current status of the schema extension.
         public let schemaExtensionStatus: SchemaExtensionStatus?
         /// A description of the schema extension.
         public let description: String?
 
-        public init(schemaExtensionId: String? = nil, schemaExtensionStatusReason: String? = nil, endDateTime: Date? = nil, directoryId: String? = nil, startDateTime: Date? = nil, schemaExtensionStatus: SchemaExtensionStatus? = nil, description: String? = nil) {
+        public init(schemaExtensionId: String? = nil, schemaExtensionStatusReason: String? = nil, endDateTime: String? = nil, directoryId: String? = nil, startDateTime: String? = nil, schemaExtensionStatus: SchemaExtensionStatus? = nil, description: String? = nil) {
             self.schemaExtensionId = schemaExtensionId
             self.schemaExtensionStatusReason = schemaExtensionStatusReason
             self.endDateTime = endDateTime
@@ -1291,9 +1291,9 @@ extension Ds {
         public init(dictionary: [String: Any]) throws {
             self.schemaExtensionId = dictionary["SchemaExtensionId"] as? String
             self.schemaExtensionStatusReason = dictionary["SchemaExtensionStatusReason"] as? String
-            self.endDateTime = dictionary["EndDateTime"] as? Date
+            self.endDateTime = dictionary["EndDateTime"] as? String
             self.directoryId = dictionary["DirectoryId"] as? String
-            self.startDateTime = dictionary["StartDateTime"] as? Date
+            self.startDateTime = dictionary["StartDateTime"] as? String
             if let schemaExtensionStatus = dictionary["SchemaExtensionStatus"] as? String { self.schemaExtensionStatus = SchemaExtensionStatus(rawValue: schemaExtensionStatus) } else { self.schemaExtensionStatus = nil }
             self.description = dictionary["Description"] as? String
         }
@@ -1713,7 +1713,7 @@ extension Ds {
         /// The snapshot status.
         public let status: SnapshotStatus?
         /// The date and time that the snapshot was taken.
-        public let startTime: Date?
+        public let startTime: String?
         /// The snapshot type.
         public let `type`: SnapshotType?
         /// The descriptive name of the snapshot.
@@ -1721,7 +1721,7 @@ extension Ds {
         /// The directory identifier.
         public let directoryId: String?
 
-        public init(snapshotId: String? = nil, status: SnapshotStatus? = nil, startTime: Date? = nil, type: SnapshotType? = nil, name: String? = nil, directoryId: String? = nil) {
+        public init(snapshotId: String? = nil, status: SnapshotStatus? = nil, startTime: String? = nil, type: SnapshotType? = nil, name: String? = nil, directoryId: String? = nil) {
             self.snapshotId = snapshotId
             self.status = status
             self.startTime = startTime
@@ -1733,7 +1733,7 @@ extension Ds {
         public init(dictionary: [String: Any]) throws {
             self.snapshotId = dictionary["SnapshotId"] as? String
             if let status = dictionary["Status"] as? String { self.status = SnapshotStatus(rawValue: status) } else { self.status = nil }
-            self.startTime = dictionary["StartTime"] as? Date
+            self.startTime = dictionary["StartTime"] as? String
             if let `type` = dictionary["Type"] as? String { self.`type` = SnapshotType(rawValue: `type`) } else { self.`type` = nil }
             self.name = dictionary["Name"] as? String
             self.directoryId = dictionary["DirectoryId"] as? String
@@ -2281,7 +2281,7 @@ extension Ds {
         /// The status of the IP address block.
         public let ipRouteStatusMsg: IpRouteStatusMsg?
         /// The date and time the address block was added to the directory.
-        public let addedDateTime: Date?
+        public let addedDateTime: String?
         /// IP address block in the IpRoute.
         public let cidrIp: String?
         /// The reason for the IpRouteStatusMsg.
@@ -2289,7 +2289,7 @@ extension Ds {
         /// Identifier (ID) of the directory associated with the IP addresses.
         public let directoryId: String?
 
-        public init(description: String? = nil, ipRouteStatusMsg: IpRouteStatusMsg? = nil, addedDateTime: Date? = nil, cidrIp: String? = nil, ipRouteStatusReason: String? = nil, directoryId: String? = nil) {
+        public init(description: String? = nil, ipRouteStatusMsg: IpRouteStatusMsg? = nil, addedDateTime: String? = nil, cidrIp: String? = nil, ipRouteStatusReason: String? = nil, directoryId: String? = nil) {
             self.description = description
             self.ipRouteStatusMsg = ipRouteStatusMsg
             self.addedDateTime = addedDateTime
@@ -2301,7 +2301,7 @@ extension Ds {
         public init(dictionary: [String: Any]) throws {
             self.description = dictionary["Description"] as? String
             if let ipRouteStatusMsg = dictionary["IpRouteStatusMsg"] as? String { self.ipRouteStatusMsg = IpRouteStatusMsg(rawValue: ipRouteStatusMsg) } else { self.ipRouteStatusMsg = nil }
-            self.addedDateTime = dictionary["AddedDateTime"] as? Date
+            self.addedDateTime = dictionary["AddedDateTime"] as? String
             self.cidrIp = dictionary["CidrIp"] as? String
             self.ipRouteStatusReason = dictionary["IpRouteStatusReason"] as? String
             self.directoryId = dictionary["DirectoryId"] as? String

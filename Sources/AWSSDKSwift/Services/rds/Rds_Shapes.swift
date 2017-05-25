@@ -1147,7 +1147,7 @@ extension Rds {
             AWSShapeProperty(label: "Duration", required: false, type: .integer)
         ]
         ///  The beginning of the time interval to retrieve events for, specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2009-07-08T18:00Z
-        public let startTime: Date?
+        public let startTime: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
         ///  An optional pagination token provided by a previous DescribeEvents request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -1157,7 +1157,7 @@ extension Rds {
         /// A list of event categories that trigger notifications for a event notification subscription.
         public let eventCategories: EventCategoriesList?
         ///  The end of the time interval for which to retrieve events, specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2009-07-08T18:00Z
-        public let endTime: Date?
+        public let endTime: String?
         /// This parameter is not currently supported.
         public let filters: FilterList?
         /// The identifier of the event source for which events will be returned. If not specified, then all sources are included in the response. Constraints:   If SourceIdentifier is supplied, SourceType must also be provided.   If the source type is DBInstance, then a DBInstanceIdentifier must be supplied.   If the source type is DBSecurityGroup, a DBSecurityGroupName must be supplied.   If the source type is DBParameterGroup, a DBParameterGroupName must be supplied.   If the source type is DBSnapshot, a DBSnapshotIdentifier must be supplied.   Cannot end with a hyphen or contain two consecutive hyphens.  
@@ -1165,7 +1165,7 @@ extension Rds {
         /// The number of minutes to retrieve events for. Default: 60
         public let duration: Int32?
 
-        public init(startTime: Date? = nil, maxRecords: Int32? = nil, marker: String? = nil, sourceType: SourceType? = nil, eventCategories: EventCategoriesList? = nil, endTime: Date? = nil, filters: FilterList? = nil, sourceIdentifier: String? = nil, duration: Int32? = nil) {
+        public init(startTime: String? = nil, maxRecords: Int32? = nil, marker: String? = nil, sourceType: SourceType? = nil, eventCategories: EventCategoriesList? = nil, endTime: String? = nil, filters: FilterList? = nil, sourceIdentifier: String? = nil, duration: Int32? = nil) {
             self.startTime = startTime
             self.maxRecords = maxRecords
             self.marker = marker
@@ -1178,12 +1178,12 @@ extension Rds {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["StartTime"] as? Date
+            self.startTime = dictionary["StartTime"] as? String
             self.maxRecords = dictionary["MaxRecords"] as? Int32
             self.marker = dictionary["Marker"] as? String
             if let sourceType = dictionary["SourceType"] as? String { self.sourceType = SourceType(rawValue: sourceType) } else { self.sourceType = nil }
             if let eventCategories = dictionary["EventCategories"] as? [String: Any] { self.eventCategories = try Rds.EventCategoriesList(dictionary: eventCategories) } else { self.eventCategories = nil }
-            self.endTime = dictionary["EndTime"] as? Date
+            self.endTime = dictionary["EndTime"] as? String
             if let filters = dictionary["Filters"] as? [String: Any] { self.filters = try Rds.FilterList(dictionary: filters) } else { self.filters = nil }
             self.sourceIdentifier = dictionary["SourceIdentifier"] as? String
             self.duration = dictionary["Duration"] as? Int32
@@ -1703,7 +1703,7 @@ extension Rds {
         /// The Amazon Resource Name (ARN) for the DB cluster snapshot.
         public let dBClusterSnapshotArn: String?
         /// Specifies the time when the DB cluster was created, in Universal Coordinated Time (UTC).
-        public let clusterCreateTime: Date?
+        public let clusterCreateTime: String?
         /// Specifies the status of this DB cluster snapshot.
         public let status: String?
         /// Specifies the DB cluster identifier of the DB cluster that this DB cluster snapshot was created from.
@@ -1719,7 +1719,7 @@ extension Rds {
         /// Specifies the percentage of the estimated data that has been transferred.
         public let percentProgress: Int32?
         /// Provides the time when the snapshot was taken, in Universal Coordinated Time (UTC).
-        public let snapshotCreateTime: Date?
+        public let snapshotCreateTime: String?
         /// Specifies whether the DB cluster snapshot is encrypted.
         public let storageEncrypted: Bool?
         /// Specifies the identifier for the DB cluster snapshot.
@@ -1729,7 +1729,7 @@ extension Rds {
         /// If StorageEncrypted is true, the KMS key identifier for the encrypted DB cluster snapshot.
         public let kmsKeyId: String?
 
-        public init(availabilityZones: AvailabilityZones? = nil, allocatedStorage: Int32? = nil, licenseModel: String? = nil, snapshotType: String? = nil, dBClusterSnapshotArn: String? = nil, clusterCreateTime: Date? = nil, status: String? = nil, dBClusterIdentifier: String? = nil, engineVersion: String? = nil, masterUsername: String? = nil, vpcId: String? = nil, engine: String? = nil, percentProgress: Int32? = nil, snapshotCreateTime: Date? = nil, storageEncrypted: Bool? = nil, dBClusterSnapshotIdentifier: String? = nil, port: Int32? = nil, kmsKeyId: String? = nil) {
+        public init(availabilityZones: AvailabilityZones? = nil, allocatedStorage: Int32? = nil, licenseModel: String? = nil, snapshotType: String? = nil, dBClusterSnapshotArn: String? = nil, clusterCreateTime: String? = nil, status: String? = nil, dBClusterIdentifier: String? = nil, engineVersion: String? = nil, masterUsername: String? = nil, vpcId: String? = nil, engine: String? = nil, percentProgress: Int32? = nil, snapshotCreateTime: String? = nil, storageEncrypted: Bool? = nil, dBClusterSnapshotIdentifier: String? = nil, port: Int32? = nil, kmsKeyId: String? = nil) {
             self.availabilityZones = availabilityZones
             self.allocatedStorage = allocatedStorage
             self.licenseModel = licenseModel
@@ -1756,7 +1756,7 @@ extension Rds {
             self.licenseModel = dictionary["LicenseModel"] as? String
             self.snapshotType = dictionary["SnapshotType"] as? String
             self.dBClusterSnapshotArn = dictionary["DBClusterSnapshotArn"] as? String
-            self.clusterCreateTime = dictionary["ClusterCreateTime"] as? Date
+            self.clusterCreateTime = dictionary["ClusterCreateTime"] as? String
             self.status = dictionary["Status"] as? String
             self.dBClusterIdentifier = dictionary["DBClusterIdentifier"] as? String
             self.engineVersion = dictionary["EngineVersion"] as? String
@@ -1764,7 +1764,7 @@ extension Rds {
             self.vpcId = dictionary["VpcId"] as? String
             self.engine = dictionary["Engine"] as? String
             self.percentProgress = dictionary["PercentProgress"] as? Int32
-            self.snapshotCreateTime = dictionary["SnapshotCreateTime"] as? Date
+            self.snapshotCreateTime = dictionary["SnapshotCreateTime"] as? String
             self.storageEncrypted = dictionary["StorageEncrypted"] as? Bool
             self.dBClusterSnapshotIdentifier = dictionary["DBClusterSnapshotIdentifier"] as? String
             self.port = dictionary["Port"] as? Int32
@@ -2551,13 +2551,13 @@ extension Rds {
         /// Provides the identifier for the source of the event.
         public let sourceIdentifier: String?
         /// Specifies the date and time of the event.
-        public let date: Date?
+        public let date: String?
         /// Specifies the category for the event.
         public let eventCategories: EventCategoriesList?
         /// The Amazon Resource Name (ARN) for the event.
         public let sourceArn: String?
 
-        public init(sourceType: SourceType? = nil, message: String? = nil, sourceIdentifier: String? = nil, date: Date? = nil, eventCategories: EventCategoriesList? = nil, sourceArn: String? = nil) {
+        public init(sourceType: SourceType? = nil, message: String? = nil, sourceIdentifier: String? = nil, date: String? = nil, eventCategories: EventCategoriesList? = nil, sourceArn: String? = nil) {
             self.sourceType = sourceType
             self.message = message
             self.sourceIdentifier = sourceIdentifier
@@ -2570,7 +2570,7 @@ extension Rds {
             if let sourceType = dictionary["SourceType"] as? String { self.sourceType = SourceType(rawValue: sourceType) } else { self.sourceType = nil }
             self.message = dictionary["Message"] as? String
             self.sourceIdentifier = dictionary["SourceIdentifier"] as? String
-            self.date = dictionary["Date"] as? Date
+            self.date = dictionary["Date"] as? String
             if let eventCategories = dictionary["EventCategories"] as? [String: Any] { self.eventCategories = try Rds.EventCategoriesList(dictionary: eventCategories) } else { self.eventCategories = nil }
             self.sourceArn = dictionary["SourceArn"] as? String
         }
@@ -3370,19 +3370,19 @@ extension Rds {
             AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
         /// The date of the maintenance window when the action will be applied. The maintenance action will be applied to the resource during its first maintenance window after this date. If this date is specified, any next-maintenance opt-in requests are ignored.
-        public let autoAppliedAfterDate: Date?
+        public let autoAppliedAfterDate: String?
         /// Indicates the type of opt-in request that has been received for the resource.
         public let optInStatus: String?
         /// The type of pending maintenance action that is available for the resource.
         public let action: String?
         /// The date when the maintenance action will be automatically applied. The maintenance action will be applied to the resource on this date regardless of the maintenance window for the resource. If this date is specified, any immediate opt-in requests are ignored.
-        public let forcedApplyDate: Date?
+        public let forcedApplyDate: String?
         /// The effective date when the pending maintenance action will be applied to the resource. This date takes into account opt-in requests received from the ApplyPendingMaintenanceAction API, the AutoAppliedAfterDate, and the ForcedApplyDate. This value is blank if an opt-in request has not been received and nothing has been specified as AutoAppliedAfterDate or ForcedApplyDate.
-        public let currentApplyDate: Date?
+        public let currentApplyDate: String?
         /// A description providing more detail about the maintenance action.
         public let description: String?
 
-        public init(autoAppliedAfterDate: Date? = nil, optInStatus: String? = nil, action: String? = nil, forcedApplyDate: Date? = nil, currentApplyDate: Date? = nil, description: String? = nil) {
+        public init(autoAppliedAfterDate: String? = nil, optInStatus: String? = nil, action: String? = nil, forcedApplyDate: String? = nil, currentApplyDate: String? = nil, description: String? = nil) {
             self.autoAppliedAfterDate = autoAppliedAfterDate
             self.optInStatus = optInStatus
             self.action = action
@@ -3392,11 +3392,11 @@ extension Rds {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.autoAppliedAfterDate = dictionary["AutoAppliedAfterDate"] as? Date
+            self.autoAppliedAfterDate = dictionary["AutoAppliedAfterDate"] as? String
             self.optInStatus = dictionary["OptInStatus"] as? String
             self.action = dictionary["Action"] as? String
-            self.forcedApplyDate = dictionary["ForcedApplyDate"] as? Date
-            self.currentApplyDate = dictionary["CurrentApplyDate"] as? Date
+            self.forcedApplyDate = dictionary["ForcedApplyDate"] as? String
+            self.currentApplyDate = dictionary["CurrentApplyDate"] as? String
             self.description = dictionary["Description"] as? String
         }
     }
@@ -4915,7 +4915,7 @@ extension Rds {
         /// A lst of VPC security groups that the new DB cluster belongs to.
         public let vpcSecurityGroupIds: VpcSecurityGroupIdList?
         /// The date and time to restore the DB cluster to. Valid Values: Value must be a time in Universal Coordinated Time (UTC) format Constraints:   Must be before the latest restorable time for the DB instance   Cannot be specified if UseLatestRestorableTime parameter is true   Example: 2015-03-07T23:45:00Z 
-        public let restoreToTime: Date?
+        public let restoreToTime: String?
         /// A value that is set to true to restore the DB cluster to the latest restorable backup time, and false otherwise.  Default: false  Constraints: Cannot be specified if RestoreToTime parameter is provided.
         public let useLatestRestorableTime: Bool?
         /// The port number on which the new DB cluster accepts connections. Constraints: Value must be 1150-65535  Default: The same port as the original DB cluster.
@@ -4923,7 +4923,7 @@ extension Rds {
         /// The identifier of the source DB cluster from which to restore. Constraints:   Must be the identifier of an existing database instance   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
         public let sourceDBClusterIdentifier: String
 
-        public init(kmsKeyId: String? = nil, dBClusterIdentifier: String, optionGroupName: String? = nil, dBSubnetGroupName: String? = nil, tags: TagList? = nil, vpcSecurityGroupIds: VpcSecurityGroupIdList? = nil, restoreToTime: Date? = nil, useLatestRestorableTime: Bool? = nil, port: Int32? = nil, sourceDBClusterIdentifier: String) {
+        public init(kmsKeyId: String? = nil, dBClusterIdentifier: String, optionGroupName: String? = nil, dBSubnetGroupName: String? = nil, tags: TagList? = nil, vpcSecurityGroupIds: VpcSecurityGroupIdList? = nil, restoreToTime: String? = nil, useLatestRestorableTime: Bool? = nil, port: Int32? = nil, sourceDBClusterIdentifier: String) {
             self.kmsKeyId = kmsKeyId
             self.dBClusterIdentifier = dBClusterIdentifier
             self.optionGroupName = optionGroupName
@@ -4944,7 +4944,7 @@ extension Rds {
             self.dBSubnetGroupName = dictionary["DBSubnetGroupName"] as? String
             if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Rds.TagList(dictionary: tags) } else { self.tags = nil }
             if let vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String: Any] { self.vpcSecurityGroupIds = try Rds.VpcSecurityGroupIdList(dictionary: vpcSecurityGroupIds) } else { self.vpcSecurityGroupIds = nil }
-            self.restoreToTime = dictionary["RestoreToTime"] as? Date
+            self.restoreToTime = dictionary["RestoreToTime"] as? String
             self.useLatestRestorableTime = dictionary["UseLatestRestorableTime"] as? Bool
             self.port = dictionary["Port"] as? Int32
             guard let sourceDBClusterIdentifier = dictionary["SourceDBClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("SourceDBClusterIdentifier") }
@@ -5026,7 +5026,7 @@ extension Rds {
         /// Specifies the current state of this DB cluster.
         public let status: String?
         /// Specifies the latest time to which a database can be restored with point-in-time restore.
-        public let latestRestorableTime: Date?
+        public let latestRestorableTime: String?
         /// Indicates the database engine version.
         public let engineVersion: String?
         /// Contains a user-supplied DB cluster identifier. This identifier is the unique key that identifies a DB cluster.
@@ -5058,9 +5058,9 @@ extension Rds {
         /// Specifies the allocated storage size in gigabytes (GB).
         public let allocatedStorage: Int32?
         /// Specifies the earliest time to which a database can be restored with point-in-time restore.
-        public let earliestRestorableTime: Date?
+        public let earliestRestorableTime: String?
         /// Specifies the time when the DB cluster was created, in Universal Coordinated Time (UTC).
-        public let clusterCreateTime: Date?
+        public let clusterCreateTime: String?
         /// Specifies the daily time range during which automated backups are created if automated backups are enabled, as determined by the BackupRetentionPeriod. 
         public let preferredBackupWindow: String?
         /// Contains the master username for the DB cluster.
@@ -5078,7 +5078,7 @@ extension Rds {
         /// Specifies the port that the database engine is listening on.
         public let port: Int32?
 
-        public init(dBClusterArn: String? = nil, vpcSecurityGroups: VpcSecurityGroupMembershipList? = nil, readReplicaIdentifiers: ReadReplicaIdentifierList? = nil, backupRetentionPeriod: Int32? = nil, hostedZoneId: String? = nil, characterSetName: String? = nil, status: String? = nil, latestRestorableTime: Date? = nil, engineVersion: String? = nil, dBClusterIdentifier: String? = nil, preferredMaintenanceWindow: String? = nil, dBClusterParameterGroup: String? = nil, replicationSourceIdentifier: String? = nil, percentProgress: String? = nil, readerEndpoint: String? = nil, dbClusterResourceId: String? = nil, endpoint: String? = nil, kmsKeyId: String? = nil, availabilityZones: AvailabilityZones? = nil, dBClusterOptionGroupMemberships: DBClusterOptionGroupMemberships? = nil, multiAZ: Bool? = nil, dBClusterMembers: DBClusterMemberList? = nil, allocatedStorage: Int32? = nil, earliestRestorableTime: Date? = nil, clusterCreateTime: Date? = nil, preferredBackupWindow: String? = nil, masterUsername: String? = nil, databaseName: String? = nil, engine: String? = nil, dBSubnetGroup: String? = nil, storageEncrypted: Bool? = nil, associatedRoles: DBClusterRoles? = nil, port: Int32? = nil) {
+        public init(dBClusterArn: String? = nil, vpcSecurityGroups: VpcSecurityGroupMembershipList? = nil, readReplicaIdentifiers: ReadReplicaIdentifierList? = nil, backupRetentionPeriod: Int32? = nil, hostedZoneId: String? = nil, characterSetName: String? = nil, status: String? = nil, latestRestorableTime: String? = nil, engineVersion: String? = nil, dBClusterIdentifier: String? = nil, preferredMaintenanceWindow: String? = nil, dBClusterParameterGroup: String? = nil, replicationSourceIdentifier: String? = nil, percentProgress: String? = nil, readerEndpoint: String? = nil, dbClusterResourceId: String? = nil, endpoint: String? = nil, kmsKeyId: String? = nil, availabilityZones: AvailabilityZones? = nil, dBClusterOptionGroupMemberships: DBClusterOptionGroupMemberships? = nil, multiAZ: Bool? = nil, dBClusterMembers: DBClusterMemberList? = nil, allocatedStorage: Int32? = nil, earliestRestorableTime: String? = nil, clusterCreateTime: String? = nil, preferredBackupWindow: String? = nil, masterUsername: String? = nil, databaseName: String? = nil, engine: String? = nil, dBSubnetGroup: String? = nil, storageEncrypted: Bool? = nil, associatedRoles: DBClusterRoles? = nil, port: Int32? = nil) {
             self.dBClusterArn = dBClusterArn
             self.vpcSecurityGroups = vpcSecurityGroups
             self.readReplicaIdentifiers = readReplicaIdentifiers
@@ -5122,7 +5122,7 @@ extension Rds {
             self.hostedZoneId = dictionary["HostedZoneId"] as? String
             self.characterSetName = dictionary["CharacterSetName"] as? String
             self.status = dictionary["Status"] as? String
-            self.latestRestorableTime = dictionary["LatestRestorableTime"] as? Date
+            self.latestRestorableTime = dictionary["LatestRestorableTime"] as? String
             self.engineVersion = dictionary["EngineVersion"] as? String
             self.dBClusterIdentifier = dictionary["DBClusterIdentifier"] as? String
             self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
@@ -5138,8 +5138,8 @@ extension Rds {
             self.multiAZ = dictionary["MultiAZ"] as? Bool
             if let dBClusterMembers = dictionary["DBClusterMembers"] as? [String: Any] { self.dBClusterMembers = try Rds.DBClusterMemberList(dictionary: dBClusterMembers) } else { self.dBClusterMembers = nil }
             self.allocatedStorage = dictionary["AllocatedStorage"] as? Int32
-            self.earliestRestorableTime = dictionary["EarliestRestorableTime"] as? Date
-            self.clusterCreateTime = dictionary["ClusterCreateTime"] as? Date
+            self.earliestRestorableTime = dictionary["EarliestRestorableTime"] as? String
+            self.clusterCreateTime = dictionary["ClusterCreateTime"] as? String
             self.preferredBackupWindow = dictionary["PreferredBackupWindow"] as? String
             self.masterUsername = dictionary["MasterUsername"] as? String
             self.databaseName = dictionary["DatabaseName"] as? String
@@ -5884,7 +5884,7 @@ extension Rds {
         /// Indicates the database engine version.
         public let engineVersion: String?
         /// Specifies the latest time to which a database can be restored with point-in-time restore.
-        public let latestRestorableTime: Date?
+        public let latestRestorableTime: String?
         /// A value that specifies the order in which an Aurora Replica is promoted to the primary instance after a failure of the existing primary instance. For more information, see  Fault Tolerance for an Aurora DB Cluster. 
         public let promotionTier: Int32?
         /// Specifies the Provisioned IOPS (I/O operations per second) value.
@@ -5908,7 +5908,7 @@ extension Rds {
         /// Specifies that changes to the DB instance are pending. This element is only included when changes are pending. Specific changes are identified by subelements.
         public let pendingModifiedValues: PendingModifiedValues?
         /// Provides the date and time the DB instance was created.
-        public let instanceCreateTime: Date?
+        public let instanceCreateTime: String?
         /// Specifies if the DB instance is a Multi-AZ deployment.
         public let multiAZ: Bool?
         /// Contains the identifier of the source DB instance if this DB instance is a Read Replica.
@@ -5952,7 +5952,7 @@ extension Rds {
         /// Contains a user-supplied database identifier. This identifier is the unique key that identifies a DB instance.
         public let dBInstanceIdentifier: String?
 
-        public init(vpcSecurityGroups: VpcSecurityGroupMembershipList? = nil, dBName: String? = nil, enhancedMonitoringResourceArn: String? = nil, domainMemberships: DomainMembershipList? = nil, dBInstanceStatus: String? = nil, dBParameterGroups: DBParameterGroupStatusList? = nil, backupRetentionPeriod: Int32? = nil, dBSecurityGroups: DBSecurityGroupMembershipList? = nil, availabilityZone: String? = nil, optionGroupMemberships: OptionGroupMembershipList? = nil, autoMinorVersionUpgrade: Bool? = nil, cACertificateIdentifier: String? = nil, dBClusterIdentifier: String? = nil, engineVersion: String? = nil, latestRestorableTime: Date? = nil, promotionTier: Int32? = nil, iops: Int32? = nil, copyTagsToSnapshot: Bool? = nil, characterSetName: String? = nil, preferredMaintenanceWindow: String? = nil, dBInstanceArn: String? = nil, dbiResourceId: String? = nil, endpoint: Endpoint? = nil, dBInstanceClass: String? = nil, kmsKeyId: String? = nil, pendingModifiedValues: PendingModifiedValues? = nil, instanceCreateTime: Date? = nil, multiAZ: Bool? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, timezone: String? = nil, allocatedStorage: Int32? = nil, storageType: String? = nil, licenseModel: String? = nil, dbInstancePort: Int32? = nil, tdeCredentialArn: String? = nil, publiclyAccessible: Bool? = nil, preferredBackupWindow: String? = nil, monitoringRoleArn: String? = nil, statusInfos: DBInstanceStatusInfoList? = nil, masterUsername: String? = nil, secondaryAvailabilityZone: String? = nil, readReplicaDBClusterIdentifiers: ReadReplicaDBClusterIdentifierList? = nil, readReplicaDBInstanceIdentifiers: ReadReplicaDBInstanceIdentifierList? = nil, dBSubnetGroup: DBSubnetGroup? = nil, storageEncrypted: Bool? = nil, monitoringInterval: Int32? = nil, engine: String? = nil, dBInstanceIdentifier: String? = nil) {
+        public init(vpcSecurityGroups: VpcSecurityGroupMembershipList? = nil, dBName: String? = nil, enhancedMonitoringResourceArn: String? = nil, domainMemberships: DomainMembershipList? = nil, dBInstanceStatus: String? = nil, dBParameterGroups: DBParameterGroupStatusList? = nil, backupRetentionPeriod: Int32? = nil, dBSecurityGroups: DBSecurityGroupMembershipList? = nil, availabilityZone: String? = nil, optionGroupMemberships: OptionGroupMembershipList? = nil, autoMinorVersionUpgrade: Bool? = nil, cACertificateIdentifier: String? = nil, dBClusterIdentifier: String? = nil, engineVersion: String? = nil, latestRestorableTime: String? = nil, promotionTier: Int32? = nil, iops: Int32? = nil, copyTagsToSnapshot: Bool? = nil, characterSetName: String? = nil, preferredMaintenanceWindow: String? = nil, dBInstanceArn: String? = nil, dbiResourceId: String? = nil, endpoint: Endpoint? = nil, dBInstanceClass: String? = nil, kmsKeyId: String? = nil, pendingModifiedValues: PendingModifiedValues? = nil, instanceCreateTime: String? = nil, multiAZ: Bool? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, timezone: String? = nil, allocatedStorage: Int32? = nil, storageType: String? = nil, licenseModel: String? = nil, dbInstancePort: Int32? = nil, tdeCredentialArn: String? = nil, publiclyAccessible: Bool? = nil, preferredBackupWindow: String? = nil, monitoringRoleArn: String? = nil, statusInfos: DBInstanceStatusInfoList? = nil, masterUsername: String? = nil, secondaryAvailabilityZone: String? = nil, readReplicaDBClusterIdentifiers: ReadReplicaDBClusterIdentifierList? = nil, readReplicaDBInstanceIdentifiers: ReadReplicaDBInstanceIdentifierList? = nil, dBSubnetGroup: DBSubnetGroup? = nil, storageEncrypted: Bool? = nil, monitoringInterval: Int32? = nil, engine: String? = nil, dBInstanceIdentifier: String? = nil) {
             self.vpcSecurityGroups = vpcSecurityGroups
             self.dBName = dBName
             self.enhancedMonitoringResourceArn = enhancedMonitoringResourceArn
@@ -6018,7 +6018,7 @@ extension Rds {
             self.cACertificateIdentifier = dictionary["CACertificateIdentifier"] as? String
             self.dBClusterIdentifier = dictionary["DBClusterIdentifier"] as? String
             self.engineVersion = dictionary["EngineVersion"] as? String
-            self.latestRestorableTime = dictionary["LatestRestorableTime"] as? Date
+            self.latestRestorableTime = dictionary["LatestRestorableTime"] as? String
             self.promotionTier = dictionary["PromotionTier"] as? Int32
             self.iops = dictionary["Iops"] as? Int32
             self.copyTagsToSnapshot = dictionary["CopyTagsToSnapshot"] as? Bool
@@ -6030,7 +6030,7 @@ extension Rds {
             self.dBInstanceClass = dictionary["DBInstanceClass"] as? String
             self.kmsKeyId = dictionary["KmsKeyId"] as? String
             if let pendingModifiedValues = dictionary["PendingModifiedValues"] as? [String: Any] { self.pendingModifiedValues = try Rds.PendingModifiedValues(dictionary: pendingModifiedValues) } else { self.pendingModifiedValues = nil }
-            self.instanceCreateTime = dictionary["InstanceCreateTime"] as? Date
+            self.instanceCreateTime = dictionary["InstanceCreateTime"] as? String
             self.multiAZ = dictionary["MultiAZ"] as? Bool
             self.readReplicaSourceDBInstanceIdentifier = dictionary["ReadReplicaSourceDBInstanceIdentifier"] as? String
             self.timezone = dictionary["Timezone"] as? String
@@ -6408,15 +6408,15 @@ extension Rds {
         /// The thumbprint of the certificate.
         public let thumbprint: String?
         /// The starting date from which the certificate is valid.
-        public let validFrom: Date?
+        public let validFrom: String?
         /// The final date that the certificate continues to be valid.
-        public let validTill: Date?
+        public let validTill: String?
         /// The unique key that identifies a certificate.
         public let certificateIdentifier: String?
         /// The type of the certificate.
         public let certificateType: String?
 
-        public init(certificateArn: String? = nil, thumbprint: String? = nil, validFrom: Date? = nil, validTill: Date? = nil, certificateIdentifier: String? = nil, certificateType: String? = nil) {
+        public init(certificateArn: String? = nil, thumbprint: String? = nil, validFrom: String? = nil, validTill: String? = nil, certificateIdentifier: String? = nil, certificateType: String? = nil) {
             self.certificateArn = certificateArn
             self.thumbprint = thumbprint
             self.validFrom = validFrom
@@ -6428,8 +6428,8 @@ extension Rds {
         public init(dictionary: [String: Any]) throws {
             self.certificateArn = dictionary["CertificateArn"] as? String
             self.thumbprint = dictionary["Thumbprint"] as? String
-            self.validFrom = dictionary["ValidFrom"] as? Date
-            self.validTill = dictionary["ValidTill"] as? Date
+            self.validFrom = dictionary["ValidFrom"] as? String
+            self.validTill = dictionary["ValidTill"] as? String
             self.certificateIdentifier = dictionary["CertificateIdentifier"] as? String
             self.certificateType = dictionary["CertificateType"] as? String
         }
@@ -6624,7 +6624,7 @@ extension Rds {
         /// The ARN from the Key Store with which to associate the instance for TDE encryption.
         public let tdeCredentialArn: String?
         /// The date and time to restore from. Valid Values: Value must be a time in Universal Coordinated Time (UTC) format Constraints:   Must be before the latest restorable time for the DB instance   Cannot be specified if UseLatestRestorableTime parameter is true   Example: 2009-09-07T23:45:00Z 
-        public let restoreTime: Date?
+        public let restoreTime: String?
         /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for the DB instance. Constraints: Must be an integer greater than 1000.  SQL Server  Setting the IOPS value for the SQL Server database engine is not supported.
         public let iops: Int32?
         /// The EC2 Availability Zone that the database instance will be created in. Default: A random, system-chosen Availability Zone. Constraint: You cannot specify the AvailabilityZone parameter if the MultiAZ parameter is set to true. Example: us-east-1a 
@@ -6652,7 +6652,7 @@ extension Rds {
         /// The compute and memory capacity of the Amazon RDS DB instance. Valid Values: db.t1.micro | db.m1.small | db.m1.medium | db.m1.large | db.m1.xlarge | db.m2.2xlarge | db.m2.4xlarge | db.m3.medium | db.m3.large | db.m3.xlarge | db.m3.2xlarge | db.m4.large | db.m4.xlarge | db.m4.2xlarge | db.m4.4xlarge | db.m4.10xlarge | db.r3.large | db.r3.xlarge | db.r3.2xlarge | db.r3.4xlarge | db.r3.8xlarge | db.t2.micro | db.t2.small | db.t2.medium | db.t2.large  Default: The same DBInstanceClass as the original DB instance.
         public let dBInstanceClass: String?
 
-        public init(domain: String? = nil, port: Int32? = nil, dBName: String? = nil, multiAZ: Bool? = nil, tdeCredentialPassword: String? = nil, tags: TagList? = nil, licenseModel: String? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, restoreTime: Date? = nil, iops: Int32? = nil, availabilityZone: String? = nil, publiclyAccessible: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, targetDBInstanceIdentifier: String, optionGroupName: String? = nil, dBSubnetGroupName: String? = nil, copyTagsToSnapshot: Bool? = nil, engine: String? = nil, domainIAMRoleName: String? = nil, useLatestRestorableTime: Bool? = nil, sourceDBInstanceIdentifier: String, dBInstanceClass: String? = nil) {
+        public init(domain: String? = nil, port: Int32? = nil, dBName: String? = nil, multiAZ: Bool? = nil, tdeCredentialPassword: String? = nil, tags: TagList? = nil, licenseModel: String? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, restoreTime: String? = nil, iops: Int32? = nil, availabilityZone: String? = nil, publiclyAccessible: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, targetDBInstanceIdentifier: String, optionGroupName: String? = nil, dBSubnetGroupName: String? = nil, copyTagsToSnapshot: Bool? = nil, engine: String? = nil, domainIAMRoleName: String? = nil, useLatestRestorableTime: Bool? = nil, sourceDBInstanceIdentifier: String, dBInstanceClass: String? = nil) {
             self.domain = domain
             self.port = port
             self.dBName = dBName
@@ -6688,7 +6688,7 @@ extension Rds {
             self.licenseModel = dictionary["LicenseModel"] as? String
             self.storageType = dictionary["StorageType"] as? String
             self.tdeCredentialArn = dictionary["TdeCredentialArn"] as? String
-            self.restoreTime = dictionary["RestoreTime"] as? Date
+            self.restoreTime = dictionary["RestoreTime"] as? String
             self.iops = dictionary["Iops"] as? Int32
             self.availabilityZone = dictionary["AvailabilityZone"] as? String
             self.publiclyAccessible = dictionary["PubliclyAccessible"] as? Bool
@@ -6759,7 +6759,7 @@ extension Rds {
         /// The description of the reserved DB instance.
         public let productDescription: String?
         /// The time the reservation started.
-        public let startTime: Date?
+        public let startTime: String?
         /// The unique identifier for the reservation.
         public let reservedDBInstanceId: String?
         /// The number of reserved DB instances.
@@ -6775,7 +6775,7 @@ extension Rds {
         /// The fixed price charged for this reserved DB instance.
         public let fixedPrice: Double?
 
-        public init(recurringCharges: RecurringChargeList? = nil, multiAZ: Bool? = nil, usagePrice: Double? = nil, state: String? = nil, reservedDBInstanceArn: String? = nil, offeringType: String? = nil, productDescription: String? = nil, startTime: Date? = nil, reservedDBInstanceId: String? = nil, dBInstanceCount: Int32? = nil, currencyCode: String? = nil, reservedDBInstancesOfferingId: String? = nil, duration: Int32? = nil, dBInstanceClass: String? = nil, fixedPrice: Double? = nil) {
+        public init(recurringCharges: RecurringChargeList? = nil, multiAZ: Bool? = nil, usagePrice: Double? = nil, state: String? = nil, reservedDBInstanceArn: String? = nil, offeringType: String? = nil, productDescription: String? = nil, startTime: String? = nil, reservedDBInstanceId: String? = nil, dBInstanceCount: Int32? = nil, currencyCode: String? = nil, reservedDBInstancesOfferingId: String? = nil, duration: Int32? = nil, dBInstanceClass: String? = nil, fixedPrice: Double? = nil) {
             self.recurringCharges = recurringCharges
             self.multiAZ = multiAZ
             self.usagePrice = usagePrice
@@ -6801,7 +6801,7 @@ extension Rds {
             self.reservedDBInstanceArn = dictionary["ReservedDBInstanceArn"] as? String
             self.offeringType = dictionary["OfferingType"] as? String
             self.productDescription = dictionary["ProductDescription"] as? String
-            self.startTime = dictionary["StartTime"] as? Date
+            self.startTime = dictionary["StartTime"] as? String
             self.reservedDBInstanceId = dictionary["ReservedDBInstanceId"] as? String
             self.dBInstanceCount = dictionary["DBInstanceCount"] as? Int32
             self.currencyCode = dictionary["CurrencyCode"] as? String
@@ -8698,13 +8698,13 @@ extension Rds {
         /// The percentage of the estimated data that has been transferred.
         public let percentProgress: Int32?
         /// Provides the time when the snapshot was taken, in Universal Coordinated Time (UTC).
-        public let snapshotCreateTime: Date?
+        public let snapshotCreateTime: String?
         /// The Amazon Resource Name (ARN) for the DB snapshot.
         public let dBSnapshotArn: String?
         ///  If Encrypted is true, the KMS key identifier for the encrypted DB snapshot. 
         public let kmsKeyId: String?
         /// Specifies the time when the snapshot was taken, in Universal Coordinated Time (UTC).
-        public let instanceCreateTime: Date?
+        public let instanceCreateTime: String?
         /// The region that the DB snapshot was created in or copied from.
         public let sourceRegion: String?
         /// Specifies the allocated storage size in gigabytes (GB).
@@ -8730,7 +8730,7 @@ extension Rds {
         /// Specifies the DB instance identifier of the DB instance this DB snapshot was created from.
         public let dBInstanceIdentifier: String?
 
-        public init(port: Int32? = nil, encrypted: Bool? = nil, iops: Int32? = nil, availabilityZone: String? = nil, sourceDBSnapshotIdentifier: String? = nil, status: String? = nil, engineVersion: String? = nil, vpcId: String? = nil, percentProgress: Int32? = nil, snapshotCreateTime: Date? = nil, dBSnapshotArn: String? = nil, kmsKeyId: String? = nil, instanceCreateTime: Date? = nil, sourceRegion: String? = nil, allocatedStorage: Int32? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, snapshotType: String? = nil, licenseModel: String? = nil, optionGroupName: String? = nil, masterUsername: String? = nil, engine: String? = nil, dBSnapshotIdentifier: String? = nil, dBInstanceIdentifier: String? = nil) {
+        public init(port: Int32? = nil, encrypted: Bool? = nil, iops: Int32? = nil, availabilityZone: String? = nil, sourceDBSnapshotIdentifier: String? = nil, status: String? = nil, engineVersion: String? = nil, vpcId: String? = nil, percentProgress: Int32? = nil, snapshotCreateTime: String? = nil, dBSnapshotArn: String? = nil, kmsKeyId: String? = nil, instanceCreateTime: String? = nil, sourceRegion: String? = nil, allocatedStorage: Int32? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, snapshotType: String? = nil, licenseModel: String? = nil, optionGroupName: String? = nil, masterUsername: String? = nil, engine: String? = nil, dBSnapshotIdentifier: String? = nil, dBInstanceIdentifier: String? = nil) {
             self.port = port
             self.encrypted = encrypted
             self.iops = iops
@@ -8768,10 +8768,10 @@ extension Rds {
             self.engineVersion = dictionary["EngineVersion"] as? String
             self.vpcId = dictionary["VpcId"] as? String
             self.percentProgress = dictionary["PercentProgress"] as? Int32
-            self.snapshotCreateTime = dictionary["SnapshotCreateTime"] as? Date
+            self.snapshotCreateTime = dictionary["SnapshotCreateTime"] as? String
             self.dBSnapshotArn = dictionary["DBSnapshotArn"] as? String
             self.kmsKeyId = dictionary["KmsKeyId"] as? String
-            self.instanceCreateTime = dictionary["InstanceCreateTime"] as? Date
+            self.instanceCreateTime = dictionary["InstanceCreateTime"] as? String
             self.sourceRegion = dictionary["SourceRegion"] as? String
             self.allocatedStorage = dictionary["AllocatedStorage"] as? Int32
             self.storageType = dictionary["StorageType"] as? String

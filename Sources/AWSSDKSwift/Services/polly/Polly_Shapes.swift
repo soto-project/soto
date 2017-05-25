@@ -402,7 +402,7 @@ extension Polly {
         /// Amazon Resource Name (ARN) of the lexicon.
         public let lexiconArn: String?
         /// Date lexicon was last modified (a timestamp value).
-        public let lastModified: Date?
+        public let lastModified: String?
         /// Number of lexemes in the lexicon.
         public let lexemesCount: Int32?
         /// Language code that the lexicon applies to. A lexicon with a language code such as "en" would be applied to all English languages (en-GB, en-US, en-AUS, en-WLS, and so on.
@@ -412,7 +412,7 @@ extension Polly {
         /// Total size of the lexicon, in characters.
         public let size: Int32?
 
-        public init(lexiconArn: String? = nil, lastModified: Date? = nil, lexemesCount: Int32? = nil, languageCode: LanguageCode? = nil, alphabet: String? = nil, size: Int32? = nil) {
+        public init(lexiconArn: String? = nil, lastModified: String? = nil, lexemesCount: Int32? = nil, languageCode: LanguageCode? = nil, alphabet: String? = nil, size: Int32? = nil) {
             self.lexiconArn = lexiconArn
             self.lastModified = lastModified
             self.lexemesCount = lexemesCount
@@ -423,7 +423,7 @@ extension Polly {
 
         public init(dictionary: [String: Any]) throws {
             self.lexiconArn = dictionary["LexiconArn"] as? String
-            self.lastModified = dictionary["LastModified"] as? Date
+            self.lastModified = dictionary["LastModified"] as? String
             self.lexemesCount = dictionary["LexemesCount"] as? Int32
             if let languageCode = dictionary["LanguageCode"] as? String { self.languageCode = LanguageCode(rawValue: languageCode) } else { self.languageCode = nil }
             self.alphabet = dictionary["Alphabet"] as? String

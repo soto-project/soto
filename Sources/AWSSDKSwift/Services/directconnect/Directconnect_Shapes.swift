@@ -1121,7 +1121,7 @@ extension Directconnect {
             AWSShapeProperty(label: "partnerName", required: false, type: .string)
         ]
         /// The time of the most recent call to DescribeLoa for this connection.
-        public let loaIssueTime: Date?
+        public let loaIssueTime: String?
         /// Bandwidth of the connection. Example: 1Gbps (for regular connections), or 500Mbps (for hosted connections) Default: None
         public let bandwidth: String?
         public let location: String?
@@ -1138,7 +1138,7 @@ extension Directconnect {
         /// The name of the AWS Direct Connect service provider associated with the connection.
         public let partnerName: String?
 
-        public init(loaIssueTime: Date? = nil, bandwidth: String? = nil, location: String? = nil, lagId: String? = nil, awsDevice: String? = nil, connectionId: String? = nil, region: String? = nil, ownerAccount: String? = nil, connectionState: ConnectionState? = nil, connectionName: String? = nil, vlan: Int32? = nil, partnerName: String? = nil) {
+        public init(loaIssueTime: String? = nil, bandwidth: String? = nil, location: String? = nil, lagId: String? = nil, awsDevice: String? = nil, connectionId: String? = nil, region: String? = nil, ownerAccount: String? = nil, connectionState: ConnectionState? = nil, connectionName: String? = nil, vlan: Int32? = nil, partnerName: String? = nil) {
             self.loaIssueTime = loaIssueTime
             self.bandwidth = bandwidth
             self.location = location
@@ -1154,7 +1154,7 @@ extension Directconnect {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.loaIssueTime = dictionary["loaIssueTime"] as? Date
+            self.loaIssueTime = dictionary["loaIssueTime"] as? String
             self.bandwidth = dictionary["bandwidth"] as? String
             self.location = dictionary["location"] as? String
             self.lagId = dictionary["lagId"] as? String
@@ -1459,7 +1459,7 @@ extension Directconnect {
             AWSShapeProperty(label: "bandwidth", required: false, type: .string)
         ]
         /// The time of the most recent call to DescribeInterconnectLoa for this Interconnect.
-        public let loaIssueTime: Date?
+        public let loaIssueTime: String?
         public let interconnectState: InterconnectState?
         public let location: String?
         /// The Direct Connection endpoint which the physical connection terminates on.
@@ -1470,7 +1470,7 @@ extension Directconnect {
         public let interconnectId: String?
         public let bandwidth: String?
 
-        public init(loaIssueTime: Date? = nil, interconnectState: InterconnectState? = nil, location: String? = nil, awsDevice: String? = nil, lagId: String? = nil, region: String? = nil, interconnectName: String? = nil, interconnectId: String? = nil, bandwidth: String? = nil) {
+        public init(loaIssueTime: String? = nil, interconnectState: InterconnectState? = nil, location: String? = nil, awsDevice: String? = nil, lagId: String? = nil, region: String? = nil, interconnectName: String? = nil, interconnectId: String? = nil, bandwidth: String? = nil) {
             self.loaIssueTime = loaIssueTime
             self.interconnectState = interconnectState
             self.location = location
@@ -1483,7 +1483,7 @@ extension Directconnect {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.loaIssueTime = dictionary["loaIssueTime"] as? Date
+            self.loaIssueTime = dictionary["loaIssueTime"] as? String
             if let interconnectState = dictionary["interconnectState"] as? String { self.interconnectState = InterconnectState(rawValue: interconnectState) } else { self.interconnectState = nil }
             self.location = dictionary["location"] as? String
             self.awsDevice = dictionary["awsDevice"] as? String

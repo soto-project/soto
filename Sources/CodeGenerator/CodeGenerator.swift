@@ -713,7 +713,7 @@ extension Shape {
             return "Data"
             
         case .timestamp:
-            return "Date"
+            return "String" // TODO
             
         case .enum(_):
             return name.toSwiftClassCase()

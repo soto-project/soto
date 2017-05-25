@@ -193,15 +193,15 @@ extension Cloudformation {
             AWSShapeProperty(label: "TemplateDescription", required: false, type: .string)
         ]
         /// The time the stack was last updated. This field will only be returned if the stack has been updated at least once.
-        public let lastUpdatedTime: Date?
+        public let lastUpdatedTime: String?
         /// The time the stack was deleted.
-        public let deletionTime: Date?
+        public let deletionTime: String?
         /// Unique stack identifier.
         public let stackId: String?
         /// The current status of the stack.
         public let stackStatus: StackStatus
         /// The time the stack was created.
-        public let creationTime: Date
+        public let creationTime: String
         /// Success/Failure message associated with the stack status.
         public let stackStatusReason: String?
         /// The name associated with the stack.
@@ -209,7 +209,7 @@ extension Cloudformation {
         /// The template description of the template used to create the stack.
         public let templateDescription: String?
 
-        public init(lastUpdatedTime: Date? = nil, deletionTime: Date? = nil, stackId: String? = nil, stackStatus: StackStatus, creationTime: Date, stackStatusReason: String? = nil, stackName: String, templateDescription: String? = nil) {
+        public init(lastUpdatedTime: String? = nil, deletionTime: String? = nil, stackId: String? = nil, stackStatus: StackStatus, creationTime: String, stackStatusReason: String? = nil, stackName: String, templateDescription: String? = nil) {
             self.lastUpdatedTime = lastUpdatedTime
             self.deletionTime = deletionTime
             self.stackId = stackId
@@ -221,12 +221,12 @@ extension Cloudformation {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.lastUpdatedTime = dictionary["LastUpdatedTime"] as? Date
-            self.deletionTime = dictionary["DeletionTime"] as? Date
+            self.lastUpdatedTime = dictionary["LastUpdatedTime"] as? String
+            self.deletionTime = dictionary["DeletionTime"] as? String
             self.stackId = dictionary["StackId"] as? String
             guard let rawStackStatus = dictionary["StackStatus"] as? String, let stackStatus = StackStatus(rawValue: rawStackStatus) else { throw InitializableError.missingRequiredParam("StackStatus") }
             self.stackStatus = stackStatus
-            guard let creationTime = dictionary["CreationTime"] as? Date else { throw InitializableError.missingRequiredParam("CreationTime") }
+            guard let creationTime = dictionary["CreationTime"] as? String else { throw InitializableError.missingRequiredParam("CreationTime") }
             self.creationTime = creationTime
             self.stackStatusReason = dictionary["StackStatusReason"] as? String
             guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
@@ -288,7 +288,7 @@ extension Cloudformation {
         /// Boolean to enable or disable rollback on stack creation failures:    true: disable rollback    false: enable rollback  
         public let disableRollback: Bool?
         /// The time at which the stack was created.
-        public let creationTime: Date
+        public let creationTime: String
         /// A list of output structures.
         public let outputs: [Output]?
         /// Success/failure message associated with the stack status.
@@ -296,7 +296,7 @@ extension Cloudformation {
         /// SNS topic ARNs to which stack related events are published.
         public let notificationARNs: [String]?
         /// The time the stack was last updated. This field will only be returned if the stack has been updated at least once.
-        public let lastUpdatedTime: Date?
+        public let lastUpdatedTime: String?
         /// A user-defined description associated with the stack.
         public let description: String?
         /// A list of Parameter structures.
@@ -312,7 +312,7 @@ extension Cloudformation {
         /// The capabilities allowed in the stack.
         public let capabilities: [Capability]?
 
-        public init(stackStatus: StackStatus, tags: [Tag]? = nil, roleARN: String? = nil, disableRollback: Bool? = nil, creationTime: Date, outputs: [Output]? = nil, stackStatusReason: String? = nil, notificationARNs: [String]? = nil, lastUpdatedTime: Date? = nil, description: String? = nil, parameters: [Parameter]? = nil, stackId: String? = nil, changeSetId: String? = nil, timeoutInMinutes: Int32? = nil, stackName: String, capabilities: [Capability]? = nil) {
+        public init(stackStatus: StackStatus, tags: [Tag]? = nil, roleARN: String? = nil, disableRollback: Bool? = nil, creationTime: String, outputs: [Output]? = nil, stackStatusReason: String? = nil, notificationARNs: [String]? = nil, lastUpdatedTime: String? = nil, description: String? = nil, parameters: [Parameter]? = nil, stackId: String? = nil, changeSetId: String? = nil, timeoutInMinutes: Int32? = nil, stackName: String, capabilities: [Capability]? = nil) {
             self.stackStatus = stackStatus
             self.tags = tags
             self.roleARN = roleARN
@@ -341,7 +341,7 @@ extension Cloudformation {
             }
             self.roleARN = dictionary["RoleARN"] as? String
             self.disableRollback = dictionary["DisableRollback"] as? Bool
-            guard let creationTime = dictionary["CreationTime"] as? Date else { throw InitializableError.missingRequiredParam("CreationTime") }
+            guard let creationTime = dictionary["CreationTime"] as? String else { throw InitializableError.missingRequiredParam("CreationTime") }
             self.creationTime = creationTime
             if let outputs = dictionary["Outputs"] as? [[String: Any]] {
                 self.outputs = try outputs.map({ try Output(dictionary: $0) })
@@ -350,7 +350,7 @@ extension Cloudformation {
             }
             self.stackStatusReason = dictionary["StackStatusReason"] as? String
             self.notificationARNs = dictionary["NotificationARNs"] as? [String]
-            self.lastUpdatedTime = dictionary["LastUpdatedTime"] as? Date
+            self.lastUpdatedTime = dictionary["LastUpdatedTime"] as? String
             self.description = dictionary["Description"] as? String
             if let parameters = dictionary["Parameters"] as? [[String: Any]] {
                 self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
@@ -547,7 +547,7 @@ extension Cloudformation {
         /// The logical name of the resource specified in the template.
         public let logicalResourceId: String
         /// Time the status was updated.
-        public let lastUpdatedTimestamp: Date
+        public let lastUpdatedTimestamp: String
         /// Success/failure message associated with the resource.
         public let resourceStatusReason: String?
         /// The name associated with the stack.
@@ -555,7 +555,7 @@ extension Cloudformation {
         /// User defined description associated with the resource.
         public let description: String?
 
-        public init(metadata: String? = nil, resourceStatus: ResourceStatus, stackId: String? = nil, resourceType: String, physicalResourceId: String? = nil, logicalResourceId: String, lastUpdatedTimestamp: Date, resourceStatusReason: String? = nil, stackName: String? = nil, description: String? = nil) {
+        public init(metadata: String? = nil, resourceStatus: ResourceStatus, stackId: String? = nil, resourceType: String, physicalResourceId: String? = nil, logicalResourceId: String, lastUpdatedTimestamp: String, resourceStatusReason: String? = nil, stackName: String? = nil, description: String? = nil) {
             self.metadata = metadata
             self.resourceStatus = resourceStatus
             self.stackId = stackId
@@ -578,7 +578,7 @@ extension Cloudformation {
             self.physicalResourceId = dictionary["PhysicalResourceId"] as? String
             guard let logicalResourceId = dictionary["LogicalResourceId"] as? String else { throw InitializableError.missingRequiredParam("LogicalResourceId") }
             self.logicalResourceId = logicalResourceId
-            guard let lastUpdatedTimestamp = dictionary["LastUpdatedTimestamp"] as? Date else { throw InitializableError.missingRequiredParam("LastUpdatedTimestamp") }
+            guard let lastUpdatedTimestamp = dictionary["LastUpdatedTimestamp"] as? String else { throw InitializableError.missingRequiredParam("LastUpdatedTimestamp") }
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
             self.resourceStatusReason = dictionary["ResourceStatusReason"] as? String
             self.stackName = dictionary["StackName"] as? String
@@ -1660,7 +1660,7 @@ extension Cloudformation {
         /// If you execute the change set, the tags that will be associated with the stack.
         public let tags: [Tag]?
         /// The start time when the change set was created, in UTC.
-        public let creationTime: Date?
+        public let creationTime: String?
         /// The ARNs of the Amazon Simple Notification Service (Amazon SNS) topics that will be associated with the stack if you execute the change set.
         public let notificationARNs: [String]?
         /// Information about the change set.
@@ -1684,7 +1684,7 @@ extension Cloudformation {
         /// If you execute the change set, the list of capabilities that were explicitly acknowledged when the change set was created.
         public let capabilities: [Capability]?
 
-        public init(executionStatus: ExecutionStatus? = nil, changes: [Change]? = nil, tags: [Tag]? = nil, creationTime: Date? = nil, notificationARNs: [String]? = nil, description: String? = nil, statusReason: String? = nil, status: ChangeSetStatus? = nil, parameters: [Parameter]? = nil, stackId: String? = nil, changeSetName: String? = nil, changeSetId: String? = nil, stackName: String? = nil, nextToken: String? = nil, capabilities: [Capability]? = nil) {
+        public init(executionStatus: ExecutionStatus? = nil, changes: [Change]? = nil, tags: [Tag]? = nil, creationTime: String? = nil, notificationARNs: [String]? = nil, description: String? = nil, statusReason: String? = nil, status: ChangeSetStatus? = nil, parameters: [Parameter]? = nil, stackId: String? = nil, changeSetName: String? = nil, changeSetId: String? = nil, stackName: String? = nil, nextToken: String? = nil, capabilities: [Capability]? = nil) {
             self.executionStatus = executionStatus
             self.changes = changes
             self.tags = tags
@@ -1714,7 +1714,7 @@ extension Cloudformation {
             } else { 
                 self.tags = nil
             }
-            self.creationTime = dictionary["CreationTime"] as? Date
+            self.creationTime = dictionary["CreationTime"] as? String
             self.notificationARNs = dictionary["NotificationARNs"] as? [String]
             self.description = dictionary["Description"] as? String
             self.statusReason = dictionary["StatusReason"] as? String
@@ -2012,7 +2012,7 @@ extension Cloudformation {
             AWSShapeProperty(label: "StackName", required: true, type: .string)
         ]
         /// Time the status was updated.
-        public let timestamp: Date
+        public let timestamp: String
         /// Current status of the resource.
         public let resourceStatus: ResourceStatus?
         /// The unique ID name of the instance of the stack.
@@ -2032,7 +2032,7 @@ extension Cloudformation {
         /// The name associated with a stack.
         public let stackName: String
 
-        public init(timestamp: Date, resourceStatus: ResourceStatus? = nil, stackId: String, eventId: String, resourceType: String? = nil, logicalResourceId: String? = nil, physicalResourceId: String? = nil, resourceProperties: String? = nil, resourceStatusReason: String? = nil, stackName: String) {
+        public init(timestamp: String, resourceStatus: ResourceStatus? = nil, stackId: String, eventId: String, resourceType: String? = nil, logicalResourceId: String? = nil, physicalResourceId: String? = nil, resourceProperties: String? = nil, resourceStatusReason: String? = nil, stackName: String) {
             self.timestamp = timestamp
             self.resourceStatus = resourceStatus
             self.stackId = stackId
@@ -2046,7 +2046,7 @@ extension Cloudformation {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let timestamp = dictionary["Timestamp"] as? Date else { throw InitializableError.missingRequiredParam("Timestamp") }
+            guard let timestamp = dictionary["Timestamp"] as? String else { throw InitializableError.missingRequiredParam("Timestamp") }
             self.timestamp = timestamp
             if let resourceStatus = dictionary["ResourceStatus"] as? String { self.resourceStatus = ResourceStatus(rawValue: resourceStatus) } else { self.resourceStatus = nil }
             guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
@@ -2090,13 +2090,13 @@ extension Cloudformation {
         /// The ID of the change set.
         public let changeSetId: String?
         /// The start time when the change set was created, in UTC.
-        public let creationTime: Date?
+        public let creationTime: String?
         /// The name of the stack with which the change set is associated.
         public let stackName: String?
         /// Descriptive information about the change set.
         public let description: String?
 
-        public init(status: ChangeSetStatus? = nil, statusReason: String? = nil, executionStatus: ExecutionStatus? = nil, stackId: String? = nil, changeSetName: String? = nil, changeSetId: String? = nil, creationTime: Date? = nil, stackName: String? = nil, description: String? = nil) {
+        public init(status: ChangeSetStatus? = nil, statusReason: String? = nil, executionStatus: ExecutionStatus? = nil, stackId: String? = nil, changeSetName: String? = nil, changeSetId: String? = nil, creationTime: String? = nil, stackName: String? = nil, description: String? = nil) {
             self.status = status
             self.statusReason = statusReason
             self.executionStatus = executionStatus
@@ -2115,7 +2115,7 @@ extension Cloudformation {
             self.stackId = dictionary["StackId"] as? String
             self.changeSetName = dictionary["ChangeSetName"] as? String
             self.changeSetId = dictionary["ChangeSetId"] as? String
-            self.creationTime = dictionary["CreationTime"] as? Date
+            self.creationTime = dictionary["CreationTime"] as? String
             self.stackName = dictionary["StackName"] as? String
             self.description = dictionary["Description"] as? String
         }
@@ -2223,9 +2223,9 @@ extension Cloudformation {
         /// The logical name of the resource specified in the template.
         public let logicalResourceId: String
         /// Time the status was updated.
-        public let lastUpdatedTimestamp: Date
+        public let lastUpdatedTimestamp: String
 
-        public init(resourceType: String, physicalResourceId: String? = nil, resourceStatusReason: String? = nil, resourceStatus: ResourceStatus, logicalResourceId: String, lastUpdatedTimestamp: Date) {
+        public init(resourceType: String, physicalResourceId: String? = nil, resourceStatusReason: String? = nil, resourceStatus: ResourceStatus, logicalResourceId: String, lastUpdatedTimestamp: String) {
             self.resourceType = resourceType
             self.physicalResourceId = physicalResourceId
             self.resourceStatusReason = resourceStatusReason
@@ -2243,7 +2243,7 @@ extension Cloudformation {
             self.resourceStatus = resourceStatus
             guard let logicalResourceId = dictionary["LogicalResourceId"] as? String else { throw InitializableError.missingRequiredParam("LogicalResourceId") }
             self.logicalResourceId = logicalResourceId
-            guard let lastUpdatedTimestamp = dictionary["LastUpdatedTimestamp"] as? Date else { throw InitializableError.missingRequiredParam("LastUpdatedTimestamp") }
+            guard let lastUpdatedTimestamp = dictionary["LastUpdatedTimestamp"] as? String else { throw InitializableError.missingRequiredParam("LastUpdatedTimestamp") }
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
         }
     }
@@ -2301,7 +2301,7 @@ extension Cloudformation {
             AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
         /// Time the status was updated.
-        public let timestamp: Date
+        public let timestamp: String
         /// Current status of the resource.
         public let resourceStatus: ResourceStatus
         /// Unique identifier of the stack.
@@ -2319,7 +2319,7 @@ extension Cloudformation {
         /// User defined description associated with the resource.
         public let description: String?
 
-        public init(timestamp: Date, resourceStatus: ResourceStatus, stackId: String? = nil, resourceType: String, physicalResourceId: String? = nil, logicalResourceId: String, resourceStatusReason: String? = nil, stackName: String? = nil, description: String? = nil) {
+        public init(timestamp: String, resourceStatus: ResourceStatus, stackId: String? = nil, resourceType: String, physicalResourceId: String? = nil, logicalResourceId: String, resourceStatusReason: String? = nil, stackName: String? = nil, description: String? = nil) {
             self.timestamp = timestamp
             self.resourceStatus = resourceStatus
             self.stackId = stackId
@@ -2332,7 +2332,7 @@ extension Cloudformation {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let timestamp = dictionary["Timestamp"] as? Date else { throw InitializableError.missingRequiredParam("Timestamp") }
+            guard let timestamp = dictionary["Timestamp"] as? String else { throw InitializableError.missingRequiredParam("Timestamp") }
             self.timestamp = timestamp
             guard let rawResourceStatus = dictionary["ResourceStatus"] as? String, let resourceStatus = ResourceStatus(rawValue: rawResourceStatus) else { throw InitializableError.missingRequiredParam("ResourceStatus") }
             self.resourceStatus = resourceStatus

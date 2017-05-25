@@ -82,9 +82,9 @@ extension Shield {
             AWSShapeProperty(label: "AttackId", required: false, type: .string)
         ]
         /// The start time of the attack, in the format 2016-12-16T13:50Z.
-        public let startTime: Date?
+        public let startTime: String?
         /// The end time of the attack, in the format 2016-12-16T13:50Z.
-        public let endTime: Date?
+        public let endTime: String?
         /// The ARN (Amazon Resource Name) of the resource that was attacked.
         public let resourceArn: String?
         /// The list of attacks for a specified time period.
@@ -92,7 +92,7 @@ extension Shield {
         /// The unique identifier (ID) of the attack.
         public let attackId: String?
 
-        public init(startTime: Date? = nil, endTime: Date? = nil, resourceArn: String? = nil, attackVectors: [AttackVectorDescription]? = nil, attackId: String? = nil) {
+        public init(startTime: String? = nil, endTime: String? = nil, resourceArn: String? = nil, attackVectors: [AttackVectorDescription]? = nil, attackId: String? = nil) {
             self.startTime = startTime
             self.endTime = endTime
             self.resourceArn = resourceArn
@@ -101,8 +101,8 @@ extension Shield {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["StartTime"] as? Date
-            self.endTime = dictionary["EndTime"] as? Date
+            self.startTime = dictionary["StartTime"] as? String
+            self.endTime = dictionary["EndTime"] as? String
             self.resourceArn = dictionary["ResourceArn"] as? String
             if let attackVectors = dictionary["AttackVectors"] as? [[String: Any]] {
                 self.attackVectors = try attackVectors.map({ try AttackVectorDescription(dictionary: $0) })
@@ -121,17 +121,17 @@ extension Shield {
             AWSShapeProperty(label: "TimeCommitmentInSeconds", required: false, type: .long)
         ]
         /// The start time of the subscription, in the format "2016-12-16T13:50Z".
-        public let startTime: Date?
+        public let startTime: String?
         /// The length, in seconds, of the AWS Shield Advanced subscription for the account.
         public let timeCommitmentInSeconds: Int64?
 
-        public init(startTime: Date? = nil, timeCommitmentInSeconds: Int64? = nil) {
+        public init(startTime: String? = nil, timeCommitmentInSeconds: Int64? = nil) {
             self.startTime = startTime
             self.timeCommitmentInSeconds = timeCommitmentInSeconds
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["StartTime"] as? Date
+            self.startTime = dictionary["StartTime"] as? String
             self.timeCommitmentInSeconds = dictionary["TimeCommitmentInSeconds"] as? Int64
         }
     }
@@ -149,13 +149,13 @@ extension Shield {
             AWSShapeProperty(label: "AttackId", required: false, type: .string)
         ]
         /// The time the attack started, in the format 2016-12-16T13:50Z.
-        public let startTime: Date?
+        public let startTime: String?
         /// List of mitigation actions taken for the attack.
         public let mitigations: [Mitigation]?
         /// The ARN (Amazon Resource Name) of the resource that was attacked.
         public let resourceArn: String?
         /// The time the attack ended, in the format 2016-12-16T13:50Z.
-        public let endTime: Date?
+        public let endTime: String?
         /// If applicable, additional detail about the resource being attacked, for example, IP address or URL.
         public let subResources: [SubResourceSummary]?
         /// List of counters that describe the attack for the specified time period.
@@ -163,7 +163,7 @@ extension Shield {
         /// The unique identifier (ID) of the attack.
         public let attackId: String?
 
-        public init(startTime: Date? = nil, mitigations: [Mitigation]? = nil, resourceArn: String? = nil, endTime: Date? = nil, subResources: [SubResourceSummary]? = nil, attackCounters: [SummarizedCounter]? = nil, attackId: String? = nil) {
+        public init(startTime: String? = nil, mitigations: [Mitigation]? = nil, resourceArn: String? = nil, endTime: String? = nil, subResources: [SubResourceSummary]? = nil, attackCounters: [SummarizedCounter]? = nil, attackId: String? = nil) {
             self.startTime = startTime
             self.mitigations = mitigations
             self.resourceArn = resourceArn
@@ -174,14 +174,14 @@ extension Shield {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["StartTime"] as? Date
+            self.startTime = dictionary["StartTime"] as? String
             if let mitigations = dictionary["Mitigations"] as? [[String: Any]] {
                 self.mitigations = try mitigations.map({ try Mitigation(dictionary: $0) })
             } else { 
                 self.mitigations = nil
             }
             self.resourceArn = dictionary["ResourceArn"] as? String
-            self.endTime = dictionary["EndTime"] as? Date
+            self.endTime = dictionary["EndTime"] as? String
             if let subResources = dictionary["SubResources"] as? [[String: Any]] {
                 self.subResources = try subResources.map({ try SubResourceSummary(dictionary: $0) })
             } else { 
@@ -427,18 +427,18 @@ extension Shield {
             AWSShapeProperty(label: "FromInclusive", required: false, type: .timestamp)
         ]
         /// The end time, in the format 2016-12-16T15:50Z.
-        public let toExclusive: Date?
+        public let toExclusive: String?
         /// The start time, in the format 2016-12-16T13:50Z.
-        public let fromInclusive: Date?
+        public let fromInclusive: String?
 
-        public init(toExclusive: Date? = nil, fromInclusive: Date? = nil) {
+        public init(toExclusive: String? = nil, fromInclusive: String? = nil) {
             self.toExclusive = toExclusive
             self.fromInclusive = fromInclusive
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.toExclusive = dictionary["ToExclusive"] as? Date
-            self.fromInclusive = dictionary["FromInclusive"] as? Date
+            self.toExclusive = dictionary["ToExclusive"] as? String
+            self.fromInclusive = dictionary["FromInclusive"] as? String
         }
     }
 

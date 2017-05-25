@@ -57,15 +57,15 @@ extension Codepipeline {
             AWSShapeProperty(label: "created", required: false, type: .timestamp)
         ]
         /// The date and time of the last update to the pipeline, in timestamp format.
-        public let updated: Date?
+        public let updated: String?
         /// The name of the pipeline.
         public let name: String?
         /// The version number of the pipeline.
         public let version: Int32?
         /// The date and time the pipeline was created, in timestamp format.
-        public let created: Date?
+        public let created: String?
 
-        public init(updated: Date? = nil, name: String? = nil, version: Int32? = nil, created: Date? = nil) {
+        public init(updated: String? = nil, name: String? = nil, version: Int32? = nil, created: String? = nil) {
             self.updated = updated
             self.name = name
             self.version = version
@@ -73,10 +73,10 @@ extension Codepipeline {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.updated = dictionary["updated"] as? Date
+            self.updated = dictionary["updated"] as? String
             self.name = dictionary["name"] as? String
             self.version = dictionary["version"] as? Int32
-            self.created = dictionary["created"] as? Date
+            self.created = dictionary["created"] as? String
         }
     }
 
@@ -167,11 +167,11 @@ extension Codepipeline {
         /// The change identifier for the current revision.
         public let changeIdentifier: String
         /// The date and time when the most recent revision of the artifact was created, in timestamp format.
-        public let created: Date?
+        public let created: String?
         /// The summary of the most recent revision of the artifact.
         public let revisionSummary: String?
 
-        public init(revision: String, changeIdentifier: String, created: Date? = nil, revisionSummary: String? = nil) {
+        public init(revision: String, changeIdentifier: String, created: String? = nil, revisionSummary: String? = nil) {
             self.revision = revision
             self.changeIdentifier = changeIdentifier
             self.created = created
@@ -183,7 +183,7 @@ extension Codepipeline {
             self.revision = revision
             guard let changeIdentifier = dictionary["changeIdentifier"] as? String else { throw InitializableError.missingRequiredParam("changeIdentifier") }
             self.changeIdentifier = changeIdentifier
-            self.created = dictionary["created"] as? Date
+            self.created = dictionary["created"] as? String
             self.revisionSummary = dictionary["revisionSummary"] as? String
         }
     }
@@ -403,9 +403,9 @@ extension Codepipeline {
         /// A percentage of completeness of the action as it runs.
         public let percentComplete: Int32?
         /// The last status change of the action.
-        public let lastStatusChange: Date?
+        public let lastStatusChange: String?
 
-        public init(summary: String? = nil, status: ActionExecutionStatus? = nil, lastUpdatedBy: String? = nil, externalExecutionId: String? = nil, externalExecutionUrl: String? = nil, token: String? = nil, errorDetails: ErrorDetails? = nil, percentComplete: Int32? = nil, lastStatusChange: Date? = nil) {
+        public init(summary: String? = nil, status: ActionExecutionStatus? = nil, lastUpdatedBy: String? = nil, externalExecutionId: String? = nil, externalExecutionUrl: String? = nil, token: String? = nil, errorDetails: ErrorDetails? = nil, percentComplete: Int32? = nil, lastStatusChange: String? = nil) {
             self.summary = summary
             self.status = status
             self.lastUpdatedBy = lastUpdatedBy
@@ -426,7 +426,7 @@ extension Codepipeline {
             self.token = dictionary["token"] as? String
             if let errorDetails = dictionary["errorDetails"] as? [String: Any] { self.errorDetails = try Codepipeline.ErrorDetails(dictionary: errorDetails) } else { self.errorDetails = nil }
             self.percentComplete = dictionary["percentComplete"] as? Int32
-            self.lastStatusChange = dictionary["lastStatusChange"] as? Date
+            self.lastStatusChange = dictionary["lastStatusChange"] as? String
         }
     }
 
@@ -1352,17 +1352,17 @@ extension Codepipeline {
             AWSShapeProperty(label: "pipelineName", required: false, type: .string)
         ]
         /// The date and time the pipeline was last updated, in timestamp format.
-        public let updated: Date?
+        public let updated: String?
         /// The version number of the pipeline.  A newly-created pipeline is always assigned a version number of 1. 
         public let pipelineVersion: Int32?
         /// A list of the pipeline stage output information, including stage name, state, most recent run details, whether the stage is disabled, and other data.
         public let stageStates: [StageState]?
         /// The date and time the pipeline was created, in timestamp format.
-        public let created: Date?
+        public let created: String?
         /// The name of the pipeline for which you want to get the state.
         public let pipelineName: String?
 
-        public init(updated: Date? = nil, pipelineVersion: Int32? = nil, stageStates: [StageState]? = nil, created: Date? = nil, pipelineName: String? = nil) {
+        public init(updated: String? = nil, pipelineVersion: Int32? = nil, stageStates: [StageState]? = nil, created: String? = nil, pipelineName: String? = nil) {
             self.updated = updated
             self.pipelineVersion = pipelineVersion
             self.stageStates = stageStates
@@ -1371,14 +1371,14 @@ extension Codepipeline {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.updated = dictionary["updated"] as? Date
+            self.updated = dictionary["updated"] as? String
             self.pipelineVersion = dictionary["pipelineVersion"] as? Int32
             if let stageStates = dictionary["stageStates"] as? [[String: Any]] {
                 self.stageStates = try stageStates.map({ try StageState(dictionary: $0) })
             } else { 
                 self.stageStates = nil
             }
-            self.created = dictionary["created"] as? Date
+            self.created = dictionary["created"] as? String
             self.pipelineName = dictionary["pipelineName"] as? String
         }
     }
@@ -1631,7 +1631,7 @@ extension Codepipeline {
         /// The name of an artifact. This name might be system-generated, such as "MyApp", or might be defined by the user when an action is created.
         public let name: String?
         /// The date and time when the most recent revision of the artifact was created, in timestamp format.
-        public let created: Date?
+        public let created: String?
         /// An additional identifier for a revision, such as a commit date or, for artifacts stored in Amazon S3 buckets, the ETag value.
         public let revisionChangeIdentifier: String?
         /// The revision ID of the artifact.
@@ -1639,7 +1639,7 @@ extension Codepipeline {
         /// The commit ID for the artifact revision. For artifacts stored in GitHub or AWS CodeCommit repositories, the commit ID is linked to a commit details page.
         public let revisionUrl: String?
 
-        public init(revisionSummary: String? = nil, name: String? = nil, created: Date? = nil, revisionChangeIdentifier: String? = nil, revisionId: String? = nil, revisionUrl: String? = nil) {
+        public init(revisionSummary: String? = nil, name: String? = nil, created: String? = nil, revisionChangeIdentifier: String? = nil, revisionId: String? = nil, revisionUrl: String? = nil) {
             self.revisionSummary = revisionSummary
             self.name = name
             self.created = created
@@ -1651,7 +1651,7 @@ extension Codepipeline {
         public init(dictionary: [String: Any]) throws {
             self.revisionSummary = dictionary["revisionSummary"] as? String
             self.name = dictionary["name"] as? String
-            self.created = dictionary["created"] as? Date
+            self.created = dictionary["created"] as? String
             self.revisionChangeIdentifier = dictionary["revisionChangeIdentifier"] as? String
             self.revisionId = dictionary["revisionId"] as? String
             self.revisionUrl = dictionary["revisionUrl"] as? String
@@ -1685,20 +1685,20 @@ extension Codepipeline {
             AWSShapeProperty(label: "revisionId", required: true, type: .string)
         ]
         /// The date and time when the most recent version of the action was created, in timestamp format.
-        public let created: Date
+        public let created: String
         /// The unique identifier of the change that set the state to this revision, for example a deployment ID or timestamp.
         public let revisionChangeId: String
         /// The system-generated unique ID that identifies the revision number of the action.
         public let revisionId: String
 
-        public init(created: Date, revisionChangeId: String, revisionId: String) {
+        public init(created: String, revisionChangeId: String, revisionId: String) {
             self.created = created
             self.revisionChangeId = revisionChangeId
             self.revisionId = revisionId
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let created = dictionary["created"] as? Date else { throw InitializableError.missingRequiredParam("created") }
+            guard let created = dictionary["created"] as? String else { throw InitializableError.missingRequiredParam("created") }
             self.created = created
             guard let revisionChangeId = dictionary["revisionChangeId"] as? String else { throw InitializableError.missingRequiredParam("revisionChangeId") }
             self.revisionChangeId = revisionChangeId
@@ -1766,11 +1766,11 @@ extension Codepipeline {
         /// The user-specified reason why the transition between two stages of a pipeline was disabled.
         public let disabledReason: String?
         /// The timestamp when the transition state was last changed.
-        public let lastChangedAt: Date?
+        public let lastChangedAt: String?
         /// The ID of the user who last changed the transition state.
         public let lastChangedBy: String?
 
-        public init(enabled: Bool? = nil, disabledReason: String? = nil, lastChangedAt: Date? = nil, lastChangedBy: String? = nil) {
+        public init(enabled: Bool? = nil, disabledReason: String? = nil, lastChangedAt: String? = nil, lastChangedBy: String? = nil) {
             self.enabled = enabled
             self.disabledReason = disabledReason
             self.lastChangedAt = lastChangedAt
@@ -1780,7 +1780,7 @@ extension Codepipeline {
         public init(dictionary: [String: Any]) throws {
             self.enabled = dictionary["enabled"] as? Bool
             self.disabledReason = dictionary["disabledReason"] as? String
-            self.lastChangedAt = dictionary["lastChangedAt"] as? Date
+            self.lastChangedAt = dictionary["lastChangedAt"] as? String
             self.lastChangedBy = dictionary["lastChangedBy"] as? String
         }
     }
@@ -1925,14 +1925,14 @@ extension Codepipeline {
             AWSShapeProperty(label: "approvedAt", required: false, type: .timestamp)
         ]
         /// The timestamp showing when the approval or rejection was submitted.
-        public let approvedAt: Date?
+        public let approvedAt: String?
 
-        public init(approvedAt: Date? = nil) {
+        public init(approvedAt: String? = nil) {
             self.approvedAt = approvedAt
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.approvedAt = dictionary["approvedAt"] as? Date
+            self.approvedAt = dictionary["approvedAt"] as? String
         }
     }
 

@@ -68,14 +68,14 @@ extension States {
             AWSShapeProperty(label: "stopDate", required: true, type: .timestamp)
         ]
         /// The date the execution was stopped.
-        public let stopDate: Date
+        public let stopDate: String
 
-        public init(stopDate: Date) {
+        public init(stopDate: String) {
             self.stopDate = stopDate
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let stopDate = dictionary["stopDate"] as? Date else { throw InitializableError.missingRequiredParam("stopDate") }
+            guard let stopDate = dictionary["stopDate"] as? String else { throw InitializableError.missingRequiredParam("stopDate") }
             self.stopDate = stopDate
         }
     }
@@ -90,9 +90,9 @@ extension States {
         /// The Amazon Resource Name (ARN) that identifies the created activity.
         public let activityArn: String
         /// The date the activity was created.
-        public let creationDate: Date
+        public let creationDate: String
 
-        public init(activityArn: String, creationDate: Date) {
+        public init(activityArn: String, creationDate: String) {
             self.activityArn = activityArn
             self.creationDate = creationDate
         }
@@ -100,7 +100,7 @@ extension States {
         public init(dictionary: [String: Any]) throws {
             guard let activityArn = dictionary["activityArn"] as? String else { throw InitializableError.missingRequiredParam("activityArn") }
             self.activityArn = activityArn
-            guard let creationDate = dictionary["creationDate"] as? Date else { throw InitializableError.missingRequiredParam("creationDate") }
+            guard let creationDate = dictionary["creationDate"] as? String else { throw InitializableError.missingRequiredParam("creationDate") }
             self.creationDate = creationDate
         }
     }
@@ -188,9 +188,9 @@ extension States {
         /// The name of the activity.
         public let name: String
         /// The date the activity was created.
-        public let creationDate: Date
+        public let creationDate: String
 
-        public init(activityArn: String, name: String, creationDate: Date) {
+        public init(activityArn: String, name: String, creationDate: String) {
             self.activityArn = activityArn
             self.name = name
             self.creationDate = creationDate
@@ -201,7 +201,7 @@ extension States {
             self.activityArn = activityArn
             guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
             self.name = name
-            guard let creationDate = dictionary["creationDate"] as? Date else { throw InitializableError.missingRequiredParam("creationDate") }
+            guard let creationDate = dictionary["creationDate"] as? String else { throw InitializableError.missingRequiredParam("creationDate") }
             self.creationDate = creationDate
         }
     }
@@ -219,9 +219,9 @@ extension States {
         /// The name of the activity.
         public let name: String
         /// The date the activity was created.
-        public let creationDate: Date
+        public let creationDate: String
 
-        public init(activityArn: String, name: String, creationDate: Date) {
+        public init(activityArn: String, name: String, creationDate: String) {
             self.activityArn = activityArn
             self.name = name
             self.creationDate = creationDate
@@ -232,7 +232,7 @@ extension States {
             self.activityArn = activityArn
             guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
             self.name = name
-            guard let creationDate = dictionary["creationDate"] as? Date else { throw InitializableError.missingRequiredParam("creationDate") }
+            guard let creationDate = dictionary["creationDate"] as? String else { throw InitializableError.missingRequiredParam("creationDate") }
             self.creationDate = creationDate
         }
     }
@@ -255,13 +255,13 @@ extension States {
         /// The Amazon Resource Name (ARN) of the executed state machine.
         public let stateMachineArn: String
         /// The date the execution started.
-        public let startDate: Date
+        public let startDate: String
         /// If the execution already ended, the date the execution stopped.
-        public let stopDate: Date?
+        public let stopDate: String?
         /// The Amazon Resource Name (ARN) that identifies the execution.
         public let executionArn: String
 
-        public init(status: ExecutionStatus, name: String, stateMachineArn: String, startDate: Date, stopDate: Date? = nil, executionArn: String) {
+        public init(status: ExecutionStatus, name: String, stateMachineArn: String, startDate: String, stopDate: String? = nil, executionArn: String) {
             self.status = status
             self.name = name
             self.stateMachineArn = stateMachineArn
@@ -277,9 +277,9 @@ extension States {
             self.name = name
             guard let stateMachineArn = dictionary["stateMachineArn"] as? String else { throw InitializableError.missingRequiredParam("stateMachineArn") }
             self.stateMachineArn = stateMachineArn
-            guard let startDate = dictionary["startDate"] as? Date else { throw InitializableError.missingRequiredParam("startDate") }
+            guard let startDate = dictionary["startDate"] as? String else { throw InitializableError.missingRequiredParam("startDate") }
             self.startDate = startDate
-            self.stopDate = dictionary["stopDate"] as? Date
+            self.stopDate = dictionary["stopDate"] as? String
             guard let executionArn = dictionary["executionArn"] as? String else { throw InitializableError.missingRequiredParam("executionArn") }
             self.executionArn = executionArn
         }
@@ -375,13 +375,13 @@ extension States {
         /// The Amazon Resource Name (ARN) that identifies the state machine.
         public let stateMachineArn: String
         /// The date the state machine was created.
-        public let creationDate: Date
+        public let creationDate: String
         /// The Amazon States Language definition of the state machine.
         public let definition: String
         /// The Amazon Resource Name (ARN) of the IAM role used for executing this state machine.
         public let roleArn: String
 
-        public init(status: StateMachineStatus? = nil, name: String, stateMachineArn: String, creationDate: Date, definition: String, roleArn: String) {
+        public init(status: StateMachineStatus? = nil, name: String, stateMachineArn: String, creationDate: String, definition: String, roleArn: String) {
             self.status = status
             self.name = name
             self.stateMachineArn = stateMachineArn
@@ -396,7 +396,7 @@ extension States {
             self.name = name
             guard let stateMachineArn = dictionary["stateMachineArn"] as? String else { throw InitializableError.missingRequiredParam("stateMachineArn") }
             self.stateMachineArn = stateMachineArn
-            guard let creationDate = dictionary["creationDate"] as? Date else { throw InitializableError.missingRequiredParam("creationDate") }
+            guard let creationDate = dictionary["creationDate"] as? String else { throw InitializableError.missingRequiredParam("creationDate") }
             self.creationDate = creationDate
             guard let definition = dictionary["definition"] as? String else { throw InitializableError.missingRequiredParam("definition") }
             self.definition = definition
@@ -459,17 +459,17 @@ extension States {
             AWSShapeProperty(label: "executionArn", required: true, type: .string)
         ]
         /// The date the execution was started.
-        public let startDate: Date
+        public let startDate: String
         /// The Amazon Resource Name (ARN) that identifies the execution.
         public let executionArn: String
 
-        public init(startDate: Date, executionArn: String) {
+        public init(startDate: String, executionArn: String) {
             self.startDate = startDate
             self.executionArn = executionArn
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let startDate = dictionary["startDate"] as? Date else { throw InitializableError.missingRequiredParam("startDate") }
+            guard let startDate = dictionary["startDate"] as? String else { throw InitializableError.missingRequiredParam("startDate") }
             self.startDate = startDate
             guard let executionArn = dictionary["executionArn"] as? String else { throw InitializableError.missingRequiredParam("executionArn") }
             self.executionArn = executionArn
@@ -520,7 +520,7 @@ extension States {
         public let executionStartedEventDetails: ExecutionStartedEventDetails?
         public let activityScheduleFailedEventDetails: ActivityScheduleFailedEventDetails?
         /// The date the event occured.
-        public let timestamp: Date
+        public let timestamp: String
         /// The id of the previous event.
         public let previousEventId: Int64?
         /// The id of the event. Events are numbered sequentially, starting at one.
@@ -532,7 +532,7 @@ extension States {
         public let lambdaFunctionScheduleFailedEventDetails: LambdaFunctionScheduleFailedEventDetails?
         public let lambdaFunctionStartFailedEventDetails: LambdaFunctionStartFailedEventDetails?
 
-        public init(lambdaFunctionSucceededEventDetails: LambdaFunctionSucceededEventDetails? = nil, lambdaFunctionFailedEventDetails: LambdaFunctionFailedEventDetails? = nil, executionSucceededEventDetails: ExecutionSucceededEventDetails? = nil, activityFailedEventDetails: ActivityFailedEventDetails? = nil, executionTimedOutEventDetails: ExecutionTimedOutEventDetails? = nil, lambdaFunctionTimedOutEventDetails: LambdaFunctionTimedOutEventDetails? = nil, executionAbortedEventDetails: ExecutionAbortedEventDetails? = nil, executionFailedEventDetails: ExecutionFailedEventDetails? = nil, activityScheduledEventDetails: ActivityScheduledEventDetails? = nil, activityStartedEventDetails: ActivityStartedEventDetails? = nil, type: HistoryEventType, stateEnteredEventDetails: StateEnteredEventDetails? = nil, executionStartedEventDetails: ExecutionStartedEventDetails? = nil, activityScheduleFailedEventDetails: ActivityScheduleFailedEventDetails? = nil, timestamp: Date, previousEventId: Int64? = nil, id: Int64, activityTimedOutEventDetails: ActivityTimedOutEventDetails? = nil, lambdaFunctionScheduledEventDetails: LambdaFunctionScheduledEventDetails? = nil, activitySucceededEventDetails: ActivitySucceededEventDetails? = nil, stateExitedEventDetails: StateExitedEventDetails? = nil, lambdaFunctionScheduleFailedEventDetails: LambdaFunctionScheduleFailedEventDetails? = nil, lambdaFunctionStartFailedEventDetails: LambdaFunctionStartFailedEventDetails? = nil) {
+        public init(lambdaFunctionSucceededEventDetails: LambdaFunctionSucceededEventDetails? = nil, lambdaFunctionFailedEventDetails: LambdaFunctionFailedEventDetails? = nil, executionSucceededEventDetails: ExecutionSucceededEventDetails? = nil, activityFailedEventDetails: ActivityFailedEventDetails? = nil, executionTimedOutEventDetails: ExecutionTimedOutEventDetails? = nil, lambdaFunctionTimedOutEventDetails: LambdaFunctionTimedOutEventDetails? = nil, executionAbortedEventDetails: ExecutionAbortedEventDetails? = nil, executionFailedEventDetails: ExecutionFailedEventDetails? = nil, activityScheduledEventDetails: ActivityScheduledEventDetails? = nil, activityStartedEventDetails: ActivityStartedEventDetails? = nil, type: HistoryEventType, stateEnteredEventDetails: StateEnteredEventDetails? = nil, executionStartedEventDetails: ExecutionStartedEventDetails? = nil, activityScheduleFailedEventDetails: ActivityScheduleFailedEventDetails? = nil, timestamp: String, previousEventId: Int64? = nil, id: Int64, activityTimedOutEventDetails: ActivityTimedOutEventDetails? = nil, lambdaFunctionScheduledEventDetails: LambdaFunctionScheduledEventDetails? = nil, activitySucceededEventDetails: ActivitySucceededEventDetails? = nil, stateExitedEventDetails: StateExitedEventDetails? = nil, lambdaFunctionScheduleFailedEventDetails: LambdaFunctionScheduleFailedEventDetails? = nil, lambdaFunctionStartFailedEventDetails: LambdaFunctionStartFailedEventDetails? = nil) {
             self.lambdaFunctionSucceededEventDetails = lambdaFunctionSucceededEventDetails
             self.lambdaFunctionFailedEventDetails = lambdaFunctionFailedEventDetails
             self.executionSucceededEventDetails = executionSucceededEventDetails
@@ -574,7 +574,7 @@ extension States {
             if let stateEnteredEventDetails = dictionary["stateEnteredEventDetails"] as? [String: Any] { self.stateEnteredEventDetails = try States.StateEnteredEventDetails(dictionary: stateEnteredEventDetails) } else { self.stateEnteredEventDetails = nil }
             if let executionStartedEventDetails = dictionary["executionStartedEventDetails"] as? [String: Any] { self.executionStartedEventDetails = try States.ExecutionStartedEventDetails(dictionary: executionStartedEventDetails) } else { self.executionStartedEventDetails = nil }
             if let activityScheduleFailedEventDetails = dictionary["activityScheduleFailedEventDetails"] as? [String: Any] { self.activityScheduleFailedEventDetails = try States.ActivityScheduleFailedEventDetails(dictionary: activityScheduleFailedEventDetails) } else { self.activityScheduleFailedEventDetails = nil }
-            guard let timestamp = dictionary["timestamp"] as? Date else { throw InitializableError.missingRequiredParam("timestamp") }
+            guard let timestamp = dictionary["timestamp"] as? String else { throw InitializableError.missingRequiredParam("timestamp") }
             self.timestamp = timestamp
             self.previousEventId = dictionary["previousEventId"] as? Int64
             guard let id = dictionary["id"] as? Int64 else { throw InitializableError.missingRequiredParam("id") }
@@ -991,9 +991,9 @@ extension States {
         /// The Amazon Resource Name (ARN) that identifies the created state machine.
         public let stateMachineArn: String
         /// The date the state machine was created.
-        public let creationDate: Date
+        public let creationDate: String
 
-        public init(stateMachineArn: String, creationDate: Date) {
+        public init(stateMachineArn: String, creationDate: String) {
             self.stateMachineArn = stateMachineArn
             self.creationDate = creationDate
         }
@@ -1001,7 +1001,7 @@ extension States {
         public init(dictionary: [String: Any]) throws {
             guard let stateMachineArn = dictionary["stateMachineArn"] as? String else { throw InitializableError.missingRequiredParam("stateMachineArn") }
             self.stateMachineArn = stateMachineArn
-            guard let creationDate = dictionary["creationDate"] as? Date else { throw InitializableError.missingRequiredParam("creationDate") }
+            guard let creationDate = dictionary["creationDate"] as? String else { throw InitializableError.missingRequiredParam("creationDate") }
             self.creationDate = creationDate
         }
     }
@@ -1363,9 +1363,9 @@ extension States {
         /// The name of the state machine.
         public let name: String
         /// The date the state machine was created.
-        public let creationDate: Date
+        public let creationDate: String
 
-        public init(stateMachineArn: String, name: String, creationDate: Date) {
+        public init(stateMachineArn: String, name: String, creationDate: String) {
             self.stateMachineArn = stateMachineArn
             self.name = name
             self.creationDate = creationDate
@@ -1376,7 +1376,7 @@ extension States {
             self.stateMachineArn = stateMachineArn
             guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
             self.name = name
-            guard let creationDate = dictionary["creationDate"] as? Date else { throw InitializableError.missingRequiredParam("creationDate") }
+            guard let creationDate = dictionary["creationDate"] as? String else { throw InitializableError.missingRequiredParam("creationDate") }
             self.creationDate = creationDate
         }
     }
@@ -1471,9 +1471,9 @@ extension States {
         /// The name of the execution.
         public let name: String?
         /// If the execution has already ended, the date the execution stopped.
-        public let stopDate: Date?
+        public let stopDate: String?
         /// The date the execution was started.
-        public let startDate: Date
+        public let startDate: String
         /// The JSON output data of the execution.
         public let output: String?
         /// The Amazon Resource Name (ARN) that identifies the execution.
@@ -1483,7 +1483,7 @@ extension States {
         /// The Amazon Resource Name (ARN) of the executed stated machine.
         public let stateMachineArn: String
 
-        public init(status: ExecutionStatus, name: String? = nil, stopDate: Date? = nil, startDate: Date, output: String? = nil, executionArn: String, input: String, stateMachineArn: String) {
+        public init(status: ExecutionStatus, name: String? = nil, stopDate: String? = nil, startDate: String, output: String? = nil, executionArn: String, input: String, stateMachineArn: String) {
             self.status = status
             self.name = name
             self.stopDate = stopDate
@@ -1498,8 +1498,8 @@ extension States {
             guard let rawstatus = dictionary["status"] as? String, let status = ExecutionStatus(rawValue: rawstatus) else { throw InitializableError.missingRequiredParam("status") }
             self.status = status
             self.name = dictionary["name"] as? String
-            self.stopDate = dictionary["stopDate"] as? Date
-            guard let startDate = dictionary["startDate"] as? Date else { throw InitializableError.missingRequiredParam("startDate") }
+            self.stopDate = dictionary["stopDate"] as? String
+            guard let startDate = dictionary["startDate"] as? String else { throw InitializableError.missingRequiredParam("startDate") }
             self.startDate = startDate
             self.output = dictionary["output"] as? String
             guard let executionArn = dictionary["executionArn"] as? String else { throw InitializableError.missingRequiredParam("executionArn") }

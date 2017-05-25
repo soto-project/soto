@@ -542,11 +542,11 @@ extension Cloudfront {
         /// The status of the invalidation request. When the invalidation batch is finished, the status is Completed.
         public let status: String
         /// The date and time the invalidation request was first made. 
-        public let createTime: Date
+        public let createTime: String
         /// The identifier for the invalidation request. For example: IDFDVBD632BHDS5.
         public let id: String
 
-        public init(invalidationBatch: InvalidationBatch, status: String, createTime: Date, id: String) {
+        public init(invalidationBatch: InvalidationBatch, status: String, createTime: String, id: String) {
             self.invalidationBatch = invalidationBatch
             self.status = status
             self.createTime = createTime
@@ -558,7 +558,7 @@ extension Cloudfront {
             self.invalidationBatch = try Cloudfront.InvalidationBatch(dictionary: invalidationBatch)
             guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
             self.status = status
-            guard let createTime = dictionary["CreateTime"] as? Date else { throw InitializableError.missingRequiredParam("CreateTime") }
+            guard let createTime = dictionary["CreateTime"] as? String else { throw InitializableError.missingRequiredParam("CreateTime") }
             self.createTime = createTime
             guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
             self.id = id
@@ -722,7 +722,7 @@ extension Cloudfront {
             AWSShapeProperty(label: "PriceClass", required: true, type: .enum)
         ]
         /// The date and time the distribution was last modified.
-        public let lastModifiedTime: Date
+        public let lastModifiedTime: String
         ///  Indicates the current status of the distribution. When the status is Deployed, the distribution's information is fully propagated throughout the Amazon CloudFront system.
         public let status: String
         /// The identifier for the distribution. For example: EDFDVBD632BHDS5.
@@ -743,7 +743,7 @@ extension Cloudfront {
         public let domainName: String
         public let priceClass: PriceClass
 
-        public init(lastModifiedTime: Date, status: String, id: String, aliases: Aliases, trustedSigners: TrustedSigners, s3Origin: S3Origin, comment: String, enabled: Bool, aRN: String, domainName: String, priceClass: PriceClass) {
+        public init(lastModifiedTime: String, status: String, id: String, aliases: Aliases, trustedSigners: TrustedSigners, s3Origin: S3Origin, comment: String, enabled: Bool, aRN: String, domainName: String, priceClass: PriceClass) {
             self.lastModifiedTime = lastModifiedTime
             self.status = status
             self.id = id
@@ -758,7 +758,7 @@ extension Cloudfront {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let lastModifiedTime = dictionary["LastModifiedTime"] as? Date else { throw InitializableError.missingRequiredParam("LastModifiedTime") }
+            guard let lastModifiedTime = dictionary["LastModifiedTime"] as? String else { throw InitializableError.missingRequiredParam("LastModifiedTime") }
             self.lastModifiedTime = lastModifiedTime
             guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
             self.status = status
@@ -2002,7 +2002,7 @@ extension Cloudfront {
             AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
         /// The date and time that the distribution was last modified. 
-        public let lastModifiedTime: Date?
+        public let lastModifiedTime: String?
         /// The current status of the RTMP distribution. When the status is Deployed, the distribution's information is propagated to all CloudFront edge locations.
         public let status: String
         /// The current configuration information for the RTMP distribution.
@@ -2015,7 +2015,7 @@ extension Cloudfront {
         /// The identifier for the RTMP distribution. For example: EGTXBD79EXAMPLE.
         public let id: String
 
-        public init(lastModifiedTime: Date? = nil, status: String, streamingDistributionConfig: StreamingDistributionConfig, activeTrustedSigners: ActiveTrustedSigners, aRN: String, domainName: String, id: String) {
+        public init(lastModifiedTime: String? = nil, status: String, streamingDistributionConfig: StreamingDistributionConfig, activeTrustedSigners: ActiveTrustedSigners, aRN: String, domainName: String, id: String) {
             self.lastModifiedTime = lastModifiedTime
             self.status = status
             self.streamingDistributionConfig = streamingDistributionConfig
@@ -2026,7 +2026,7 @@ extension Cloudfront {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.lastModifiedTime = dictionary["LastModifiedTime"] as? Date
+            self.lastModifiedTime = dictionary["LastModifiedTime"] as? String
             guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
             self.status = status
             guard let streamingDistributionConfig = dictionary["StreamingDistributionConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("StreamingDistributionConfig") }
@@ -2132,7 +2132,7 @@ extension Cloudfront {
         public let isIPV6Enabled: Bool
         public let restrictions: Restrictions
         /// The date and time the distribution was last modified.
-        public let lastModifiedTime: Date
+        public let lastModifiedTime: String
         public let viewerCertificate: ViewerCertificate
         /// The identifier for the distribution. For example: EDFDVBD632BHDS5.
         public let id: String
@@ -2148,7 +2148,7 @@ extension Cloudfront {
         /// A complex type that describes the default cache behavior if you do not specify a CacheBehavior element or if files don't match any of the values of PathPattern in CacheBehavior elements. You must create exactly one default cache behavior.
         public let defaultCacheBehavior: DefaultCacheBehavior
 
-        public init(httpVersion: HttpVersion, customErrorResponses: CustomErrorResponses, origins: Origins, comment: String, enabled: Bool, webACLId: String, aRN: String, isIPV6Enabled: Bool, restrictions: Restrictions, lastModifiedTime: Date, viewerCertificate: ViewerCertificate, id: String, status: String, aliases: Aliases, priceClass: PriceClass, cacheBehaviors: CacheBehaviors, domainName: String, defaultCacheBehavior: DefaultCacheBehavior) {
+        public init(httpVersion: HttpVersion, customErrorResponses: CustomErrorResponses, origins: Origins, comment: String, enabled: Bool, webACLId: String, aRN: String, isIPV6Enabled: Bool, restrictions: Restrictions, lastModifiedTime: String, viewerCertificate: ViewerCertificate, id: String, status: String, aliases: Aliases, priceClass: PriceClass, cacheBehaviors: CacheBehaviors, domainName: String, defaultCacheBehavior: DefaultCacheBehavior) {
             self.httpVersion = httpVersion
             self.customErrorResponses = customErrorResponses
             self.origins = origins
@@ -2188,7 +2188,7 @@ extension Cloudfront {
             self.isIPV6Enabled = isIPV6Enabled
             guard let restrictions = dictionary["Restrictions"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Restrictions") }
             self.restrictions = try Cloudfront.Restrictions(dictionary: restrictions)
-            guard let lastModifiedTime = dictionary["LastModifiedTime"] as? Date else { throw InitializableError.missingRequiredParam("LastModifiedTime") }
+            guard let lastModifiedTime = dictionary["LastModifiedTime"] as? String else { throw InitializableError.missingRequiredParam("LastModifiedTime") }
             self.lastModifiedTime = lastModifiedTime
             guard let viewerCertificate = dictionary["ViewerCertificate"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ViewerCertificate") }
             self.viewerCertificate = try Cloudfront.ViewerCertificate(dictionary: viewerCertificate)
@@ -2718,9 +2718,9 @@ extension Cloudfront {
         public let id: String
         /// The status of an invalidation request.
         public let status: String
-        public let createTime: Date
+        public let createTime: String
 
-        public init(id: String, status: String, createTime: Date) {
+        public init(id: String, status: String, createTime: String) {
             self.id = id
             self.status = status
             self.createTime = createTime
@@ -2731,7 +2731,7 @@ extension Cloudfront {
             self.id = id
             guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
             self.status = status
-            guard let createTime = dictionary["CreateTime"] as? Date else { throw InitializableError.missingRequiredParam("CreateTime") }
+            guard let createTime = dictionary["CreateTime"] as? String else { throw InitializableError.missingRequiredParam("CreateTime") }
             self.createTime = createTime
         }
     }
@@ -3304,7 +3304,7 @@ extension Cloudfront {
             AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
         /// The date and time the distribution was last modified. 
-        public let lastModifiedTime: Date
+        public let lastModifiedTime: String
         /// This response element indicates the current status of the distribution. When the status is Deployed, the distribution's information is fully propagated to all CloudFront edge locations. 
         public let status: String
         /// CloudFront automatically adds this element to the response only if you've set up the distribution to serve private content with signed URLs. The element lists the key pair IDs that CloudFront is aware of for each trusted signer. The Signer child element lists the AWS account number of the trusted signer (or an empty Self element if the signer is you). The Signer element also includes the IDs of any active key pairs associated with the trusted signer's AWS account. If no KeyPairId element appears for a Signer, that signer can't create working signed URLs.
@@ -3320,7 +3320,7 @@ extension Cloudfront {
         /// The identifier for the distribution. For example: EDFDVBD632BHDS5. 
         public let id: String
 
-        public init(lastModifiedTime: Date, status: String, activeTrustedSigners: ActiveTrustedSigners, aRN: String, distributionConfig: DistributionConfig, domainName: String, inProgressInvalidationBatches: Int32, id: String) {
+        public init(lastModifiedTime: String, status: String, activeTrustedSigners: ActiveTrustedSigners, aRN: String, distributionConfig: DistributionConfig, domainName: String, inProgressInvalidationBatches: Int32, id: String) {
             self.lastModifiedTime = lastModifiedTime
             self.status = status
             self.activeTrustedSigners = activeTrustedSigners
@@ -3332,7 +3332,7 @@ extension Cloudfront {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let lastModifiedTime = dictionary["LastModifiedTime"] as? Date else { throw InitializableError.missingRequiredParam("LastModifiedTime") }
+            guard let lastModifiedTime = dictionary["LastModifiedTime"] as? String else { throw InitializableError.missingRequiredParam("LastModifiedTime") }
             self.lastModifiedTime = lastModifiedTime
             guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
             self.status = status

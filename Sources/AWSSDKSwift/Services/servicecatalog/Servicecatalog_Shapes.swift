@@ -1287,9 +1287,9 @@ extension Servicecatalog {
         /// The summary metadata about the specified product view.
         public let productViewSummary: ProductViewSummary?
         /// The UTC timestamp of the creation time.
-        public let createdTime: Date?
+        public let createdTime: String?
 
-        public init(status: Status? = nil, productARN: String? = nil, productViewSummary: ProductViewSummary? = nil, createdTime: Date? = nil) {
+        public init(status: Status? = nil, productARN: String? = nil, productViewSummary: ProductViewSummary? = nil, createdTime: String? = nil) {
             self.status = status
             self.productARN = productARN
             self.productViewSummary = productViewSummary
@@ -1300,7 +1300,7 @@ extension Servicecatalog {
             if let status = dictionary["Status"] as? String { self.status = Status(rawValue: status) } else { self.status = nil }
             self.productARN = dictionary["ProductARN"] as? String
             if let productViewSummary = dictionary["ProductViewSummary"] as? [String: Any] { self.productViewSummary = try Servicecatalog.ProductViewSummary(dictionary: productViewSummary) } else { self.productViewSummary = nil }
-            self.createdTime = dictionary["CreatedTime"] as? Date
+            self.createdTime = dictionary["CreatedTime"] as? String
         }
     }
 
@@ -1563,11 +1563,11 @@ extension Servicecatalog {
         /// The name of the artifact.
         public let name: String?
         /// The UTC timestamp of the creation time.
-        public let createdTime: Date?
+        public let createdTime: String?
         /// The identifier for the artifact.
         public let id: String?
 
-        public init(description: String? = nil, name: String? = nil, createdTime: Date? = nil, id: String? = nil) {
+        public init(description: String? = nil, name: String? = nil, createdTime: String? = nil, id: String? = nil) {
             self.description = description
             self.name = name
             self.createdTime = createdTime
@@ -1577,7 +1577,7 @@ extension Servicecatalog {
         public init(dictionary: [String: Any]) throws {
             self.description = dictionary["Description"] as? String
             self.name = dictionary["Name"] as? String
-            self.createdTime = dictionary["CreatedTime"] as? Date
+            self.createdTime = dictionary["CreatedTime"] as? String
             self.id = dictionary["Id"] as? String
         }
     }
@@ -1837,11 +1837,11 @@ extension Servicecatalog {
         /// The text description of the portfolio.
         public let description: String?
         /// The UTC timestamp of the creation time.
-        public let createdTime: Date?
+        public let createdTime: String?
         /// The identifier for the portfolio.
         public let id: String?
 
-        public init(displayName: String? = nil, providerName: String? = nil, aRN: String? = nil, description: String? = nil, createdTime: Date? = nil, id: String? = nil) {
+        public init(displayName: String? = nil, providerName: String? = nil, aRN: String? = nil, description: String? = nil, createdTime: String? = nil, id: String? = nil) {
             self.displayName = displayName
             self.providerName = providerName
             self.aRN = aRN
@@ -1855,7 +1855,7 @@ extension Servicecatalog {
             self.providerName = dictionary["ProviderName"] as? String
             self.aRN = dictionary["ARN"] as? String
             self.description = dictionary["Description"] as? String
-            self.createdTime = dictionary["CreatedTime"] as? Date
+            self.createdTime = dictionary["CreatedTime"] as? String
             self.id = dictionary["Id"] as? String
         }
     }
@@ -2106,11 +2106,11 @@ extension Servicecatalog {
         /// The current status message of the ProvisionedProduct.
         public let statusMessage: String?
         /// The UTC timestamp of the creation time.
-        public let createdTime: Date?
+        public let createdTime: String?
         /// The identifier of the ProvisionedProduct object.
         public let id: String?
 
-        public init(status: RecordStatus? = nil, arn: String? = nil, lastRecordId: String? = nil, name: String? = nil, idempotencyToken: String? = nil, type: String? = nil, statusMessage: String? = nil, createdTime: Date? = nil, id: String? = nil) {
+        public init(status: RecordStatus? = nil, arn: String? = nil, lastRecordId: String? = nil, name: String? = nil, idempotencyToken: String? = nil, type: String? = nil, statusMessage: String? = nil, createdTime: String? = nil, id: String? = nil) {
             self.status = status
             self.arn = arn
             self.lastRecordId = lastRecordId
@@ -2130,7 +2130,7 @@ extension Servicecatalog {
             self.idempotencyToken = dictionary["IdempotencyToken"] as? String
             self.`type` = dictionary["Type"] as? String
             self.statusMessage = dictionary["StatusMessage"] as? String
-            self.createdTime = dictionary["CreatedTime"] as? Date
+            self.createdTime = dictionary["CreatedTime"] as? String
             self.id = dictionary["Id"] as? String
         }
     }
@@ -2760,11 +2760,11 @@ extension Servicecatalog {
         /// The name assigned to the provisioning artifact.
         public let name: String?
         /// The UTC timestamp of the creation time.
-        public let createdTime: Date?
+        public let createdTime: String?
         /// The identifier of the provisioning artifact.
         public let id: String?
 
-        public init(description: String? = nil, type: ProvisioningArtifactType? = nil, name: String? = nil, createdTime: Date? = nil, id: String? = nil) {
+        public init(description: String? = nil, type: ProvisioningArtifactType? = nil, name: String? = nil, createdTime: String? = nil, id: String? = nil) {
             self.description = description
             self.`type` = `type`
             self.name = name
@@ -2776,7 +2776,7 @@ extension Servicecatalog {
             self.description = dictionary["Description"] as? String
             if let `type` = dictionary["Type"] as? String { self.`type` = ProvisioningArtifactType(rawValue: `type`) } else { self.`type` = nil }
             self.name = dictionary["Name"] as? String
-            self.createdTime = dictionary["CreatedTime"] as? Date
+            self.createdTime = dictionary["CreatedTime"] as? String
             self.id = dictionary["Id"] as? String
         }
     }
@@ -2983,7 +2983,7 @@ extension Servicecatalog {
         /// The provisioning artifact identifier for this product.
         public let provisioningArtifactId: String?
         /// The time when the record for the ProvisionedProduct object was last updated.
-        public let updatedTime: Date?
+        public let updatedTime: String?
         /// The user-friendly name of the ProvisionedProduct object.
         public let provisionedProductName: String?
         /// The identifier of the path for this product's provisioning.
@@ -2991,7 +2991,7 @@ extension Servicecatalog {
         /// The product identifier.
         public let productId: String?
         /// The UTC timestamp of the creation time.
-        public let createdTime: Date?
+        public let createdTime: String?
         /// A list of errors that occurred while processing the request.
         public let recordErrors: [RecordError]?
         /// The status of the ProvisionedProduct object.
@@ -3007,7 +3007,7 @@ extension Servicecatalog {
         /// List of tags associated with this record.
         public let recordTags: [RecordTag]?
 
-        public init(provisioningArtifactId: String? = nil, updatedTime: Date? = nil, provisionedProductName: String? = nil, pathId: String? = nil, productId: String? = nil, createdTime: Date? = nil, recordErrors: [RecordError]? = nil, status: RecordStatus? = nil, provisionedProductId: String? = nil, recordType: String? = nil, recordId: String? = nil, provisionedProductType: String? = nil, recordTags: [RecordTag]? = nil) {
+        public init(provisioningArtifactId: String? = nil, updatedTime: String? = nil, provisionedProductName: String? = nil, pathId: String? = nil, productId: String? = nil, createdTime: String? = nil, recordErrors: [RecordError]? = nil, status: RecordStatus? = nil, provisionedProductId: String? = nil, recordType: String? = nil, recordId: String? = nil, provisionedProductType: String? = nil, recordTags: [RecordTag]? = nil) {
             self.provisioningArtifactId = provisioningArtifactId
             self.updatedTime = updatedTime
             self.provisionedProductName = provisionedProductName
@@ -3025,11 +3025,11 @@ extension Servicecatalog {
 
         public init(dictionary: [String: Any]) throws {
             self.provisioningArtifactId = dictionary["ProvisioningArtifactId"] as? String
-            self.updatedTime = dictionary["UpdatedTime"] as? Date
+            self.updatedTime = dictionary["UpdatedTime"] as? String
             self.provisionedProductName = dictionary["ProvisionedProductName"] as? String
             self.pathId = dictionary["PathId"] as? String
             self.productId = dictionary["ProductId"] as? String
-            self.createdTime = dictionary["CreatedTime"] as? Date
+            self.createdTime = dictionary["CreatedTime"] as? String
             if let recordErrors = dictionary["RecordErrors"] as? [[String: Any]] {
                 self.recordErrors = try recordErrors.map({ try RecordError(dictionary: $0) })
             } else { 
