@@ -491,17 +491,17 @@ extension Kms {
         /// The state of the CMK. For more information about how key state affects the use of a CMK, see How Key State Affects the Use of a Customer Master Key in the AWS Key Management Service Developer Guide.
         public let keyState: KeyState?
         /// The date and time when the CMK was created.
-        public let creationDate: Date?
+        public let creationDate: String?
         /// The cryptographic operations for which you can use the CMK. Currently the only allowed value is ENCRYPT_DECRYPT, which means you can use the CMK for the Encrypt and Decrypt operations.
         public let keyUsage: KeyUsageType?
         /// The time at which the imported key material expires. When the key material expires, AWS KMS deletes the key material and the CMK becomes unusable. This value is present only for CMKs whose Origin is EXTERNAL and whose ExpirationModel is KEY_MATERIAL_EXPIRES, otherwise this value is omitted.
-        public let validTo: Date?
+        public let validTo: String?
         /// The date and time after which AWS KMS deletes the CMK. This value is present only when KeyState is PendingDeletion, otherwise this value is omitted.
-        public let deletionDate: Date?
+        public let deletionDate: String?
         /// The description of the CMK.
         public let description: String?
 
-        public init(arn: String? = nil, keyId: String, origin: OriginType? = nil, expirationModel: ExpirationModelType? = nil, aWSAccountId: String? = nil, enabled: Bool? = nil, keyState: KeyState? = nil, creationDate: Date? = nil, keyUsage: KeyUsageType? = nil, validTo: Date? = nil, deletionDate: Date? = nil, description: String? = nil) {
+        public init(arn: String? = nil, keyId: String, origin: OriginType? = nil, expirationModel: ExpirationModelType? = nil, aWSAccountId: String? = nil, enabled: Bool? = nil, keyState: KeyState? = nil, creationDate: String? = nil, keyUsage: KeyUsageType? = nil, validTo: String? = nil, deletionDate: String? = nil, description: String? = nil) {
             self.arn = arn
             self.keyId = keyId
             self.origin = origin
@@ -525,10 +525,10 @@ extension Kms {
             self.aWSAccountId = dictionary["AWSAccountId"] as? String
             self.enabled = dictionary["Enabled"] as? Bool
             if let keyState = dictionary["KeyState"] as? String { self.keyState = KeyState(rawValue: keyState) } else { self.keyState = nil }
-            self.creationDate = dictionary["CreationDate"] as? Date
+            self.creationDate = dictionary["CreationDate"] as? String
             if let keyUsage = dictionary["KeyUsage"] as? String { self.keyUsage = KeyUsageType(rawValue: keyUsage) } else { self.keyUsage = nil }
-            self.validTo = dictionary["ValidTo"] as? Date
-            self.deletionDate = dictionary["DeletionDate"] as? Date
+            self.validTo = dictionary["ValidTo"] as? String
+            self.deletionDate = dictionary["DeletionDate"] as? String
             self.description = dictionary["Description"] as? String
         }
     }
@@ -726,9 +726,9 @@ extension Kms {
         /// The identifier of the CMK to use in a subsequent ImportKeyMaterial request. This is the same CMK specified in the GetParametersForImport request.
         public let keyId: String?
         /// The time at which the import token and public key are no longer valid. After this time, you cannot use them to make an ImportKeyMaterial request and you must send another GetParametersForImport request to retrieve new ones.
-        public let parametersValidTo: Date?
+        public let parametersValidTo: String?
 
-        public init(importToken: Data? = nil, publicKey: Data? = nil, keyId: String? = nil, parametersValidTo: Date? = nil) {
+        public init(importToken: Data? = nil, publicKey: Data? = nil, keyId: String? = nil, parametersValidTo: String? = nil) {
             self.importToken = importToken
             self.publicKey = publicKey
             self.keyId = keyId
@@ -739,7 +739,7 @@ extension Kms {
             self.importToken = dictionary["ImportToken"] as? Data
             self.publicKey = dictionary["PublicKey"] as? Data
             self.keyId = dictionary["KeyId"] as? String
-            self.parametersValidTo = dictionary["ParametersValidTo"] as? Date
+            self.parametersValidTo = dictionary["ParametersValidTo"] as? String
         }
     }
 
@@ -1318,17 +1318,17 @@ extension Kms {
             AWSShapeProperty(label: "KeyId", required: false, type: .string)
         ]
         /// The date and time after which AWS KMS deletes the customer master key (CMK).
-        public let deletionDate: Date?
+        public let deletionDate: String?
         /// The unique identifier of the customer master key (CMK) for which deletion is scheduled.
         public let keyId: String?
 
-        public init(deletionDate: Date? = nil, keyId: String? = nil) {
+        public init(deletionDate: String? = nil, keyId: String? = nil) {
             self.deletionDate = deletionDate
             self.keyId = keyId
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.deletionDate = dictionary["DeletionDate"] as? Date
+            self.deletionDate = dictionary["DeletionDate"] as? String
             self.keyId = dictionary["KeyId"] as? String
         }
     }
@@ -1440,13 +1440,13 @@ extension Kms {
         /// The AWS account under which the grant was issued.
         public let issuingAccount: String?
         /// The date and time when the grant was created.
-        public let creationDate: Date?
+        public let creationDate: String?
         /// The principal that receives the grant's permissions.
         public let granteePrincipal: String?
         /// The conditions under which the grant's operations are allowed.
         public let constraints: GrantConstraints?
 
-        public init(keyId: String? = nil, retiringPrincipal: String? = nil, name: String? = nil, operations: [GrantOperation]? = nil, grantId: String? = nil, issuingAccount: String? = nil, creationDate: Date? = nil, granteePrincipal: String? = nil, constraints: GrantConstraints? = nil) {
+        public init(keyId: String? = nil, retiringPrincipal: String? = nil, name: String? = nil, operations: [GrantOperation]? = nil, grantId: String? = nil, issuingAccount: String? = nil, creationDate: String? = nil, granteePrincipal: String? = nil, constraints: GrantConstraints? = nil) {
             self.keyId = keyId
             self.retiringPrincipal = retiringPrincipal
             self.name = name
@@ -1465,7 +1465,7 @@ extension Kms {
             if let operations = dictionary["Operations"] as? [String] { self.operations = operations.flatMap({ GrantOperation(rawValue: $0)}) } else { self.operations = nil }
             self.grantId = dictionary["GrantId"] as? String
             self.issuingAccount = dictionary["IssuingAccount"] as? String
-            self.creationDate = dictionary["CreationDate"] as? Date
+            self.creationDate = dictionary["CreationDate"] as? String
             self.granteePrincipal = dictionary["GranteePrincipal"] as? String
             if let constraints = dictionary["Constraints"] as? [String: Any] { self.constraints = try Kms.GrantConstraints(dictionary: constraints) } else { self.constraints = nil }
         }
@@ -1622,9 +1622,9 @@ extension Kms {
         /// The identifier of the CMK to import the key material into. The CMK's Origin must be EXTERNAL. A valid identifier is the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:   Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab   
         public let keyId: String
         /// The time at which the imported key material expires. When the key material expires, AWS KMS deletes the key material and the CMK becomes unusable. You must omit this parameter when the ExpirationModel parameter is set to KEY_MATERIAL_DOES_NOT_EXPIRE. Otherwise it is required.
-        public let validTo: Date?
+        public let validTo: String?
 
-        public init(importToken: Data, encryptedKeyMaterial: Data, expirationModel: ExpirationModelType? = nil, keyId: String, validTo: Date? = nil) {
+        public init(importToken: Data, encryptedKeyMaterial: Data, expirationModel: ExpirationModelType? = nil, keyId: String, validTo: String? = nil) {
             self.importToken = importToken
             self.encryptedKeyMaterial = encryptedKeyMaterial
             self.expirationModel = expirationModel
@@ -1640,7 +1640,7 @@ extension Kms {
             if let expirationModel = dictionary["ExpirationModel"] as? String { self.expirationModel = ExpirationModelType(rawValue: expirationModel) } else { self.expirationModel = nil }
             guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
             self.keyId = keyId
-            self.validTo = dictionary["ValidTo"] as? Date
+            self.validTo = dictionary["ValidTo"] as? String
         }
     }
 

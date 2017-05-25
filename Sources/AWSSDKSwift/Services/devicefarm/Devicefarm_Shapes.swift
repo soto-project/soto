@@ -632,11 +632,11 @@ extension Devicefarm {
         /// The endpoint for the remote access sesssion.
         public let endpoint: String?
         /// The date and time the remote access session was created.
-        public let created: Date?
+        public let created: String?
         /// The date and time the remote access session was started.
-        public let started: Date?
+        public let started: String?
         /// The date and time the remote access session was stopped.
-        public let stopped: Date?
+        public let stopped: String?
         /// The number of minutes a device is used in a remote access sesssion (including setup and teardown minutes).
         public let deviceMinutes: DeviceMinutes?
         /// A message about the remote access session.
@@ -648,7 +648,7 @@ extension Devicefarm {
         /// The Amazon Resource Name (ARN) of the remote access session.
         public let arn: String?
 
-        public init(billingMethod: BillingMethod? = nil, status: ExecutionStatus? = nil, name: String? = nil, endpoint: String? = nil, created: Date? = nil, started: Date? = nil, stopped: Date? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, device: Device? = nil, result: ExecutionResult? = nil, arn: String? = nil) {
+        public init(billingMethod: BillingMethod? = nil, status: ExecutionStatus? = nil, name: String? = nil, endpoint: String? = nil, created: String? = nil, started: String? = nil, stopped: String? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, device: Device? = nil, result: ExecutionResult? = nil, arn: String? = nil) {
             self.billingMethod = billingMethod
             self.status = status
             self.name = name
@@ -668,9 +668,9 @@ extension Devicefarm {
             if let status = dictionary["status"] as? String { self.status = ExecutionStatus(rawValue: status) } else { self.status = nil }
             self.name = dictionary["name"] as? String
             self.endpoint = dictionary["endpoint"] as? String
-            self.created = dictionary["created"] as? Date
-            self.started = dictionary["started"] as? Date
-            self.stopped = dictionary["stopped"] as? Date
+            self.created = dictionary["created"] as? String
+            self.started = dictionary["started"] as? String
+            self.stopped = dictionary["stopped"] as? String
             if let deviceMinutes = dictionary["deviceMinutes"] as? [String: Any] { self.deviceMinutes = try Devicefarm.DeviceMinutes(dictionary: deviceMinutes) } else { self.deviceMinutes = nil }
             self.message = dictionary["message"] as? String
             if let device = dictionary["device"] as? [String: Any] { self.device = try Devicefarm.Device(dictionary: device) } else { self.device = nil }
@@ -723,13 +723,13 @@ extension Devicefarm {
         /// The suite's name.
         public let name: String?
         /// When the suite was created.
-        public let created: Date?
+        public let created: String?
         /// The suite's start time.
-        public let started: Date?
+        public let started: String?
         /// Represents the total (metered or unmetered) minutes used by the test suite.
         public let deviceMinutes: DeviceMinutes?
         /// The suite's stop time.
-        public let stopped: Date?
+        public let stopped: String?
         /// A message about the suite's result.
         public let message: String?
         /// The suite's type. Must be one of the following values:   BUILTIN_FUZZ: The built-in fuzz type.   BUILTIN_EXPLORER: For Android, an app explorer that will traverse an Android app, interacting with it and capturing screenshots at the same time.   APPIUM_JAVA_JUNIT: The Appium Java JUnit type.   APPIUM_JAVA_TESTNG: The Appium Java TestNG type.   APPIUM_PYTHON: The Appium Python type.   APPIUM_WEB_JAVA_JUNIT: The Appium Java JUnit type for Web apps.   APPIUM_WEB_JAVA_TESTNG: The Appium Java TestNG type for Web apps.   APPIUM_WEB_PYTHON: The Appium Python type for Web apps.   CALABASH: The Calabash type.   INSTRUMENTATION: The Instrumentation type.   UIAUTOMATION: The uiautomation type.   UIAUTOMATOR: The uiautomator type.   XCTEST: The XCode test type.   XCTEST_UI: The XCode UI test type.  
@@ -741,7 +741,7 @@ extension Devicefarm {
         /// The suite's ARN.
         public let arn: String?
 
-        public init(status: ExecutionStatus? = nil, name: String? = nil, created: Date? = nil, started: Date? = nil, deviceMinutes: DeviceMinutes? = nil, stopped: Date? = nil, message: String? = nil, type: TestType? = nil, result: ExecutionResult? = nil, counters: Counters? = nil, arn: String? = nil) {
+        public init(status: ExecutionStatus? = nil, name: String? = nil, created: String? = nil, started: String? = nil, deviceMinutes: DeviceMinutes? = nil, stopped: String? = nil, message: String? = nil, type: TestType? = nil, result: ExecutionResult? = nil, counters: Counters? = nil, arn: String? = nil) {
             self.status = status
             self.name = name
             self.created = created
@@ -758,10 +758,10 @@ extension Devicefarm {
         public init(dictionary: [String: Any]) throws {
             if let status = dictionary["status"] as? String { self.status = ExecutionStatus(rawValue: status) } else { self.status = nil }
             self.name = dictionary["name"] as? String
-            self.created = dictionary["created"] as? Date
-            self.started = dictionary["started"] as? Date
+            self.created = dictionary["created"] as? String
+            self.started = dictionary["started"] as? String
             if let deviceMinutes = dictionary["deviceMinutes"] as? [String: Any] { self.deviceMinutes = try Devicefarm.DeviceMinutes(dictionary: deviceMinutes) } else { self.deviceMinutes = nil }
-            self.stopped = dictionary["stopped"] as? Date
+            self.stopped = dictionary["stopped"] as? String
             self.message = dictionary["message"] as? String
             if let `type` = dictionary["type"] as? String { self.`type` = TestType(rawValue: `type`) } else { self.`type` = nil }
             if let result = dictionary["result"] as? String { self.result = ExecutionResult(rawValue: result) } else { self.result = nil }
@@ -1136,13 +1136,13 @@ extension Devicefarm {
         /// The project's name.
         public let name: String?
         /// When the project was created.
-        public let created: Date?
+        public let created: String?
         /// The default number of minutes (at the project level) a test run will execute before it times out. Default value is 60 minutes.
         public let defaultJobTimeoutMinutes: Int32?
         /// The project's ARN.
         public let arn: String?
 
-        public init(name: String? = nil, created: Date? = nil, defaultJobTimeoutMinutes: Int32? = nil, arn: String? = nil) {
+        public init(name: String? = nil, created: String? = nil, defaultJobTimeoutMinutes: Int32? = nil, arn: String? = nil) {
             self.name = name
             self.created = created
             self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
@@ -1151,7 +1151,7 @@ extension Devicefarm {
 
         public init(dictionary: [String: Any]) throws {
             self.name = dictionary["name"] as? String
-            self.created = dictionary["created"] as? Date
+            self.created = dictionary["created"] as? String
             self.defaultJobTimeoutMinutes = dictionary["defaultJobTimeoutMinutes"] as? Int32
             self.arn = dictionary["arn"] as? String
         }
@@ -1577,11 +1577,11 @@ extension Devicefarm {
         /// The cost of an offering transaction.
         public let cost: MonetaryAmount?
         /// The date on which an offering transaction was created.
-        public let createdOn: Date?
+        public let createdOn: String?
         /// The status of an offering transaction.
         public let offeringStatus: OfferingStatus?
 
-        public init(transactionId: String? = nil, cost: MonetaryAmount? = nil, createdOn: Date? = nil, offeringStatus: OfferingStatus? = nil) {
+        public init(transactionId: String? = nil, cost: MonetaryAmount? = nil, createdOn: String? = nil, offeringStatus: OfferingStatus? = nil) {
             self.transactionId = transactionId
             self.cost = cost
             self.createdOn = createdOn
@@ -1591,7 +1591,7 @@ extension Devicefarm {
         public init(dictionary: [String: Any]) throws {
             self.transactionId = dictionary["transactionId"] as? String
             if let cost = dictionary["cost"] as? [String: Any] { self.cost = try Devicefarm.MonetaryAmount(dictionary: cost) } else { self.cost = nil }
-            self.createdOn = dictionary["createdOn"] as? Date
+            self.createdOn = dictionary["createdOn"] as? String
             if let offeringStatus = dictionary["offeringStatus"] as? [String: Any] { self.offeringStatus = try Devicefarm.OfferingStatus(dictionary: offeringStatus) } else { self.offeringStatus = nil }
         }
     }
@@ -1774,13 +1774,13 @@ extension Devicefarm {
         /// The test's name.
         public let name: String?
         /// When the test was created.
-        public let created: Date?
+        public let created: String?
         /// The test's start time.
-        public let started: Date?
+        public let started: String?
         /// Represents the total (metered or unmetered) minutes used by the test.
         public let deviceMinutes: DeviceMinutes?
         /// The test's stop time.
-        public let stopped: Date?
+        public let stopped: String?
         /// A message about the test's result.
         public let message: String?
         /// The test's type. Must be one of the following values:   BUILTIN_FUZZ: The built-in fuzz type.   BUILTIN_EXPLORER: For Android, an app explorer that will traverse an Android app, interacting with it and capturing screenshots at the same time.   APPIUM_JAVA_JUNIT: The Appium Java JUnit type.   APPIUM_JAVA_TESTNG: The Appium Java TestNG type.   APPIUM_PYTHON: The Appium Python type.   APPIUM_WEB_JAVA_JUNIT: The Appium Java JUnit type for Web apps.   APPIUM_WEB_JAVA_TESTNG: The Appium Java TestNG type for Web apps.   APPIUM_WEB_PYTHON: The Appium Python type for Web apps.   CALABASH: The Calabash type.   INSTRUMENTATION: The Instrumentation type.   UIAUTOMATION: The uiautomation type.   UIAUTOMATOR: The uiautomator type.   XCTEST: The XCode test type.   XCTEST_UI: The XCode UI test type.  
@@ -1792,7 +1792,7 @@ extension Devicefarm {
         /// The test's ARN.
         public let arn: String?
 
-        public init(status: ExecutionStatus? = nil, name: String? = nil, created: Date? = nil, started: Date? = nil, deviceMinutes: DeviceMinutes? = nil, stopped: Date? = nil, message: String? = nil, type: TestType? = nil, result: ExecutionResult? = nil, counters: Counters? = nil, arn: String? = nil) {
+        public init(status: ExecutionStatus? = nil, name: String? = nil, created: String? = nil, started: String? = nil, deviceMinutes: DeviceMinutes? = nil, stopped: String? = nil, message: String? = nil, type: TestType? = nil, result: ExecutionResult? = nil, counters: Counters? = nil, arn: String? = nil) {
             self.status = status
             self.name = name
             self.created = created
@@ -1809,10 +1809,10 @@ extension Devicefarm {
         public init(dictionary: [String: Any]) throws {
             if let status = dictionary["status"] as? String { self.status = ExecutionStatus(rawValue: status) } else { self.status = nil }
             self.name = dictionary["name"] as? String
-            self.created = dictionary["created"] as? Date
-            self.started = dictionary["started"] as? Date
+            self.created = dictionary["created"] as? String
+            self.started = dictionary["started"] as? String
             if let deviceMinutes = dictionary["deviceMinutes"] as? [String: Any] { self.deviceMinutes = try Devicefarm.DeviceMinutes(dictionary: deviceMinutes) } else { self.deviceMinutes = nil }
-            self.stopped = dictionary["stopped"] as? Date
+            self.stopped = dictionary["stopped"] as? String
             self.message = dictionary["message"] as? String
             if let `type` = dictionary["type"] as? String { self.`type` = TestType(rawValue: `type`) } else { self.`type` = nil }
             if let result = dictionary["result"] as? String { self.result = ExecutionResult(rawValue: result) } else { self.result = nil }
@@ -2372,11 +2372,11 @@ extension Devicefarm {
         /// The type specified for the offering status.
         public let `type`: OfferingTransactionType?
         /// The date on which the offering is effective.
-        public let effectiveOn: Date?
+        public let effectiveOn: String?
         /// Represents the metadata of an offering status.
         public let offering: Offering?
 
-        public init(quantity: Int32? = nil, type: OfferingTransactionType? = nil, effectiveOn: Date? = nil, offering: Offering? = nil) {
+        public init(quantity: Int32? = nil, type: OfferingTransactionType? = nil, effectiveOn: String? = nil, offering: Offering? = nil) {
             self.quantity = quantity
             self.`type` = `type`
             self.effectiveOn = effectiveOn
@@ -2386,7 +2386,7 @@ extension Devicefarm {
         public init(dictionary: [String: Any]) throws {
             self.quantity = dictionary["quantity"] as? Int32
             if let `type` = dictionary["type"] as? String { self.`type` = OfferingTransactionType(rawValue: `type`) } else { self.`type` = nil }
-            self.effectiveOn = dictionary["effectiveOn"] as? Date
+            self.effectiveOn = dictionary["effectiveOn"] as? String
             if let offering = dictionary["offering"] as? [String: Any] { self.offering = try Devicefarm.Offering(dictionary: offering) } else { self.offering = nil }
         }
     }
@@ -2480,13 +2480,13 @@ extension Devicefarm {
         /// The total number of completed jobs.
         public let completedJobs: Int32?
         /// When the run was created.
-        public let created: Date?
+        public let created: String?
         /// The run's start time.
-        public let started: Date?
+        public let started: String?
         /// The total number of jobs for the run.
         public let totalJobs: Int32?
         /// The run's stop time.
-        public let stopped: Date?
+        public let stopped: String?
         /// Represents the total (metered or unmetered) minutes used by the test run.
         public let deviceMinutes: DeviceMinutes?
         /// A message about the run's result.
@@ -2498,7 +2498,7 @@ extension Devicefarm {
         /// Specifies the billing method for a test run: metered or unmetered. If the parameter is not specified, the default value is metered.
         public let billingMethod: BillingMethod?
 
-        public init(name: String? = nil, platform: DevicePlatform? = nil, type: TestType? = nil, result: ExecutionResult? = nil, arn: String? = nil, status: ExecutionStatus? = nil, completedJobs: Int32? = nil, created: Date? = nil, started: Date? = nil, totalJobs: Int32? = nil, stopped: Date? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, networkProfile: NetworkProfile? = nil, counters: Counters? = nil, billingMethod: BillingMethod? = nil) {
+        public init(name: String? = nil, platform: DevicePlatform? = nil, type: TestType? = nil, result: ExecutionResult? = nil, arn: String? = nil, status: ExecutionStatus? = nil, completedJobs: Int32? = nil, created: String? = nil, started: String? = nil, totalJobs: Int32? = nil, stopped: String? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, networkProfile: NetworkProfile? = nil, counters: Counters? = nil, billingMethod: BillingMethod? = nil) {
             self.name = name
             self.platform = platform
             self.`type` = `type`
@@ -2525,10 +2525,10 @@ extension Devicefarm {
             self.arn = dictionary["arn"] as? String
             if let status = dictionary["status"] as? String { self.status = ExecutionStatus(rawValue: status) } else { self.status = nil }
             self.completedJobs = dictionary["completedJobs"] as? Int32
-            self.created = dictionary["created"] as? Date
-            self.started = dictionary["started"] as? Date
+            self.created = dictionary["created"] as? String
+            self.started = dictionary["started"] as? String
             self.totalJobs = dictionary["totalJobs"] as? Int32
-            self.stopped = dictionary["stopped"] as? Date
+            self.stopped = dictionary["stopped"] as? String
             if let deviceMinutes = dictionary["deviceMinutes"] as? [String: Any] { self.deviceMinutes = try Devicefarm.DeviceMinutes(dictionary: deviceMinutes) } else { self.deviceMinutes = nil }
             self.message = dictionary["message"] as? String
             if let networkProfile = dictionary["networkProfile"] as? [String: Any] { self.networkProfile = try Devicefarm.NetworkProfile(dictionary: networkProfile) } else { self.networkProfile = nil }
@@ -2592,7 +2592,7 @@ extension Devicefarm {
         /// The upload's file name.
         public let name: String?
         /// When the upload was created.
-        public let created: Date?
+        public let created: String?
         /// A message about the upload's result.
         public let message: String?
         /// The upload's type. Must be one of the following values:   ANDROID_APP: An Android upload.   IOS_APP: An iOS upload.   WEB_APP: A web appliction upload.   EXTERNAL_DATA: An external data upload.   APPIUM_JAVA_JUNIT_TEST_PACKAGE: An Appium Java JUnit test package upload.   APPIUM_JAVA_TESTNG_TEST_PACKAGE: An Appium Java TestNG test package upload.   APPIUM_PYTHON_TEST_PACKAGE: An Appium Python test package upload.   APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE: An Appium Java JUnit test package upload.   APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE: An Appium Java TestNG test package upload.   APPIUM_WEB_PYTHON_TEST_PACKAGE: An Appium Python test package upload.   CALABASH_TEST_PACKAGE: A Calabash test package upload.   INSTRUMENTATION_TEST_PACKAGE: An instrumentation upload.   UIAUTOMATION_TEST_PACKAGE: A uiautomation test package upload.   UIAUTOMATOR_TEST_PACKAGE: A uiautomator test package upload.   XCTEST_TEST_PACKAGE: An XCode test package upload.   XCTEST_UI_TEST_PACKAGE: An XCode UI test package upload.  
@@ -2602,7 +2602,7 @@ extension Devicefarm {
         /// The upload's ARN.
         public let arn: String?
 
-        public init(metadata: String? = nil, status: UploadStatus? = nil, contentType: String? = nil, name: String? = nil, created: Date? = nil, message: String? = nil, type: UploadType? = nil, url: String? = nil, arn: String? = nil) {
+        public init(metadata: String? = nil, status: UploadStatus? = nil, contentType: String? = nil, name: String? = nil, created: String? = nil, message: String? = nil, type: UploadType? = nil, url: String? = nil, arn: String? = nil) {
             self.metadata = metadata
             self.status = status
             self.contentType = contentType
@@ -2619,7 +2619,7 @@ extension Devicefarm {
             if let status = dictionary["status"] as? String { self.status = UploadStatus(rawValue: status) } else { self.status = nil }
             self.contentType = dictionary["contentType"] as? String
             self.name = dictionary["name"] as? String
-            self.created = dictionary["created"] as? Date
+            self.created = dictionary["created"] as? String
             self.message = dictionary["message"] as? String
             if let `type` = dictionary["type"] as? String { self.`type` = UploadType(rawValue: `type`) } else { self.`type` = nil }
             self.url = dictionary["url"] as? String
@@ -3643,11 +3643,11 @@ extension Devicefarm {
         /// The job's name.
         public let name: String?
         /// When the job was created.
-        public let created: Date?
+        public let created: String?
         /// The job's start time.
-        public let started: Date?
+        public let started: String?
         /// The job's stop time.
-        public let stopped: Date?
+        public let stopped: String?
         /// Represents the total (metered or unmetered) minutes used by the job.
         public let deviceMinutes: DeviceMinutes?
         /// A message about the job's result.
@@ -3661,7 +3661,7 @@ extension Devicefarm {
         /// The job's ARN.
         public let arn: String?
 
-        public init(device: Device? = nil, status: ExecutionStatus? = nil, name: String? = nil, created: Date? = nil, started: Date? = nil, stopped: Date? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, type: TestType? = nil, result: ExecutionResult? = nil, counters: Counters? = nil, arn: String? = nil) {
+        public init(device: Device? = nil, status: ExecutionStatus? = nil, name: String? = nil, created: String? = nil, started: String? = nil, stopped: String? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, type: TestType? = nil, result: ExecutionResult? = nil, counters: Counters? = nil, arn: String? = nil) {
             self.device = device
             self.status = status
             self.name = name
@@ -3680,9 +3680,9 @@ extension Devicefarm {
             if let device = dictionary["device"] as? [String: Any] { self.device = try Devicefarm.Device(dictionary: device) } else { self.device = nil }
             if let status = dictionary["status"] as? String { self.status = ExecutionStatus(rawValue: status) } else { self.status = nil }
             self.name = dictionary["name"] as? String
-            self.created = dictionary["created"] as? Date
-            self.started = dictionary["started"] as? Date
-            self.stopped = dictionary["stopped"] as? Date
+            self.created = dictionary["created"] as? String
+            self.started = dictionary["started"] as? String
+            self.stopped = dictionary["stopped"] as? String
             if let deviceMinutes = dictionary["deviceMinutes"] as? [String: Any] { self.deviceMinutes = try Devicefarm.DeviceMinutes(dictionary: deviceMinutes) } else { self.deviceMinutes = nil }
             self.message = dictionary["message"] as? String
             if let `type` = dictionary["type"] as? String { self.`type` = TestType(rawValue: `type`) } else { self.`type` = nil }

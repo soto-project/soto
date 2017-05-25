@@ -1427,19 +1427,19 @@ extension Firehose {
         /// The status of the delivery stream.
         public let deliveryStreamStatus: DeliveryStreamStatus
         /// The date and time that the delivery stream was last updated.
-        public let lastUpdateTimestamp: Date?
+        public let lastUpdateTimestamp: String?
         /// The name of the delivery stream.
         public let deliveryStreamName: String
         /// Each time the destination is updated for a delivery stream, the version ID is changed, and the current version ID is required when updating the destination. This is so that the service knows it is applying the changes to the correct version of the delivery stream.
         public let versionId: String
         /// The date and time that the delivery stream was created.
-        public let createTimestamp: Date?
+        public let createTimestamp: String?
         /// The Amazon Resource Name (ARN) of the delivery stream.
         public let deliveryStreamARN: String
         /// Indicates whether there are more destinations available to list.
         public let hasMoreDestinations: Bool
 
-        public init(destinations: [DestinationDescription], deliveryStreamStatus: DeliveryStreamStatus, lastUpdateTimestamp: Date? = nil, deliveryStreamName: String, versionId: String, createTimestamp: Date? = nil, deliveryStreamARN: String, hasMoreDestinations: Bool) {
+        public init(destinations: [DestinationDescription], deliveryStreamStatus: DeliveryStreamStatus, lastUpdateTimestamp: String? = nil, deliveryStreamName: String, versionId: String, createTimestamp: String? = nil, deliveryStreamARN: String, hasMoreDestinations: Bool) {
             self.destinations = destinations
             self.deliveryStreamStatus = deliveryStreamStatus
             self.lastUpdateTimestamp = lastUpdateTimestamp
@@ -1455,12 +1455,12 @@ extension Firehose {
             self.destinations = try destinations.map({ try DestinationDescription(dictionary: $0) })
             guard let rawDeliveryStreamStatus = dictionary["DeliveryStreamStatus"] as? String, let deliveryStreamStatus = DeliveryStreamStatus(rawValue: rawDeliveryStreamStatus) else { throw InitializableError.missingRequiredParam("DeliveryStreamStatus") }
             self.deliveryStreamStatus = deliveryStreamStatus
-            self.lastUpdateTimestamp = dictionary["LastUpdateTimestamp"] as? Date
+            self.lastUpdateTimestamp = dictionary["LastUpdateTimestamp"] as? String
             guard let deliveryStreamName = dictionary["DeliveryStreamName"] as? String else { throw InitializableError.missingRequiredParam("DeliveryStreamName") }
             self.deliveryStreamName = deliveryStreamName
             guard let versionId = dictionary["VersionId"] as? String else { throw InitializableError.missingRequiredParam("VersionId") }
             self.versionId = versionId
-            self.createTimestamp = dictionary["CreateTimestamp"] as? Date
+            self.createTimestamp = dictionary["CreateTimestamp"] as? String
             guard let deliveryStreamARN = dictionary["DeliveryStreamARN"] as? String else { throw InitializableError.missingRequiredParam("DeliveryStreamARN") }
             self.deliveryStreamARN = deliveryStreamARN
             guard let hasMoreDestinations = dictionary["HasMoreDestinations"] as? Bool else { throw InitializableError.missingRequiredParam("HasMoreDestinations") }

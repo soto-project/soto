@@ -747,18 +747,18 @@ extension Budgets {
             AWSShapeProperty(label: "Start", required: true, type: .timestamp), 
             AWSShapeProperty(label: "End", required: true, type: .timestamp)
         ]
-        public let start: Date
-        public let end: Date
+        public let start: String
+        public let end: String
 
-        public init(start: Date, end: Date) {
+        public init(start: String, end: String) {
             self.start = start
             self.end = end
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let start = dictionary["Start"] as? Date else { throw InitializableError.missingRequiredParam("Start") }
+            guard let start = dictionary["Start"] as? String else { throw InitializableError.missingRequiredParam("Start") }
             self.start = start
-            guard let end = dictionary["End"] as? Date else { throw InitializableError.missingRequiredParam("End") }
+            guard let end = dictionary["End"] as? String else { throw InitializableError.missingRequiredParam("End") }
             self.end = end
         }
     }

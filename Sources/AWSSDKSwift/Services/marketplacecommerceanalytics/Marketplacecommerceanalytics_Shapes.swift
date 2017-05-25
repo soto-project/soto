@@ -84,9 +84,9 @@ extension Marketplacecommerceanalytics {
         /// The Amazon Resource Name (ARN) of the Role with an attached permissions policy to interact with the provided AWS services.
         public let roleNameArn: String
         /// The date a data set was published. For daily data sets, provide a date with day-level granularity for the desired day. For weekly data sets, provide a date with day-level granularity within the desired week (the day value will be ignored). For monthly data sets, provide a date with month-level granularity for the desired month (the day value will be ignored).
-        public let dataSetPublicationDate: Date
+        public let dataSetPublicationDate: String
 
-        public init(snsTopicArn: String, dataSetType: DataSetType, destinationS3Prefix: String? = nil, customerDefinedValues: [String: String]? = nil, destinationS3BucketName: String, roleNameArn: String, dataSetPublicationDate: Date) {
+        public init(snsTopicArn: String, dataSetType: DataSetType, destinationS3Prefix: String? = nil, customerDefinedValues: [String: String]? = nil, destinationS3BucketName: String, roleNameArn: String, dataSetPublicationDate: String) {
             self.snsTopicArn = snsTopicArn
             self.dataSetType = dataSetType
             self.destinationS3Prefix = destinationS3Prefix
@@ -111,7 +111,7 @@ extension Marketplacecommerceanalytics {
             self.destinationS3BucketName = destinationS3BucketName
             guard let roleNameArn = dictionary["roleNameArn"] as? String else { throw InitializableError.missingRequiredParam("roleNameArn") }
             self.roleNameArn = roleNameArn
-            guard let dataSetPublicationDate = dictionary["dataSetPublicationDate"] as? Date else { throw InitializableError.missingRequiredParam("dataSetPublicationDate") }
+            guard let dataSetPublicationDate = dictionary["dataSetPublicationDate"] as? String else { throw InitializableError.missingRequiredParam("dataSetPublicationDate") }
             self.dataSetPublicationDate = dataSetPublicationDate
         }
     }
@@ -157,11 +157,11 @@ extension Marketplacecommerceanalytics {
         /// The name (friendly name, not ARN) of the destination S3 bucket.
         public let destinationS3BucketName: String
         /// The start date from which to retrieve the data set in UTC. This parameter only affects the customer_support_contacts_data data set type.
-        public let fromDate: Date
+        public let fromDate: String
         /// The Amazon Resource Name (ARN) of the Role with an attached permissions policy to interact with the provided AWS services.
         public let roleNameArn: String
 
-        public init(snsTopicArn: String, dataSetType: SupportDataSetType, destinationS3Prefix: String? = nil, customerDefinedValues: [String: String]? = nil, destinationS3BucketName: String, fromDate: Date, roleNameArn: String) {
+        public init(snsTopicArn: String, dataSetType: SupportDataSetType, destinationS3Prefix: String? = nil, customerDefinedValues: [String: String]? = nil, destinationS3BucketName: String, fromDate: String, roleNameArn: String) {
             self.snsTopicArn = snsTopicArn
             self.dataSetType = dataSetType
             self.destinationS3Prefix = destinationS3Prefix
@@ -184,7 +184,7 @@ extension Marketplacecommerceanalytics {
             }
             guard let destinationS3BucketName = dictionary["destinationS3BucketName"] as? String else { throw InitializableError.missingRequiredParam("destinationS3BucketName") }
             self.destinationS3BucketName = destinationS3BucketName
-            guard let fromDate = dictionary["fromDate"] as? Date else { throw InitializableError.missingRequiredParam("fromDate") }
+            guard let fromDate = dictionary["fromDate"] as? String else { throw InitializableError.missingRequiredParam("fromDate") }
             self.fromDate = fromDate
             guard let roleNameArn = dictionary["roleNameArn"] as? String else { throw InitializableError.missingRequiredParam("roleNameArn") }
             self.roleNameArn = roleNameArn

@@ -1117,7 +1117,7 @@ extension Redshift {
             AWSShapeProperty(label: "Duration", required: false, type: .integer)
         ]
         /// The beginning of the time interval to retrieve events for, specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2009-07-08T18:00Z 
-        public let startTime: Date?
+        public let startTime: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public let maxRecords: Int32?
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeEvents request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
@@ -1125,13 +1125,13 @@ extension Redshift {
         /// The event source to retrieve events for. If no value is specified, all events are returned. Constraints: If SourceType is supplied, SourceIdentifier must also be provided.   Specify cluster when SourceIdentifier is a cluster identifier.   Specify cluster-security-group when SourceIdentifier is a cluster security group name.   Specify cluster-parameter-group when SourceIdentifier is a cluster parameter group name.   Specify cluster-snapshot when SourceIdentifier is a cluster snapshot identifier.  
         public let sourceType: SourceType?
         /// The end of the time interval for which to retrieve events, specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2009-07-08T18:00Z 
-        public let endTime: Date?
+        public let endTime: String?
         /// The identifier of the event source for which events will be returned. If this parameter is not specified, then all sources are included in the response. Constraints: If SourceIdentifier is supplied, SourceType must also be provided.   Specify a cluster identifier when SourceType is cluster.   Specify a cluster security group name when SourceType is cluster-security-group.   Specify a cluster parameter group name when SourceType is cluster-parameter-group.   Specify a cluster snapshot identifier when SourceType is cluster-snapshot.  
         public let sourceIdentifier: String?
         /// The number of minutes prior to the time of the request for which to retrieve events. For example, if the request is sent at 18:00 and you specify a duration of 60, then only events which have occurred after 17:00 will be returned. Default: 60 
         public let duration: Int32?
 
-        public init(startTime: Date? = nil, maxRecords: Int32? = nil, marker: String? = nil, sourceType: SourceType? = nil, endTime: Date? = nil, sourceIdentifier: String? = nil, duration: Int32? = nil) {
+        public init(startTime: String? = nil, maxRecords: Int32? = nil, marker: String? = nil, sourceType: SourceType? = nil, endTime: String? = nil, sourceIdentifier: String? = nil, duration: Int32? = nil) {
             self.startTime = startTime
             self.maxRecords = maxRecords
             self.marker = marker
@@ -1142,11 +1142,11 @@ extension Redshift {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["StartTime"] as? Date
+            self.startTime = dictionary["StartTime"] as? String
             self.maxRecords = dictionary["MaxRecords"] as? Int32
             self.marker = dictionary["Marker"] as? String
             if let sourceType = dictionary["SourceType"] as? String { self.sourceType = SourceType(rawValue: sourceType) } else { self.sourceType = nil }
-            self.endTime = dictionary["EndTime"] as? Date
+            self.endTime = dictionary["EndTime"] as? String
             self.sourceIdentifier = dictionary["SourceIdentifier"] as? String
             self.duration = dictionary["Duration"] as? Int32
         }
@@ -1420,7 +1420,7 @@ extension Redshift {
             AWSShapeProperty(label: "FixedPrice", required: false, type: .double)
         ]
         /// The time the reservation started. You purchase a reserved node offering for a duration. This is the start time of that duration.
-        public let startTime: Date?
+        public let startTime: String?
         /// The recurring charges for the reserved node.
         public let recurringCharges: RecurringChargeList?
         /// The number of reserved compute nodes.
@@ -1444,7 +1444,7 @@ extension Redshift {
         /// The fixed cost Amazon Redshift charges you for this reserved node.
         public let fixedPrice: Double?
 
-        public init(startTime: Date? = nil, recurringCharges: RecurringChargeList? = nil, nodeCount: Int32? = nil, usagePrice: Double? = nil, state: String? = nil, nodeType: String? = nil, reservedNodeId: String? = nil, currencyCode: String? = nil, reservedNodeOfferingId: String? = nil, duration: Int32? = nil, offeringType: String? = nil, fixedPrice: Double? = nil) {
+        public init(startTime: String? = nil, recurringCharges: RecurringChargeList? = nil, nodeCount: Int32? = nil, usagePrice: Double? = nil, state: String? = nil, nodeType: String? = nil, reservedNodeId: String? = nil, currencyCode: String? = nil, reservedNodeOfferingId: String? = nil, duration: Int32? = nil, offeringType: String? = nil, fixedPrice: Double? = nil) {
             self.startTime = startTime
             self.recurringCharges = recurringCharges
             self.nodeCount = nodeCount
@@ -1460,7 +1460,7 @@ extension Redshift {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["StartTime"] as? Date
+            self.startTime = dictionary["StartTime"] as? String
             if let recurringCharges = dictionary["RecurringCharges"] as? [String: Any] { self.recurringCharges = try Redshift.RecurringChargeList(dictionary: recurringCharges) } else { self.recurringCharges = nil }
             self.nodeCount = dictionary["NodeCount"] as? Int32
             self.usagePrice = dictionary["UsagePrice"] as? Double
@@ -2169,9 +2169,9 @@ extension Redshift {
         /// The identifier for the source of the event.
         public let sourceIdentifier: String?
         /// The date and time of the event.
-        public let date: Date?
+        public let date: String?
 
-        public init(severity: String? = nil, message: String? = nil, sourceType: SourceType? = nil, eventId: String? = nil, eventCategories: EventCategoriesList? = nil, sourceIdentifier: String? = nil, date: Date? = nil) {
+        public init(severity: String? = nil, message: String? = nil, sourceType: SourceType? = nil, eventId: String? = nil, eventCategories: EventCategoriesList? = nil, sourceIdentifier: String? = nil, date: String? = nil) {
             self.severity = severity
             self.message = message
             self.sourceType = sourceType
@@ -2188,7 +2188,7 @@ extension Redshift {
             self.eventId = dictionary["EventId"] as? String
             if let eventCategories = dictionary["EventCategories"] as? [String: Any] { self.eventCategories = try Redshift.EventCategoriesList(dictionary: eventCategories) } else { self.eventCategories = nil }
             self.sourceIdentifier = dictionary["SourceIdentifier"] as? String
-            self.date = dictionary["Date"] as? Date
+            self.date = dictionary["Date"] as? String
         }
     }
 
@@ -2355,7 +2355,7 @@ extension Redshift {
         /// The total amount of data to restore to the new table, in megabytes (MB).
         public let totalDataInMegaBytes: Int64?
         /// The time that the table restore request was made, in Universal Coordinated Time (UTC).
-        public let requestTime: Date?
+        public let requestTime: String?
         /// The unique identifier for the table restore request.
         public let tableRestoreRequestId: String?
         /// A value that describes the current state of the table restore request. Valid Values: SUCCEEDED, FAILED, CANCELED, PENDING, IN_PROGRESS 
@@ -2371,7 +2371,7 @@ extension Redshift {
         /// The name of the schema to restore the table to.
         public let targetSchemaName: String?
 
-        public init(message: String? = nil, progressInMegaBytes: Int64? = nil, sourceSchemaName: String? = nil, clusterIdentifier: String? = nil, targetDatabaseName: String? = nil, totalDataInMegaBytes: Int64? = nil, requestTime: Date? = nil, tableRestoreRequestId: String? = nil, status: TableRestoreStatusType? = nil, snapshotIdentifier: String? = nil, sourceDatabaseName: String? = nil, sourceTableName: String? = nil, newTableName: String? = nil, targetSchemaName: String? = nil) {
+        public init(message: String? = nil, progressInMegaBytes: Int64? = nil, sourceSchemaName: String? = nil, clusterIdentifier: String? = nil, targetDatabaseName: String? = nil, totalDataInMegaBytes: Int64? = nil, requestTime: String? = nil, tableRestoreRequestId: String? = nil, status: TableRestoreStatusType? = nil, snapshotIdentifier: String? = nil, sourceDatabaseName: String? = nil, sourceTableName: String? = nil, newTableName: String? = nil, targetSchemaName: String? = nil) {
             self.message = message
             self.progressInMegaBytes = progressInMegaBytes
             self.sourceSchemaName = sourceSchemaName
@@ -2395,7 +2395,7 @@ extension Redshift {
             self.clusterIdentifier = dictionary["ClusterIdentifier"] as? String
             self.targetDatabaseName = dictionary["TargetDatabaseName"] as? String
             self.totalDataInMegaBytes = dictionary["TotalDataInMegaBytes"] as? Int64
-            self.requestTime = dictionary["RequestTime"] as? Date
+            self.requestTime = dictionary["RequestTime"] as? String
             self.tableRestoreRequestId = dictionary["TableRestoreRequestId"] as? String
             if let status = dictionary["Status"] as? String { self.status = TableRestoreStatusType(rawValue: status) } else { self.status = nil }
             self.snapshotIdentifier = dictionary["SnapshotIdentifier"] as? String
@@ -2672,11 +2672,11 @@ extension Redshift {
         ///  true if logging is on, false if logging is off.
         public let loggingEnabled: Bool?
         /// The last time when logs failed to be delivered.
-        public let lastFailureTime: Date?
+        public let lastFailureTime: String?
         /// The last time that logs were delivered.
-        public let lastSuccessfulDeliveryTime: Date?
+        public let lastSuccessfulDeliveryTime: String?
 
-        public init(lastFailureMessage: String? = nil, bucketName: String? = nil, s3KeyPrefix: String? = nil, loggingEnabled: Bool? = nil, lastFailureTime: Date? = nil, lastSuccessfulDeliveryTime: Date? = nil) {
+        public init(lastFailureMessage: String? = nil, bucketName: String? = nil, s3KeyPrefix: String? = nil, loggingEnabled: Bool? = nil, lastFailureTime: String? = nil, lastSuccessfulDeliveryTime: String? = nil) {
             self.lastFailureMessage = lastFailureMessage
             self.bucketName = bucketName
             self.s3KeyPrefix = s3KeyPrefix
@@ -2690,8 +2690,8 @@ extension Redshift {
             self.bucketName = dictionary["BucketName"] as? String
             self.s3KeyPrefix = dictionary["S3KeyPrefix"] as? String
             self.loggingEnabled = dictionary["LoggingEnabled"] as? Bool
-            self.lastFailureTime = dictionary["LastFailureTime"] as? Date
-            self.lastSuccessfulDeliveryTime = dictionary["LastSuccessfulDeliveryTime"] as? Date
+            self.lastFailureTime = dictionary["LastFailureTime"] as? String
+            self.lastSuccessfulDeliveryTime = dictionary["LastSuccessfulDeliveryTime"] as? String
         }
     }
 
@@ -3017,7 +3017,7 @@ extension Redshift {
             AWSShapeProperty(label: "OwnerAccount", required: false, type: .string)
         ]
         /// A value that requests only snapshots created at or after the specified time. The time value is specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2012-07-16T18:00:00Z 
-        public let startTime: Date?
+        public let startTime: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public let maxRecords: Int32?
         /// The snapshot identifier of the snapshot about which to return information.
@@ -3033,11 +3033,11 @@ extension Redshift {
         /// The type of snapshots for which you are requesting information. By default, snapshots of all types are returned. Valid Values: automated | manual 
         public let snapshotType: String?
         /// A time value that requests only snapshots created at or before the specified time. The time value is specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2012-07-16T18:00:00Z 
-        public let endTime: Date?
+        public let endTime: String?
         /// The AWS customer account used to create or copy the snapshot. Use this field to filter the results to snapshots owned by a particular account. To describe snapshots you own, either specify your AWS customer account, or do not specify the parameter.
         public let ownerAccount: String?
 
-        public init(startTime: Date? = nil, maxRecords: Int32? = nil, snapshotIdentifier: String? = nil, marker: String? = nil, tagKeys: TagKeyList? = nil, clusterIdentifier: String? = nil, tagValues: TagValueList? = nil, snapshotType: String? = nil, endTime: Date? = nil, ownerAccount: String? = nil) {
+        public init(startTime: String? = nil, maxRecords: Int32? = nil, snapshotIdentifier: String? = nil, marker: String? = nil, tagKeys: TagKeyList? = nil, clusterIdentifier: String? = nil, tagValues: TagValueList? = nil, snapshotType: String? = nil, endTime: String? = nil, ownerAccount: String? = nil) {
             self.startTime = startTime
             self.maxRecords = maxRecords
             self.snapshotIdentifier = snapshotIdentifier
@@ -3051,7 +3051,7 @@ extension Redshift {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["StartTime"] as? Date
+            self.startTime = dictionary["StartTime"] as? String
             self.maxRecords = dictionary["MaxRecords"] as? Int32
             self.snapshotIdentifier = dictionary["SnapshotIdentifier"] as? String
             self.marker = dictionary["Marker"] as? String
@@ -3059,7 +3059,7 @@ extension Redshift {
             self.clusterIdentifier = dictionary["ClusterIdentifier"] as? String
             if let tagValues = dictionary["TagValues"] as? [String: Any] { self.tagValues = try Redshift.TagValueList(dictionary: tagValues) } else { self.tagValues = nil }
             self.snapshotType = dictionary["SnapshotType"] as? String
-            self.endTime = dictionary["EndTime"] as? Date
+            self.endTime = dictionary["EndTime"] as? String
             self.ownerAccount = dictionary["OwnerAccount"] as? String
         }
     }
@@ -3410,7 +3410,7 @@ extension Redshift {
         /// The VPC identifier of the cluster if the snapshot is from a cluster in a VPC. Otherwise, this field is not in the output.
         public let vpcId: String?
         /// The time (UTC) when Amazon Redshift began the snapshot. A snapshot contains a copy of the cluster data as of this exact time.
-        public let snapshotCreateTime: Date?
+        public let snapshotCreateTime: String?
         /// A list of the AWS customer accounts authorized to restore the snapshot. Returns null if no accounts are authorized. Visible only to the snapshot owner. 
         public let accountsWithRestoreAccess: AccountsWithRestoreAccessList?
         /// The number of nodes in the cluster.
@@ -3426,7 +3426,7 @@ extension Redshift {
         /// The snapshot type. Snapshots created using CreateClusterSnapshot and CopyClusterSnapshot will be of type "manual". 
         public let snapshotType: String?
         /// The time (UTC) when the cluster was originally created.
-        public let clusterCreateTime: Date?
+        public let clusterCreateTime: String?
         /// The snapshot identifier that is provided in the request.
         public let snapshotIdentifier: String?
         /// The master user name for the cluster.
@@ -3438,7 +3438,7 @@ extension Redshift {
         /// The port that the cluster is listening on.
         public let port: Int32?
 
-        public init(actualIncrementalBackupSizeInMegaBytes: Double? = nil, dBName: String? = nil, clusterVersion: String? = nil, encrypted: Bool? = nil, currentBackupRateInMegaBytesPerSecond: Double? = nil, ownerAccount: String? = nil, backupProgressInMegaBytes: Double? = nil, restorableNodeTypes: RestorableNodeTypeList? = nil, enhancedVpcRouting: Bool? = nil, encryptedWithHSM: Bool? = nil, clusterIdentifier: String? = nil, availabilityZone: String? = nil, status: String? = nil, estimatedSecondsToCompletion: Int64? = nil, vpcId: String? = nil, snapshotCreateTime: Date? = nil, accountsWithRestoreAccess: AccountsWithRestoreAccessList? = nil, numberOfNodes: Int32? = nil, kmsKeyId: String? = nil, sourceRegion: String? = nil, tags: TagList? = nil, nodeType: String? = nil, snapshotType: String? = nil, clusterCreateTime: Date? = nil, snapshotIdentifier: String? = nil, masterUsername: String? = nil, totalBackupSizeInMegaBytes: Double? = nil, elapsedTimeInSeconds: Int64? = nil, port: Int32? = nil) {
+        public init(actualIncrementalBackupSizeInMegaBytes: Double? = nil, dBName: String? = nil, clusterVersion: String? = nil, encrypted: Bool? = nil, currentBackupRateInMegaBytesPerSecond: Double? = nil, ownerAccount: String? = nil, backupProgressInMegaBytes: Double? = nil, restorableNodeTypes: RestorableNodeTypeList? = nil, enhancedVpcRouting: Bool? = nil, encryptedWithHSM: Bool? = nil, clusterIdentifier: String? = nil, availabilityZone: String? = nil, status: String? = nil, estimatedSecondsToCompletion: Int64? = nil, vpcId: String? = nil, snapshotCreateTime: String? = nil, accountsWithRestoreAccess: AccountsWithRestoreAccessList? = nil, numberOfNodes: Int32? = nil, kmsKeyId: String? = nil, sourceRegion: String? = nil, tags: TagList? = nil, nodeType: String? = nil, snapshotType: String? = nil, clusterCreateTime: String? = nil, snapshotIdentifier: String? = nil, masterUsername: String? = nil, totalBackupSizeInMegaBytes: Double? = nil, elapsedTimeInSeconds: Int64? = nil, port: Int32? = nil) {
             self.actualIncrementalBackupSizeInMegaBytes = actualIncrementalBackupSizeInMegaBytes
             self.dBName = dBName
             self.clusterVersion = clusterVersion
@@ -3486,7 +3486,7 @@ extension Redshift {
             self.status = dictionary["Status"] as? String
             self.estimatedSecondsToCompletion = dictionary["EstimatedSecondsToCompletion"] as? Int64
             self.vpcId = dictionary["VpcId"] as? String
-            self.snapshotCreateTime = dictionary["SnapshotCreateTime"] as? Date
+            self.snapshotCreateTime = dictionary["SnapshotCreateTime"] as? String
             if let accountsWithRestoreAccess = dictionary["AccountsWithRestoreAccess"] as? [String: Any] { self.accountsWithRestoreAccess = try Redshift.AccountsWithRestoreAccessList(dictionary: accountsWithRestoreAccess) } else { self.accountsWithRestoreAccess = nil }
             self.numberOfNodes = dictionary["NumberOfNodes"] as? Int32
             self.kmsKeyId = dictionary["KmsKeyId"] as? String
@@ -3494,7 +3494,7 @@ extension Redshift {
             if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
             self.nodeType = dictionary["NodeType"] as? String
             self.snapshotType = dictionary["SnapshotType"] as? String
-            self.clusterCreateTime = dictionary["ClusterCreateTime"] as? Date
+            self.clusterCreateTime = dictionary["ClusterCreateTime"] as? String
             self.snapshotIdentifier = dictionary["SnapshotIdentifier"] as? String
             self.masterUsername = dictionary["MasterUsername"] as? String
             self.totalBackupSizeInMegaBytes = dictionary["TotalBackupSizeInMegaBytes"] as? Double
@@ -3540,9 +3540,9 @@ extension Redshift {
         /// The list of Amazon Redshift event categories specified in the event notification subscription. Values: Configuration, Management, Monitoring, Security
         public let eventCategoriesList: EventCategoriesList?
         /// The date and time the Amazon Redshift event notification subscription was created.
-        public let subscriptionCreationTime: Date?
+        public let subscriptionCreationTime: String?
 
-        public init(severity: String? = nil, status: String? = nil, snsTopicArn: String? = nil, sourceIdsList: SourceIdsList? = nil, sourceType: String? = nil, custSubscriptionId: String? = nil, enabled: Bool? = nil, tags: TagList? = nil, customerAwsId: String? = nil, eventCategoriesList: EventCategoriesList? = nil, subscriptionCreationTime: Date? = nil) {
+        public init(severity: String? = nil, status: String? = nil, snsTopicArn: String? = nil, sourceIdsList: SourceIdsList? = nil, sourceType: String? = nil, custSubscriptionId: String? = nil, enabled: Bool? = nil, tags: TagList? = nil, customerAwsId: String? = nil, eventCategoriesList: EventCategoriesList? = nil, subscriptionCreationTime: String? = nil) {
             self.severity = severity
             self.status = status
             self.snsTopicArn = snsTopicArn
@@ -3567,7 +3567,7 @@ extension Redshift {
             if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
             self.customerAwsId = dictionary["CustomerAwsId"] as? String
             if let eventCategoriesList = dictionary["EventCategoriesList"] as? [String: Any] { self.eventCategoriesList = try Redshift.EventCategoriesList(dictionary: eventCategoriesList) } else { self.eventCategoriesList = nil }
-            self.subscriptionCreationTime = dictionary["SubscriptionCreationTime"] as? Date
+            self.subscriptionCreationTime = dictionary["SubscriptionCreationTime"] as? String
         }
     }
 
@@ -4493,7 +4493,7 @@ extension Redshift {
         /// A value that reports whether the Amazon Redshift cluster has finished applying any hardware security module (HSM) settings changes specified in a modify cluster command. Values: active, applying
         public let hsmStatus: HsmStatus?
         /// The date and time that the cluster was created.
-        public let clusterCreateTime: Date?
+        public let clusterCreateTime: String?
         /// A Boolean value that, if true, indicates that the cluster can be accessed from a public network.
         public let publiclyAccessible: Bool?
         /// The status of the elastic IP (EIP) address.
@@ -4509,7 +4509,7 @@ extension Redshift {
         /// The status of a modify operation, if any, initiated for the cluster.
         public let modifyStatus: String?
 
-        public init(vpcSecurityGroups: VpcSecurityGroupMembershipList? = nil, clusterNodes: [ClusterNode]? = nil, dBName: String? = nil, clusterVersion: String? = nil, encrypted: Bool? = nil, clusterIdentifier: String? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, enhancedVpcRouting: Bool? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, availabilityZone: String? = nil, iamRoles: ClusterIamRoleList? = nil, clusterStatus: String? = nil, vpcId: String? = nil, preferredMaintenanceWindow: String? = nil, numberOfNodes: Int32? = nil, endpoint: Endpoint? = nil, clusterRevisionNumber: String? = nil, kmsKeyId: String? = nil, pendingModifiedValues: PendingModifiedValues? = nil, clusterSecurityGroups: ClusterSecurityGroupMembershipList? = nil, clusterParameterGroups: ClusterParameterGroupStatusList? = nil, tags: TagList? = nil, nodeType: String? = nil, clusterPublicKey: String? = nil, hsmStatus: HsmStatus? = nil, clusterCreateTime: Date? = nil, publiclyAccessible: Bool? = nil, elasticIpStatus: ElasticIpStatus? = nil, restoreStatus: RestoreStatus? = nil, clusterSubnetGroupName: String? = nil, masterUsername: String? = nil, allowVersionUpgrade: Bool? = nil, modifyStatus: String? = nil) {
+        public init(vpcSecurityGroups: VpcSecurityGroupMembershipList? = nil, clusterNodes: [ClusterNode]? = nil, dBName: String? = nil, clusterVersion: String? = nil, encrypted: Bool? = nil, clusterIdentifier: String? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, enhancedVpcRouting: Bool? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, availabilityZone: String? = nil, iamRoles: ClusterIamRoleList? = nil, clusterStatus: String? = nil, vpcId: String? = nil, preferredMaintenanceWindow: String? = nil, numberOfNodes: Int32? = nil, endpoint: Endpoint? = nil, clusterRevisionNumber: String? = nil, kmsKeyId: String? = nil, pendingModifiedValues: PendingModifiedValues? = nil, clusterSecurityGroups: ClusterSecurityGroupMembershipList? = nil, clusterParameterGroups: ClusterParameterGroupStatusList? = nil, tags: TagList? = nil, nodeType: String? = nil, clusterPublicKey: String? = nil, hsmStatus: HsmStatus? = nil, clusterCreateTime: String? = nil, publiclyAccessible: Bool? = nil, elasticIpStatus: ElasticIpStatus? = nil, restoreStatus: RestoreStatus? = nil, clusterSubnetGroupName: String? = nil, masterUsername: String? = nil, allowVersionUpgrade: Bool? = nil, modifyStatus: String? = nil) {
             self.vpcSecurityGroups = vpcSecurityGroups
             self.clusterNodes = clusterNodes
             self.dBName = dBName
@@ -4575,7 +4575,7 @@ extension Redshift {
             self.nodeType = dictionary["NodeType"] as? String
             self.clusterPublicKey = dictionary["ClusterPublicKey"] as? String
             if let hsmStatus = dictionary["HsmStatus"] as? [String: Any] { self.hsmStatus = try Redshift.HsmStatus(dictionary: hsmStatus) } else { self.hsmStatus = nil }
-            self.clusterCreateTime = dictionary["ClusterCreateTime"] as? Date
+            self.clusterCreateTime = dictionary["ClusterCreateTime"] as? String
             self.publiclyAccessible = dictionary["PubliclyAccessible"] as? Bool
             if let elasticIpStatus = dictionary["ElasticIpStatus"] as? [String: Any] { self.elasticIpStatus = try Redshift.ElasticIpStatus(dictionary: elasticIpStatus) } else { self.elasticIpStatus = nil }
             if let restoreStatus = dictionary["RestoreStatus"] as? [String: Any] { self.restoreStatus = try Redshift.RestoreStatus(dictionary: restoreStatus) } else { self.restoreStatus = nil }

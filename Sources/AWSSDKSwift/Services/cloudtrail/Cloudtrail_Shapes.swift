@@ -39,15 +39,15 @@ extension Cloudtrail {
             AWSShapeProperty(label: "ValidityStartTime", required: false, type: .timestamp)
         ]
         /// The ending time of validity of the public key.
-        public let validityEndTime: Date?
+        public let validityEndTime: String?
         /// The fingerprint of the public key.
         public let fingerprint: String?
         /// The DER encoded public key value in PKCS#1 format.
         public let value: Data?
         /// The starting time of validity of the public key.
-        public let validityStartTime: Date?
+        public let validityStartTime: String?
 
-        public init(validityEndTime: Date? = nil, fingerprint: String? = nil, value: Data? = nil, validityStartTime: Date? = nil) {
+        public init(validityEndTime: String? = nil, fingerprint: String? = nil, value: Data? = nil, validityStartTime: String? = nil) {
             self.validityEndTime = validityEndTime
             self.fingerprint = fingerprint
             self.value = value
@@ -55,10 +55,10 @@ extension Cloudtrail {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.validityEndTime = dictionary["ValidityEndTime"] as? Date
+            self.validityEndTime = dictionary["ValidityEndTime"] as? String
             self.fingerprint = dictionary["Fingerprint"] as? String
             self.value = dictionary["Value"] as? Data
-            self.validityStartTime = dictionary["ValidityStartTime"] as? Date
+            self.validityStartTime = dictionary["ValidityStartTime"] as? String
         }
     }
 
@@ -188,22 +188,22 @@ extension Cloudtrail {
             AWSShapeProperty(label: "StartTime", required: false, type: .timestamp)
         ]
         /// Optionally specifies, in UTC, the end of the time range to look up public keys for CloudTrail digest files. If not specified, the current time is used.
-        public let endTime: Date?
+        public let endTime: String?
         /// Reserved for future use.
         public let nextToken: String?
         /// Optionally specifies, in UTC, the start of the time range to look up public keys for CloudTrail digest files. If not specified, the current time is used, and the current public key is returned.
-        public let startTime: Date?
+        public let startTime: String?
 
-        public init(endTime: Date? = nil, nextToken: String? = nil, startTime: Date? = nil) {
+        public init(endTime: String? = nil, nextToken: String? = nil, startTime: String? = nil) {
             self.endTime = endTime
             self.nextToken = nextToken
             self.startTime = startTime
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.endTime = dictionary["EndTime"] as? Date
+            self.endTime = dictionary["EndTime"] as? String
             self.nextToken = dictionary["NextToken"] as? String
-            self.startTime = dictionary["StartTime"] as? Date
+            self.startTime = dictionary["StartTime"] as? String
         }
     }
 
@@ -218,9 +218,9 @@ extension Cloudtrail {
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// Specifies that only events that occur after or at the specified time are returned. If the specified start time is after the specified end time, an error is returned.
-        public let startTime: Date?
+        public let startTime: String?
         /// Specifies that only events that occur before or at the specified time are returned. If the specified end time is before the specified start time, an error is returned.
-        public let endTime: Date?
+        public let endTime: String?
         /// Contains a list of lookup attributes. Currently the list can contain only one item.
         public let lookupAttributes: [LookupAttribute]?
         /// The token to use to get the next page of results after a previous API call. This token must be passed in with the same parameters that were specified in the the original call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
@@ -228,7 +228,7 @@ extension Cloudtrail {
         /// The number of events to return. Possible values are 1 through 50. The default is 10.
         public let maxResults: Int32?
 
-        public init(startTime: Date? = nil, endTime: Date? = nil, lookupAttributes: [LookupAttribute]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
+        public init(startTime: String? = nil, endTime: String? = nil, lookupAttributes: [LookupAttribute]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.startTime = startTime
             self.endTime = endTime
             self.lookupAttributes = lookupAttributes
@@ -237,8 +237,8 @@ extension Cloudtrail {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["StartTime"] as? Date
-            self.endTime = dictionary["EndTime"] as? Date
+            self.startTime = dictionary["StartTime"] as? String
+            self.endTime = dictionary["EndTime"] as? String
             if let lookupAttributes = dictionary["LookupAttributes"] as? [[String: Any]] {
                 self.lookupAttributes = try lookupAttributes.map({ try LookupAttribute(dictionary: $0) })
             } else { 
@@ -534,7 +534,7 @@ extension Cloudtrail {
         /// Displays any Amazon SNS error that CloudTrail encountered when attempting to send a notification. For more information about Amazon SNS errors, see the Amazon SNS Developer Guide. 
         public let latestNotificationError: String?
         /// Specifies the date and time that CloudTrail last delivered log files to an account's Amazon S3 bucket.
-        public let latestDeliveryTime: Date?
+        public let latestDeliveryTime: String?
         /// This field is deprecated.
         public let timeLoggingStarted: String?
         /// This field is deprecated.
@@ -544,13 +544,13 @@ extension Cloudtrail {
         /// This field is deprecated.
         public let latestDeliveryAttemptSucceeded: String?
         /// Displays the most recent date and time when CloudTrail delivered logs to CloudWatch Logs.
-        public let latestCloudWatchLogsDeliveryTime: Date?
+        public let latestCloudWatchLogsDeliveryTime: String?
         /// Specifies the date and time of the most recent Amazon SNS notification that CloudTrail has written a new log file to an account's Amazon S3 bucket.
-        public let latestNotificationTime: Date?
+        public let latestNotificationTime: String?
         /// This field is deprecated.
         public let latestNotificationAttemptSucceeded: String?
         /// Specifies the date and time that CloudTrail last delivered a digest file to an account's Amazon S3 bucket.
-        public let latestDigestDeliveryTime: Date?
+        public let latestDigestDeliveryTime: String?
         /// Whether the CloudTrail is currently logging AWS API calls.
         public let isLogging: Bool?
         /// This field is deprecated.
@@ -560,13 +560,13 @@ extension Cloudtrail {
         /// Displays any Amazon S3 error that CloudTrail encountered when attempting to deliver log files to the designated bucket. For more information see the topic Error Responses in the Amazon S3 API Reference.   This error occurs only when there is a problem with the destination S3 bucket and will not occur for timeouts. To resolve the issue, create a new bucket and call UpdateTrail to specify the new bucket, or fix the existing objects so that CloudTrail can again write to the bucket. 
         public let latestDeliveryError: String?
         /// Specifies the most recent date and time when CloudTrail stopped recording API calls for an AWS account.
-        public let stopLoggingTime: Date?
+        public let stopLoggingTime: String?
         /// Specifies the most recent date and time when CloudTrail started recording API calls for an AWS account.
-        public let startLoggingTime: Date?
+        public let startLoggingTime: String?
         /// Displays any CloudWatch Logs error that CloudTrail encountered when attempting to deliver logs to CloudWatch Logs.
         public let latestCloudWatchLogsDeliveryError: String?
 
-        public init(latestNotificationError: String? = nil, latestDeliveryTime: Date? = nil, timeLoggingStarted: String? = nil, timeLoggingStopped: String? = nil, latestDigestDeliveryError: String? = nil, latestDeliveryAttemptSucceeded: String? = nil, latestCloudWatchLogsDeliveryTime: Date? = nil, latestNotificationTime: Date? = nil, latestNotificationAttemptSucceeded: String? = nil, latestDigestDeliveryTime: Date? = nil, isLogging: Bool? = nil, latestDeliveryAttemptTime: String? = nil, latestNotificationAttemptTime: String? = nil, latestDeliveryError: String? = nil, stopLoggingTime: Date? = nil, startLoggingTime: Date? = nil, latestCloudWatchLogsDeliveryError: String? = nil) {
+        public init(latestNotificationError: String? = nil, latestDeliveryTime: String? = nil, timeLoggingStarted: String? = nil, timeLoggingStopped: String? = nil, latestDigestDeliveryError: String? = nil, latestDeliveryAttemptSucceeded: String? = nil, latestCloudWatchLogsDeliveryTime: String? = nil, latestNotificationTime: String? = nil, latestNotificationAttemptSucceeded: String? = nil, latestDigestDeliveryTime: String? = nil, isLogging: Bool? = nil, latestDeliveryAttemptTime: String? = nil, latestNotificationAttemptTime: String? = nil, latestDeliveryError: String? = nil, stopLoggingTime: String? = nil, startLoggingTime: String? = nil, latestCloudWatchLogsDeliveryError: String? = nil) {
             self.latestNotificationError = latestNotificationError
             self.latestDeliveryTime = latestDeliveryTime
             self.timeLoggingStarted = timeLoggingStarted
@@ -588,21 +588,21 @@ extension Cloudtrail {
 
         public init(dictionary: [String: Any]) throws {
             self.latestNotificationError = dictionary["LatestNotificationError"] as? String
-            self.latestDeliveryTime = dictionary["LatestDeliveryTime"] as? Date
+            self.latestDeliveryTime = dictionary["LatestDeliveryTime"] as? String
             self.timeLoggingStarted = dictionary["TimeLoggingStarted"] as? String
             self.timeLoggingStopped = dictionary["TimeLoggingStopped"] as? String
             self.latestDigestDeliveryError = dictionary["LatestDigestDeliveryError"] as? String
             self.latestDeliveryAttemptSucceeded = dictionary["LatestDeliveryAttemptSucceeded"] as? String
-            self.latestCloudWatchLogsDeliveryTime = dictionary["LatestCloudWatchLogsDeliveryTime"] as? Date
-            self.latestNotificationTime = dictionary["LatestNotificationTime"] as? Date
+            self.latestCloudWatchLogsDeliveryTime = dictionary["LatestCloudWatchLogsDeliveryTime"] as? String
+            self.latestNotificationTime = dictionary["LatestNotificationTime"] as? String
             self.latestNotificationAttemptSucceeded = dictionary["LatestNotificationAttemptSucceeded"] as? String
-            self.latestDigestDeliveryTime = dictionary["LatestDigestDeliveryTime"] as? Date
+            self.latestDigestDeliveryTime = dictionary["LatestDigestDeliveryTime"] as? String
             self.isLogging = dictionary["IsLogging"] as? Bool
             self.latestDeliveryAttemptTime = dictionary["LatestDeliveryAttemptTime"] as? String
             self.latestNotificationAttemptTime = dictionary["LatestNotificationAttemptTime"] as? String
             self.latestDeliveryError = dictionary["LatestDeliveryError"] as? String
-            self.stopLoggingTime = dictionary["StopLoggingTime"] as? Date
-            self.startLoggingTime = dictionary["StartLoggingTime"] as? Date
+            self.stopLoggingTime = dictionary["StopLoggingTime"] as? String
+            self.startLoggingTime = dictionary["StartLoggingTime"] as? String
             self.latestCloudWatchLogsDeliveryError = dictionary["LatestCloudWatchLogsDeliveryError"] as? String
         }
     }
@@ -649,7 +649,7 @@ extension Cloudtrail {
         /// The AWS service that the request was made to.
         public let eventSource: String?
         /// The date and time of the event returned.
-        public let eventTime: Date?
+        public let eventTime: String?
         /// A user name or role name of the requester that called the API in the event returned.
         public let username: String?
         /// The CloudTrail ID of the event returned.
@@ -661,7 +661,7 @@ extension Cloudtrail {
         /// A JSON string that contains a representation of the event returned.
         public let cloudTrailEvent: String?
 
-        public init(eventSource: String? = nil, eventTime: Date? = nil, username: String? = nil, eventId: String? = nil, eventName: String? = nil, resources: [Resource]? = nil, cloudTrailEvent: String? = nil) {
+        public init(eventSource: String? = nil, eventTime: String? = nil, username: String? = nil, eventId: String? = nil, eventName: String? = nil, resources: [Resource]? = nil, cloudTrailEvent: String? = nil) {
             self.eventSource = eventSource
             self.eventTime = eventTime
             self.username = username
@@ -673,7 +673,7 @@ extension Cloudtrail {
 
         public init(dictionary: [String: Any]) throws {
             self.eventSource = dictionary["EventSource"] as? String
-            self.eventTime = dictionary["EventTime"] as? Date
+            self.eventTime = dictionary["EventTime"] as? String
             self.username = dictionary["Username"] as? String
             self.eventId = dictionary["EventId"] as? String
             self.eventName = dictionary["EventName"] as? String

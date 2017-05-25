@@ -166,7 +166,7 @@ extension Codecommit {
         /// The repository's name.
         public let repositoryName: String?
         /// The date and time the repository was created, in timestamp format.
-        public let creationDate: Date?
+        public let creationDate: String?
         /// The URL to use for cloning the repository over SSH.
         public let cloneUrlSsh: String?
         /// The ID of the AWS account associated with the repository.
@@ -176,11 +176,11 @@ extension Codecommit {
         /// The ID of the repository.
         public let repositoryId: String?
         /// The date and time the repository was last modified, in timestamp format.
-        public let lastModifiedDate: Date?
+        public let lastModifiedDate: String?
         /// The repository's default branch name.
         public let defaultBranch: String?
 
-        public init(repositoryDescription: String? = nil, arn: String? = nil, repositoryName: String? = nil, creationDate: Date? = nil, cloneUrlSsh: String? = nil, accountId: String? = nil, cloneUrlHttp: String? = nil, repositoryId: String? = nil, lastModifiedDate: Date? = nil, defaultBranch: String? = nil) {
+        public init(repositoryDescription: String? = nil, arn: String? = nil, repositoryName: String? = nil, creationDate: String? = nil, cloneUrlSsh: String? = nil, accountId: String? = nil, cloneUrlHttp: String? = nil, repositoryId: String? = nil, lastModifiedDate: String? = nil, defaultBranch: String? = nil) {
             self.repositoryDescription = repositoryDescription
             self.arn = arn
             self.repositoryName = repositoryName
@@ -197,12 +197,12 @@ extension Codecommit {
             self.repositoryDescription = dictionary["repositoryDescription"] as? String
             self.arn = dictionary["Arn"] as? String
             self.repositoryName = dictionary["repositoryName"] as? String
-            self.creationDate = dictionary["creationDate"] as? Date
+            self.creationDate = dictionary["creationDate"] as? String
             self.cloneUrlSsh = dictionary["cloneUrlSsh"] as? String
             self.accountId = dictionary["accountId"] as? String
             self.cloneUrlHttp = dictionary["cloneUrlHttp"] as? String
             self.repositoryId = dictionary["repositoryId"] as? String
-            self.lastModifiedDate = dictionary["lastModifiedDate"] as? Date
+            self.lastModifiedDate = dictionary["lastModifiedDate"] as? String
             self.defaultBranch = dictionary["defaultBranch"] as? String
         }
     }

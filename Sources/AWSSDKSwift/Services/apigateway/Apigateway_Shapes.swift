@@ -924,7 +924,7 @@ extension Apigateway {
         /// A map that defines the stage variables for a Stage resource. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+.
         public let variables: [String: String]?
         /// The timestamp when the stage was created.
-        public let createdDate: Date?
+        public let createdDate: String?
         /// The stage's description.
         public let description: String?
         /// The identifier of the Deployment that the stage points to.
@@ -934,13 +934,13 @@ extension Apigateway {
         /// A map that defines the method settings for a Stage resource. Keys (designated as /{method_setting_key below) are method paths defined as {resource_path}/{http_method} for an individual method override, or /\*/\* for overriding all methods in the stage. 
         public let methodSettings: [String: MethodSetting]?
         /// The timestamp when the stage last updated.
-        public let lastUpdatedDate: Date?
+        public let lastUpdatedDate: String?
         /// The name of the stage is the first path segment in the Uniform Resource Identifier (URI) of a call to Amazon API Gateway.
         public let stageName: String?
         /// Specifies whether a cache cluster is enabled for the stage.
         public let cacheClusterEnabled: Bool?
 
-        public init(documentationVersion: String? = nil, cacheClusterStatus: CacheClusterStatus? = nil, cacheClusterSize: CacheClusterSize? = nil, variables: [String: String]? = nil, createdDate: Date? = nil, description: String? = nil, deploymentId: String? = nil, clientCertificateId: String? = nil, methodSettings: [String: MethodSetting]? = nil, lastUpdatedDate: Date? = nil, stageName: String? = nil, cacheClusterEnabled: Bool? = nil) {
+        public init(documentationVersion: String? = nil, cacheClusterStatus: CacheClusterStatus? = nil, cacheClusterSize: CacheClusterSize? = nil, variables: [String: String]? = nil, createdDate: String? = nil, description: String? = nil, deploymentId: String? = nil, clientCertificateId: String? = nil, methodSettings: [String: MethodSetting]? = nil, lastUpdatedDate: String? = nil, stageName: String? = nil, cacheClusterEnabled: Bool? = nil) {
             self.documentationVersion = documentationVersion
             self.cacheClusterStatus = cacheClusterStatus
             self.cacheClusterSize = cacheClusterSize
@@ -964,7 +964,7 @@ extension Apigateway {
             } else { 
                 self.variables = nil
             }
-            self.createdDate = dictionary["createdDate"] as? Date
+            self.createdDate = dictionary["createdDate"] as? String
             self.description = dictionary["description"] as? String
             self.deploymentId = dictionary["deploymentId"] as? String
             self.clientCertificateId = dictionary["clientCertificateId"] as? String
@@ -978,7 +978,7 @@ extension Apigateway {
             } else { 
                 self.methodSettings = nil
             }
-            self.lastUpdatedDate = dictionary["lastUpdatedDate"] as? Date
+            self.lastUpdatedDate = dictionary["lastUpdatedDate"] as? String
             self.stageName = dictionary["stageName"] as? String
             self.cacheClusterEnabled = dictionary["cacheClusterEnabled"] as? Bool
         }
@@ -1936,7 +1936,7 @@ extension Apigateway {
         /// The identifier of the API Key.
         public let id: String?
         /// The timestamp when the API Key was created.
-        public let createdDate: Date?
+        public let createdDate: String?
         /// The description of the API Key.
         public let description: String?
         /// A list of Stage resources that are associated with the ApiKey resource.
@@ -1944,11 +1944,11 @@ extension Apigateway {
         /// Specifies whether the API Key can be used by callers.
         public let enabled: Bool?
         /// The timestamp when the API Key was last updated.
-        public let lastUpdatedDate: Date?
+        public let lastUpdatedDate: String?
         /// An AWS Marketplace customer identifier , when integrating with the AWS SaaS Marketplace.
         public let customerId: String?
 
-        public init(name: String? = nil, value: String? = nil, id: String? = nil, createdDate: Date? = nil, description: String? = nil, stageKeys: [String]? = nil, enabled: Bool? = nil, lastUpdatedDate: Date? = nil, customerId: String? = nil) {
+        public init(name: String? = nil, value: String? = nil, id: String? = nil, createdDate: String? = nil, description: String? = nil, stageKeys: [String]? = nil, enabled: Bool? = nil, lastUpdatedDate: String? = nil, customerId: String? = nil) {
             self.name = name
             self.value = value
             self.id = id
@@ -1964,11 +1964,11 @@ extension Apigateway {
             self.name = dictionary["name"] as? String
             self.value = dictionary["value"] as? String
             self.id = dictionary["id"] as? String
-            self.createdDate = dictionary["createdDate"] as? Date
+            self.createdDate = dictionary["createdDate"] as? String
             self.description = dictionary["description"] as? String
             self.stageKeys = dictionary["stageKeys"] as? [String]
             self.enabled = dictionary["enabled"] as? Bool
-            self.lastUpdatedDate = dictionary["lastUpdatedDate"] as? Date
+            self.lastUpdatedDate = dictionary["lastUpdatedDate"] as? String
             self.customerId = dictionary["customerId"] as? String
         }
     }
@@ -2149,11 +2149,11 @@ extension Apigateway {
         /// The reference to an AWS-managed certificate. AWS Certificate Manager is the only supported source.
         public let certificateArn: String?
         /// The timestamp when the certificate was uploaded.
-        public let certificateUploadDate: Date?
+        public let certificateUploadDate: String?
         /// The domain name of the Amazon CloudFront distribution. For more information, see the Amazon CloudFront documentation.
         public let distributionDomainName: String?
 
-        public init(certificateName: String? = nil, domainName: String? = nil, certificateArn: String? = nil, certificateUploadDate: Date? = nil, distributionDomainName: String? = nil) {
+        public init(certificateName: String? = nil, domainName: String? = nil, certificateArn: String? = nil, certificateUploadDate: String? = nil, distributionDomainName: String? = nil) {
             self.certificateName = certificateName
             self.domainName = domainName
             self.certificateArn = certificateArn
@@ -2165,7 +2165,7 @@ extension Apigateway {
             self.certificateName = dictionary["certificateName"] as? String
             self.domainName = dictionary["domainName"] as? String
             self.certificateArn = dictionary["certificateArn"] as? String
-            self.certificateUploadDate = dictionary["certificateUploadDate"] as? Date
+            self.certificateUploadDate = dictionary["certificateUploadDate"] as? String
             self.distributionDomainName = dictionary["distributionDomainName"] as? String
         }
     }
@@ -2835,9 +2835,9 @@ extension Apigateway {
         /// The identifier for the deployment resource.
         public let id: String?
         /// The date and time that the deployment resource was created.
-        public let createdDate: Date?
+        public let createdDate: String?
 
-        public init(description: String? = nil, apiSummary: [String: [String: MethodSnapshot]]? = nil, id: String? = nil, createdDate: Date? = nil) {
+        public init(description: String? = nil, apiSummary: [String: [String: MethodSnapshot]]? = nil, id: String? = nil, createdDate: String? = nil) {
             self.description = description
             self.apiSummary = apiSummary
             self.id = id
@@ -2861,7 +2861,7 @@ extension Apigateway {
                 self.apiSummary = nil
             }
             self.id = dictionary["id"] as? String
-            self.createdDate = dictionary["createdDate"] as? Date
+            self.createdDate = dictionary["createdDate"] as? String
         }
     }
 
@@ -2915,13 +2915,13 @@ extension Apigateway {
         /// The description of the client certificate.
         public let description: String?
         /// The timestamp when the client certificate will expire.
-        public let expirationDate: Date?
+        public let expirationDate: String?
         /// The PEM-encoded public key of the client certificate, which can be used to configure certificate authentication in the integration endpoint .
         public let pemEncodedCertificate: String?
         /// The timestamp when the client certificate was created.
-        public let createdDate: Date?
+        public let createdDate: String?
 
-        public init(clientCertificateId: String? = nil, description: String? = nil, expirationDate: Date? = nil, pemEncodedCertificate: String? = nil, createdDate: Date? = nil) {
+        public init(clientCertificateId: String? = nil, description: String? = nil, expirationDate: String? = nil, pemEncodedCertificate: String? = nil, createdDate: String? = nil) {
             self.clientCertificateId = clientCertificateId
             self.description = description
             self.expirationDate = expirationDate
@@ -2932,9 +2932,9 @@ extension Apigateway {
         public init(dictionary: [String: Any]) throws {
             self.clientCertificateId = dictionary["clientCertificateId"] as? String
             self.description = dictionary["description"] as? String
-            self.expirationDate = dictionary["expirationDate"] as? Date
+            self.expirationDate = dictionary["expirationDate"] as? String
             self.pemEncodedCertificate = dictionary["pemEncodedCertificate"] as? String
-            self.createdDate = dictionary["createdDate"] as? Date
+            self.createdDate = dictionary["createdDate"] as? String
         }
     }
 
@@ -2977,9 +2977,9 @@ extension Apigateway {
         /// The version identifier of the API documentation snapshot.
         public let version: String?
         /// The date when the API documentation snapshot is created.
-        public let createdDate: Date?
+        public let createdDate: String?
 
-        public init(description: String? = nil, version: String? = nil, createdDate: Date? = nil) {
+        public init(description: String? = nil, version: String? = nil, createdDate: String? = nil) {
             self.description = description
             self.version = version
             self.createdDate = createdDate
@@ -2988,7 +2988,7 @@ extension Apigateway {
         public init(dictionary: [String: Any]) throws {
             self.description = dictionary["description"] as? String
             self.version = dictionary["version"] as? String
-            self.createdDate = dictionary["createdDate"] as? Date
+            self.createdDate = dictionary["createdDate"] as? String
         }
     }
 
@@ -3741,7 +3741,7 @@ extension Apigateway {
         /// The API's identifier. This identifier is unique across all of your APIs in Amazon API Gateway.
         public let id: String?
         /// The timestamp when the API was created.
-        public let createdDate: Date?
+        public let createdDate: String?
         /// The API's description.
         public let description: String?
         /// A version identifier for the API.
@@ -3749,7 +3749,7 @@ extension Apigateway {
         /// The warning messages reported when failonwarnings is turned on during API import.
         public let warnings: [String]?
 
-        public init(binaryMediaTypes: [String]? = nil, name: String? = nil, id: String? = nil, createdDate: Date? = nil, description: String? = nil, version: String? = nil, warnings: [String]? = nil) {
+        public init(binaryMediaTypes: [String]? = nil, name: String? = nil, id: String? = nil, createdDate: String? = nil, description: String? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.binaryMediaTypes = binaryMediaTypes
             self.name = name
             self.id = id
@@ -3763,7 +3763,7 @@ extension Apigateway {
             self.binaryMediaTypes = dictionary["binaryMediaTypes"] as? [String]
             self.name = dictionary["name"] as? String
             self.id = dictionary["id"] as? String
-            self.createdDate = dictionary["createdDate"] as? Date
+            self.createdDate = dictionary["createdDate"] as? String
             self.description = dictionary["description"] as? String
             self.version = dictionary["version"] as? String
             self.warnings = dictionary["warnings"] as? [String]

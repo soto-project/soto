@@ -324,13 +324,13 @@ extension Gamelift {
         /// Operating system that the game server binaries are built to run on. This value determines the type of fleet resources that you can use for this build.
         public let operatingSystem: OperatingSystem?
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let creationTime: Date?
+        public let creationTime: String?
         /// File size of the uploaded game build, expressed in bytes. When the build status is INITIALIZED, this value is 0.
         public let sizeOnDisk: Int64?
         /// Unique identifier for a build.
         public let buildId: String?
 
-        public init(status: BuildStatus? = nil, name: String? = nil, version: String? = nil, operatingSystem: OperatingSystem? = nil, creationTime: Date? = nil, sizeOnDisk: Int64? = nil, buildId: String? = nil) {
+        public init(status: BuildStatus? = nil, name: String? = nil, version: String? = nil, operatingSystem: OperatingSystem? = nil, creationTime: String? = nil, sizeOnDisk: Int64? = nil, buildId: String? = nil) {
             self.status = status
             self.name = name
             self.version = version
@@ -345,7 +345,7 @@ extension Gamelift {
             self.name = dictionary["Name"] as? String
             self.version = dictionary["Version"] as? String
             if let operatingSystem = dictionary["OperatingSystem"] as? String { self.operatingSystem = OperatingSystem(rawValue: operatingSystem) } else { self.operatingSystem = nil }
-            self.creationTime = dictionary["CreationTime"] as? Date
+            self.creationTime = dictionary["CreationTime"] as? String
             self.sizeOnDisk = dictionary["SizeOnDisk"] as? Int64
             self.buildId = dictionary["BuildId"] as? String
         }
@@ -585,9 +585,9 @@ extension Gamelift {
             AWSShapeProperty(label: "Port", required: false, type: .integer)
         ]
         /// Time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let terminationTime: Date?
+        public let terminationTime: String?
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let creationTime: Date?
+        public let creationTime: String?
         /// Unique identifier for the game session. A game session ID has the following format: "arn:aws:gamelift:&lt;region&gt;::gamesession/&lt;fleet ID&gt;/&lt;game session ID&gt;".
         public let gameSessionId: String?
         /// Maximum number of players that can be connected simultaneously to the game session.
@@ -611,7 +611,7 @@ extension Gamelift {
         /// Port number for the game session. To connect to a Amazon GameLift server process, an app needs both the IP address and port number.
         public let port: Int32?
 
-        public init(terminationTime: Date? = nil, creationTime: Date? = nil, gameSessionId: String? = nil, maximumPlayerSessionCount: Int32? = nil, status: GameSessionStatus? = nil, name: String? = nil, ipAddress: String? = nil, creatorId: String? = nil, playerSessionCreationPolicy: PlayerSessionCreationPolicy? = nil, gameProperties: [GameProperty]? = nil, fleetId: String? = nil, currentPlayerSessionCount: Int32? = nil, port: Int32? = nil) {
+        public init(terminationTime: String? = nil, creationTime: String? = nil, gameSessionId: String? = nil, maximumPlayerSessionCount: Int32? = nil, status: GameSessionStatus? = nil, name: String? = nil, ipAddress: String? = nil, creatorId: String? = nil, playerSessionCreationPolicy: PlayerSessionCreationPolicy? = nil, gameProperties: [GameProperty]? = nil, fleetId: String? = nil, currentPlayerSessionCount: Int32? = nil, port: Int32? = nil) {
             self.terminationTime = terminationTime
             self.creationTime = creationTime
             self.gameSessionId = gameSessionId
@@ -628,8 +628,8 @@ extension Gamelift {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.terminationTime = dictionary["TerminationTime"] as? Date
-            self.creationTime = dictionary["CreationTime"] as? Date
+            self.terminationTime = dictionary["TerminationTime"] as? String
+            self.creationTime = dictionary["CreationTime"] as? String
             self.gameSessionId = dictionary["GameSessionId"] as? String
             self.maximumPlayerSessionCount = dictionary["MaximumPlayerSessionCount"] as? Int32
             if let status = dictionary["Status"] as? String { self.status = GameSessionStatus(rawValue: status) } else { self.status = nil }
@@ -727,7 +727,7 @@ extension Gamelift {
             AWSShapeProperty(label: "GameSessionName", required: false, type: .string)
         ]
         /// Time stamp indicating when this request was placed in the queue. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let startTime: Date?
+        public let startTime: String?
         /// Current status of the game session placement request.    PENDING – The placement request is currently in the queue waiting to be processed.    FULFILLED – A new game session and player sessions (if requested) have been successfully created. Values for GameSessionArn and GameSessionRegion are available.     CANCELLED – The placement request was cancelled with a call to StopGameSessionPlacement.    TIMED_OUT – A new game session was not successfully created before the time limit expired. You can resubmit the placement request as needed.  
         public let status: GameSessionPlacementState?
         /// Name of the region where the game session created by this placement request is running. This value exists only if the game session placement status is Completed.
@@ -739,7 +739,7 @@ extension Gamelift {
         /// Set of values, expressed in milliseconds, indicating the amount of latency that players experience when connected to AWS regions.
         public let playerLatencies: [PlayerLatency]?
         /// Time stamp indicating when this request was completed, cancelled, or timed out.
-        public let endTime: Date?
+        public let endTime: String?
         /// Descriptive label that is associated with queue. Queue names must be unique within each region.
         public let gameSessionQueueName: String?
         /// Set of developer-defined properties for a game session. These properties are passed to the server process hosting the game session.
@@ -749,7 +749,7 @@ extension Gamelift {
         /// Descriptive label that is associated with a game session. Session names do not need to be unique.
         public let gameSessionName: String?
 
-        public init(startTime: Date? = nil, status: GameSessionPlacementState? = nil, gameSessionRegion: String? = nil, gameSessionArn: String? = nil, placementId: String? = nil, playerLatencies: [PlayerLatency]? = nil, endTime: Date? = nil, gameSessionQueueName: String? = nil, gameProperties: [GameProperty]? = nil, maximumPlayerSessionCount: Int32? = nil, gameSessionName: String? = nil) {
+        public init(startTime: String? = nil, status: GameSessionPlacementState? = nil, gameSessionRegion: String? = nil, gameSessionArn: String? = nil, placementId: String? = nil, playerLatencies: [PlayerLatency]? = nil, endTime: String? = nil, gameSessionQueueName: String? = nil, gameProperties: [GameProperty]? = nil, maximumPlayerSessionCount: Int32? = nil, gameSessionName: String? = nil) {
             self.startTime = startTime
             self.status = status
             self.gameSessionRegion = gameSessionRegion
@@ -764,7 +764,7 @@ extension Gamelift {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["StartTime"] as? Date
+            self.startTime = dictionary["StartTime"] as? String
             if let status = dictionary["Status"] as? String { self.status = GameSessionPlacementState(rawValue: status) } else { self.status = nil }
             self.gameSessionRegion = dictionary["GameSessionRegion"] as? String
             self.gameSessionArn = dictionary["GameSessionArn"] as? String
@@ -774,7 +774,7 @@ extension Gamelift {
             } else { 
                 self.playerLatencies = nil
             }
-            self.endTime = dictionary["EndTime"] as? Date
+            self.endTime = dictionary["EndTime"] as? String
             self.gameSessionQueueName = dictionary["GameSessionQueueName"] as? String
             if let gameProperties = dictionary["GameProperties"] as? [[String: Any]] {
                 self.gameProperties = try gameProperties.map({ try GameProperty(dictionary: $0) })
@@ -857,13 +857,13 @@ extension Gamelift {
         /// Operating system that is running on this instance. 
         public let operatingSystem: OperatingSystem?
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let creationTime: Date?
+        public let creationTime: String?
         /// EC2 instance type that defines the computing resources of this instance. 
         public let `type`: EC2InstanceType?
         /// Unique identifier for a fleet that the instance is in.
         public let fleetId: String?
 
-        public init(status: InstanceStatus? = nil, instanceId: String? = nil, ipAddress: String? = nil, operatingSystem: OperatingSystem? = nil, creationTime: Date? = nil, type: EC2InstanceType? = nil, fleetId: String? = nil) {
+        public init(status: InstanceStatus? = nil, instanceId: String? = nil, ipAddress: String? = nil, operatingSystem: OperatingSystem? = nil, creationTime: String? = nil, type: EC2InstanceType? = nil, fleetId: String? = nil) {
             self.status = status
             self.instanceId = instanceId
             self.ipAddress = ipAddress
@@ -878,7 +878,7 @@ extension Gamelift {
             self.instanceId = dictionary["InstanceId"] as? String
             self.ipAddress = dictionary["IpAddress"] as? String
             if let operatingSystem = dictionary["OperatingSystem"] as? String { self.operatingSystem = OperatingSystem(rawValue: operatingSystem) } else { self.operatingSystem = nil }
-            self.creationTime = dictionary["CreationTime"] as? Date
+            self.creationTime = dictionary["CreationTime"] as? String
             if let `type` = dictionary["Type"] as? String { self.`type` = EC2InstanceType(rawValue: `type`) } else { self.`type` = nil }
             self.fleetId = dictionary["FleetId"] as? String
         }
@@ -1365,13 +1365,13 @@ extension Gamelift {
             AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
         /// Time stamp indicating when this data object was last modified. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let lastUpdatedTime: Date?
+        public let lastUpdatedTime: String?
         /// Alias configuration for the alias, including routing type and settings.
         public let routingStrategy: RoutingStrategy?
         /// Descriptive label that is associated with an alias. Alias names do not need to be unique.
         public let name: String?
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let creationTime: Date?
+        public let creationTime: String?
         /// Unique identifier for an alias; alias ARNs are unique across all regions.
         public let aliasArn: String?
         /// Unique identifier for an alias; alias IDs are unique within a region.
@@ -1379,7 +1379,7 @@ extension Gamelift {
         /// Human-readable description of an alias.
         public let description: String?
 
-        public init(lastUpdatedTime: Date? = nil, routingStrategy: RoutingStrategy? = nil, name: String? = nil, creationTime: Date? = nil, aliasArn: String? = nil, aliasId: String? = nil, description: String? = nil) {
+        public init(lastUpdatedTime: String? = nil, routingStrategy: RoutingStrategy? = nil, name: String? = nil, creationTime: String? = nil, aliasArn: String? = nil, aliasId: String? = nil, description: String? = nil) {
             self.lastUpdatedTime = lastUpdatedTime
             self.routingStrategy = routingStrategy
             self.name = name
@@ -1390,10 +1390,10 @@ extension Gamelift {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.lastUpdatedTime = dictionary["LastUpdatedTime"] as? Date
+            self.lastUpdatedTime = dictionary["LastUpdatedTime"] as? String
             if let routingStrategy = dictionary["RoutingStrategy"] as? [String: Any] { self.routingStrategy = try Gamelift.RoutingStrategy(dictionary: routingStrategy) } else { self.routingStrategy = nil }
             self.name = dictionary["Name"] as? String
-            self.creationTime = dictionary["CreationTime"] as? Date
+            self.creationTime = dictionary["CreationTime"] as? String
             self.aliasArn = dictionary["AliasArn"] as? String
             self.aliasId = dictionary["AliasId"] as? String
             self.description = dictionary["Description"] as? String
@@ -1447,11 +1447,11 @@ extension Gamelift {
         /// Type of event being logged. 
         public let eventCode: EventCode?
         /// Time stamp indicating when this event occurred. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let eventTime: Date?
+        public let eventTime: String?
         /// Unique identifier for a fleet event.
         public let eventId: String?
 
-        public init(message: String? = nil, resourceId: String? = nil, eventCode: EventCode? = nil, eventTime: Date? = nil, eventId: String? = nil) {
+        public init(message: String? = nil, resourceId: String? = nil, eventCode: EventCode? = nil, eventTime: String? = nil, eventId: String? = nil) {
             self.message = message
             self.resourceId = resourceId
             self.eventCode = eventCode
@@ -1463,7 +1463,7 @@ extension Gamelift {
             self.message = dictionary["Message"] as? String
             self.resourceId = dictionary["ResourceId"] as? String
             if let eventCode = dictionary["EventCode"] as? String { self.eventCode = EventCode(rawValue: eventCode) } else { self.eventCode = nil }
-            self.eventTime = dictionary["EventTime"] as? Date
+            self.eventTime = dictionary["EventTime"] as? String
             self.eventId = dictionary["EventId"] as? String
         }
     }
@@ -2522,9 +2522,9 @@ extension Gamelift {
         /// Developer-defined information related to a player. Amazon GameLift does not use this data, so it can be formatted as needed for use in the game. 
         public let playerData: String?
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let creationTime: Date?
+        public let creationTime: String?
         /// Time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let terminationTime: Date?
+        public let terminationTime: String?
         /// Unique identifier for a player that is associated with this player session.
         public let playerId: String?
         /// Unique identifier for the game session that the player session is connected to.
@@ -2534,7 +2534,7 @@ extension Gamelift {
         /// Port number for the game session. To connect to a Amazon GameLift server process, an app needs both the IP address and port number.
         public let port: Int32?
 
-        public init(status: PlayerSessionStatus? = nil, playerSessionId: String? = nil, ipAddress: String? = nil, playerData: String? = nil, creationTime: Date? = nil, terminationTime: Date? = nil, playerId: String? = nil, gameSessionId: String? = nil, fleetId: String? = nil, port: Int32? = nil) {
+        public init(status: PlayerSessionStatus? = nil, playerSessionId: String? = nil, ipAddress: String? = nil, playerData: String? = nil, creationTime: String? = nil, terminationTime: String? = nil, playerId: String? = nil, gameSessionId: String? = nil, fleetId: String? = nil, port: Int32? = nil) {
             self.status = status
             self.playerSessionId = playerSessionId
             self.ipAddress = ipAddress
@@ -2552,8 +2552,8 @@ extension Gamelift {
             self.playerSessionId = dictionary["PlayerSessionId"] as? String
             self.ipAddress = dictionary["IpAddress"] as? String
             self.playerData = dictionary["PlayerData"] as? String
-            self.creationTime = dictionary["CreationTime"] as? Date
-            self.terminationTime = dictionary["TerminationTime"] as? Date
+            self.creationTime = dictionary["CreationTime"] as? String
+            self.terminationTime = dictionary["TerminationTime"] as? String
             self.playerId = dictionary["PlayerId"] as? String
             self.gameSessionId = dictionary["GameSessionId"] as? String
             self.fleetId = dictionary["FleetId"] as? String
@@ -2670,9 +2670,9 @@ extension Gamelift {
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
         /// Earliest date to retrieve event logs for. If no start time is specified, this call returns entries starting from when the fleet was created to the specified end time. Format is a number expressed in Unix time as milliseconds (ex: "1469498468.057").
-        public let startTime: Date?
+        public let startTime: String?
         /// Most recent date to retrieve event logs for. If no end time is specified, this call returns entries from the specified start time up to the present. Format is a number expressed in Unix time as milliseconds (ex: "1469498468.057").
-        public let endTime: Date?
+        public let endTime: String?
         /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int32?
         /// Unique identifier for a fleet to get event logs for.
@@ -2680,7 +2680,7 @@ extension Gamelift {
         /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value.
         public let nextToken: String?
 
-        public init(startTime: Date? = nil, endTime: Date? = nil, limit: Int32? = nil, fleetId: String, nextToken: String? = nil) {
+        public init(startTime: String? = nil, endTime: String? = nil, limit: Int32? = nil, fleetId: String, nextToken: String? = nil) {
             self.startTime = startTime
             self.endTime = endTime
             self.limit = limit
@@ -2689,8 +2689,8 @@ extension Gamelift {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["StartTime"] as? Date
-            self.endTime = dictionary["EndTime"] as? Date
+            self.startTime = dictionary["StartTime"] as? String
+            self.endTime = dictionary["EndTime"] as? String
             self.limit = dictionary["Limit"] as? Int32
             guard let fleetId = dictionary["FleetId"] as? String else { throw InitializableError.missingRequiredParam("FleetId") }
             self.fleetId = fleetId
@@ -2887,11 +2887,11 @@ extension Gamelift {
             AWSShapeProperty(label: "FleetId", required: false, type: .string)
         ]
         /// Time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let terminationTime: Date?
+        public let terminationTime: String?
         /// Identifier for a fleet that is unique across all regions.
         public let fleetArn: String?
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let creationTime: Date?
+        public let creationTime: String?
         /// Type of game session protection to set for all new instances started in the fleet.    NoProtection – The game session can be terminated during a scale-down event.    FullProtection – If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.  
         public let newGameSessionProtectionPolicy: ProtectionPolicy?
         /// Location of default log files. When a server process is shut down, Amazon GameLift captures and stores any log files in this location. These logs are in addition to game session logs; see more on game session logs in the Amazon GameLift Developer Guide. If no default log path for a fleet is specified, Amazon GameLift will automatically upload logs that are stored on each instance at C:\game\logs (for Windows) or /local/game/logs (for Linux). Use the Amazon GameLift console to access stored logs. 
@@ -2915,7 +2915,7 @@ extension Gamelift {
         /// Unique identifier for a fleet.
         public let fleetId: String?
 
-        public init(terminationTime: Date? = nil, fleetArn: String? = nil, creationTime: Date? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, logPaths: [String]? = nil, serverLaunchPath: String? = nil, description: String? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, status: FleetStatus? = nil, buildId: String? = nil, serverLaunchParameters: String? = nil, name: String? = nil, operatingSystem: OperatingSystem? = nil, fleetId: String? = nil) {
+        public init(terminationTime: String? = nil, fleetArn: String? = nil, creationTime: String? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, logPaths: [String]? = nil, serverLaunchPath: String? = nil, description: String? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, status: FleetStatus? = nil, buildId: String? = nil, serverLaunchParameters: String? = nil, name: String? = nil, operatingSystem: OperatingSystem? = nil, fleetId: String? = nil) {
             self.terminationTime = terminationTime
             self.fleetArn = fleetArn
             self.creationTime = creationTime
@@ -2933,9 +2933,9 @@ extension Gamelift {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.terminationTime = dictionary["TerminationTime"] as? Date
+            self.terminationTime = dictionary["TerminationTime"] as? String
             self.fleetArn = dictionary["FleetArn"] as? String
-            self.creationTime = dictionary["CreationTime"] as? Date
+            self.creationTime = dictionary["CreationTime"] as? String
             if let newGameSessionProtectionPolicy = dictionary["NewGameSessionProtectionPolicy"] as? String { self.newGameSessionProtectionPolicy = ProtectionPolicy(rawValue: newGameSessionProtectionPolicy) } else { self.newGameSessionProtectionPolicy = nil }
             self.logPaths = dictionary["LogPaths"] as? [String]
             self.serverLaunchPath = dictionary["ServerLaunchPath"] as? String

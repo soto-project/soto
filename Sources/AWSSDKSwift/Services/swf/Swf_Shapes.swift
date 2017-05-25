@@ -299,7 +299,7 @@ extension Swf {
         /// The workflow execution this information is about.
         public let execution: WorkflowExecution
         /// The time when the execution was started.
-        public let startTimestamp: Date
+        public let startTimestamp: String
         /// If this workflow execution is a child of another execution then contains the workflow execution that started this execution.
         public let parent: WorkflowExecution?
         /// The list of tags associated with the workflow execution. Tags can be used to identify and list workflow executions of interest through the visibility APIs. A workflow execution can have a maximum of 5 tags.
@@ -307,7 +307,7 @@ extension Swf {
         /// Set to true if a cancellation is requested for this workflow execution.
         public let cancelRequested: Bool?
         /// The time when the workflow execution was closed. Set only if the execution status is CLOSED.
-        public let closeTimestamp: Date?
+        public let closeTimestamp: String?
         /// If the execution status is closed then this specifies how the execution was closed:   COMPLETED: the execution was successfully completed.  CANCELED: the execution was canceled.Cancellation allows the implementation to gracefully clean up before the execution is closed.  TERMINATED: the execution was force terminated.  FAILED: the execution failed to complete.  TIMED_OUT: the execution did not complete in the alloted time and was automatically timed out.  CONTINUED_AS_NEW: the execution is logically continued. This means the current execution was completed and a new execution was started to carry on the workflow. 
         public let closeStatus: CloseStatus?
         /// The type of the workflow execution.
@@ -315,7 +315,7 @@ extension Swf {
         /// The current status of the execution.
         public let executionStatus: ExecutionStatus
 
-        public init(execution: WorkflowExecution, startTimestamp: Date, parent: WorkflowExecution? = nil, tagList: [String]? = nil, cancelRequested: Bool? = nil, closeTimestamp: Date? = nil, closeStatus: CloseStatus? = nil, workflowType: WorkflowType, executionStatus: ExecutionStatus) {
+        public init(execution: WorkflowExecution, startTimestamp: String, parent: WorkflowExecution? = nil, tagList: [String]? = nil, cancelRequested: Bool? = nil, closeTimestamp: String? = nil, closeStatus: CloseStatus? = nil, workflowType: WorkflowType, executionStatus: ExecutionStatus) {
             self.execution = execution
             self.startTimestamp = startTimestamp
             self.parent = parent
@@ -330,12 +330,12 @@ extension Swf {
         public init(dictionary: [String: Any]) throws {
             guard let execution = dictionary["execution"] as? [String: Any] else { throw InitializableError.missingRequiredParam("execution") }
             self.execution = try Swf.WorkflowExecution(dictionary: execution)
-            guard let startTimestamp = dictionary["startTimestamp"] as? Date else { throw InitializableError.missingRequiredParam("startTimestamp") }
+            guard let startTimestamp = dictionary["startTimestamp"] as? String else { throw InitializableError.missingRequiredParam("startTimestamp") }
             self.startTimestamp = startTimestamp
             if let parent = dictionary["parent"] as? [String: Any] { self.parent = try Swf.WorkflowExecution(dictionary: parent) } else { self.parent = nil }
             self.tagList = dictionary["tagList"] as? [String]
             self.cancelRequested = dictionary["cancelRequested"] as? Bool
-            self.closeTimestamp = dictionary["closeTimestamp"] as? Date
+            self.closeTimestamp = dictionary["closeTimestamp"] as? String
             if let closeStatus = dictionary["closeStatus"] as? String { self.closeStatus = CloseStatus(rawValue: closeStatus) } else { self.closeStatus = nil }
             guard let workflowType = dictionary["workflowType"] as? [String: Any] else { throw InitializableError.missingRequiredParam("workflowType") }
             self.workflowType = try Swf.WorkflowType(dictionary: workflowType)
@@ -665,19 +665,19 @@ extension Swf {
             AWSShapeProperty(label: "latestDate", required: false, type: .timestamp)
         ]
         /// Specifies the oldest start or close date and time to return.
-        public let oldestDate: Date
+        public let oldestDate: String
         /// Specifies the latest start or close date and time to return.
-        public let latestDate: Date?
+        public let latestDate: String?
 
-        public init(oldestDate: Date, latestDate: Date? = nil) {
+        public init(oldestDate: String, latestDate: String? = nil) {
             self.oldestDate = oldestDate
             self.latestDate = latestDate
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let oldestDate = dictionary["oldestDate"] as? Date else { throw InitializableError.missingRequiredParam("oldestDate") }
+            guard let oldestDate = dictionary["oldestDate"] as? String else { throw InitializableError.missingRequiredParam("oldestDate") }
             self.oldestDate = oldestDate
-            self.latestDate = dictionary["latestDate"] as? Date
+            self.latestDate = dictionary["latestDate"] as? String
         }
     }
 
@@ -2115,13 +2115,13 @@ extension Swf {
         /// The current status of the activity type.
         public let status: RegistrationStatus
         /// If DEPRECATED, the date and time DeprecateActivityType was called.
-        public let deprecationDate: Date?
+        public let deprecationDate: String?
         /// The date and time this activity type was created through RegisterActivityType.
-        public let creationDate: Date
+        public let creationDate: String
         /// The ActivityType type structure representing the activity type.
         public let activityType: ActivityType
 
-        public init(description: String? = nil, status: RegistrationStatus, deprecationDate: Date? = nil, creationDate: Date, activityType: ActivityType) {
+        public init(description: String? = nil, status: RegistrationStatus, deprecationDate: String? = nil, creationDate: String, activityType: ActivityType) {
             self.description = description
             self.status = status
             self.deprecationDate = deprecationDate
@@ -2133,8 +2133,8 @@ extension Swf {
             self.description = dictionary["description"] as? String
             guard let rawstatus = dictionary["status"] as? String, let status = RegistrationStatus(rawValue: rawstatus) else { throw InitializableError.missingRequiredParam("status") }
             self.status = status
-            self.deprecationDate = dictionary["deprecationDate"] as? Date
-            guard let creationDate = dictionary["creationDate"] as? Date else { throw InitializableError.missingRequiredParam("creationDate") }
+            self.deprecationDate = dictionary["deprecationDate"] as? String
+            guard let creationDate = dictionary["creationDate"] as? String else { throw InitializableError.missingRequiredParam("creationDate") }
             self.creationDate = creationDate
             guard let activityType = dictionary["activityType"] as? [String: Any] else { throw InitializableError.missingRequiredParam("activityType") }
             self.activityType = try Swf.ActivityType(dictionary: activityType)
@@ -2846,9 +2846,9 @@ extension Swf {
         public let requestCancelExternalWorkflowExecutionFailedEventAttributes: RequestCancelExternalWorkflowExecutionFailedEventAttributes?
         public let scheduleLambdaFunctionFailedEventAttributes: ScheduleLambdaFunctionFailedEventAttributes?
         /// The date and time when the event occurred.
-        public let eventTimestamp: Date
+        public let eventTimestamp: String
 
-        public init(scheduleActivityTaskFailedEventAttributes: ScheduleActivityTaskFailedEventAttributes? = nil, activityTaskCompletedEventAttributes: ActivityTaskCompletedEventAttributes? = nil, workflowExecutionFailedEventAttributes: WorkflowExecutionFailedEventAttributes? = nil, activityTaskTimedOutEventAttributes: ActivityTaskTimedOutEventAttributes? = nil, workflowExecutionTerminatedEventAttributes: WorkflowExecutionTerminatedEventAttributes? = nil, decisionTaskStartedEventAttributes: DecisionTaskStartedEventAttributes? = nil, eventId: Int64, timerFiredEventAttributes: TimerFiredEventAttributes? = nil, startChildWorkflowExecutionFailedEventAttributes: StartChildWorkflowExecutionFailedEventAttributes? = nil, externalWorkflowExecutionSignaledEventAttributes: ExternalWorkflowExecutionSignaledEventAttributes? = nil, activityTaskCancelRequestedEventAttributes: ActivityTaskCancelRequestedEventAttributes? = nil, requestCancelExternalWorkflowExecutionInitiatedEventAttributes: RequestCancelExternalWorkflowExecutionInitiatedEventAttributes? = nil, workflowExecutionCancelRequestedEventAttributes: WorkflowExecutionCancelRequestedEventAttributes? = nil, lambdaFunctionScheduledEventAttributes: LambdaFunctionScheduledEventAttributes? = nil, workflowExecutionTimedOutEventAttributes: WorkflowExecutionTimedOutEventAttributes? = nil, workflowExecutionCanceledEventAttributes: WorkflowExecutionCanceledEventAttributes? = nil, signalExternalWorkflowExecutionInitiatedEventAttributes: SignalExternalWorkflowExecutionInitiatedEventAttributes? = nil, lambdaFunctionFailedEventAttributes: LambdaFunctionFailedEventAttributes? = nil, childWorkflowExecutionCompletedEventAttributes: ChildWorkflowExecutionCompletedEventAttributes? = nil, workflowExecutionContinuedAsNewEventAttributes: WorkflowExecutionContinuedAsNewEventAttributes? = nil, failWorkflowExecutionFailedEventAttributes: FailWorkflowExecutionFailedEventAttributes? = nil, markerRecordedEventAttributes: MarkerRecordedEventAttributes? = nil, childWorkflowExecutionTimedOutEventAttributes: ChildWorkflowExecutionTimedOutEventAttributes? = nil, timerCanceledEventAttributes: TimerCanceledEventAttributes? = nil, recordMarkerFailedEventAttributes: RecordMarkerFailedEventAttributes? = nil, completeWorkflowExecutionFailedEventAttributes: CompleteWorkflowExecutionFailedEventAttributes? = nil, cancelWorkflowExecutionFailedEventAttributes: CancelWorkflowExecutionFailedEventAttributes? = nil, signalExternalWorkflowExecutionFailedEventAttributes: SignalExternalWorkflowExecutionFailedEventAttributes? = nil, startLambdaFunctionFailedEventAttributes: StartLambdaFunctionFailedEventAttributes? = nil, activityTaskCanceledEventAttributes: ActivityTaskCanceledEventAttributes? = nil, lambdaFunctionStartedEventAttributes: LambdaFunctionStartedEventAttributes? = nil, workflowExecutionCompletedEventAttributes: WorkflowExecutionCompletedEventAttributes? = nil, childWorkflowExecutionFailedEventAttributes: ChildWorkflowExecutionFailedEventAttributes? = nil, continueAsNewWorkflowExecutionFailedEventAttributes: ContinueAsNewWorkflowExecutionFailedEventAttributes? = nil, eventType: EventType, lambdaFunctionTimedOutEventAttributes: LambdaFunctionTimedOutEventAttributes? = nil, startChildWorkflowExecutionInitiatedEventAttributes: StartChildWorkflowExecutionInitiatedEventAttributes? = nil, decisionTaskTimedOutEventAttributes: DecisionTaskTimedOutEventAttributes? = nil, lambdaFunctionCompletedEventAttributes: LambdaFunctionCompletedEventAttributes? = nil, workflowExecutionSignaledEventAttributes: WorkflowExecutionSignaledEventAttributes? = nil, childWorkflowExecutionTerminatedEventAttributes: ChildWorkflowExecutionTerminatedEventAttributes? = nil, childWorkflowExecutionCanceledEventAttributes: ChildWorkflowExecutionCanceledEventAttributes? = nil, workflowExecutionStartedEventAttributes: WorkflowExecutionStartedEventAttributes? = nil, childWorkflowExecutionStartedEventAttributes: ChildWorkflowExecutionStartedEventAttributes? = nil, activityTaskScheduledEventAttributes: ActivityTaskScheduledEventAttributes? = nil, requestCancelActivityTaskFailedEventAttributes: RequestCancelActivityTaskFailedEventAttributes? = nil, externalWorkflowExecutionCancelRequestedEventAttributes: ExternalWorkflowExecutionCancelRequestedEventAttributes? = nil, decisionTaskScheduledEventAttributes: DecisionTaskScheduledEventAttributes? = nil, timerStartedEventAttributes: TimerStartedEventAttributes? = nil, activityTaskFailedEventAttributes: ActivityTaskFailedEventAttributes? = nil, startTimerFailedEventAttributes: StartTimerFailedEventAttributes? = nil, activityTaskStartedEventAttributes: ActivityTaskStartedEventAttributes? = nil, cancelTimerFailedEventAttributes: CancelTimerFailedEventAttributes? = nil, decisionTaskCompletedEventAttributes: DecisionTaskCompletedEventAttributes? = nil, requestCancelExternalWorkflowExecutionFailedEventAttributes: RequestCancelExternalWorkflowExecutionFailedEventAttributes? = nil, scheduleLambdaFunctionFailedEventAttributes: ScheduleLambdaFunctionFailedEventAttributes? = nil, eventTimestamp: Date) {
+        public init(scheduleActivityTaskFailedEventAttributes: ScheduleActivityTaskFailedEventAttributes? = nil, activityTaskCompletedEventAttributes: ActivityTaskCompletedEventAttributes? = nil, workflowExecutionFailedEventAttributes: WorkflowExecutionFailedEventAttributes? = nil, activityTaskTimedOutEventAttributes: ActivityTaskTimedOutEventAttributes? = nil, workflowExecutionTerminatedEventAttributes: WorkflowExecutionTerminatedEventAttributes? = nil, decisionTaskStartedEventAttributes: DecisionTaskStartedEventAttributes? = nil, eventId: Int64, timerFiredEventAttributes: TimerFiredEventAttributes? = nil, startChildWorkflowExecutionFailedEventAttributes: StartChildWorkflowExecutionFailedEventAttributes? = nil, externalWorkflowExecutionSignaledEventAttributes: ExternalWorkflowExecutionSignaledEventAttributes? = nil, activityTaskCancelRequestedEventAttributes: ActivityTaskCancelRequestedEventAttributes? = nil, requestCancelExternalWorkflowExecutionInitiatedEventAttributes: RequestCancelExternalWorkflowExecutionInitiatedEventAttributes? = nil, workflowExecutionCancelRequestedEventAttributes: WorkflowExecutionCancelRequestedEventAttributes? = nil, lambdaFunctionScheduledEventAttributes: LambdaFunctionScheduledEventAttributes? = nil, workflowExecutionTimedOutEventAttributes: WorkflowExecutionTimedOutEventAttributes? = nil, workflowExecutionCanceledEventAttributes: WorkflowExecutionCanceledEventAttributes? = nil, signalExternalWorkflowExecutionInitiatedEventAttributes: SignalExternalWorkflowExecutionInitiatedEventAttributes? = nil, lambdaFunctionFailedEventAttributes: LambdaFunctionFailedEventAttributes? = nil, childWorkflowExecutionCompletedEventAttributes: ChildWorkflowExecutionCompletedEventAttributes? = nil, workflowExecutionContinuedAsNewEventAttributes: WorkflowExecutionContinuedAsNewEventAttributes? = nil, failWorkflowExecutionFailedEventAttributes: FailWorkflowExecutionFailedEventAttributes? = nil, markerRecordedEventAttributes: MarkerRecordedEventAttributes? = nil, childWorkflowExecutionTimedOutEventAttributes: ChildWorkflowExecutionTimedOutEventAttributes? = nil, timerCanceledEventAttributes: TimerCanceledEventAttributes? = nil, recordMarkerFailedEventAttributes: RecordMarkerFailedEventAttributes? = nil, completeWorkflowExecutionFailedEventAttributes: CompleteWorkflowExecutionFailedEventAttributes? = nil, cancelWorkflowExecutionFailedEventAttributes: CancelWorkflowExecutionFailedEventAttributes? = nil, signalExternalWorkflowExecutionFailedEventAttributes: SignalExternalWorkflowExecutionFailedEventAttributes? = nil, startLambdaFunctionFailedEventAttributes: StartLambdaFunctionFailedEventAttributes? = nil, activityTaskCanceledEventAttributes: ActivityTaskCanceledEventAttributes? = nil, lambdaFunctionStartedEventAttributes: LambdaFunctionStartedEventAttributes? = nil, workflowExecutionCompletedEventAttributes: WorkflowExecutionCompletedEventAttributes? = nil, childWorkflowExecutionFailedEventAttributes: ChildWorkflowExecutionFailedEventAttributes? = nil, continueAsNewWorkflowExecutionFailedEventAttributes: ContinueAsNewWorkflowExecutionFailedEventAttributes? = nil, eventType: EventType, lambdaFunctionTimedOutEventAttributes: LambdaFunctionTimedOutEventAttributes? = nil, startChildWorkflowExecutionInitiatedEventAttributes: StartChildWorkflowExecutionInitiatedEventAttributes? = nil, decisionTaskTimedOutEventAttributes: DecisionTaskTimedOutEventAttributes? = nil, lambdaFunctionCompletedEventAttributes: LambdaFunctionCompletedEventAttributes? = nil, workflowExecutionSignaledEventAttributes: WorkflowExecutionSignaledEventAttributes? = nil, childWorkflowExecutionTerminatedEventAttributes: ChildWorkflowExecutionTerminatedEventAttributes? = nil, childWorkflowExecutionCanceledEventAttributes: ChildWorkflowExecutionCanceledEventAttributes? = nil, workflowExecutionStartedEventAttributes: WorkflowExecutionStartedEventAttributes? = nil, childWorkflowExecutionStartedEventAttributes: ChildWorkflowExecutionStartedEventAttributes? = nil, activityTaskScheduledEventAttributes: ActivityTaskScheduledEventAttributes? = nil, requestCancelActivityTaskFailedEventAttributes: RequestCancelActivityTaskFailedEventAttributes? = nil, externalWorkflowExecutionCancelRequestedEventAttributes: ExternalWorkflowExecutionCancelRequestedEventAttributes? = nil, decisionTaskScheduledEventAttributes: DecisionTaskScheduledEventAttributes? = nil, timerStartedEventAttributes: TimerStartedEventAttributes? = nil, activityTaskFailedEventAttributes: ActivityTaskFailedEventAttributes? = nil, startTimerFailedEventAttributes: StartTimerFailedEventAttributes? = nil, activityTaskStartedEventAttributes: ActivityTaskStartedEventAttributes? = nil, cancelTimerFailedEventAttributes: CancelTimerFailedEventAttributes? = nil, decisionTaskCompletedEventAttributes: DecisionTaskCompletedEventAttributes? = nil, requestCancelExternalWorkflowExecutionFailedEventAttributes: RequestCancelExternalWorkflowExecutionFailedEventAttributes? = nil, scheduleLambdaFunctionFailedEventAttributes: ScheduleLambdaFunctionFailedEventAttributes? = nil, eventTimestamp: String) {
             self.scheduleActivityTaskFailedEventAttributes = scheduleActivityTaskFailedEventAttributes
             self.activityTaskCompletedEventAttributes = activityTaskCompletedEventAttributes
             self.workflowExecutionFailedEventAttributes = workflowExecutionFailedEventAttributes
@@ -2967,7 +2967,7 @@ extension Swf {
             if let decisionTaskCompletedEventAttributes = dictionary["decisionTaskCompletedEventAttributes"] as? [String: Any] { self.decisionTaskCompletedEventAttributes = try Swf.DecisionTaskCompletedEventAttributes(dictionary: decisionTaskCompletedEventAttributes) } else { self.decisionTaskCompletedEventAttributes = nil }
             if let requestCancelExternalWorkflowExecutionFailedEventAttributes = dictionary["requestCancelExternalWorkflowExecutionFailedEventAttributes"] as? [String: Any] { self.requestCancelExternalWorkflowExecutionFailedEventAttributes = try Swf.RequestCancelExternalWorkflowExecutionFailedEventAttributes(dictionary: requestCancelExternalWorkflowExecutionFailedEventAttributes) } else { self.requestCancelExternalWorkflowExecutionFailedEventAttributes = nil }
             if let scheduleLambdaFunctionFailedEventAttributes = dictionary["scheduleLambdaFunctionFailedEventAttributes"] as? [String: Any] { self.scheduleLambdaFunctionFailedEventAttributes = try Swf.ScheduleLambdaFunctionFailedEventAttributes(dictionary: scheduleLambdaFunctionFailedEventAttributes) } else { self.scheduleLambdaFunctionFailedEventAttributes = nil }
-            guard let eventTimestamp = dictionary["eventTimestamp"] as? Date else { throw InitializableError.missingRequiredParam("eventTimestamp") }
+            guard let eventTimestamp = dictionary["eventTimestamp"] as? String else { throw InitializableError.missingRequiredParam("eventTimestamp") }
             self.eventTimestamp = eventTimestamp
         }
     }
@@ -4414,13 +4414,13 @@ extension Swf {
         /// The current status of the workflow type.
         public let status: RegistrationStatus
         /// If the type is in deprecated state, then it is set to the date when the type was deprecated.
-        public let deprecationDate: Date?
+        public let deprecationDate: String?
         /// The date when this type was registered.
-        public let creationDate: Date
+        public let creationDate: String
         /// The workflow type this information is about.
         public let workflowType: WorkflowType
 
-        public init(description: String? = nil, status: RegistrationStatus, deprecationDate: Date? = nil, creationDate: Date, workflowType: WorkflowType) {
+        public init(description: String? = nil, status: RegistrationStatus, deprecationDate: String? = nil, creationDate: String, workflowType: WorkflowType) {
             self.description = description
             self.status = status
             self.deprecationDate = deprecationDate
@@ -4432,8 +4432,8 @@ extension Swf {
             self.description = dictionary["description"] as? String
             guard let rawstatus = dictionary["status"] as? String, let status = RegistrationStatus(rawValue: rawstatus) else { throw InitializableError.missingRequiredParam("status") }
             self.status = status
-            self.deprecationDate = dictionary["deprecationDate"] as? Date
-            guard let creationDate = dictionary["creationDate"] as? Date else { throw InitializableError.missingRequiredParam("creationDate") }
+            self.deprecationDate = dictionary["deprecationDate"] as? String
+            guard let creationDate = dictionary["creationDate"] as? String else { throw InitializableError.missingRequiredParam("creationDate") }
             self.creationDate = creationDate
             guard let workflowType = dictionary["workflowType"] as? [String: Any] else { throw InitializableError.missingRequiredParam("workflowType") }
             self.workflowType = try Swf.WorkflowType(dictionary: workflowType)
@@ -4708,13 +4708,13 @@ extension Swf {
         /// Information about the workflow execution.
         public let executionInfo: WorkflowExecutionInfo
         /// The time when the last activity task was scheduled for this workflow execution. You can use this information to determine if the workflow has not made progress for an unusually long period of time and might require a corrective action.
-        public let latestActivityTaskTimestamp: Date?
+        public let latestActivityTaskTimestamp: String?
         /// The configuration settings for this workflow execution including timeout values, tasklist etc.
         public let executionConfiguration: WorkflowExecutionConfiguration
         /// The latest executionContext provided by the decider for this workflow execution. A decider can provide an executionContext (a free-form string) when closing a decision task using RespondDecisionTaskCompleted.
         public let latestExecutionContext: String?
 
-        public init(openCounts: WorkflowExecutionOpenCounts, executionInfo: WorkflowExecutionInfo, latestActivityTaskTimestamp: Date? = nil, executionConfiguration: WorkflowExecutionConfiguration, latestExecutionContext: String? = nil) {
+        public init(openCounts: WorkflowExecutionOpenCounts, executionInfo: WorkflowExecutionInfo, latestActivityTaskTimestamp: String? = nil, executionConfiguration: WorkflowExecutionConfiguration, latestExecutionContext: String? = nil) {
             self.openCounts = openCounts
             self.executionInfo = executionInfo
             self.latestActivityTaskTimestamp = latestActivityTaskTimestamp
@@ -4727,7 +4727,7 @@ extension Swf {
             self.openCounts = try Swf.WorkflowExecutionOpenCounts(dictionary: openCounts)
             guard let executionInfo = dictionary["executionInfo"] as? [String: Any] else { throw InitializableError.missingRequiredParam("executionInfo") }
             self.executionInfo = try Swf.WorkflowExecutionInfo(dictionary: executionInfo)
-            self.latestActivityTaskTimestamp = dictionary["latestActivityTaskTimestamp"] as? Date
+            self.latestActivityTaskTimestamp = dictionary["latestActivityTaskTimestamp"] as? String
             guard let executionConfiguration = dictionary["executionConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("executionConfiguration") }
             self.executionConfiguration = try Swf.WorkflowExecutionConfiguration(dictionary: executionConfiguration)
             self.latestExecutionContext = dictionary["latestExecutionContext"] as? String

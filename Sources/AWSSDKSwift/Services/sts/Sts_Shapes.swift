@@ -110,9 +110,9 @@ extension Sts {
         /// The secret access key that can be used to sign requests.
         public let secretAccessKey: String
         /// The date on which the current credentials expire.
-        public let expiration: Date
+        public let expiration: String
 
-        public init(sessionToken: String, accessKeyId: String, secretAccessKey: String, expiration: Date) {
+        public init(sessionToken: String, accessKeyId: String, secretAccessKey: String, expiration: String) {
             self.sessionToken = sessionToken
             self.accessKeyId = accessKeyId
             self.secretAccessKey = secretAccessKey
@@ -126,7 +126,7 @@ extension Sts {
             self.accessKeyId = accessKeyId
             guard let secretAccessKey = dictionary["SecretAccessKey"] as? String else { throw InitializableError.missingRequiredParam("SecretAccessKey") }
             self.secretAccessKey = secretAccessKey
-            guard let expiration = dictionary["Expiration"] as? Date else { throw InitializableError.missingRequiredParam("Expiration") }
+            guard let expiration = dictionary["Expiration"] as? String else { throw InitializableError.missingRequiredParam("Expiration") }
             self.expiration = expiration
         }
     }

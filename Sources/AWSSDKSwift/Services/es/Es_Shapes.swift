@@ -330,13 +330,13 @@ extension Es {
         /// Indicates whether the Elasticsearch domain is being deleted.
         public let pendingDeletion: Bool?
         /// Timestamp which tells the creation date for the entity.
-        public let creationDate: Date
+        public let creationDate: String
         /// Provides the OptionState for the Elasticsearch domain.
         public let state: OptionState
         /// Timestamp which tells the last updated time for the entity.
-        public let updateDate: Date
+        public let updateDate: String
 
-        public init(updateVersion: Int32? = nil, pendingDeletion: Bool? = nil, creationDate: Date, state: OptionState, updateDate: Date) {
+        public init(updateVersion: Int32? = nil, pendingDeletion: Bool? = nil, creationDate: String, state: OptionState, updateDate: String) {
             self.updateVersion = updateVersion
             self.pendingDeletion = pendingDeletion
             self.creationDate = creationDate
@@ -347,11 +347,11 @@ extension Es {
         public init(dictionary: [String: Any]) throws {
             self.updateVersion = dictionary["UpdateVersion"] as? Int32
             self.pendingDeletion = dictionary["PendingDeletion"] as? Bool
-            guard let creationDate = dictionary["CreationDate"] as? Date else { throw InitializableError.missingRequiredParam("CreationDate") }
+            guard let creationDate = dictionary["CreationDate"] as? String else { throw InitializableError.missingRequiredParam("CreationDate") }
             self.creationDate = creationDate
             guard let rawState = dictionary["State"] as? String, let state = OptionState(rawValue: rawState) else { throw InitializableError.missingRequiredParam("State") }
             self.state = state
-            guard let updateDate = dictionary["UpdateDate"] as? Date else { throw InitializableError.missingRequiredParam("UpdateDate") }
+            guard let updateDate = dictionary["UpdateDate"] as? String else { throw InitializableError.missingRequiredParam("UpdateDate") }
             self.updateDate = updateDate
         }
     }

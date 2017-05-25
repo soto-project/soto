@@ -542,17 +542,17 @@ extension Kinesisanalytics {
             AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
         ]
         ///  You can use the DescribeApplication operation to get this value. 
-        public let createTimestamp: Date
+        public let createTimestamp: String
         /// Name of the Amazon Kinesis Analytics application to delete.
         public let applicationName: String
 
-        public init(createTimestamp: Date, applicationName: String) {
+        public init(createTimestamp: String, applicationName: String) {
             self.createTimestamp = createTimestamp
             self.applicationName = applicationName
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let createTimestamp = dictionary["CreateTimestamp"] as? Date else { throw InitializableError.missingRequiredParam("CreateTimestamp") }
+            guard let createTimestamp = dictionary["CreateTimestamp"] as? String else { throw InitializableError.missingRequiredParam("CreateTimestamp") }
             self.createTimestamp = createTimestamp
             guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
             self.applicationName = applicationName
@@ -1117,9 +1117,9 @@ extension Kinesisanalytics {
         /// Describes the application input configuration. For more information, see Configuring Application Input. 
         public let inputDescriptions: [InputDescription]?
         /// Timestamp when the application was last updated.
-        public let lastUpdateTimestamp: Date?
+        public let lastUpdateTimestamp: String?
         /// Timestamp when the application version was created.
-        public let createTimestamp: Date?
+        public let createTimestamp: String?
         /// Returns the application code that you provided to perform data analysis on any of the in-application streams in your application.
         public let applicationCode: String?
         /// Name of the application.
@@ -1133,7 +1133,7 @@ extension Kinesisanalytics {
         /// Describes reference data sources configured for the application. For more information, see Configuring Application Input. 
         public let referenceDataSourceDescriptions: [ReferenceDataSourceDescription]?
 
-        public init(applicationDescription: String? = nil, applicationStatus: ApplicationStatus, inputDescriptions: [InputDescription]? = nil, lastUpdateTimestamp: Date? = nil, createTimestamp: Date? = nil, applicationCode: String? = nil, applicationName: String, applicationARN: String, applicationVersionId: Int64, outputDescriptions: [OutputDescription]? = nil, referenceDataSourceDescriptions: [ReferenceDataSourceDescription]? = nil) {
+        public init(applicationDescription: String? = nil, applicationStatus: ApplicationStatus, inputDescriptions: [InputDescription]? = nil, lastUpdateTimestamp: String? = nil, createTimestamp: String? = nil, applicationCode: String? = nil, applicationName: String, applicationARN: String, applicationVersionId: Int64, outputDescriptions: [OutputDescription]? = nil, referenceDataSourceDescriptions: [ReferenceDataSourceDescription]? = nil) {
             self.applicationDescription = applicationDescription
             self.applicationStatus = applicationStatus
             self.inputDescriptions = inputDescriptions
@@ -1156,8 +1156,8 @@ extension Kinesisanalytics {
             } else { 
                 self.inputDescriptions = nil
             }
-            self.lastUpdateTimestamp = dictionary["LastUpdateTimestamp"] as? Date
-            self.createTimestamp = dictionary["CreateTimestamp"] as? Date
+            self.lastUpdateTimestamp = dictionary["LastUpdateTimestamp"] as? String
+            self.createTimestamp = dictionary["CreateTimestamp"] as? String
             self.applicationCode = dictionary["ApplicationCode"] as? String
             guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
             self.applicationName = applicationName

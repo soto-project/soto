@@ -750,19 +750,19 @@ extension Waf {
             AWSShapeProperty(label: "StartTime", required: true, type: .timestamp)
         ]
         /// The end of the time range from which you want GetSampledRequests to return a sample of the requests that your AWS resource received. Specify the date and time in the following format: "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
-        public let endTime: Date
+        public let endTime: String
         /// The beginning of the time range from which you want GetSampledRequests to return a sample of the requests that your AWS resource received. Specify the date and time in the following format: "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
-        public let startTime: Date
+        public let startTime: String
 
-        public init(endTime: Date, startTime: Date) {
+        public init(endTime: String, startTime: String) {
             self.endTime = endTime
             self.startTime = startTime
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let endTime = dictionary["EndTime"] as? Date else { throw InitializableError.missingRequiredParam("EndTime") }
+            guard let endTime = dictionary["EndTime"] as? String else { throw InitializableError.missingRequiredParam("EndTime") }
             self.endTime = endTime
-            guard let startTime = dictionary["StartTime"] as? Date else { throw InitializableError.missingRequiredParam("StartTime") }
+            guard let startTime = dictionary["StartTime"] as? String else { throw InitializableError.missingRequiredParam("StartTime") }
             self.startTime = startTime
         }
     }
@@ -1930,7 +1930,7 @@ extension Waf {
             AWSShapeProperty(label: "Action", required: false, type: .string)
         ]
         /// The time at which AWS WAF received the request from your AWS resource, in Unix time format (in seconds).
-        public let timestamp: Date?
+        public let timestamp: String?
         /// A complex type that contains detailed information about the request.
         public let request: HTTPRequest
         /// A value that indicates how one result in the response relates proportionally to other results in the response. A result that has a weight of 2 represents roughly twice as many CloudFront web requests as a result that has a weight of 1.
@@ -1938,7 +1938,7 @@ extension Waf {
         /// The action for the Rule that the request matched: ALLOW, BLOCK, or COUNT.
         public let action: String?
 
-        public init(timestamp: Date? = nil, request: HTTPRequest, weight: Int64, action: String? = nil) {
+        public init(timestamp: String? = nil, request: HTTPRequest, weight: Int64, action: String? = nil) {
             self.timestamp = timestamp
             self.request = request
             self.weight = weight
@@ -1946,7 +1946,7 @@ extension Waf {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.timestamp = dictionary["Timestamp"] as? Date
+            self.timestamp = dictionary["Timestamp"] as? String
             guard let request = dictionary["Request"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Request") }
             self.request = try Waf.HTTPRequest(dictionary: request)
             guard let weight = dictionary["Weight"] as? Int64 else { throw InitializableError.missingRequiredParam("Weight") }

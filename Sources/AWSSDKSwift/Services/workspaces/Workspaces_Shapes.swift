@@ -667,11 +667,11 @@ extension Workspaces {
         /// The connection state of the WorkSpace. Returns UNKOWN if the WorkSpace is in a Stopped state.
         public let connectionState: ConnectionState?
         /// The timestamp of the last known user connection.
-        public let lastKnownUserConnectionTimestamp: Date?
+        public let lastKnownUserConnectionTimestamp: String?
         /// The timestamp of the connection state check.
-        public let connectionStateCheckTimestamp: Date?
+        public let connectionStateCheckTimestamp: String?
 
-        public init(workspaceId: String? = nil, connectionState: ConnectionState? = nil, lastKnownUserConnectionTimestamp: Date? = nil, connectionStateCheckTimestamp: Date? = nil) {
+        public init(workspaceId: String? = nil, connectionState: ConnectionState? = nil, lastKnownUserConnectionTimestamp: String? = nil, connectionStateCheckTimestamp: String? = nil) {
             self.workspaceId = workspaceId
             self.connectionState = connectionState
             self.lastKnownUserConnectionTimestamp = lastKnownUserConnectionTimestamp
@@ -681,8 +681,8 @@ extension Workspaces {
         public init(dictionary: [String: Any]) throws {
             self.workspaceId = dictionary["WorkspaceId"] as? String
             if let connectionState = dictionary["ConnectionState"] as? String { self.connectionState = ConnectionState(rawValue: connectionState) } else { self.connectionState = nil }
-            self.lastKnownUserConnectionTimestamp = dictionary["LastKnownUserConnectionTimestamp"] as? Date
-            self.connectionStateCheckTimestamp = dictionary["ConnectionStateCheckTimestamp"] as? Date
+            self.lastKnownUserConnectionTimestamp = dictionary["LastKnownUserConnectionTimestamp"] as? String
+            self.connectionStateCheckTimestamp = dictionary["ConnectionStateCheckTimestamp"] as? String
         }
     }
 

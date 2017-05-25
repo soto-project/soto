@@ -483,11 +483,11 @@ extension Appstream {
         /// The unique identifier of the stack.
         public let name: String
         /// The timestamp when the stack was created.
-        public let createdTime: Date?
+        public let createdTime: String?
         /// A display name for the stack.
         public let displayName: String?
 
-        public init(description: String? = nil, arn: String? = nil, name: String, createdTime: Date? = nil, displayName: String? = nil) {
+        public init(description: String? = nil, arn: String? = nil, name: String, createdTime: String? = nil, displayName: String? = nil) {
             self.description = description
             self.arn = arn
             self.name = name
@@ -500,7 +500,7 @@ extension Appstream {
             self.arn = dictionary["Arn"] as? String
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
-            self.createdTime = dictionary["CreatedTime"] as? Date
+            self.createdTime = dictionary["CreatedTime"] as? String
             self.displayName = dictionary["DisplayName"] as? String
         }
     }
@@ -699,7 +699,7 @@ extension Appstream {
         /// The instance type of compute resources for the fleet. The fleet instances are launched from this instance type. 
         public let instanceType: String
         /// The time at which the fleet was created.
-        public let createdTime: Date?
+        public let createdTime: String?
         /// The description displayed to end users on the AppStream 2.0 portal.
         public let description: String?
         /// The name of the fleet.
@@ -709,7 +709,7 @@ extension Appstream {
         /// The maximum time during which a streaming session can run.
         public let maxUserDurationInSeconds: Int32?
 
-        public init(arn: String, vpcConfig: VpcConfig? = nil, state: FleetState, computeCapacityStatus: ComputeCapacityStatus, displayName: String? = nil, fleetErrors: [FleetError]? = nil, imageName: String, instanceType: String, createdTime: Date? = nil, description: String? = nil, name: String, disconnectTimeoutInSeconds: Int32? = nil, maxUserDurationInSeconds: Int32? = nil) {
+        public init(arn: String, vpcConfig: VpcConfig? = nil, state: FleetState, computeCapacityStatus: ComputeCapacityStatus, displayName: String? = nil, fleetErrors: [FleetError]? = nil, imageName: String, instanceType: String, createdTime: String? = nil, description: String? = nil, name: String, disconnectTimeoutInSeconds: Int32? = nil, maxUserDurationInSeconds: Int32? = nil) {
             self.arn = arn
             self.vpcConfig = vpcConfig
             self.state = state
@@ -743,7 +743,7 @@ extension Appstream {
             self.imageName = imageName
             guard let instanceType = dictionary["InstanceType"] as? String else { throw InitializableError.missingRequiredParam("InstanceType") }
             self.instanceType = instanceType
-            self.createdTime = dictionary["CreatedTime"] as? Date
+            self.createdTime = dictionary["CreatedTime"] as? String
             self.description = dictionary["Description"] as? String
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
@@ -1084,16 +1084,16 @@ extension Appstream {
         /// The URL to start the AppStream 2.0 streaming session.
         public let streamingURL: String?
         /// Elapsed seconds after the Unix epoch, at which time this URL expires.
-        public let expires: Date?
+        public let expires: String?
 
-        public init(streamingURL: String? = nil, expires: Date? = nil) {
+        public init(streamingURL: String? = nil, expires: String? = nil) {
             self.streamingURL = streamingURL
             self.expires = expires
         }
 
         public init(dictionary: [String: Any]) throws {
             self.streamingURL = dictionary["StreamingURL"] as? String
-            self.expires = dictionary["Expires"] as? Date
+            self.expires = dictionary["Expires"] as? String
         }
     }
 
@@ -1199,11 +1199,11 @@ extension Appstream {
         /// The visibility of an image to the user; images can be public or private.
         public let visibility: VisibilityType?
         /// The timestamp when the image was created.
-        public let createdTime: Date?
+        public let createdTime: String?
         /// A meaningful description for the image.
         public let description: String?
 
-        public init(stateChangeReason: ImageStateChangeReason? = nil, arn: String? = nil, platform: PlatformType? = nil, state: ImageState? = nil, displayName: String? = nil, name: String, baseImageArn: String? = nil, applications: [Application]? = nil, visibility: VisibilityType? = nil, createdTime: Date? = nil, description: String? = nil) {
+        public init(stateChangeReason: ImageStateChangeReason? = nil, arn: String? = nil, platform: PlatformType? = nil, state: ImageState? = nil, displayName: String? = nil, name: String, baseImageArn: String? = nil, applications: [Application]? = nil, visibility: VisibilityType? = nil, createdTime: String? = nil, description: String? = nil) {
             self.stateChangeReason = stateChangeReason
             self.arn = arn
             self.platform = platform
@@ -1232,7 +1232,7 @@ extension Appstream {
                 self.applications = nil
             }
             if let visibility = dictionary["Visibility"] as? String { self.visibility = VisibilityType(rawValue: visibility) } else { self.visibility = nil }
-            self.createdTime = dictionary["CreatedTime"] as? Date
+            self.createdTime = dictionary["CreatedTime"] as? String
             self.description = dictionary["Description"] as? String
         }
     }

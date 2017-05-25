@@ -392,7 +392,7 @@ extension Route53domains {
             AWSShapeProperty(label: "TransferLock", required: false, type: .boolean)
         ]
         /// Expiration date of the domain in Coordinated Universal Time (UTC). Type: Long
-        public let expiry: Date?
+        public let expiry: String?
         /// The name of a domain. Type: String
         public let domainName: String
         /// Indicates whether the domain is automatically renewed upon expiration. Type: Boolean Valid values: True | False
@@ -400,7 +400,7 @@ extension Route53domains {
         /// Indicates whether a domain is locked from unauthorized transfer to another party. Type: Boolean Valid values: True | False
         public let transferLock: Bool?
 
-        public init(expiry: Date? = nil, domainName: String, autoRenew: Bool? = nil, transferLock: Bool? = nil) {
+        public init(expiry: String? = nil, domainName: String, autoRenew: Bool? = nil, transferLock: Bool? = nil) {
             self.expiry = expiry
             self.domainName = domainName
             self.autoRenew = autoRenew
@@ -408,7 +408,7 @@ extension Route53domains {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.expiry = dictionary["Expiry"] as? Date
+            self.expiry = dictionary["Expiry"] as? String
             guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
             self.domainName = domainName
             self.autoRenew = dictionary["AutoRenew"] as? Bool
@@ -959,13 +959,13 @@ extension Route53domains {
         /// Detailed information on the status including possible errors. Type: String
         public let message: String?
         /// The date when the request was submitted.
-        public let submittedDate: Date?
+        public let submittedDate: String?
         /// The type of operation that was requested. Type: String
         public let `type`: OperationType?
         /// The name of a domain. Type: String
         public let domainName: String?
 
-        public init(status: OperationStatus? = nil, operationId: String? = nil, message: String? = nil, submittedDate: Date? = nil, type: OperationType? = nil, domainName: String? = nil) {
+        public init(status: OperationStatus? = nil, operationId: String? = nil, message: String? = nil, submittedDate: String? = nil, type: OperationType? = nil, domainName: String? = nil) {
             self.status = status
             self.operationId = operationId
             self.message = message
@@ -978,7 +978,7 @@ extension Route53domains {
             if let status = dictionary["Status"] as? String { self.status = OperationStatus(rawValue: status) } else { self.status = nil }
             self.operationId = dictionary["OperationId"] as? String
             self.message = dictionary["Message"] as? String
-            self.submittedDate = dictionary["SubmittedDate"] as? Date
+            self.submittedDate = dictionary["SubmittedDate"] as? String
             if let `type` = dictionary["Type"] as? String { self.`type` = OperationType(rawValue: `type`) } else { self.`type` = nil }
             self.domainName = dictionary["DomainName"] as? String
         }
@@ -1056,7 +1056,7 @@ extension Route53domains {
             AWSShapeProperty(label: "Price", required: false, type: .double)
         ]
         /// The date that the operation was billed, in Unix format. Type: Double
-        public let billDate: Date?
+        public let billDate: String?
         /// The ID of the invoice that is associated with the billing record. Type: String
         public let invoiceId: String?
         /// The name of a domain. Type: String
@@ -1066,7 +1066,7 @@ extension Route53domains {
         /// The price that you were charged for the operation, in US dollars. Type: Double Example value: 12.0
         public let price: Double?
 
-        public init(billDate: Date? = nil, invoiceId: String? = nil, domainName: String? = nil, operation: OperationType? = nil, price: Double? = nil) {
+        public init(billDate: String? = nil, invoiceId: String? = nil, domainName: String? = nil, operation: OperationType? = nil, price: Double? = nil) {
             self.billDate = billDate
             self.invoiceId = invoiceId
             self.domainName = domainName
@@ -1075,7 +1075,7 @@ extension Route53domains {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.billDate = dictionary["BillDate"] as? Date
+            self.billDate = dictionary["BillDate"] as? String
             self.invoiceId = dictionary["InvoiceId"] as? String
             self.domainName = dictionary["DomainName"] as? String
             if let operation = dictionary["Operation"] as? String { self.operation = OperationType(rawValue: operation) } else { self.operation = nil }
@@ -1245,7 +1245,7 @@ extension Route53domains {
         /// Provides details about the domain technical contact. Type: Complex Children: FirstName, MiddleName, LastName, ContactType, OrganizationName, AddressLine1, AddressLine2, City, State, CountryCode, ZipCode, PhoneNumber, Email, Fax, ExtraParams
         public let techContact: ContactDetail
         /// The date when the registration for the domain is set to expire. The date format is Unix time.
-        public let expirationDate: Date?
+        public let expirationDate: String?
         /// Name of the registrar of the domain as identified in the registry. Amazon Route 53 domains are registered by registrar Gandi. The value is "GANDI SAS".  Type: String
         public let registrarName: String?
         /// Specifies whether contact information for the tech contact is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter. Type: Boolean
@@ -1253,7 +1253,7 @@ extension Route53domains {
         /// Web address of the registrar. Type: String
         public let registrarUrl: String?
         /// The date when the domain was created as found in the response to a WHOIS query. The date format is Unix time.
-        public let creationDate: Date?
+        public let creationDate: String?
         /// Email address to contact to report incorrect contact information for a domain, to report that the domain is being used to send spam, to report that someone is cybersquatting on a domain name, or report some other type of abuse.  Type: String
         public let abuseContactEmail: String?
         /// Specifies whether contact information for the admin contact is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter. Type: Boolean
@@ -1263,7 +1263,7 @@ extension Route53domains {
         /// Provides details about the domain administrative contact.  Type: Complex Children: FirstName, MiddleName, LastName, ContactType, OrganizationName, AddressLine1, AddressLine2, City, State, CountryCode, ZipCode, PhoneNumber, Email, Fax, ExtraParams
         public let adminContact: ContactDetail
         /// The last updated date of the domain as found in the response to a WHOIS query. The date format is Unix time.
-        public let updatedDate: Date?
+        public let updatedDate: String?
         /// The fully qualified name of the WHOIS server that can answer the WHOIS query for the domain. Type: String
         public let whoIsServer: String?
         /// The name of the domain. Type: String
@@ -1277,7 +1277,7 @@ extension Route53domains {
         /// Specifies whether the domain registration is set to renew automatically. Type: Boolean
         public let autoRenew: Bool?
 
-        public init(registryDomainId: String? = nil, reseller: String? = nil, registrantContact: ContactDetail, statusList: [String]? = nil, techContact: ContactDetail, expirationDate: Date? = nil, registrarName: String? = nil, techPrivacy: Bool? = nil, registrarUrl: String? = nil, creationDate: Date? = nil, abuseContactEmail: String? = nil, adminPrivacy: Bool? = nil, abuseContactPhone: String? = nil, adminContact: ContactDetail, updatedDate: Date? = nil, whoIsServer: String? = nil, nameservers: [Nameserver], dnsSec: String? = nil, domainName: String, registrantPrivacy: Bool? = nil, autoRenew: Bool? = nil) {
+        public init(registryDomainId: String? = nil, reseller: String? = nil, registrantContact: ContactDetail, statusList: [String]? = nil, techContact: ContactDetail, expirationDate: String? = nil, registrarName: String? = nil, techPrivacy: Bool? = nil, registrarUrl: String? = nil, creationDate: String? = nil, abuseContactEmail: String? = nil, adminPrivacy: Bool? = nil, abuseContactPhone: String? = nil, adminContact: ContactDetail, updatedDate: String? = nil, whoIsServer: String? = nil, nameservers: [Nameserver], dnsSec: String? = nil, domainName: String, registrantPrivacy: Bool? = nil, autoRenew: Bool? = nil) {
             self.registryDomainId = registryDomainId
             self.reseller = reseller
             self.registrantContact = registrantContact
@@ -1309,17 +1309,17 @@ extension Route53domains {
             self.statusList = dictionary["StatusList"] as? [String]
             guard let techContact = dictionary["TechContact"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TechContact") }
             self.techContact = try Route53domains.ContactDetail(dictionary: techContact)
-            self.expirationDate = dictionary["ExpirationDate"] as? Date
+            self.expirationDate = dictionary["ExpirationDate"] as? String
             self.registrarName = dictionary["RegistrarName"] as? String
             self.techPrivacy = dictionary["TechPrivacy"] as? Bool
             self.registrarUrl = dictionary["RegistrarUrl"] as? String
-            self.creationDate = dictionary["CreationDate"] as? Date
+            self.creationDate = dictionary["CreationDate"] as? String
             self.abuseContactEmail = dictionary["AbuseContactEmail"] as? String
             self.adminPrivacy = dictionary["AdminPrivacy"] as? Bool
             self.abuseContactPhone = dictionary["AbuseContactPhone"] as? String
             guard let adminContact = dictionary["AdminContact"] as? [String: Any] else { throw InitializableError.missingRequiredParam("AdminContact") }
             self.adminContact = try Route53domains.ContactDetail(dictionary: adminContact)
-            self.updatedDate = dictionary["UpdatedDate"] as? Date
+            self.updatedDate = dictionary["UpdatedDate"] as? String
             self.whoIsServer = dictionary["WhoIsServer"] as? String
             guard let nameservers = dictionary["Nameservers"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Nameservers") }
             self.nameservers = try nameservers.map({ try Nameserver(dictionary: $0) })
@@ -1382,11 +1382,11 @@ extension Route53domains {
         /// Identifier returned to track the requested action. Type: String
         public let operationId: String
         /// The date when the request was submitted.
-        public let submittedDate: Date
+        public let submittedDate: String
         /// Type of the action requested. Type: String Valid values: REGISTER_DOMAIN | DELETE_DOMAIN | TRANSFER_IN_DOMAIN | UPDATE_DOMAIN_CONTACT | UPDATE_NAMESERVER | CHANGE_PRIVACY_PROTECTION | DOMAIN_LOCK
         public let `type`: OperationType
 
-        public init(status: OperationStatus, operationId: String, submittedDate: Date, type: OperationType) {
+        public init(status: OperationStatus, operationId: String, submittedDate: String, type: OperationType) {
             self.status = status
             self.operationId = operationId
             self.submittedDate = submittedDate
@@ -1398,7 +1398,7 @@ extension Route53domains {
             self.status = status
             guard let operationId = dictionary["OperationId"] as? String else { throw InitializableError.missingRequiredParam("OperationId") }
             self.operationId = operationId
-            guard let submittedDate = dictionary["SubmittedDate"] as? Date else { throw InitializableError.missingRequiredParam("SubmittedDate") }
+            guard let submittedDate = dictionary["SubmittedDate"] as? String else { throw InitializableError.missingRequiredParam("SubmittedDate") }
             self.submittedDate = submittedDate
             guard let rawType = dictionary["Type"] as? String, let `type` = OperationType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
             self.`type` = `type`
@@ -1487,13 +1487,13 @@ extension Route53domains {
         /// The number of billing records to be returned. Type: Integer Default: 20 Constraints: A value between 1 and 100. Required: No
         public let maxItems: Int32?
         /// The beginning date and time for the time period for which you want a list of billing records. Specify the date in Unix time format. Type: Double Default: None Required: Yes
-        public let start: Date?
+        public let start: String?
         /// For an initial request for a list of billing records, omit this element. If the number of billing records that are associated with the current AWS account during the specified period is greater than the value that you specified for MaxItems, you can use Marker to return additional billing records. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element.  Type: String Default: None Constraints: The marker must match the value of NextPageMarker that was returned in the previous response. Required: No
         public let marker: String?
         /// The end date and time for the time period for which you want a list of billing records. Specify the date in Unix time format. Type: Double Default: None Required: Yes
-        public let end: Date?
+        public let end: String?
 
-        public init(maxItems: Int32? = nil, start: Date? = nil, marker: String? = nil, end: Date? = nil) {
+        public init(maxItems: Int32? = nil, start: String? = nil, marker: String? = nil, end: String? = nil) {
             self.maxItems = maxItems
             self.start = start
             self.marker = marker
@@ -1502,9 +1502,9 @@ extension Route53domains {
 
         public init(dictionary: [String: Any]) throws {
             self.maxItems = dictionary["MaxItems"] as? Int32
-            self.start = dictionary["Start"] as? Date
+            self.start = dictionary["Start"] as? String
             self.marker = dictionary["Marker"] as? String
-            self.end = dictionary["End"] as? Date
+            self.end = dictionary["End"] as? String
         }
     }
 

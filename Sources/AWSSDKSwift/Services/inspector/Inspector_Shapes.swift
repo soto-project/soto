@@ -163,9 +163,9 @@ extension Inspector {
         /// The ARN that specifies the IAM role that Amazon Inspector uses to access your AWS account.
         public let roleArn: String
         /// The date when the cross-account access role was registered.
-        public let registeredAt: Date
+        public let registeredAt: String
 
-        public init(valid: Bool, roleArn: String, registeredAt: Date) {
+        public init(valid: Bool, roleArn: String, registeredAt: String) {
             self.valid = valid
             self.roleArn = roleArn
             self.registeredAt = registeredAt
@@ -176,7 +176,7 @@ extension Inspector {
             self.valid = valid
             guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
             self.roleArn = roleArn
-            guard let registeredAt = dictionary["registeredAt"] as? Date else { throw InitializableError.missingRequiredParam("registeredAt") }
+            guard let registeredAt = dictionary["registeredAt"] as? String else { throw InitializableError.missingRequiredParam("registeredAt") }
             self.registeredAt = registeredAt
         }
     }
@@ -286,13 +286,13 @@ extension Inspector {
         /// The name of the Amazon Inspector assessment target.
         public let name: String
         /// The time at which UpdateAssessmentTarget is called.
-        public let updatedAt: Date
+        public let updatedAt: String
         /// The time at which the assessment target is created.
-        public let createdAt: Date
+        public let createdAt: String
         /// The ARN that specifies the Amazon Inspector assessment target.
         public let arn: String
 
-        public init(resourceGroupArn: String, name: String, updatedAt: Date, createdAt: Date, arn: String) {
+        public init(resourceGroupArn: String, name: String, updatedAt: String, createdAt: String, arn: String) {
             self.resourceGroupArn = resourceGroupArn
             self.name = name
             self.updatedAt = updatedAt
@@ -305,9 +305,9 @@ extension Inspector {
             self.resourceGroupArn = resourceGroupArn
             guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
             self.name = name
-            guard let updatedAt = dictionary["updatedAt"] as? Date else { throw InitializableError.missingRequiredParam("updatedAt") }
+            guard let updatedAt = dictionary["updatedAt"] as? String else { throw InitializableError.missingRequiredParam("updatedAt") }
             self.updatedAt = updatedAt
-            guard let createdAt = dictionary["createdAt"] as? Date else { throw InitializableError.missingRequiredParam("createdAt") }
+            guard let createdAt = dictionary["createdAt"] as? String else { throw InitializableError.missingRequiredParam("createdAt") }
             self.createdAt = createdAt
             guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
             self.arn = arn
@@ -421,9 +421,9 @@ extension Inspector {
         /// The event for which Amazon Simple Notification Service (SNS) notifications are sent.
         public let event: InspectorEvent
         /// The time at which SubscribeToEvent is called.
-        public let subscribedAt: Date
+        public let subscribedAt: String
 
-        public init(event: InspectorEvent, subscribedAt: Date) {
+        public init(event: InspectorEvent, subscribedAt: String) {
             self.event = event
             self.subscribedAt = subscribedAt
         }
@@ -431,7 +431,7 @@ extension Inspector {
         public init(dictionary: [String: Any]) throws {
             guard let rawevent = dictionary["event"] as? String, let event = InspectorEvent(rawValue: rawevent) else { throw InitializableError.missingRequiredParam("event") }
             self.event = event
-            guard let subscribedAt = dictionary["subscribedAt"] as? Date else { throw InitializableError.missingRequiredParam("subscribedAt") }
+            guard let subscribedAt = dictionary["subscribedAt"] as? String else { throw InitializableError.missingRequiredParam("subscribedAt") }
             self.subscribedAt = subscribedAt
         }
     }
@@ -669,11 +669,11 @@ extension Inspector {
         /// The tags (key and value pairs) of the resource group. This data type property is used in the CreateResourceGroup action.
         public let tags: [ResourceGroupTag]
         /// The time at which resource group is created.
-        public let createdAt: Date
+        public let createdAt: String
         /// The ARN of the resource group.
         public let arn: String
 
-        public init(tags: [ResourceGroupTag], createdAt: Date, arn: String) {
+        public init(tags: [ResourceGroupTag], createdAt: String, arn: String) {
             self.tags = tags
             self.createdAt = createdAt
             self.arn = arn
@@ -682,7 +682,7 @@ extension Inspector {
         public init(dictionary: [String: Any]) throws {
             guard let tags = dictionary["tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("tags") }
             self.tags = try tags.map({ try ResourceGroupTag(dictionary: $0) })
-            guard let createdAt = dictionary["createdAt"] as? Date else { throw InitializableError.missingRequiredParam("createdAt") }
+            guard let createdAt = dictionary["createdAt"] as? String else { throw InitializableError.missingRequiredParam("createdAt") }
             self.createdAt = createdAt
             guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
             self.arn = arn
@@ -993,9 +993,9 @@ extension Inspector {
         /// The assessment run state.
         public let state: AssessmentRunState
         /// The last time the assessment run state changed.
-        public let stateChangedAt: Date
+        public let stateChangedAt: String
 
-        public init(state: AssessmentRunState, stateChangedAt: Date) {
+        public init(state: AssessmentRunState, stateChangedAt: String) {
             self.state = state
             self.stateChangedAt = stateChangedAt
         }
@@ -1003,7 +1003,7 @@ extension Inspector {
         public init(dictionary: [String: Any]) throws {
             guard let rawstate = dictionary["state"] as? String, let state = AssessmentRunState(rawValue: rawstate) else { throw InitializableError.missingRequiredParam("state") }
             self.state = state
-            guard let stateChangedAt = dictionary["stateChangedAt"] as? Date else { throw InitializableError.missingRequiredParam("stateChangedAt") }
+            guard let stateChangedAt = dictionary["stateChangedAt"] as? String else { throw InitializableError.missingRequiredParam("stateChangedAt") }
             self.stateChangedAt = stateChangedAt
         }
     }
@@ -1221,9 +1221,9 @@ extension Inspector {
         /// The auto-generated name for the assessment run.
         public let name: String
         /// The time when StartAssessmentRun was called.
-        public let createdAt: Date
+        public let createdAt: String
         /// The time when StartAssessmentRun was called.
-        public let startedAt: Date?
+        public let startedAt: String?
         /// A list of notifications for the event subscriptions. A notification about a particular generated finding is added to this list only once.
         public let notifications: [AssessmentRunNotification]
         /// A Boolean value (true or false) that specifies whether the process of collecting data from the agents is completed.
@@ -1231,7 +1231,7 @@ extension Inspector {
         /// The rules packages selected for the assessment run.
         public let rulesPackageArns: [String]
         /// The last time when the assessment run's state changed.
-        public let stateChangedAt: Date
+        public let stateChangedAt: String
         /// The user-defined attributes that are assigned to every generated finding.
         public let userAttributesForFindings: [Attribute]
         /// The ARN of the assessment run.
@@ -1239,13 +1239,13 @@ extension Inspector {
         /// A list of the assessment run state changes.
         public let stateChanges: [AssessmentRunStateChange]
         /// The assessment run completion time that corresponds to the rules packages evaluation completion time or failure.
-        public let completedAt: Date?
+        public let completedAt: String?
         /// The duration of the assessment run.
         public let durationInSeconds: Int32
         /// The ARN of the assessment template that is associated with the assessment run.
         public let assessmentTemplateArn: String
 
-        public init(state: AssessmentRunState, name: String, createdAt: Date, startedAt: Date? = nil, notifications: [AssessmentRunNotification], dataCollected: Bool, rulesPackageArns: [String], stateChangedAt: Date, userAttributesForFindings: [Attribute], arn: String, stateChanges: [AssessmentRunStateChange], completedAt: Date? = nil, durationInSeconds: Int32, assessmentTemplateArn: String) {
+        public init(state: AssessmentRunState, name: String, createdAt: String, startedAt: String? = nil, notifications: [AssessmentRunNotification], dataCollected: Bool, rulesPackageArns: [String], stateChangedAt: String, userAttributesForFindings: [Attribute], arn: String, stateChanges: [AssessmentRunStateChange], completedAt: String? = nil, durationInSeconds: Int32, assessmentTemplateArn: String) {
             self.state = state
             self.name = name
             self.createdAt = createdAt
@@ -1267,16 +1267,16 @@ extension Inspector {
             self.state = state
             guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
             self.name = name
-            guard let createdAt = dictionary["createdAt"] as? Date else { throw InitializableError.missingRequiredParam("createdAt") }
+            guard let createdAt = dictionary["createdAt"] as? String else { throw InitializableError.missingRequiredParam("createdAt") }
             self.createdAt = createdAt
-            self.startedAt = dictionary["startedAt"] as? Date
+            self.startedAt = dictionary["startedAt"] as? String
             guard let notifications = dictionary["notifications"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("notifications") }
             self.notifications = try notifications.map({ try AssessmentRunNotification(dictionary: $0) })
             guard let dataCollected = dictionary["dataCollected"] as? Bool else { throw InitializableError.missingRequiredParam("dataCollected") }
             self.dataCollected = dataCollected
             guard let rulesPackageArns = dictionary["rulesPackageArns"] as? [String] else { throw InitializableError.missingRequiredParam("rulesPackageArns") }
             self.rulesPackageArns = rulesPackageArns
-            guard let stateChangedAt = dictionary["stateChangedAt"] as? Date else { throw InitializableError.missingRequiredParam("stateChangedAt") }
+            guard let stateChangedAt = dictionary["stateChangedAt"] as? String else { throw InitializableError.missingRequiredParam("stateChangedAt") }
             self.stateChangedAt = stateChangedAt
             guard let userAttributesForFindings = dictionary["userAttributesForFindings"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("userAttributesForFindings") }
             self.userAttributesForFindings = try userAttributesForFindings.map({ try Attribute(dictionary: $0) })
@@ -1284,7 +1284,7 @@ extension Inspector {
             self.arn = arn
             guard let stateChanges = dictionary["stateChanges"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("stateChanges") }
             self.stateChanges = try stateChanges.map({ try AssessmentRunStateChange(dictionary: $0) })
-            self.completedAt = dictionary["completedAt"] as? Date
+            self.completedAt = dictionary["completedAt"] as? String
             guard let durationInSeconds = dictionary["durationInSeconds"] as? Int32 else { throw InitializableError.missingRequiredParam("durationInSeconds") }
             self.durationInSeconds = durationInSeconds
             guard let assessmentTemplateArn = dictionary["assessmentTemplateArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentTemplateArn") }
@@ -1406,7 +1406,7 @@ extension Inspector {
         /// The recommendation for the finding.
         public let recommendation: String?
         /// The time when the finding was generated.
-        public let createdAt: Date
+        public let createdAt: String
         /// The description of the finding.
         public let description: String?
         public let serviceAttributes: InspectorServiceAttributes?
@@ -1427,13 +1427,13 @@ extension Inspector {
         /// The ID of the finding.
         public let id: String?
         /// The time when AddAttributesToFindings is called.
-        public let updatedAt: Date
+        public let updatedAt: String
         /// The name of the finding.
         public let title: String?
         /// This data element is currently not used.
         public let confidence: Int32?
 
-        public init(assetType: AssetType? = nil, schemaVersion: Int32? = nil, userAttributes: [Attribute], recommendation: String? = nil, createdAt: Date, description: String? = nil, serviceAttributes: InspectorServiceAttributes? = nil, indicatorOfCompromise: Bool? = nil, severity: Severity? = nil, assetAttributes: AssetAttributes? = nil, numericSeverity: Double? = nil, service: String? = nil, arn: String, attributes: [Attribute], id: String? = nil, updatedAt: Date, title: String? = nil, confidence: Int32? = nil) {
+        public init(assetType: AssetType? = nil, schemaVersion: Int32? = nil, userAttributes: [Attribute], recommendation: String? = nil, createdAt: String, description: String? = nil, serviceAttributes: InspectorServiceAttributes? = nil, indicatorOfCompromise: Bool? = nil, severity: Severity? = nil, assetAttributes: AssetAttributes? = nil, numericSeverity: Double? = nil, service: String? = nil, arn: String, attributes: [Attribute], id: String? = nil, updatedAt: String, title: String? = nil, confidence: Int32? = nil) {
             self.assetType = assetType
             self.schemaVersion = schemaVersion
             self.userAttributes = userAttributes
@@ -1460,7 +1460,7 @@ extension Inspector {
             guard let userAttributes = dictionary["userAttributes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("userAttributes") }
             self.userAttributes = try userAttributes.map({ try Attribute(dictionary: $0) })
             self.recommendation = dictionary["recommendation"] as? String
-            guard let createdAt = dictionary["createdAt"] as? Date else { throw InitializableError.missingRequiredParam("createdAt") }
+            guard let createdAt = dictionary["createdAt"] as? String else { throw InitializableError.missingRequiredParam("createdAt") }
             self.createdAt = createdAt
             self.description = dictionary["description"] as? String
             if let serviceAttributes = dictionary["serviceAttributes"] as? [String: Any] { self.serviceAttributes = try Inspector.InspectorServiceAttributes(dictionary: serviceAttributes) } else { self.serviceAttributes = nil }
@@ -1474,7 +1474,7 @@ extension Inspector {
             guard let attributes = dictionary["attributes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("attributes") }
             self.attributes = try attributes.map({ try Attribute(dictionary: $0) })
             self.id = dictionary["id"] as? String
-            guard let updatedAt = dictionary["updatedAt"] as? Date else { throw InitializableError.missingRequiredParam("updatedAt") }
+            guard let updatedAt = dictionary["updatedAt"] as? String else { throw InitializableError.missingRequiredParam("updatedAt") }
             self.updatedAt = updatedAt
             self.title = dictionary["title"] as? String
             self.confidence = dictionary["confidence"] as? Int32
@@ -1877,18 +1877,18 @@ extension Inspector {
             AWSShapeProperty(label: "endDate", required: false, type: .timestamp)
         ]
         /// The minimum value of the timestamp range.
-        public let beginDate: Date?
+        public let beginDate: String?
         /// The maximum value of the timestamp range.
-        public let endDate: Date?
+        public let endDate: String?
 
-        public init(beginDate: Date? = nil, endDate: Date? = nil) {
+        public init(beginDate: String? = nil, endDate: String? = nil) {
             self.beginDate = beginDate
             self.endDate = endDate
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.beginDate = dictionary["beginDate"] as? Date
-            self.endDate = dictionary["endDate"] as? Date
+            self.beginDate = dictionary["beginDate"] as? String
+            self.endDate = dictionary["endDate"] as? String
         }
     }
 
@@ -1939,7 +1939,7 @@ extension Inspector {
         /// The name of the assessment template.
         public let name: String
         /// The time at which the assessment template is created.
-        public let createdAt: Date
+        public let createdAt: String
         /// The rules packages that are specified for this assessment template.
         public let rulesPackageArns: [String]
         /// The duration in seconds specified for this assessment tempate. The default value is 3600 seconds (one hour). The maximum value is 86400 seconds (one day).
@@ -1949,7 +1949,7 @@ extension Inspector {
         /// The ARN of the assessment template.
         public let arn: String
 
-        public init(assessmentTargetArn: String, name: String, createdAt: Date, rulesPackageArns: [String], durationInSeconds: Int32, userAttributesForFindings: [Attribute], arn: String) {
+        public init(assessmentTargetArn: String, name: String, createdAt: String, rulesPackageArns: [String], durationInSeconds: Int32, userAttributesForFindings: [Attribute], arn: String) {
             self.assessmentTargetArn = assessmentTargetArn
             self.name = name
             self.createdAt = createdAt
@@ -1964,7 +1964,7 @@ extension Inspector {
             self.assessmentTargetArn = assessmentTargetArn
             guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
             self.name = name
-            guard let createdAt = dictionary["createdAt"] as? Date else { throw InitializableError.missingRequiredParam("createdAt") }
+            guard let createdAt = dictionary["createdAt"] as? String else { throw InitializableError.missingRequiredParam("createdAt") }
             self.createdAt = createdAt
             guard let rulesPackageArns = dictionary["rulesPackageArns"] as? [String] else { throw InitializableError.missingRequiredParam("rulesPackageArns") }
             self.rulesPackageArns = rulesPackageArns
@@ -2366,11 +2366,11 @@ extension Inspector {
         public let event: InspectorEvent
         public let message: String?
         /// The date of the notification.
-        public let date: Date
+        public let date: String
         /// The Boolean value that specifies whether the notification represents an error.
         public let error: Bool
 
-        public init(snsTopicArn: String? = nil, snsPublishStatusCode: AssessmentRunNotificationSnsStatusCode? = nil, event: InspectorEvent, message: String? = nil, date: Date, error: Bool) {
+        public init(snsTopicArn: String? = nil, snsPublishStatusCode: AssessmentRunNotificationSnsStatusCode? = nil, event: InspectorEvent, message: String? = nil, date: String, error: Bool) {
             self.snsTopicArn = snsTopicArn
             self.snsPublishStatusCode = snsPublishStatusCode
             self.event = event
@@ -2385,7 +2385,7 @@ extension Inspector {
             guard let rawevent = dictionary["event"] as? String, let event = InspectorEvent(rawValue: rawevent) else { throw InitializableError.missingRequiredParam("event") }
             self.event = event
             self.message = dictionary["message"] as? String
-            guard let date = dictionary["date"] as? Date else { throw InitializableError.missingRequiredParam("date") }
+            guard let date = dictionary["date"] as? String else { throw InitializableError.missingRequiredParam("date") }
             self.date = date
             guard let error = dictionary["error"] as? Bool else { throw InitializableError.missingRequiredParam("error") }
             self.error = error

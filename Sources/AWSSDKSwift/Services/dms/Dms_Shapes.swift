@@ -700,11 +700,11 @@ extension Dms {
         /// The Amazon Resource Number (ARN) of the replication task to be started.
         public let replicationTaskArn: String
         /// The start time for the Change Data Capture (CDC) operation.
-        public let cdcStartTime: Date?
+        public let cdcStartTime: String?
         /// The type of replication task.
         public let startReplicationTaskType: StartReplicationTaskTypeValue
 
-        public init(replicationTaskArn: String, cdcStartTime: Date? = nil, startReplicationTaskType: StartReplicationTaskTypeValue) {
+        public init(replicationTaskArn: String, cdcStartTime: String? = nil, startReplicationTaskType: StartReplicationTaskTypeValue) {
             self.replicationTaskArn = replicationTaskArn
             self.cdcStartTime = cdcStartTime
             self.startReplicationTaskType = startReplicationTaskType
@@ -713,7 +713,7 @@ extension Dms {
         public init(dictionary: [String: Any]) throws {
             guard let replicationTaskArn = dictionary["ReplicationTaskArn"] as? String else { throw InitializableError.missingRequiredParam("ReplicationTaskArn") }
             self.replicationTaskArn = replicationTaskArn
-            self.cdcStartTime = dictionary["CdcStartTime"] as? Date
+            self.cdcStartTime = dictionary["CdcStartTime"] as? String
             guard let rawStartReplicationTaskType = dictionary["StartReplicationTaskType"] as? String, let startReplicationTaskType = StartReplicationTaskTypeValue(rawValue: rawStartReplicationTaskType) else { throw InitializableError.missingRequiredParam("StartReplicationTaskType") }
             self.startReplicationTaskType = startReplicationTaskType
         }
@@ -1102,7 +1102,7 @@ extension Dms {
             AWSShapeProperty(label: "CertificateCreationDate", required: false, type: .timestamp)
         ]
         /// The beginning date that the certificate is valid.
-        public let validFromDate: Date?
+        public let validFromDate: String?
         /// The key length of the cryptographic algorithm being used.
         public let keyLength: Int32?
         /// The signing algorithm for the certificate.
@@ -1114,15 +1114,15 @@ extension Dms {
         /// The contents of the .pem X.509 certificate file for the certificate.
         public let certificatePem: String?
         /// The final date that the certificate is valid.
-        public let validToDate: Date?
+        public let validToDate: String?
         /// The owner of the certificate.
         public let certificateOwner: String?
         /// The customer-assigned name of the certificate. Valid characters are A-z and 0-9.
         public let certificateIdentifier: String?
         /// The date that the certificate was created.
-        public let certificateCreationDate: Date?
+        public let certificateCreationDate: String?
 
-        public init(validFromDate: Date? = nil, keyLength: Int32? = nil, signingAlgorithm: String? = nil, certificateWallet: Data? = nil, certificateArn: String? = nil, certificatePem: String? = nil, validToDate: Date? = nil, certificateOwner: String? = nil, certificateIdentifier: String? = nil, certificateCreationDate: Date? = nil) {
+        public init(validFromDate: String? = nil, keyLength: Int32? = nil, signingAlgorithm: String? = nil, certificateWallet: Data? = nil, certificateArn: String? = nil, certificatePem: String? = nil, validToDate: String? = nil, certificateOwner: String? = nil, certificateIdentifier: String? = nil, certificateCreationDate: String? = nil) {
             self.validFromDate = validFromDate
             self.keyLength = keyLength
             self.signingAlgorithm = signingAlgorithm
@@ -1136,16 +1136,16 @@ extension Dms {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.validFromDate = dictionary["ValidFromDate"] as? Date
+            self.validFromDate = dictionary["ValidFromDate"] as? String
             self.keyLength = dictionary["KeyLength"] as? Int32
             self.signingAlgorithm = dictionary["SigningAlgorithm"] as? String
             self.certificateWallet = dictionary["CertificateWallet"] as? Data
             self.certificateArn = dictionary["CertificateArn"] as? String
             self.certificatePem = dictionary["CertificatePem"] as? String
-            self.validToDate = dictionary["ValidToDate"] as? Date
+            self.validToDate = dictionary["ValidToDate"] as? String
             self.certificateOwner = dictionary["CertificateOwner"] as? String
             self.certificateIdentifier = dictionary["CertificateIdentifier"] as? String
-            self.certificateCreationDate = dictionary["CertificateCreationDate"] as? Date
+            self.certificateCreationDate = dictionary["CertificateCreationDate"] as? String
         }
     }
 
@@ -1314,9 +1314,9 @@ extension Dms {
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String?
         /// The date the schema was last refreshed.
-        public let lastRefreshDate: Date?
+        public let lastRefreshDate: String?
 
-        public init(lastFailureMessage: String? = nil, replicationInstanceArn: String? = nil, status: RefreshSchemasStatusTypeValue? = nil, endpointArn: String? = nil, lastRefreshDate: Date? = nil) {
+        public init(lastFailureMessage: String? = nil, replicationInstanceArn: String? = nil, status: RefreshSchemasStatusTypeValue? = nil, endpointArn: String? = nil, lastRefreshDate: String? = nil) {
             self.lastFailureMessage = lastFailureMessage
             self.replicationInstanceArn = replicationInstanceArn
             self.status = status
@@ -1329,7 +1329,7 @@ extension Dms {
             self.replicationInstanceArn = dictionary["ReplicationInstanceArn"] as? String
             if let status = dictionary["Status"] as? String { self.status = RefreshSchemasStatusTypeValue(rawValue: status) } else { self.status = nil }
             self.endpointArn = dictionary["EndpointArn"] as? String
-            self.lastRefreshDate = dictionary["LastRefreshDate"] as? Date
+            self.lastRefreshDate = dictionary["LastRefreshDate"] as? String
         }
     }
 
@@ -1732,11 +1732,11 @@ extension Dms {
         /// The name of the table.
         public let tableName: String?
         /// The last time the table was updated.
-        public let lastUpdateTime: Date?
+        public let lastUpdateTime: String?
         /// The Data Definition Language (DDL) used to build and modify the structure of your tables.
         public let ddls: Int64?
 
-        public init(deletes: Int64? = nil, updates: Int64? = nil, tableState: String? = nil, schemaName: String? = nil, fullLoadRows: Int64? = nil, inserts: Int64? = nil, tableName: String? = nil, lastUpdateTime: Date? = nil, ddls: Int64? = nil) {
+        public init(deletes: Int64? = nil, updates: Int64? = nil, tableState: String? = nil, schemaName: String? = nil, fullLoadRows: Int64? = nil, inserts: Int64? = nil, tableName: String? = nil, lastUpdateTime: String? = nil, ddls: Int64? = nil) {
             self.deletes = deletes
             self.updates = updates
             self.tableState = tableState
@@ -1756,7 +1756,7 @@ extension Dms {
             self.fullLoadRows = dictionary["FullLoadRows"] as? Int64
             self.inserts = dictionary["Inserts"] as? Int64
             self.tableName = dictionary["TableName"] as? String
-            self.lastUpdateTime = dictionary["LastUpdateTime"] as? Date
+            self.lastUpdateTime = dictionary["LastUpdateTime"] as? String
             self.ddls = dictionary["Ddls"] as? Int64
         }
     }
@@ -1913,11 +1913,11 @@ extension Dms {
         /// The migration type. Valid values: full-load | cdc | full-load-and-cdc
         public let migrationType: MigrationTypeValue?
         /// The start time for the Change Data Capture (CDC) operation.
-        public let cdcStartTime: Date?
+        public let cdcStartTime: String?
         /// JSON file that contains settings for the task, such as target metadata settings.
         public let replicationTaskSettings: String?
 
-        public init(tableMappings: String? = nil, replicationTaskArn: String, replicationTaskIdentifier: String? = nil, migrationType: MigrationTypeValue? = nil, cdcStartTime: Date? = nil, replicationTaskSettings: String? = nil) {
+        public init(tableMappings: String? = nil, replicationTaskArn: String, replicationTaskIdentifier: String? = nil, migrationType: MigrationTypeValue? = nil, cdcStartTime: String? = nil, replicationTaskSettings: String? = nil) {
             self.tableMappings = tableMappings
             self.replicationTaskArn = replicationTaskArn
             self.replicationTaskIdentifier = replicationTaskIdentifier
@@ -1932,7 +1932,7 @@ extension Dms {
             self.replicationTaskArn = replicationTaskArn
             self.replicationTaskIdentifier = dictionary["ReplicationTaskIdentifier"] as? String
             if let migrationType = dictionary["MigrationType"] as? String { self.migrationType = MigrationTypeValue(rawValue: migrationType) } else { self.migrationType = nil }
-            self.cdcStartTime = dictionary["CdcStartTime"] as? Date
+            self.cdcStartTime = dictionary["CdcStartTime"] as? String
             self.replicationTaskSettings = dictionary["ReplicationTaskSettings"] as? String
         }
     }
@@ -2136,9 +2136,9 @@ extension Dms {
         /// The last error (failure) message generated for the replication instance.
         public let lastFailureMessage: String?
         /// The date the replication task is scheduled to start.
-        public let replicationTaskStartDate: Date?
+        public let replicationTaskStartDate: String?
         /// The date the replication task was created.
-        public let replicationTaskCreationDate: Date?
+        public let replicationTaskCreationDate: String?
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let sourceEndpointArn: String?
         /// Table mappings specified in the task.
@@ -2160,7 +2160,7 @@ extension Dms {
         /// The settings for the replication task.
         public let replicationTaskSettings: String?
 
-        public init(replicationTaskStats: ReplicationTaskStats? = nil, lastFailureMessage: String? = nil, replicationTaskStartDate: Date? = nil, replicationTaskCreationDate: Date? = nil, sourceEndpointArn: String? = nil, tableMappings: String? = nil, replicationTaskArn: String? = nil, status: String? = nil, stopReason: String? = nil, replicationInstanceArn: String? = nil, replicationTaskIdentifier: String? = nil, migrationType: MigrationTypeValue? = nil, targetEndpointArn: String? = nil, replicationTaskSettings: String? = nil) {
+        public init(replicationTaskStats: ReplicationTaskStats? = nil, lastFailureMessage: String? = nil, replicationTaskStartDate: String? = nil, replicationTaskCreationDate: String? = nil, sourceEndpointArn: String? = nil, tableMappings: String? = nil, replicationTaskArn: String? = nil, status: String? = nil, stopReason: String? = nil, replicationInstanceArn: String? = nil, replicationTaskIdentifier: String? = nil, migrationType: MigrationTypeValue? = nil, targetEndpointArn: String? = nil, replicationTaskSettings: String? = nil) {
             self.replicationTaskStats = replicationTaskStats
             self.lastFailureMessage = lastFailureMessage
             self.replicationTaskStartDate = replicationTaskStartDate
@@ -2180,8 +2180,8 @@ extension Dms {
         public init(dictionary: [String: Any]) throws {
             if let replicationTaskStats = dictionary["ReplicationTaskStats"] as? [String: Any] { self.replicationTaskStats = try Dms.ReplicationTaskStats(dictionary: replicationTaskStats) } else { self.replicationTaskStats = nil }
             self.lastFailureMessage = dictionary["LastFailureMessage"] as? String
-            self.replicationTaskStartDate = dictionary["ReplicationTaskStartDate"] as? Date
-            self.replicationTaskCreationDate = dictionary["ReplicationTaskCreationDate"] as? Date
+            self.replicationTaskStartDate = dictionary["ReplicationTaskStartDate"] as? String
+            self.replicationTaskCreationDate = dictionary["ReplicationTaskCreationDate"] as? String
             self.sourceEndpointArn = dictionary["SourceEndpointArn"] as? String
             self.tableMappings = dictionary["TableMappings"] as? String
             self.replicationTaskArn = dictionary["ReplicationTaskArn"] as? String
@@ -2531,7 +2531,7 @@ extension Dms {
             AWSShapeProperty(label: "KmsKeyId", required: false, type: .string)
         ]
         /// The time the replication instance was created.
-        public let instanceCreateTime: Date?
+        public let instanceCreateTime: String?
         /// The pending modification values.
         public let pendingModifiedValues: ReplicationPendingModifiedValues?
         /// The status of the replication instance.
@@ -2573,7 +2573,7 @@ extension Dms {
         /// The KMS key identifier that is used to encrypt the content on the replication instance. If you do not specify a value for the KmsKeyId parameter, then AWS DMS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
         public let kmsKeyId: String?
 
-        public init(instanceCreateTime: Date? = nil, pendingModifiedValues: ReplicationPendingModifiedValues? = nil, replicationInstanceStatus: String? = nil, vpcSecurityGroups: VpcSecurityGroupMembershipList? = nil, multiAZ: Bool? = nil, replicationInstancePublicIpAddresses: [String]? = nil, allocatedStorage: Int32? = nil, replicationSubnetGroup: ReplicationSubnetGroup? = nil, replicationInstancePrivateIpAddress: String? = nil, availabilityZone: String? = nil, autoMinorVersionUpgrade: Bool? = nil, publiclyAccessible: Bool? = nil, replicationInstanceIdentifier: String? = nil, replicationInstancePrivateIpAddresses: [String]? = nil, engineVersion: String? = nil, replicationInstanceClass: String? = nil, preferredMaintenanceWindow: String? = nil, replicationInstanceArn: String? = nil, replicationInstancePublicIpAddress: String? = nil, secondaryAvailabilityZone: String? = nil, kmsKeyId: String? = nil) {
+        public init(instanceCreateTime: String? = nil, pendingModifiedValues: ReplicationPendingModifiedValues? = nil, replicationInstanceStatus: String? = nil, vpcSecurityGroups: VpcSecurityGroupMembershipList? = nil, multiAZ: Bool? = nil, replicationInstancePublicIpAddresses: [String]? = nil, allocatedStorage: Int32? = nil, replicationSubnetGroup: ReplicationSubnetGroup? = nil, replicationInstancePrivateIpAddress: String? = nil, availabilityZone: String? = nil, autoMinorVersionUpgrade: Bool? = nil, publiclyAccessible: Bool? = nil, replicationInstanceIdentifier: String? = nil, replicationInstancePrivateIpAddresses: [String]? = nil, engineVersion: String? = nil, replicationInstanceClass: String? = nil, preferredMaintenanceWindow: String? = nil, replicationInstanceArn: String? = nil, replicationInstancePublicIpAddress: String? = nil, secondaryAvailabilityZone: String? = nil, kmsKeyId: String? = nil) {
             self.instanceCreateTime = instanceCreateTime
             self.pendingModifiedValues = pendingModifiedValues
             self.replicationInstanceStatus = replicationInstanceStatus
@@ -2598,7 +2598,7 @@ extension Dms {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.instanceCreateTime = dictionary["InstanceCreateTime"] as? Date
+            self.instanceCreateTime = dictionary["InstanceCreateTime"] as? String
             if let pendingModifiedValues = dictionary["PendingModifiedValues"] as? [String: Any] { self.pendingModifiedValues = try Dms.ReplicationPendingModifiedValues(dictionary: pendingModifiedValues) } else { self.pendingModifiedValues = nil }
             self.replicationInstanceStatus = dictionary["ReplicationInstanceStatus"] as? String
             if let vpcSecurityGroups = dictionary["VpcSecurityGroups"] as? [String: Any] { self.vpcSecurityGroups = try Dms.VpcSecurityGroupMembershipList(dictionary: vpcSecurityGroups) } else { self.vpcSecurityGroups = nil }
@@ -2812,11 +2812,11 @@ extension Dms {
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let targetEndpointArn: String
         /// The start time for the Change Data Capture (CDC) operation.
-        public let cdcStartTime: Date?
+        public let cdcStartTime: String?
         /// Settings for the task, such as target metadata settings. For a complete list of task settings, see Task Settings for AWS Database Migration Service Tasks.
         public let replicationTaskSettings: String?
 
-        public init(tableMappings: String, sourceEndpointArn: String, tags: TagList? = nil, replicationInstanceArn: String, replicationTaskIdentifier: String, migrationType: MigrationTypeValue, targetEndpointArn: String, cdcStartTime: Date? = nil, replicationTaskSettings: String? = nil) {
+        public init(tableMappings: String, sourceEndpointArn: String, tags: TagList? = nil, replicationInstanceArn: String, replicationTaskIdentifier: String, migrationType: MigrationTypeValue, targetEndpointArn: String, cdcStartTime: String? = nil, replicationTaskSettings: String? = nil) {
             self.tableMappings = tableMappings
             self.sourceEndpointArn = sourceEndpointArn
             self.tags = tags
@@ -2842,7 +2842,7 @@ extension Dms {
             self.migrationType = migrationType
             guard let targetEndpointArn = dictionary["TargetEndpointArn"] as? String else { throw InitializableError.missingRequiredParam("TargetEndpointArn") }
             self.targetEndpointArn = targetEndpointArn
-            self.cdcStartTime = dictionary["CdcStartTime"] as? Date
+            self.cdcStartTime = dictionary["CdcStartTime"] as? String
             self.replicationTaskSettings = dictionary["ReplicationTaskSettings"] as? String
         }
     }

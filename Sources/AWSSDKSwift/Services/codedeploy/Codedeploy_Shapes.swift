@@ -235,7 +235,7 @@ extension Codedeploy {
         /// Information about the instances that belong to the replacement environment in a blue/green deployment.
         public let targetInstances: TargetInstances?
         /// A timestamp indicating when the deployment was complete.
-        public let completeTime: Date?
+        public let completeTime: String?
         /// The deployment group name.
         public let deploymentGroupName: String?
         /// Indicates whether the wait period set for the termination of instances in the original environment has started. Status is 'false' if the KEEP_ALIVE option is specified; otherwise, 'true' as soon as the termination wait period starts.
@@ -275,11 +275,11 @@ extension Codedeploy {
         /// A summary of the deployment status of the instances in the deployment.
         public let deploymentOverview: DeploymentOverview?
         /// A timestamp indicating when the deployment was created.
-        public let createTime: Date?
+        public let createTime: String?
         /// A timestamp indicating when the deployment was deployed to the deployment group. In some cases, the reported value of the start time may be later than the complete time. This is due to differences in the clock settings of back-end servers that participate in the deployment process.
-        public let startTime: Date?
+        public let startTime: String?
 
-        public init(targetInstances: TargetInstances? = nil, completeTime: Date? = nil, deploymentGroupName: String? = nil, instanceTerminationWaitTimeStarted: Bool? = nil, rollbackInfo: RollbackInfo? = nil, description: String? = nil, ignoreApplicationStopFailures: Bool? = nil, additionalDeploymentStatusInfo: String? = nil, creator: DeploymentCreator? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, applicationName: String? = nil, updateOutdatedInstancesOnly: Bool? = nil, revision: RevisionLocation? = nil, status: DeploymentStatus? = nil, deploymentConfigName: String? = nil, deploymentStyle: DeploymentStyle? = nil, deploymentId: String? = nil, errorInformation: ErrorInformation? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, deploymentOverview: DeploymentOverview? = nil, createTime: Date? = nil, startTime: Date? = nil) {
+        public init(targetInstances: TargetInstances? = nil, completeTime: String? = nil, deploymentGroupName: String? = nil, instanceTerminationWaitTimeStarted: Bool? = nil, rollbackInfo: RollbackInfo? = nil, description: String? = nil, ignoreApplicationStopFailures: Bool? = nil, additionalDeploymentStatusInfo: String? = nil, creator: DeploymentCreator? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, applicationName: String? = nil, updateOutdatedInstancesOnly: Bool? = nil, revision: RevisionLocation? = nil, status: DeploymentStatus? = nil, deploymentConfigName: String? = nil, deploymentStyle: DeploymentStyle? = nil, deploymentId: String? = nil, errorInformation: ErrorInformation? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, deploymentOverview: DeploymentOverview? = nil, createTime: String? = nil, startTime: String? = nil) {
             self.targetInstances = targetInstances
             self.completeTime = completeTime
             self.deploymentGroupName = deploymentGroupName
@@ -307,7 +307,7 @@ extension Codedeploy {
 
         public init(dictionary: [String: Any]) throws {
             if let targetInstances = dictionary["targetInstances"] as? [String: Any] { self.targetInstances = try Codedeploy.TargetInstances(dictionary: targetInstances) } else { self.targetInstances = nil }
-            self.completeTime = dictionary["completeTime"] as? Date
+            self.completeTime = dictionary["completeTime"] as? String
             self.deploymentGroupName = dictionary["deploymentGroupName"] as? String
             self.instanceTerminationWaitTimeStarted = dictionary["instanceTerminationWaitTimeStarted"] as? Bool
             if let rollbackInfo = dictionary["rollbackInfo"] as? [String: Any] { self.rollbackInfo = try Codedeploy.RollbackInfo(dictionary: rollbackInfo) } else { self.rollbackInfo = nil }
@@ -327,8 +327,8 @@ extension Codedeploy {
             if let errorInformation = dictionary["errorInformation"] as? [String: Any] { self.errorInformation = try Codedeploy.ErrorInformation(dictionary: errorInformation) } else { self.errorInformation = nil }
             if let autoRollbackConfiguration = dictionary["autoRollbackConfiguration"] as? [String: Any] { self.autoRollbackConfiguration = try Codedeploy.AutoRollbackConfiguration(dictionary: autoRollbackConfiguration) } else { self.autoRollbackConfiguration = nil }
             if let deploymentOverview = dictionary["deploymentOverview"] as? [String: Any] { self.deploymentOverview = try Codedeploy.DeploymentOverview(dictionary: deploymentOverview) } else { self.deploymentOverview = nil }
-            self.createTime = dictionary["createTime"] as? Date
-            self.startTime = dictionary["startTime"] as? Date
+            self.createTime = dictionary["createTime"] as? String
+            self.startTime = dictionary["startTime"] as? String
         }
     }
 
@@ -378,18 +378,18 @@ extension Codedeploy {
             AWSShapeProperty(label: "end", required: false, type: .timestamp)
         ]
         /// The start time of the time range.  Specify null to leave the start time open-ended. 
-        public let start: Date?
+        public let start: String?
         /// The end time of the time range.  Specify null to leave the end time open-ended. 
-        public let end: Date?
+        public let end: String?
 
-        public init(start: Date? = nil, end: Date? = nil) {
+        public init(start: String? = nil, end: String? = nil) {
             self.start = start
             self.end = end
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.start = dictionary["start"] as? Date
-            self.end = dictionary["end"] as? Date
+            self.start = dictionary["start"] as? String
+            self.end = dictionary["end"] as? String
         }
     }
 
@@ -1833,17 +1833,17 @@ extension Codedeploy {
         /// The name of the on-premises instance.
         public let instanceName: String?
         /// If the on-premises instance was deregistered, the time at which the on-premises instance was deregistered.
-        public let deregisterTime: Date?
+        public let deregisterTime: String?
         /// The tags currently associated with the on-premises instance.
         public let tags: [Tag]?
         /// The time at which the on-premises instance was registered.
-        public let registerTime: Date?
+        public let registerTime: String?
         /// The ARN of the on-premises instance.
         public let instanceArn: String?
         /// The IAM user ARN associated with the on-premises instance.
         public let iamUserArn: String?
 
-        public init(iamSessionArn: String? = nil, instanceName: String? = nil, deregisterTime: Date? = nil, tags: [Tag]? = nil, registerTime: Date? = nil, instanceArn: String? = nil, iamUserArn: String? = nil) {
+        public init(iamSessionArn: String? = nil, instanceName: String? = nil, deregisterTime: String? = nil, tags: [Tag]? = nil, registerTime: String? = nil, instanceArn: String? = nil, iamUserArn: String? = nil) {
             self.iamSessionArn = iamSessionArn
             self.instanceName = instanceName
             self.deregisterTime = deregisterTime
@@ -1856,13 +1856,13 @@ extension Codedeploy {
         public init(dictionary: [String: Any]) throws {
             self.iamSessionArn = dictionary["iamSessionArn"] as? String
             self.instanceName = dictionary["instanceName"] as? String
-            self.deregisterTime = dictionary["deregisterTime"] as? Date
+            self.deregisterTime = dictionary["deregisterTime"] as? String
             if let tags = dictionary["tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
             } else { 
                 self.tags = nil
             }
-            self.registerTime = dictionary["registerTime"] as? Date
+            self.registerTime = dictionary["registerTime"] as? String
             self.instanceArn = dictionary["instanceArn"] as? String
             self.iamUserArn = dictionary["iamUserArn"] as? String
         }
@@ -1937,15 +1937,15 @@ extension Codedeploy {
         /// A comment about the revision.
         public let description: String?
         /// When the revision was first used by AWS CodeDeploy.
-        public let firstUsedTime: Date?
+        public let firstUsedTime: String?
         /// When the revision was last used by AWS CodeDeploy.
-        public let lastUsedTime: Date?
+        public let lastUsedTime: String?
         /// When the revision was registered with AWS CodeDeploy.
-        public let registerTime: Date?
+        public let registerTime: String?
         /// The deployment groups for which this is the current target revision.
         public let deploymentGroups: [String]?
 
-        public init(description: String? = nil, firstUsedTime: Date? = nil, lastUsedTime: Date? = nil, registerTime: Date? = nil, deploymentGroups: [String]? = nil) {
+        public init(description: String? = nil, firstUsedTime: String? = nil, lastUsedTime: String? = nil, registerTime: String? = nil, deploymentGroups: [String]? = nil) {
             self.description = description
             self.firstUsedTime = firstUsedTime
             self.lastUsedTime = lastUsedTime
@@ -1955,9 +1955,9 @@ extension Codedeploy {
 
         public init(dictionary: [String: Any]) throws {
             self.description = dictionary["description"] as? String
-            self.firstUsedTime = dictionary["firstUsedTime"] as? Date
-            self.lastUsedTime = dictionary["lastUsedTime"] as? Date
-            self.registerTime = dictionary["registerTime"] as? Date
+            self.firstUsedTime = dictionary["firstUsedTime"] as? String
+            self.lastUsedTime = dictionary["lastUsedTime"] as? String
+            self.registerTime = dictionary["registerTime"] as? String
             self.deploymentGroups = dictionary["deploymentGroups"] as? [String]
         }
     }
@@ -2045,13 +2045,13 @@ extension Codedeploy {
         /// True if the user has authenticated with GitHub for the specified application; otherwise, false.
         public let linkedToGitHub: Bool?
         /// The time at which the application was created.
-        public let createTime: Date?
+        public let createTime: String?
         /// The application name.
         public let applicationName: String?
         /// The application ID.
         public let applicationId: String?
 
-        public init(linkedToGitHub: Bool? = nil, createTime: Date? = nil, applicationName: String? = nil, applicationId: String? = nil) {
+        public init(linkedToGitHub: Bool? = nil, createTime: String? = nil, applicationName: String? = nil, applicationId: String? = nil) {
             self.linkedToGitHub = linkedToGitHub
             self.createTime = createTime
             self.applicationName = applicationName
@@ -2060,7 +2060,7 @@ extension Codedeploy {
 
         public init(dictionary: [String: Any]) throws {
             self.linkedToGitHub = dictionary["linkedToGitHub"] as? Bool
-            self.createTime = dictionary["createTime"] as? Date
+            self.createTime = dictionary["createTime"] as? String
             self.applicationName = dictionary["applicationName"] as? String
             self.applicationId = dictionary["applicationId"] as? String
         }
@@ -2805,13 +2805,13 @@ extension Codedeploy {
         /// Information about which environment an instance belongs to in a blue/green deployment.   BLUE: The instance is part of the original environment.   GREEN: The instance is part of the replacement environment.  
         public let instanceType: InstanceType?
         /// A timestamp indicating when the instance information was last updated.
-        public let lastUpdatedAt: Date?
+        public let lastUpdatedAt: String?
         /// The deployment ID.
         public let deploymentId: String?
         /// A list of lifecycle events for this instance.
         public let lifecycleEvents: [LifecycleEvent]?
 
-        public init(instanceId: String? = nil, status: InstanceStatus? = nil, instanceType: InstanceType? = nil, lastUpdatedAt: Date? = nil, deploymentId: String? = nil, lifecycleEvents: [LifecycleEvent]? = nil) {
+        public init(instanceId: String? = nil, status: InstanceStatus? = nil, instanceType: InstanceType? = nil, lastUpdatedAt: String? = nil, deploymentId: String? = nil, lifecycleEvents: [LifecycleEvent]? = nil) {
             self.instanceId = instanceId
             self.status = status
             self.instanceType = instanceType
@@ -2824,7 +2824,7 @@ extension Codedeploy {
             self.instanceId = dictionary["instanceId"] as? String
             if let status = dictionary["status"] as? String { self.status = InstanceStatus(rawValue: status) } else { self.status = nil }
             if let instanceType = dictionary["instanceType"] as? String { self.instanceType = InstanceType(rawValue: instanceType) } else { self.instanceType = nil }
-            self.lastUpdatedAt = dictionary["lastUpdatedAt"] as? Date
+            self.lastUpdatedAt = dictionary["lastUpdatedAt"] as? String
             self.deploymentId = dictionary["deploymentId"] as? String
             if let lifecycleEvents = dictionary["lifecycleEvents"] as? [[String: Any]] {
                 self.lifecycleEvents = try lifecycleEvents.map({ try LifecycleEvent(dictionary: $0) })
@@ -2889,11 +2889,11 @@ extension Codedeploy {
         /// Information about the number or percentage of minimum healthy instance.
         public let minimumHealthyHosts: MinimumHealthyHosts?
         /// The time at which the deployment configuration was created.
-        public let createTime: Date?
+        public let createTime: String?
         /// The deployment configuration ID.
         public let deploymentConfigId: String?
 
-        public init(deploymentConfigName: String? = nil, minimumHealthyHosts: MinimumHealthyHosts? = nil, createTime: Date? = nil, deploymentConfigId: String? = nil) {
+        public init(deploymentConfigName: String? = nil, minimumHealthyHosts: MinimumHealthyHosts? = nil, createTime: String? = nil, deploymentConfigId: String? = nil) {
             self.deploymentConfigName = deploymentConfigName
             self.minimumHealthyHosts = minimumHealthyHosts
             self.createTime = createTime
@@ -2903,7 +2903,7 @@ extension Codedeploy {
         public init(dictionary: [String: Any]) throws {
             self.deploymentConfigName = dictionary["deploymentConfigName"] as? String
             if let minimumHealthyHosts = dictionary["minimumHealthyHosts"] as? [String: Any] { self.minimumHealthyHosts = try Codedeploy.MinimumHealthyHosts(dictionary: minimumHealthyHosts) } else { self.minimumHealthyHosts = nil }
-            self.createTime = dictionary["createTime"] as? Date
+            self.createTime = dictionary["createTime"] as? String
             self.deploymentConfigId = dictionary["deploymentConfigId"] as? String
         }
     }
@@ -2923,13 +2923,13 @@ extension Codedeploy {
         /// The deployment lifecycle event status:   Pending: The deployment lifecycle event is pending.   InProgress: The deployment lifecycle event is in progress.   Succeeded: The deployment lifecycle event ran successfully.   Failed: The deployment lifecycle event has failed.   Skipped: The deployment lifecycle event has been skipped.   Unknown: The deployment lifecycle event is unknown.  
         public let status: LifecycleEventStatus?
         /// A timestamp indicating when the deployment lifecycle event ended.
-        public let endTime: Date?
+        public let endTime: String?
         /// A timestamp indicating when the deployment lifecycle event started.
-        public let startTime: Date?
+        public let startTime: String?
         /// The deployment lifecycle event name, such as ApplicationStop, BeforeInstall, AfterInstall, ApplicationStart, or ValidateService.
         public let lifecycleEventName: String?
 
-        public init(diagnostics: Diagnostics? = nil, status: LifecycleEventStatus? = nil, endTime: Date? = nil, startTime: Date? = nil, lifecycleEventName: String? = nil) {
+        public init(diagnostics: Diagnostics? = nil, status: LifecycleEventStatus? = nil, endTime: String? = nil, startTime: String? = nil, lifecycleEventName: String? = nil) {
             self.diagnostics = diagnostics
             self.status = status
             self.endTime = endTime
@@ -2940,8 +2940,8 @@ extension Codedeploy {
         public init(dictionary: [String: Any]) throws {
             if let diagnostics = dictionary["diagnostics"] as? [String: Any] { self.diagnostics = try Codedeploy.Diagnostics(dictionary: diagnostics) } else { self.diagnostics = nil }
             if let status = dictionary["status"] as? String { self.status = LifecycleEventStatus(rawValue: status) } else { self.status = nil }
-            self.endTime = dictionary["endTime"] as? Date
-            self.startTime = dictionary["startTime"] as? Date
+            self.endTime = dictionary["endTime"] as? String
+            self.startTime = dictionary["startTime"] as? String
             self.lifecycleEventName = dictionary["lifecycleEventName"] as? String
         }
     }

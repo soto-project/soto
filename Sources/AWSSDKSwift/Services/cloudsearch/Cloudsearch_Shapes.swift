@@ -288,13 +288,13 @@ extension Cloudsearch {
         /// Indicates that the option will be deleted once processing is complete.
         public let pendingDeletion: Bool?
         /// A timestamp for when this option was created.
-        public let creationDate: Date
+        public let creationDate: String
         /// The state of processing a change to an option. Possible values:   RequiresIndexDocuments: the option's latest value will not be deployed until IndexDocuments has been called and indexing is complete.  Processing: the option's latest value is in the process of being activated.   Active: the option's latest value is completely deployed.  FailedToValidate: the option value is not compatible with the domain's data and cannot be used to index the data. You must either modify the option value or update or remove the incompatible documents. 
         public let state: OptionState
         /// A timestamp for when this option was last updated.
-        public let updateDate: Date
+        public let updateDate: String
 
-        public init(updateVersion: Int32? = nil, pendingDeletion: Bool? = nil, creationDate: Date, state: OptionState, updateDate: Date) {
+        public init(updateVersion: Int32? = nil, pendingDeletion: Bool? = nil, creationDate: String, state: OptionState, updateDate: String) {
             self.updateVersion = updateVersion
             self.pendingDeletion = pendingDeletion
             self.creationDate = creationDate
@@ -305,11 +305,11 @@ extension Cloudsearch {
         public init(dictionary: [String: Any]) throws {
             self.updateVersion = dictionary["UpdateVersion"] as? Int32
             self.pendingDeletion = dictionary["PendingDeletion"] as? Bool
-            guard let creationDate = dictionary["CreationDate"] as? Date else { throw InitializableError.missingRequiredParam("CreationDate") }
+            guard let creationDate = dictionary["CreationDate"] as? String else { throw InitializableError.missingRequiredParam("CreationDate") }
             self.creationDate = creationDate
             guard let rawState = dictionary["State"] as? String, let state = OptionState(rawValue: rawState) else { throw InitializableError.missingRequiredParam("State") }
             self.state = state
-            guard let updateDate = dictionary["UpdateDate"] as? Date else { throw InitializableError.missingRequiredParam("UpdateDate") }
+            guard let updateDate = dictionary["UpdateDate"] as? String else { throw InitializableError.missingRequiredParam("UpdateDate") }
             self.updateDate = updateDate
         }
     }
