@@ -96,7 +96,7 @@ public struct AWSClient {
             region = .useast1
         }
         
-        self.signer = Signers.V4(credentials: cred, region: region ?? .useast1, service: service)
+        self.signer = Signers.V4(credentials: cred, region: region, service: service)
         self.apiVersion = apiVersion
         self._endpoint = endpoint
         self.amzTarget = amzTarget
