@@ -23,13 +23,13 @@
       "package": "Prorsum",
       "reason": null,
       "repositoryURL": "https://github.com/noppoMan/Prorsum.git",
-      "version": "0.1.13"
+      "version": "0.1.14"
     },
     {
       "package": "SwiftyJSON",
       "reason": null,
       "repositoryURL": "https://github.com/IBM-Swift/SwiftyJSON.git",
-      "version": "16.0.0"
+      "version": "16.0.1"
     }
   ],
   "version": 1
