@@ -8,7 +8,7 @@
 
 import Foundation
 import SwiftyJSON
-import Core
+import AWSSDKSwiftCore
 
 let enableShowLog = ProcessInfo.processInfo.environment["Verbose"] == nil ? false : true
 

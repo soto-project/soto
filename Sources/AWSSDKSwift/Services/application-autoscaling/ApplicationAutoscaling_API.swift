@@ -25,7 +25,7 @@ SOFTWARE.
 */
 
 import Foundation
-import Core
+import AWSSDKSwiftCore
 
 /**
 With Application Auto Scaling, you can automatically scale your AWS resources. The experience similar to that of Auto Scaling. You can use Application Auto Scaling to accomplish the following tasks:   Define scaling policies to automatically scale your AWS resources   Scale your resources in response to CloudWatch alarms   View the history of your scaling events   Application Auto Scaling can scale the following AWS resources:   Amazon ECS services. For more information, see Service Auto Scaling in the Amazon EC2 Container Service Developer Guide.   Amazon EC2 Spot fleets. For more information, see Automatic Scaling for Spot Fleet in the Amazon EC2 User Guide.   Amazon EMR clusters. For more information, see Using Automatic Scaling in Amazon EMR in the Amazon EMR Management Guide.   For a list of supported regions, see AWS Regions and Endpoints: Application Auto Scaling in the AWS General Reference.
@@ -34,7 +34,7 @@ public struct ApplicationAutoscaling {
 
     let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
