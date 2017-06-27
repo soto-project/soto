@@ -24,7 +24,7 @@ SOFTWARE.
 
 */
 
-import Core
+import AWSSDKSwiftCore
 
 /// Error enum for Snowball
 public enum SnowballError: AWSErrorType {

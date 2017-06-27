@@ -25,7 +25,7 @@ SOFTWARE.
 */
 
 import Foundation
-import Core
+import AWSSDKSwiftCore
 
 /**
 AWS CodeCommit This is the AWS CodeCommit API Reference. This reference provides descriptions of the operations and data types for AWS CodeCommit API along with usage examples. You can use the AWS CodeCommit API to work with the following objects: Repositories, by calling the following:    BatchGetRepositories, which returns information about one or more repositories associated with your AWS account    CreateRepository, which creates an AWS CodeCommit repository    DeleteRepository, which deletes an AWS CodeCommit repository    GetRepository, which returns information about a specified repository    ListRepositories, which lists all AWS CodeCommit repositories associated with your AWS account    UpdateRepositoryDescription, which sets or updates the description of the repository    UpdateRepositoryName, which changes the name of the repository. If you change the name of a repository, no other users of that repository will be able to access it until you send them the new HTTPS or SSH URL to use.   Branches, by calling the following:    CreateBranch, which creates a new branch in a specified repository    GetBranch, which returns information about a specified branch    ListBranches, which lists all branches for a specified repository    UpdateDefaultBranch, which changes the default branch for a repository   Information about committed code in a repository, by calling the following:    GetBlob, which returns the base-64 encoded content of an individual Git blob object within a repository    GetCommit, which returns information about a commit, including commit messages and author and committer information    GetDifferences, which returns information about the differences in a valid commit specifier (such as a branch, tag, HEAD, commit ID or other fully qualified reference)   Triggers, by calling the following:    GetRepositoryTriggers, which returns information about triggers configured for a repository    PutRepositoryTriggers, which replaces all triggers for a repository and can be used to create or delete triggers    TestRepositoryTriggers, which tests the functionality of a repository trigger by sending data to the trigger target   For information about how to use AWS CodeCommit, see the AWS CodeCommit User Guide.
@@ -34,7 +34,7 @@ public struct Codecommit {
 
     let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,

@@ -24,7 +24,7 @@ SOFTWARE.
 
 */
 
-import Core
+import AWSSDKSwiftCore
 
 /// Error enum for States
 public enum StatesError: AWSErrorType {

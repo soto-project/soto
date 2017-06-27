@@ -24,7 +24,7 @@ SOFTWARE.
 
 */
 
-import Core
+import AWSSDKSwiftCore
 
 /// Error enum for Elasticloadbalancingv2
 public enum Elasticloadbalancingv2Error: AWSErrorType {

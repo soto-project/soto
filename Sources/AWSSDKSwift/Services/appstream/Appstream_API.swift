@@ -25,7 +25,7 @@ SOFTWARE.
 */
 
 import Foundation
-import Core
+import AWSSDKSwiftCore
 
 /**
 Amazon AppStream 2.0 API documentation for Amazon AppStream 2.0.
@@ -34,7 +34,7 @@ public struct Appstream {
 
     let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,

@@ -25,7 +25,7 @@ SOFTWARE.
 */
 
 import Foundation
-import Core
+import AWSSDKSwiftCore
 
 /**
 AWS Health The AWS Health API provides programmatic access to the AWS Health information that is presented in the AWS Personal Health Dashboard. You can get information about events that affect your AWS resources:    DescribeEvents: Summary information about events.    DescribeEventDetails: Detailed information about one or more events.    DescribeAffectedEntities: Information about AWS resources that are affected by one or more events.   In addition, these operations provide information about event types and summary counts of events or affected entities:    DescribeEventTypes: Information about the kinds of events that AWS Health tracks.    DescribeEventAggregates: A count of the number of events that meet specified criteria.    DescribeEntityAggregates: A count of the number of affected entities that meet specified criteria.   The Health API requires a Business or Enterprise support plan from AWS Support. Calling the Health API from an account that does not have a Business or Enterprise support plan causes a SubscriptionRequiredException.  For authentication of requests, AWS Health uses the Signature Version 4 Signing Process. See the AWS Health User Guide for information about how to use the API.  Service Endpoint  The HTTP endpoint for the AWS Health API is:   https://health.us-east-1.amazonaws.com   
@@ -34,7 +34,7 @@ public struct Health {
 
     let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,

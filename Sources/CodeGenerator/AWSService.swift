@@ -8,14 +8,14 @@
 
 import Foundation
 import SwiftyJSON
-import Core
+import AWSSDKSwiftCore
 
 struct AWSService {
     let apiJSON: JSON
     let docJSON: JSON
     let endpointJSON: JSON
     var shapes = [Shape]()
-    var operations: [Core.Operation] = []
+    var operations: [AWSSDKSwiftCore.Operation] = []
     var errorShapeNames = [String]()
     var shapeDoc: [String: [String: String]] = [:]
     
@@ -128,7 +128,8 @@ struct AWSService {
                 structure[_struct["shape"].stringValue] = try shapeType(from: shapeJSON, level: level+1)
             }
             
-            let members: [Member] = json["members"].dictionaryValue.map { name, memberJSON in
+            let members: [Member] = try json["members"].dictionaryValue.map { name, memberJSON in
+                let memberDict = try JSONSerialization.jsonObject(with: memberJSON.rawData(), options: []) as? [String: Any] ?? [:]
                 let shapeName = memberJSON["shape"].stringValue
                 let requireds = json["required"].arrayValue.map({ $0.stringValue })
                 let dict = structure.filter({ $0.key == shapeName }).first!
@@ -139,7 +140,7 @@ struct AWSService {
                     shape: shape,
                     location: Location(key: name, json: memberJSON),
                     locationName: memberJSON["locationName"].string,
-                    xmlNamespace: XMLNamespace(json: memberJSON),
+                    xmlNamespace: XMLNamespace(dictionary: memberDict),
                     isStreaming: memberJSON["streaming"].bool ?? false
                 )
             }
@@ -220,8 +221,8 @@ struct AWSService {
         return shapes
     }
     
-    private func parseOperation(shapes: [Shape]) throws -> ([Core.Operation], [String])  {
-        var operations: [Core.Operation] = []
+    private func parseOperation(shapes: [Shape]) throws -> ([AWSSDKSwiftCore.Operation], [String])  {
+        var operations: [AWSSDKSwiftCore.Operation] = []
         var errorShapeNames: [String] = []
         for (_, json) in apiJSON["operations"].dictionaryValue {
             for json in json["errors"].arrayValue {
@@ -245,7 +246,7 @@ struct AWSService {
                 }
             }
             
-            let operation = Core.Operation(
+            let operation = AWSSDKSwiftCore.Operation(
                 name: json["name"].stringValue,
                 httpMethod: json["http"]["method"].stringValue,
                 path: json["http"]["requestUri"].stringValue,

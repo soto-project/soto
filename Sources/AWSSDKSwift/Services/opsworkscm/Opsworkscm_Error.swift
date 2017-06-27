@@ -24,7 +24,7 @@ SOFTWARE.
 
 */
 
-import Core
+import AWSSDKSwiftCore
 
 /// Error enum for Opsworkscm
 public enum OpsworkscmError: AWSErrorType {

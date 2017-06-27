@@ -2,6 +2,12 @@
   "autoPin": true,
   "pins": [
     {
+      "package": "AWSSDKSwiftCore",
+      "reason": null,
+      "repositoryURL": "https://github.com/noppoMan/aws-sdk-swift-core.git",
+      "version": "0.1.0"
+    },
+    {
       "package": "CHTTPParser",
       "reason": null,
       "repositoryURL": "https://github.com/Zewo/CHTTPParser.git",

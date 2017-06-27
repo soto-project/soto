@@ -1,5 +1,5 @@
 import Foundation
-import Core
+import AWSSDKSwiftCore
 
 struct S3RequestMiddleware: AWSRequestMiddleware {
     func chain(request: AWSRequest) throws -> AWSRequest {
